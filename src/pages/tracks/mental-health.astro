@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 
-const sportsPsychologyPosts = await getCollection('blog', ({ data }) => {
+const mentalHealthPosts = await getCollection('blog', ({ data }) => {
   return data.track === 'Mental Health';
 });
 
 // Sort by date, newest first
-MentalHealthPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+mentalHealthPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <html lang="en">
@@ -21,7 +21,7 @@ MentalHealthPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.value
     <p>Discover the mental strategies and psychological insights that enhance athletic performance and sports participation.</p>
     
     <section class="posts-grid">
-      {sportsPsychologyPosts.map((post) => (
+      {mentalHealthPosts.map((post) => (
         <article>
           <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
           <time datetime={post.data.pubDate.toISOString()}>
