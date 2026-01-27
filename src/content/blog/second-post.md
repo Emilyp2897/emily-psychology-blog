@@ -1,7 +1,7 @@
 ---
 title: 'Sports Psychology'
 description: 'This page is dedictaed to educational content relating to Sports Psychology'
-pubDate: 'TBD'
+pubDate: '27/01/2026'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 track: 'sports-psychology'
 ---
