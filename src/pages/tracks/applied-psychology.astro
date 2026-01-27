@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+
+const appliedPsychologyPosts = await getCollection('blog', ({ data }) => {
+  return data.track === 'Applied Psychology';
+});
+
+// Sort by date, newest first
+appliedPsychologyPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applied Psychology | Emily's Psychology Blog</title>
+</head>
+<body>
+  <main>
+    <h1>Applied Psychology</h1>
+    <p>Explore practical applications of psychological principles in everyday life, work, and relationships.</p>
+    
+    <section class="posts-grid">
+      {appliedPsychologyPosts.map((post) => (
+        <article>
+          <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          {post.data.description && <p>{post.data.description}</p>}
+        </article>
+      ))}
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+
+const sportsPsychologyPosts = await getCollection('blog', ({ data }) => {
+  return data.track === 'Mental Health';
+});
+
+// Sort by date, newest first
+MentalHealthPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health | Emily's Psychology Blog</title>
+</head>
+<body>
+  <main>
+    <h1>Mental Health</h1>
+    <p>Discover the mental strategies and psychological insights that enhance athletic performance and sports participation.</p>
+    
+    <section class="posts-grid">
+      {sportsPsychologyPosts.map((post) => (
+        <article>
+          <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          {post.data.description && <p>{post.data.description}</p>}
+        </article>
+      ))}
+    </section>
+  </main>
+</body>
+</html>
+
