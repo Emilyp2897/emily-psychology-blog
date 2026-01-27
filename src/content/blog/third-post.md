@@ -1,7 +1,7 @@
 ---
 title: 'Mental Health'
 description: 'This page is dedictaed to educational content relating to Mental Health'
-pubDate: '2026-01-27'
+pubDate: 2026-01-27
 heroImage: '../../assets/blog-placeholder-2.jpg'
 track: 'mental-health'
 ---

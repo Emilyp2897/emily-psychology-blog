@@ -1,7 +1,7 @@
 ---
 title: 'Applied Psychology'
 description: 'This page is dedictaed to educational content relating to Applied Psychology'
-pubDate: '2026-01-27'
+pubDate: 2026-01-27
 heroImage: '../../assets/blog-placeholder-3.jpg'
 track: 'applied-psychology'
 ---
