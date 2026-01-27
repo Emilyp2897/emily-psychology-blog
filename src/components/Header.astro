@@ -6,20 +6,22 @@ import HeaderLink from './HeaderLink.astro';
 <header>
 	<nav>
 		<h2><a href="/">Mind the Gael</a></h2>
-		<HeaderLink href="/">Home</HeaderLink>
-  <div class="blog-dropdown">
-    <HeaderLink href="/blog">Blog</HeaderLink>
-    <div class="dropdown-menu">
-      <HeaderLink href="/blog">All Posts</HeaderLink>
-      <HeaderLink href="/tracks/applied-psychology">Applied Psychology</HeaderLink>
-      <HeaderLink href="/tracks/sports-psychology">Sports Psychology</HeaderLink>
-      <HeaderLink href="/tracks/mental-health">Mental Health</HeaderLink>
-    </div>
-  </div>
-  <HeaderLink href="/about">About</HeaderLink>
-</nav>
-
+		<div class="nav-links">
+			<HeaderLink href="/">Home</HeaderLink>
+			<div class="blog-dropdown">
+				<HeaderLink href="/blog">Blog</HeaderLink>
+				<div class="dropdown-menu">
+					<HeaderLink href="/tracks/applied-psychology">Applied Psychology</HeaderLink>
+					<HeaderLink href="/tracks/sports-psychology">Sports Psychology</HeaderLink>
+					<HeaderLink href="/tracks/mental-health">Mental Health</HeaderLink>
+				</div>
+			</div>
+			<HeaderLink href="/about">About</HeaderLink>
+			<HeaderLink href="/contact">Contact Us</HeaderLink>
+		</div>
+	</nav>
 </header>
+
 <style>
 	header {
 		margin: 0;
@@ -27,6 +29,7 @@ import HeaderLink from './HeaderLink.astro';
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
+	
 	h2 {
 		margin: 0;
 		font-size: 1em;
@@ -36,28 +39,64 @@ import HeaderLink from './HeaderLink.astro';
 	h2 a.active {
 		text-decoration: none;
 	}
+	
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
+	
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 0;
+	}
+	
 	nav a {
 		padding: 1em 0.5em;
 		color: var(--black);
 		border-bottom: 4px solid transparent;
 		text-decoration: none;
 	}
+	
 	nav a.active {
 		text-decoration: none;
 		border-bottom-color: var(--accent);
 	}
-	.social-links,
-	.social-links a {
-		display: flex;
+	
+	.blog-dropdown {
+		position: relative;
+		display: inline-block;
 	}
+	
+	.dropdown-menu {
+		display: none;
+		position: absolute;
+		background-color: white;
+		min-width: 200px;
+		box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+		z-index: 1;
+		top: 100%;
+		left: 0;
+	}
+	
+	.blog-dropdown:hover .dropdown-menu {
+		display: block;
+	}
+	
+	.dropdown-menu a {
+		display: block;
+		padding: 0.75em 1em;
+		border-bottom: none;
+	}
+	
+	.dropdown-menu a:hover {
+		background-color: #f5f5f5;
+	}
+	
 	@media (max-width: 720px) {
-		.social-links {
-			display: none;
+		.nav-links {
+			flex-wrap: wrap;
 		}
 	}
 </style>
