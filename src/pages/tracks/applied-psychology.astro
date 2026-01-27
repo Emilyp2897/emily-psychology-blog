@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 
 const appliedPsychologyPosts = await getCollection('blog', ({ data }) => {
-  return data.track === 'Applied Psychology';
+  return data.track === 'applied-psychology';
 });
 
 // Sort by date, newest first

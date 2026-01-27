@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 
 const mentalHealthPosts = await getCollection('blog', ({ data }) => {
-  return data.track === 'Mental Health';
+  return data.track === 'mental-health';
 });
 
 // Sort by date, newest first
