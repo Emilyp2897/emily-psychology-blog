@@ -1,7 +1,7 @@
 ---
-title: 'Third post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 22 2022'
+title: 'Mental Health'
+description: 'This page is dedictaed to educational content relating to Mental Health'
+pubDate: 'TBD'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 track: 'mental-health'
 ---
