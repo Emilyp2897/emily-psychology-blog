@@ -7,35 +7,114 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>☘️ Mind the G⚽el ☘️</h1>
-			<p>
-				Mind the Gael  is a mental health awareness platform for women in sport—because the battles we fight in our heads are just as real as the ones we fight on the pitch.
-			</p>
-			<p>
-				I'm Emily Phelan, founder and a Ladies Gaelic Footballer with Holloway Gaels in North London. I've suffered from anxiety and depression since I was a teenager. This went undiagnosed and in April 2025, I almost took my own life. That moment changed everything—I sought the help I needed and began my recovery journey.
-				I'm still on that journey. Recovery isn't linear, but now I have the tools to navigate the hard days.
-				I started Mind the Gael because no woman athlete should suffer in silence.
-			</p>
-			
-			<p>
-				This is a space where we talk openly about things that are hard to say out loud. The panic attacks at training. The voices in your head telling you you're not good enough. The weight of being dropped from the starting team. The way alcohol becomes a coping mechanism. The constant feeling of being misunderstood. The physical toll, the suicidal thoughts and the days when just showing up is the victory.
-				What we're building: A digital community through Instagram and our website. Interviews and podcasts with athletes and mental health professionals. Workshops and in-person programming. Partnerships with doctors, therapists, mental health charities, and sports teams.
-				Starting with the Ladies Gaelic Football Association in London, we're creating a space where women in sport can be whole—on and off the pitch.
-				Because we deserve to perform our best, not just physically, but mentally too. And we deserve to be here—alive, present, and fighting for ourselves.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+
+      <section class="hero">
+        <h1>Mind the Gael</h1>
+        <p class="tagline">A space where we talk about the things that are hard to say out loud.</p>
+      </section>
+
+      <section class="about">
+        <p>
+          Mind the Gael is a mental health awareness platform launching in April 2026, built specifically for female athletes in Ladies Gaelic Football. Through Instagram and a dedicated website, it delivers evidence-based education on mental health, sports psychology, and performance wellbeing — framed around the lived experience of women in sport.
+        </p>
+        <p>
+          Mind the Gael was founded by Emily Phelan, a current Ladies Gaelic footballer with lived experience of mental health challenges in sport. This platform doesn't position itself as a clinical service. It exists to create awareness, reduce stigma, and connect players to the professional support they need — built by someone who is in the dressing room and knows what it feels like to struggle in silence.
+        </p>
+      </section>
+
+      <section class="honest">
+        <p>
+          The panic attacks at training. The voices in your head telling you you're not good enough. The weight of being dropped from the starting team. The way alcohol becomes a coping mechanism. The constant feeling of being misunderstood. The physical toll, the suicidal thoughts, and the days when just showing up is the victory.
+        </p>
+        <p>
+          We talk about all of it here.
+        </p>
+      </section>
+
+      <section class="what-we-build">
+        <h2>What we're building</h2>
+        <ul>
+          <li>A digital community through Instagram and our website</li>
+          <li>Interviews and podcasts with athletes and mental health professionals</li>
+          <li>Workshops and in-person programming</li>
+          <li>Partnerships with doctors, therapists, mental health charities, and sports teams</li>
+        </ul>
+        <p>
+          Starting with the Ladies Gaelic Football Association in London, we're creating a space where women in sport can be whole — on and off the pitch.
+        </p>
+        <p class="closing">
+          Because we deserve to perform our best — not just physically, but mentally too. And we deserve to be here — alive, present, and fighting for ourselves.
+        </p>
+      </section>
+
+    </main>
+    <Footer />
+  </body>
+</html>
 
 <style>
   body {
-    background-color: #64C47A; /* Soft green to complement your shamrock theme */
+    background-color: #030a06;
+    color: #f4ffe8;
+    font-family: Georgia, serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.7;
+  }
+
+  h1 {
+    color: #c0fe71;
+    font-size: 3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    color: #c0fe71;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .tagline {
+    color: #f0cdff;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .about p,
+  .honest p,
+  .what-we-build p {
+    color: #f4ffe8;
+    margin-bottom: 1.2rem;
+  }
+
+  .honest {
+    border-left: 3px solid #69005a;
+    padding-left: 1.2rem;
+    margin: 2rem 0;
+  }
+
+  .what-we-build ul {
+    color: #f4ffe8;
+    padding-left: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .what-we-build ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .closing {
+    color: #f0cdff;
+    font-style: italic;
+    font-size: 1.05rem;
   }
 </style>
-</html>
+
