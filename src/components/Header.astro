@@ -11,7 +11,7 @@ import HeaderLink from './HeaderLink.astro';
 		<div class="nav-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<div class="blog-dropdown">
-				<HeaderLink href="/about">About</HeaderLink>
+				<HeaderLink href="/about">/tracks/About</HeaderLink>
 				<HeaderLink href="/blog">Blog</HeaderLink>
 				<div class="dropdown-menu">
 					<HeaderLink href="/tracks/applied-psychology">Training the Mind Series</HeaderLink>
@@ -52,10 +52,11 @@ import HeaderLink from './HeaderLink.astro';
 		justify-content: space-between;
 	}
 
-	nav img {
-		height: .90px;
-		width: auto;
-		border-radius: 0;
+	nav a img {
+  		height: 90px !important;  /* use !important to override global styles */
+  		width: auto !important;
+  		display: block;
+  		border-radius: 0;  /* removes the global 8px border-radius from the logo */
 	}
 
 	.nav-links {
