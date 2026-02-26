@@ -35,11 +35,10 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	background-color: #030a06;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: #f4ffe8;
 	font-size: 20px;
 	line-height: 1.7;
 }
@@ -157,4 +156,7 @@ hr {
 header img {
   height: 80px;
   width: auto;
+}
+html {
+	background-color: #030a06;
 }
