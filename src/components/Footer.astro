@@ -4,6 +4,9 @@ const today = new Date();
 
 <footer>
 	&copy; {today.getFullYear()} Mind the Gael. All rights reserved.
+	<p class="disclaimer">
+    	Mind the Gael is an educational platform for female athletes — not a therapy service or medical provider. Nothing shared here is medical advice, a diagnosis, or a substitute for professional support. If you're going through a difficult time, please reach out to your GP or a qualified mental health professional. A list of crisis resources is available on our resources page [link]. If you feel unsafe or at risk, contact emergency services immediately.
+  	</p>
 	<div class="social-links">
 		<a href="https://m.webtoo.ls/@astro" target="_blank">
 			<span class="sr-only">Follow Astro on Mastodon</span>
@@ -61,6 +64,13 @@ const today = new Date();
 	}
 	.social-links a:hover {
 		color: #c0fe71;
+	}
+	.disclaimer {
+  		font-size: 0.75em;
+  		color: #69005a;
+  		max-width: 600px;
+  		margin: 1em auto 0;
+  		line-height: 1.5;
 	}
 </style>
 
