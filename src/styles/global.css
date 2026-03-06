@@ -164,6 +164,11 @@ footer {
   min-height: 130px;
   display: flex;
   align-items: center;
+.nav-inner,
+.footer-inner {
+  width: 720px;
+  max-width: calc(100% - 2em);
+  margin: 0 auto;
 }
 
 footer .footer-inner {

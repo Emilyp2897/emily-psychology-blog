@@ -1,23 +1,23 @@
 ---
-import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 import logo from '../assets/MindtheGaelLogo2.jpg';
 ---
 
 <header>
-	<nav>
-		<a href="/">
-			<img src={logo.src} alt="Mind the Gael logo" />
-		</a>
-		<div class="nav-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<div class="blog-dropdown">
-				<HeaderLink href="/about">About</HeaderLink>
-				<HeaderLink href="/blog">Blog</HeaderLink>
-				<HeaderLink href="/resources">Support Resources</HeaderLink>
-				<HeaderLink href="/contact-us">Contact Us</HeaderLink>
-		</div>
-	</nav>
+  <nav class="nav-inner">
+    <a href="/">
+      <img src={logo.src} alt="Mind the Gael logo" />
+    </a>
+
+    <div class="nav-links">
+      <HeaderLink href="/">Home</HeaderLink>
+      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/resources">Support Resources</HeaderLink>
+      <HeaderLink href="/contact-us">Contact Us</HeaderLink>
+    </div>
+
+  </nav>
 </header>
 
 
