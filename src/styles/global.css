@@ -164,6 +164,8 @@ footer {
   min-height: 130px;
   display: flex;
   align-items: center;
+}
+
 .nav-inner,
 .footer-inner {
   width: 720px;
