@@ -1,0 +1,104 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={Critical Support Resources} description={This page is to provide critical resources to those who need professional or medical help}/>
+  </head>
+  <body>
+    <Header />
+    <main>
+
+      <section class="hero">
+        <h1>Critical Support Resources</h1>
+        <p class="tagline">TBD</p>
+      </section>
+        <h2>Mind Charity</h2>
+
+      </section>
+
+      <section class="what-we-build">
+        <h2>Samiritans</h2>
+    
+      </section>
+
+      </section>
+        <h2>NHS</h2>
+
+      </section>
+
+      </section>
+        <h2>HSE</h2>
+
+      </section>
+
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    background-color: #030a06;
+    color: #f4ffe8;
+    font-family: Georgia, serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.7;
+  }
+
+  h1 {
+    color: #c0fe71;
+    font-size: 3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    color: #c0fe71;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .tagline {
+    color: #f0cdff;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .about p,
+  .honest p,
+  .what-we-build p {
+    color: #f4ffe8;
+    margin-bottom: 1.2rem;
+  }
+
+  .honest {
+    border-left: 3px solid #69005a;
+    padding-left: 1.2rem;
+    margin: 2rem 0;
+  }
+
+  .what-we-build ul {
+    color: #f4ffe8;
+    padding-left: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .what-we-build ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .closing {
+    color: #f0cdff;
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+</style>
+

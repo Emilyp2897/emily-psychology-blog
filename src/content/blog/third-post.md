@@ -5,4 +5,5 @@ pubDate: 'Jun 19 2024'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 track: 'mental-health'
 ---
-Understanding mental wellbeing, coping strategies, and the science behind emotional health. Mental Health explores the foundations of psychological wellness, addressing topics like anxiety, depression, stress management, self-care, and emotional regulation. This track combines scientific research with compassionate guidance, helping readers recognize mental health challenges, develop effective coping mechanisms, and cultivate resilience. Mental health is not just the absence of illness—it's about thriving, growing, and maintaining balance in an increasingly complex world.
+Builds mental health literacy, reduces stigma, and helps players recognise early warning signs — with clear, safe signposting to professional and public support.
+
