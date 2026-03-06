@@ -111,15 +111,12 @@ blockquote {
 /* ============================================
    HEADER (FULL WIDTH)
    ============================================ */
-header {
-  header nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;        /* Add this line */
-  padding: 0 1em;     /* optional: add horizontal padding */
-  max-width: 1200px;  /* optional: constrain content for large screens */
-  margin: 0 auto;     /* center
+  
+header .header-inner {
+  width: 100%;
+  max-width: 1200px;   /* limits content on big screens */
+  margin: 0 auto;      /* centers content */
+  padding: 0 1em;      /* optional spacing */
 }
 
 /* navigation layout */
