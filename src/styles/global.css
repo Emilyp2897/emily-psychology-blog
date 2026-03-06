@@ -41,6 +41,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
   background-color: var(--green-dark);
   font-family: "Atkinson", Georgia, serif;
   font-size: 20px;
@@ -62,7 +63,7 @@ html, body {
    HEADER
    ============================================ */
 header {
-  width: 100%;
+  width: 100vw;
   background-color: var(--green-light);
   display: flex;
   justify-content: center;
@@ -129,7 +130,7 @@ header nav a:hover {
    FOOTER
    ============================================ */
 footer {
-  width: 100%;
+  width: 100vw;
   background-color: var(--green-light);
   display: flex;
   justify-content: center;
