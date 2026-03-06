@@ -28,7 +28,7 @@
   --purple-light: #f0cdff;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
-  --box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%);
+  --box-shadow: 0 2px 6px rgba(var(--gray), 0.25), 0 8px 24px rgba(var(--gray), 0.33);
 }
 
 /* ============================================
@@ -38,22 +38,18 @@
   box-sizing: border-box;
 }
 
-html {
-  background-color: var(--green-dark);
-}
-
-body {
-  font-family: "Atkinson", Georgia, serif;
+html, body {
   margin: 0;
   padding: 0;
   background-color: var(--green-dark);
-  color: var(--green-light);
+  font-family: "Atkinson", Georgia, serif;
   font-size: 20px;
   line-height: 1.7;
+  color: var(--green-light);
 }
 
 /* ============================================
-   CONTAINER (NEW)
+   CONTAINER
    Centers content but keeps backgrounds full width
    ============================================ */
 .container {
@@ -111,12 +107,23 @@ blockquote {
 /* ============================================
    HEADER (FULL WIDTH)
    ============================================ */
-  
+header {
+  background-color: var(--green-light);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  width: 100%;
+  min-height: 130px;
+  display: flex;
+  align-items: center;
+}
+
 header .header-inner {
   width: 100%;
-  max-width: 1200px;   /* limits content on big screens */
-  margin: 0 auto;      /* centers content */
-  padding: 0 1em;      /* optional spacing */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* navigation layout */
@@ -124,6 +131,7 @@ header nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 /* logo */
@@ -167,17 +175,12 @@ footer {
   align-items: center;
 }
 
-.nav-inner,
 .footer-inner {
-  width: 100%;          /* or max-width if you want it responsive */
-  max-width: 1200px;    /* content won’t stretch too much on huge screens */
-  margin: 0 auto;       /* centers the inner container */
-  padding: 0 1em;
-}
-
-footer .footer-inner {
-  text-align: center;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1em;
+  text-align: center;
 }
 
 footer .copyright {
