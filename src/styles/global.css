@@ -1,4 +1,3 @@
-
 /* ============================================
    FONTS
    ============================================ */
@@ -9,6 +8,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Atkinson";
   src: url("/fonts/atkinson-bold.woff") format("woff");
@@ -32,7 +32,7 @@
 }
 
 /* ============================================
-   RESET & BASE
+   RESET
    ============================================ */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -50,19 +50,23 @@ body {
   color: var(--green-light);
   font-size: 20px;
   line-height: 1.7;
-  text-align: left;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
 /* ============================================
-   LAYOUT
+   CONTAINER (NEW)
+   Centers content but keeps backgrounds full width
    ============================================ */
-main {
+.container {
   width: 720px;
   max-width: calc(100% - 2em);
   margin: 0 auto;
-  padding: 3em 1em;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+main {
+  padding: 3em 0;
 }
 
 /* ============================================
@@ -79,10 +83,6 @@ h2 { font-size: 2.441em; }
 h3 { font-size: 1.953em; }
 h4 { font-size: 1.563em; }
 h5 { font-size: 1.25em; }
-
-strong, b {
-  font-weight: 700;
-}
 
 p {
   margin-bottom: 1em;
@@ -103,95 +103,47 @@ a:hover {
 
 blockquote {
   border-left: 4px solid var(--purple);
-  padding: 0 0 0 20px;
-  margin: 0;
+  padding-left: 20px;
   font-size: 1.333em;
   color: var(--purple-light);
 }
 
-hr {
-  border: none;
-  border-top: 1px solid rgba(var(--gray-light), 0.3);
-}
-
 /* ============================================
-   IMAGES
-   ============================================ */
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* ============================================
-   FORMS
-   ============================================ */
-textarea {
-  width: 100%;
-  font-size: 16px;
-}
-
-input {
-  font-size: 16px;
-}
-
-table {
-  width: 100%;
-}
-
-/* ============================================
-   CODE
-   ============================================ */
-code {
-  padding: 2px 5px;
-  background-color: rgba(var(--gray-light), 0.15);
-  border-radius: 2px;
-  font-size: 0.9em;
-}
-
-pre {
-  padding: 1.5em;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-pre > code {
-  all: unset;
-}
-
-/* ============================================
-   HEADER
+   HEADER (FULL WIDTH)
    ============================================ */
 header {
-  margin: 0;
-  padding: 0 2em;
   background-color: var(--green-light);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   min-height: 130px;
   display: flex;
   align-items: center;
 }
 
+/* navigation layout */
 header nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
-header nav a img {
+/* logo */
+header nav img {
   height: 130px;
   width: auto;
-  display: block;
   border-radius: 0;
+}
+
+/* nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
 }
 
 header nav a {
   padding: 0.5em;
   color: var(--green-dark);
   border-bottom: 4px solid transparent;
-  text-decoration: none;
   font-size: 1rem;
 }
 
@@ -203,52 +155,41 @@ header nav a:hover {
   color: var(--purple);
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 0.25em;
-}
-
 /* ============================================
-   FOOTER
+   FOOTER (FULL WIDTH)
    ============================================ */
 footer {
-  margin: 0;
-  padding: 0 2em;
   background-color: var(--green-light);
   color: var(--green-dark);
-  width: 100%;
   min-height: 130px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5em;
+}
+
+footer .footer-inner {
   text-align: center;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 
 footer .copyright {
   font-size: 0.9em;
-  color: var(--green-dark);
 }
 
 footer .disclaimer {
   font-size: 0.7em;
   color: var(--purple);
   max-width: 600px;
-  line-height: 1.5;
+  margin: 0.5em auto;
 }
 
 footer .social-links {
   display: flex;
   justify-content: center;
   gap: 1em;
-  margin-top: 0.25em;
+  margin-top: 0.5em;
 }
 
 footer .social-links a {
-  text-decoration: none;
   color: var(--purple);
 }
 
@@ -257,7 +198,7 @@ footer .social-links a:hover {
 }
 
 /* ============================================
-   PAGE SECTIONS (shared across pages)
+   PAGE SECTIONS
    ============================================ */
 .hero {
   margin-bottom: 2rem;
@@ -277,12 +218,11 @@ footer .social-links a:hover {
 }
 
 /* ============================================
-   BLOG & POSTS
+   BLOG
    ============================================ */
 .posts ul {
   list-style: none;
   padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -290,7 +230,6 @@ footer .social-links a:hover {
 
 .posts li a {
   display: block;
-  text-decoration: none;
   border-left: 3px solid var(--green-lime);
   padding-left: 1.2rem;
   transition: border-color 0.2s ease;
@@ -301,42 +240,28 @@ footer .social-links a:hover {
 }
 
 /* ============================================
-   RESOURCES
+   IMAGES
    ============================================ */
-.resources p {
-  color: var(--green-light);
-  margin-bottom: 1.2rem;
-}
-
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
-.sr-only {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  white-space: nowrap;
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 720px) {
+
   body {
     font-size: 18px;
   }
 
   main {
-    padding: 1em;
+    padding: 2em 0;
   }
 
-  header nav a img {
+  header nav img {
     height: 90px;
   }
 
@@ -346,11 +271,9 @@ footer .social-links a:hover {
 
   footer {
     min-height: 90px;
-    padding: 1em;
   }
 
   .nav-links {
     flex-wrap: wrap;
-    gap: 0;
   }
 }
