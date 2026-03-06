@@ -67,7 +67,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1em 0; /* controls height so nav links stay inside */
+  padding: 1.5em 0; /* ensures enough height for nav and logo */
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   box-sizing: border-box;
 }
@@ -82,14 +82,14 @@ header .header-inner {
 }
 
 header .header-inner img {
-  max-height: 60px;  /* logo fits nicely */
+  max-height: 100px; /* larger logo for visibility */
   width: auto;
 }
 
 header nav.nav-links {
   display: flex;
   gap: 1em;
-  align-items: center; /* vertically center nav links */
+  align-items: center; /* vertically center links */
 }
 
 header nav a {
@@ -116,7 +116,7 @@ header nav a:hover {
   }
 
   header .header-inner img {
-    max-height: 50px;
+    max-height: 70px; /* smaller on mobile */
   }
 
   header nav.nav-links {
