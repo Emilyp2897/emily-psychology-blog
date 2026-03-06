@@ -133,15 +133,14 @@ footer {
   background-color: var(--green-light);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 3em 0;
+  align-items: center;
+  padding: 1.5em 0; /* matches header height */
   box-sizing: border-box;
 }
 
 footer .footer-inner {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
   padding: 0 1em;
   text-align: center;
 }
@@ -170,6 +169,15 @@ footer .social-links a {
 
 footer .social-links a:hover {
   color: var(--green-lime);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 720px) {
+  footer {
+    padding: 1em 0;
+  }
 }
 
 /* ============================================
