@@ -112,11 +112,14 @@ blockquote {
    HEADER (FULL WIDTH)
    ============================================ */
 header {
-  background-color: var(--green-light);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  min-height: 130px;
+  header nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;        /* Add this line */
+  padding: 0 1em;     /* optional: add horizontal padding */
+  max-width: 1200px;  /* optional: constrain content for large screens */
+  margin: 0 auto;     /* center
 }
 
 /* navigation layout */
@@ -161,6 +164,7 @@ header nav a:hover {
 footer {
   background-color: var(--green-light);
   color: var(--green-dark);
+  width: 100%;
   min-height: 130px;
   display: flex;
   align-items: center;
@@ -168,9 +172,10 @@ footer {
 
 .nav-inner,
 .footer-inner {
-  width: 720px;
-  max-width: calc(100% - 2em);
-  margin: 0 auto;
+  width: 100%;          /* or max-width if you want it responsive */
+  max-width: 1200px;    /* content won’t stretch too much on huge screens */
+  margin: 0 auto;       /* centers the inner container */
+  padding: 0 1em;
 }
 
 footer .footer-inner {
