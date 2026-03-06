@@ -8,7 +8,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={Critical Support Resources} description={This page is to provide critical resources to those who need professional or medical help}/>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
     <Header />
@@ -18,23 +18,21 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         <h1>Critical Support Resources</h1>
         <p class="tagline">TBD</p>
       </section>
+
+      <section class="resources">
         <h2>Mind Charity</h2>
-
       </section>
 
-      <section class="what-we-build">
-        <h2>Samiritans</h2>
-    
+      <section class="resources">
+        <h2>Samaritans</h2>
       </section>
 
-      </section>
+      <section class="resources">
         <h2>NHS</h2>
-
       </section>
 
-      </section>
+      <section class="resources">
         <h2>HSE</h2>
-
       </section>
 
     </main>
@@ -72,27 +70,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     margin-bottom: 2rem;
   }
 
-  .about p,
-  .honest p,
-  .what-we-build p {
+  .resources p {
     color: #f4ffe8;
     margin-bottom: 1.2rem;
-  }
-
-  .honest {
-    border-left: 3px solid #69005a;
-    padding-left: 1.2rem;
-    margin: 2rem 0;
-  }
-
-  .what-we-build ul {
-    color: #f4ffe8;
-    padding-left: 1.5rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .what-we-build ul li {
-    margin-bottom: 0.5rem;
   }
 
   .closing {
@@ -101,4 +81,3 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     font-size: 1.05rem;
   }
 </style>
-
