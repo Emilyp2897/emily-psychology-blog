@@ -82,7 +82,7 @@ header .header-inner {
 }
 
 header .header-inner img {
-  max-height: 100px; /* larger logo for visibility */
+  max-height: 200px; /* larger logo for visibility */
   width: auto;
 }
 
