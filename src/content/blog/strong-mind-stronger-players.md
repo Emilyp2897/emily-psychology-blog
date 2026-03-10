@@ -1,7 +1,6 @@
 ---
 title: 'Strong Minds, Stronger Players'
 description: 'This page is dedictaed to educational content relating to Mental Health'
-pubDate: 'Jun 19 2024'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 track: 'mental-health'
 ---
