@@ -1,6 +1,7 @@
 ---
 title: 'Training the Mind Series'
 description: 'This page is dedictaed to educational content relating to Applied Psychology'
+pub date: 
 heroImage: '../../assets/MindtheGaelLogo2.jpg'
 track: 'applied-psychology'
 ---

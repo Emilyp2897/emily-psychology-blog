@@ -1,6 +1,7 @@
 ---
 title: 'The Gael Performance ToolKit'
 description: 'This page is dedictaed to educational content relating to Sports Psychology'
+pub date: 
 heroImage: '../../assets/blog-placeholder-4.jpg'
 track: 'sports-psychology'
 ---
