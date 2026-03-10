@@ -1,7 +1,7 @@
 ---
 title: 'Training the Mind Series'
 description: 'This page is dedictaed to educational content relating to Applied Psychology'
-pub date: 31 April 2026
+pub date: 2026-04-30
 heroImage: '../../assets/MindtheGaelLogo2.jpg'
 track: 'applied-psychology'
 ---
