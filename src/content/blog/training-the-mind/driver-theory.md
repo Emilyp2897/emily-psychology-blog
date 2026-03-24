@@ -1,15 +1,6 @@
 ---
-title: "Social Facilitation & Inhibition (Driver Theory)"
-summary: "TBD"
-date: "2026-03-24"
-week: 1
-references:
-  - "Tajfel, 1972"
-  - "Haslam et al., 2009"
+title: "Social Facilitation & Inhibition – Drive Theory"
+description: "Discover why the presence of others can improve or impair performance in high-pressure games."
+pubDate: "2026-03-24"
+track: "Training the Mind"
 ---
-
-# Social Identity Theory (SIT)
-
-Full blog content goes here…  
-
-Connect the theory to Ladies Gaelic Football, include examples, coaching tips, and references.

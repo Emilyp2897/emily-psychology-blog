@@ -1,15 +1,6 @@
 ---
-title: "Self Categorization Theory (SCT)"
-summary: ""
-date: "2026-03-24"
-week: 1
-references:
-  - "Tajfel, 1972"
-  - "Haslam et al., 2009"
+title: "Self-Categorization Theory (SCT)"
+description: "Understand individual and team identities, and how they impact behavior on the pitch."
+pubDate: "2026-03-24"
+track: "Training the Mind"
 ---
-
-# Social Identity Theory (SIT)
-
-Full blog content goes here…  
-
-Connect the theory to Ladies Gaelic Football, include examples, coaching tips, and references.

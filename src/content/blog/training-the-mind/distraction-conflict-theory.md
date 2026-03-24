@@ -1,15 +1,6 @@
 ---
-title: "Distraction Conflict Theory"
-summary: "TBD"
-date: "2026-03-24"
-week: 1
-references:
-  - "Tajfel, 1972"
-  - "Haslam et al., 2009"
+title: "Distraction-Conflict Theory"
+description: "How attentional conflict under pressure affects player performance."
+pubDate: "2026-03-24"
+track: "Training the Mind"
 ---
-
-# Social Identity Theory (SIT)
-
-Full blog content goes here…  
-
-Connect the theory to Ladies Gaelic Football, include examples, coaching tips, and references.
