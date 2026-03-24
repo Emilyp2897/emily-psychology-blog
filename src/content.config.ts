@@ -8,7 +8,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     // Temporarily remove heroImage to fix build
-    track: z.enum(['traiing-the-mind', 'gael-performance-toolkit', 'stronger-minds-stronger-players']),
+    track: z.enum(['training-the-mind', 'gael-performance-toolkit', 'stronger-minds-stronger-players']),
     tags: z.array(z.string()).optional(),
   }),
 });
