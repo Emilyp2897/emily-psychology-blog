@@ -1,7 +1,8 @@
 ---
-title: "The Training the Mind Series – Week 1"
-summary: "Explore key sports psychology theories and how they relate to Ladies Gaelic Football."
-date: "2026-03-24"
+title: "Training the Mind Series"
+description: "Explore mental skills and psychology strategies for Ladies Gaelic Football players."
+pubDate: "2026-03-24"
+track: "training-the-mind"
 ---
 
 # The Training the Mind Series – Week 1
