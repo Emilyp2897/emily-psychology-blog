@@ -1,19 +1,18 @@
 ---
 import fs from 'fs';
 import path from 'path';
-import { Markdown } from '@astrojs/markdown-remark';
 
-// Path to the hub markdown
 const filePath = path.resolve('./content/blog/training-the-mind/training-the-mind.md');
 const content = fs.readFileSync(filePath, 'utf-8');
 
-// Optionally, automatically list all child posts in the folder
 const folderPath = path.resolve('./content/blog/training-the-mind');
 const childFiles = fs.readdirSync(folderPath).filter(f => f !== 'training-the-mind.md');
 ---
 
 <article>
-  <Markdown content={content} />
+  <astro:markdown>
+    {content}
+  </astro:markdown>
 </article>
 
 <h2>Other posts in this series:</h2>

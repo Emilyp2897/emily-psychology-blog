@@ -1,9 +1,8 @@
 ---
 import fs from 'fs';
 import path from 'path';
-import { Markdown } from '@astrojs/markdown-remark';
 
-const slugArray = Astro.params.slug; // e.g., ["training-the-mind", "driver-theory"]
+const slugArray = Astro.params.slug;
 const filePath = path.join(import.meta.env.PROJECT_ROOT, 'content/blog', ...slugArray) + '.md';
 
 let content = 'Post not found';
@@ -13,5 +12,7 @@ try {
 ---
 
 <article>
-  <Markdown content={content} />
+  <astro:markdown>
+    {content}
+  </astro:markdown>
 </article>
