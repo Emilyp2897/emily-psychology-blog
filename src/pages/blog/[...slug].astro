@@ -1,18 +1,22 @@
 ---
 import fs from 'fs';
 import path from 'path';
-import { Markdown } from '@astrojs/markdown-remark';
 
-// 1️⃣ Get all blog files recursively
 const contentDir = path.resolve('./content/blog');
-const getFiles = (dir) => fs.readdirSync(dir).flatMap(file => {
-  const fullPath = path.join(dir, file);
-  if (fs.statSync(fullPath).isDirectory()) return getFiles(fullPath);
-  if (file.endsWith('.md')) return fullPath;
-  return [];
-});
 
-// 2️⃣ Convert files to slugs
+// Helper to recursively get all markdown files
+function getFiles(dir) {
+  return fs.readdirSync(dir).flatMap(file => {
+    const fullPath = path.join(dir, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      return getFiles(fullPath);
+    }
+    if (file.endsWith('.md')) return fullPath;
+    return [];
+  });
+}
+
+// This tells Astro all the valid slugs for this dynamic route
 export async function getStaticPaths() {
   const files = getFiles(contentDir);
 
@@ -23,7 +27,7 @@ export async function getStaticPaths() {
   });
 }
 
-// 3️⃣ Load markdown content
+// Load the markdown file for this page
 const slugArray = Astro.params.slug;
 const filePath = path.join(contentDir, ...slugArray) + '.md';
 
