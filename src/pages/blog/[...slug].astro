@@ -1,20 +1,17 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import fs from 'fs';
+import path from 'path';
+import { Markdown } from '@astrojs/markdown-remark';
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
+const slugArray = Astro.params.slug; // e.g., ["training-the-mind", "driver-theory"]
+const filePath = path.join(import.meta.env.PROJECT_ROOT, 'content/blog', ...slugArray) + '.md';
 
-const post = Astro.props;
-const { Content } = await render(post);
+let content = 'Post not found';
+try {
+  content = fs.readFileSync(filePath, 'utf-8');
+} catch (e) {}
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<article>
+  <Markdown content={content} />
+</article>
