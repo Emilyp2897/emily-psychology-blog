@@ -2,21 +2,19 @@
 import fs from 'fs';
 import path from 'path';
 
-const contentDir = path.resolve('./content/blog');
-
-// Helper to recursively get all markdown files
+// 1️⃣ Helper function must be defined BEFORE getStaticPaths
 function getFiles(dir) {
   return fs.readdirSync(dir).flatMap(file => {
     const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) {
-      return getFiles(fullPath);
-    }
+    if (fs.statSync(fullPath).isDirectory()) return getFiles(fullPath);
     if (file.endsWith('.md')) return fullPath;
     return [];
   });
 }
 
-// This tells Astro all the valid slugs for this dynamic route
+const contentDir = path.resolve('./content/blog');
+
+// 2️⃣ Export getStaticPaths for all markdown files
 export async function getStaticPaths() {
   const files = getFiles(contentDir);
 
@@ -27,7 +25,7 @@ export async function getStaticPaths() {
   });
 }
 
-// Load the markdown file for this page
+// 3️⃣ Load markdown for current page
 const slugArray = Astro.params.slug;
 const filePath = path.join(contentDir, ...slugArray) + '.md';
 
