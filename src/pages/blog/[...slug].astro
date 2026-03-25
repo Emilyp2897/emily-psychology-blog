@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// ✅ Helper function must be defined FIRST
+// 1️⃣ Helper function must be defined first
 function getFiles(dir) {
   return fs.readdirSync(dir).flatMap(file => {
     const fullPath = path.join(dir, file);
@@ -14,18 +14,18 @@ function getFiles(dir) {
 
 const contentDir = path.resolve('./content/blog');
 
-// ✅ getStaticPaths must reference the helper
+// 2️⃣ Export getStaticPaths for dynamic routes
 export async function getStaticPaths() {
   const files = getFiles(contentDir);
 
   return files.map(file => {
-    const relative = path.relative(contentDir, file); 
+    const relative = path.relative(contentDir, file); // e.g., training-the-mind/driver-theory.md
     const slug = relative.replace(/\.md$/, '').split(path.sep);
     return { params: { slug } };
   });
 }
 
-// ✅ Load markdown content
+// 3️⃣ Load markdown content
 const slugArray = Astro.params.slug;
 const filePath = path.join(contentDir, ...slugArray) + '.md';
 
