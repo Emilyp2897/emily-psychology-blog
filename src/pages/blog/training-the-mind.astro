@@ -2,10 +2,10 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.resolve('.src/content/blog/training-the-mind/training-the-mind.md');
+const filePath = path.resolve('src/content/blog/training-the-mind/training-the-mind.md');
 const content = fs.readFileSync(filePath, 'utf-8');
 
-const folderPath = path.resolve('.src/content/blog/training-the-mind');
+const folderPath = path.resolve('src/content/blog/training-the-mind');
 const childFiles = fs.readdirSync(folderPath).filter(f => f !== 'training-the-mind.md');
 ---
 
