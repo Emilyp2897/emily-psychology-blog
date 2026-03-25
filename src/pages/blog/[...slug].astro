@@ -11,7 +11,7 @@ function getFiles(dir) {
   });
 }
 
-const contentDir = path.resolve('./src/content/blog');
+const contentDir = path.resolve('./src/content/blog'); // must include src/
 
 export async function getStaticPaths() {
   const files = getFiles(contentDir);
