@@ -11,11 +11,10 @@ function getFiles(dir) {
   });
 }
 
-const contentDir = path.resolve('./src/content/blog'); // must include src/
+const contentDir = path.resolve('./src/content/blog');
 
 export async function getStaticPaths() {
   const files = getFiles(contentDir);
-
   return files.map(file => {
     const relative = path.relative(contentDir, file);
     const slug = relative.replace(/\.md$/, '').split(path.sep);
@@ -29,11 +28,10 @@ const filePath = path.join(contentDir, ...slugArray) + '.md';
 let content = 'Post not found';
 try {
   content = fs.readFileSync(filePath, 'utf-8');
-} catch (e) {}
+} catch {}
+
 ---
 
 <article>
-  <astro:markdown>
-    {content}
-  </astro:markdown>
+  <astro:markdown>{content}</astro:markdown>
 </article>
