@@ -1,9 +1,31 @@
 ---
 import fs from 'fs';
 import path from 'path';
+import { Markdown } from '@astrojs/markdown-remark';
 
+// 1️⃣ Get all blog files recursively
+const contentDir = path.resolve('./content/blog');
+const getFiles = (dir) => fs.readdirSync(dir).flatMap(file => {
+  const fullPath = path.join(dir, file);
+  if (fs.statSync(fullPath).isDirectory()) return getFiles(fullPath);
+  if (file.endsWith('.md')) return fullPath;
+  return [];
+});
+
+// 2️⃣ Convert files to slugs
+export async function getStaticPaths() {
+  const files = getFiles(contentDir);
+
+  return files.map(file => {
+    const relative = path.relative(contentDir, file); // e.g., training-the-mind/driver-theory.md
+    const slug = relative.replace(/\.md$/, '').split(path.sep);
+    return { params: { slug } };
+  });
+}
+
+// 3️⃣ Load markdown content
 const slugArray = Astro.params.slug;
-const filePath = path.join(import.meta.env.PROJECT_ROOT, 'content/blog', ...slugArray) + '.md';
+const filePath = path.join(contentDir, ...slugArray) + '.md';
 
 let content = 'Post not found';
 try {
