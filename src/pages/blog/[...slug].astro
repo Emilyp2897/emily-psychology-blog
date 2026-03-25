@@ -1,37 +1,32 @@
 ---
-import fs from 'fs';
-import path from 'path';
-
-function getFiles(dir) {
-  return fs.readdirSync(dir).flatMap(file => {
-    const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) return getFiles(fullPath);
-    if (file.endsWith('.md')) return fullPath;
-    return [];
-  });
-}
-
-const contentDir = path.resolve('./src/content/blog');
-
 export async function getStaticPaths() {
-  const files = getFiles(contentDir);
-  return files.map(file => {
-    const relative = path.relative(contentDir, file);
-    const slug = relative.replace(/\.md$/, '').split(path.sep);
-    return { params: { slug } };
+  const posts = import.meta.glob('../../content/blog/**/*.md');
+
+  return Object.keys(posts).map((file) => {
+    const slug = file
+      .replace('../../content/blog/', '')
+      .replace('.md', '');
+
+    return {
+      params: { slug },
+    };
   });
 }
 
-const slugArray = Astro.params.slug;
-const filePath = path.join(contentDir, ...slugArray) + '.md';
+// ✅ define AGAIN for page usage (Astro requires this)
+const posts = import.meta.glob('../../content/blog/**/*.md');
 
-let content = 'Post not found';
-try {
-  content = fs.readFileSync(filePath, 'utf-8');
-} catch {}
+const slug = Astro.params.slug;
 
+const post = posts[`../../content/blog/${slug}.md`];
+
+if (!post) {
+  throw new Error(`Post not found: ${slug}`);
+}
+
+const { default: Content } = await post();
 ---
 
 <article>
-  <astro:markdown>{content}</astro:markdown>
+  <Content />
 </article>
