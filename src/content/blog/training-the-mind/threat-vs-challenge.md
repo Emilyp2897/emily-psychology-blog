@@ -4,3 +4,15 @@ description: "How perceived resources versus perceived demands influence physiol
 pubDate: "2026-03-24"
 track: "training-the-mind"
 ---
+
+## What is the Challenge vs Threat Model?
+
+This model explains how athletes interpret pressure situations...
+
+## Why it matters in Ladies Gaelic Football
+
+...
+
+## Practical takeaway
+
+...

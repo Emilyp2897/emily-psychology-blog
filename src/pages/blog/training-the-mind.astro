@@ -1,28 +1,37 @@
 ---
-import fs from 'fs';
-import path from 'path';
+import { getCollection } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
 
-const filePath = path.resolve('src/content/blog/training-the-mind/training-the-mind.md');
-const content = fs.readFileSync(filePath, 'utf-8');
+// Get the main series page
+const allPosts = await getCollection('blog');
 
-const folderPath = path.resolve('src/content/blog/training-the-mind');
-const childFiles = fs.readdirSync(folderPath).filter(f => f !== 'training-the-mind.md');
+const mainPost = allPosts.find(
+  (post) => post.slug === 'training-the-mind/training-the-mind'
+);
+
+// Get child posts
+const childPosts = allPosts.filter((post) =>
+  post.slug.startsWith('training-the-mind/') &&
+  post.slug !== 'training-the-mind/training-the-mind'
+);
+
+// Sort them
+childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const { Content } = await mainPost.render();
 ---
 
-<article>
-  <astro:markdown>
-    {content}
-  </astro:markdown>
-</article>
+<BlogPost {...mainPost.data}>
+  <Content />
 
-<h2>Other posts in this series:</h2>
-<ul>
-  {childFiles.map(file => {
-    const slug = file.replace('.md', '');
-    return (
+  <h2>Other posts in this series:</h2>
+  <ul>
+    {childPosts.map((post) => (
       <li>
-        <a href={`/blog/training-the-mind/${slug}`}>{slug.replace(/-/g, ' ')}</a>
+        <a href={`/blog/${post.slug}/`}>
+          {post.data.title}
+        </a>
       </li>
-    );
-  })}
-</ul>
+    ))}
+  </ul>
+</BlogPost>
