@@ -8,7 +8,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "Atkinson";
   src: url("/fonts/atkinson-bold.woff") format("woff");
@@ -28,7 +27,7 @@
   --purple-light: #f0cdff;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
-  --box-shadow: 0 2px 6px rgba(var(--gray), 0.25), 0 8px 24px rgba(var(--gray), 0.33);
+  --box-shadow: 0 2px 6px rgba(var(--gray),0.25),0 8px 24px rgba(var(--gray),0.33);
 }
 
 /* ============================================
@@ -36,11 +35,11 @@
    ============================================ */
 *, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
   width: 100%;
   min-height: 100vh;
   background-color: var(--green-dark);
@@ -48,6 +47,7 @@ html, body {
   font-size: 20px;
   line-height: 1.7;
   color: var(--green-light);
+  overflow-x: hidden; /* prevent horizontal scroll */
 }
 
 /* ============================================
@@ -65,19 +65,18 @@ html, body {
    HEADER
    ============================================ */
 header {
-  width: 100vw;
+  width: 100%;
   background-color: var(--green-light);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5em 0; /* ensures enough height for nav and logo */
+  padding: 1.5em 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  box-sizing: border-box;
 }
 
 header .header-inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: 720px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -85,14 +84,14 @@ header .header-inner {
 }
 
 header .header-inner img {
-  max-height: 200px; /* larger logo for visibility */
+  max-height: 70px;
   width: auto;
 }
 
 header nav.nav-links {
   display: flex;
   gap: 1em;
-  align-items: center; /* vertically center links */
+  align-items: center;
 }
 
 header nav a {
@@ -111,39 +110,21 @@ header nav a:hover {
   color: var(--purple);
 }
 
-/* Responsive */
-@media (max-width: 720px) {
-  header .header-inner {
-    flex-direction: column;
-    gap: 0.5em;
-  }
-
-  header .header-inner img {
-    max-height: 70px; /* smaller on mobile */
-  }
-
-  header nav.nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
 /* ============================================
    FOOTER
    ============================================ */
 footer {
-  width: 100vw;
+  width: 100%;
   background-color: var(--green-light);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5em 0; /* matches header height */
-  box-sizing: border-box;
+  padding: 1.5em 0;
 }
 
 footer .footer-inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: 720px;
   padding: 0 1em;
   text-align: center;
 }
@@ -175,15 +156,6 @@ footer .social-links a:hover {
 }
 
 /* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 720px) {
-  footer {
-    padding: 1em 0;
-  }
-}
-
-/* ============================================
    MAIN CONTENT
    ============================================ */
 main {
@@ -193,17 +165,15 @@ main {
 /* ============================================
    TYPOGRAPHY
    ============================================ */
-h1, h2, h3, h4, h5, h6 {
+h1,h2,h3,h4,h5,h6 {
   margin: 0 0 0.5rem 0;
   color: var(--green-lime);
   line-height: 1.2;
 }
 
-h1 { font-size: 3.052em; }
-h2 { font-size: 2.441em; }
-h3 { font-size: 1.953em; }
-h4 { font-size: 1.563em; }
-h5 { font-size: 1.25em; }
+h1 { font-size: 3em; }
+h2 { font-size: 2.4em; }
+h3 { font-size: 1.9em; }
 
 p {
   margin-bottom: 1em;
@@ -230,7 +200,7 @@ blockquote {
 }
 
 /* ============================================
-   BLOG
+   BLOG POSTS
    ============================================ */
 .posts ul {
   list-style: none;
@@ -264,29 +234,10 @@ img {
    RESPONSIVE
    ============================================ */
 @media (max-width: 720px) {
-
-  body {
-    font-size: 18px;
-  }
-
-  main {
-    padding: 2em 0;
-  }
-
-  header {
-    min-height: 90px;
-  }
-
-  header .header-inner img {
-    height: 70px;
-  }
-
-  header nav.nav-links {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  footer {
-    padding: 2em 0;
-  }
+  body { font-size: 18px; }
+  main { padding: 2em 0; }
+  header .header-inner { flex-direction: column; gap: 0.5em; }
+  header .header-inner img { max-height: 70px; }
+  header nav.nav-links { flex-wrap: wrap; justify-content: center; }
+  footer { padding: 2em 0; }
 }
