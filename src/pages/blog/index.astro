@@ -9,16 +9,17 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 // get all blog posts
 const allPosts = await getCollection('blog');
 
-// only keep the three main series pages
+// explicit order of series
 const seriesSlugs = [
-  'training-the-mind/training-the-mind',
-  'gael-performance-toolkit/gael-performance-toolkit',
-  'strong-minds-stronger-players/strong-minds-stronger-players'
+  'training-the-mind/training-the-mind',   // 1️⃣ show first
+  'gael-performance-toolkit',               // 2️⃣ second
+  'strong-minds-stronger-players'          // 3️⃣ third
 ];
 
-const posts = allPosts
-  .filter((post) => seriesSlugs.includes(post.slug))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// map slugs to posts in that exact order
+const posts = seriesSlugs
+  .map(slug => allPosts.find(post => post.slug === slug))
+  .filter(Boolean); // remove any missing posts just in case
 ---
 <!doctype html>
 <html lang="en">
