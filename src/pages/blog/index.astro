@@ -6,10 +6,11 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
----
+const allPosts = await getCollection('blog');
+
+const posts = allPosts
+  .filter((post) => post.data.seriesIndex === true)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 <!doctype html>
 <html lang="en">

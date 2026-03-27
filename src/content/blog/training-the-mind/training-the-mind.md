@@ -3,6 +3,7 @@ title: "Training the Mind Series"
 description: "Explore mental skills and psychology strategies for Ladies Gaelic Football players."
 pubDate: "2026-03-24"
 track: "training-the-mind"
+seriesIndex: true
 ---
 
 # The Training the Mind Series – Week 1
