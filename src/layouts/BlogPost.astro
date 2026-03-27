@@ -14,76 +14,18 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
-    <style>
-      /* Reset */
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        min-height: 100vh;
-        font-family: "Atkinson", Georgia, serif;
-        background-color: var(--green-dark);
-        color: var(--green-light);
-      }
-
-      /* Container for main content */
-      .container {
-        width: 720px;
-        max-width: calc(100% - 2em);
-        margin: 0 auto;
-        padding: 0 1em;
-      }
-
-      /* Hero image styling */
-      .hero-image {
-        width: 100%;
-      }
-
-      .hero-image img {
-        display: block;
-        margin: 0 auto;
-        border-radius: 12px;
-        box-shadow: var(--box-shadow);
-      }
-
-      /* Prose/content styling */
-      .prose {
-        width: 100%;
-        margin: 2em 0;
-      }
-
-      .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
-      }
-
-      .title h1 {
-        margin: 0 0 0.5em 0;
-      }
-
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-
-      .last-updated-on {
-        font-style: italic;
-      }
-    </style>
   </head>
-
   <body>
-    <!-- FULL WIDTH HEADER -->
     <Header />
 
     <!-- MAIN CONTENT CENTERED -->
     <main class="container">
       <article>
-        <div class="hero-image">
-          {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-        </div>
+        {heroImage && (
+          <div class="hero-image">
+            <Image width={1020} height={510} src={heroImage} alt="" />
+          </div>
+        )}
 
         <div class="prose">
           <div class="title">
@@ -104,7 +46,81 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       </article>
     </main>
 
-    <!-- FULL WIDTH FOOTER -->
     <Footer />
   </body>
 </html>
+
+<style>
+/* Container ensures content is centered and matches other pages */
+.container {
+  width: 720px;
+  max-width: calc(100% - 2em);
+  margin: 0 auto;
+  padding: 2rem 1em;
+}
+
+/* Hero image styling */
+.hero-image img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prose/content styling */
+.prose {
+  margin-top: 2em;
+}
+
+.title h1 {
+  margin-bottom: 0.5em;
+  color: var(--green-lime);
+}
+
+.date {
+  color: rgb(var(--gray));
+  font-size: 0.9rem;
+  margin-bottom: 0.5em;
+}
+
+.last-updated-on {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: rgb(var(--gray-light));
+}
+
+/* Slot content styling */
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+.prose h2, .prose h3 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  color: var(--green-lime);
+}
+
+.prose a {
+  color: var(--green-lime);
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: var(--purple-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 720px) {
+  .container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
