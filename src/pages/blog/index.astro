@@ -6,14 +6,20 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
+// get all blog posts
 const allPosts = await getCollection('blog');
 
+// only keep the three main series pages
+const seriesSlugs = [
+  'training-the-mind/training-the-mind',
+  'gael-performance-toolkit/gael-performance-toolkit',
+  'strong-minds-stronger-players/strong-minds-stronger-players'
+];
+
 const posts = allPosts
-  .filter((post) => post.data.seriesIndex === true)
+  .filter((post) => seriesSlugs.includes(post.slug))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -116,4 +122,3 @@ const posts = allPosts
     font-size: 1rem;
   }
 </style>
-
