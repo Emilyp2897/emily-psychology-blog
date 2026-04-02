@@ -56,12 +56,50 @@ html, body {
    CONTAINER
    Centers page content
    ============================================ */
-.container {
-  width: 1200px;
-  max-width: calc(100% - 2em);
-  margin: 0 auto;
-  padding: 0 1em;
-}
+  .container {
+    width: 1200px;
+    max-width: calc(100% - 2em);
+    margin: 0 auto;
+    padding: 0 1em;
+  }
+
+  @media (max-width: 900px) {
+    .container {
+      width: 100%;
+      max-width: 100%;
+      padding: 0 0.5em;
+    }
+    header .header-inner,
+    footer .footer-inner {
+      max-width: 100%;
+      padding: 0 0.5em;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .container {
+      width: 100vw;
+      max-width: 100vw;
+      padding: 0 0.2em;
+    }
+    main {
+      padding: 1em 0 2em 0;
+    }
+    h1 { font-size: 1.3em; }
+    h2 { font-size: 1.1em; }
+    h3 { font-size: 1em; }
+    .posts ul { gap: 1rem; }
+    .resource-bubble button {
+      width: 120px !important;
+      height: 120px !important;
+      font-size: 1rem !important;
+    }
+    .bubble-label {
+      font-size: 0.9rem !important;
+      padding: 0.3em 0.7em !important;
+      bottom: -1.7rem !important;
+    }
+  }
 
 /* ============================================
    HEADER
