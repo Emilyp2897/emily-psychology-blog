@@ -5,7 +5,6 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
-<!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
@@ -13,47 +12,29 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   <body>
     <Header />
     <main class="container" style="padding-top:0;margin-top:0;">
-
       <section class="resources-bubbles" style="margin-top: 0;">
+        <!-- Example team member bubble -->
         <div class="resource-bubble">
-          <button type="button" aria-label="Mind Charity">
+          <button type="button" aria-label="Emily O'Connor">
             <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/src/assets/Mind_Charity_Logo_2021.png" alt="Mind Charity Logo" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 0.3em;" />
+              <img src="/src/assets/Happy.png" alt="Emily Phelan Photo" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 0.3em; border-radius: 50%; background: #fff;" />
             </span>
-            <span class="bubble-label">Mind Charity</span>
+            <span class="bubble-label">Emily Phelan<br/>Founder</span>
           </button>
         </div>
         <div class="resource-bubble">
-          <button type="button" aria-label="Samaritans">
+          <button type="button" aria-label="Nicci Mernagh">
             <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/src/assets/Samaritans.png.webp" alt="Samaritans Logo" style="width: 110px; height: 110px; object-fit: contain; margin-bottom: 0.3em;" />
+              <img src="/src/assets/Happy.png" alt="Nicci Mernagh Photo" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 0.3em; border-radius: 50%; background: #fff;" />
             </span>
-            <span class="bubble-label">Samaritans</span>
-          </button>
-        </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="NHS">
-            <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/src/assets/nhs.png" alt="NHS Logo" style="width: 110px; height: 110px; object-fit: contain; margin-bottom: 0.3em;" />
-            </span>
-            <span class="bubble-label">NHS</span>
-          </button>
-        </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="HSE">
-            <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/src/assets/HSE-partner-logos-21.png" alt="HSE Logo" style="width: 110px; height: 110px; object-fit: contain; margin-bottom: 0.3em;" />
-            </span>
-            <span class="bubble-label">HSE</span>
+            <span class="bubble-label">Nicci Mernagh<br/>Design Director</span>
           </button>
         </div>
       </section>
-
     </main>
     <Footer />
   </body>
 </html>
-
 <style>
   h1 {
     color: var(--green-lime);
@@ -77,11 +58,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
   .resources-bubbles {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 4rem;
-    margin: 2.5rem 0 0 0 !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    margin: 3rem 0 0 0 !important;
     padding-top: 0 !important;
     position: relative;
   }
@@ -89,28 +70,28 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1 1 220px;
-    min-width: 200px;
-    max-width: 260px;
-    margin-bottom: 0.5rem;
+    flex: 1 1 320px;
+    min-width: 260px;
+    max-width: 340px;
+    margin-bottom: 1.5rem;
     margin-top: 0 !important;
   }
 
   .resource-bubble button {
     background: var(--green-dark);
-    border: 2px solid var(--green-lime);
+    border: 3px solid var(--green-lime);
     border-radius: 50%;
-    width: var(--bubble-size, 180px);
-    height: var(--bubble-size, 180px);
+    width: var(--bubble-size, 260px);
+    height: var(--bubble-size, 260px);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
     position: relative;
     outline: none;
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
   .resource-bubble button:hover,
   .resource-bubble button:focus {
@@ -134,25 +115,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     position: absolute;
     left: 50%;
     bottom: -2.7rem;
-    transform: translateX(-50%) scale(0.95);
+    transform: translateX(-50%) scale(1);
     background: var(--purple);
     color: #fff;
     padding: 0.6em 1.6em;
     border-radius: 1.5em;
     font-size: 1.25rem;
     font-weight: 700;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    pointer-events: auto;
     white-space: nowrap;
     box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-    transition: opacity 0.2s, transform 0.2s;
     z-index: 2;
-  }
-  .resource-bubble button:hover .bubble-label,
-  .resource-bubble button:focus .bubble-label {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    pointer-events: auto;
   }
 
   .closing {

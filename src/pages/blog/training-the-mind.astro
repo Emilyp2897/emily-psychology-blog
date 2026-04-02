@@ -1,37 +1,83 @@
 ---
 import { getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-// Get the main series page
+// Get all training-the-mind child posts (excluding the main series page)
 const allPosts = await getCollection('blog');
 
-const mainPost = allPosts.find(
-  (post) => post.slug === 'training-the-mind/training-the-mind'
-);
-
-// Get child posts
 const childPosts = allPosts.filter((post) =>
   post.slug.startsWith('training-the-mind/') &&
   post.slug !== 'training-the-mind/training-the-mind'
 );
 
-// Sort them
+// Sort them by date (newest first)
 childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const { Content } = await mainPost.render();
 ---
 
-<BlogPost {...mainPost.data}>
-  <Content />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="hero">
+        <h1>Training the Mind</h1>
+      </section>
 
-  <h2>Other posts in this series:</h2>
-  <ul>
-    {childPosts.map((post) => (
-      <li>
-        <a href={`/blog/${post.slug}/`}>
-          {post.data.title}
-        </a>
-      </li>
-    ))}
-  </ul>
-</BlogPost>
+      <div class="prose">
+        <p>Welcome to the <em>Training the Mind</em> series. This series explores key sports psychology theories and how they relate to <strong>Ladies Gaelic Football</strong>, with practical insights for players, coaches, and teams.</p>
+        <p>Each post is designed to take <strong>around 5 minutes to read</strong>. Explore the topics below to dive deeper into key sports psychology concepts.</p>
+      </div>
+
+      <section class="posts">
+        <h2>Posts in this series</h2>
+        <ul class="series-posts">
+          {childPosts.map((post) => (
+            <li>
+              <a href={`/blog/${post.slug}/`}>
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .series-posts {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .series-posts li a {
+    display: block;
+    border-left: 3px solid var(--green-lime);
+    padding-left: 1.2rem;
+    transition: border-color 0.2s ease;
+    color: var(--green-light);
+    text-decoration: none;
+  }
+
+  .series-posts li a:hover {
+    border-color: var(--purple-light);
+  }
+
+  h1 {
+    color: var(--green-lime);
+  }
+
+  h2 {
+    color: var(--green-lime);
+  }
+</style>

@@ -12,16 +12,39 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   </head>
   <body>
     <Header />
-    <main>
-      <section class="hero">
-        <h2>Instagram</h2>
-        <p class="tagline">TBD</p>
-
-        <h2>Email</h2>
-        <p class="tagline">TBD</p>
-
-        <h2>Phone</h2>
-        <p class="tagline">TBD</p>
+    <main class="container">
+      <section class="contact">
+        <h1>Contact Us</h1>
+        <div class="contact-methods">
+          <div class="contact-method">
+            <span class="contact-icon" aria-label="Instagram" title="Instagram">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M16 10.5A5.5 5.5 0 1 0 16 21.5A5.5 5.5 0 0 0 16 10.5ZM16 19.5A3.5 3.5 0 1 1 16 12.5A3.5 3.5 0 0 1 16 19.5ZM22 10.75A1.25 1.25 0 1 1 22 13.25A1.25 1.25 0 0 1 22 10.75ZM24 12.5C24 14.985 23.985 17.015 23.985 19.5C23.985 21.985 21.985 23.985 19.5 23.985C17.015 23.985 14.985 23.985 12.5 23.985C10.015 23.985 8.015 21.985 8.015 19.5C8.015 17.015 8.015 14.985 8.015 12.5C8.015 10.015 10.015 8.015 12.5 8.015C14.985 8.015 17.015 8.015 19.5 8.015C21.985 8.015 23.985 10.015 23.985 12.5Z" fill="#fff"/></svg>
+            </span>
+            <div>
+              <h2>Instagram</h2>
+              <a href="https://instagram.com/mindthegael" target="_blank">@mindthegael</a>
+            </div>
+          </div>
+          <div class="contact-method">
+            <span class="contact-icon" aria-label="Email" title="Email">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M8 10C8 9.44772 8.44772 9 9 9H23C23.5523 9 24 9.44772 24 10V22C24 22.5523 23.5523 23 23 23H9C8.44772 23 8 22.5523 8 22V10ZM22.3827 11L16 16.118L9.61731 11H22.3827ZM22 21V12.3827L16.4472 16.8944C16.1834 17.1056 15.8166 17.1056 15.5528 16.8944L10 12.3827V21H22Z" fill="#fff"/></svg>
+            </span>
+            <div>
+              <h2>Email</h2>
+              <a href="mailto:hello@mindthegael.com">hello@mindthegael.com</a>
+              <div style="height: 1.2em;"></div>
+            </div>
+          </div>
+          <div class="contact-method">
+            <span class="contact-icon" aria-label="Phone" title="Phone">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M10.5 9.5C10.5 9.22386 10.7239 9 11 9H13C13.2761 9 13.5 9.22386 13.5 9.5V12.5C13.5 12.7761 13.2761 13 13 13H11C10.7239 13 10.5 12.7761 10.5 12.5V9.5ZM18.5 9.5C18.5 9.22386 18.7239 9 19 9H21C21.2761 9 21.5 9.22386 21.5 9.5V12.5C21.5 12.7761 21.2761 13 21 13H19C18.7239 13 18.5 12.7761 18.5 12.5V9.5ZM10.5 19.5C10.5 19.2239 10.7239 19 11 19H13C13.2761 19 13.5 19.2239 13.5 19.5V22.5C13.5 22.7761 13.2761 23 13 23H11C10.7239 23 10.5 22.7761 10.5 22.5V19.5ZM18.5 19.5C18.5 19.2239 18.7239 19 19 19H21C21.2761 19 21.5 19.2239 21.5 19.5V22.5C21.5 22.7761 21.2761 23 21 23H19C18.7239 23 18.5 22.7761 18.5 22.5V19.5Z" fill="#fff"/></svg>
+            </span>
+            <div>
+              <h2>Phone</h2>
+              <a href="tel:+353861234567">+353 86 123 4567</a>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
     <Footer />
@@ -29,24 +52,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 </html>
 
 <style>
-  body {
-    background-color: #030a06;
-    color: #f4ffe8;
-    font-family: Georgia, serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    line-height: 1.7;
-  }
-
   h1 {
-    color: #c0fe71;
-    font-size: 3rem;
+    color: var(--green-lime);
+    font-size: 2rem;
     margin-bottom: 0.25rem;
   }
 
   h2 {
-    color: #c0fe71;
+    color: var(--green-lime);
     font-size: 1.5rem;
     margin-top: 2rem;
   }
@@ -67,5 +80,94 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     color: #f0cdff;
     font-style: italic;
     font-size: 1.05rem;
+  }
+
+  .contact {
+    margin-top: 2.5rem;
+    margin-bottom: 4rem;
+  }
+  .contact-methods {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    align-items: stretch;
+  }
+  .contact-method {
+    background: rgba(240, 205, 255, 0.1);
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    padding: 2.5rem 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    min-width: 340px;
+    min-height: 120px;
+    height: 160px;
+    flex: 1 1 340px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .contact-method > span.contact-icon {
+    align-self: flex-start;
+  }
+  .contact-method > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0.2em;
+  }
+  .contact-method:hover {
+    border-color: var(--purple-light);
+    box-shadow: 0 4px 16px rgba(105,0,90,0.08);
+  }
+  .contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+    margin-right: 0.5rem;
+  }
+  .contact-method h2 {
+    margin: 0 0 0.3rem 0;
+    color: var(--green-lime);
+    font-size: 1.2rem;
+    padding-left: 0;
+  }
+  .contact-method a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+    padding: 0;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    margin-left: 0;
+  }
+  .contact-method a:hover {
+    color: var(--purple);
+    text-decoration: underline;
+  }
+  @media (max-width: 900px) {
+    .contact-methods {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-method {
+      min-width: 0;
+      width: 100%;
+    }
   }
 </style>

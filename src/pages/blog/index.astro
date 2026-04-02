@@ -11,7 +11,7 @@ const allPosts = await getCollection('blog');
 
 // explicit order of series
 const seriesSlugs = [
-  'training-the-mind/training-the-mind',
+  'training-the-mind',
   'gael-performance-toolkit/gael-performance-toolkit',
   'strong-minds-stronger-players/strong-minds-stronger-players'
 ];
@@ -56,3 +56,73 @@ const posts = seriesSlugs
     <Footer />
   </body>
 </html>
+
+<style>
+  h1 {
+    color: var(--green-lime);
+  }
+
+  h2 {
+    color: var(--green-lime);
+  }
+
+  .posts ul {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+    margin-bottom: 4rem;
+  }
+
+  .posts li {
+    flex: 1;
+    max-width: 350px;
+    background-color: rgba(240, 205, 255, 0.1);
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .posts li:hover {
+    transform: translateY(-5px);
+    border-color: var(--purple-light);
+  }
+
+  .posts li a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .posts li .title {
+    color: var(--green-lime);
+    margin-bottom: 1rem;
+    font-size: 1.4em;
+  }
+
+  .posts li .date {
+    color: var(--green-light);
+    font-size: 0.9em;
+    margin-bottom: 1rem;
+  }
+
+  .posts li .description {
+    color: var(--green-light);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .posts ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .posts li {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+</style>
