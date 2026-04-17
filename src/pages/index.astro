@@ -23,66 +23,85 @@ const latestPosts = allPosts
     <Header />
     <main class="container">
 
-            <section class="hero">
+      <section class="hero">
         <h1>About Me</h1>
       </section>
 
       <section class="intro about-grid">
-  <div class="about-text">
-    <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football. I have experienced anxiety and depression during my sporting journey, and for a long time I didn’t have access to resources that helped me understand what was happening in my mind—why pressure felt overwhelming at times, why confidence shifted, and why certain moments in sport affected me the way they did.</p>
-    <p>Mind the Gael was created from that gap, with the aim of bringing clear, accessible sports psychology and mental performance education directly to athletes, so they can begin to understand themselves and their performance without having to rely on occasional workshops or limited access to support.</p>
-    <p>
-      <span class="guess-arrow-text">Can you guess which one is me on league final day?</span>
-      <span class="arrow-to-image" aria-hidden="true">
-        <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 12h50m0 0l-8-8m8 8l-8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </p>
-  </div>
-  <div class="about-image">
-    <img src="/EmilyPhelan-Depressed.jpg" alt="Emily Phelan" />
-  </div>
-</section>
-
-      <div class="content-grid">
-        <div class="subscription-stack">
-          <section class="subscription-box individual-subscription">
-            <h2>Individual subscription: £2.99 per month</h2>
-            <p>Access all articles and mental wellbeing resources.</p>
-            <form class="subscription-form">
-              <input type="email" placeholder="Enter your email" required>
-              <button type="submit" name="plan" value="individual">Subscribe</button>
-            </form>
-          </section>
-          <section class="subscription-box team-subscription">
-            <h2>Team subscription</h2>
-            <p>Get access for your whole team. Contact us for a quote.</p>
-            <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
-              <input type="email" name="email" placeholder="Your email (for team quote)" required>
-              <button type="submit" class="team-contact-link">Request team quote</button>
-            </form>
-          </section>
+        <div class="about-text">
+          <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football. I have experienced anxiety and depression during my sporting journey, and for a long time I didn’t have access to resources that helped me understand what was happening in my mind, why pressure felt overwhelming at times, why confidence shifted, and why certain moments in sport affected me the way they did.</p>
+          <p>Mind the Gael was created from that gap, with the aim of bringing clear, accessible sports psychology and mental performance education directly to athletes, so they can begin to understand themselves and their performance without having to rely on occasional workshops or limited access to support.</p>
+          <p>
+            <span class="guess-arrow-text">Can you guess which one is me on league final day?</span>
+            <span class="arrow-to-image" aria-hidden="true">
+              <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12h50m0 0l-8-8m8 8l-8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </p>
         </div>
-        <section class="latest-blog-box">
-          <h2>Latest Articles</h2>
-          <ul class="latest-posts">
-            {latestPosts.map(post => (
-              <li>
-                <a href={`/blog/${post.slug}/`}>
-                  <h3>{post.data.title}</h3>
-                  <p class="post-date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </p>
-                  {post.data.description && <p class="post-description">{post.data.description}</p>}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a href="/blog" class="view-all-link">View All Articles →</a>
+        <div class="about-image">
+          <img src="/EmilyPhelan-Depressed.jpg" alt="Emily Phelan" />
+        </div>
+      </section>
+
+      <h2 class="section-heading">Subscriptions</h2>
+      <div class="two-col-grid">
+        <section class="subscription-box individual-subscription">
+          <h3>Individual subscription</h3>
+          <p>Access all articles and mental wellbeing resources.</p>
+          <form class="subscription-form">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit" name="plan" value="individual">Subscribe</button>
+          </form>
+        </section>
+        <section class="subscription-box team-subscription">
+          <h3>Team subscription</h3>
+          <p>Get access for your whole team. Contact us for a quote.</p>
+          <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
+            <input type="email" name="email" placeholder="Your email (for team quote)" required>
+            <button type="submit" class="team-contact-link">Request team quote</button>
+          </form>
         </section>
       </div>
 
+      <h2 class="section-heading">Workshops</h2>
+      <div class="two-col-grid">
+        <section class="subscription-box public-workshops">
+          <h3>Looking for what workshops are coming up?</h3>
+          <p>We offer public workshops every quarter</p>
+          <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
+            <input type="email" name="email" placeholder="Your email (for team quote)" required>
+            <button type="submit" class="team-contact-link">Click Below Here to See Upcoming Dates</button>
+          </form>
+        </section>
+        <section class="subscription-box team-workshops">
+          <h3>Looking for personalised team workshops?</h3>
+          <p>We offer 1 and 2 day workshops for teams looking for mental wellbeing and performance coaching</p>
+          <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
+            <input type="email" name="email" placeholder="Your email (for team quote)" required>
+            <button type="submit" class="team-contact-link">Click Here for a Quote</button>
+          </form>
+        </section>
+      </div>
+
+      <section class="latest-blog-box">
+        <h2>Latest Articles</h2>
+        <ul class="latest-posts">
+          {latestPosts.map(post => (
+            <li>
+              <a href={`/blog/${post.slug}/`}>
+                <h3>{post.data.title}</h3>
+                <p class="post-date">
+                  <FormattedDate date={post.data.pubDate} />
+                </p>
+                {post.data.description && <p class="post-description">{post.data.description}</p>}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a href="/blog" class="view-all-link">View All Articles →</a>
+      </section>
     </main>
     <Footer />
   </body>
@@ -122,23 +141,24 @@ const latestPosts = allPosts
   }
 
   .about-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* or 1fr 1fr for equal width */
-  gap: 2rem;
-  align-items: center;
-  max-width: 1200px;
-  margin-bottom: 3rem;
-}
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    max-width: 1200px;
+    margin-bottom: 3rem;
+  }
 
   .about-image img {
     width: 450px;
-    max-width: 100%;        /* Prevent overflow on small screens */
+    max-width: 100%;
     border-radius: 12px;
     border: 3px solid var(--green-lime);
     box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     display: block;
     margin: 0 auto;
   }
+
   @media (max-width: 700px) {
     .about-grid {
       grid-template-columns: 1fr;
@@ -150,113 +170,62 @@ const latestPosts = allPosts
   }
 
   .arrow-to-image {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0.5rem;
-}
-
-@media (max-width: 700px) {
-  .arrow-to-image {
-    display: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
   }
-}
 
-  .content-grid {
+  @media (max-width: 700px) {
+    .arrow-to-image {
+      display: none;
+    }
+  }
+
+  .section-heading {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--green-lime);
+    font-size: 1.7rem;
+  }
+
+  .two-col-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
     align-items: stretch;
   }
-  .subscription-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    height: 100%;
-    grid-column: 1;
-  }
-  .latest-blog-box {
-    grid-column: 2;
-    height: 100%;
+
+  .two-col-grid > section {
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+    height: 100%;
   }
 
-  .subscription-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-   .individual-subscription,
-  .team-subscription {
+  .individual-subscription,
+  .team-subscription,
+  .public-workshops,
+  .team-workshops {
     margin: 0;
     padding: 1.5rem 2rem;
     background-color: rgba(240, 205, 255, 0.1);
     border: 2px solid var(--green-lime);
     border-radius: 8px;
     transition: transform 0.2s ease, border-color 0.2s ease;
+    height: 100%;
+    box-sizing: border-box;
   }
 
   .individual-subscription:hover,
-  .team-subscription:hover {
+  .team-subscription:hover,
+  .public-workshops:hover,
+  .team-workshops:hover {
     transform: translateY(-2px);
     border-color: var(--purple-light);
   }
 
-  .team-contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .team-contact-form input {
-    padding: 0.75rem;
-    border: 2px solid var(--green-lime);
-    border-radius: 4px;
-    background-color: var(--green-dark);
-    color: var(--green-light);
-    font-family: inherit;
-    font-size: 1rem;
-  }
-  .team-contact-form input::placeholder {
-    color: rgba(244, 255, 232, 0.6);
-  }
-  .team-contact-form button {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--green-lime);
-    color: var(--green-dark);
-    border: none;
-    border-radius: 4px;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    font-size: 1rem;
-  }
-  .team-contact-form button:hover {
-    background-color: var(--purple-light);
-  }
-  .team-subscription {
-    margin-top: 2rem;
-  }
-
- .subscription-box,
-  .latest-blog-box {
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 8px;
-    padding: 2rem;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .subscription-box:hover,
-  .latest-blog-box:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
-  }
-
+  .team-contact-form,
   .subscription-form {
     display: flex;
     flex-direction: column;
@@ -264,6 +233,7 @@ const latestPosts = allPosts
     margin-top: 1.5rem;
   }
 
+  .team-contact-form input,
   .subscription-form input {
     padding: 0.75rem;
     border: 2px solid var(--green-lime);
@@ -274,10 +244,12 @@ const latestPosts = allPosts
     font-size: 1rem;
   }
 
+  .team-contact-form input::placeholder,
   .subscription-form input::placeholder {
     color: rgba(244, 255, 232, 0.6);
   }
 
+  .team-contact-form button,
   .subscription-form button {
     padding: 0.75rem 1.5rem;
     background-color: var(--green-lime);
@@ -290,8 +262,24 @@ const latestPosts = allPosts
     transition: background-color 0.2s ease;
     font-size: 1rem;
   }
- .subscription-form button:hover {
+
+  .team-contact-form button:hover,
+  .subscription-form button:hover {
     background-color: var(--purple-light);
+  }
+
+  .latest-blog-box {
+    background-color: rgba(240, 205, 255, 0.1);
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 2rem;
+  }
+
+  .latest-blog-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple-light);
   }
 
   .latest-posts {
@@ -347,11 +335,6 @@ const latestPosts = allPosts
   }
 
   @media (max-width: 768px) {
-    .content-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
     .intro p {
       font-size: 1rem;
     }
