@@ -1,6 +1,6 @@
 ---
-title: "Social Facilitation & Inhibition – Drive Theory"
-description: "Discover why the presence of others can improve or impair performance in high-pressure games."
-pubDate: "2026-03-24"
+title: "How to perform confidently when others are watching"
+description: "Why the presence of an audience affects performance and how to use it to your advantage."
+pubDate: "2026-06-01"
 track: "training-the-mind"
 ---

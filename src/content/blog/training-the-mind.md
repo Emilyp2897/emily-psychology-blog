@@ -1,11 +1,14 @@
 ---
 title: "Training the Mind"
-description: "Explore mental skills and psychology strategies for Ladies Gaelic Football players."
-pubDate: "2026-03-24"
+description: 'Understand what’s happening in your mind before the game, after mistakes, and under pressure so you can respond with confidence instead of doubt'
+pubDate: "2026-06-01"
 track: "training-the-mind"
 seriesIndex: true
 ---
 
-Welcome to the *Training the Mind* series. This series explores key sports psychology theories and how they relate to **Ladies Gaelic Football**, with practical insights for players, coaches, and teams.
+This is a 12-month journey through key sports psychology concepts, designed specifically for female athletes in Ladies Gaelic Football.
+Each month explores a different theme, starting with understanding pressure in performance and how it affects your thoughts, focus, and decision-making before the game, after mistakes, and in high-pressure moments.
 
-Each post is designed to take **around 5 minutes to read**. Explore the topics below to dive deeper into key sports psychology concepts.
+Each post is quick to read and easy to understand, giving you practical insight into your mind so you can build confidence, consistency, and control when it matters most.
+
+Explore the topics below to follow the journey and start making sense of your thoughts, reactions, and performance.

@@ -1,6 +1,6 @@
 ---
-title: "Processing Efficiency Theory"
-description: "How players can maintain performance under stress, but at a cognitive cost."
-pubDate: "2026-03-24"
+title: "How to stay effective even under pressure"
+description: "Why performance can remain strong under stress—and what helps maintain it."
+pubDate: "2026-06-01"
 track: "training-the-mind"
 ---

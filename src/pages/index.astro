@@ -23,16 +23,27 @@ const latestPosts = allPosts
     <Header />
     <main class="container">
 
-      <section class="hero">
-        <h1>Mind the Gael</h1>
-        <p class="tagline">Evidence-based mental health resources for women in sport</p>
+            <section class="hero">
+        <h1>About Me</h1>
       </section>
 
-      <section class="intro">
-        <p>
-          Mind the Gael is a mental health awareness platform launching in April 2026, built specifically for female athletes in Ladies Gaelic Football. Through Instagram and a dedicated website, it delivers evidence-based education on mental health, sports psychology, and performance wellbeing — framed around the lived experience of women in sport.
-        </p>
-      </section>
+      <section class="intro about-grid">
+  <div class="about-text">
+    <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football. I have experienced anxiety and depression during my sporting journey, and for a long time I didn’t have access to resources that helped me understand what was happening in my mind—why pressure felt overwhelming at times, why confidence shifted, and why certain moments in sport affected me the way they did.</p>
+    <p>Mind the Gael was created from that gap, with the aim of bringing clear, accessible sports psychology and mental performance education directly to athletes, so they can begin to understand themselves and their performance without having to rely on occasional workshops or limited access to support.</p>
+    <p>
+      <span class="guess-arrow-text">Can you guess which one is me on league final day?</span>
+      <span class="arrow-to-image" aria-hidden="true">
+        <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 12h50m0 0l-8-8m8 8l-8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </p>
+  </div>
+  <div class="about-image">
+    <img src="/EmilyPhelan-Depressed.jpg" alt="Emily Phelan" />
+  </div>
+</section>
 
       <div class="content-grid">
         <div class="subscription-stack">
@@ -104,16 +115,51 @@ const latestPosts = allPosts
     margin-bottom: 2rem;
   }
 
-  .intro {
-    margin-bottom: 3rem;
-    max-width: 800px;
-  }
-
   .intro p {
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
   }
+
+  .about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* or 1fr 1fr for equal width */
+  gap: 2rem;
+  align-items: center;
+  max-width: 1200px;
+  margin-bottom: 3rem;
+}
+
+  .about-image img {
+    width: 450px;
+    max-width: 100%;        /* Prevent overflow on small screens */
+    border-radius: 12px;
+    border: 3px solid var(--green-lime);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    display: block;
+    margin: 0 auto;
+  }
+  @media (max-width: 700px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .about-image img {
+      max-width: 160px;
+    }
+  }
+
+  .arrow-to-image {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .arrow-to-image {
+    display: none;
+  }
+}
 
   .content-grid {
     display: grid;
@@ -143,7 +189,7 @@ const latestPosts = allPosts
     gap: 1.5rem;
   }
 
-  .individual-subscription,
+   .individual-subscription,
   .team-subscription {
     margin: 0;
     padding: 1.5rem 2rem;
@@ -196,7 +242,7 @@ const latestPosts = allPosts
     margin-top: 2rem;
   }
 
-  .subscription-box,
+ .subscription-box,
   .latest-blog-box {
     background-color: rgba(240, 205, 255, 0.1);
     border: 2px solid var(--green-lime);
@@ -244,8 +290,7 @@ const latestPosts = allPosts
     transition: background-color 0.2s ease;
     font-size: 1rem;
   }
-
-  .subscription-form button:hover {
+ .subscription-form button:hover {
     background-color: var(--purple-light);
   }
 
@@ -297,7 +342,6 @@ const latestPosts = allPosts
     border-bottom: 2px solid transparent;
     transition: border-color 0.2s ease;
   }
-
   .view-all-link:hover {
     border-bottom-color: var(--green-lime);
   }

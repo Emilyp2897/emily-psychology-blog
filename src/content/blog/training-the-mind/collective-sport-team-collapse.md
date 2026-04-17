@@ -1,6 +1,6 @@
 ---
-title: "Collective Sports Team Collapse"
-description: "Why entire teams sometimes fail in high-pressure moments and how to prevent it."
-pubDate: "2026-03-24"
+title: "How teams can stay connected in high-pressure moments"
+description: "Understanding group dynamics to maintain performance when the game intensifies."
+pubDate: "2026-06-01"
 track: "training-the-mind"
 ---

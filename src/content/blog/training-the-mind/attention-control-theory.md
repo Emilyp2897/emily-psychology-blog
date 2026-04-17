@@ -1,6 +1,6 @@
 ---
-title: "Attention Control Theory"
-description: "How anxiety reduces processing efficiency and impairs working memory during matches."
-pubDate: "2026-03-24"
+title: "How to bring your focus back when your mind starts to drift"
+description: "Understanding how attention works under pressure so you can stay locked into performance."
+pubDate: "2026-06-01"
 track: "training-the-mind"
 ---
