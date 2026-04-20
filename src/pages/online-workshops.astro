@@ -1,0 +1,61 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Online Workshops | ${SITE_TITLE}`} description="Public online workshops offered every quarter." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <h1>Online Workshops</h1>
+      <section class="intro">
+        <div class="coming-soon">
+          <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
+          <span class="coming-soon-text">Coming Soon</span>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  h1 {
+    color: var(--green-lime);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+  }
+
+  .coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .coming-soon-img {
+    width: 80px;
+    height: 80px;
+    opacity: 0.8;
+  }
+
+  .coming-soon-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green-lime);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>

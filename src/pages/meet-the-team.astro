@@ -7,152 +7,89 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Meet the Team | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
   </head>
   <body>
     <Header />
-    <main class="container" style="padding-top:0;margin-top:0;">
-      <section class="resources-bubbles" style="margin-top: 0;">
-        <!-- Example team member bubble -->
-        <div class="resource-bubble">
-          <button type="button" aria-label="Emily O'Connor">
-            <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/assets/emilyprofile.png" alt="Emily Phelan Photo" style="width: 150px; height: 150px; object-fit: cover; margin-bottom: 0.3em; border-radius: 50%; background: #fff;" />
-            </span>
-            <span class="bubble-label">Emily Phelan<br/>Founder</span>
-          </button>
+    <main class="container">
+      <h1>Meet the Team</h1>
+      <section class="team-bio">
+        <div class="bio-image">
+          <img src="/assets/emilyprofile.png" alt="Emily Phelan" />
         </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="Nicci Mernagh">
-            <span class="bubble-icon" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <img src="/assets/saoirse.png" alt="Nicci Mernagh Photo" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 0.3em; border-radius: 50%; background: #fff;" />
-            </span>
-            <span class="bubble-label">Nicci Mernagh<br/>Design Director</span>
-          </button>
+        <div class="bio-text">
+          <h2>Emily Phelan</h2>
+          <h3>Mental Wellbeing & Performance Coach</h3>
+          <p>Add your bio paragraph here. Tell visitors about your background, qualifications, experience and what drives your passion for psychology and wellbeing.</p>
         </div>
       </section>
     </main>
     <Footer />
   </body>
 </html>
+
 <style>
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
-    margin-bottom: 0.25rem;
-  }
-
-  h2 {
-    color: var(--green-lime);
-    font-size: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .tagline {
-    color: #f0cdff;
-    font-size: 1.2rem;
-    font-style: italic;
     margin-bottom: 2rem;
   }
 
-
-  .resources-bubbles {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 5rem;
-    margin: 3rem 0 0 0 !important;
-    padding-top: 0 !important;
-    position: relative;
-  }
-  @media (max-width: 720px) {
-    .resources-bubbles {
-      flex-direction: column;
-      gap: 2.5rem;
-      margin: 1.5rem 0 0 0 !important;
-    }
-    .resource-bubble {
-      min-width: 140px;
-      max-width: 90vw;
-    }
-    .resource-bubble button {
-      width: 140px;
-      height: 140px;
-      font-size: 1.2rem;
-    }
-    .bubble-label {
-      font-size: 1rem;
-      padding: 0.4em 1em;
-      bottom: -2.2rem;
-    }
-  }
-  .resource-bubble {
+  .team-bio {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1 1 320px;
-    min-width: 260px;
-    max-width: 340px;
-    margin-bottom: 1.5rem;
-    margin-top: 0 !important;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+    padding: 2rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background-color: rgba(240, 205, 255, 0.1);
   }
 
-  .resource-bubble button {
-    background: var(--green-dark);
-    border: 3px solid var(--green-lime);
+  .bio-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 50%;
-    width: var(--bubble-size, 260px);
-    height: var(--bubble-size, 260px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-    position: relative;
-    outline: none;
-    font-size: 3rem;
-  }
-  .resource-bubble button:hover,
-  .resource-bubble button:focus {
-    border-color: var(--purple-light);
-    box-shadow: 0 8px 32px rgba(105,0,90,0.18);
-    transform: scale(1.07) rotate(-2deg);
-    z-index: 2;
-  }
-  .resource-bubble button:hover,
-  .resource-bubble button:focus {
-    border-color: var(--purple-light);
-    box-shadow: 0 4px 16px rgba(105,0,90,0.12);
-  }
-  .bubble-icon {
-    font-size: 3.5rem;
-    color: var(--green-lime);
-    pointer-events: none;
-    user-select: none;
-  }
-  .bubble-label {
-    position: absolute;
-    left: 50%;
-    bottom: -2.7rem;
-    transform: translateX(-50%) scale(1);
-    background: var(--purple);
-    color: #fff;
-    padding: 0.6em 1.6em;
-    border-radius: 1.5em;
-    font-size: 1.25rem;
-    font-weight: 700;
-    opacity: 1;
-    pointer-events: auto;
-    white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-    z-index: 2;
+    border: 3px solid var(--green-lime);
+    background: #fff;
   }
 
-  .closing {
-    color: #f0cdff;
+  .bio-text {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .bio-text h2 {
+    color: var(--green-lime);
+    font-size: 1.5rem;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .bio-text h3 {
+    color: var(--green-lime);
+    margin-bottom: 1rem;
+  }
+
+  .bio-role {
+    color: var(--purple-light);
+    font-size: 1.1rem;
     font-style: italic;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .bio-text p {
     font-size: 1.05rem;
+    line-height: 1.7;
+    color: #f0cdff;
+  }
+
+  @media (max-width: 768px) {
+    .bio-image img {
+      width: 150px;
+      height: 150px;
+    }
   }
 </style>
