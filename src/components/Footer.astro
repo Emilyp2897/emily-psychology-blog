@@ -15,9 +15,9 @@ const today = new Date();
     <!-- Social links removed -->
   </div>
   <div class="shamrock-chatbot-wrapper">
-    <button class="shamrock-chatbot" aria-label="Chatbot">
+    <a class="shamrock-chatbot" href="/blog#subscriptions" aria-label="Go to subscriptions">
       <img src="/assets/saoirse.png" alt="Shamrock Chatbot" />
-    </button>
+    </a>
     <div class="shamrock-speech-bubble">Subscribe Now</div>
   </div>
 <style>
@@ -66,18 +66,18 @@ const today = new Date();
     border-bottom: 10px solid #fff;
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
   }
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     .shamrock-chatbot-wrapper {
       right: 1vw;
       bottom: 1vw;
       flex-direction: column;
       align-items: flex-end;
-      gap: 4em;
+      gap: 3em;
     }
     .shamrock-speech-bubble {
-      font-size: 0.75rem;
-      max-width: 90px;
-      padding: 0.2em 0.6em;
+      font-size: 0.72rem;
+      max-width: 88px;
+      padding: 0.2em 0.55em;
       margin-top: 0;
       transform: none;
       align-self: flex-end;
@@ -136,14 +136,25 @@ const today = new Date();
     object-fit: contain;
     display: block;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     .shamrock-chatbot {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
     }
     .shamrock-chatbot img {
-      width: 80px;
-      height: 80px;
+      width: 95px;
+      height: 95px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .shamrock-chatbot {
+      width: 96px;
+      height: 96px;
+    }
+    .shamrock-chatbot img {
+      width: 76px;
+      height: 76px;
     }
   }
 

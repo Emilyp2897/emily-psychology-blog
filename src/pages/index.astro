@@ -6,11 +6,17 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-// Get latest blog posts
 const allPosts = await getCollection('blog');
-const latestPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3); // Get 3 latest posts
+
+// Show the first post from each core series in the home page article section.
+const featuredSlugs = [
+  'training-the-mind/attention-control-theory',
+  'gael-performance-toolkit/gael-performance-toolkit',
+];
+
+const latestPosts = featuredSlugs
+  .map((slug) => allPosts.find((post) => post.slug === slug))
+  .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 ---
 
 <!doctype html>
@@ -21,16 +27,17 @@ const latestPosts = allPosts
   <body class="home-page">
     <Header />
     <main class="container">
-
       <section class="hero">
         <h1>About Me</h1>
       </section>
 
       <section class="intro about-grid">
         <div class="about-text">
-          <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football. I have experienced anxiety and depression during my sporting journey, and for a long time I didn’t have access to resources that helped me understand what was happening in my mind, why pressure felt overwhelming at times, why confidence shifted, and why certain moments in sport affected me the way they did.</p>
-          <p>Mind the Gael was created from that gap, with the aim of bringing clear, accessible sports psychology and mental performance education directly to athletes, so they can begin to understand themselves and their performance without having to rely on occasional workshops or limited access to support.</p>
+          <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.</p>
+          <p>Sport has always been a huge part of my life, but my journey with it hasn't always been straightforward. I've experienced anxiety and depression throughout my sporting career, and for a long time I didn't really have the language or the tools to understand what was happening in my own head.</p>
+          <p>I didn't understand why pressure felt like too much sometimes. I didn't understand why my confidence could swing so much. I didn't understand why certain moments affected me so much more then others. I just knew I loved the sport, but I was also struggling in it.</p>
         </div>
+
         <div class="arrow-image-row arrow-image-row-reverse">
           <img class="about-image-img" src="/EmilyPhelan-Depressed.jpg" alt="Emily Phelan" />
           <span class="arrow-to-image" aria-hidden="true">
@@ -38,10 +45,26 @@ const latestPosts = allPosts
               <path d="M60 12H10m0 0l8-8m-8 8l8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
-          <span class="guess-arrow-text">This was me on league final day. My head was all over the place and although I was happy for my team, I couldnt be happy myself because of my performance. I was not in a good place mentally and that showed on the pitch.</span>
+          <div class="guess-arrow-text">
+            <p>Number 18 is me on league final day. I remember feeling happy for my team, but I couldn't fully feel it for myself because I was so caught up in my own performance. I wasn't in a good place mentally, and that showed on the pitch.</p>
+            <p>But what I understand now, looking back, is that it wasn't just performance anxiety. I was dealing with undiagnosed anxiety and depression at the time, and that naturally spilled over into my sport.</p>
+          </div>
         </div>
+
+        <div class="about-text">
+          <p>I just knew that everything felt heavier than it should have, not just games, but life in general. There were days I struggled to get out of bed, times I would feel really low for no clear reason, and moments where I experienced panic attacks that I didn't fully understand at the time.</p>
+          <p>And one of those panic attacks actually happened that day, when I should have been happy and celebrating with my teammates. Instead, I was completely overwhelmed in my own head. My mind was constantly busy. I didn't really know how to separate what was going on internally from how I was performing externally and the celebrations going on around me afterwards.</p>
+          <p>I was overthinking, second-guessing myself, and never really fully present in the moment. And afterwards, I remember replaying everything in my head over and over, feeling really disconnected from what had just happened, like I wasn't even fully in it in the first place.</p>
+        </div>
+
         <div class="arrow-image-row">
-          <span class="guess-arrow-text">And here's me, a year later on the same league final day. Happy and thriving because I have worked hard on my mental health. The road to this was a very long one. if you want to hear my story please click the link here.</span>
+          <div class="guess-arrow-text">
+            <p>And then there's me a year later on the exact same league final day. Same pitch. Same occasion. But a completely different headspace.</p>
+            <p>We actually lost the final that day, but my experience of it was completely different.</p>
+            <p>I was calm. I was present. And I felt content within myself, regardless of the result. I could take the game for what it was, without it defining how I felt about myself afterwards.</p>
+            <p>That didn't happen overnight. It took a lot of work on my mental health, a lot of learning, and a lot of uncomfortable reflection about how I was thinking, feeling, and showing up in both life and sport.</p>
+            <p>The road between those two versions of me was long. And it wasn't linear. But it was worth it.</p>
+          </div>
           <span class="arrow-to-image" aria-hidden="true">
             <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 12h50m0 0l-8-8m8 8l-8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -51,63 +74,25 @@ const latestPosts = allPosts
         </div>
       </section>
 
-      <h2 class="section-heading">Subscriptions</h2>
-      <div class="two-col-grid">
-        <section class="subscription-box individual-subscription">
-          <h3>Individual subscription</h3>
-          <p>Access all articles and mental wellbeing resources.</p>
-          <form class="subscription-form">
-            <input type="email" placeholder="Enter your email" required>
-            <button type="submit" name="plan" value="individual">Subscribe</button>
-          </form>
-        </section>
-        <section class="subscription-box team-subscription">
-          <h3>Team subscription</h3>
-          <p>Get access for your whole team. Contact us for a quote.</p>
-          <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
-            <input type="email" name="email" placeholder="Your email (for team quote)" required>
-            <button type="submit" class="team-contact-link">Request team quote</button>
-          </form>
-        </section>
-      </div>
+      <section class="hero why-hero">
+        <h1>Why Mind the Gael Exists</h1>
+      </section>
 
-      <h2 class="section-heading">Workshops</h2>
-      <div class="two-col-grid">
-        <section class="subscription-box public-workshops coming-soon-box">
-          <h3>Online Workshops</h3>
-          <p>We offer public workshops every quarter</p>
-          <div class="coming-soon">
-            <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-            <span class="coming-soon-text">Coming Soon</span>
-            <a href="/online-workshops" class="view-all-link">Find out more →</a>
-          </div>
-        </section>
-        <section class="subscription-box team-workshops coming-soon-box">
-          <h3>In person Workshops</h3>
-          <p>We offer 1 and 2 day workshops for teams looking for mental wellbeing and performance coaching</p>
-          <div class="coming-soon">
-            <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-            <span class="coming-soon-text">Coming Soon</span>
-            <a href="/in-person-workshops" class="view-all-link">Find out more →</a>
-          </div>
-        </section>
-      </div>
-
-      <h2 class="section-heading">Personal Training</h2>
-      <section class="subscription-box personal-training-box coming-soon-box">
-        <h3>One-to-One Personal Training</h3>
-        <p>Focused on mental wellbeing, performance coaching and women's health.</p>
-        <div class="coming-soon">
-          <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-          <span class="coming-soon-text">Coming Soon</span>
-          <a href="/personal-training" class="view-all-link">Find out more →</a>
+      <section class="intro about-grid why-grid">
+        <div class="about-text">
+          <p>Mind the Gael came from my own journey of trying to understand what was going on in my mind, both in life and in sport.</p>
+          <p>And that's really what this platform is now. I'm taking everyone with me on that journey.</p>
+          <p>I'm going to continue learning, researching, and exploring psychological concepts around performance, anxiety, attention, and wellbeing. I'll then be breaking it all down in a way that we can actually understand and use.</p>
+          <p>Not academic jargon. Not complicated theories that don't translate onto a pitch. Just real, relatable understanding of how your mind works when you're under pressure, when you're doubting yourself, when you're performing, and when things don't go to plan.</p>
+          <p>Because I've learned that when you understand your mind, you don't feel as lost in it anymore.</p>
+          <p>And that's what Mind the Gael is about, creating a community, learning together, and making mental wellbeing usable in real sport and real life.</p>
         </div>
       </section>
 
       <section class="latest-blog-box">
         <h2>Latest Articles</h2>
         <ul class="latest-posts">
-          {latestPosts.map(post => (
+          {latestPosts.map((post) => (
             <li>
               <a href={`/blog/${post.slug}/`}>
                 <h3>{post.data.title}</h3>
@@ -127,23 +112,12 @@ const latestPosts = allPosts
 </html>
 
 <style>
-  h1 {
-    color: var(--green-lime);
-    font-size: 2rem;
-    margin-bottom: 0.25rem;
-  }
-
-  h2 {
-    color: var(--green-lime);
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-
-  h3 {
-    color: var(--green-lime);
-    font-size: 1.2rem;
+  .hero h1 {
     margin: 0 0 0.5rem 0;
+  }
+
+  .hero:not(.why-hero) h1 {
+    margin-top: 1.5rem;
   }
 
   .tagline {
@@ -154,7 +128,7 @@ const latestPosts = allPosts
   }
 
   .intro p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
   }
@@ -167,18 +141,28 @@ const latestPosts = allPosts
     gap: 0;
   }
 
+  .why-grid {
+    margin-bottom: 1.25rem;
+  }
+
   .about-text {
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-text p:last-child {
+    margin-bottom: 0;
   }
 
   .arrow-image-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
     margin-top: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   .guess-arrow-text {
+    font-size: 1rem;
     font-weight: 500;
   }
 
@@ -191,17 +175,13 @@ const latestPosts = allPosts
   .arrow-image-row-reverse {
     flex-direction: row;
     justify-content: flex-start;
-    
   }
 
-  @media (max-width: 900px) {
-    .arrow-image-row-reverse {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-    }
+  .why-hero {
+    margin-top: -1rem;
   }
 
- .about-image-img {
+  .about-image-img {
     width: 500px;
     object-fit: cover;
     max-width: 100%;
@@ -209,20 +189,6 @@ const latestPosts = allPosts
     border: 2px solid var(--green-lime);
     box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     display: block;
-  }
-
-  @media (max-width: 900px) {
-    .about-grid {
-      max-width: 100%;
-    }
-    .arrow-image-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-    .about-image-img {
-      max-width: 160px;
-    }
   }
 
   .section-heading {
@@ -248,9 +214,7 @@ const latestPosts = allPosts
   }
 
   .individual-subscription,
-  .team-subscription,
-  .public-workshops,
-  .team-workshops {
+  .team-subscription {
     margin: 0;
     padding: 1.5rem 2rem;
     background-color: rgba(240, 205, 255, 0.1);
@@ -262,9 +226,7 @@ const latestPosts = allPosts
   }
 
   .individual-subscription:hover,
-  .team-subscription:hover,
-  .public-workshops:hover,
-  .team-workshops:hover {
+  .team-subscription:hover {
     transform: translateY(-2px);
     border-color: var(--purple-light);
   }
@@ -377,7 +339,7 @@ const latestPosts = allPosts
 
   .post-description {
     color: var(--green-light);
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.5;
   }
 
@@ -391,15 +353,11 @@ const latestPosts = allPosts
     margin-top: 0.75rem;
     align-self: center;
   }
+
   .view-all-link:hover {
     border-bottom-color: var(--green-lime);
   }
 
-  @media (max-width: 768px) {
-    .intro p {
-      font-size: 1rem;
-    }
-  }
   .coming-soon {
     display: flex;
     flex-direction: column;
@@ -422,5 +380,46 @@ const latestPosts = allPosts
     color: var(--green-lime);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .two-col-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .individual-subscription,
+    .team-subscription,
+    .personal-training-box,
+    .latest-blog-box {
+      padding: 1.25rem 1rem;
+    }
+
+    .section-heading {
+      font-size: 1.45rem;
+      margin-top: 2.2rem;
+    }
+
+    .about-grid {
+      max-width: 100%;
+    }
+
+    .arrow-image-row,
+    .arrow-image-row-reverse {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .about-image-img {
+      width: min(100%, 360px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .intro p,
+    .guess-arrow-text {
+      font-size: 0.95rem;
+    }
   }
 </style>

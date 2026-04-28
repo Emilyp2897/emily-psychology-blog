@@ -70,10 +70,25 @@ html, body {
       max-width: 100%;
       padding: 0 0.5em;
     }
+    main {
+      padding: 2rem 0 3rem 0;
+    }
     header .header-inner,
     footer .footer-inner {
       max-width: 100%;
       padding: 0 0.5em;
+    }
+    header .header-inner img {
+      max-height: 120px;
+    }
+    header nav.nav-links {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.45rem 0.85rem;
+    }
+    header nav a {
+      font-size: 0.92rem;
+      padding: 0.35em 0;
     }
   }
 
@@ -90,6 +105,15 @@ html, body {
     h2 { font-size: 1.1em; }
     h3 { font-size: 1em; }
     .posts ul { gap: 1rem; }
+    header nav.nav-links {
+      width: 100%;
+      justify-content: center;
+      gap: 0.4rem 0.7rem;
+    }
+    header nav a {
+      font-size: 0.88rem;
+      padding: 0.3em 0;
+    }
     .resource-bubble button {
       width: 120px !important;
       height: 120px !important;
@@ -215,7 +239,7 @@ main {
    ============================================ */
 h1,h2,h3,h4,h5,h6 {
   margin: 0 0 0.5rem 0;
-  color: #f0cdff;
+  color: var(--green-lime);
   line-height: 1.2;
 }
 
