@@ -25,6 +25,7 @@
   --green-dark: #030a06;
   --purple: #69005a;
   --purple-light: #f0cdff;
+  --page-bg-top-offset: 125px;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
   --box-shadow: 0 2px 6px rgba(var(--gray),0.25),0 8px 24px rgba(var(--gray),0.33);
@@ -286,6 +287,7 @@ img {
    RESPONSIVE
    ============================================ */
 @media (max-width: 720px) {
+  :root { --page-bg-top-offset: 92px; }
   body { font-size: 18px; }
   main { padding: 2em 0; }
   header .header-inner { flex-direction: column; gap: 0.5em; }
@@ -310,4 +312,110 @@ header + main h2 {
 .card:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+body.home-page {
+  position: relative;
+  isolation: isolate;
+}
+
+body.home-page::before {
+  content: "";
+  position: fixed; /* stays in place when scrolling */
+  inset: var(--page-bg-top-offset) 0 0 0;
+  background: url("/assets/HollowayTeamHuddle.jpg") center/cover no-repeat;
+  opacity: 0.24; /* adjust fade here */
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.home-page header,
+body.home-page main,
+body.home-page footer {
+  position: relative;
+  z-index: 1;
+}
+
+body.meet-team-page,
+body.personal-training-page,
+body.about-page,
+body.resources-page {
+  position: relative;
+  isolation: isolate;
+}
+
+body.meet-team-page::before,
+body.personal-training-page::before,
+body.about-page::before,
+body.resources-page::before {
+  content: "";
+  position: fixed;
+  inset: var(--page-bg-top-offset) 0 0 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.meet-team-page::before {
+  inset: calc(var(--page-bg-top-offset) + 95px) 0 0 0;
+  background-position: center top;
+  background-image: url("/assets/EmilyPhelan-London-Playing-1.jpg");
+  opacity: 0.24;
+}
+
+@media (max-width: 720px) {
+  body.meet-team-page::before {
+    inset: calc(var(--page-bg-top-offset) + 70px) 0 0 0;
+  }
+}
+
+body.personal-training-page::before {
+  background-position: center top;
+  background-image: url("/assets/CiaraFlan-London-1.jpg");
+  opacity: 0.24;
+}
+
+body.about-page::before {
+  inset: calc(var(--page-bg-top-offset) + 140px) 0 0 0;
+  background-position: center 34%;
+  background-image: url("/assets/EmilyPhelan-Holloway-Playing.jpg");
+  opacity: 0.24;
+}
+
+@media (min-width: 1200px) {
+  body.about-page::before {
+    background-position: center 36%;
+  }
+}
+
+@media (min-width: 1600px) {
+  body.about-page::before {
+    background-position: center 38%;
+  }
+}
+
+@media (max-width: 720px) {
+  body.about-page::before {
+    inset: calc(var(--page-bg-top-offset) - 15px) 0 0 0;
+    background-position: center 48%;
+  }
+}
+
+body.meet-team-page header,
+body.meet-team-page main,
+body.meet-team-page footer,
+body.personal-training-page header,
+body.personal-training-page main,
+body.personal-training-page footer,
+body.about-page header,
+body.about-page main,
+body.about-page footer,
+body.resources-page header,
+body.resources-page main,
+body.resources-page footer {
+  position: relative;
+  z-index: 1;
 }
