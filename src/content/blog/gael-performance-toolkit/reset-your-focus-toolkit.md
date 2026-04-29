@@ -5,12 +5,48 @@ pubDate: "2026-06-01"
 track: "gael-performance-toolkit"
 ---
 
-Use this toolkit when your mind starts racing and your attention drifts.
+<h2>The 3-Step Reset</h2>
+When your mind starts spiralling:
+<li>Notice the thought. What are you thinking about? Is it that you're not good enough or fit enough, or I must play well?</li>
+Take one slow breath
+Refocus on your next action. What is your role? What do you need to be doing right now? 
 
-1. Name what is happening: "My anxiety is rising right now."
-2. Slow your breathing: inhale 4 seconds, exhale 6 seconds for 4 rounds.
-3. Ground your attention: pick one cue word, such as "ball" or "next job".
-4. Shrink the task: focus only on the next action in front of you.
-5. Repeat your cue before every restart.
+<h2>One-Word Focus Cue</h2>
+When Attention feels scattered: 
+Pick one word: 
+Next 
+Calm 
+Sharp
+Repeat it as you play
 
-This is not about forcing calm. It is about regaining control of your attention one moment at a time.
+<h2>The Next Action Rule<h2>
+When: after a mistake
+Ask - what's my next job? Is it to chase down the player who got the ball? Is it to get myself back into position? 
+Nothing else matters other than your next action
+
+<h2>2-Breath Reset Before Play</h2>
+When: before kickoff/halftime
+Breath 1 - Slow your body
+Breath 2 - Lock in your focus
+
+<h2>Narrow your Focus</h2>
+When: overwhelmed/too much going on
+Focus on ONE thing: 
+Your player
+The ball
+Your position
+
+<h2>Ground Yourself Physically</h2>
+When anxiety feels high
+Feel your feet on the ground
+Wiggle your fingers in your gloves
+Feel the gumshield in your mouth
+This brings you out of your head
+
+<h2>The “Let it Go” Cue</h2>
+When: stuck on a mistake
+Use a trigger: 
+Clap your hands
+Say “gone” or “next ball” 
+Then move on. 
+Create a clear mental reset
