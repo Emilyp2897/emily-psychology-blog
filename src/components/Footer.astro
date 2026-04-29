@@ -14,6 +14,18 @@ const today = new Date();
 
     <!-- Social links removed -->
   </div>
+  
+  <div class="support-wrapper">
+    <button id="support-tab" class="support-tab" aria-label="Show support resources" aria-controls="support-drawer">Help</button>
+    <div id="support-drawer" class="support-drawer" role="dialog" aria-labelledby="support-drawer-title" aria-hidden="true">
+      <button id="close-drawer" class="close-drawer" aria-label="Close support resources">✕</button>
+      <h2 id="support-drawer-title">Support Resources</h2>
+      <p>If you are struggling with your mental health, free resources can be made available. You can reach out via <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> if you need access.</p>
+      <p>Nobody should have to pay for support. Please note this is not a substitute for professional help.</p>
+      <p>See the <a href="/resources">Resources page</a> for professional help services.</p>
+    </div>
+  </div>
+  
   <div class="shamrock-chatbot-wrapper">
     <div class="shamrock-chatbot" aria-hidden="true">
       <img src="/assets/saoirse.png" alt="Shamrock Chatbot" />
@@ -23,6 +35,127 @@ const today = new Date();
       <a class="shamrock-speech-bubble bubble-chat" href="/chat">Chat with Saoirse</a>
     </div>
   </div>
+<style>
+  .support-wrapper {
+    position: fixed;
+    left: 0;
+    bottom: 2vw;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    pointer-events: none;
+  }
+
+  .support-tab {
+    display: none;
+    position: relative;
+    left: 0;
+    width: 2.5rem;
+    height: 180px;
+    padding: 1rem 0.5rem;
+    border-radius: 0 8px 8px 0;
+    background: var(--purple);
+    color: var(--green-light);
+    border: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1002;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    white-space: normal;
+    word-wrap: break-word;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .support-tab:hover {
+    background: var(--purple-dark, #5a3d82);
+    transform: translateX(4px);
+  }
+
+  .support-tab:active {
+    transform: translateX(2px);
+  }
+
+  .support-drawer {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    z-index: 1001;
+    padding: 2rem 1.5rem;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+  }
+
+  .support-drawer.active {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .support-drawer h2 {
+    color: var(--purple);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .support-drawer p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .support-drawer a {
+    color: var(--green-lime);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .support-drawer a:hover {
+    color: var(--purple);
+  }
+
+  .close-drawer {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-drawer:hover {
+    color: #333;
+  }
+
+  @media (max-width: 720px) {
+    .support-tab {
+      display: flex;
+    }
+  }
+</style>
 <style>
   .shamrock-chatbot-wrapper {
     position: fixed;
@@ -168,3 +301,40 @@ const today = new Date();
     text-decoration: underline;
   }
 </style>
+
+<script>
+  const supportTab = document.getElementById('support-tab');
+  const supportDrawer = document.getElementById('support-drawer');
+  const closeDrawer = document.getElementById('close-drawer');
+
+  function toggleDrawer(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    supportDrawer?.classList.toggle('active');
+    supportDrawer?.setAttribute('aria-hidden', supportDrawer.classList.contains('active') ? 'false' : 'true');
+  }
+
+  function closeDrawerFunc() {
+    supportDrawer?.classList.remove('active');
+    supportDrawer?.setAttribute('aria-hidden', 'true');
+  }
+
+  if (supportTab) {
+    supportTab.addEventListener('click', toggleDrawer);
+  }
+
+  if (closeDrawer) {
+    closeDrawer.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeDrawerFunc();
+    });
+  }
+
+  // Close drawer when clicking outside
+  document.addEventListener('click', (e) => {
+    if (supportDrawer?.classList.contains('active') && e.target !== supportTab && !supportDrawer.contains(e.target as Node)) {
+      closeDrawerFunc();
+    }
+  });
+</script>

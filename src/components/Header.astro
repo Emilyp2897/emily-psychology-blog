@@ -9,19 +9,6 @@ import HeaderLink from './HeaderLink.astro';
     if you need access. Nobody should have to pay for support. Please note this is not a substitute for professional help.
     See the <a href="/resources">Resources page</a> for professional help services.
   </div>
-  
-  <button id="support-button" class="support-button" aria-label="Show support resources">?</button>
-  
-  <div id="support-modal" class="support-modal" role="dialog" aria-labelledby="support-modal-title" aria-hidden="true">
-    <div class="support-modal-content">
-      <button id="close-modal" class="close-modal" aria-label="Close support resources">✕</button>
-      <h2 id="support-modal-title">Support Resources</h2>
-      <p>If you are struggling with your mental health, free resources can be made available. You can reach out via <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> if you need access.</p>
-      <p>Nobody should have to pay for support. Please note this is not a substitute for professional help.</p>
-      <p>See the <a href="/resources">Resources page</a> for professional help services.</p>
-    </div>
-  </div>
-  
   <div class="header-inner">
     <img src="/assets/MTG_colour.png" alt="Mind the Gael logo" />
     <nav class="nav-links">
@@ -59,118 +46,9 @@ import HeaderLink from './HeaderLink.astro';
     color: var(--green-light);
   }
 
-  .support-button {
-    display: none;
-  }
-
-  .support-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .support-modal.active {
-    display: flex;
-  }
-
-  .support-modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 90%;
-    position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .support-modal-content h2 {
-    color: var(--purple);
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-
-  .support-modal-content p {
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .support-modal-content a {
-    color: var(--green-lime);
-    text-decoration: underline;
-    font-weight: 600;
-  }
-
-  .support-modal-content a:hover {
-    color: var(--purple);
-  }
-
-  .close-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-    padding: 0;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .close-modal:hover {
-    color: #333;
-  }
-
   @media (max-width: 720px) {
     .global-support-strip {
       display: none;
-    }
-
-    .support-button {
-      display: flex;
-      position: fixed;
-      bottom: 2rem;
-      left: 1rem;
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      background: var(--purple);
-      color: var(--green-light);
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      font-weight: bold;
-      transition: all 0.2s ease;
-    }
-
-    .support-button:hover {
-      background: var(--purple-dark, #5a3d82);
-      transform: scale(1.1);
-    }
-
-    .support-button:active {
-      transform: scale(0.95);
-    }
-
-    .support-modal-content {
-      width: 85%;
-      padding: 1.5rem;
     }
   }
 
@@ -187,29 +65,5 @@ import HeaderLink from './HeaderLink.astro';
     pointer-events: none;
     user-select: none;
   }
-</style>
+    </style>
 
-<script>
-  const supportButton = document.getElementById('support-button');
-  const supportModal = document.getElementById('support-modal');
-  const closeModal = document.getElementById('close-modal');
-
-  if (supportButton && supportModal && closeModal) {
-    supportButton.addEventListener('click', () => {
-      supportModal.classList.add('active');
-      supportModal.setAttribute('aria-hidden', 'false');
-    });
-
-    closeModal.addEventListener('click', () => {
-      supportModal.classList.remove('active');
-      supportModal.setAttribute('aria-hidden', 'true');
-    });
-
-    supportModal.addEventListener('click', (e) => {
-      if (e.target === supportModal) {
-        supportModal.classList.remove('active');
-        supportModal.setAttribute('aria-hidden', 'true');
-      }
-    });
-  }
-</script>
