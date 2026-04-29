@@ -8,6 +8,8 @@ const RATE_LIMIT_MAX_REQUESTS = 20;
 const ALLOWED_CHAT_SLUGS = new Set([
   'training-the-mind/choking-under-pressure',
   'training-the-mind/attention-control-theory',
+  'gael-performance-toolkit/reset-your-focus-toolkit',
+  'gael-performance-toolkit/stay-composed-under-pressure-toolkit',
 ]);
 
 const requestBuckets = new Map<string, number[]>();
