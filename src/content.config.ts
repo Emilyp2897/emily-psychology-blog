@@ -7,6 +7,7 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
     // Temporarily remove heroImage to fix build
     track: z.enum(['training-the-mind', 'gael-performance-toolkit', 'stronger-minds-stronger-players']),
     tags: z.array(z.string()).optional(),

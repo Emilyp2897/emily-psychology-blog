@@ -1,27 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-
-const allPosts = await getCollection('blog');
-
-const knowledgeBase = allPosts.map((post) => {
-  const cleanBody = (post.body || '')
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/[#>*_`\-\[\]\(\)!]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  return {
-    slug: post.slug,
-    title: post.data.title,
-    description: post.data.description || '',
-    track: post.data.track || '',
-    text: cleanBody,
-  };
-});
 ---
 
 <!doctype html>
@@ -43,9 +23,16 @@ const knowledgeBase = allPosts.map((post) => {
       </section>
 
       <section class="chat-box" aria-live="polite">
+        <div class="quick-prompts" aria-label="Suggested prompts">
+          <button type="button" class="quick-prompt" data-prompt="How do I reset my focus after a mistake?">Reset after a mistake</button>
+          <button type="button" class="quick-prompt" data-prompt="How can I stop overthinking before a game?">Stop overthinking pre-game</button>
+          <button type="button" class="quick-prompt" data-prompt="What should I do when pressure gets too high in key moments?">Handle high-pressure moments</button>
+          <a class="quick-prompt quick-prompt-link" href="/resources">Find support resources</a>
+        </div>
+
         <div id="chat-log" class="chat-log">
           <div class="chat-message bot">
-            <p><strong>Saoirse:</strong> Ask me about pressure, anxiety, focus, confidence, decision-making, team dynamics, or support resources.</p>
+            <p><strong>Saoirse:</strong> Hi, I am Saoirse. I can help you steady your mind, reset your focus, and handle pressure one step at a time. Ask me about performance, confidence, anxiety, team dynamics, or support resources.</p>
           </div>
         </div>
 
@@ -63,80 +50,24 @@ const knowledgeBase = allPosts.map((post) => {
     </main>
     <Footer />
 
-    <script type="application/json" id="kb-data" set:html={JSON.stringify(knowledgeBase)}></script>
     <script>
       // @ts-nocheck
-      /** @typedef {{ slug: string, title: string, description: string, track: string, text: string }} KBPost */
-      /** @typedef {{ text: string, matches: KBPost[] }} ChatReply */
-
-      const kbScript = /** @type {HTMLScriptElement | null} */ (document.getElementById('kb-data'));
-      const knowledgeBase = /** @type {KBPost[]} */ (kbScript ? JSON.parse(kbScript.textContent || '[]') : []);
+      /** @typedef {{ role: 'user' | 'assistant', content: string }} ChatTurn */
       const chatForm = /** @type {HTMLFormElement | null} */ (document.getElementById('chat-form'));
       const chatInput = /** @type {HTMLInputElement | null} */ (document.getElementById('chat-input'));
       const chatLog = /** @type {HTMLDivElement | null} */ (document.getElementById('chat-log'));
+      const quickPromptButtons = /** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll('.quick-prompt'));
 
-      const stopWords = new Set([
-        'the', 'a', 'an', 'is', 'are', 'to', 'of', 'for', 'in', 'on', 'and', 'or', 'with', 'at', 'by', 'from',
-        'this', 'that', 'it', 'as', 'be', 'can', 'i', 'you', 'we', 'my', 'your', 'our', 'about', 'what', 'how'
-      ]);
+      /** @type {ChatTurn[]} */
+      const history = [];
 
-      /** @param {string} text */
-      function tokenize(text) {
-        return (text || '')
-          .toLowerCase()
-          .replace(/[^a-z0-9\s]/g, ' ')
-          .split(/\s+/)
-          .filter((word) => word.length > 2 && !stopWords.has(word));
-      }
-
-      /** @param {string[]} questionTokens */
-      /** @param {KBPost} post */
-      function scorePost(questionTokens, post) {
-        const haystack = `${post.title} ${post.description} ${post.track} ${post.text}`.toLowerCase();
-        let score = 0;
-
-        for (const token of questionTokens) {
-          if (post.title.toLowerCase().includes(token)) score += 4;
-          if (post.description.toLowerCase().includes(token)) score += 3;
-          if ((post.track || '').toLowerCase().includes(token)) score += 2;
-          if (haystack.includes(token)) score += 1;
-        }
-
-        return score;
-      }
-
-      /** @param {string} question */
-      /** @returns {ChatReply} */
-      function makeBotReply(question) {
-        const questionTokens = tokenize(question);
-
-        if (!questionTokens.length) {
-          return {
-            text: 'Try adding a bit more detail so I can match your question to the best article.',
-            matches: []
-          };
-        }
-
-        const ranked = knowledgeBase
-          .map((post) => ({ post, score: scorePost(questionTokens, post) }))
-          .filter((entry) => entry.score > 0)
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 3);
-
-        if (!ranked.length) {
-          return {
-            text: 'I could not find a close match in the current site content. Try keywords like focus, pressure, anxiety, confidence, team collapse, or support resources.',
-            matches: []
-          };
-        }
-
-        const best = ranked[0].post;
-        const snippet = (best.description || best.text || '').slice(0, 200).trim();
-
-        return {
-          text: `Based on your question, the best match is "${best.title}".${snippet ? ` ${snippet}${snippet.length >= 200 ? '...' : ''}` : ''}`,
-          matches: ranked.map((entry) => entry.post)
-        };
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
       }
 
       /** @param {'user' | 'bot'} role */
@@ -150,26 +81,89 @@ const knowledgeBase = allPosts.map((post) => {
         chatLog.scrollTop = chatLog.scrollHeight;
       }
 
-      if (chatForm && chatInput && chatLog) {
-        chatForm.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const question = chatInput.value.trim();
-          if (!question) return;
+      async function askSaoirse(question) {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: question,
+            history,
+          }),
+        });
 
-          appendMessage('user', `<p><strong>You:</strong> ${question}</p>`);
+        if (!response.ok) {
+          throw new Error('Chat API unavailable');
+        }
 
-          const reply = makeBotReply(question);
-          const links = reply.matches
-            .map((post) => `<li><a href="/blog/${post.slug}/">${post.title}</a></li>`)
-            .join('');
+        return response.json();
+      }
+
+      async function submitQuestion(question) {
+        if (!chatInput) return;
+        const normalizedQuestion = question.trim();
+        if (!normalizedQuestion) return;
+
+        history.push({ role: 'user', content: normalizedQuestion });
+        appendMessage('user', `<p><strong>You:</strong> ${escapeHtml(normalizedQuestion)}</p>`);
+
+        chatInput.value = '';
+        chatInput.disabled = true;
+        quickPromptButtons.forEach((button) => {
+          button.disabled = true;
+        });
+
+        const loadingId = `loading-${Date.now()}`;
+        appendMessage('bot', `<p id="${loadingId}"><strong>Saoirse:</strong> Thinking...</p>`);
+
+        try {
+          const result = await askSaoirse(normalizedQuestion);
+          const loadingNode = document.getElementById(loadingId);
+          if (loadingNode) {
+            loadingNode.parentElement?.remove();
+          }
+
+          const safeReply = escapeHtml(result.reply || 'I am having trouble answering right now.');
+          const links = Array.isArray(result.sources)
+            ? result.sources
+                .slice(0, 3)
+                .map((source) => `<li><a href="${source.url}">${escapeHtml(source.title)}</a></li>`)
+                .join('')
+            : '';
 
           appendMessage(
             'bot',
-            `<p><strong>Saoirse:</strong> ${reply.text}</p>${links ? `<ul class="reply-links">${links}</ul>` : ''}`
+            `<p><strong>Saoirse:</strong> ${safeReply}</p>${links ? `<ul class="reply-links">${links}</ul>` : ''}`
           );
+          history.push({ role: 'assistant', content: result.reply || '' });
+        } catch {
+          const loadingNode = document.getElementById(loadingId);
+          if (loadingNode) {
+            loadingNode.parentElement?.remove();
+          }
+          appendMessage(
+            'bot',
+            '<p><strong>Saoirse:</strong> I cannot connect right now. Please try again in a moment.</p>'
+          );
+        }
 
-          chatInput.value = '';
-          chatInput.focus();
+        chatInput.disabled = false;
+        quickPromptButtons.forEach((button) => {
+          button.disabled = false;
+        });
+        chatInput.focus();
+      }
+
+      if (chatForm && chatInput && chatLog) {
+        chatForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          await submitQuestion(chatInput.value);
+        });
+
+        quickPromptButtons.forEach((button) => {
+          button.addEventListener('click', async () => {
+            const prompt = button.dataset.prompt || '';
+            await submitQuestion(prompt);
+          });
         });
       }
     </script>
@@ -207,6 +201,42 @@ const knowledgeBase = allPosts.map((post) => {
     border-radius: 14px;
     background: rgba(240, 205, 255, 0.08);
     padding: 1rem;
+  }
+
+  .quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .quick-prompt {
+    border: 1px solid rgba(192, 254, 113, 0.55);
+    border-radius: 999px;
+    background: rgba(192, 254, 113, 0.14);
+    color: var(--green-light);
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .quick-prompt:hover,
+  .quick-prompt:focus-visible {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .quick-prompt-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .quick-prompt:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .chat-log {
@@ -312,6 +342,16 @@ const knowledgeBase = allPosts.map((post) => {
 
     .chat-box {
       padding: 0.75rem;
+    }
+
+    .quick-prompts {
+      gap: 0.35rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .quick-prompt {
+      font-size: 0.8rem;
+      padding: 0.32rem 0.6rem;
     }
 
     .chat-log {

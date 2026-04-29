@@ -53,6 +53,40 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## Chatbot Setup (Saoirse)
+
+The site now includes a chatbot page at `/chat` and a server endpoint at `/api/chat`.
+
+How it works:
+
+- It always grounds replies in your site content (`src/content/blog`).
+- It has a safety override for crisis keywords and points users to `/resources`.
+- If no AI key is set, it still returns useful fallback answers from your content.
+
+Optional AI enhancement:
+
+1. Add environment variables in your local env file:
+
+```bash
+OPENAI_API_KEY=your_openai_key_here
+OPENAI_MODEL=gpt-4.1-mini
+CHAT_ANALYTICS_ENABLED=true
+```
+
+2. Restart the dev server:
+
+```bash
+npm run dev
+```
+
+If `OPENAI_API_KEY` is missing, the chatbot still works using the built-in retrieval fallback.
+
+Default chat API protections:
+
+- Basic rate limiting: 20 messages per minute per client
+- Crisis keyword routing: urgent language is redirected to `/resources` and emergency numbers
+- Lightweight server analytics: logs status, message length, and source count (disable with `CHAT_ANALYTICS_ENABLED=false`)
+
 ## 👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
