@@ -13,34 +13,92 @@ import { SITE_TITLE } from '../consts';
   <body class="personal-training-page">
     <Header />
     <main class="container">
+      <div class="coming-soon-strip">
+        <img src="/assets/saoirse.png" alt="Saoirse the shamrock" class="strip-shamrock" />
+        <span>Personal Training launching shortly. Register your interest below!</span>
+      </div>
       <h1>Personal Training</h1>
       <section class="intro">
-        <div class="coming-soon">
-          <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-          <span class="coming-soon-text">Coming Soon</span>
-        </div>
-        <p>Our personal training programmes will be focused on four key areas:</p>
+        <p>Our personal training is built around four key areas. Each area feeds into the same 1:1 coaching approach, and your sessions can also focus specifically on any one area.</p>
         <div class="focus-areas">
           <div class="focus-card">
             <h3>Mental Wellbeing</h3>
-            <p>Building resilience, managing stress and developing a healthier mindset through tailored one-to-one sessions.</p>
+            <p>Build resilience, manage stress, and develop practical tools for emotional balance.</p>
           </div>
           <div class="focus-card">
             <h3>Performance Coaching</h3>
-            <p>Unlock your potential with evidence-based strategies to enhance focus, motivation and peak performance.</p>
+            <p>Improve focus, confidence, and consistency with strategies for high-pressure moments.</p>
           </div>
           <div class="focus-card">
             <h3>Women's Health</h3>
-            <p>Specialist support addressing the unique psychological and physical wellbeing needs of women at every stage of life.</p>
+            <p>Receive support tailored to the unique physical and mental demands on female athletes.</p>
           </div>
           <div class="focus-card">
             <h3>Exercise</h3>
-            <p>Personalised exercise programmes designed to complement your mental and physical health goals.</p>
+            <p>Use personalised movement and training plans to support wellbeing and performance goals.</p>
           </div>
+        </div>
+
+        <h2 class="pricing-heading">Session Pricing</h2>
+        <div class="pricing-table-wrap">
+          <table class="pricing-table">
+            <caption>Personal Training Pricing</caption>
+            <thead>
+              <tr>
+                <th>Session Type</th>
+                <th>Price</th>
+                <th>Checkout</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Online 1:1 Sessions</td>
+                <td>£20</td>
+                <td><a class="pricing-cta" href="/booking?service=online-1-1">Book Now</a></td>
+              </tr>
+              <tr>
+                <td>In-Person 1:1 Sessions</td>
+                <td>£30</td>
+                <td><a class="pricing-cta" href="/booking?service=in-person-1-1">Book Now</a></td>
+              </tr>
+              <tr>
+                <td>Pre-Season Team Sessions</td>
+                <td>£500</td>
+                <td><a class="pricing-cta" href="/booking?service=pre-season-team">Book Now</a></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      const waitlistForm = document.getElementById("waitlist-form");
+
+      if (waitlistForm) {
+        waitlistForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const emailInput = document.getElementById("waitlist-email");
+          const interestInput = document.getElementById("waitlist-interest");
+
+          const email = emailInput ? emailInput.value : "";
+          const interest = interestInput ? interestInput.value : "Any personal training";
+
+          if (!email) return;
+
+          const subject = "Personal Training Waitlist";
+          const body = [
+            "Please add me to the personal training waitlist.",
+            `Email: ${email}`,
+            `Interest: ${interest}`,
+          ].join("\n");
+
+          window.location.href = `mailto:emilyphelan@mindthegael.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+      }
+    </script>
   </body>
 </html>
 
@@ -57,6 +115,63 @@ import { SITE_TITLE } from '../consts';
     margin-bottom: 1.5rem;
   }
 
+  .pricing-heading {
+    margin: 0 0 0.9rem;
+    color: var(--green-lime);
+  }
+
+  .pricing-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 3rem;
+  }
+
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(240, 205, 255, 0.08);
+    border: 2px solid var(--green-lime);
+  }
+
+  .pricing-table caption {
+    caption-side: top;
+    text-align: left;
+    color: var(--green-light);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-table th,
+  .pricing-table td {
+    padding: 0.85rem;
+    text-align: left;
+    border: 1px solid rgba(192, 254, 113, 0.35);
+    vertical-align: middle;
+  }
+
+  .pricing-table th {
+    background: rgba(192, 254, 113, 0.14);
+    color: var(--green-lime);
+    font-weight: 700;
+  }
+
+  .pricing-cta {
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 700;
+    border: 2px solid var(--green-lime);
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .pricing-cta:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+    color: var(--purple);
+  }
+
   .focus-areas {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -65,6 +180,11 @@ import { SITE_TITLE } from '../consts';
   }
 
   @media (max-width: 768px) {
+    .waitlist-form {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+    }
+
     .focus-areas {
       grid-template-columns: 1fr;
     }
@@ -89,31 +209,28 @@ import { SITE_TITLE } from '../consts';
     margin: 0 0 0.5rem 0;
   }
 
-  .coming-soon {
+  .coming-soon-strip {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 1.5rem;
+    border-radius: 8px;
+    background: #f0cdff;
+    color: #69005a;
+    border: 2px solid #69005a;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 2rem 0;
-  }
-
-  .coming-soon-img {
-    width: 80px;
-    height: 80px;
-    opacity: 0.8;
-  }
-
-  .coming-soon-text {
-    font-size: 1.5rem;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1rem;
     font-weight: 700;
-    color: var(--green-lime);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    text-align: center;
   }
 
-  @media (max-width: 768px) {
-    .focus-areas {
-      grid-template-columns: 1fr;
-    }
+  .strip-shamrock {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
   }
+
 </style>

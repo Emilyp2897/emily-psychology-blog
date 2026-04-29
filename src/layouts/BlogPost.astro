@@ -1,14 +1,28 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type BlogPostData = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+interface Props extends BlogPostData {
+  postSlug?: string;
+}
+
+const { title, description, pubDate, updatedDate, postSlug } = Astro.props as Props;
+
+const toolkitCtas: Record<string, { href: string }> = {
+  'training-the-mind/attention-control-theory': {
+    href: '/blog/gael-performance-toolkit/reset-your-focus-toolkit/',
+  },
+  'training-the-mind/choking-under-pressure': {
+    href: '/blog/gael-performance-toolkit/stay-composed-under-pressure-toolkit/',
+  },
+};
+
+const toolkitCta = postSlug ? toolkitCtas[postSlug] : undefined;
 ---
 
 <html lang="en">
@@ -21,12 +35,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
     <!-- MAIN CONTENT CENTERED -->
     <main class="container">
       <article>
-        {heroImage && (
-          <div class="hero-image">
-            <Image width={1020} height={510} src={heroImage} alt="" />
-          </div>
-        )}
-
         <div class="prose">
           <div class="title">
             <div class="date">
@@ -41,12 +49,43 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
             <hr />
           </div>
 
-          <slot />
+          <div id="subscription-gate" class="subscription-gate">
+            <h2>Subscribe To Keep Reading</h2>
+            <p>This article is for subscribers. Join now to unlock full access.</p>
+            <a href="/api/create-checkout-session?plan=individual" class="gate-cta">Subscribe Now</a>
+          </div>
+
+          <div id="paid-content" class="paid-content is-locked">
+            <slot />
+
+            {toolkitCta && (
+              <section class="toolkit-sign">
+                <img src="/assets/saoirse.png" alt="Saoirse shamrock" class="toolkit-sign-image" />
+                <div class="toolkit-sign-copy">
+                  <p class="toolkit-sign-text">Go to the practical tools in the Gael Performance Toolkit</p>
+                  <a href={toolkitCta.href} class="toolkit-sign-link">Open Toolkit</a>
+                </div>
+              </section>
+            )}
+          </div>
         </div>
       </article>
     </main>
 
     <Footer />
+
+    <script is:inline>
+      window.addEventListener('DOMContentLoaded', () => {
+        const gate = document.getElementById('subscription-gate');
+        const paidContent = document.getElementById('paid-content');
+        const isSubscribed = localStorage.getItem('mtg_subscribed') === 'true';
+
+        if (isSubscribed && gate && paidContent) {
+          gate.style.display = 'none';
+          paidContent.classList.remove('is-locked');
+        }
+      });
+    </script>
   </body>
 </html>
 
@@ -63,16 +102,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   max-width: calc(100% - 2em);
   margin: 0 auto;
   padding: 2rem 1em;
-}
-
-/* Hero image styling */
-.hero-image img {
-  display: block;
-  margin: 0 auto;
-  border-radius: 12px;
-  box-shadow: var(--box-shadow);
-  max-width: 100%;
-  height: auto;
 }
 
 /* Prose/content styling */
@@ -117,16 +146,89 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   color: var(--purple-light);
 }
 
+.subscription-gate {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem;
+  border: 2px solid var(--green-lime);
+  border-radius: 10px;
+  background: rgba(240, 205, 255, 0.1);
+}
+
+.subscription-gate h2 {
+  margin: 0 0 0.5rem;
+}
+
+.subscription-gate .gate-cta {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  background: var(--green-lime);
+  color: var(--purple);
+  font-weight: 700;
+}
+
+.subscription-gate .gate-cta:hover {
+  color: var(--purple);
+}
+
+.paid-content.is-locked {
+  max-height: 220px;
+  overflow: hidden;
+  filter: blur(1.5px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.toolkit-sign {
+  margin-top: 2rem;
+  padding: 1.1rem;
+  border: 2px solid var(--green-lime);
+  border-radius: 12px;
+  background: rgba(240, 205, 255, 0.14);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.toolkit-sign-image {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+}
+
+.toolkit-sign-copy {
+  min-width: 0;
+}
+
+.toolkit-sign-text {
+  margin: 0;
+  color: var(--green-light);
+  font-weight: 700;
+}
+
+.toolkit-sign-link {
+  display: inline-block;
+  margin-top: 0.55rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  background: var(--green-lime);
+  color: var(--green-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.toolkit-sign-link:hover {
+  color: var(--purple);
+}
+
 /* Responsive adjustments */
 @media (max-width: 720px) {
   .container {
     width: 100%;
     padding: 1rem;
-  }
-
-  .hero-image img {
-    width: 100%;
-    height: auto;
   }
 }
 </style>

@@ -1,19 +1,20 @@
 <!-- tsparticles CDN loader for Astro (no React) -->
 <div id="tsparticles"></div>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@3.3.0/tsparticles.bundle.min.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
-    if (window.tsParticles) {
+    const tsParticles = (window as any).tsParticles;
+
+    if (tsParticles) {
       tsParticles.load('tsparticles', {
         background: { color: '#181818' },
         fullScreen: { enable: true, zIndex: 0 },
         particles: {
-          number: { value: 200 }, // more stars
+          number: { value: 200 },
           color: { value: '#fff' },
           shape: { type: 'circle' },
-          opacity: { value: 1 }, // fully bright
-          size: { value: 4, random: { enable: true, minimumValue: 2 } }, // larger stars
-          move: { enable: true, speed: 2 }, // much faster
+          opacity: { value: 1 },
+          size: { value: 4, random: { enable: true, minimumValue: 2 } },
+          move: { enable: true, speed: 2 },
         },
         interactivity: {
           events: { onHover: { enable: false }, onClick: { enable: false } },
@@ -26,7 +27,7 @@
 #tsparticles {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
 }
 </style>

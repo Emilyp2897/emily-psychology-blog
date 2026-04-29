@@ -5,17 +5,15 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-// Get all training-the-mind child posts (excluding the main series page)
+// Get toolkit child posts (excluding the main toolkit intro page).
 const allPosts = await getCollection('blog');
 
-const childPosts = allPosts.filter((post) =>
-  post.slug.startsWith('training-the-mind/') &&
-  post.slug !== 'training-the-mind/training-the-mind' &&
-  post.slug !== 'training-the-mind/training-the-mind-fixed'
-);
-
-// Sort them by date (newest first)
-childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const childPosts = allPosts
+  .filter((post) =>
+    post.slug.startsWith('gael-performance-toolkit/') &&
+    post.slug !== 'gael-performance-toolkit/gael-performance-toolkit'
+  )
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <!DOCTYPE html>
@@ -36,7 +34,7 @@ childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
       </div>
 
       <section class="posts">
-        <h2>Month 1 - Practical Tools for Handling Pressure in Performance</h2>
+        <h2>Practical Tools</h2>
         <input
           type="text"
           id="search-posts"

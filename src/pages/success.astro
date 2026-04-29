@@ -1,0 +1,103 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Subscription Confirmed | ${SITE_TITLE}`} description="Your subscription is active. Welcome to Mind the Gael." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="status-box">
+        <img src="/assets/saoirse.png" alt="Shamrock" class="status-img" />
+        <p class="eyebrow">Payment received</p>
+        <h1>You are all set</h1>
+        <p class="message">Thanks for subscribing. Your checkout completed successfully.</p>
+        <p class="message">Use the button below to head back to the blog and continue reading.</p>
+        <div class="actions">
+          <a href="/blog" class="action-primary">Go to Blog</a>
+          <a href="/contact-us" class="action-secondary">Need help?</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      localStorage.setItem('mtg_subscribed', 'true');
+    </script>
+  </body>
+</html>
+
+<style>
+  .status-box {
+    margin: 3rem auto 5rem;
+    max-width: 680px;
+    text-align: center;
+    background: rgba(240, 205, 255, 0.1);
+    border: 2px solid var(--green-lime);
+    border-radius: 14px;
+    padding: 2.25rem 1.5rem;
+  }
+
+  .status-img {
+    width: 84px;
+    height: 84px;
+    margin-bottom: 0.75rem;
+  }
+
+  .eyebrow {
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  .message {
+    max-width: 48ch;
+    margin: 0 auto 0.8rem;
+  }
+
+  .actions {
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .action-primary,
+  .action-secondary {
+    border-radius: 8px;
+    padding: 0.65rem 1.1rem;
+    font-weight: 700;
+    border: 2px solid var(--green-lime);
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .action-primary {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .action-secondary {
+    background: transparent;
+    color: var(--green-lime);
+  }
+
+  .action-primary:hover,
+  .action-secondary:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+    color: var(--purple-light);
+  }
+</style>

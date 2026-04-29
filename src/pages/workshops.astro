@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import bgImage from '../assets/workshop.png';
 ---
 
 <!doctype html>
@@ -11,30 +12,53 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body class="workshops-page">
+    <div class="page-bg-image" aria-hidden="true" style={`background-image: url('${bgImage.src}')`}></div>
     <Header />
     <main class="container">
 
+      <div class="coming-soon-strip">
+        <img src="/assets/saoirse.png" alt="Saoirse the shamrock" class="strip-shamrock" />
+        <span>Coming Soon — courses launching shortly. Register your interest below!</span>
+      </div>
+
       <section class="hero">
-        <h1>Workshops</h1>
+        <h1>Online Workshops</h1>
+        <p>These are online interactive courses designed for athletes to do in their own time.</p>
       </section>
 
       <div class="two-col-grid">
-        <section class="subscription-box public-workshops coming-soon-box">
-          <h3>Online Workshops</h3>
-          <p>We offer public workshops every quarter</p>
-          <div class="coming-soon">
-            <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-            <span class="coming-soon-text">Coming Soon</span>
-            <a href="/online-workshops" class="view-all-link">Find out more →</a>
-          </div>
-        </section>
-        <section class="subscription-box team-workshops coming-soon-box">
-          <h3>In person Workshops</h3>
-          <p>We offer 1 and 2 day workshops for teams looking for mental wellbeing and performance coaching</p>
-          <div class="coming-soon">
-            <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
-            <span class="coming-soon-text">Coming Soon</span>
-            <a href="/in-person-workshops" class="view-all-link">Find out more →</a>
+        <section class="workshops-content">
+          <p class="access-note">Accessible pricing options are available for every course.</p>
+          <p><strong>Planned workshops:</strong></p>
+          <div class="workshop-cards">
+            <article class="workshop-card">
+              <h4>Mindfullness for Female Athletes</h4>
+              <p>Build focus and emotional control through guided practices, short exercises, and weekly reflection prompts.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £39 upfront (reduced) | £44 installment (2 x £22) | <strong>Duration:</strong> 4 weeks</p>
+              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <a class="sign-up-btn" href="/contact-us?course=mindfullness-for-female-athletes">Sign Up</a>
+            </article>
+            <article class="workshop-card">
+              <h4>Performance Coaching for Female Athletes</h4>
+              <p>Learn practical performance tools for confidence, consistency, and pressure moments with step-by-step implementation.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £45 upfront (reduced) | £51 installment (3 x £17) | <strong>Duration:</strong> 6 weeks</p>
+              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <a class="sign-up-btn" href="/contact-us?course=performance-coaching-for-female-athletes">Sign Up</a>
+            </article>
+            <article class="workshop-card">
+              <h4>Nutrition for Female Athletes</h4>
+              <p>Improve fueling, recovery, and energy with evidence-based nutrition lessons and practical weekly meal planning tasks.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £35 upfront (reduced) | £40 installment (2 x £20) | <strong>Duration:</strong> 4 weeks</p>
+              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <a class="sign-up-btn" href="/contact-us?course=nutrition-for-female-athletes">Sign Up</a>
+            </article>
+            <article class="workshop-card">
+              <h4>Mental Wellbeing Workshop</h4>
+              <p>Develop routines that protect wellbeing and prevent burnout using structured self-checks and resilience-building exercises.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £39 upfront (reduced) | £44 installment (2 x £22) | <strong>Duration:</strong> 4 weeks</p>
+              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <a class="sign-up-btn" href="/contact-us?course=mental-wellbeing-workshop">Sign Up</a>
+            </article>
           </div>
         </section>
       </div>
@@ -45,6 +69,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  .workshops-page {
+    position: relative;
+  }
+
   .section-heading {
     margin-top: 3rem;
     margin-bottom: 1.5rem;
@@ -54,55 +82,115 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
   .two-col-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 3rem;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .public-workshops,
-  .team-workshops {
-    border-radius: 12px;
-    border: 2px solid var(--green-lime);
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(165, 243, 53, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    transition: all 0.3s ease;
-  }
-
-  .public-workshops:hover,
-  .team-workshops:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(165, 243, 53, 0.2);
-  }
-
-  .coming-soon {
+  .coming-soon-strip {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 1rem;
+    border-radius: 8px;
+    background: var(--purple-light);
+    color: var(--purple);
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
     align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
   }
 
-  .coming-soon-img {
-    width: 60px;
-    height: 60px;
-    margin: 1rem 0;
+  .strip-shamrock {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
   }
 
-  .coming-soon-text {
+  .page-bg-image {
+    position: absolute;
+    top: var(--page-bg-top-offset);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .workshops-content {
+    padding: 0;
+  }
+
+  .workshop-cards {
+    display: grid;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .workshop-card {
+    border: 1px solid rgba(165, 243, 53, 0.45);
+    border-radius: 10px;
+    padding: 1rem;
+    background: rgba(165, 243, 53, 0.08);
+    color: var(--white);
+  }
+
+  .workshop-card h4 {
+    color: var(--green-lime);
+    margin: 0 0 0.5rem;
+  }
+
+  .workshop-card p {
+    margin: 0;
+    color: var(--green-light);
+    line-height: 1.5;
+  }
+
+  .access-note {
+    margin: 0 0 0.75rem;
+    color: var(--green-lime);
     font-weight: 600;
-    color: var(--green-lime);
-    font-size: 1.1rem;
   }
 
-  .view-all-link {
-    color: var(--green-lime);
+  .workshop-meta {
+    margin-top: 0.7rem;
+    color: var(--white);
+    font-size: 0.95rem;
+  }
+
+  .access-detail {
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--green-light);
+  }
+
+  .sign-up-btn {
+    display: inline-block;
+    margin-top: 0.9rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid var(--green-lime);
+    background: rgba(165, 243, 53, 0.16);
     text-decoration: none;
-    font-weight: 600;
-    margin-top: 1rem;
+    color: var(--green-lime);
+    font-weight: 700;
     transition: all 0.3s ease;
   }
 
-  .view-all-link:hover {
-    gap: 0.5rem;
+  .sign-up-btn:hover {
+    background: rgba(165, 243, 53, 0.3);
   }
 
   @media (max-width: 900px) {
@@ -110,8 +198,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       grid-template-columns: 1fr;
     }
 
-    .public-workshops,
-    .team-workshops,
     .individual-subscription,
     .team-subscription {
       padding: 1.5rem;

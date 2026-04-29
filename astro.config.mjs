@@ -1,12 +1,13 @@
-// @ts-check
+import { defineConfig, envField } from "astro/config";
+import vercel from "@astrojs/vercel";
 
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import { defineConfig } from 'astro/config';
-
-// https://astro.build/config
 export default defineConfig({
-	site: 'https://emily-psychology-blog.vercel.app',
-        output: 'static',
-	integrations: [mdx(), sitemap()],
+  adapter: vercel(),
+  site: "https://emily-psychology-blog.vercel.app",
+  env: {
+    schema: {
+      STRIPE_SECRET_KEY: envField.string({ context: "server", access: "secret" }),
+      PUBLIC_SITE: envField.string({ context: "server", access: "public" }),
+    },
+  },
 });

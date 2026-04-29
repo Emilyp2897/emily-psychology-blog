@@ -5,17 +5,17 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-// Get all training-the-mind child posts (excluding the main series page)
+// Show only the two approved articles.
 const allPosts = await getCollection('blog');
 
-const childPosts = allPosts.filter((post) =>
-  post.slug.startsWith('training-the-mind/') &&
-  post.slug !== 'training-the-mind/training-the-mind' &&
-  post.slug !== 'training-the-mind/training-the-mind-fixed'
-);
+const featuredSlugs = [
+  'training-the-mind/attention-control-theory',
+  'training-the-mind/choking-under-pressure'
+];
 
-// Sort them by date (newest first)
-childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const childPosts = featuredSlugs
+  .map((slug) => allPosts.find((post) => post.slug === slug))
+  .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 ---
 
 <!DOCTYPE html>
@@ -31,13 +31,13 @@ childPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
       </section>
 
       <div class="prose">
-        <p>This is a 12-month journey through key sports psychology concepts, designed specifically for female athletes.
+        <p>This is a 12 month journey through the mental side of sport, created specifically for female athletes.</p>
 
-        <p>Each month explores a different theme, starting with understanding pressure in performance and how it affects your thoughts, focus, and decision-making before the game, after mistakes, and in high-pressure moments.</p>
+        <p>Each month we focus on a different theme. We start with pressure, what it actually feels like, how it shows up in your thoughts, and how it influences your focus and decisions before a game, after mistakes, and in high pressure moments.</p>
 
-        <p>Each post is quick to read and easy to understand, giving you practical insight into your mind so you can build confidence, consistency, and control when it matters most.</p>
+        <p>These posts are short, simple and easy to take in. The aim is to help you understand your mind better so you can build confidence, stay consistent and feel more in control when it matters most.</p>
 
-        <p>Explore the topics below to follow the journey and start making sense of your thoughts, reactions, and performance.</p>
+        <p>Take a look through the topics below, follow the journey and start making sense of your thoughts, reactions and performance.</p>
       </div>
 
       <section class="posts">

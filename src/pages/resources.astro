@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import bgImage from '../assets/mentalhealthsupport.png';
 ---
 
 <!doctype html>
@@ -12,50 +13,97 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   </head>
   <body class="resources-page">
     <Header />
+    <div class="page-bg-image" aria-hidden="true" style={`background-image: url('${bgImage.src}')`}></div>
     <main class="container resources-main">
+      <h1>Support Resources</h1>
+      <p class="resources-intro">You are not alone. Someone is always there to listen.</p>
+      <p class="resources-emergency">If you or someone you know is at immediate risk of harm, go to or call the emergency department of your local general hospital. You can also contact emergency services on 112 or 999.</p>
 
-      <section class="resources-bubbles">
-        <div class="resource-bubble">
-          <button type="button" aria-label="Mind Charity">
-            <span class="bubble-icon">
-              <img src="/assets/Mind_Charity_Logo_2021.png" alt="Mind Charity Logo" class="resource-logo resource-logo-mind" />
-            </span>
-            <span class="bubble-label">Mind Charity</span>
-          </button>
+      <section class="resources-table-block">
+        <h2>UK</h2>
+        <div class="table-wrap">
+          <table class="resources-table">
+            <thead>
+              <tr>
+                <th>Logo</th>
+                <th>Organisation</th>
+                <th>Support</th>
+                <th>Phone</th>
+                <th>Website</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="/assets/Mind_Charity_Logo_2021.png" alt="Mind logo" class="resource-logo-cell resource-logo-mind" /></td>
+                <td>Mind</td>
+                <td>Mental health information and support</td>
+                <td><a href="tel:03001233393">0300 123 3393</a></td>
+                <td><a href="https://www.mind.org.uk" target="_blank" rel="noopener noreferrer">mind.org.uk</a></td>
+              </tr>
+              <tr>
+                <td><img src="/assets/Samaritans.png.webp" alt="Samaritans logo" class="resource-logo-cell" /></td>
+                <td>Samaritans</td>
+                <td>24/7 emotional support</td>
+                <td><a href="tel:116123">116 123</a></td>
+                <td><a href="https://www.samaritans.org" target="_blank" rel="noopener noreferrer">samaritans.org</a></td>
+              </tr>
+              <tr>
+                <td><img src="/assets/nhs.png" alt="NHS logo" class="resource-logo-cell" /></td>
+                <td>NHS</td>
+                <td>Mental health services and urgent care guidance</td>
+                <td><a href="tel:111">111</a></td>
+                <td><a href="https://www.nhs.uk/mental-health" target="_blank" rel="noopener noreferrer">nhs.uk/mental-health</a></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="Pieta House">
-            <span class="bubble-icon">
-              <img src="/assets/Pieta_Logo_Rev_RGB_1_1.png.webp" alt="Pieta House Logo" class="resource-logo" />
-            </span>
-            <span class="bubble-label">Pieta House</span>
-          </button>
-        </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="Samaritans">
-            <span class="bubble-icon">
-              <img src="/assets/Samaritans.png.webp" alt="Samaritans Logo" class="resource-logo" />
-            </span>
-            <span class="bubble-label">Samaritans</span>
-          </button>
-        </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="NHS">
-            <span class="bubble-icon">
-              <img src="/assets/nhs.png" alt="NHS Logo" class="resource-logo" />
-            </span>
-            <span class="bubble-label">NHS</span>
-          </button>
-        </div>
-        <div class="resource-bubble">
-          <button type="button" aria-label="HSE">
-            <span class="bubble-icon">
-              <img src="/assets/HSE-partner-logos-21.png" alt="HSE Logo" class="resource-logo" />
-            </span>
-            <span class="bubble-label">HSE</span>
-          </button>
-        </div>
+      </section>
 
+      <section class="resources-table-block">
+        <h2>Ireland</h2>
+        <div class="table-wrap">
+          <table class="resources-table">
+            <thead>
+              <tr>
+                <th>Logo</th>
+                <th>Organisation</th>
+                <th>Support</th>
+                <th>Phone</th>
+                <th>Website</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="/assets/Pieta_Logo_Rev_RGB_1_1.png.webp" alt="Pieta logo" class="resource-logo-cell" /></td>
+                <td>Pieta</td>
+                <td>Suicide and self-harm crisis support</td>
+                <td><a href="tel:1800247247">1800 247 247</a></td>
+                <td><a href="https://www.pieta.ie" target="_blank" rel="noopener noreferrer">pieta.ie</a></td>
+              </tr>
+              <tr>
+                <td><img src="/assets/Samaritans.png.webp" alt="Samaritans logo" class="resource-logo-cell" /></td>
+                <td>Samaritans Ireland</td>
+                <td>24/7 emotional support</td>
+                <td><a href="tel:116123">116 123</a></td>
+                <td><a href="https://www.samaritans.org/ireland" target="_blank" rel="noopener noreferrer">samaritans.org/ireland</a></td>
+              </tr>
+              <tr>
+                <td><img src="/assets/HSE-partner-logos-21.png" alt="HSE logo" class="resource-logo-cell" /></td>
+                <td>HSE Mental Health</td>
+                <td>Public mental health services and guidance (including YourMentalHealth.ie)</td>
+                <td><a href="tel:1800111888">1800 111 888</a></td>
+                <td><a href="https://www2.hse.ie/mental-health" target="_blank" rel="noopener noreferrer">hse.ie/mental-health</a><br /><a href="https://www.yourmentalhealth.ie" target="_blank" rel="noopener noreferrer">yourmentalhealth.ie</a></td>
+              </tr>
+              <tr>
+                <td>—</td>
+                <td>MyMind</td>
+                <td>Accessible counselling and psychotherapy services</td>
+                <td>—</td>
+                <td><a href="https://mymind.org" target="_blank" rel="noopener noreferrer">mymind.org</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
     </main>
@@ -64,149 +112,111 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  .resources-page {
+    position: relative;
+  }
+
+  .page-bg-image {
+    position: absolute;
+    top: var(--page-bg-top-offset);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    filter: brightness(1.25);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
     margin-bottom: 0.25rem;
   }
 
+  .resources-main {
+    position: relative;
+    z-index: 1;
+    padding-top: 1.75rem;
+    padding-bottom: 3rem;
+  }
+
+  .resources-table-block {
+    margin-top: 1.5rem;
+  }
+
+  .resources-intro {
+    margin: 0.25rem 0 1.25rem;
+    color: var(--green-light);
+    font-size: 1.1rem;
+  }
+
+  .resources-emergency {
+    margin: 0 0 1.25rem;
+    color: var(--purple-light);
+    font-weight: 600;
+  }
+
   h2 {
     color: var(--green-lime);
-    font-size: 1.5rem;
-    margin-top: 2rem;
+    font-size: 1.4rem;
+    margin: 0 0 0.75rem;
   }
 
-  .tagline {
-    color: #f0cdff;
-    font-size: 1.2rem;
-    font-style: italic;
-    margin-bottom: 2rem;
+  .table-wrap {
+    overflow-x: auto;
   }
 
-
-  .resources-main {
-    padding-top: 1.5rem;
-    margin-top: 0;
-  }
-
-  .resources-bubbles {
-    display: grid !important;
-    grid-template-columns: repeat(3, 220px) !important;
-    justify-content: center !important;
-    justify-items: center !important;
-    align-items: start;
-    gap: 2.8rem 4rem;
-    max-width: 920px;
+  .resources-table {
     width: 100%;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .resource-bubble {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    margin-bottom: 0.5rem;
-    margin-top: 0;
-  }
-
-  .resource-bubble button {
-    background: var(--green-dark);
+    border-collapse: collapse;
     border: 2px solid var(--green-lime);
-    border-radius: 50%;
-    width: var(--bubble-size, 180px);
-    height: var(--bubble-size, 180px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
-    position: relative;
-    outline: none;
-    font-size: 2.5rem;
-  }
-  .resource-bubble button:hover,
-  .resource-bubble button:focus {
-    border-color: var(--purple-light);
-    box-shadow: 0 8px 32px rgba(105,0,90,0.18);
-    transform: scale(1.07) rotate(-2deg);
-    z-index: 2;
-  }
-  .resource-bubble button:hover,
-  .resource-bubble button:focus {
-    border-color: var(--purple-light);
-    box-shadow: 0 4px 16px rgba(105,0,90,0.12);
-  }
-  .bubble-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5rem;
-    color: var(--green-lime);
-    pointer-events: none;
-    user-select: none;
+    background: rgba(240, 205, 255, 0.08);
   }
 
-  .resource-logo {
-    width: 110px;
-    height: 110px;
+  .resources-table th,
+  .resources-table td {
+    border: 1px solid rgba(192, 254, 113, 0.35);
+    padding: 0.8rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .resources-table th {
+    color: var(--green-lime);
+    background: rgba(192, 254, 113, 0.14);
+    font-weight: 700;
+  }
+
+  .resources-table a {
+    color: var(--green-lime);
+    text-decoration: underline;
+  }
+
+  .resources-table a:hover {
+    color: var(--purple-light);
+  }
+
+  .resource-logo-cell {
+    width: 72px;
+    height: 72px;
     object-fit: contain;
-    margin-bottom: 0.3em;
+    display: block;
+    margin: 0 auto;
   }
 
   .resource-logo-mind {
-    width: 120px;
-    height: 120px;
-  }
-  .bubble-label {
-    position: absolute;
-    left: 50%;
-    bottom: -2.7rem;
-    transform: translateX(-50%) scale(0.95);
-    background: var(--purple);
-    color: #fff;
-    padding: 0.6em 1.6em;
-    border-radius: 1.5em;
-    font-size: 1.25rem;
-    font-weight: 700;
-    opacity: 0;
-    pointer-events: none;
-    white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-    transition: opacity 0.2s, transform 0.2s;
-    z-index: 2;
-  }
-  .resource-bubble button:hover .bubble-label,
-  .resource-bubble button:focus .bubble-label {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    pointer-events: auto;
+    width: 84px;
+    height: 84px;
   }
 
-  .closing {
-    color: #f0cdff;
-    font-style: italic;
-    font-size: 1.05rem;
-  }
-
-  @media (max-width: 980px) {
-    .resources-bubbles {
-      grid-template-columns: repeat(2, 220px) !important;
-      max-width: 640px;
+  @media (max-width: 720px) {
+    .resources-table th,
+    .resources-table td {
+      font-size: 0.95rem;
     }
-  }
-
-  @media (max-width: 640px) {
-    .resources-bubbles {
-      grid-template-columns: 220px !important;
-      max-width: 280px;
-      gap: 2.2rem;
-    }
-
   }
 </style>

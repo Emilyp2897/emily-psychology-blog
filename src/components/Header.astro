@@ -3,6 +3,12 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
+  <div class="global-support-strip" role="note" aria-label="Mental health support notice">
+    If you are struggling with your mental health, free resources can be made available. You can reach out via
+    <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
+    if you need access. Nobody should have to pay for support. Please note this is not a substitute for professional help.
+    See the <a href="/resources">Resources page</a> for professional help services.
+  </div>
   <div class="header-inner">
     <img src="/assets/MTG_colour.png" alt="Mind the Gael logo" />
     <nav class="nav-links">
@@ -19,6 +25,34 @@ import HeaderLink from './HeaderLink.astro';
   </div>
 </header>
 <style>
+  .global-support-strip {
+    width: 100%;
+    background: var(--purple);
+    color: var(--green-light);
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .global-support-strip a {
+    color: var(--green-lime);
+    text-decoration: underline;
+    font-weight: 800;
+  }
+
+  .global-support-strip a:hover {
+    color: var(--green-light);
+  }
+
+  @media (max-width: 720px) {
+    .global-support-strip {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.7rem;
+    }
+  }
+
   .header-inner {
     position: relative;
   }

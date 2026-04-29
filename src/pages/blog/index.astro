@@ -1,25 +1,26 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-// get all blog posts
-const allPosts = await getCollection('blog');
-
-// explicit order of series
-const seriesSlugs = [
-  'training-the-mind',
-  'gael-performance-toolkit/gael-performance-toolkit',
-  'strong-minds-stronger-players/strong-minds-stronger-players'
+const seriesCards = [
+  {
+    title: 'Training the Mind',
+    description: 'Explore the mental side of performance with short, relatable posts built for female athletes.',
+    href: '/blog/training-the-mind/',
+  },
+  {
+    title: 'Gael Performance Toolkit',
+    description: 'Practical, in-the-moment tools you can use before and during games when pressure rises.',
+    href: '/blog/gael-performance-toolkit/',
+  },
+  {
+    title: 'Stronger Minds, Stronger Players',
+    description: 'Understand mental health in sport, recognise warning signs, and know where to get support.',
+    href: '/blog/strong-minds-stronger-players/strong-minds-stronger-players/',
+  },
 ];
-
-// map slugs to posts in that exact order
-const posts = seriesSlugs
-  .map(slug => allPosts.find(post => post.slug === slug))
-  .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 ---
 
 <!DOCTYPE html>
@@ -27,6 +28,7 @@ const posts = seriesSlugs
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
+
   <body>
     <Header />
 
@@ -39,16 +41,11 @@ const posts = seriesSlugs
 
       <section class="posts">
         <ul>
-          {posts.map(post => (
+          {seriesCards.map((card) => (
             <li class="fade-in">
-              <a href={`/blog/${post.slug}/`}>
-                <h2 class="title">{post.data.title}</h2>
-                <p class="date">
-                  <FormattedDate date={post.data.pubDate} />
-                </p>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
+              <a href={card.href}>
+                <h2 class="title">{card.title}</h2>
+                <p class="description">{card.description}</p>
               </a>
             </li>
           ))}
@@ -56,52 +53,30 @@ const posts = seriesSlugs
       </section>
 
       <section class="subscribe-cta fade-in">
-        <a href="#subscriptions" class="subscribe-cta-link" aria-label="Jump to subscription options">
-          <img src="/assets/saoirse.png" alt="Shamrock subscribe now" class="subscribe-cta-img" />
+        <a href="#subscriptions" class="subscribe-cta-link">
+          <img src="/assets/saoirse.png" class="subscribe-cta-img" />
         </a>
       </section>
 
       <section id="subscriptions" class="subscriptions fade-in">
         <h2>Subscriptions</h2>
-        <div class="subscription-grid">
-          <section id="individual-subscription" class="subscription-box individual-subscription">
-            <h3>Individual subscription</h3>
-            <p>With this subscription you will be able to access all articles in the Training the Mind series as well as the tools applicable to each article in the Gael Performance Toolkit.</p>
-            <form class="subscription-form">
-              <input type="email" placeholder="Enter your email" required>
-              <button type="submit" name="plan" value="individual">Subscribe</button>
-            </form>
-          </section>
-
-          <section id="team-subscription" class="subscription-box team-subscription">
-            <h3>Team subscription</h3>
-            <p>Get access for your whole team. Contact us for a quote.</p>
-            <form class="team-contact-form" action="/contact-us" method="get" onsubmit="return true;">
-              <input type="email" name="email" placeholder="Your email (for team quote)" required>
-              <button type="submit" class="team-contact-link">Request team quote</button>
-            </form>
-          </section>
-        </div>
+        <p class="subscriptions-copy">Choose your plan and complete checkout on our subscription page.</p>
+        <a href="/subscribe" class="subscriptions-main-cta">Subscribe Now</a>
       </section>
 
     </main>
 
     <Footer />
 
-    <!-- Scroll Animation Script -->
+    <!-- fade animation -->
     <script is:inline>
-      const elements = document.querySelectorAll('.fade-in');
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".fade-in").forEach((el, index) => {
+      setTimeout(() => el.classList.add("show"), index * 90);
+    });
+  });
+</script>
 
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      });
-
-      elements.forEach(el => observer.observe(el));
-    </script>
 
   </body>
 </html>
@@ -111,7 +86,6 @@ const posts = seriesSlugs
     color: var(--green-lime);
   }
 
-  /* HERO */
   .hero {
     text-align: center;
     margin-bottom: 3rem;
@@ -122,7 +96,6 @@ const posts = seriesSlugs
     font-size: 1.1rem;
   }
 
-  /* POSTS LAYOUT */
   .posts ul {
     display: flex;
     flex-direction: row;
@@ -133,7 +106,6 @@ const posts = seriesSlugs
     margin-bottom: 4rem;
   }
 
-  /* CARD STYLE */
   .posts li {
     flex: 1;
     max-width: 350px;
@@ -141,18 +113,15 @@ const posts = seriesSlugs
     border: 2px solid var(--green-lime);
     border-radius: 12px;
     padding: 2rem;
-
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
-  /* HOVER EFFECT */
   .posts li:hover {
     transform: translateY(-10px) scale(1.02);
     border-color: var(--purple-light);
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
   }
 
-  /* MAKE FULL CARD CLICKABLE */
   .posts li a {
     display: block;
     height: 100%;
@@ -160,16 +129,9 @@ const posts = seriesSlugs
     color: inherit;
   }
 
-  /* TEXT STYLING */
   .posts li .title {
     margin-bottom: 1rem;
     font-size: 1.4em;
-  }
-
-  .posts li .date {
-    color: var(--green-light);
-    font-size: 0.9em;
-    margin-bottom: 1rem;
   }
 
   .posts li .description {
@@ -202,89 +164,40 @@ const posts = seriesSlugs
     transform: translateY(-4px) scale(1.04);
   }
 
-  .subscribe-cta-text {
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
   .subscriptions {
     margin-bottom: 4rem;
+    text-align: center;
   }
 
   .subscriptions h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .subscription-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .subscription-box {
-    margin: 0;
-    padding: 1.5rem 2rem;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 12px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    box-sizing: border-box;
-  }
-
-  .subscription-box:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
-  }
-
-  .team-contact-form,
-  .subscription-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .team-contact-form input,
-  .subscription-form input {
-    padding: 0.75rem;
-    border: 2px solid var(--green-lime);
-    border-radius: 4px;
-    background-color: var(--green-dark);
+  .subscriptions-copy {
     color: var(--green-light);
-    font-family: inherit;
-    font-size: 1rem;
+    margin-bottom: 1rem;
   }
 
-  .team-contact-form input::placeholder,
-  .subscription-form input::placeholder {
-    color: rgba(244, 255, 232, 0.6);
-  }
-
-  .team-contact-form button,
-  .subscription-form button {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--green-lime);
+  .subscriptions-main-cta {
+    display: inline-block;
+    padding: 0.75rem 1.3rem;
+    border-radius: 8px;
+    background: var(--green-lime);
     color: var(--green-dark);
-    border: none;
-    border-radius: 4px;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    font-size: 1rem;
+    font-weight: 700;
+    border: 2px solid var(--green-lime);
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
 
-  .team-contact-form button:hover,
-  .subscription-form button:hover {
-    background-color: var(--purple-light);
+  .subscriptions-main-cta:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+    color: var(--purple);
   }
 
-  /* FADE-IN ANIMATION */
   .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: none;
     transition: all 0.6s ease;
   }
 
@@ -293,7 +206,6 @@ const posts = seriesSlugs
     transform: translateY(0);
   }
 
-  /* RESPONSIVE */
   @media (max-width: 1024px) {
     .posts ul {
       flex-direction: column;
@@ -305,8 +217,5 @@ const posts = seriesSlugs
       width: 100%;
     }
 
-    .subscription-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

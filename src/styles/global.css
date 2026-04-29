@@ -132,20 +132,19 @@ html, body {
 header {
   width: 100%;
   background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.25em 0;
+  display: block;
+  padding: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
 header .header-inner {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1em 0 0;
+  padding: 0.25em 1em;
 }
 
 header .header-inner img {
