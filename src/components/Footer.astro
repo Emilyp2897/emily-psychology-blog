@@ -19,8 +19,8 @@ const today = new Date();
       <img src="/assets/saoirse.png" alt="Shamrock Chatbot" />
     </div>
     <div class="shamrock-bubbles">
-      <a class="shamrock-speech-bubble bubble-subscribe" href="/subscribe">Subscribe now</a>
-      <div class="shamrock-speech-bubble bubble-chat">Want to chat?</div>
+      <a class="shamrock-speech-bubble bubble-subscribe" href="/subscribe">Subscribe to the Blog</a>
+      <a class="shamrock-speech-bubble bubble-chat" href="/chat">Chat with Saoirse</a>
     </div>
   </div>
 <style>
@@ -70,6 +70,10 @@ const today = new Date();
     transform: translateY(-1px);
   }
 
+  .bubble-subscribe {
+    min-width: 168px;
+  }
+
   .bubble-chat {
     min-width: 124px;
   }
@@ -91,6 +95,10 @@ const today = new Date();
       min-width: 88px;
       padding: 0.2em 0.55em;
       transform: none;
+    }
+
+    .bubble-subscribe {
+      min-width: 132px;
     }
 
     .bubble-chat {

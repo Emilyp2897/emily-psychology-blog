@@ -1,0 +1,329 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+const allPosts = await getCollection('blog');
+
+const knowledgeBase = allPosts.map((post) => {
+  const cleanBody = (post.body || '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/[#>*_`\-\[\]\(\)!]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return {
+    slug: post.slug,
+    title: post.data.title,
+    description: post.data.description || '',
+    track: post.data.track || '',
+    text: cleanBody,
+  };
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title="Chat with Saoirse" description="Ask Saoirse questions based on Mind the Gael website content." />
+  </head>
+  <body>
+    <Header />
+    <main class="container chat-page">
+      <section class="chat-hero">
+        <img src="/assets/saoirse.png" alt="Saoirse chatbot" class="chat-hero-image" />
+        <div>
+          <h1>Chat with Saoirse</h1>
+          <p>
+            Ask any question about topics covered on Mind the Gael. Saoirse answers using the website's published content and links you to relevant articles.
+          </p>
+        </div>
+      </section>
+
+      <section class="chat-box" aria-live="polite">
+        <div id="chat-log" class="chat-log">
+          <div class="chat-message bot">
+            <p><strong>Saoirse:</strong> Ask me about pressure, anxiety, focus, confidence, decision-making, team dynamics, or support resources.</p>
+          </div>
+        </div>
+
+        <form id="chat-form" class="chat-form">
+          <label for="chat-input" class="visually-hidden">Ask Saoirse a question</label>
+          <input id="chat-input" name="chat-input" type="text" placeholder="Type your question here..." required />
+          <button type="submit">Ask Saoirse</button>
+        </form>
+      </section>
+
+      <p class="chat-note">
+        Note: This chatbot is educational and cannot provide medical advice. If you are in crisis, go to
+        <a href="/resources">Support Resources</a>.
+      </p>
+    </main>
+    <Footer />
+
+    <script type="application/json" id="kb-data" set:html={JSON.stringify(knowledgeBase)}></script>
+    <script>
+      // @ts-nocheck
+      /** @typedef {{ slug: string, title: string, description: string, track: string, text: string }} KBPost */
+      /** @typedef {{ text: string, matches: KBPost[] }} ChatReply */
+
+      const kbScript = /** @type {HTMLScriptElement | null} */ (document.getElementById('kb-data'));
+      const knowledgeBase = /** @type {KBPost[]} */ (kbScript ? JSON.parse(kbScript.textContent || '[]') : []);
+      const chatForm = /** @type {HTMLFormElement | null} */ (document.getElementById('chat-form'));
+      const chatInput = /** @type {HTMLInputElement | null} */ (document.getElementById('chat-input'));
+      const chatLog = /** @type {HTMLDivElement | null} */ (document.getElementById('chat-log'));
+
+      const stopWords = new Set([
+        'the', 'a', 'an', 'is', 'are', 'to', 'of', 'for', 'in', 'on', 'and', 'or', 'with', 'at', 'by', 'from',
+        'this', 'that', 'it', 'as', 'be', 'can', 'i', 'you', 'we', 'my', 'your', 'our', 'about', 'what', 'how'
+      ]);
+
+      /** @param {string} text */
+      function tokenize(text) {
+        return (text || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .split(/\s+/)
+          .filter((word) => word.length > 2 && !stopWords.has(word));
+      }
+
+      /** @param {string[]} questionTokens */
+      /** @param {KBPost} post */
+      function scorePost(questionTokens, post) {
+        const haystack = `${post.title} ${post.description} ${post.track} ${post.text}`.toLowerCase();
+        let score = 0;
+
+        for (const token of questionTokens) {
+          if (post.title.toLowerCase().includes(token)) score += 4;
+          if (post.description.toLowerCase().includes(token)) score += 3;
+          if ((post.track || '').toLowerCase().includes(token)) score += 2;
+          if (haystack.includes(token)) score += 1;
+        }
+
+        return score;
+      }
+
+      /** @param {string} question */
+      /** @returns {ChatReply} */
+      function makeBotReply(question) {
+        const questionTokens = tokenize(question);
+
+        if (!questionTokens.length) {
+          return {
+            text: 'Try adding a bit more detail so I can match your question to the best article.',
+            matches: []
+          };
+        }
+
+        const ranked = knowledgeBase
+          .map((post) => ({ post, score: scorePost(questionTokens, post) }))
+          .filter((entry) => entry.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3);
+
+        if (!ranked.length) {
+          return {
+            text: 'I could not find a close match in the current site content. Try keywords like focus, pressure, anxiety, confidence, team collapse, or support resources.',
+            matches: []
+          };
+        }
+
+        const best = ranked[0].post;
+        const snippet = (best.description || best.text || '').slice(0, 200).trim();
+
+        return {
+          text: `Based on your question, the best match is "${best.title}".${snippet ? ` ${snippet}${snippet.length >= 200 ? '...' : ''}` : ''}`,
+          matches: ranked.map((entry) => entry.post)
+        };
+      }
+
+      /** @param {'user' | 'bot'} role */
+      /** @param {string} html */
+      function appendMessage(role, html) {
+        if (!chatLog) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = `chat-message ${role}`;
+        wrapper.innerHTML = html;
+        chatLog.appendChild(wrapper);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      if (chatForm && chatInput && chatLog) {
+        chatForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const question = chatInput.value.trim();
+          if (!question) return;
+
+          appendMessage('user', `<p><strong>You:</strong> ${question}</p>`);
+
+          const reply = makeBotReply(question);
+          const links = reply.matches
+            .map((post) => `<li><a href="/blog/${post.slug}/">${post.title}</a></li>`)
+            .join('');
+
+          appendMessage(
+            'bot',
+            `<p><strong>Saoirse:</strong> ${reply.text}</p>${links ? `<ul class="reply-links">${links}</ul>` : ''}`
+          );
+
+          chatInput.value = '';
+          chatInput.focus();
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .chat-page {
+    padding-top: 1.75rem;
+    padding-bottom: 3rem;
+  }
+
+  .chat-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chat-hero-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.24);
+    flex-shrink: 0;
+  }
+
+  .chat-hero h1 {
+    margin-bottom: 0.35rem;
+  }
+
+  .chat-box {
+    border: 2px solid var(--green-lime);
+    border-radius: 14px;
+    background: rgba(240, 205, 255, 0.08);
+    padding: 1rem;
+  }
+
+  .chat-log {
+    max-height: 460px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+
+  .chat-message {
+    margin-bottom: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .chat-message.user {
+    color: var(--green-light);
+  }
+
+  .chat-message.bot {
+    color: var(--purple-light);
+  }
+
+  .reply-links {
+    margin: 0.45rem 0 0 1rem;
+  }
+
+  .reply-links a {
+    color: var(--green-lime);
+    text-decoration: underline;
+  }
+
+  .chat-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.6rem;
+    margin-top: 0.7rem;
+  }
+
+  .chat-form input {
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    background: #fff;
+    color: #111;
+    padding: 0.68rem 0.8rem;
+    font-size: 1rem;
+  }
+
+  .chat-form button {
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    background: var(--green-lime);
+    color: #111;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.68rem 1rem;
+  }
+
+  .chat-form button:hover {
+    background: var(--purple-light);
+  }
+
+  .chat-note {
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+    color: var(--purple-light);
+  }
+
+  .chat-note a {
+    color: var(--green-lime);
+    text-decoration: underline;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 720px) {
+    .chat-page {
+      padding-top: 1.1rem;
+    }
+
+    .chat-hero {
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .chat-hero-image {
+      width: 84px;
+      height: 84px;
+    }
+
+    .chat-hero h1 {
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .chat-box {
+      padding: 0.75rem;
+    }
+
+    .chat-log {
+      max-height: 52vh;
+    }
+
+    .chat-form {
+      grid-template-columns: 1fr;
+    }
+
+    .chat-form button {
+      width: 100%;
+    }
+  }
+</style>
