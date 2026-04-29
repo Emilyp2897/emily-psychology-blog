@@ -3,7 +3,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import bgImage from '../assets/workshop.png';
 ---
 
 <!doctype html>
@@ -12,7 +11,6 @@ import bgImage from '../assets/workshop.png';
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body class="workshops-page">
-    <div class="page-bg-image" aria-hidden="true" style={`background-image: url('${bgImage.src}')`}></div>
     <Header />
     <main class="container">
 
@@ -113,20 +111,6 @@ import bgImage from '../assets/workshop.png';
     width: 28px;
     height: 28px;
     flex-shrink: 0;
-  }
-
-  .page-bg-image {
-    position: absolute;
-    top: var(--page-bg-top-offset);
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.2;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
   }
 
   .workshops-content {
