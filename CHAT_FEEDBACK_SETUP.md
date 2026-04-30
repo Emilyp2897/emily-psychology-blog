@@ -23,16 +23,61 @@ Vercel will automatically add `POSTGRES_URLDB` (or similar) environment variable
 
 Once your database is created:
 
-**Option A: Using psql (command line)**
+**Option A: Using Neon Console (Recommended)**
+1. Go to your Vercel project → Storage → Neon Database
+2. Click **SQL Editor** or open the Neon Console
+3. Run each statement separately (Neon doesn't allow multiple statements at once):
+
+**Step 1: Create the table**
+
+Copy and paste this (without the triple backticks) into Neon SQL Editor:
+
+```sql
+CREATE TABLE IF NOT EXISTS chat_feedback (
+  id SERIAL PRIMARY KEY,
+  feedback_id VARCHAR(80) NOT NULL UNIQUE,
+  rating VARCHAR(20) NOT NULL,
+  note TEXT,
+  question TEXT NOT NULL,
+  reply TEXT NOT NULL,
+  source_count INTEGER DEFAULT 0,
+  used_model BOOLEAN DEFAULT false,
+  client VARCHAR(50),
+  submitted_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+Then click **Execute**.
+
+**Step 2: Create index on rating**
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_chat_feedback_rating ON chat_feedback(rating);
+```
+
+Then click **Execute**.
+
+**Step 3: Create index on submitted_at**
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_chat_feedback_submitted_at ON chat_feedback(submitted_at DESC);
+```
+
+Then click **Execute**.
+
+**Step 4: Create index on client**
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_chat_feedback_client ON chat_feedback(client);
+```
+
+Then click **Execute**.
+
+**Option B: Using psql (command line)**
 ```bash
 psql $POSTGRES_URLDB < migrations/001-create-chat-feedback.sql
 ```
-
-**Option B: Using Vercel Data UI**
-1. Go to your Vercel project → Storage → Your Postgres database
-2. Click the **Queries** tab
-3. Copy and paste the SQL from `migrations/001-create-chat-feedback.sql`
-4. Click **Execute**
 
 ### 3. Verify the Table Was Created
 

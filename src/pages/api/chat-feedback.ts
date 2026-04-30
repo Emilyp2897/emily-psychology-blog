@@ -43,16 +43,10 @@ export const POST = async ({ request }: { request: Request }) => {
     const maskedClient = maskClient(clientKey);
     const submittedAt = new Date().toISOString();
 
-    try {
-      await sql`
-        INSERT INTO chat_feedback (feedback_id, rating, note, question, reply, source_count, used_model, client, submitted_at)
-        VALUES (${feedbackId}, ${rating}, ${note}, ${question}, ${reply}, ${sourceCount}, ${usedModel}, ${maskedClient}, ${submittedAt})
-      `;
-    } catch (dbError: any) {
-      if (dbError?.code !== 'ENOTFOUND') {
-        console.error('Database insert error (possibly table does not exist):', dbError);
-      }
-    }
+    await sql`
+      INSERT INTO chat_feedback (feedback_id, rating, note, question, reply, source_count, used_model, client, submitted_at)
+      VALUES (${feedbackId}, ${rating}, ${note}, ${question}, ${reply}, ${sourceCount}, ${usedModel}, ${maskedClient}, ${submittedAt})
+    `;
 
     console.info('[chat-feedback]', {
       at: submittedAt,
