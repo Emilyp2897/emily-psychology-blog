@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Analytics from '@vercel/analytics/astro';
 import saoirseImage from '../assets/saoirse.png';
 
 const today = new Date();
@@ -486,3 +487,5 @@ const today = new Date();
     });
   }
 </script>
+
+<Analytics />
