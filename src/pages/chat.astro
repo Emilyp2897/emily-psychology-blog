@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 ---
 
 <!doctype html>
@@ -13,7 +15,7 @@ import Header from '../components/Header.astro';
     <Header />
     <main class="container chat-page">
       <section class="chat-hero">
-        <img src="/assets/saoirse.png" alt="Saoirse chatbot" class="chat-hero-image" />
+        <Image src={saoirseImage} alt="Saoirse chatbot" class="chat-hero-image" loading="eager" />
         <div>
           <h1>Chat with Saoirse</h1>
           <p>
@@ -23,7 +25,7 @@ import Header from '../components/Header.astro';
       </section>
 
       <section class="chat-box" aria-live="polite">
-        <div class="quick-prompts" aria-label="Suggested prompts">
+        <div class="quick-prompts" role="group" aria-label="Suggested prompts">
           <button type="button" class="quick-prompt" data-prompt="How do I reset my focus after a mistake?">Reset after a mistake</button>
           <button type="button" class="quick-prompt" data-prompt="How can I stop overthinking before a game?">Stop overthinking pre-game</button>
           <button type="button" class="quick-prompt" data-prompt="What should I do when pressure gets too high in key moments?">Handle high-pressure moments</button>
@@ -187,7 +189,7 @@ import Header from '../components/Header.astro';
     width: 120px;
     height: 120px;
     object-fit: contain;
-    border-radius: 50%;
+    border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.24);
     flex-shrink: 0;
   }

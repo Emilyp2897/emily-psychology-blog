@@ -1,22 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import HeaderLink from './HeaderLink.astro';
+import mtgLogo from '../assets/MTG_colour.png';
 ---
 
 <header>
-  <div class="global-support-strip" role="note" aria-label="Mental health support notice">
-    If you are struggling with your mental health, free resources can be made available. You can reach out via
-    <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
-    if you need access. Nobody should have to pay for support. Please note this is not a substitute for professional help.
-    See the <a href="/resources">Resources page</a> for professional help services.
-  </div>
   <div class="header-inner">
-    <img src="/assets/MTG_colour.png" alt="Mind the Gael logo" />
+    <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
     <nav class="nav-links">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/workshops">Workshops</HeaderLink>
+      <HeaderLink href="/blog">Content Hub</HeaderLink>
       <HeaderLink href="/personal-training">Personal Training</HeaderLink>
+      <HeaderLink href="/workshops">Workshops</HeaderLink>
+      <HeaderLink href="/pricing">Pricing</HeaderLink>
       <HeaderLink href="/resources">Support Resources</HeaderLink>
       <HeaderLink href="/meet-the-team">Meet the Team</HeaderLink>
       <HeaderLink href="/contact-us">Contact Us</HeaderLink>
@@ -25,33 +22,6 @@ import HeaderLink from './HeaderLink.astro';
   </div>
 </header>
 <style>
-  .global-support-strip {
-    width: 100%;
-    background: var(--purple);
-    color: var(--green-light);
-    text-align: center;
-    padding: 0.5rem 1rem;
-    font-size: 0.88rem;
-    font-weight: 700;
-    line-height: 1.35;
-  }
-
-  .global-support-strip a {
-    color: var(--green-lime);
-    text-decoration: underline;
-    font-weight: 800;
-  }
-
-  .global-support-strip a:hover {
-    color: var(--green-light);
-  }
-
-  @media (max-width: 720px) {
-    .global-support-strip {
-      display: none;
-    }
-  }
-
   .header-inner {
     position: relative;
   }

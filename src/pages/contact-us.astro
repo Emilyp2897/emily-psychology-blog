@@ -12,162 +12,342 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   </head>
   <body>
     <Header />
-    <main class="container">
-      <section class="contact">
+    <main class="container contact-main">
+      <section class="contact-intro">
         <h1>Contact Us</h1>
-        <div class="contact-methods">
-          <div class="contact-method">
-            <span class="contact-icon" aria-label="Instagram" title="Instagram">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M16 10.5A5.5 5.5 0 1 0 16 21.5A5.5 5.5 0 0 0 16 10.5ZM16 19.5A3.5 3.5 0 1 1 16 12.5A3.5 3.5 0 0 1 16 19.5ZM22 10.75A1.25 1.25 0 1 1 22 13.25A1.25 1.25 0 0 1 22 10.75ZM24 12.5C24 14.985 23.985 17.015 23.985 19.5C23.985 21.985 21.985 23.985 19.5 23.985C17.015 23.985 14.985 23.985 12.5 23.985C10.015 23.985 8.015 21.985 8.015 19.5C8.015 17.015 8.015 14.985 8.015 12.5C8.015 10.015 10.015 8.015 12.5 8.015C14.985 8.015 17.015 8.015 19.5 8.015C21.985 8.015 23.985 10.015 23.985 12.5Z" fill="#fff"/></svg>
-            </span>
-            <div>
-              <h2>Instagram</h2>
-              <a href="https://instagram.com/mind_the_gael" target="_blank">@mind_the_gael</a>
-            </div>
+        <p class="intro-copy">If you are reaching out about personal training, workshops, collaboration, or general questions, we would love to hear from you.</p>
+      </section>
+
+      <section class="contact-grid" aria-label="Contact options">
+        <article class="contact-card">
+          <h2>Email</h2>
+          <p class="contact-value">emilyphelan@mindthegael.co.uk</p>
+          <p class="contact-copy">Best for bookings, collaborations, and detailed queries.</p>
+          <a class="contact-btn" href="mailto:emilyphelan@mindthegael.co.uk">Send Email</a>
+        </article>
+
+        <article class="contact-card">
+          <h2>Instagram</h2>
+          <p class="contact-value">@mind_the_gael</p>
+          <p class="contact-copy">Follow updates and send a direct message.</p>
+          <a class="contact-btn" href="https://instagram.com/mind_the_gael" target="_blank" rel="noopener noreferrer">Open Instagram</a>
+        </article>
+
+        <article class="contact-card contact-card-wide">
+          <h2>Phone</h2>
+          <p class="contact-value">+44 7425 814858</p>
+          <p class="contact-copy">For quicker contact, you can call directly.</p>
+          <a class="contact-btn" href="tel:+447425814858">Call Now</a>
+        </article>
+      </section>
+
+      <section class="consultation-section" aria-labelledby="consultation-heading">
+        <h2 id="consultation-heading">Initial Consultation Form</h2>
+        <p class="consultation-copy">Share a few details below and your response will open as an email draft, ready to send.</p>
+
+        <form id="consultation-form" class="consultation-form">
+          <div class="form-grid">
+            <label>
+              Full Name
+              <input type="text" name="name" required />
+            </label>
+
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+
+            <label>
+              Phone (optional)
+              <input type="tel" name="phone" />
+            </label>
+
+            <label>
+              Sport / Team
+              <input type="text" name="sport" required />
+            </label>
+
+            <label>
+              Preferred Contact Method
+              <select name="contactMethod" required>
+                <option value="">Select one</option>
+                <option value="Email">Email</option>
+                <option value="Phone">Phone</option>
+                <option value="Instagram">Instagram</option>
+              </select>
+            </label>
+
+            <label>
+              Preferred Time to Talk
+              <input type="text" name="preferredTime" placeholder="e.g. weekday evenings" />
+            </label>
+
+            <label class="full-width">
+              What would you like support with?
+              <textarea name="goals" rows="5" required></textarea>
+            </label>
           </div>
-          <div class="contact-method">
-            <span class="contact-icon" aria-label="Email" title="Email">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M8 10C8 9.44772 8.44772 9 9 9H23C23.5523 9 24 9.44772 24 10V22C24 22.5523 23.5523 23 23 23H9C8.44772 23 8 22.5523 8 22V10ZM22.3827 11L16 16.118L9.61731 11H22.3827ZM22 21V12.3827L16.4472 16.8944C16.1834 17.1056 15.8166 17.1056 15.5528 16.8944L10 12.3827V21H22Z" fill="#fff"/></svg>
-            </span>
-            <div>
-              <h2>Email</h2>
-              <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
-              <div style="height: 1.2em;"></div>
-            </div>
-          </div>
-          <div class="contact-method">
-            <span class="contact-icon" aria-label="Phone" title="Phone">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="var(--purple)"/><path d="M10.5 9.5C10.5 9.22386 10.7239 9 11 9H13C13.2761 9 13.5 9.22386 13.5 9.5V12.5C13.5 12.7761 13.2761 13 13 13H11C10.7239 13 10.5 12.7761 10.5 12.5V9.5ZM18.5 9.5C18.5 9.22386 18.7239 9 19 9H21C21.2761 9 21.5 9.22386 21.5 9.5V12.5C21.5 12.7761 21.2761 13 21 13H19C18.7239 13 18.5 12.7761 18.5 12.5V9.5ZM10.5 19.5C10.5 19.2239 10.7239 19 11 19H13C13.2761 19 13.5 19.2239 13.5 19.5V22.5C13.5 22.7761 13.2761 23 13 23H11C10.7239 23 10.5 22.7761 10.5 22.5V19.5ZM18.5 19.5C18.5 19.2239 18.7239 19 19 19H21C21.2761 19 21.5 19.2239 21.5 19.5V22.5C21.5 22.7761 21.2761 23 21 23H19C18.7239 23 18.5 22.7761 18.5 22.5V19.5Z" fill="#fff"/></svg>
-            </span>
-            <div>
-              <h2>Phone</h2>
-              <a href="tel:+447425814858">+44 7425 814858</a>
-            </div>
-          </div>
-        </div>
+
+          <label class="consent-row">
+            <input type="checkbox" name="consent" required />
+            <span>I consent to being contacted about my consultation request.</span>
+          </label>
+
+          <button type="submit" class="contact-btn consultation-submit">Create Consultation Email</button>
+        </form>
+      </section>
+
+      <section class="support-note">
+        <p>If you need urgent mental health support, please visit our <a href="/resources">Support Resources page</a> for professional services. If you are in immediate danger, call emergency services on 112 or 999.</p>
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      const consultationForm = document.getElementById('consultation-form');
+
+      if (consultationForm instanceof HTMLFormElement) {
+        consultationForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(consultationForm);
+          const name = String(formData.get('name') || '').trim();
+          const email = String(formData.get('email') || '').trim();
+          const phone = String(formData.get('phone') || '').trim();
+          const sport = String(formData.get('sport') || '').trim();
+          const contactMethod = String(formData.get('contactMethod') || '').trim();
+          const preferredTime = String(formData.get('preferredTime') || '').trim();
+          const goals = String(formData.get('goals') || '').trim();
+
+          const subject = encodeURIComponent('Initial Consultation Request - Mind the Gael');
+          const body = encodeURIComponent(
+            `Initial Consultation Request\n\n` +
+            `Name: ${name}\n` +
+            `Email: ${email}\n` +
+            `Phone: ${phone || 'Not provided'}\n` +
+            `Sport / Team: ${sport}\n` +
+            `Preferred Contact Method: ${contactMethod}\n` +
+            `Preferred Time to Talk: ${preferredTime || 'Not provided'}\n\n` +
+            `Support Needed:\n${goals}`
+          );
+
+          window.location.href = `mailto:emilyphelan@mindthegael.co.uk?subject=${subject}&body=${body}`;
+        });
+      }
+    </script>
   </body>
 </html>
 
 <style>
+  .contact-main {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .contact-intro {
+    margin-bottom: 1.4rem;
+  }
+
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
-    margin-bottom: 0.25rem;
+    margin: 0.25rem 0 0.45rem;
   }
 
-  h2 {
-    color: var(--green-lime);
-    font-size: 1.5rem;
-    margin-top: 2rem;
+  .intro-copy {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--green-light);
   }
 
-  .tagline {
-    color: #f0cdff;
-    font-size: 1.2rem;
-    font-style: italic;
-    margin-bottom: 2rem;
-  }
-
-  .resources p {
-    color: #f4ffe8;
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
     margin-bottom: 1.2rem;
   }
 
-  .closing {
-    color: #f0cdff;
-    font-style: italic;
-    font-size: 1.05rem;
+  .contact-card {
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background: rgba(240, 205, 255, 0.1);
+    padding: 1.1rem;
   }
 
-  .contact {
-    margin-top: 2.5rem;
-    margin-bottom: 4rem;
+  .contact-card-wide {
+    grid-column: span 2;
   }
-  .contact-methods {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-top: 2rem;
-    align-items: stretch;
-  }
-  .contact-method {
-    background: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 10px;
-    padding: 1.5rem 1.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    gap: 1rem;
-    min-width: 340px;
-    min-height: 120px;
-    height: auto;
-    flex: 1 1 340px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .contact-method > span.contact-icon {
-    align-self: flex-start;
-  }
-  .contact-method > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: auto;
-    width: 100%;
-    align-items: flex-start;
-    text-align: left;
-    margin-left: 0;
-  }
-  .contact-method:hover {
-    border-color: var(--purple-light);
-    box-shadow: 0 4px 16px rgba(105,0,90,0.08);
-  }
-  .contact-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    min-height: 40px;
-    margin-right: 0.5rem;
-  }
-  .contact-method h2 {
-    margin: 0 0 0.3rem 0;
+
+  h2 {
+    margin: 0 0 0.4rem;
     color: var(--green-lime);
-    font-size: 1.2rem;
-    padding-left: 0;
+    font-size: 1.25rem;
   }
-  .contact-method a {
+
+  .contact-value {
+    margin: 0;
     color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: color 0.2s;
-    padding: 0;
-    display: inline-block;
-    box-sizing: border-box;
-    max-width: 100%;
-    overflow-wrap: break-word;
+    font-weight: 700;
     word-break: break-word;
-    white-space: normal;
-    margin-left: 0;
   }
-  .contact-method a:hover {
-    color: var(--purple);
+
+  .contact-copy {
+    margin: 0.6rem 0 0.8rem;
+    color: var(--green-light);
+  }
+
+  .contact-btn {
+    display: inline-block;
+    padding: 0.7rem 1.1rem;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 700;
+    font: inherit;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .contact-btn:hover {
+    background: var(--purple-light);
+    border-color: var(--purple);
+    color: var(--green-dark);
+  }
+
+  .support-note {
+    margin-top: 2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--purple-light);
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .support-note p {
+    margin: 0;
+  }
+
+  .support-note a {
+    color: var(--green-lime);
     text-decoration: underline;
+    font-weight: 700;
   }
-  @media (max-width: 900px) {
-    .contact-methods {
-      flex-direction: column;
-      gap: 1.5rem;
+
+  .consultation-section {
+    margin-top: 1.3rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background: rgba(24, 24, 24, 0.5);
+    padding: 1.25rem;
+  }
+
+  .consultation-section h2 {
+    margin: 0;
+    color: var(--green-lime);
+    font-size: 1.25rem;
+  }
+
+  .consultation-copy {
+    margin: 0.55rem 0 1.1rem;
+    color: var(--green-light);
+  }
+
+  .consultation-form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .consultation-form label {
+    display: grid;
+    gap: 0.45rem;
+    color: var(--green-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid rgba(192, 254, 113, 0.26);
+    border-radius: 10px;
+    padding: 0.65rem 0.7rem 0.72rem;
+    background: rgba(24, 24, 24, 0.3);
+  }
+
+  .consultation-form input,
+  .consultation-form select,
+  .consultation-form textarea {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(105, 0, 90, 0.35);
+    background: rgba(255, 255, 255, 0.92);
+    color: #121212;
+    padding: 0.64rem 0.72rem;
+    font: inherit;
+  }
+
+  .consultation-form input::placeholder,
+  .consultation-form textarea::placeholder {
+    color: #505050;
+  }
+
+  .consultation-form input:focus,
+  .consultation-form select:focus,
+  .consultation-form textarea:focus {
+    outline: 2px solid var(--green-lime);
+    outline-offset: 1px;
+    border-color: var(--green-lime);
+  }
+
+  .consultation-form textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .full-width {
+    grid-column: span 2;
+  }
+
+  .consent-row {
+    display: flex !important;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 500 !important;
+    border: 1px solid rgba(192, 254, 113, 0.26);
+    border-radius: 10px;
+    padding: 0.65rem 0.7rem;
+    background: rgba(24, 24, 24, 0.3);
+  }
+
+  .consent-row input {
+    width: auto;
+    margin: 0;
+  }
+
+  .consultation-submit {
+    justify-self: start;
+    cursor: pointer;
+  }
+
+  @media (max-width: 800px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
     }
-    .contact-method {
-      min-width: 0;
-      width: 100%;
+
+    .contact-card-wide {
+      grid-column: span 1;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .full-width {
+      grid-column: span 1;
     }
   }
 </style>

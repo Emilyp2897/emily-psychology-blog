@@ -1,101 +1,237 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
+
+const GOOGLE_CALENDAR_EMBED_URL =
+  'https://calendar.google.com/calendar/appointments/schedules/AcZssZ36KoXqM3BjxB0kIH_OIVYVykacTIuW9-AJsezyfpalTSLO0YwC2h4FqPox3L4zBGQASYd-Ya4B?gv=true';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`Personal Training | ${SITE_TITLE}`} description="One-to-one personal training focused on mental wellbeing, performance coaching and women's health." />
+    <BaseHead title={`Personal Training | ${SITE_TITLE}`} description="Exercise-based personal training for female athletes, with a special focus on women's health." />
   </head>
   <body class="personal-training-page">
     <Header />
     <main class="container">
       <div class="coming-soon-strip">
-        <img src="/assets/saoirse.png" alt="Saoirse the shamrock" class="strip-shamrock" />
+        <Image src={saoirseImage} alt="Saoirse the shamrock" class="strip-shamrock" />
         <span>Personal Training launching shortly. Register your interest below!</span>
       </div>
       <h1>Personal Training</h1>
       <section class="intro">
-        <p>Our personal training is built around four key areas. Each area feeds into the same 1:1 coaching approach, and your sessions can also focus specifically on any one area.</p>
+        <p>Our personal training is exercise-based, with a special focus on women's health for female athletes. Performance and mental wellbeing can overlap with this work, but physical training support is the core focus.</p>
         <div class="focus-areas">
           <div class="focus-card">
-            <h3>Mental Wellbeing</h3>
-            <p>Build resilience, manage stress, and develop practical tools for emotional balance.</p>
+            <h3>Strength & Conditioning</h3>
+            <p>Build physical capacity, movement quality, and resilience through structured S&C coaching.</p>
           </div>
           <div class="focus-card">
-            <h3>Performance Coaching</h3>
-            <p>Improve focus, confidence, and consistency with strategies for high-pressure moments.</p>
+            <h3>Women's Health Focus</h3>
+            <p>Training support tailored to female athletes, including cycle-aware planning and long-term athlete wellbeing.</p>
           </div>
           <div class="focus-card">
-            <h3>Women's Health</h3>
-            <p>Receive support tailored to the unique physical and mental demands on female athletes.</p>
+            <h3>Performance Integration</h3>
+            <p>Translate gym work into better training and match-day performance with sport-specific application.</p>
           </div>
           <div class="focus-card">
-            <h3>Exercise</h3>
-            <p>Use personalised movement and training plans to support wellbeing and performance goals.</p>
+            <h3>Recovery & Load Management</h3>
+            <p>Plan training load, recovery, and progression so athletes can perform consistently and reduce burnout risk.</p>
           </div>
         </div>
 
-        <h2 class="pricing-heading">Session Pricing</h2>
+        <h2 class="pricing-heading">Personal Training Pricing</h2>
         <div class="pricing-table-wrap">
           <table class="pricing-table">
             <caption>Personal Training Pricing</caption>
             <thead>
               <tr>
-                <th>Session Type</th>
+                <th>Option</th>
                 <th>Price</th>
-                <th>Checkout</th>
+                <th>Includes</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Online 1:1 Sessions</td>
-                <td>£20</td>
-                <td><a class="pricing-cta" href="/booking?service=online-1-1">Book Now</a></td>
+                <td>£15</td>
+                <td>One 30-minute online personal training session.</td>
+              </tr>
+              <tr>
+                <td>4 Online 1:1 Personal Training Sessions (Bundle)</td>
+                <td>£50</td>
+                <td>Four 30-minute online personal training sessions at a discounted bundle rate.</td>
               </tr>
               <tr>
                 <td>In-Person 1:1 Sessions</td>
-                <td>£30</td>
-                <td><a class="pricing-cta" href="/booking?service=in-person-1-1">Book Now</a></td>
+                <td>£25</td>
+                <td>One 30-minute in-person personal training session.</td>
               </tr>
               <tr>
-                <td>Pre-Season Team Sessions</td>
-                <td>£500</td>
-                <td><a class="pricing-cta" href="/booking?service=pre-season-team">Book Now</a></td>
+                <td>4 In-Person 1:1 Personal Training Sessions (Bundle)</td>
+                <td>£80</td>
+                <td>Four 30-minute in-person personal training sessions at a discounted bundle rate.</td>
+              </tr>
+              <tr>
+                <td>Pre-Season Team Programme (6 Weeks)</td>
+                <td>Pilot from £850 | Standard £1250</td>
+                <td>Six-week S&C coaching for a team panel of 20-30 athletes. Pilot pricing is limited availability.</td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <section class="calendar-section" aria-labelledby="calendar-heading">
+          <h2 id="calendar-heading" class="calendar-heading">Book a PT Session</h2>
+          <p class="calendar-copy">
+            Use the booking schedule below to choose a time that suits you. If you do not see a slot that works, or if you'd like to arrange a regular weekly time, please contact me directly at emilyphelan@mindthegael.co.uk.
+          </p>
+          <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
+          <div class="calendar-embed-wrap">
+            <iframe
+              src={GOOGLE_CALENDAR_EMBED_URL}
+              title="Personal training appointment booking"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </section>
       </section>
+
+      <div class="consultation-modal-backdrop" id="consultation-modal-backdrop" aria-hidden="true">
+        <div class="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="consultation-modal-title">
+          <button type="button" class="consultation-close" id="close-consultation-modal" aria-label="Close consultation form">✕</button>
+          <h2 id="consultation-modal-title">Initial Consultation Form</h2>
+          <p class="consultation-intro">Complete this form and it will open a pre-filled email draft for you to send.</p>
+
+          <form id="consultation-form" class="consultation-form">
+            <div class="consultation-grid">
+              <label>
+                Full Name
+                <input type="text" name="name" required />
+              </label>
+
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+
+              <label>
+                Phone (optional)
+                <input type="tel" name="phone" />
+              </label>
+
+              <label>
+                Sport / Team
+                <input type="text" name="sport" required />
+              </label>
+
+              <label>
+                Preferred Contact Method
+                <select name="contactMethod" required>
+                  <option value="">Select one</option>
+                  <option value="Email">Email</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Instagram">Instagram</option>
+                </select>
+              </label>
+
+              <label>
+                Preferred Time to Talk
+                <input type="text" name="preferredTime" placeholder="e.g. weekday evenings" />
+              </label>
+
+              <label class="consultation-full-width">
+                What would you like support with?
+                <textarea name="goals" rows="5" required></textarea>
+              </label>
+            </div>
+
+            <label class="consultation-consent">
+              <input type="checkbox" name="consent" required />
+              <span>I consent to being contacted about my consultation request.</span>
+            </label>
+
+            <button type="submit" class="consultation-submit">Create Consultation Email</button>
+          </form>
+        </div>
+      </div>
     </main>
     <Footer />
 
     <script is:inline>
-      const waitlistForm = document.getElementById("waitlist-form");
+      const openModalBtn = document.getElementById('open-consultation-modal');
+      const closeModalBtn = document.getElementById('close-consultation-modal');
+      const modalBackdrop = document.getElementById('consultation-modal-backdrop');
+      const consultationForm = document.getElementById('consultation-form');
 
-      if (waitlistForm) {
-        waitlistForm.addEventListener("submit", (event) => {
+      const openModal = () => {
+        if (!modalBackdrop) return;
+        modalBackdrop.classList.add('active');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeModal = () => {
+        if (!modalBackdrop) return;
+        modalBackdrop.classList.remove('active');
+        modalBackdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      if (openModalBtn) {
+        openModalBtn.addEventListener('click', openModal);
+      }
+
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+      }
+
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', (event) => {
+          if (event.target === modalBackdrop) {
+            closeModal();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      if (consultationForm instanceof HTMLFormElement) {
+        consultationForm.addEventListener('submit', (event) => {
           event.preventDefault();
 
-          const emailInput = document.getElementById("waitlist-email");
-          const interestInput = document.getElementById("waitlist-interest");
+          const formData = new FormData(consultationForm);
+          const name = String(formData.get('name') || '').trim();
+          const email = String(formData.get('email') || '').trim();
+          const phone = String(formData.get('phone') || '').trim();
+          const sport = String(formData.get('sport') || '').trim();
+          const contactMethod = String(formData.get('contactMethod') || '').trim();
+          const preferredTime = String(formData.get('preferredTime') || '').trim();
+          const goals = String(formData.get('goals') || '').trim();
 
-          const email = emailInput ? emailInput.value : "";
-          const interest = interestInput ? interestInput.value : "Any personal training";
+          const subject = encodeURIComponent('Initial Consultation Request - Mind the Gael');
+          const body = encodeURIComponent(
+            `Initial Consultation Request\n\n` +
+            `Name: ${name}\n` +
+            `Email: ${email}\n` +
+            `Phone: ${phone || 'Not provided'}\n` +
+            `Sport / Team: ${sport}\n` +
+            `Preferred Contact Method: ${contactMethod}\n` +
+            `Preferred Time to Talk: ${preferredTime || 'Not provided'}\n\n` +
+            `Support Needed:\n${goals}`
+          );
 
-          if (!email) return;
-
-          const subject = "Personal Training Waitlist";
-          const body = [
-            "Please add me to the personal training waitlist.",
-            `Email: ${email}`,
-            `Interest: ${interest}`,
-          ].join("\n");
-
-          window.location.href = `mailto:emilyphelan@mindthegael.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          window.location.href = `mailto:emilyphelan@mindthegael.co.uk?subject=${subject}&body=${body}`;
+          closeModal();
         });
       }
     </script>
@@ -172,6 +308,56 @@ import { SITE_TITLE } from '../consts';
     color: var(--purple);
   }
 
+  .calendar-section {
+    margin: 0 0 3rem;
+  }
+
+  .calendar-heading {
+    margin: 0 0 0.9rem;
+    color: var(--green-lime);
+  }
+
+  .calendar-copy {
+    margin: 0 0 1rem;
+  }
+
+  .consultation-btn {
+    display: inline-block;
+    margin: 0 0 1rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 700;
+    font: inherit;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .consultation-btn:hover {
+    background: var(--purple-light);
+    border-color: var(--purple);
+  }
+
+  .calendar-embed-wrap {
+    width: 100%;
+    border: 1px solid rgba(192, 254, 113, 0.45);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  }
+
+  .calendar-embed-wrap iframe {
+    width: 100%;
+    height: 880px;
+    border: 0;
+    display: block;
+    background: #fff;
+  }
+
   .focus-areas {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -187,6 +373,20 @@ import { SITE_TITLE } from '../consts';
 
     .focus-areas {
       grid-template-columns: 1fr;
+    }
+
+    .calendar-embed-wrap iframe {
+      height: 760px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .calendar-embed-wrap {
+      border-radius: 12px;
+    }
+
+    .calendar-embed-wrap iframe {
+      height: 700px;
     }
   }
 
@@ -231,6 +431,129 @@ import { SITE_TITLE } from '../consts';
     width: 28px;
     height: 28px;
     flex-shrink: 0;
+  }
+
+  .consultation-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 3000;
+  }
+
+  .consultation-modal-backdrop.active {
+    display: flex;
+  }
+
+  .consultation-modal {
+    width: min(760px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background: #181818;
+    padding: 1.1rem;
+    position: relative;
+  }
+
+  .consultation-close {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 6px;
+    background: rgba(240, 205, 255, 0.22);
+    color: var(--green-light);
+    cursor: pointer;
+  }
+
+  .consultation-modal h2 {
+    margin: 0;
+    color: var(--green-lime);
+    font-size: 1.25rem;
+  }
+
+  .consultation-intro {
+    margin: 0.55rem 0 1rem;
+    color: var(--green-light);
+  }
+
+  .consultation-form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .consultation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .consultation-form label {
+    display: grid;
+    gap: 0.4rem;
+    border: 1px solid rgba(192, 254, 113, 0.26);
+    border-radius: 10px;
+    padding: 0.65rem 0.7rem;
+    background: rgba(24, 24, 24, 0.3);
+    color: var(--green-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .consultation-form input,
+  .consultation-form select,
+  .consultation-form textarea {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(105, 0, 90, 0.35);
+    background: rgba(255, 255, 255, 0.92);
+    color: #121212;
+    padding: 0.64rem 0.72rem;
+    font: inherit;
+  }
+
+  .consultation-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .consultation-full-width {
+    grid-column: span 2;
+  }
+
+  .consultation-consent {
+    display: flex !important;
+    align-items: center;
+    gap: 0.55rem;
+    border: 1px solid rgba(192, 254, 113, 0.26);
+    border-radius: 10px;
+    padding: 0.65rem 0.7rem;
+    background: rgba(24, 24, 24, 0.3);
+    font-weight: 500 !important;
+  }
+
+  .consultation-consent input {
+    width: auto;
+    margin: 0;
+  }
+
+  .consultation-submit {
+    justify-self: start;
+    padding: 0.7rem 1.1rem;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 700;
+    font: inherit;
+    line-height: 1.2;
+    cursor: pointer;
   }
 
 </style>

@@ -5,13 +5,42 @@ export const prerender = false;
 const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
 const stripe = stripeSecretKey ? new Stripe(stripeSecretKey) : null;
 
-function getPlanDetails(plan: string) {
-  const planMap: Record<string, { name: string; amount: number }> = {
-    individual: { name: "Individual Subscription", amount: 699 },
-    team: { name: "Team Subscription", amount: 20000 },
-    "online-1-1": { name: "Online 1:1 Session", amount: 2000 },
-    "in-person-1-1": { name: "In-Person 1:1 Session", amount: 3000 },
-    "pre-season-team": { name: "Pre-Season Team Session", amount: 50000 },
+type PlanDetails = {
+  name: string;
+  amount: number;
+  mode: "payment" | "subscription";
+  interval?: "month";
+  trialDays?: number;
+};
+
+function getPlanDetails(plan: string): PlanDetails {
+  const planMap: Record<string, PlanDetails> = {
+    individual: {
+      name: "Individual Monthly Subscription (Founding Offer)",
+      amount: 500,
+      mode: "subscription",
+      interval: "month",
+      trialDays: 14,
+    },
+    team: {
+      name: "Team Monthly Subscription",
+      amount: 7500,
+      mode: "subscription",
+      interval: "month",
+    },
+    "team-6m": {
+      name: "Team Online Subscription (6-Month Outright)",
+      amount: 40500,
+      mode: "payment",
+    },
+    "team-12m": {
+      name: "Team Online Subscription (12-Month Outright)",
+      amount: 72000,
+      mode: "payment",
+    },
+    "online-1-1": { name: "Online 1:1 Session", amount: 2000, mode: "payment" },
+    "in-person-1-1": { name: "In-Person 1:1 Session", amount: 3000, mode: "payment" },
+    "pre-season-team": { name: "Pre-Season Team Programme (6 Weeks)", amount: 125000, mode: "payment" },
   };
 
   return planMap[plan] ?? planMap.individual;
@@ -19,18 +48,22 @@ function getPlanDetails(plan: string) {
 
 async function createCheckoutSession(plan: string, email?: string) {
   const site = import.meta.env.PUBLIC_SITE ?? "http://localhost:4321";
-  const { name, amount } = getPlanDetails(plan);
+  const { name, amount, mode, interval, trialDays } = getPlanDetails(plan);
+
+  const priceData = {
+    currency: "gbp",
+    product_data: { name },
+    unit_amount: amount,
+    ...(mode === "subscription" && interval ? { recurring: { interval } } : {}),
+  };
 
   return stripe!.checkout.sessions.create({
-    mode: "payment",
+    mode,
     ...(email ? { customer_email: email } : {}),
+    ...(mode === "subscription" && trialDays ? { subscription_data: { trial_period_days: trialDays } } : {}),
     line_items: [
       {
-        price_data: {
-          currency: "gbp",
-          product_data: { name },
-          unit_amount: amount,
-        },
+        price_data: priceData,
         quantity: 1,
       },
     ],
@@ -46,7 +79,15 @@ export const GET = async ({ url }: { url: URL }) => {
     }
 
     const rawPlan = url.searchParams.get("plan") ?? "individual";
-    const plan = ["individual", "team", "online-1-1", "in-person-1-1", "pre-season-team"].includes(rawPlan)
+    const plan = [
+      "individual",
+      "team",
+      "team-6m",
+      "team-12m",
+      "online-1-1",
+      "in-person-1-1",
+      "pre-season-team",
+    ].includes(rawPlan)
       ? rawPlan
       : "individual";
     const session = await createCheckoutSession(plan);

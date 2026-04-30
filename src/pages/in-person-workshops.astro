@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
 ---
 
@@ -16,7 +18,7 @@ import { SITE_TITLE } from '../consts';
       <h1>In-Person Workshops</h1>
       <section class="intro">
         <div class="coming-soon">
-          <img src="/assets/saoirse.png" alt="Shamrock" class="coming-soon-img" />
+          <Image src={saoirseImage} alt="Shamrock" class="coming-soon-img" loading="eager" />
           <span class="coming-soon-text">Coming Soon</span>
         </div>
       </section>

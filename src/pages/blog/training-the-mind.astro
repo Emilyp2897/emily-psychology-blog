@@ -42,9 +42,11 @@ const childPosts = featuredSlugs
 
       <section class="posts">
         <h2>Month 1 - Understanding Pressure in Performance</h2>
+        <label class="sr-only" for="search-posts">Search blog posts</label>
         <input
           type="text"
           id="search-posts"
+          name="search-posts"
           placeholder="Search posts..."
           style="width: 100%; max-width: 400px; margin: 1.5rem 0 2rem 0; display: block; padding: 0.7em 1em; border-radius: 8px; border: 1px solid var(--green-lime); font-size: 1.1em; background: #181818; color: var(--green-light); text-align: left;"
           oninput="filterPosts()"

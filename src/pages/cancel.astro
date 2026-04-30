@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
 ---
 
@@ -14,13 +16,13 @@ import { SITE_TITLE } from '../consts';
     <Header />
     <main class="container">
       <section class="status-box">
-        <img src="/assets/saoirse.png" alt="Shamrock" class="status-img" />
+        <Image src={saoirseImage} alt="Shamrock" class="status-img" loading="eager" />
         <p class="eyebrow">No payment taken</p>
         <h1>Checkout canceled</h1>
         <p class="message">No problem. Your subscription was not completed, and you were not charged.</p>
         <p class="message">You can return and subscribe anytime when you are ready.</p>
         <div class="actions">
-          <a href="/blog#subscriptions" class="action-primary">Try again</a>
+          <a href="/api/create-checkout-session?plan=individual" class="action-primary">Try again</a>
           <a href="/contact-us" class="action-secondary">Talk to us</a>
         </div>
       </section>

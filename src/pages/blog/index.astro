@@ -1,12 +1,14 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
+import saoirseImage from '../../assets/saoirse.png';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const seriesCards = [
   {
-    title: 'Training the Mind',
+    title: 'Training the Mind Blog',
     description: 'Explore the mental side of performance with short, relatable posts built for female athletes.',
     href: '/blog/training-the-mind/',
   },
@@ -21,12 +23,35 @@ const seriesCards = [
     href: '/blog/strong-minds-stronger-players/strong-minds-stronger-players/',
   },
 ];
+
+const onlineContentBundles = [
+  {
+    title: 'Monthly Access',
+    price: '£5 / month (first 50, then £8)',
+    description: 'Includes a 14-day free trial, then monthly access: 4 Training the Mind articles (1 per week), 4 Gael Performance Toolkits, and 1 mindfulness newsletter.',
+  },
+  {
+    title: '3-Month Bundle',
+    price: '£21',
+    description: '3 months access (total): 12 Training the Mind articles, 12 Gael Performance Toolkits, and 3 mindfulness newsletters.',
+  },
+  {
+    title: '6-Month Bundle',
+    price: '£39',
+    description: '6 months access (total): 24 Training the Mind articles, 24 Gael Performance Toolkits, and 6 mindfulness newsletters.',
+  },
+  {
+    title: '12-Month Bundle',
+    price: '£72',
+    description: '12 months access (total): 48 Training the Mind articles, 48 Gael Performance Toolkits, and 12 mindfulness newsletters.',
+  },
+];
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Content Hub | ${SITE_TITLE}`} description="Mind the Gael content hub: Training the Mind, Gael Performance Toolkit, and Stronger Minds, Stronger Players resources." />
   </head>
 
   <body>
@@ -35,7 +60,7 @@ const seriesCards = [
     <main class="container">
 
       <section class="hero fade-in">
-        <h1>Mind the Gael Blog</h1>
+        <h1>Mind the Gael Content Hub</h1>
         <p class="tagline">For the moments before the game, after the mistake, and everything in between</p>
       </section>
 
@@ -52,16 +77,38 @@ const seriesCards = [
         </ul>
       </section>
 
-      <section class="subscribe-cta fade-in">
-        <a href="#subscriptions" class="subscribe-cta-link">
-          <img src="/assets/saoirse.png" class="subscribe-cta-img" />
-        </a>
-      </section>
-
-      <section id="subscriptions" class="subscriptions fade-in">
-        <h2>Subscriptions</h2>
-        <p class="subscriptions-copy">Choose your plan and complete checkout on our subscription page.</p>
-        <a href="/subscribe" class="subscriptions-main-cta">Subscribe Now</a>
+      <section class="online-content-bundles fade-in" aria-label="Online content bundle subscriptions">
+        <div class="bundle-header">
+          <a href="/api/create-checkout-session?plan=individual" class="subscribe-cta-link">
+            <Image src={saoirseImage} class="subscribe-cta-img" alt="Saoirse the shamrock mascot" />
+          </a>
+        </div>
+        <p class="access-note"><strong>Subscriptions include access to:</strong> Training the Mind and the Gael Performance Toolkit. <strong>Stronger Minds, Stronger Players will always be free</strong> because the content focuses on spotting when someone may be struggling with mental health and signposting pathways to professional support resources.</p>
+        <p class="bundle-intro">Choose the online support option that fits your schedule and budget.</p>
+        <div class="pricing-table-wrap">
+          <table class="pricing-table">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Price</th>
+                <th>Includes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {onlineContentBundles.map((bundle) => (
+                <tr>
+                  <td>{bundle.title}</td>
+                  <td>{bundle.price}</td>
+                  <td>{bundle.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="bundle-actions">
+          <a href="/pricing" class="subscriptions-main-cta">View Full Pricing</a>
+          <a href="/api/create-checkout-session?plan=individual" class="subscriptions-main-cta">Subscribe Now</a>
+        </div>
       </section>
 
     </main>
@@ -139,10 +186,66 @@ const seriesCards = [
     line-height: 1.6;
   }
 
-  .subscribe-cta {
+  .bundle-header {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .bundle-actions {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .online-content-bundles {
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+
+  .bundle-intro {
+    color: var(--green-light);
+    margin-bottom: 1rem;
+  }
+
+  .access-note {
+    max-width: 900px;
+    margin: 0 auto 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--purple-light);
+    background: var(--purple);
+    color: #ffffff;
+    line-height: 1.45;
+  }
+
+  .pricing-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(240, 205, 255, 0.08);
+    border: 2px solid var(--green-lime);
+  }
+
+  .pricing-table th,
+  .pricing-table td {
+    padding: 0.85rem;
+    text-align: left;
+    border: 1px solid rgba(192, 254, 113, 0.35);
+    vertical-align: middle;
+  }
+
+  .pricing-table th {
+    background: rgba(192, 254, 113, 0.14);
+    color: var(--green-lime);
+    font-weight: 700;
   }
 
   .subscribe-cta-link {
@@ -162,20 +265,6 @@ const seriesCards = [
 
   .subscribe-cta-link:hover .subscribe-cta-img {
     transform: translateY(-4px) scale(1.04);
-  }
-
-  .subscriptions {
-    margin-bottom: 4rem;
-    text-align: center;
-  }
-
-  .subscriptions h2 {
-    margin-bottom: 0.75rem;
-  }
-
-  .subscriptions-copy {
-    color: var(--green-light);
-    margin-bottom: 1rem;
   }
 
   .subscriptions-main-cta {

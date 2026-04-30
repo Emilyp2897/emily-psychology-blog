@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 
 type BlogPostData = CollectionEntry<'blog'>['data'];
 
@@ -60,7 +62,7 @@ const toolkitCta = postSlug ? toolkitCtas[postSlug] : undefined;
 
             {toolkitCta && (
               <section class="toolkit-sign">
-                <img src="/assets/saoirse.png" alt="Saoirse shamrock" class="toolkit-sign-image" />
+                <Image src={saoirseImage} alt="Saoirse shamrock" class="toolkit-sign-image" loading="eager" />
                 <div class="toolkit-sign-copy">
                   <p class="toolkit-sign-text">Go to the practical tools in the Gael Performance Toolkit</p>
                   <a href={toolkitCta.href} class="toolkit-sign-link">Open Toolkit</a>

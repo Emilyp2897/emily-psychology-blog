@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
@@ -15,7 +17,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     <main class="container">
 
       <div class="coming-soon-strip">
-        <img src="/assets/saoirse.png" alt="Saoirse the shamrock" class="strip-shamrock" />
+        <Image src={saoirseImage} alt="Saoirse the shamrock" class="strip-shamrock" loading="eager" />
         <span>Coming Soon — courses launching shortly. Register your interest below!</span>
       </div>
 
@@ -32,29 +34,29 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             <article class="workshop-card">
               <h4>Mindfullness for Female Athletes</h4>
               <p>Build focus and emotional control through guided practices, short exercises, and weekly reflection prompts.</p>
-              <p class="workshop-meta"><strong>Price:</strong> £39 upfront (reduced) | £44 installment (2 x £22) | <strong>Duration:</strong> 4 weeks</p>
-              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £35</p>
+              <p class="workshop-meta"><strong>Duration:</strong> TBD</p>
               <a class="sign-up-btn" href="/contact-us?course=mindfullness-for-female-athletes">Sign Up</a>
             </article>
             <article class="workshop-card">
               <h4>Performance Coaching for Female Athletes</h4>
               <p>Learn practical performance tools for confidence, consistency, and pressure moments with step-by-step implementation.</p>
-              <p class="workshop-meta"><strong>Price:</strong> £45 upfront (reduced) | £51 installment (3 x £17) | <strong>Duration:</strong> 6 weeks</p>
-              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £39</p>
+              <p class="workshop-meta"><strong>Duration:</strong> TBD</p>
               <a class="sign-up-btn" href="/contact-us?course=performance-coaching-for-female-athletes">Sign Up</a>
             </article>
             <article class="workshop-card">
               <h4>Nutrition for Female Athletes</h4>
               <p>Improve fueling, recovery, and energy with evidence-based nutrition lessons and practical weekly meal planning tasks.</p>
-              <p class="workshop-meta"><strong>Price:</strong> £35 upfront (reduced) | £40 installment (2 x £20) | <strong>Duration:</strong> 4 weeks</p>
-              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £29</p>
+              <p class="workshop-meta"><strong>Duration:</strong> TBD</p>
               <a class="sign-up-btn" href="/contact-us?course=nutrition-for-female-athletes">Sign Up</a>
             </article>
             <article class="workshop-card">
               <h4>Mental Wellbeing Workshop</h4>
               <p>Develop routines that protect wellbeing and prevent burnout using structured self-checks and resilience-building exercises.</p>
-              <p class="workshop-meta"><strong>Price:</strong> £39 upfront (reduced) | £44 installment (2 x £22) | <strong>Duration:</strong> 4 weeks</p>
-              <p class="access-detail">Upfront payment is the lower-cost option.</p>
+              <p class="workshop-meta"><strong>Price:</strong> £35</p>
+              <p class="workshop-meta"><strong>Duration:</strong> TBD</p>
               <a class="sign-up-btn" href="/contact-us?course=mental-wellbeing-workshop">Sign Up</a>
             </article>
           </div>
@@ -69,6 +71,31 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <style>
   .workshops-page {
     position: relative;
+    isolation: isolate;
+  }
+
+  .workshops-page .container {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .workshops-page .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: url('/assets/DSC_1538.jpg') center top/cover no-repeat;
+    opacity: 0.32;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .workshops-page .container > * {
+    position: relative;
+    z-index: 1;
   }
 
   .section-heading {
@@ -83,7 +110,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 3rem;
-    max-width: 720px;
+    max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -119,6 +146,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
   .workshop-cards {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.85rem;
     margin-bottom: 1rem;
   }
@@ -133,6 +161,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
   .workshop-card h4 {
     color: var(--green-lime);
+    font-size: 1.2rem;
     margin: 0 0 0.5rem;
   }
 
@@ -163,22 +192,28 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .sign-up-btn {
     display: inline-block;
     margin-top: 0.9rem;
-    padding: 0.55rem 0.9rem;
-    border-radius: 8px;
-    border: 1px solid var(--green-lime);
-    background: rgba(165, 243, 53, 0.16);
+    padding: 0.75rem 1.2rem;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-color: var(--green-lime);
     text-decoration: none;
-    color: var(--green-lime);
+    color: var(--green-dark);
     font-weight: 700;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
   .sign-up-btn:hover {
-    background: rgba(165, 243, 53, 0.3);
+    background-color: var(--purple-light);
+    border-color: var(--purple);
+    color: var(--green-dark);
   }
 
   @media (max-width: 900px) {
     .two-col-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workshop-cards {
       grid-template-columns: 1fr;
     }
 
