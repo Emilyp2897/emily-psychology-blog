@@ -58,10 +58,12 @@ import saoirseImage from '../assets/saoirse.png';
       const chatForm = /** @type {HTMLFormElement | null} */ (document.getElementById('chat-form'));
       const chatInput = /** @type {HTMLInputElement | null} */ (document.getElementById('chat-input'));
       const chatLog = /** @type {HTMLDivElement | null} */ (document.getElementById('chat-log'));
-      const quickPromptButtons = /** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll('.quick-prompt'));
+      const quickPromptButtons = /** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll('button.quick-prompt'));
 
       /** @type {ChatTurn[]} */
       const history = [];
+      /** @type {Map<string, { question: string; reply: string; sourceCount: number; usedModel: boolean }>} */
+      const feedbackContextById = new Map();
 
       function escapeHtml(value) {
         return value
@@ -100,6 +102,14 @@ import saoirseImage from '../assets/saoirse.png';
         return response.json();
       }
 
+      async function sendFeedback(payload) {
+        await fetch('/api/chat-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+
       async function submitQuestion(question) {
         if (!chatInput) return;
         const normalizedQuestion = question.trim();
@@ -134,8 +144,19 @@ import saoirseImage from '../assets/saoirse.png';
 
           appendMessage(
             'bot',
-            `<p><strong>Saoirse:</strong> ${safeReply}</p>${links ? `<ul class="reply-links">${links}</ul>` : ''}`
+            `<p><strong>Saoirse:</strong> ${safeReply}</p>${links ? `<ul class="reply-links">${links}</ul>` : ''}<div class="chat-feedback" data-feedback-id="${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}"><span class="feedback-label">Was this helpful?</span><button type="button" class="feedback-btn" data-feedback-value="helpful" aria-label="This response was helpful">Yes</button><button type="button" class="feedback-btn" data-feedback-value="not-helpful" aria-label="This response was not helpful">No</button><span class="feedback-status" aria-live="polite"></span></div>`
           );
+          const feedbackContainers = chatLog ? chatLog.querySelectorAll('.chat-feedback[data-feedback-id]') : [];
+          const latestFeedback = feedbackContainers[feedbackContainers.length - 1];
+          const feedbackId = latestFeedback?.getAttribute('data-feedback-id');
+          if (feedbackId) {
+            feedbackContextById.set(feedbackId, {
+              question: normalizedQuestion,
+              reply: result.reply || '',
+              sourceCount: Array.isArray(result.sources) ? result.sources.length : 0,
+              usedModel: Boolean(result.usedModel),
+            });
+          }
           history.push({ role: 'assistant', content: result.reply || '' });
         } catch {
           const loadingNode = document.getElementById(loadingId);
@@ -166,6 +187,66 @@ import saoirseImage from '../assets/saoirse.png';
             const prompt = button.dataset.prompt || '';
             await submitQuestion(prompt);
           });
+        });
+
+        chatLog.addEventListener('click', async (event) => {
+          const target = event.target;
+          if (!(target instanceof HTMLButtonElement) || !target.classList.contains('feedback-btn')) {
+            return;
+          }
+
+          const container = target.closest('.chat-feedback');
+          if (!(container instanceof HTMLDivElement)) {
+            return;
+          }
+
+          const feedbackId = container.getAttribute('data-feedback-id') || '';
+          const context = feedbackContextById.get(feedbackId);
+          if (!feedbackId || !context) {
+            return;
+          }
+
+          const value = target.dataset.feedbackValue || '';
+          const status = container.querySelector('.feedback-status');
+          const note = value === 'not-helpful'
+            ? (window.prompt('Thanks for telling us. What was missing or unclear? (optional)') || '').trim()
+            : '';
+
+          const buttons = container.querySelectorAll('.feedback-btn');
+          buttons.forEach((btn) => {
+            if (btn instanceof HTMLButtonElement) {
+              btn.disabled = true;
+            }
+          });
+
+          if (status instanceof HTMLElement) {
+            status.textContent = 'Saving...';
+          }
+
+          try {
+            await sendFeedback({
+              feedbackId,
+              rating: value,
+              note,
+              question: context.question,
+              reply: context.reply,
+              sourceCount: context.sourceCount,
+              usedModel: context.usedModel,
+            });
+            if (status instanceof HTMLElement) {
+              status.textContent = 'Thanks for your feedback.';
+            }
+            feedbackContextById.delete(feedbackId);
+          } catch {
+            if (status instanceof HTMLElement) {
+              status.textContent = 'Could not save feedback. Please try again.';
+            }
+            buttons.forEach((btn) => {
+              if (btn instanceof HTMLButtonElement) {
+                btn.disabled = false;
+              }
+            });
+          }
         });
       }
     </script>
@@ -267,6 +348,45 @@ import saoirseImage from '../assets/saoirse.png';
   .reply-links a {
     color: var(--green-lime);
     text-decoration: underline;
+  }
+
+  .chat-feedback {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+  }
+
+  .feedback-label {
+    font-size: 0.82rem;
+    color: var(--green-light);
+  }
+
+  .feedback-btn {
+    border: 1px solid rgba(192, 254, 113, 0.55);
+    background: rgba(192, 254, 113, 0.12);
+    color: var(--green-light);
+    border-radius: 999px;
+    padding: 0.18rem 0.58rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .feedback-btn:hover,
+  .feedback-btn:focus-visible {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .feedback-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .feedback-status {
+    font-size: 0.78rem;
+    color: var(--purple-light);
   }
 
   .chat-form {
