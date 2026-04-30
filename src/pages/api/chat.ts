@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import OpenAI from 'openai';
 
 export const prerender = false;
 
@@ -167,11 +168,12 @@ async function generateOpenAIReply(input: {
   const apiKey = import.meta.env.OPENAI_API_KEY;
   if (!apiKey) return null;
 
-  const model = import.meta.env.OPENAI_MODEL || 'gpt-4.1-mini';
+  const configuredModel = import.meta.env.OPENAI_MODEL_CHAT || import.meta.env.OPENAI_MODEL || 'gpt-4.1-mini';
+  const fallbackModel = 'gpt-4.1-mini';
   const context = input.matches
     .map((post, index) => {
       const excerpt = `${post.description} ${post.text}`.slice(0, 850);
-      return `${index + 1}. ${post.title} (/blog/${post.slug}/)\n${excerpt}`;
+      return `${index + 1}. ${post.title} (/content-hub/${post.slug}/)\n${excerpt}`;
     })
     .join('\n\n');
 
@@ -179,6 +181,13 @@ async function generateOpenAIReply(input: {
     .slice(-6)
     .map((m) => `${m.role === 'assistant' ? 'Saoirse' : 'User'}: ${m.content}`)
     .join('\n');
+
+  const responseStyles = [
+    'Style for this answer: practical checklist with concise action steps.',
+    'Style for this answer: supportive coaching tone with brief examples.',
+    'Style for this answer: clear plan-first structure with what-to-do-next.'
+  ];
+  const styleHint = responseStyles[Math.floor(Math.random() * responseStyles.length)];
 
   const systemPrompt = [
     'You are Saoirse, an educational chatbot for Mind the Gael.',
@@ -191,7 +200,8 @@ async function generateOpenAIReply(input: {
     'Only answer using the provided website context.',
     'If the context does not contain the answer, say you are not sure and suggest related articles.',
     'Do not provide diagnosis or medical advice. Keep tone warm, practical, and concise.',
-    'If the user appears to be in immediate danger, advise contacting emergency services and the resources page.'
+    'If the user appears to be in immediate danger, advise contacting emergency services and the resources page.',
+    styleHint
   ].join(' ');
 
   const userPrompt = [
@@ -200,29 +210,34 @@ async function generateOpenAIReply(input: {
     context ? `Website context:\n${context}` : 'No matching context found.'
   ].filter(Boolean).join('\n\n');
 
-  const res = await fetch('https://api.openai.com/v1/responses', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      input: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_output_tokens: 260,
-      temperature: 0.3,
-    }),
-  });
+  const client = new OpenAI({ apiKey });
 
-  if (!res.ok) {
-    return null;
+  const callModel = async (model: string) => {
+    try {
+      const response = await client.chat.completions.create({
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.55,
+        max_tokens: 320,
+      });
+      return response.choices?.[0]?.message?.content?.trim() || null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const first = await callModel(configuredModel);
+  if (first) return first;
+
+  if (configuredModel !== fallbackModel) {
+    const second = await callModel(fallbackModel);
+    if (second) return second;
   }
 
-  const data = await res.json();
-  return data?.output_text?.trim() || null;
+  return null;
 }
 
 function isCrisisMessage(message: string): boolean {
@@ -301,7 +316,7 @@ export const POST = async ({ request }: { request: Request }) => {
         reply,
         sources: matches.map((post) => ({
           title: post.title,
-          url: `/blog/${post.slug}/`,
+          url: `/content-hub/${post.slug}/`,
         })),
         usedModel: Boolean(aiReply),
       }),

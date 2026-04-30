@@ -83,7 +83,7 @@ const latestPosts = featuredSlugs
         <ul class="latest-posts">
           {latestPosts.map((post) => (
             <li>
-              <a href={`/blog/${post.slug}/`}>
+              <a href={`/content-hub/${post.slug}/`}>
                 <h3>{post.data.title}</h3>
                 <p class="post-date">
                   <FormattedDate date={post.data.pubDate} />
@@ -93,7 +93,7 @@ const latestPosts = featuredSlugs
             </li>
           ))}
         </ul>
-        <a href="/blog" class="view-all-link">View All Articles →</a>
+        <a href="/content-hub" class="view-all-link">View All Articles →</a>
       </section>
     </main>
     <Footer />

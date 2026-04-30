@@ -1,0 +1,139 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Content Hub Feedback | ${SITE_TITLE}`} description="Share feedback on Mind the Gael Content Hub articles and resources." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="feedback-page">
+        <h1>Content Hub Feedback</h1>
+        <p>Share what helped, what was unclear, or what topics you want next.</p>
+
+        <form id="content-feedback-form" class="feedback-form">
+          <label for="feedback-page">Page or topic (optional)</label>
+          <input id="feedback-page" name="page" type="text" placeholder="Example: Training the Mind - Attention Control Theory" />
+
+          <label for="feedback-type">Feedback type</label>
+          <select id="feedback-type" name="feedbackType" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="helpful">This content was helpful</option>
+            <option value="unclear">Something was unclear</option>
+            <option value="topic-request">Topic request</option>
+            <option value="general">General feedback</option>
+          </select>
+
+          <label for="feedback-message">Your feedback</label>
+          <textarea id="feedback-message" name="message" rows="6" maxlength="1500" required placeholder="Write your feedback here..."></textarea>
+
+          <label for="feedback-email">Email (optional)</label>
+          <input id="feedback-email" name="email" type="email" placeholder="name@example.com" />
+
+          <button type="submit">Submit Feedback</button>
+          <p id="feedback-status" class="feedback-status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <Footer />
+
+    <script>
+      // @ts-nocheck
+      const form = document.getElementById('content-feedback-form');
+      const status = document.getElementById('feedback-status');
+      const pageField = document.getElementById('feedback-page');
+
+      if (pageField instanceof HTMLInputElement && !pageField.value) {
+        pageField.value = document.referrer || window.location.pathname;
+      }
+
+      if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          const data = new FormData(form);
+          const payload = {
+            page: String(data.get('page') || '').trim(),
+            feedbackType: String(data.get('feedbackType') || '').trim(),
+            message: String(data.get('message') || '').trim(),
+            email: String(data.get('email') || '').trim(),
+          };
+
+          status.textContent = 'Submitting...';
+
+          try {
+            const res = await fetch('/api/content-feedback', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+
+            if (!res.ok) {
+              throw new Error('Failed to submit feedback.');
+            }
+
+            status.textContent = 'Thanks for your feedback.';
+            form.reset();
+          } catch {
+            status.textContent = 'Could not submit feedback right now. Please try again.';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .feedback-page {
+    max-width: 760px;
+    margin: 1.4rem auto 3rem;
+  }
+
+  .feedback-form {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.65rem;
+    padding: 1.2rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background: rgba(240, 205, 255, 0.08);
+  }
+
+  .feedback-form input,
+  .feedback-form select,
+  .feedback-form textarea {
+    border: 1px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.62rem 0.72rem;
+    background: #fff;
+    color: #121212;
+    font-size: 0.98rem;
+  }
+
+  .feedback-form button {
+    justify-self: start;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .feedback-form button:hover {
+    border-color: var(--purple-light);
+    background: var(--purple-light);
+  }
+
+  .feedback-status {
+    margin: 0.15rem 0 0;
+    color: var(--green-light);
+  }
+</style>

@@ -32,7 +32,6 @@ const today = new Date();
   
   <div class="shamrock-chatbot-wrapper">
     <div class="saoirse-offer-pop" id="saoirse-offer-pop" role="status" aria-live="polite">
-      <button type="button" class="saoirse-offer-close" id="close-saoirse-offer" aria-label="Dismiss founding offer">×</button>
       <p><strong>Founding Offer:</strong> £5/month for first 50 members + 14-day free trial for the Training the Mind series and Gael Performance Toolkit.</p>
       <a class="offer-pop-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
     </div>
@@ -215,19 +214,6 @@ const today = new Date();
   .offer-pop-cta:hover {
     transform: translateY(-1px);
     border-color: var(--purple-light);
-  }
-
-  .saoirse-offer-close {
-    position: absolute;
-    top: 0.2rem;
-    right: 0.35rem;
-    border: none;
-    background: transparent;
-    color: var(--purple);
-    font-size: 1rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0.12rem;
   }
 
   @keyframes offer-pop-enter {
@@ -473,18 +459,11 @@ const today = new Date();
   });
 
   const offerPop = document.getElementById('saoirse-offer-pop');
-  const closeOfferPop = document.getElementById('close-saoirse-offer');
-  const offerDismissKey = 'mtg_founding_offer_dismissed';
+  const dismissCountKey = 'mtg_founding_offer_dismisses';
+  let dismissCount = parseInt(localStorage.getItem(dismissCountKey) || '0');
 
-  if (offerPop && localStorage.getItem(offerDismissKey) === 'true') {
+  if (offerPop && dismissCount >= 1) {
     offerPop.style.display = 'none';
-  }
-
-  if (offerPop && closeOfferPop) {
-    closeOfferPop.addEventListener('click', () => {
-      offerPop.style.display = 'none';
-      localStorage.setItem(offerDismissKey, 'true');
-    });
   }
 </script>
 
