@@ -12,8 +12,8 @@ import { SITE_TITLE } from '../consts';
   </head>
   <body>
     <Header />
-    <main class="container">
-      <h1>Online Workshops</h1>
+    <main class="container online-main">
+      <section class="online-hero"><h1>Online Workshops</h1></section>
       <p class="format-note">These are online interactive courses that you go through, not live sessions.</p>
       <p class="access-note">Accessible pricing options are available for every course.</p>
       <section class="intro">
@@ -53,20 +53,30 @@ import { SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  .online-main {
+    padding-top: 0;
+  }
+
+  .online-hero {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    margin: 0 calc(50% - 50vw) 1.2rem;
+    padding: 2rem max(1rem, calc(50vw - 600px));
+  }
+
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin: 0;
   }
 
   .format-note {
-    color: var(--green-light);
+    color: var(--purple-light);
     margin: 0 0 1.25rem;
   }
 
   .access-note {
     margin: 0 0 1rem;
-    color: var(--green-lime);
+    color: var(--purple);
     font-weight: 600;
   }
 
@@ -94,35 +104,35 @@ import { SITE_TITLE } from '../consts';
   }
 
   .workshop-card {
-    border: 1px solid rgba(165, 243, 53, 0.45);
+    border: 1px solid rgba(105, 0, 90, 0.24);
     border-radius: 10px;
     padding: 1rem;
-    background: rgba(165, 243, 53, 0.08);
-    color: var(--white);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    color: var(--green-dark);
     text-align: left;
   }
 
   .workshop-card h4 {
-    color: var(--green-lime);
+    color: var(--purple);
     margin: 0 0 0.5rem;
   }
 
   .workshop-card p {
     margin: 0;
-    color: var(--green-light);
+    color: var(--green-dark);
     line-height: 1.5;
   }
 
   .workshop-meta {
     margin-top: 0.7rem;
-    color: var(--white);
+    color: var(--green-dark);
     font-size: 0.95rem;
   }
 
   .access-detail {
     margin-top: 0.35rem;
     font-size: 0.9rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .sign-up-btn {

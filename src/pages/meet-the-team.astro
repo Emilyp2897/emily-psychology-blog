@@ -11,8 +11,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   </head>
   <body class="meet-team-page">
     <Header />
-    <main class="container">
-      <h1>Meet the Team</h1>
+    <main class="container team-main">
+      <section class="team-hero"><h1>Meet the Team</h1></section>
       <section class="team-bio">
         <div class="bio-image">
           <img src="/assets/emilyprofile.png" alt="Emily Phelan" />
@@ -31,10 +31,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  .team-main {
+    padding: 0 0 2rem;
+  }
+
+  .team-hero {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    margin: 0 calc(50% - 50vw);
+    padding: 2rem max(1rem, calc(50vw - 600px));
+  }
+
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin: 0;
   }
 
   .team-bio {
@@ -42,11 +52,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     flex-direction: column;
     align-items: center;
     max-width: 700px;
-    margin: 0 auto 3rem auto;
+    margin: 1.3rem auto 2rem auto;
     padding: 2rem;
-    border: 2px solid var(--green-lime);
+    border: 2px solid rgba(105, 0, 90, 0.35);
     border-radius: 12px;
-    background-color: rgba(240, 205, 255, 0.1);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
   }
 
   .bio-image img {
@@ -64,13 +74,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .bio-text h2 {
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1.5rem;
     margin: 0 0 0.25rem 0;
   }
 
   .bio-text h3 {
-    color: var(--green-lime);
+    color: var(--purple);
     margin-bottom: 1rem;
   }
 
@@ -85,7 +95,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .bio-text p {
     font-size: 1.05rem;
     line-height: 1.7;
-    color: #f0cdff;
+    color: var(--green-dark);
   }
 
   @media (max-width: 768px) {

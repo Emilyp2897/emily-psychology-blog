@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import { SITE_TITLE } from '../consts';
-import ParticlesBG from '../components/ParticlesBG.astro';
 
 interface Props {
   title: string;
@@ -54,5 +53,3 @@ const imageUrl = typeof image === 'string' ? image : (image?.src || fallbackImag
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(imageUrl, site)} />
-
-<ParticlesBG />

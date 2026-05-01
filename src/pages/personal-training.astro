@@ -24,83 +24,112 @@ const GOOGLE_CALENDAR_EMBED_URL =
       </div>
       <h1>Personal Training</h1>
       <section class="intro">
-        <p>Our personal training is exercise-based, with a special focus on women's health for female athletes. Performance and mental wellbeing can overlap with this work, but physical training support is the core focus.</p>
-        <div class="focus-areas">
-          <div class="focus-card">
-            <h3>Strength & Conditioning</h3>
-            <p>Build physical capacity, movement quality, and resilience through structured S&C coaching.</p>
-          </div>
-          <div class="focus-card">
-            <h3>Women's Health Focus</h3>
-            <p>Training support tailored to female athletes, including cycle-aware planning and long-term athlete wellbeing.</p>
-          </div>
-          <div class="focus-card">
-            <h3>Performance Integration</h3>
-            <p>Translate gym work into better training and match-day performance with sport-specific application.</p>
-          </div>
-          <div class="focus-card">
-            <h3>Recovery & Load Management</h3>
-            <p>Plan training load, recovery, and progression so athletes can perform consistently and reduce burnout risk.</p>
+        <div class="pt-band pt-band-intro">
+          <div class="pt-band-inner">
+            <p>Our personal training is exercise-based, with a special focus on women's health for female athletes. Performance and mental wellbeing can overlap with this work, but physical training support is the core focus.</p>
           </div>
         </div>
 
-        <h2 class="pricing-heading">Personal Training Pricing</h2>
-        <div class="pricing-table-wrap">
-          <table class="pricing-table">
-            <caption>Personal Training Pricing</caption>
-            <thead>
-              <tr>
-                <th>Option</th>
-                <th>Price</th>
-                <th>Includes</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Online 1:1 Sessions</td>
-                <td>£15</td>
-                <td>One 30-minute online personal training session.</td>
-              </tr>
-              <tr>
-                <td>4 Online 1:1 Personal Training Sessions (Bundle)</td>
-                <td>£50</td>
-                <td>Four 30-minute online personal training sessions at a discounted bundle rate.</td>
-              </tr>
-              <tr>
-                <td>In-Person 1:1 Sessions</td>
-                <td>£25</td>
-                <td>One 30-minute in-person personal training session.</td>
-              </tr>
-              <tr>
-                <td>4 In-Person 1:1 Personal Training Sessions (Bundle)</td>
-                <td>£80</td>
-                <td>Four 30-minute in-person personal training sessions at a discounted bundle rate.</td>
-              </tr>
-              <tr>
-                <td>Pre-Season Team Programme (6 Weeks)</td>
-                <td>Pilot from £850 | Standard £1250</td>
-                <td>Six-week S&C coaching for a team panel of 20-30 athletes. Pilot pricing is limited availability.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="pt-band pt-band-focus">
+          <div class="pt-band-inner">
+            <div class="training-highlight">
+              <div class="training-highlight-copy">
+                <h2>Train with Structure. Perform with Confidence.</h2>
+                <p>
+                  Every programme is designed to be practical and sustainable, with clear progression across strength, recovery, and performance demands.
+                </p>
+              </div>
+              <div class="training-highlight-media">
+                <img src="/assets/CiaraFlan-London-1.jpg" alt="Ciara Flanagan training in London" loading="lazy" />
+              </div>
+            </div>
+
+            <div class="focus-areas">
+              <div class="focus-card">
+                <h3>Strength & Conditioning</h3>
+                <p>Build physical capacity, movement quality, and resilience through structured S&C coaching.</p>
+              </div>
+              <div class="focus-card">
+                <h3>Women's Health Focus</h3>
+                <p>Training support tailored to female athletes, including cycle-aware planning and long-term athlete wellbeing.</p>
+              </div>
+              <div class="focus-card">
+                <h3>Performance Integration</h3>
+                <p>Translate gym work into better training and match-day performance with sport-specific application.</p>
+              </div>
+              <div class="focus-card">
+                <h3>Recovery & Load Management</h3>
+                <p>Plan training load, recovery, and progression so athletes can perform consistently and reduce burnout risk.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <section class="calendar-section" aria-labelledby="calendar-heading">
-          <h2 id="calendar-heading" class="calendar-heading">Book a PT Session</h2>
-          <p class="calendar-copy">
-            Use the booking schedule below to choose a time that suits you. If you do not see a slot that works, or if you'd like to arrange a regular weekly time, please contact me directly at emilyphelan@mindthegael.co.uk.
-          </p>
-          <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
-          <p class="consultation-note">The consultation form opens in a pop-up when you click the button above.</p>
-          <div class="calendar-embed-wrap">
-            <iframe
-              src={GOOGLE_CALENDAR_EMBED_URL}
-              title="Personal training appointment booking"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+        <div class="pt-band pt-band-pricing">
+          <div class="pt-band-inner">
+            <h2 class="pricing-heading">Personal Training Pricing</h2>
+            <div class="pricing-table-wrap">
+              <table class="pricing-table">
+                <caption>Personal Training Pricing</caption>
+                <thead>
+                  <tr>
+                    <th>Option</th>
+                    <th>Price</th>
+                    <th>Includes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Online 1:1 Sessions</td>
+                    <td>£15</td>
+                    <td>One 30-minute online personal training session.</td>
+                  </tr>
+                  <tr>
+                    <td>4 Online 1:1 Personal Training Sessions (Bundle)</td>
+                    <td>£50</td>
+                    <td>Four 30-minute online personal training sessions at a discounted bundle rate.</td>
+                  </tr>
+                  <tr>
+                    <td>In-Person 1:1 Sessions</td>
+                    <td>£25</td>
+                    <td>One 30-minute in-person personal training session.</td>
+                  </tr>
+                  <tr>
+                    <td>4 In-Person 1:1 Personal Training Sessions (Bundle)</td>
+                    <td>£80</td>
+                    <td>Four 30-minute in-person personal training sessions at a discounted bundle rate.</td>
+                  </tr>
+                  <tr>
+                    <td>Pre-Season Team Programme (6 Weeks)</td>
+                    <td>Pilot from £850 | Standard £1250</td>
+                    <td>Six-week S&C coaching for a team panel of 20-30 athletes. Pilot pricing is limited availability.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </section>
+        </div>
+
+        <div class="pt-band pt-band-booking">
+          <div class="pt-band-inner">
+            <section class="calendar-section" aria-labelledby="calendar-heading">
+              <h2 id="calendar-heading" class="calendar-heading">Book a PT Session</h2>
+              <p class="calendar-copy">
+                Use the booking schedule below to choose a time that suits you. If you do not see a slot that works, or if you'd like to arrange a regular weekly time, please contact me directly at emilyphelan@mindthegael.co.uk.
+              </p>
+              <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
+              <p class="consultation-note">The consultation form opens in a pop-up when you click the button above.</p>
+              <div class="calendar-embed-wrap">
+                <iframe
+                  src={GOOGLE_CALENDAR_EMBED_URL}
+                  title="Personal training appointment booking"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </section>
+          </div>
+        </div>
       </section>
 
       <div class="consultation-modal-backdrop" id="consultation-modal-backdrop" aria-hidden="true">
@@ -434,10 +463,42 @@ const GOOGLE_CALENDAR_EMBED_URL =
 </html>
 
 <style>
+  .personal-training-page main.container {
+    padding-top: 0;
+    padding-bottom: 2rem;
+  }
+
+  .pt-band {
+    margin: 0 calc(50% - 50vw);
+    padding: 1.5rem max(1rem, calc(50vw - 600px));
+  }
+
+  .pt-band-intro {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .pt-band-focus {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
+  }
+
+  .pt-band-pricing {
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
+  }
+
+  .pt-band-booking {
+    background: linear-gradient(180deg, rgba(244, 255, 232, 0.9) 0%, rgba(240, 205, 255, 0.9) 100%);
+  }
+
+  .pt-band-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
   h1 {
     color: var(--green-lime);
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
+    padding: 0 0.2rem;
   }
 
   .intro p {
@@ -446,27 +507,37 @@ const GOOGLE_CALENDAR_EMBED_URL =
     margin-bottom: 1.5rem;
   }
 
+  .pt-band-focus p,
+  .pt-band-focus .training-highlight-copy p,
+  .pt-band-focus .focus-card p,
+  .pt-band-booking p,
+  .pt-band-booking .calendar-copy,
+  .pt-band-booking .consultation-note {
+    color: var(--green-dark);
+  }
+
   .pricing-heading {
     margin: 0 0 0.9rem;
-    color: var(--green-lime);
+    color: var(--green-light);
   }
 
   .pricing-table-wrap {
     overflow-x: auto;
-    margin-bottom: 3rem;
+    margin-bottom: 0;
   }
 
   .pricing-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(240, 205, 255, 0.08);
-    border: 2px solid var(--green-lime);
+    background-color: rgba(244, 255, 232, 0.95);
+    border: 1px solid rgba(244, 255, 232, 0.7);
+    color: var(--green-dark);
   }
 
   .pricing-table caption {
     caption-side: top;
     text-align: left;
-    color: var(--green-light);
+    color: rgba(244, 255, 232, 0.95);
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
   }
@@ -481,7 +552,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
   .pricing-table th {
     background: rgba(192, 254, 113, 0.14);
-    color: var(--green-lime);
+    color: var(--purple);
     font-weight: 700;
   }
 
@@ -504,7 +575,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
   }
 
   .calendar-section {
-    margin: 0 0 3rem;
+    margin: 0;
   }
 
   .calendar-heading {
@@ -519,7 +590,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
   .consultation-note {
     margin: 0 0 1rem;
     font-size: 0.92rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .consultation-btn {
@@ -563,13 +634,63 @@ const GOOGLE_CALENDAR_EMBED_URL =
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 0;
+  }
+
+  .training-highlight {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+    border: 0;
+    border-radius: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .training-highlight-copy {
+    padding: 1.2rem 1rem;
+  }
+
+  .training-highlight-copy h2 {
+    margin: 0 0 0.55rem;
+    color: var(--purple);
+    font-size: 1.4rem;
+  }
+
+  .training-highlight-copy p {
+    margin: 0;
+    color: var(--green-dark);
+  }
+
+  .training-highlight-media {
+    min-height: 240px;
+  }
+
+  .training-highlight-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
   }
 
   @media (max-width: 768px) {
+    .pt-band {
+      padding: 1.1rem max(0.8rem, calc(50vw - 600px));
+    }
+
     .waitlist-form {
       grid-template-columns: 1fr;
       max-width: 100%;
+    }
+
+    .training-highlight {
+      grid-template-columns: 1fr;
+    }
+
+    .training-highlight-media {
+      min-height: 190px;
+      order: -1;
     }
 
     .focus-areas {
@@ -592,22 +713,26 @@ const GOOGLE_CALENDAR_EMBED_URL =
   }
 
   .focus-card {
-    padding: 1.5rem;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 8px;
+    padding: 1.2rem 0.2rem;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
     transition: transform 0.2s ease, border-color 0.2s ease;
   }
 
   .focus-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
+    transform: none;
+    border-color: transparent;
   }
 
   .focus-card h3 {
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1.2rem;
     margin: 0 0 0.5rem 0;
+  }
+
+  .focus-card p {
+    color: var(--green-dark);
   }
 
   .coming-soon-strip {
@@ -655,7 +780,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
     overflow-y: auto;
     border: 2px solid var(--green-lime);
     border-radius: 12px;
-    background: #181818;
+    background: var(--green-dark);
     padding: 1.1rem;
     position: relative;
   }
@@ -701,7 +826,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
     border: 1px solid rgba(192, 254, 113, 0.26);
     border-radius: 10px;
     padding: 0.65rem 0.7rem;
-    background: rgba(24, 24, 24, 0.3);
+    background: rgba(3, 10, 6, 0.34);
     color: var(--green-light);
     font-weight: 600;
     font-size: 0.9rem;
@@ -735,7 +860,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
     border: 1px solid rgba(192, 254, 113, 0.26);
     border-radius: 10px;
     padding: 0.65rem 0.7rem;
-    background: rgba(24, 24, 24, 0.3);
+    background: rgba(3, 10, 6, 0.34);
     font-weight: 500 !important;
   }
 

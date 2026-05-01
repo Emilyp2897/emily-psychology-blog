@@ -75,27 +75,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .workshops-page .container {
-    position: relative;
-    isolation: isolate;
+    padding-top: 0;
   }
 
-  .workshops-page .container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 100vw;
-    transform: translateX(-50%);
-    background: url('/assets/DSC_1538.jpg') center top/cover no-repeat;
-    opacity: 0.32;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .workshops-page .container > * {
-    position: relative;
-    z-index: 1;
+  .hero {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    margin: 0 calc(50% - 50vw) 1.2rem;
+    padding: 2rem max(1rem, calc(50vw - 600px));
   }
 
   .section-heading {
@@ -120,7 +106,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     z-index: 10;
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto 1rem;
+    margin: 1rem auto 1rem;
     border-radius: 8px;
     background: var(--purple-light);
     color: var(--purple);
@@ -152,41 +138,41 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .workshop-card {
-    border: 1px solid rgba(165, 243, 53, 0.45);
+    border: 1px solid rgba(105, 0, 90, 0.24);
     border-radius: 10px;
     padding: 1rem;
-    background: rgba(165, 243, 53, 0.08);
-    color: var(--white);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    color: var(--green-dark);
   }
 
   .workshop-card h4 {
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1.2rem;
     margin: 0 0 0.5rem;
   }
 
   .workshop-card p {
     margin: 0;
-    color: var(--green-light);
+    color: var(--green-dark);
     line-height: 1.5;
   }
 
   .access-note {
     margin: 0 0 0.75rem;
-    color: var(--green-lime);
+    color: var(--purple-light);
     font-weight: 600;
   }
 
   .workshop-meta {
     margin-top: 0.7rem;
-    color: var(--white);
+    color: var(--green-dark);
     font-size: 0.95rem;
   }
 
   .access-detail {
     margin-top: 0.35rem;
     font-size: 0.9rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .sign-up-btn {

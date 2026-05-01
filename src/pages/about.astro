@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
-import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
 ---
 
@@ -15,151 +13,219 @@ import { SITE_TITLE } from '../consts';
   </head>
   <body class="about-page">
     <Header />
-    <main class="container">
-
-      <section class="hero">
-        <h1>My Story</h1>
-      </section>
-
-      <section class="intro about-grid">
-        <div class="about-text">
+    <main class="about-layout">
+      <section class="about-band about-band-light">
+        <div class="container about-band-inner">
+          <h2>My Story</h2>
           <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.</p>
           <p>Sport has always been a huge part of my life, but my journey with it hasn't always been straightforward. I've experienced anxiety and depression throughout my sporting career, and for a long time I didn't really have the language or the tools to understand what was happening in my own head.</p>
           <p>I didn't understand why pressure felt like too much sometimes. I didn't understand why my confidence could swing so much. I didn't understand why certain moments affected me so much more then others. I just knew I loved the sport, but I was also struggling in it.</p>
         </div>
+      </section>
 
-        <div class="arrow-image-row arrow-image-row-reverse">
-          <Image class="about-image-img" src={depressedImage} alt="Emily Phelan" loading="eager" fetchpriority="high" />
-          <span class="arrow-to-image" aria-hidden="true">
-            <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 12H10m0 0l8-8m-8 8l8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <div class="guess-arrow-text">
+      <section class="about-band about-band-dark about-band-split">
+        <div class="about-split-row">
+          <div class="about-split-image-wrap about-split-image-wrap--difficult">
+            <img class="about-split-image" src={depressedImage.src} alt="Emily Phelan on league final day" loading="eager" fetchpriority="high" />
+          </div>
+          <div class="about-split-copy">
+            <h2>A Difficult Phase</h2>
             <p>Number 18 is me on league final day. I remember feeling happy for my team, but I couldn't fully feel it for myself because I was so caught up in my own performance. I wasn't in a good place mentally, and that showed on the pitch.</p>
             <p>But what I understand now, looking back, is that it wasn't just performance anxiety. I was dealing with undiagnosed anxiety and depression at the time, and that naturally spilled over into my sport.</p>
           </div>
         </div>
+      </section>
 
-        <div class="about-text">
+      <section class="about-band about-band-light">
+        <div class="container about-band-inner">
+          <h2>What That Felt Like</h2>
           <p>I just knew that everything felt heavier than it should have, not just games, but life in general. There were days I struggled to get out of bed, times I would feel really low for no clear reason, and moments where I experienced panic attacks that I didn't fully understand at the time.</p>
           <p>And one of those panic attacks actually happened that day, when I should have been happy and celebrating with my teammates. Instead, I was completely overwhelmed in my own head. My mind was constantly busy. I didn't really know how to separate what was going on internally from how I was performing externally and the celebrations going on around me afterwards.</p>
           <p>I was overthinking, second-guessing myself, and never really fully present in the moment. And afterwards, I remember replaying everything in my head over and over, feeling really disconnected from what had just happened, like I wasn't even fully in it in the first place.</p>
         </div>
+      </section>
 
-        <div class="arrow-image-row">
-          <div class="guess-arrow-text">
+      <section class="about-band about-band-dark about-band-split">
+        <div class="about-split-row about-split-row-reverse">
+          <div class="about-split-image-wrap">
+            <img class="about-split-image" src="/assets/EmilyPhelan-London-Playing-1.jpg" alt="Emily Phelan playing in London" loading="lazy" />
+          </div>
+          <div class="about-split-copy">
+            <h2>A Different Headspace</h2>
             <p>And then there's me a year later on the exact same league final day. Same pitch. Same occasion. But a completely different headspace.</p>
             <p>We actually lost the final that day, but my experience of it was completely different.</p>
             <p>I was calm. I was present. And I felt content within myself, regardless of the result. I could take the game for what it was, without it defining how I felt about myself afterwards.</p>
-            <p>That didn't happen overnight. It took a lot of work on my mental health, a lot of learning, and a lot of uncomfortable reflection about how I was thinking, feeling, and showing up in both life and sport.</p>
-            <p>The road between those two versions of me was long. And it wasn't linear. But it was worth it.</p>
           </div>
-          <span class="arrow-to-image" aria-hidden="true">
-            <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 12h50m0 0l-8-8m8 8l-8 8" stroke="var(--green-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <Image class="about-image-img" src={saoirseImage} alt="Saoirse the shamrock mascot" loading="lazy" />
         </div>
       </section>
 
+      <section class="about-band about-band-light about-band-split">
+        <div class="about-split-row">
+          <div class="about-split-image-wrap">
+            <img class="about-split-image" src="/assets/EmilyPhelan-Holloway-Playing.jpg" alt="Emily Phelan playing for Holloway" loading="lazy" />
+          </div>
+          <div class="about-split-copy">
+            <h2>Why This Platform Exists</h2>
+            <p>That didn't happen overnight. It took a lot of work on my mental health, a lot of learning, and a lot of uncomfortable reflection about how I was thinking, feeling, and showing up in both life and sport.</p>
+            <p>The road between those two versions of me was long. And it wasn't linear. But it was worth it.</p>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
   </body>
 </html>
 
 <style>
-  .hero h1 {
-    margin: 0 0 0.5rem 0;
+  .about-layout {
+    padding: 0 0 2rem;
   }
 
-  .hero:not(.why-hero) h1 {
-    margin-top: 1.5rem;
+  .about-band {
+    padding: 1.8rem 0;
   }
 
-  .tagline {
+  .about-band-split {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .about-band-inner {
     color: var(--green-light);
-    font-size: 1.2rem;
-    font-style: italic;
-    margin-bottom: 2rem;
   }
 
-  .intro p {
-    font-size: 1rem;
+  .about-band-hero {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    padding: 2rem 0;
+  }
+
+  .about-band-hero h1 {
+    margin: 0;
+  }
+
+  .about-band-light {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
+  }
+
+  .about-band-light .about-band-inner,
+  .about-band-light p,
+  .about-band-light h2,
+  .about-band-light .about-split-copy {
+    color: var(--green-dark);
+  }
+
+  .about-band-light h2 {
+    color: var(--purple);
+  }
+
+  .about-band-dark {
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
+  }
+
+  .about-band-dark .about-split-copy,
+  .about-band-dark .about-split-copy p {
+    color: var(--green-light);
+  }
+
+  .about-band h2 {
+    margin: 0 0 0.8rem;
+  }
+
+  .about-band p {
+    margin: 0 0 0.85rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
   }
 
-  .about-grid {
+  .about-split-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
+    gap: 0;
+    overflow: hidden;
+    align-items: stretch;
+  }
+
+  .about-split-row > * {
+    margin: 0;
+  }
+
+  .about-split-row-reverse {
+    direction: rtl;
+  }
+
+  .about-split-row-reverse > * {
+    direction: ltr;
+  }
+
+  .about-split-image-wrap {
+    display: block;
+    height: 100%;
+    min-height: 380px;
+    line-height: 0;
+    font-size: 0;
+    border-radius: 0;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+  }
+
+  .about-split-image {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0 !important;
+  }
+
+  .about-split-image-wrap :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0 !important;
+  }
+
+  .about-split-image-wrap--difficult .about-split-image {
+    object-position: right top !important;
+  }
+
+  .about-split-copy {
+    padding: 2.4rem 1rem;
+    border-radius: 0;
+    border: 0;
+    background: transparent;
     display: flex;
     flex-direction: column;
-    max-width: 1200px;
-    margin-bottom: 3rem;
-    gap: 0;
-  }
-
-  .about-text {
-    margin-bottom: 2rem;
-  }
-
-  .about-text p:last-child {
-    margin-bottom: 0;
-  }
-
-  .arrow-image-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .guess-arrow-text {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  .guess-arrow-text p:last-child {
-    margin-bottom: 0;
-  }
-
-  .arrow-to-image {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 0.5rem;
-  }
-
-  .arrow-image-row-reverse {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
-  .about-image-img {
-    width: 500px;
-    object-fit: cover;
-    max-width: 100%;
-    border-radius: 12px;
-    border: 2px solid var(--green-lime);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    display: block;
+    justify-content: center;
   }
 
   @media (max-width: 900px) {
-    .arrow-image-row {
-      flex-direction: column;
+    .about-band {
+      padding: 1.2rem 0;
     }
 
-    .arrow-image-row-reverse {
-      flex-direction: column;
+    .about-band-split {
+      padding: 0;
     }
 
-    .arrow-to-image {
-      display: none;
+    .about-split-row,
+    .about-split-row-reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
     }
 
-    .about-image-img {
-      width: 100%;
+    .about-split-image-wrap,
+    .about-split-image {
+      min-height: 240px;
+    }
+
+    .about-split-copy {
+      padding: 1.3rem 1rem;
     }
   }
 </style>

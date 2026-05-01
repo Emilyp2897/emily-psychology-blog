@@ -140,7 +140,9 @@ const onlineContentBundles = [
 
   .hero {
     text-align: center;
-    margin-bottom: 3rem;
+    margin: 0 calc(50% - 50vw) 1.4rem;
+    padding: 2rem max(1rem, calc(50vw - 600px));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
   .tagline {
@@ -161,8 +163,8 @@ const onlineContentBundles = [
   .posts li {
     flex: 1;
     max-width: 350px;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
+    border: 2px solid rgba(105, 0, 90, 0.24);
     border-radius: 12px;
     padding: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -184,10 +186,11 @@ const onlineContentBundles = [
   .posts li .title {
     margin-bottom: 1rem;
     font-size: 1.4em;
+    color: var(--purple);
   }
 
   .posts li .description {
-    color: var(--green-light);
+    color: var(--green-dark);
     line-height: 1.6;
   }
 
@@ -209,10 +212,14 @@ const onlineContentBundles = [
   .online-content-bundles {
     margin: 0 auto 3rem;
     text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(105, 0, 90, 0.24);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
   }
 
   .bundle-intro {
-    color: var(--green-light);
+    color: var(--green-dark);
     margin-bottom: 1rem;
   }
 
@@ -221,8 +228,8 @@ const onlineContentBundles = [
     margin: 0 auto 1rem;
     padding: 1rem 1.2rem;
     border-radius: 10px;
-    border: 1px solid var(--purple-light);
-    background: var(--purple);
+    border: 1px solid rgba(3, 10, 6, 0.42);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
     color: #ffffff;
     line-height: 1.45;
   }
@@ -235,8 +242,8 @@ const onlineContentBundles = [
   .pricing-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(240, 205, 255, 0.08);
-    border: 2px solid var(--green-lime);
+    background-color: rgba(255, 255, 255, 0.82);
+    border: 2px solid rgba(105, 0, 90, 0.24);
   }
 
   .pricing-table th,
@@ -248,9 +255,13 @@ const onlineContentBundles = [
   }
 
   .pricing-table th {
-    background: rgba(192, 254, 113, 0.14);
-    color: var(--green-lime);
+    background: rgba(240, 205, 255, 0.45);
+    color: var(--purple);
     font-weight: 700;
+  }
+
+  .pricing-table td {
+    color: var(--green-dark);
   }
 
   .subscribe-cta-link {
@@ -292,11 +303,15 @@ const onlineContentBundles = [
   .content-feedback-cta {
     margin: 0 auto 3rem;
     text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(105, 0, 90, 0.24);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
   }
 
   .content-feedback-cta p {
     margin-bottom: 0.6rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .fade-in {

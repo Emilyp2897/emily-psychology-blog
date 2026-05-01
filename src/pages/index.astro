@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import problemImage from '../assets/FLO_1671.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const allPosts = await getCollection('blog');
@@ -27,73 +29,118 @@ const latestPosts = featuredSlugs
   </head>
   <body class="home-page">
     <Header />
-    <main class="container">
-      <section class="hero">
+    <main class="home-layout">
+      <!-- Why + Problem: split image/text rows on wide screens -->
+      <section class="home-band home-band-why">
+        <div class="split-row">
+          <div class="split-text">
+            <h2>Why this platform exists</h2>
+            <p>Mind the Gael exists because many female athletes, including me, do not get consistent access to sports psychology support.</p>
+            <p>And that creates a gap. A gap in understanding confidence, pressure, focus, anxiety, and mental wellbeing in sport, right when athletes need that understanding the most.</p>
+            <p>Mind the Gael exists to help bridge that gap.</p>
+            <p>Just to be really clear, I am not a sports psychologist. This platform is not clinical advice or therapy. What I share here is based on my own lived experience as an athlete, alongside research I'm actively learning from, exploring, and translating into language that makes sense in real sport.</p>
+            <p>My aim is education and awareness,helping athletes better understand their minds, not diagnosing or treating anything.</p>
+          </div>
+          <div class="split-image"></div>
+        </div>
       </section>
 
-      <section class="about">
-        <h2>Why this platform exists</h2>
-        <p>Mind the Gael exists because many female athletes, including me, do not get consistent access to sports psychology support.</p>
-        <p>And that creates a gap. A gap in understanding confidence, pressure, focus, anxiety, and mental wellbeing in sport, right when athletes need that understanding the most.</p>
-        <p>Mind the Gael exists to help bridge that gap.</p>
-        <p>Just to be really clear, I am not a sports psychologist. This platform is not clinical advice or therapy. What I share here is based on my own lived experience as an athlete, alongside research I'm actively learning from, exploring, and translating into language that makes sense in real sport.</p>
-        <p>My aim is education and awareness,helping athletes better understand their minds, not diagnosing or treating anything.</p>
-        
-        <h2>The Problem I'm Focused On</h2>
-        <p>This platform comes from my own experience as an athlete: struggling with anxiety, overthinking, confidence dips, and pressure, then realizing I needed practical understanding, not generic motivation; Mind the Gael focuses on what these moments actually feel like in training and matches and turns lived experience plus psychological learning into clear, usable guidance for real-time performance.</p>
-
-        <h2>What will you find here?</h2>
-        <p>You will find three core areas: the Content Hub, Personal Training, and Online Workshops.</p>
-        <p>The <strong>Content Hub</strong> is where all educational content lives, and it is broken into three parts:</p>
-        <ul>
-          <li><strong>Training the Mind Blog:</strong> sports psychology explained in simple, practical language.</li>
-          <li><strong>Gael Performance Toolkit:</strong> practical tools for focus, confidence, pressure moments, and match-day decision making.</li>
-          <li><strong>Stronger Minds, Stronger Players:</strong> always free content focused on spotting when someone may be struggling with mental health and signposting pathways to professional resources.</li>
-        </ul>
-        <p><strong>Personal Training</strong> is exercise-based coaching with a special focus on women's health. While there is overlap with performance and wellbeing, the primary focus is physical training support for female athletes.</p>
-        <p><strong>Online Workshops</strong> provide structured, topic-based coaching in an accessible format for athletes and teams.</p>
-
-        <h2>Who This Platform is For</h2>
-        <p> This is for female athletes, coaches, and support staff who want to better understand the mental side of performance.</p>
-          <p>It's for those who want to:</p>
-          <ul>
-            <li>perform more consistently under pressure</li>
-            <li>build confidence in key moments</li>
-            <li>Understand how mindset affects focus and decision-making</li>
-            <li>Make sense of what you're experiencing mentally in sport.</li>
-            <li>Support your own wellbeing, and know when to seek further help if needed</li>
-            <li>Or if you're involved in player development or coaching and want a clearer understanding of sports psychology in action.</li>
-          </ul>
-
-        <h2>Start here</h2>
-
-        <section class="founding-offer" aria-label="Founding offer">
-          <h3>Founding Offer</h3>
-          <p><strong>£5/month for the first 50 members</strong> (then £8/month).</p>
-          <p><strong>Includes a 14-day free trial</strong>, then full monthly access.</p>
-          <p>Each month includes: 4 Training the Mind articles, 4 Gael Performance Toolkits, and 1 mindfulness newsletter.</p>
-          <p><strong>Stronger Minds, Stronger Players is always free</strong> because it helps people spot when someone may be struggling with their mental health and points them toward professional support pathways.</p>
-          <a class="founding-offer-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
-        </section>
-
+      <section class="home-band home-band-problem">
+        <div class="split-row">
+          <div class="split-image split-image-problem">
+            <Image src={problemImage} alt="Two players embracing on the pitch" class="problem-photo" loading="lazy" />
+          </div>
+          <div class="split-text">
+            <h2>The Problem I'm Focused On</h2>
+            <p>This platform comes from my own experience as an athlete: struggling with anxiety, overthinking, confidence dips, and pressure, then realizing I needed practical understanding, not generic motivation; Mind the Gael focuses on what these moments actually feel like in training and matches and turns lived experience plus psychological learning into clear, usable guidance for real-time performance.</p>
+          </div>
+        </div>
       </section>
 
-      <section class="latest-blog-box">
-        <h2>Latest Articles and Toolkits</h2>
-        <ul class="latest-posts">
-          {latestPosts.map((post) => (
-            <li>
-              <a href={`/content-hub/${post.slug}/`}>
-                <h3>{post.data.title}</h3>
-                <p class="post-date">
-                  <FormattedDate date={post.data.pubDate} />
-                </p>
-                {post.data.description && <p class="post-description">{post.data.description}</p>}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a href="/content-hub" class="view-all-link">View All Articles →</a>
+      <!-- What you'll find: 3-column cards -->
+      <section class="home-band home-band-find">
+        <div class="container home-band-inner">
+          <h2>What will you find here?</h2>
+          <p class="find-intro">You will find three core areas: the Content Hub, Personal Training, and Online Workshops.</p>
+          <div class="find-cards">
+            <div class="find-card find-card-1">
+              <h3>Content Hub</h3>
+              <p>All educational content in one place — broken into three parts:</p>
+              <ul>
+                <li><strong>Training the Mind Blog:</strong> sports psychology in simple, practical language.</li>
+                <li><strong>Gael Performance Toolkit:</strong> practical tools for focus, confidence, and match-day decision making.</li>
+                <li><strong>Stronger Minds, Stronger Players:</strong> always free — spotting struggle and signposting professional support.</li>
+              </ul>
+              <a class="find-card-link" href="/content-hub">Explore Content Hub →</a>
+            </div>
+            <div class="find-card find-card-2">
+              <h3>Personal Training</h3>
+              <p>Exercise-based coaching with a special focus on women's health for female athletes. While there is overlap with performance and wellbeing, physical training support is the core focus.</p>
+              <a class="find-card-link" href="/personal-training">Explore Personal Training →</a>
+            </div>
+            <div class="find-card find-card-3">
+              <h3>Online Workshops</h3>
+              <p>Structured, topic-based coaching in an accessible format for athletes and teams.</p>
+              <a class="find-card-link" href="/workshops">Explore Workshops →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-band home-band-who">
+        <div class="split-row">
+          <div class="split-text">
+            <h2>Who This Platform is For</h2>
+            <p>This is for female athletes, coaches, and support staff who want to better understand the mental side of performance.</p>
+            <p>It's for those who want to:</p>
+            <ul>
+              <li>perform more consistently under pressure</li>
+              <li>build confidence in key moments</li>
+              <li>Understand how mindset affects focus and decision-making</li>
+              <li>Make sense of what you're experiencing mentally in sport.</li>
+              <li>Support your own wellbeing, and know when to seek further help if needed</li>
+              <li>Or if you're involved in player development or coaching and want a clearer understanding of sports psychology in action.</li>
+            </ul>
+          </div>
+          <div class="split-image split-image-who"></div>
+        </div>
+      </section>
+
+      <section class="home-band home-band-start">
+        <div class="container home-band-inner">
+          <h2>Start here</h2>
+
+          <section class="founding-offer" aria-label="Founding offer">
+            <h3>Founding Offer</h3>
+            <p><strong>£5/month for the first 50 members</strong> (then £8/month).</p>
+            <p><strong>Includes a 14-day free trial</strong>, then full monthly access.</p>
+            <p>Each month includes: 4 Training the Mind articles, 4 Gael Performance Toolkits, and 1 mindfulness newsletter.</p>
+            <p><strong>Stronger Minds, Stronger Players is always free</strong> because it helps people spot when someone may be struggling with their mental health and points them toward professional support pathways.</p>
+            <a class="founding-offer-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
+          </section>
+        </div>
+      </section>
+
+      <section class="home-band home-band-latest">
+        <div class="container home-band-inner">
+          <section class="latest-blog-box">
+            <h2>Latest Articles and Toolkits</h2>
+            <ul class="latest-posts">
+              {latestPosts.map((post) => (
+                <li>
+                  <a href={`/content-hub/${post.slug}/`}>
+                    <h3>{post.data.title}</h3>
+                    <p class="post-date">
+                      <FormattedDate date={post.data.pubDate} />
+                    </p>
+                    {post.data.description && <p class="post-description">{post.data.description}</p>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="/content-hub" class="view-all-link">View All Articles →</a>
+          </section>
+        </div>
       </section>
     </main>
     <Footer />
@@ -101,30 +148,259 @@ const latestPosts = featuredSlugs
 </html>
 
 <style>
-  .hero h1 {
-    margin: 0 0 0.5rem 0;
+  .home-layout {
+    padding: 0 0 2rem;
   }
 
-  .hero:not(.why-hero) h1 {
-    margin-top: 1.5rem;
+  .home-band {
+    padding: 2.4rem 0;
+    --band-text: var(--green-light);
+    --band-heading: var(--green-lime);
+    color: var(--band-text);
   }
 
-  .tagline {
-    color: var(--green-light);
+  .home-band-inner {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .home-band-why {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    --band-text: var(--green-light);
+    --band-heading: var(--green-lime);
+    padding: 0;
+  }
+
+  .home-band-problem {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    --band-text: var(--green-dark);
+    --band-heading: var(--purple);
+    padding: 0;
+  }
+
+  .home-band-find {
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.7) 100%);
+    --band-text: var(--green-light);
+    --band-heading: var(--purple-light);
+  }
+
+  .home-band-who {
+    background: linear-gradient(180deg, rgba(244, 255, 232, 0.9) 0%, rgba(240, 205, 255, 0.78) 100%);
+    --band-text: var(--green-dark);
+    --band-heading: var(--purple);
+    padding: 0;
+  }
+
+  .home-band-start {
+    background: linear-gradient(180deg, var(--green-lime) 0%, rgba(192, 254, 113, 0.82) 100%);
+    --band-text: var(--green-dark);
+    --band-heading: var(--purple);
+  }
+
+  .home-band-latest {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    --band-text: var(--green-light);
+    --band-heading: var(--green-lime);
+    padding-top: 1.7rem;
+  }
+
+  .home-band-photo {
+    padding: 0;
+    background: var(--green-dark);
+  }
+
+  /* ── Split image/text rows (Why + Problem) ── */
+  .split-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
+    gap: 0;
+    overflow: hidden;
+    max-width: 1380px;
+    margin: 0 auto;
+  }
+
+  .split-row-reverse {
+    direction: rtl;
+  }
+
+  .split-row-reverse > * {
+    direction: ltr;
+  }
+
+  .split-text {
+    padding: 2.4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .split-image {
+    background-image: url('/assets/DSC_1538.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 320px;
+  }
+
+  .split-image-problem {
+    background: #f3ecf7;
+  }
+
+  .problem-photo {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  .split-image-who {
+    background-image: url('/assets/HollowayTeamHuddle.jpg');
+    background-position: center center;
+  }
+
+  /* ── 3-column cards for "What will you find here" ── */
+  .find-intro {
+    text-align: center;
+    max-width: 56ch;
+    margin: 0 auto 1.8rem;
+  }
+
+  .find-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  .find-card {
+    border-radius: 12px;
+    padding: 1.6rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    border: 1px solid rgba(105, 0, 90, 0.22);
+    color: var(--green-dark);
+  }
+
+  .find-card h3 {
     font-size: 1.2rem;
-    font-style: italic;
-    margin-bottom: 2rem;
+    margin: 0;
+    color: var(--purple);
   }
 
-  .intro p {
+  .find-card p, .find-card ul {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .find-card ul {
+    padding-left: 1.1rem;
+  }
+
+  .find-card li {
+    margin-bottom: 0.45rem;
+  }
+
+  .find-card-link {
+    display: inline-block;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    color: var(--purple);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+    align-self: flex-start;
+  }
+
+  .find-card-link:hover {
+    border-bottom-color: var(--purple);
+  }
+
+  .find-card-1 {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    border: 1px solid rgba(105, 0, 90, 0.22);
+  }
+
+  .find-card-2 {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    border: 1px solid rgba(105, 0, 90, 0.22);
+  }
+
+  .find-card-2 h3 {
+    color: var(--purple);
+  }
+
+  .find-card-2 .find-card-link {
+    color: var(--purple);
+  }
+
+  .find-card-2 .find-card-link:hover {
+    border-bottom-color: var(--purple);
+  }
+
+  .find-card-3 {
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    border: 1px solid rgba(105, 0, 90, 0.22);
+    color: var(--green-dark);
+  }
+
+  .find-card-3 h3 {
+    color: var(--purple);
+  }
+
+  .find-card-3 .find-card-link {
+    color: var(--purple);
+  }
+
+  .find-card-3 .find-card-link:hover {
+    border-bottom-color: var(--purple);
+  }
+
+  .about-photo {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 0;
+    display: block;
+  }
+
+  .about-photo-block {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border-top: 3px solid var(--green-lime);
+    border-bottom: 3px solid var(--green-lime);
+  }
+
+  .home-band h2 {
+    margin: 0 0 0.9rem;
+    color: var(--band-heading);
+    font-size: 1.65rem;
+    max-width: 38ch;
+    line-height: 1.25;
+  }
+
+  .home-band p {
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .about ul {
-    margin: 0 0 1.5rem 1.5rem;
+  .home-band ul {
+    margin: 0 0 0.85rem 1.25rem;
     padding-left: 1rem;
+  }
+
+  .home-band p:last-child,
+  .home-band ul:last-child {
+    margin-bottom: 0;
   }
 
   .about li {
@@ -134,14 +410,14 @@ const latestPosts = featuredSlugs
   .founding-offer {
     margin: 1rem 0 2rem;
     padding: 1rem 1.1rem;
-    border: 2px solid var(--green-lime);
+    border: 2px solid var(--purple);
     border-radius: 10px;
-    background: rgba(240, 205, 255, 0.12);
+    background: #ffffff;
   }
 
   .founding-offer h3 {
     margin: 0 0 0.6rem;
-    color: var(--green-lime);
+    color: var(--purple);
   }
 
   .founding-offer p {
@@ -326,17 +602,33 @@ const latestPosts = featuredSlugs
   }
 
   .latest-blog-box {
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
+    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(240, 205, 255, 0.82) 100%);
+    border: 2px solid rgba(240, 205, 255, 0.92);
     border-radius: 8px;
     padding: 2rem;
     transition: transform 0.2s ease, border-color 0.2s ease;
     margin-bottom: 2rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: var(--green-dark);
   }
 
   .latest-blog-box:hover {
     transform: translateY(-2px);
     border-color: var(--purple-light);
+  }
+
+  .latest-blog-box h2,
+  .latest-blog-box h3,
+  .latest-blog-box .post-date,
+  .latest-blog-box .post-description,
+  .latest-blog-box .view-all-link,
+  .latest-blog-box li a {
+    color: var(--green-dark);
+  }
+
+  .latest-blog-box li a:hover h3,
+  .latest-blog-box .view-all-link:hover {
+    color: var(--purple);
   }
 
   .latest-posts {
@@ -364,7 +656,7 @@ const latestPosts = featuredSlugs
   }
 
   .latest-posts li a:hover h3 {
-    color: var(--purple-light);
+    color: var(--purple);
   }
 
   .post-date {
@@ -392,6 +684,11 @@ const latestPosts = featuredSlugs
 
   .view-all-link:hover {
     border-bottom-color: var(--green-lime);
+  }
+
+  .latest-blog-box .view-all-link:hover {
+    color: var(--purple);
+    border-bottom-color: var(--purple);
   }
 
   .coming-soon {
@@ -436,27 +733,35 @@ const latestPosts = featuredSlugs
       margin-top: 2.2rem;
     }
 
-    .about-grid {
-      max-width: 100%;
+    .home-band {
+      padding: 1.6rem 0;
     }
 
-    .arrow-image-row,
-    .arrow-image-row-reverse {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1rem;
+    .split-row {
+      grid-template-columns: 1fr;
     }
 
-    .about-image-img {
-      width: min(100%, 360px);
+    .split-image {
+      min-height: 220px;
+      order: -1;
+    }
+
+    .find-cards {
+      grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 768px) {
-    .intro p,
-    .guess-arrow-text {
+    .home-band p {
       font-size: 0.95rem;
+    }
+
+    .home-band h2 {
+      font-size: 1.35rem;
+    }
+
+    .about-photo {
+      height: 200px;
     }
   }
 </style>

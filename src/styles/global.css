@@ -43,7 +43,7 @@
 html, body {
   width: 100%;
   min-height: 100vh;
-  background: #181818 !important;
+  background: var(--green-dark) !important;
   font-family: "Atkinson", Georgia, serif;
   font-size: 20px;
   line-height: 1.7;
@@ -364,16 +364,6 @@ body.home-page {
   isolation: isolate;
 }
 
-body.home-page::before {
-  content: "";
-  position: fixed; /* stays in place when scrolling */
-  inset: var(--page-bg-top-offset) 0 0 0;
-  background: url("/assets/HollowayTeamHuddle.jpg") center/cover no-repeat;
-  opacity: 0.24; /* adjust fade here */
-  z-index: 0;
-  pointer-events: none;
-}
-
 body.home-page header,
 body.home-page main,
 body.home-page footer {
@@ -387,66 +377,6 @@ body.about-page,
 body.resources-page {
   position: relative;
   isolation: isolate;
-}
-
-body.meet-team-page::before,
-body.personal-training-page::before,
-body.about-page::before,
-body.resources-page::before {
-  content: "";
-  position: fixed;
-  inset: var(--page-bg-top-offset) 0 0 0;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  z-index: 0;
-  pointer-events: none;
-}
-
-body.meet-team-page::before {
-  inset: calc(var(--page-bg-top-offset) + 95px) 0 0 0;
-  background-position: center top;
-  background-image: url("/assets/EmilyPhelan-London-Playing-1.jpg");
-  opacity: 0.24;
-}
-
-@media (max-width: 720px) {
-  body.meet-team-page::before {
-    inset: calc(var(--page-bg-top-offset) + 70px) 0 0 0;
-  }
-}
-
-body.personal-training-page::before {
-  background-position: center top;
-  background-image: url("/assets/CiaraFlan-London-1.jpg");
-  opacity: 0.24;
-}
-
-body.about-page::before {
-  inset: calc(var(--page-bg-top-offset) + 140px) 0 0 0;
-  background-position: center 34%;
-  background-image: url("/assets/EmilyPhelan-Holloway-Playing.jpg");
-  opacity: 0.24;
-}
-
-@media (min-width: 1200px) {
-  body.about-page::before {
-    background-position: center 36%;
-  }
-}
-
-@media (min-width: 1600px) {
-  body.about-page::before {
-    background-position: center 38%;
-  }
-}
-
-@media (max-width: 720px) {
-  body.about-page::before {
-    inset: calc(var(--page-bg-top-offset) - 15px) 0 0 0;
-    background-position: center 48%;
-  }
 }
 
 body.meet-team-page header,
