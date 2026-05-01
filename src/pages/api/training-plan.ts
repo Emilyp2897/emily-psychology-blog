@@ -32,6 +32,8 @@ const openaiClient = new OpenAI({
   apiKey: import.meta.env.OPENAI_API_KEY,
 });
 
+const CONSULTATION_TO_EMAIL = 'emilyphelan@mindthegael.co.uk';
+
 export const POST: APIRoute = async (context) => {
   try {
     const body = await context.request.json() as ConsultationWithPlanRequest;
@@ -105,7 +107,8 @@ Always consider cycle awareness and long-term athlete development.`
     }
 
     // Direct submission (no mailto flow): request is received server-side here.
-    // You can later wire this to DB storage or an email provider from this endpoint.
+    await sendConsultationEmail(body, generatedPlan);
+
     console.log('[CONSULTATION_REQUEST]', {
       name: body.name,
       email: body.email,
@@ -175,4 +178,71 @@ Include:
 - Integration notes if they're training for a specific sport
 
 Make the plan progressive (each week builds on previous) and adaptable to the client's actual capacity over ${data.planDuration || '6 weeks'}.`;
+}
+
+async function sendConsultationEmail(data: ConsultationWithPlanRequest, generatedPlan: string) {
+  const resendApiKey = import.meta.env.RESEND_API_KEY;
+  const fromEmail = import.meta.env.CONSULTATION_FROM_EMAIL || 'Mind the Gael <onboarding@resend.dev>';
+
+  if (!resendApiKey) {
+    throw new Error('Missing RESEND_API_KEY environment variable.');
+  }
+
+  const subject = `New consultation request: ${data.name}`;
+  const planBlock = generatedPlan
+    ? `\n\nAI-GENERATED PLAN\n----------------\n${generatedPlan}`
+    : '\n\nAI-GENERATED PLAN\n----------------\nNo plan generated for this submission.';
+
+  const text = [
+    'NEW CONSULTATION REQUEST',
+    '',
+    `Submitted: ${new Date().toISOString()}`,
+    `Name: ${data.name}`,
+    `Email: ${data.email}`,
+    `Phone: ${data.phone || 'Not provided'}`,
+    `Sport/Team: ${data.sport}`,
+    `Preferred contact method: ${data.contactMethod}`,
+    `Preferred time: ${data.preferredTime || 'Not provided'}`,
+    '',
+    'CLIENT GOALS',
+    '------------',
+    data.goals,
+    '',
+    'TRAINING PLAN INPUT',
+    '-------------------',
+    `Include progression plan: ${data.includeProgressionPlan ? 'Yes' : 'No'}`,
+    `Age: ${data.age ?? 'Not provided'}`,
+    `Height: ${data.height || 'Not provided'}`,
+    `Weight: ${data.weight || 'Not provided'}`,
+    `Exercise level: ${data.exerciseLevel || 'Not provided'}`,
+    `Sports background: ${data.sportsOrNot || 'Not provided'}`,
+    `Equipment: ${data.equipment?.join(', ') || 'Not provided'}`,
+    `Frequency per week: ${data.frequencyPerWeek ?? 'Not provided'}`,
+    `Plan duration: ${data.planDuration || 'Not provided'}`,
+    `Plan goals: ${data.planGoals?.join(', ') || 'Not provided'}`,
+    `Issues/worries: ${data.issuesWorries || 'Not provided'}`,
+    `Lifestyle: ${data.lifestyle || 'Not provided'}`,
+    `Medical conditions: ${data.medicalConditions || 'Not provided'}`,
+    `Injuries: ${data.injuries || 'Not provided'}`,
+  ].join('\n') + planBlock;
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: fromEmail,
+      to: [CONSULTATION_TO_EMAIL],
+      subject,
+      text,
+      reply_to: data.email,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => 'No response body');
+    throw new Error(`Failed to send consultation email: ${response.status} ${details}`);
+  }
 }

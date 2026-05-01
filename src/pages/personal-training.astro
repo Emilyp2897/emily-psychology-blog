@@ -91,6 +91,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
             Use the booking schedule below to choose a time that suits you. If you do not see a slot that works, or if you'd like to arrange a regular weekly time, please contact me directly at emilyphelan@mindthegael.co.uk.
           </p>
           <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
+          <p class="consultation-note">The consultation form opens in a pop-up when you click the button above.</p>
           <div class="calendar-embed-wrap">
             <iframe
               src={GOOGLE_CALENDAR_EMBED_URL}
@@ -333,6 +334,13 @@ const GOOGLE_CALENDAR_EMBED_URL =
         consultationForm.addEventListener('submit', async (event) => {
           event.preventDefault();
 
+          const submitBtn = consultationForm.querySelector('.consultation-submit');
+          const originalSubmitLabel = submitBtn ? submitBtn.textContent : '';
+          if (submitBtn instanceof HTMLButtonElement) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+          }
+
           const formData = new FormData(consultationForm);
           const name = String(formData.get('name') || '').trim();
           const email = String(formData.get('email') || '').trim();
@@ -403,6 +411,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
             
             if (result.success) {
               closeModal();
+              consultationForm.reset();
               alert(result.message || 'Thank you! Your consultation request has been received.');
             } else {
               alert('Error: ' + (result.error || 'Something went wrong'));
@@ -410,6 +419,11 @@ const GOOGLE_CALENDAR_EMBED_URL =
           } catch (error) {
             console.error('Error:', error);
             alert('Failed to submit your request. Please try again or contact me directly at emilyphelan@mindthegael.co.uk');
+          } finally {
+            if (submitBtn instanceof HTMLButtonElement) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalSubmitLabel || 'Submit Consultation Request';
+            }
           }
         });
       }
@@ -498,6 +512,12 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
   .calendar-copy {
     margin: 0 0 1rem;
+  }
+
+  .consultation-note {
+    margin: 0 0 1rem;
+    font-size: 0.92rem;
+    color: var(--green-light);
   }
 
   .consultation-btn {
@@ -733,6 +753,12 @@ const GOOGLE_CALENDAR_EMBED_URL =
     font: inherit;
     line-height: 1.2;
     cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .consultation-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 
   /* Progression Plan Form Styles */
