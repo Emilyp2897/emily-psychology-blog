@@ -403,11 +403,10 @@ const GOOGLE_CALENDAR_EMBED_URL =
               body: JSON.stringify(requestData),
             });
 
+            const result = await response.json().catch(() => ({}));
             if (!response.ok) {
-              throw new Error('Submission failed');
+              throw new Error(result.error || 'Submission failed.');
             }
-
-            const result = await response.json();
             
             if (result.success) {
               closeModal();
@@ -418,7 +417,10 @@ const GOOGLE_CALENDAR_EMBED_URL =
             }
           } catch (error) {
             console.error('Error:', error);
-            alert('Failed to submit your request. Please try again or contact me directly at emilyphelan@mindthegael.co.uk');
+            const message = error instanceof Error
+              ? error.message
+              : 'Failed to submit your request. Please try again or contact me directly at emilyphelan@mindthegael.co.uk';
+            alert(message);
           } finally {
             if (submitBtn instanceof HTMLButtonElement) {
               submitBtn.disabled = false;

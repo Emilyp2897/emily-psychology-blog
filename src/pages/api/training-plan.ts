@@ -88,7 +88,7 @@ Always consider cycle awareness and long-term athlete development.`
           model: configuredModel,
           messages,
           temperature: 0.7,
-          max_tokens: 3000,
+          max_tokens: 1400,
         });
       } catch (error: any) {
         if (error?.code === 'model_not_found' && configuredModel !== fallbackModel) {
@@ -96,7 +96,7 @@ Always consider cycle awareness and long-term athlete development.`
             model: fallbackModel,
             messages,
             temperature: 0.7,
-            max_tokens: 3000,
+            max_tokens: 1400,
           });
         } else {
           throw error;
@@ -127,10 +127,22 @@ Always consider cycle awareness and long-term athlete development.`
         headers: { 'Content-Type': 'application/json' }
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Consultation submission error:', error);
+    let message = 'Failed to process consultation request.';
+
+    if (error?.message?.includes('RESEND_API_KEY')) {
+      message = 'Consultation email service is not configured yet. Please add RESEND_API_KEY in environment variables.';
+    } else if (error?.message?.includes('Failed to send consultation email')) {
+      message = 'Could not send consultation email. Please check that your Resend sender email/domain is verified.';
+    } else if (error?.code === 'insufficient_quota') {
+      message = 'AI quota limit reached. Your request details were received, but plan generation could not complete right now.';
+    } else if (error?.code === 'model_not_found') {
+      message = 'Configured AI model is not available for this API key. Please update OPENAI_MODEL_PLAN.';
+    }
+
     return new Response(
-      JSON.stringify({ error: 'Failed to process consultation request' }),
+      JSON.stringify({ error: message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
