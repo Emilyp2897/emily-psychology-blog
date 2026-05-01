@@ -6,13 +6,6 @@ export const prerender = false;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 20;
 
-const ALLOWED_CHAT_SLUGS = new Set([
-  'training-the-mind/choking-under-pressure',
-  'training-the-mind/attention-control-theory',
-  'gael-performance-toolkit/reset-your-focus-toolkit',
-  'gael-performance-toolkit/stay-composed-under-pressure-toolkit',
-]);
-
 const requestBuckets = new Map<string, number[]>();
 
 type ChatMessage = {
@@ -127,9 +120,7 @@ function scorePost(questionTokens: string[], post: KnowledgePost): number {
 
 async function buildKnowledgeBase(): Promise<KnowledgePost[]> {
   const allPosts = await getCollection('blog');
-  const publishedPosts = allPosts.filter(
-    (post: any) => !post.data.draft && ALLOWED_CHAT_SLUGS.has(post.slug)
-  );
+  const publishedPosts = allPosts.filter((post: any) => !post.data.draft);
 
   return publishedPosts.map((post: any) => {
     const cleanBody = (post.body || '')
@@ -297,7 +288,7 @@ export const POST = async ({ request }: { request: Request }) => {
       .map((post) => ({ post, score: scorePost(tokens, post) }))
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
+      .slice(0, 5)
       .map((entry) => entry.post);
 
     const aiReply = await generateOpenAIReply({ message, history, matches });
