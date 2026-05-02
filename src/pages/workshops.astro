@@ -24,12 +24,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       <section class="hero">
         <h1>Online Workshops</h1>
         <p>These are online interactive courses designed for athletes to do in their own time.</p>
+        <p class="access-note">Accessible pricing options are available for every course.</p>
+        <p class="planned-label"><strong>Planned workshops:</strong></p>
       </section>
 
       <div class="two-col-grid">
         <section class="workshops-content">
-          <p class="access-note">Accessible pricing options are available for every course.</p>
-          <p><strong>Planned workshops:</strong></p>
           <div class="workshop-cards">
             <article class="workshop-card">
               <h4>Mindfullness for Female Athletes</h4>
@@ -95,6 +95,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
+    margin-top: 0.25rem;
     margin-bottom: 3rem;
     max-width: 1100px;
     margin-left: auto;
@@ -158,9 +159,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .access-note {
-    margin: 0 0 0.75rem;
+    margin: 0.35rem 0 0.35rem;
     color: var(--purple-light);
     font-weight: 600;
+  }
+
+  .planned-label {
+    margin: 0 0 0.2rem;
+    color: var(--green-light);
+    font-size: 1.15rem;
   }
 
   .workshop-meta {

@@ -214,7 +214,7 @@ footer .social-links {
 }
 
 footer .social-links a {
-  color: var(--green-lime);
+  color: #4f0044;
   background: rgba(0,0,0,0.15);
   padding: 0.2em 0.5em;
   border-radius: 6px;
@@ -222,7 +222,7 @@ footer .social-links a {
 }
 
 footer .social-links a:hover {
-  color: var(--purple);
+  color: #2e0028;
   background: var(--green-light);
 }
 
@@ -257,12 +257,24 @@ p {
 }
 
 a {
-  color: var(--green-lime);
+  color: #4f0044;
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--purple-light);
+  color: #2e0028;
+}
+
+main a,
+main a:visited {
+  color: #4f0044 !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 2px;
+}
+
+main a:hover {
+  color: #2e0028 !important;
 }
 
 a:focus-visible,

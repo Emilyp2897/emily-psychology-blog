@@ -18,14 +18,14 @@ const GOOGLE_CALENDAR_EMBED_URL =
   <body class="personal-training-page">
     <Header />
     <main class="container">
-      <div class="coming-soon-strip">
-        <Image src={saoirseImage} alt="Saoirse the shamrock" class="strip-shamrock" />
-        <span>Personal Training launching shortly. Register your interest below!</span>
-      </div>
-      <h1>Personal Training</h1>
       <section class="intro">
         <div class="pt-band pt-band-intro">
           <div class="pt-band-inner">
+            <div class="coming-soon-strip">
+              <Image src={saoirseImage} alt="Saoirse the shamrock" class="strip-shamrock" />
+              <span>Personal Training launching shortly. Register your interest below!</span>
+            </div>
+            <h1>Personal Training</h1>
             <p>Our personal training is exercise-based, with a special focus on women's health for female athletes. Performance and mental wellbeing can overlap with this work, but physical training support is the core focus.</p>
           </div>
         </div>
@@ -43,7 +43,11 @@ const GOOGLE_CALENDAR_EMBED_URL =
                 <img src="/assets/CiaraFlan-London-1.jpg" alt="Ciara Flanagan training in London" loading="lazy" />
               </div>
             </div>
+          </div>
+        </div>
 
+        <div class="pt-band pt-band-focus-areas">
+          <div class="pt-band-inner">
             <div class="focus-areas">
               <div class="focus-card">
                 <h3>Strength & Conditioning</h3>
@@ -479,14 +483,23 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
   .pt-band-focus {
     background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
+    padding: 0;
+  }
+
+  .pt-band-focus .pt-band-inner {
+    max-width: 1380px;
   }
 
   .pt-band-pricing {
     background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
   }
 
+  .pt-band-focus-areas {
+    background: linear-gradient(180deg, var(--green-lime) 0%, rgba(192, 254, 113, 0.82) 100%);
+  }
+
   .pt-band-booking {
-    background: linear-gradient(180deg, rgba(244, 255, 232, 0.9) 0%, rgba(240, 205, 255, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
   .pt-band-inner {
@@ -509,11 +522,26 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
   .pt-band-focus p,
   .pt-band-focus .training-highlight-copy p,
-  .pt-band-focus .focus-card p,
+  .pt-band-focus-areas p,
+  .pt-band-focus-areas .focus-card p,
   .pt-band-booking p,
   .pt-band-booking .calendar-copy,
   .pt-band-booking .consultation-note {
     color: var(--green-dark);
+  }
+
+  .pt-band-booking .calendar-heading {
+    color: var(--green-lime);
+  }
+
+  .pt-band-focus-areas .focus-card h3,
+  .pt-band-focus-areas .focus-card p {
+    color: var(--green-dark);
+  }
+
+  .pt-band-booking .calendar-copy,
+  .pt-band-booking .consultation-note {
+    color: var(--green-light);
   }
 
   .pricing-heading {
@@ -530,7 +558,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
     width: 100%;
     border-collapse: collapse;
     background-color: rgba(244, 255, 232, 0.95);
-    border: 1px solid rgba(244, 255, 232, 0.7);
+    border: 2px solid rgba(105, 0, 90, 0.5);
     color: var(--green-dark);
   }
 
@@ -546,7 +574,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
   .pricing-table td {
     padding: 0.85rem;
     text-align: left;
-    border: 1px solid rgba(192, 254, 113, 0.35);
+    border: 1px solid rgba(105, 0, 90, 0.45);
     vertical-align: middle;
   }
 
@@ -635,13 +663,15 @@ const GOOGLE_CALENDAR_EMBED_URL =
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     margin-bottom: 0;
+    padding-top: 0.25rem;
   }
 
   .training-highlight {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 1rem;
-    margin: 0 0 1.5rem;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 0;
+    margin: 0;
+    min-height: 380px;
     border: 0;
     border-radius: 0;
     overflow: hidden;
@@ -649,7 +679,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
   }
 
   .training-highlight-copy {
-    padding: 1.2rem 1rem;
+    padding: 2rem 1rem 2rem max(1rem, calc((100vw - 1200px) / 2 - (100vw - min(1380px, 100vw)) / 2));
   }
 
   .training-highlight-copy h2 {
@@ -664,14 +694,20 @@ const GOOGLE_CALENDAR_EMBED_URL =
   }
 
   .training-highlight-media {
+    position: relative;
+    align-self: stretch;
     min-height: 240px;
   }
 
   .training-highlight-media :global(img) {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 58% 35%;
     border-radius: 0;
+    display: block;
   }
 
   @media (max-width: 768px) {
@@ -686,6 +722,10 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
     .training-highlight {
       grid-template-columns: 1fr;
+    }
+
+    .training-highlight-copy {
+      padding: 1.2rem 1rem;
     }
 
     .training-highlight-media {
@@ -738,7 +778,7 @@ const GOOGLE_CALENDAR_EMBED_URL =
   .coming-soon-strip {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1rem;
     border-radius: 8px;
     background: #f0cdff;
     color: #69005a;
