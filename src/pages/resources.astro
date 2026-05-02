@@ -125,12 +125,17 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     z-index: 1;
     padding-top: 0;
     padding-bottom: 3rem;
+    --resources-text-inset: max(1rem, calc(50vw - 600px + 1rem));
+  }
+
+  .resources-main p {
+    line-height: 1.42;
   }
 
   .resources-main > h1 {
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    margin: 0 calc(50% - 50vw) 1rem;
-    padding: 2rem max(1rem, calc(50vw - 600px));
+    margin: 0 calc(50% - 50vw) 0;
+    padding: 2rem var(--resources-text-inset);
   }
 
   .resources-table-block {
@@ -142,16 +147,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .resources-intro {
-    margin: 0.25rem 0 1.25rem;
+    margin: 0 0 0.4rem;
+    padding: 0;
     color: var(--purple-light);
     font-size: 1.1rem;
   }
 
   .resources-emergency {
-    margin: 0 0 1.25rem;
+    margin: 0 0 0.95rem;
     color: #fff;
     font-weight: 600;
-    padding: 0.9rem 1rem;
+    line-height: 1.38;
+    padding: 0.72rem 0;
     border-radius: 10px;
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
@@ -176,10 +183,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .resources-table th,
   .resources-table td {
     border: 1px solid rgba(105, 0, 90, 0.45);
-    padding: 0.8rem;
+    padding: 0.8rem 0.75rem;
     text-align: left;
     vertical-align: top;
     color: var(--green-dark);
+    line-height: 1.45;
   }
 
   .resources-table th {
@@ -214,6 +222,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     .resources-main {
       padding-top: 1.1rem;
       padding-bottom: 2rem;
+      --resources-text-inset: 0.2rem;
     }
 
     h1 {
@@ -223,10 +232,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
     .resources-intro {
       font-size: 1rem;
+      margin-bottom: 0.45rem;
+      padding: 0;
     }
 
     .resources-emergency {
       font-size: 0.98rem;
+      line-height: 1.36;
+      margin-bottom: 0.85rem;
     }
 
     .resources-table {
@@ -257,8 +270,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     .resources-table td {
       border: 0;
       border-bottom: 1px solid rgba(105, 0, 90, 0.4);
-      padding: 0.65rem 0.85rem;
+      padding: 0.62rem 0.8rem;
       font-size: 0.95rem;
+      line-height: 1.4;
       text-align: left;
     }
 

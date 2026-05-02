@@ -22,9 +22,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       </div>
 
       <section class="hero">
-        <h1>Online Workshops</h1>
-        <p>These are online interactive courses designed for athletes to do in their own time.</p>
-        <p class="access-note">Accessible pricing options are available for every course.</p>
+        <div class="hero-inner">
+          <h1>Online Workshops</h1>
+          <p class="hero-intro">These are online interactive courses designed for athletes to do in their own time.</p>
+          <p class="access-note">Accessible pricing options are available for every course.</p>
+        </div>
       </section>
 
       <div class="two-col-grid">
@@ -80,7 +82,28 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .hero {
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
     margin: 0 calc(50% - 50vw) 1.2rem;
-    padding: 2rem max(1rem, calc(50vw - 600px));
+    padding: 1.55rem max(1rem, calc(50vw - 600px + 1rem)) 1.8rem;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    margin: 0 0 0.28rem;
+    color: var(--green-lime);
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    margin: 0;
+    line-height: 1.42;
+  }
+
+  .hero-intro {
+    margin-bottom: 0;
   }
 
   .section-heading {
@@ -96,7 +119,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     gap: 2rem;
     margin-top: 0.25rem;
     margin-bottom: 3rem;
-    max-width: 1100px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -106,7 +129,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     z-index: 10;
     width: 100%;
     max-width: 1200px;
-    margin: 1rem auto 1rem;
+    margin: 0.2rem auto 0.45rem;
     border-radius: 8px;
     background: var(--purple-light);
     color: var(--purple);
@@ -158,9 +181,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .access-note {
-    margin: 0.35rem 0 0.35rem;
+    margin: 0.85rem 0 0;
     color: var(--purple-light);
     font-weight: 600;
+    line-height: 1.38;
   }
 
   .planned-label {
