@@ -32,14 +32,40 @@ const today = new Date();
   
   <div class="shamrock-chatbot-wrapper">
     <div class="shamrock-chatbot">
-      <a class="shamrock-chatbot-link" href="/chat" aria-label="Chat with Saoirse">
+      <button type="button" class="shamrock-chatbot-link" id="open-chat-panel" aria-label="Open chat with Saoirse" aria-controls="chat-panel" aria-expanded="false">
         <Image src={saoirseImage} alt="Shamrock Chatbot" loading="lazy" />
-      </a>
+      </button>
     </div>
     <div class="shamrock-bubbles">
-      <a class="shamrock-speech-bubble bubble-chat" href="/chat">Chat with Saoirse</a>
+      <button type="button" class="shamrock-speech-bubble bubble-chat" id="open-chat-panel-bubble"><span class="chat-line-1">Chat with</span><span class="chat-line-2">Saoirse</span></button>
     </div>
   </div>
+
+  <aside id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-panel-title" aria-hidden="true">
+    <div class="chat-panel-head">
+      <h2 id="chat-panel-title">Chat with Saoirse</h2>
+      <button type="button" id="close-chat-panel" class="chat-panel-close" aria-label="Close chat">✕</button>
+    </div>
+
+    <div class="chat-panel-prompts" role="group" aria-label="Suggested prompts">
+      <button type="button" class="chat-panel-prompt" data-prompt="How do I reset my focus after a mistake?">Reset after a mistake</button>
+      <button type="button" class="chat-panel-prompt" data-prompt="How can I stop overthinking before a game?">Stop overthinking pre-game</button>
+      <button type="button" class="chat-panel-prompt" data-prompt="What should I do when pressure gets too high in key moments?">Handle pressure moments</button>
+      <a class="chat-panel-prompt chat-panel-link" href="/resources">Support resources</a>
+    </div>
+
+    <div id="chat-panel-log" class="chat-panel-log" aria-live="polite">
+      <div class="chat-panel-message bot">
+        <p><strong>Saoirse:</strong> Hi, I am Saoirse. I can help you steady your mind, reset your focus, and handle pressure one step at a time.</p>
+      </div>
+    </div>
+
+    <form id="chat-panel-form" class="chat-panel-form">
+      <label for="chat-panel-input" class="sr-only">Ask Saoirse a question</label>
+      <input id="chat-panel-input" type="text" name="chat-panel-input" placeholder="Type your question..." required />
+      <button type="submit">Send</button>
+    </form>
+  </aside>
 <style>
   .support-wrapper {
     position: fixed;
@@ -164,7 +190,7 @@ const today = new Date();
 <style>
   .shamrock-chatbot-wrapper {
     position: fixed;
-    right: 2vw;
+    right: -34px;
     bottom: 2vw;
     z-index: 1000;
     display: flex;
@@ -182,6 +208,10 @@ const today = new Date();
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
     transition: transform 0.2s ease;
   }
 
@@ -218,6 +248,13 @@ const today = new Date();
     transform: none;
     white-space: nowrap;
     line-height: 1.15;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .shamrock-speech-bubble .chat-line-1,
+  .shamrock-speech-bubble .chat-line-2 {
+    display: inline;
   }
 
   .bubble-chat {
@@ -226,7 +263,7 @@ const today = new Date();
 
   @media (max-width: 900px) {
     .shamrock-chatbot-wrapper {
-      right: 0.75rem;
+      right: -40px;
       bottom: 0.75rem;
       gap: 0.35rem;
       align-items: center;
@@ -234,6 +271,7 @@ const today = new Date();
 
     .shamrock-bubbles {
       gap: 0.25rem;
+      transform: translateX(-20px);
     }
 
     .shamrock-speech-bubble {
@@ -241,6 +279,13 @@ const today = new Date();
       min-width: 88px;
       padding: 0.2em 0.55em;
       transform: none;
+      white-space: normal;
+      line-height: 1.1;
+    }
+
+    .shamrock-speech-bubble .chat-line-1,
+    .shamrock-speech-bubble .chat-line-2 {
+      display: block;
     }
 
     .bubble-chat {
@@ -248,7 +293,132 @@ const today = new Date();
     }
   }
 
+  .chat-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(420px, 100vw);
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.98) 0%, rgba(3, 10, 6, 0.92) 100%);
+    border-left: 2px solid rgba(192, 254, 113, 0.35);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.32);
+    padding: 0.9rem;
+    z-index: 1400;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.65rem;
+    transform: translateX(100%);
+    transition: transform 0.22s ease;
+  }
+
+  .chat-panel.active {
+    transform: translateX(0);
+  }
+
+  .chat-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .chat-panel-head h2 {
+    margin: 0;
+    color: var(--green-lime);
+    font-size: 1.05rem;
+  }
+
+  .chat-panel-close {
+    border: 0;
+    border-radius: 8px;
+    background: rgba(240, 205, 255, 0.22);
+    color: var(--green-light);
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .chat-panel-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chat-panel-prompt {
+    border: 1px solid rgba(192, 254, 113, 0.52);
+    border-radius: 999px;
+    background: rgba(192, 254, 113, 0.12);
+    color: var(--green-light);
+    padding: 0.32rem 0.62rem;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .chat-panel-prompt:hover,
+  .chat-panel-prompt:focus-visible {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .chat-panel-log {
+    overflow-y: auto;
+    padding-right: 0.2rem;
+  }
+
+  .chat-panel-message {
+    margin-bottom: 0.65rem;
+    line-height: 1.4;
+  }
+
+  .chat-panel-message.user {
+    color: var(--green-light);
+  }
+
+  .chat-panel-message.bot {
+    color: var(--purple-light);
+  }
+
+  .chat-panel-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.45rem;
+  }
+
+  .chat-panel-form input {
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    background: #fff;
+    color: #121212;
+    padding: 0.62rem 0.72rem;
+    font-size: 0.95rem;
+  }
+
+  .chat-panel-form button {
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    background: var(--green-lime);
+    color: #111;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.62rem 0.8rem;
+  }
+
+  .chat-panel-form button:hover {
+    background: var(--purple-light);
+  }
+
   @media (max-width: 600px) {
+    .shamrock-chatbot-wrapper {
+      right: -46px;
+    }
+
+    .shamrock-bubbles {
+      transform: translateX(-24px);
+    }
+
     body.content-hub-page .shamrock-chatbot-wrapper {
       bottom: 2.9rem;
     }
@@ -328,6 +498,7 @@ const today = new Date();
 </style>
 
 <script>
+  // @ts-nocheck
   const supportTab = document.getElementById('support-tab');
   const supportDrawer = document.getElementById('support-drawer');
   const closeDrawer = document.getElementById('close-drawer');
@@ -382,6 +553,158 @@ const today = new Date();
       closeDrawerFunc();
     }
   });
+
+  const openChatBtn = document.getElementById('open-chat-panel');
+  const openChatBubbleBtn = document.getElementById('open-chat-panel-bubble');
+  const closeChatBtn = document.getElementById('close-chat-panel');
+  const chatPanel = document.getElementById('chat-panel');
+  const chatPanelForm = document.getElementById('chat-panel-form');
+  const chatPanelInput = document.getElementById('chat-panel-input');
+  const chatPanelLog = document.getElementById('chat-panel-log');
+  const chatPromptButtons = document.querySelectorAll('.chat-panel-prompt[data-prompt]');
+  const chatHistory = [];
+
+  function escapeHtml(value) {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function appendChatMessage(role, html) {
+    if (!(chatPanelLog instanceof HTMLDivElement)) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = `chat-panel-message ${role}`;
+    wrapper.innerHTML = html;
+    chatPanelLog.appendChild(wrapper);
+    chatPanelLog.scrollTop = chatPanelLog.scrollHeight;
+  }
+
+  async function askSaoirse(question) {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: question, history: chatHistory }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Chat API unavailable');
+    }
+
+    return response.json();
+  }
+
+  function openChatPanel() {
+    if (!(chatPanel instanceof HTMLElement)) return;
+    chatPanel.classList.add('active');
+    chatPanel.setAttribute('aria-hidden', 'false');
+    if (openChatBtn instanceof HTMLElement) {
+      openChatBtn.setAttribute('aria-expanded', 'true');
+    }
+    document.body.style.overflow = 'hidden';
+    if (chatPanelInput instanceof HTMLInputElement) {
+      chatPanelInput.focus();
+    }
+  }
+
+  function closeChatPanel() {
+    if (!(chatPanel instanceof HTMLElement)) return;
+    chatPanel.classList.remove('active');
+    chatPanel.setAttribute('aria-hidden', 'true');
+    if (openChatBtn instanceof HTMLElement) {
+      openChatBtn.setAttribute('aria-expanded', 'false');
+    }
+    document.body.style.overflow = '';
+  }
+
+  async function submitChatQuestion(question) {
+    if (!(chatPanelInput instanceof HTMLInputElement)) return;
+    const normalizedQuestion = question.trim();
+    if (!normalizedQuestion) return;
+
+    chatHistory.push({ role: 'user', content: normalizedQuestion });
+    appendChatMessage('user', `<p><strong>You:</strong> ${escapeHtml(normalizedQuestion)}</p>`);
+
+    chatPanelInput.value = '';
+    chatPanelInput.disabled = true;
+    chatPromptButtons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = true;
+      }
+    });
+
+    const loadingId = `chat-loading-${Date.now()}`;
+    appendChatMessage('bot', `<p id="${loadingId}"><strong>Saoirse:</strong> Thinking...</p>`);
+
+    try {
+      const result = await askSaoirse(normalizedQuestion);
+      const loadingNode = document.getElementById(loadingId);
+      if (loadingNode) {
+        loadingNode.parentElement?.remove();
+      }
+
+      const safeReply = escapeHtml(result.reply || 'I am having trouble answering right now.');
+      appendChatMessage('bot', `<p><strong>Saoirse:</strong> ${safeReply}</p>`);
+      chatHistory.push({ role: 'assistant', content: result.reply || '' });
+    } catch {
+      const loadingNode = document.getElementById(loadingId);
+      if (loadingNode) {
+        loadingNode.parentElement?.remove();
+      }
+      appendChatMessage('bot', '<p><strong>Saoirse:</strong> I cannot connect right now. Please try again in a moment.</p>');
+    }
+
+    chatPanelInput.disabled = false;
+    chatPromptButtons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = false;
+      }
+    });
+    chatPanelInput.focus();
+  }
+
+  if (openChatBtn instanceof HTMLElement) {
+    openChatBtn.addEventListener('click', openChatPanel);
+  }
+
+  if (openChatBubbleBtn instanceof HTMLElement) {
+    openChatBubbleBtn.addEventListener('click', openChatPanel);
+  }
+
+  if (closeChatBtn instanceof HTMLElement) {
+    closeChatBtn.addEventListener('click', closeChatPanel);
+  }
+
+  if (chatPanel instanceof HTMLElement) {
+    chatPanel.addEventListener('click', (event) => {
+      if (event.target === chatPanel) {
+        closeChatPanel();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && chatPanel instanceof HTMLElement && chatPanel.classList.contains('active')) {
+      closeChatPanel();
+    }
+  });
+
+  if (chatPanelForm instanceof HTMLFormElement && chatPanelInput instanceof HTMLInputElement) {
+    chatPanelForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await submitChatQuestion(chatPanelInput.value);
+    });
+
+    chatPromptButtons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) return;
+      button.addEventListener('click', async () => {
+        const prompt = button.dataset.prompt || '';
+        await submitChatQuestion(prompt);
+      });
+    });
+  }
 </script>
 
 <Analytics />
