@@ -716,6 +716,11 @@ const latestPosts = featuredSlugs
   }
 
   @media (max-width: 900px) {
+    .home-layout {
+      padding-bottom: 0.45rem;
+      flex: 0 0 auto;
+    }
+
     .two-col-grid {
       grid-template-columns: 1fr;
       gap: 1.25rem;
@@ -737,6 +742,20 @@ const latestPosts = featuredSlugs
       padding: 1.6rem 0;
     }
 
+    .home-band-latest {
+      padding-bottom: 0.35rem;
+    }
+
+    .latest-blog-box {
+      margin-bottom: 0;
+    }
+
+    .home-band-why,
+    .home-band-problem,
+    .home-band-who {
+      padding: 0;
+    }
+
     .split-row {
       grid-template-columns: 1fr;
     }
@@ -744,6 +763,34 @@ const latestPosts = featuredSlugs
     .split-image {
       min-height: 220px;
       order: -1;
+    }
+
+    .home-band-why .split-image {
+      background-position: center 22%;
+    }
+
+    .home-band-find .home-band-inner {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .home-layout .home-band h2,
+    .home-layout .home-band h3,
+    .home-layout .home-band p,
+    .home-layout .home-band li,
+    .home-layout .find-intro,
+    .home-layout .post-date,
+    .home-layout .post-description {
+      text-align: left;
+    }
+
+    .find-intro {
+      margin: 0 0 1.25rem;
+      max-width: none;
+    }
+
+    .view-all-link {
+      align-self: flex-start;
     }
 
     .find-cards {

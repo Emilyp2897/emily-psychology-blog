@@ -78,7 +78,7 @@ import { SITE_TITLE } from '../consts';
 
 <style>
   .about-layout {
-    padding: 0 0 2rem;
+    padding: 0;
   }
 
   .about-band {
@@ -209,14 +209,46 @@ import { SITE_TITLE } from '../consts';
       padding: 1.2rem 0;
     }
 
+    .about-band:not(.about-band-split) {
+      padding-bottom: 0;
+    }
+
+    .about-band:not(.about-band-split) .about-band-inner p:last-child {
+      margin-bottom: 0;
+    }
+
     .about-band-split {
-      padding: 0;
+      padding: 0 !important;
+      margin-top: 0 !important;
+    }
+
+    .about-band-dark.about-band-split {
+      background: transparent;
+    }
+
+    .about-layout > .about-band:nth-of-type(2).about-band-split {
+      margin-top: 0.4rem !important;
+    }
+
+    .about-band-dark.about-band-split .about-split-copy {
+      background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
+    }
+
+    .about-band-split .about-split-row,
+    .about-band-split .about-split-image-wrap,
+    .about-band-split .about-split-image {
+      margin-top: 0;
+      padding-top: 0;
     }
 
     .about-split-row,
     .about-split-row-reverse {
       grid-template-columns: 1fr;
       direction: ltr;
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
     }
 
     .about-split-image-wrap,

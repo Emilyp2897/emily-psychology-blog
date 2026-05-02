@@ -126,6 +126,35 @@ html, body {
     }
   }
 
+  /* Mobile image normalization: prevent baseline/line-box gaps around images. */
+  @media (max-width: 900px) {
+    picture {
+      display: block;
+      line-height: 0;
+      margin-top: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin-top: 0;
+      vertical-align: top;
+    }
+
+    figure {
+      margin-top: 0;
+    }
+
+    /* Remove mobile top gaps from blocks that start with an image/picture. */
+    main :where(section, div, article, figure):has(> img:first-child),
+    main :where(section, div, article, figure):has(> picture:first-child),
+    main :where(section, div, article, figure):has(> a:first-child > img),
+    main :where(section, div, article, figure):has(> a:first-child > picture) {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+  }
+
 /* ============================================
    HEADER
    ============================================ */

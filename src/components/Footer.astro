@@ -31,10 +31,6 @@ const today = new Date();
   </div>
   
   <div class="shamrock-chatbot-wrapper">
-    <div class="saoirse-offer-pop" id="saoirse-offer-pop" role="status" aria-live="polite">
-      <p><strong>Founding Offer:</strong> £5/month for first 50 members + 14-day free trial for the Training the Mind series and Gael Performance Toolkit.</p>
-      <a class="offer-pop-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
-    </div>
     <div class="shamrock-chatbot">
       <a class="shamrock-chatbot-link" href="/chat" aria-label="Chat with Saoirse">
         <Image src={saoirseImage} alt="Shamrock Chatbot" loading="lazy" />
@@ -166,79 +162,6 @@ const today = new Date();
   }
 </style>
 <style>
-  .saoirse-offer-pop {
-    pointer-events: auto;
-    position: relative;
-    max-width: 270px;
-    background: linear-gradient(135deg, #ffffff 0%, #f6f0ff 100%);
-    color: var(--purple);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
-    padding: 0.8rem 0.9rem 0.75rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    animation: offer-pop-enter 300ms ease-out, offer-pop-pulse 2.8s ease-in-out 500ms infinite;
-  }
-
-  .saoirse-offer-pop::after {
-    content: '';
-    position: absolute;
-    right: 28px;
-    bottom: -9px;
-    width: 16px;
-    height: 16px;
-    background: #f6f0ff;
-    border-right: 2px solid var(--purple-light);
-    border-bottom: 2px solid var(--purple-light);
-    transform: rotate(45deg);
-  }
-
-  .saoirse-offer-pop p {
-    margin: 0 0 0.55rem;
-    font-size: 0.85rem;
-    line-height: 1.35;
-  }
-
-  .offer-pop-cta {
-    display: inline-block;
-    border-radius: 999px;
-    padding: 0.42rem 0.78rem;
-    background: var(--green-lime);
-    color: var(--green-dark);
-    border: 2px solid transparent;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 0.82rem;
-    transition: transform 0.15s ease, border-color 0.15s ease;
-  }
-
-  .offer-pop-cta:hover {
-    transform: translateY(-1px);
-    border-color: var(--purple-light);
-  }
-
-  @keyframes offer-pop-enter {
-    from {
-      opacity: 0;
-      transform: translateY(12px) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  @keyframes offer-pop-pulse {
-    0%,
-    100% {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-      transform: translateY(0);
-    }
-    50% {
-      box-shadow: 0 12px 28px rgba(105, 0, 90, 0.22);
-      transform: translateY(-2px);
-    }
-  }
-
   .shamrock-chatbot-wrapper {
     position: fixed;
     right: 2vw;
@@ -302,20 +225,6 @@ const today = new Date();
   }
 
   @media (max-width: 900px) {
-    .saoirse-offer-pop {
-      max-width: 220px;
-      padding: 0.65rem 0.7rem 0.62rem;
-    }
-
-    .saoirse-offer-pop p {
-      font-size: 0.76rem;
-    }
-
-    .offer-pop-cta {
-      font-size: 0.74rem;
-      padding: 0.35rem 0.6rem;
-    }
-
     .shamrock-chatbot-wrapper {
       right: 0.75rem;
       bottom: 0.75rem;
@@ -336,6 +245,22 @@ const today = new Date();
 
     .bubble-chat {
       min-width: 98px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    body.content-hub-page .shamrock-chatbot-wrapper {
+      bottom: 2.9rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    body.content-hub-page .support-wrapper {
+      bottom: 0.75rem;
+    }
+
+    body.content-hub-page .shamrock-chatbot-wrapper {
+      bottom: 3.1rem;
     }
   }
 </style>
@@ -457,14 +382,6 @@ const today = new Date();
       closeDrawerFunc();
     }
   });
-
-  const offerPop = document.getElementById('saoirse-offer-pop');
-  const dismissCountKey = 'mtg_founding_offer_dismisses';
-  let dismissCount = parseInt(localStorage.getItem(dismissCountKey) || '0');
-
-  if (offerPop && dismissCount >= 1) {
-    offerPop.style.display = 'none';
-  }
 </script>
 
 <Analytics />

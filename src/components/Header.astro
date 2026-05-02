@@ -5,6 +5,10 @@ import mtgLogo from '../assets/MTG_colour.png';
 ---
 
 <header>
+  <div class="founding-offer-banner" role="status" aria-live="polite">
+    <p><strong>Founding Offer:</strong> £5/month for first 50 members + 14-day free trial for the Training the Mind series and Gael Performance Toolkit.</p>
+    <a class="founding-offer-banner-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
+  </div>
   <div class="header-inner">
     <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
     <nav class="nav-links">
@@ -22,6 +26,42 @@ import mtgLogo from '../assets/MTG_colour.png';
   </div>
 </header>
 <style>
+  .founding-offer-banner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 0.55rem 1rem;
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.96) 0%, rgba(105, 0, 90, 0.86) 100%);
+    border-bottom: 2px solid rgba(240, 205, 255, 0.35);
+    color: var(--green-light);
+  }
+
+  .founding-offer-banner p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: var(--green-light);
+  }
+
+  .founding-offer-banner-cta {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    border: 2px solid transparent;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .founding-offer-banner-cta:hover {
+    border-color: var(--purple-light);
+  }
+
   .header-inner {
     position: relative;
   }
@@ -35,5 +75,23 @@ import mtgLogo from '../assets/MTG_colour.png';
     pointer-events: none;
     user-select: none;
   }
-    </style>
+
+  @media (max-width: 900px) {
+    .founding-offer-banner {
+      flex-direction: column;
+      gap: 0.4rem;
+      text-align: center;
+      padding: 0.5rem 0.7rem;
+    }
+
+    .founding-offer-banner p {
+      font-size: 0.78rem;
+    }
+
+    .founding-offer-banner-cta {
+      font-size: 0.74rem;
+      padding: 0.34rem 0.6rem;
+    }
+  }
+</style>
 
