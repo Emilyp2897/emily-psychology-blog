@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 
 export const prerender = false;
 
@@ -27,25 +27,9 @@ const STOP_WORDS = new Set([
 ]);
 
 const CRISIS_TERMS = [
-  'suicidal',
-  'suicide',
-  'ending my life',
-  'end it all',
-  'cant go on',
-  "can't go on",
-  'i want to die',
-  'kill myself',
-  'self-harm',
-  'self harm',
-  'harm myself',
-  'end my life',
-  'hurt myself',
-  'overdose',
-  'panic attack',
-  'severe anxiety',
-  'hopeless',
-  'want to die',
-  'emergency'
+  'suicidal', 'suicide', 'ending my life', 'end it all', 'cant go on', "can't go on",
+  'i want to die', 'kill myself', 'self-harm', 'self harm', 'harm myself', 'end my life',
+  'hurt myself', 'overdose', 'panic attack', 'severe anxiety', 'hopeless', 'want to die', 'emergency'
 ];
 
 function getClientKey(request: Request): string {
@@ -151,16 +135,16 @@ function fallbackReply(question: string, matches: KnowledgePost[]): string {
   return `Oh, I always find this one really useful. "${best.title}" is a strong place to start.${snippet ? ` ${snippet}${snippet.length >= 260 ? '...' : ''}` : ''}`;
 }
 
-async function generateOpenAIReply(input: {
+async function generateAnthropicReply(input: {
   message: string;
   history: ChatMessage[];
   matches: KnowledgePost[];
 }): Promise<string | null> {
-  const apiKey = import.meta.env.OPENAI_API_KEY;
+  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
 
-  const configuredModel = import.meta.env.OPENAI_MODEL_CHAT || import.meta.env.OPENAI_MODEL || 'gpt-4.1-mini';
-  const fallbackModel = 'gpt-4.1-mini';
+  const configuredModel = import.meta.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5';
+
   const context = input.matches
     .map((post, index) => {
       const excerpt = `${post.description} ${post.text}`.slice(0, 850);
@@ -201,34 +185,22 @@ async function generateOpenAIReply(input: {
     context ? `Website context:\n${context}` : 'No matching context found.'
   ].filter(Boolean).join('\n\n');
 
-  const client = new OpenAI({ apiKey });
+  const client = new Anthropic({ apiKey });
 
-  const callModel = async (model: string) => {
-    try {
-      const response = await client.chat.completions.create({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.55,
-        max_tokens: 320,
-      });
-      return response.choices?.[0]?.message?.content?.trim() || null;
-    } catch (error) {
-      return null;
-    }
-  };
-
-  const first = await callModel(configuredModel);
-  if (first) return first;
-
-  if (configuredModel !== fallbackModel) {
-    const second = await callModel(fallbackModel);
-    if (second) return second;
+  try {
+    const response = await client.messages.create({
+      model: configuredModel,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
+      temperature: 0.55,
+      max_tokens: 320,
+    });
+    const block = response.content?.[0];
+    return block?.type === 'text' ? block.text.trim() : null;
+  } catch (error) {
+    console.error('Anthropic API error:', error);
+    return null;
   }
-
-  return null;
 }
 
 function isCrisisMessage(message: string): boolean {
@@ -291,7 +263,7 @@ export const POST = async ({ request }: { request: Request }) => {
       .slice(0, 5)
       .map((entry) => entry.post);
 
-    const aiReply = await generateOpenAIReply({ message, history, matches });
+    const aiReply = await generateAnthropicReply({ message, history, matches });
     const reply = aiReply || fallbackReply(message, matches);
 
     logChatEvent({
