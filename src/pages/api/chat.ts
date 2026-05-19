@@ -13,24 +13,25 @@ type ChatMessage = {
   content: string;
 };
 
-type KnowledgePost = {
-  slug: string;
-  title: string;
-  description: string;
-  track: string;
-  text: string;
+type ChatSafetyMeta = {
+  banner: string;
+  emergency: string;
+  resourcesUrl: string;
 };
 
-const STOP_WORDS = new Set([
-  'the', 'a', 'an', 'is', 'are', 'to', 'of', 'for', 'in', 'on', 'and', 'or', 'with', 'at', 'by', 'from',
-  'this', 'that', 'it', 'as', 'be', 'can', 'i', 'you', 'we', 'my', 'your', 'our', 'about', 'what', 'how'
-]);
+type ChatSuccessResponse = {
+  reply: string;
+  sources: { title: string; url: string }[];
+  usedModel: boolean;
+  safety: ChatSafetyMeta;
+};
 
-const CRISIS_TERMS = [
-  'suicidal', 'suicide', 'ending my life', 'end it all', 'cant go on', "can't go on",
-  'i want to die', 'kill myself', 'self-harm', 'self harm', 'harm myself', 'end my life',
-  'hurt myself', 'overdose', 'panic attack', 'severe anxiety', 'hopeless', 'want to die', 'emergency'
-];
+type ChatErrorResponse = {
+  error: string;
+  safety: ChatSafetyMeta;
+};
+
+type ChatApiResponse = ChatSuccessResponse | ChatErrorResponse;
 
 function getClientKey(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -208,20 +209,26 @@ function isCrisisMessage(message: string): boolean {
   return CRISIS_TERMS.some((term) => lower.includes(term));
 }
 
+function jsonResponse(payload: ChatApiResponse, init: ResponseInit = {}): Response {
+  const headers = new Headers(init.headers);
+  if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  return new Response(JSON.stringify(payload), { ...init, headers });
+}
+
 export const POST = async ({ request }: { request: Request }) => {
   const clientKey = getClientKey(request);
 
   try {
     if (isRateLimited(clientKey)) {
       logChatEvent({ status: 'rate-limited', clientKey, message: '' });
-      return new Response(
-        JSON.stringify({ error: 'Too many messages in a short time. Please wait a minute and try again.' }),
+      return jsonResponse(
+        {
+          error: 'Too many messages in a short time. Please wait a minute and try again.',
+          safety: safetyMeta(),
+        },
         {
           status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': '60',
-          },
+          headers: { 'Retry-After': '60' },
         }
       );
     }
@@ -236,22 +243,24 @@ export const POST = async ({ request }: { request: Request }) => {
 
     if (!message) {
       logChatEvent({ status: 'bad-request', clientKey, message: '' });
-      return new Response(JSON.stringify({ error: 'Message is required.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonResponse(
+        {
+          error: 'Message is required.',
+          safety: safetyMeta(),
+        },
+        { status: 400 }
+      );
     }
 
     if (isCrisisMessage(message)) {
       logChatEvent({ status: 'crisis', clientKey, message });
-      return new Response(
-        JSON.stringify({
-          reply: 'I am really glad you reached out. If you are in immediate danger, call emergency services now (112 or 999). Please also go to /resources for crisis support contacts in the UK and Ireland.',
-          sources: [{ title: 'Support Resources', url: '/resources' }],
-          usedModel: false,
-        }),
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      return jsonResponse({
+        reply:
+          'I am really glad you reached out. If you are in immediate danger, call emergency services now (112 or 999). If you can, contact a trusted person nearby and go to /resources for crisis support contacts in the UK and Ireland.',
+        sources: [{ title: 'Support Resources', url: '/resources' }],
+        usedModel: false,
+        safety: safetyMeta(),
+      });
     }
 
     const kb = await buildKnowledgeBase();
@@ -264,7 +273,7 @@ export const POST = async ({ request }: { request: Request }) => {
       .map((entry) => entry.post);
 
     const aiReply = await generateAnthropicReply({ message, history, matches });
-    const reply = aiReply || fallbackReply(message, matches);
+    const reply = withSafetyDisclaimer(aiReply || fallbackReply(message, matches));
 
     logChatEvent({
       status: 'ok',
@@ -274,28 +283,83 @@ export const POST = async ({ request }: { request: Request }) => {
       sourceCount: matches.length,
     });
 
-    return new Response(
-      JSON.stringify({
-        reply,
-        sources: matches.map((post) => ({
-          title: post.title,
-          url: `/content-hub/${post.slug}/`,
-        })),
-        usedModel: Boolean(aiReply),
-      }),
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    return jsonResponse({
+      reply,
+      sources: matches.map((post) => ({
+        title: post.title,
+        url: `/content-hub/${post.slug}/`,
+      })),
+      usedModel: Boolean(aiReply),
+      safety: safetyMeta(),
+    });
   } catch (error) {
     console.error('Chat API error:', error);
     logChatEvent({ status: 'error', clientKey, message: '' });
-    return new Response(
-      JSON.stringify({
-        error: 'Unable to process chat right now. Please try again in a moment.',
-      }),
+    return jsonResponse(
       {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
+        error: 'Unable to process chat right now. Please try again in a moment.',
+        safety: safetyMeta(),
+      },
+      { status: 500 }
     );
   }
 };
+
+function safetyMeta(): ChatSafetyMeta {
+  return {
+    banner: CHAT_BANNER_TEXT,
+    emergency: CHAT_EMERGENCY_TEXT,
+    resourcesUrl: CHAT_RESOURCES_URL,
+  };
+}
+
+const CHAT_BANNER_TEXT =
+  'Mind the Gael chat is for educational information only. It is not emergency support, diagnosis, or medical care.';
+const CHAT_EMERGENCY_TEXT =
+  'If you are in immediate danger, call emergency services now (112 or 999).';
+const CHAT_RESOURCES_URL = '/resources';
+
+type KnowledgePost = {
+  slug: string;
+  title: string;
+  description: string;
+  track: string;
+  text: string;
+};
+
+const STOP_WORDS = new Set([
+  'the', 'and', 'for', 'with', 'that', 'this', 'from', 'have', 'your', 'you',
+  'are', 'was', 'were', 'been', 'about', 'into', 'over', 'under', 'they',
+  'them', 'their', 'there', 'what', 'when', 'where', 'which', 'while', 'would',
+  'could', 'should', 'just', 'than', 'then', 'also', 'some', 'more', 'most',
+]);
+
+const CRISIS_TERMS = [
+  'suicide',
+  'kill myself',
+  'end my life',
+  'self harm',
+  'self-harm',
+  'want to die',
+  'harm myself',
+  'overdose',
+  'i am in danger',
+  'im in danger',
+];
+
+function withSafetyDisclaimer(reply: string): string {
+  const disclaimer =
+    ' I can share educational support, but I cannot provide diagnosis or emergency care.';
+  if (!reply) return disclaimer.trim();
+
+  const lower = reply.toLowerCase();
+  if (
+    lower.includes('cannot provide diagnosis') ||
+    lower.includes('not emergency support') ||
+    lower.includes('emergency services')
+  ) {
+    return reply;
+  }
+
+  return `${reply}${disclaimer}`;
+}
