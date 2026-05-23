@@ -1,0 +1,178 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Payment Confirmed | ${SITE_TITLE}`} description="Your programme has been purchased. Next step: fill in your intake form." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="status-box">
+        <Image src={saoirseImage} alt="Shamrock" class="status-img" loading="eager" />
+        <p class="eyebrow" id="status-eyebrow">Finalising your plan...</p>
+        <h1 id="status-heading">Hold on a moment</h1>
+        <p class="message" id="status-message">Stripe confirmed your payment. I'm now generating your full plan and emailing it to you. This usually takes under a minute.</p>
+        <p class="message" id="status-followup" hidden></p>
+        <div class="actions" id="status-actions" hidden>
+          <a href="/personal-training" class="action-primary">Back to Personal Training</a>
+          <a href="/contact-us" class="action-secondary">Need help?</a>
+        </div>
+        <p class="footnote">A receipt for your payment will arrive in your email from Stripe. If you don't see it, check your spam folder.</p>
+      </section>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      // Call /api/programme-finalize to verify Stripe payment and generate
+      // the full plan. The intake data is already in the database (saved
+      // when the user submitted the intake form earlier); the token tells
+      // the API which intake to use.
+      (async () => {
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        const token = params.get('token');
+
+        const eyebrow = document.getElementById('status-eyebrow');
+        const heading = document.getElementById('status-heading');
+        const message = document.getElementById('status-message');
+        const followup = document.getElementById('status-followup');
+        const actions = document.getElementById('status-actions');
+
+        const showSuccess = (text) => {
+          if (eyebrow) eyebrow.textContent = 'Plan sent';
+          if (heading) heading.textContent = 'Your plan is on its way';
+          if (message) message.textContent = text;
+          if (actions) actions.hidden = false;
+        };
+
+        const showError = (text, followupText) => {
+          if (eyebrow) eyebrow.textContent = 'Something went wrong';
+          if (heading) heading.textContent = 'We could not finalise your plan';
+          if (message) message.textContent = text;
+          if (followupText && followup) {
+            followup.textContent = followupText;
+            followup.hidden = false;
+          }
+          if (actions) actions.hidden = false;
+        };
+
+        if (!sessionId || !token) {
+          showError(
+            'Missing session or intake token in the URL.',
+            'If you have just paid and your plan has not arrived within 10 minutes, please email Emily directly at emilyphelan@mindthegael.co.uk with a note about your purchase.'
+          );
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/programme-finalize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, token }),
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok || !data.success) {
+            showError(
+              data.error || 'We could not finalise your plan automatically.',
+              'Please email Emily at emilyphelan@mindthegael.co.uk and include the words "session ' + sessionId + '" so she can look it up.'
+            );
+            return;
+          }
+
+          showSuccess(data.message || 'Your plan has been generated and emailed to you. Check your inbox in the next few minutes. If you do not see it, check your spam folder.');
+        } catch (err) {
+          console.error('Finalize error:', err);
+          showError(
+            'A network error stopped us from finalising your plan automatically.',
+            'Please email Emily at emilyphelan@mindthegael.co.uk and mention session ' + sessionId + '.'
+          );
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .status-box {
+    margin: 3rem auto 5rem;
+    max-width: 680px;
+    text-align: center;
+    background: rgba(240, 205, 255, 0.1);
+    border: 2px solid var(--green-lime);
+    border-radius: 14px;
+    padding: 2.25rem 1.5rem;
+  }
+
+  .status-img {
+    width: 84px;
+    height: 84px;
+    margin-bottom: 0.75rem;
+  }
+
+  .eyebrow {
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  .message {
+    max-width: 52ch;
+    margin: 0 auto 0.8rem;
+  }
+
+  .footnote {
+    max-width: 52ch;
+    margin: 1.5rem auto 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .actions {
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .action-primary,
+  .action-secondary {
+    border-radius: 8px;
+    padding: 0.65rem 1.1rem;
+    font-weight: 700;
+    border: 2px solid var(--green-lime);
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .action-primary {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .action-secondary {
+    background: transparent;
+    color: var(--green-lime);
+  }
+
+  .action-primary:hover,
+  .action-secondary:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+    color: var(--purple-light);
+  }
+</style>

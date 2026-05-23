@@ -99,6 +99,17 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             <h3>Custom Progression Plan</h3>
             <p class="plan-fields-intro">Fill out your training details for a personalized plan (optional):</p>
 
+            <label>
+              Does any of the following apply to you? (optional)
+              <select name="programTrack">
+                <option value="">Select if applicable</option>
+                <option value="pregnancy">Currently pregnant</option>
+                <option value="postpartum">Postpartum (less than 12 months)</option>
+                <option value="endometriosis">Endometriosis</option>
+                <option value="return_to_play">Returning to play from injury</option>
+              </select>
+            </label>
+
             <div class="plan-basic-fields">
               <label>
                 Age
@@ -174,6 +185,24 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             </label>
 
             <label>
+              What does a typical current week look like? (optional)
+              <textarea name="currentWeek" rows="2" placeholder="e.g. work Mon-Fri 9-5, training Tue/Thu/Sat, kids on weekends"></textarea>
+            </label>
+
+            <label>
+              Menstrual cycle status (optional)
+              <select name="cycleStatus">
+                <option value="">Select if comfortable</option>
+                <option value="cycling_regularly">Cycling regularly</option>
+                <option value="hormonal_contraception">On hormonal contraception</option>
+                <option value="irregular_or_not_tracking">Irregular or not tracking</option>
+                <option value="pregnant_or_postpartum">Currently pregnant or postpartum</option>
+                <option value="perimenopausal">Perimenopausal or postmenopausal</option>
+                <option value="prefer_not_to_say">Prefer not to say</option>
+              </select>
+            </label>
+
+            <label>
               Medical Conditions (if any)
               <textarea name="planMedical" rows="2" placeholder="e.g. asthma, diabetes, pcos, none"></textarea>
             </label>
@@ -221,6 +250,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             <label>
               Issues, Worries, or Specific Concerns
               <textarea name="planIssues" rows="2" placeholder="e.g. knee pain, recovery, cycle-aware, etc."></textarea>
+            </label>
+
+            <label>
+              Anything else we should know? (optional)
+              <textarea name="anythingElse" rows="2" placeholder="A catchall. Anything that didn't fit above, or anything you'd want Emily to know before building your plan"></textarea>
             </label>
           </div>
 
@@ -337,27 +371,39 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             lifestyle: String(formData.get('planLifestyle') || '').trim() || undefined,
             medicalConditions: String(formData.get('planMedical') || '').trim() || undefined,
             injuries: String(formData.get('planInjuries') || '').trim() || undefined,
+            programTrack: String(formData.get('programTrack') || '').trim() || undefined,
+            cycleStatus: String(formData.get('cycleStatus') || '').trim() || undefined,
+            currentWeek: String(formData.get('currentWeek') || '').trim() || undefined,
+            anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
           });
 
           try {
-            const response = await fetch('/api/training-plan', {
+            const response = await fetch('/api/programme-intake', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(requestData),
             });
 
             const result = await response.json().catch(() => ({}));
-            if (!response.ok) {
-              throw new Error(result.error || 'Submission failed.');
+            if (!response.ok && result.reason !== 'red_flag') {
+              throw new Error(result.message || 'Submission failed.');
             }
 
-            if (result.success) {
+            if (result.success && result.previewToken) {
               closeModal();
               consultationForm.reset();
-              alert(result.message || 'Thank you! Your consultation request has been received.');
-            } else {
-              alert('Error: ' + (result.error || 'Something went wrong'));
+              window.location.href = '/programme-preview?token=' + encodeURIComponent(result.previewToken);
+              return;
             }
+
+            if (result.reason === 'red_flag' && result.message) {
+              closeModal();
+              consultationForm.reset();
+              alert(result.message);
+              return;
+            }
+
+            alert('Error: ' + (result.message || 'Something went wrong'));
           } catch (error) {
             console.error('Error:', error);
             const message = error instanceof Error

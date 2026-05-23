@@ -2,6 +2,62 @@ export const prerender = false;
 
 import { sql } from '@vercel/postgres';
 
+const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+const FEEDBACK_TO_EMAIL = import.meta.env.CHAT_FEEDBACK_TO_EMAIL;
+const FEEDBACK_FROM_EMAIL = import.meta.env.CHAT_FEEDBACK_FROM_EMAIL || 'onboarding@resend.dev';
+
+async function sendFeedbackEmail(input: {
+  feedbackId: string;
+  rating: string;
+  note: string;
+  question: string;
+  reply: string;
+  sourceCount: number;
+  usedModel: boolean;
+  client: string;
+  submittedAt: string;
+}) {
+  if (!RESEND_API_KEY || !FEEDBACK_TO_EMAIL) return;
+
+  const text = [
+    'New chatbot feedback received',
+    `Feedback ID: ${input.feedbackId}`,
+    `Rating: ${input.rating}`,
+    `Submitted: ${input.submittedAt}`,
+    `Client: ${input.client}`,
+    `Used model: ${input.usedModel}`,
+    `Source count: ${input.sourceCount}`,
+    '',
+    'Question:',
+    input.question || '(none)',
+    '',
+    'Reply:',
+    input.reply || '(none)',
+    '',
+    'Note:',
+    input.note || '(none)',
+  ].join('\n');
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: FEEDBACK_FROM_EMAIL,
+      to: [FEEDBACK_TO_EMAIL],
+      subject: `Chat feedback: ${input.rating}`,
+      text,
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Resend send failed: ${res.status} ${body}`);
+  }
+}
+
 function getClientKey(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
@@ -47,6 +103,21 @@ export const POST = async ({ request }: { request: Request }) => {
       INSERT INTO chat_feedback (feedback_id, rating, note, question, reply, source_count, used_model, client, submitted_at)
       VALUES (${feedbackId}, ${rating}, ${note}, ${question}, ${reply}, ${sourceCount}, ${usedModel}, ${maskedClient}, ${submittedAt})
     `;
+
+    // Send email, but do not fail the API if email sending fails
+    sendFeedbackEmail({
+      feedbackId,
+      rating,
+      note,
+      question,
+      reply,
+      sourceCount,
+      usedModel,
+      client: maskedClient,
+      submittedAt,
+    }).catch((error) => {
+      console.error('Chat feedback email error:', error);
+    });
 
     console.info('[chat-feedback]', {
       at: submittedAt,

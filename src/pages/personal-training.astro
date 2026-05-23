@@ -1,13 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
-
-const GOOGLE_CALENDAR_EMBED_URL =
-  'https://calendar.google.com/calendar/appointments/schedules/AcZssZ36KoXqM3BjxB0kIH_OIVYVykacTIuW9-AJsezyfpalTSLO0YwC2h4FqPox3L4zBGQASYd-Ya4B?gv=true';
 ---
 
 <!doctype html>
@@ -21,12 +16,8 @@ const GOOGLE_CALENDAR_EMBED_URL =
       <section class="intro">
         <div class="pt-band pt-band-intro">
           <div class="pt-band-inner">
-            <div class="coming-soon-strip">
-              <Image src={saoirseImage} alt="Saoirse the shamrock" class="strip-shamrock" />
-              <span>Personal Training launching shortly. Register your interest below!</span>
-            </div>
-            <h1>Personal Training</h1>
-            <p>Our personal training is exercise-based, with a special focus on women's health for female athletes. Performance and mental wellbeing can overlap with this work, but physical training support is the core focus.</p>
+            <h1>Online Personal Training</h1>
+            <p>The Mind the Gael personal training offering is delivered as a 6-week or 12-week online programme, built around women's health for female athletes. You receive a full plan to follow at your own pace. There are no scheduled check-ins. Performance and mental wellbeing show up in this work, but the focus here is physical training. If you want to talk through your plan once you have it, you can book an optional chat.</p>
           </div>
         </div>
 
@@ -34,9 +25,9 @@ const GOOGLE_CALENDAR_EMBED_URL =
           <div class="pt-band-inner">
             <div class="training-highlight">
               <div class="training-highlight-copy">
-                <h2>Train with Structure. Perform with Confidence.</h2>
+                <h2>Training built around your sport and your body, not a generic programme</h2>
                 <p>
-                  Every programme is designed to be practical and sustainable, with clear progression across strength, recovery, and performance demands.
+                  Every plan is built to be practical and to stick. Clear progression across strength, recovery, and the demands of your sport. Not a generic plan that ignores how you actually train and live.
                 </p>
               </div>
               <div class="training-highlight-media">
@@ -51,19 +42,19 @@ const GOOGLE_CALENDAR_EMBED_URL =
             <div class="focus-areas">
               <div class="focus-card">
                 <h3>Strength & Conditioning</h3>
-                <p>Build physical capacity, movement quality, and resilience through structured S&C coaching.</p>
+                <p>Structured S&C that builds capacity, movement quality, and the resilience your sport actually demands.</p>
               </div>
               <div class="focus-card">
                 <h3>Women's Health Focus</h3>
-                <p>Training support tailored to female athletes, including cycle-aware planning and long-term athlete wellbeing.</p>
+                <p>Training designed around women's health. Cycle-aware planning, programming for the load demands female athletes actually carry, and a long-term view on your wellbeing.</p>
               </div>
               <div class="focus-card">
                 <h3>Performance Integration</h3>
-                <p>Translate gym work into better training and match-day performance with sport-specific application.</p>
+                <p>Your gym work shouldn't sit separate from your sport. Every session is built so the work translates to training and match-day. Not just numbers on the bar.</p>
               </div>
               <div class="focus-card">
                 <h3>Recovery & Load Management</h3>
-                <p>Plan training load, recovery, and progression so athletes can perform consistently and reduce burnout risk.</p>
+                <p>Train consistently without burning out. Your plan accounts for load, recovery, and progression so the work is sustainable across a season. Not a quick win that breaks down.</p>
               </div>
             </div>
           </div>
@@ -83,29 +74,19 @@ const GOOGLE_CALENDAR_EMBED_URL =
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Online 1:1 Sessions</td>
-                    <td>£15</td>
-                    <td>One 30-minute online personal training session.</td>
+                    <td>6-Week Online Programme</td>
+                    <td>TBC</td>
+                    <td>A 6-week online training programme built around your sport, your equipment, and your goals. Delivered as a full plan to follow at your own pace, with no scheduled check-ins. Optional follow-up chat available if you'd like to discuss your plan.</td>
                   </tr>
                   <tr>
-                    <td>4 Online 1:1 Personal Training Sessions (Bundle)</td>
-                    <td>£50</td>
-                    <td>Four 30-minute online personal training sessions at a discounted bundle rate.</td>
-                  </tr>
-                  <tr>
-                    <td>In-Person 1:1 Sessions</td>
-                    <td>£25</td>
-                    <td>One 30-minute in-person personal training session.</td>
-                  </tr>
-                  <tr>
-                    <td>4 In-Person 1:1 Personal Training Sessions (Bundle)</td>
-                    <td>£80</td>
-                    <td>Four 30-minute in-person personal training sessions at a discounted bundle rate.</td>
+                    <td>12-Week Online Programme</td>
+                    <td>TBC</td>
+                    <td>A 12-week online training programme for longer arcs: pre-season builds, return-to-play phases, or extended training blocks. Same self-paced delivery, with optional follow-up chat if you want to talk it through.</td>
                   </tr>
                   <tr>
                     <td>Pre-Season Team Programme (6 Weeks)</td>
                     <td>Pilot from £850 | Standard £1250</td>
-                    <td>Six-week S&C coaching for a team panel of 20-30 athletes. Pilot pricing is limited availability.</td>
+                    <td>Six-week S&C coaching for a team panel of 20-30 athletes, delivered fully online. Pilot pricing is limited availability.</td>
                   </tr>
                 </tbody>
               </table>
@@ -115,31 +96,24 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
         <div class="pt-band pt-band-booking">
           <div class="pt-band-inner">
-            <section class="calendar-section" aria-labelledby="calendar-heading">
-              <h2 id="calendar-heading" class="calendar-heading">Book a PT Session</h2>
+            <section class="consultation-cta" aria-labelledby="consultation-heading">
+              <h2 id="consultation-heading" class="calendar-heading">Start your programme</h2>
               <p class="calendar-copy">
-                Use the booking schedule below to choose a time that suits you. If you do not see a slot that works, or if you'd like to arrange a regular weekly time, please contact me directly at emilyphelan@mindthegael.co.uk.
+                Fill in the intake form to share your details, your sport, and your goals. I'll come back to you within 48 hours with your plan. If you'd rather email me directly, you can reach me at emilyphelan@mindthegael.co.uk.
               </p>
-              <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
-              <p class="consultation-note">The consultation form opens in a pop-up when you click the button above.</p>
-              <div class="calendar-embed-wrap">
-                <iframe
-                  src={GOOGLE_CALENDAR_EMBED_URL}
-                  title="Personal training appointment booking"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
+              <button type="button" class="consultation-btn" id="open-consultation-modal">Start the Intake Form</button>
+              <p class="consultation-note">The intake form opens in a pop-up when you click the button above.</p>
             </section>
           </div>
         </div>
+
       </section>
 
       <div class="consultation-modal-backdrop" id="consultation-modal-backdrop" aria-hidden="true">
         <div class="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="consultation-modal-title">
           <button type="button" class="consultation-close" id="close-consultation-modal" aria-label="Close consultation form">✕</button>
-          <h2 id="consultation-modal-title">Initial Consultation Form</h2>
-          <p class="consultation-intro">Complete this form and click submit to send your consultation request directly.</p>
+          <h2 id="consultation-modal-title">Programme Intake Form</h2>
+          <p class="consultation-intro">Fill this out and hit submit. Your details come straight to me and I'll be in touch within 48 hours with your plan.</p>
 
           <form id="consultation-form" class="consultation-form">
             <div class="consultation-grid">
@@ -181,8 +155,19 @@ const GOOGLE_CALENDAR_EMBED_URL =
 
             <div class="progression-plan-fields">
               <h3>Custom Progression Plan</h3>
-              <p class="plan-fields-intro">Fill out your training details for a personalized plan (optional):</p>
-              
+              <p class="plan-fields-intro">Optional. Fill in your training details so I can build your programme around them. The more I know, the better the plan.</p>
+
+              <label>
+                Does any of the following apply to you? (optional)
+                <select name="programTrack">
+                  <option value="">Select if applicable</option>
+                  <option value="pregnancy">Currently pregnant</option>
+                  <option value="postpartum">Postpartum (less than 12 months)</option>
+                  <option value="endometriosis">Endometriosis</option>
+                  <option value="return_to_play">Returning to play from injury</option>
+                </select>
+              </label>
+
               <div class="plan-basic-fields">
                 <label>
                   Age
@@ -258,6 +243,24 @@ const GOOGLE_CALENDAR_EMBED_URL =
               </label>
 
               <label>
+                What does a typical current week look like? (optional)
+                <textarea name="currentWeek" rows="2" placeholder="e.g. work Mon-Fri 9-5, training Tue/Thu/Sat, kids on weekends"></textarea>
+              </label>
+
+              <label>
+                Menstrual cycle status (optional)
+                <select name="cycleStatus">
+                  <option value="">Select if comfortable</option>
+                  <option value="cycling_regularly">Cycling regularly</option>
+                  <option value="hormonal_contraception">On hormonal contraception</option>
+                  <option value="irregular_or_not_tracking">Irregular or not tracking</option>
+                  <option value="pregnant_or_postpartum">Currently pregnant or postpartum</option>
+                  <option value="perimenopausal">Perimenopausal or postmenopausal</option>
+                  <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+              </label>
+
+              <label>
                 Medical Conditions (if any)
                 <textarea name="planMedical" rows="2" placeholder="e.g. asthma, diabetes, pcos, none"></textarea>
               </label>
@@ -305,6 +308,11 @@ const GOOGLE_CALENDAR_EMBED_URL =
               <label>
                 Issues, Worries, or Specific Concerns
                 <textarea name="planIssues" rows="2" placeholder="e.g. knee pain, recovery, cycle-aware, etc."></textarea>
+              </label>
+
+              <label>
+                Anything else we should know? (optional)
+                <textarea name="anythingElse" rows="2" placeholder="A catchall. Anything that didn't fit above, or anything you'd want Emily to know before building your plan"></textarea>
               </label>
             </div>
 
@@ -425,28 +433,42 @@ const GOOGLE_CALENDAR_EMBED_URL =
             lifestyle: String(formData.get('planLifestyle') || '').trim() || undefined,
             medicalConditions: String(formData.get('planMedical') || '').trim() || undefined,
             injuries: String(formData.get('planInjuries') || '').trim() || undefined,
+            programTrack: String(formData.get('programTrack') || '').trim() || undefined,
+            cycleStatus: String(formData.get('cycleStatus') || '').trim() || undefined,
+            currentWeek: String(formData.get('currentWeek') || '').trim() || undefined,
+            anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
           });
 
-          // Submit to API
+          // Submit to the new preview-then-buy endpoint. On success we redirect
+          // the user to /programme-preview where they see a teaser and can buy.
           try {
-            const response = await fetch('/api/training-plan', {
+            const response = await fetch('/api/programme-intake', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(requestData),
             });
 
             const result = await response.json().catch(() => ({}));
-            if (!response.ok) {
-              throw new Error(result.error || 'Submission failed.');
+            if (!response.ok && result.reason !== 'red_flag') {
+              throw new Error(result.message || 'Submission failed.');
             }
-            
-            if (result.success) {
+
+            if (result.success && result.previewToken) {
               closeModal();
               consultationForm.reset();
-              alert(result.message || 'Thank you! Your consultation request has been received.');
-            } else {
-              alert('Error: ' + (result.error || 'Something went wrong'));
+              window.location.href = '/programme-preview?token=' + encodeURIComponent(result.previewToken);
+              return;
             }
+
+            if (result.reason === 'red_flag' && result.message) {
+              // Red-flag case: no preview, no purchase. Show Emily's support message.
+              closeModal();
+              consultationForm.reset();
+              alert(result.message);
+              return;
+            }
+
+            alert('Error: ' + (result.message || 'Something went wrong'));
           } catch (error) {
             console.error('Error:', error);
             const message = error instanceof Error

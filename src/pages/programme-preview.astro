@@ -1,0 +1,298 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Your Programme Preview | ${SITE_TITLE}`} description="A preview of your training programme. Buy to unlock the full plan." />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="preview-page">
+    <Header />
+    <main class="container preview-main">
+      <section class="preview-intro">
+        <h1>Your Programme Preview</h1>
+        <p class="preview-lead">Here's a look at the shape of your programme. The full plan, with every session, exercise, set, and progression, unlocks when you buy.</p>
+      </section>
+
+      <section class="preview-status" id="preview-status">
+        <p>Loading your preview...</p>
+      </section>
+
+      <section class="preview-content-wrap" id="preview-content-wrap" hidden>
+        <div class="watermark" id="preview-watermark" aria-hidden="true"></div>
+        <article class="preview-content" id="preview-content"></article>
+      </section>
+
+      <section class="preview-cta" id="preview-cta" hidden>
+        <h2>Ready to unlock your full plan?</h2>
+        <p>Pick your duration. Your full plan will be emailed to you within minutes of payment.</p>
+        <div class="cta-buttons">
+          <a id="buy-6-week" class="cta-button cta-primary" href="#">Buy 6-Week Programme</a>
+          <a id="buy-12-week" class="cta-button cta-secondary" href="#">Buy 12-Week Programme</a>
+        </div>
+        <p class="cta-footnote">Or email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> if you have any questions first.</p>
+      </section>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      (async () => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const statusEl = document.getElementById('preview-status');
+        const contentWrap = document.getElementById('preview-content-wrap');
+        const contentEl = document.getElementById('preview-content');
+        const watermarkEl = document.getElementById('preview-watermark');
+        const ctaEl = document.getElementById('preview-cta');
+        const buy6 = document.getElementById('buy-6-week');
+        const buy12 = document.getElementById('buy-12-week');
+
+        if (!token) {
+          if (statusEl) statusEl.innerHTML = '<p class="error-message">No preview token in the URL. Please fill in the intake form on <a href="/personal-training">the personal training page</a> to start.</p>';
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/programme-preview?token=' + encodeURIComponent(token));
+          const data = await res.json();
+
+          if (!res.ok) {
+            if (statusEl) statusEl.innerHTML = '<p class="error-message">' + (data.error || 'Unable to load preview.') + '</p>';
+            return;
+          }
+
+          // Hide loading state, show content and CTAs.
+          if (statusEl) statusEl.hidden = true;
+          if (contentEl) {
+            // Render as plain text in a <pre>-style block so the model's
+            // markdown-style headers display clearly. We deliberately do
+            // NOT render HTML from the teaser content.
+            contentEl.textContent = data.teaserContent || '';
+          }
+          if (watermarkEl) {
+            // Watermark uses the client's email so any screenshot is
+            // traceable to them.
+            watermarkEl.textContent = data.clientEmail || '';
+          }
+          if (contentWrap) contentWrap.hidden = false;
+          if (ctaEl) ctaEl.hidden = false;
+
+          // Wire the Buy buttons to carry the token through Stripe.
+          if (buy6 instanceof HTMLAnchorElement) {
+            buy6.href = '/api/create-checkout-session?plan=programme-6-week&token=' + encodeURIComponent(token);
+          }
+          if (buy12 instanceof HTMLAnchorElement) {
+            buy12.href = '/api/create-checkout-session?plan=programme-12-week&token=' + encodeURIComponent(token);
+          }
+        } catch (err) {
+          console.error('Preview load error:', err);
+          if (statusEl) statusEl.innerHTML = '<p class="error-message">Unable to load preview. Please try refreshing the page.</p>';
+        }
+      })();
+
+      // ── Deterrents (friction layers, not true protection) ──
+
+      // Disable right-click context menu on the preview content.
+      document.addEventListener('contextmenu', (e) => {
+        const target = e.target;
+        if (target instanceof Element && target.closest('.preview-content')) {
+          e.preventDefault();
+        }
+      });
+
+      // Disable Ctrl/Cmd+P (print) and Ctrl/Cmd+S (save).
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+          e.preventDefault();
+        }
+        if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+          e.preventDefault();
+        }
+      });
+
+      // Blur preview content when the window loses focus, to make
+      // quick screenshot-then-switch-tab attempts visible.
+      window.addEventListener('blur', () => {
+        document.body.classList.add('window-blurred');
+      });
+      window.addEventListener('focus', () => {
+        document.body.classList.remove('window-blurred');
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .preview-main {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .preview-intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .preview-intro h1 {
+    color: var(--green-lime);
+    font-size: 2rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .preview-lead {
+    margin: 0;
+    max-width: 56ch;
+    line-height: 1.6;
+  }
+
+  .preview-status {
+    padding: 1rem 0;
+  }
+
+  .preview-content-wrap {
+    position: relative;
+    border: 2px solid var(--green-lime);
+    border-radius: 14px;
+    background: rgba(240, 205, 255, 0.06);
+    padding: 1.5rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .preview-content {
+    position: relative;
+    z-index: 1;
+    white-space: pre-wrap;
+    line-height: 1.6;
+
+    /* Deterrent 1: disable text selection. */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    /* Deterrent 2: prevent drag-saving of the content as text. */
+    -webkit-user-drag: none;
+  }
+
+  /* Deterrent 3: visible diagonal watermark with the client's email,
+     so any screenshot is traceable to the person who saw it. */
+  .watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: rgba(105, 0, 90, 0.16);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transform: rotate(-30deg);
+    z-index: 2;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  /* Deterrent 4: blur the preview when the window loses focus
+     (deters the quick screenshot-then-switch-tab move). */
+  body.window-blurred .preview-content {
+    filter: blur(8px);
+    transition: filter 0.05s linear;
+  }
+
+  /* Deterrent 5: hide the preview entirely when printing. */
+  @media print {
+    .preview-content,
+    .preview-content-wrap {
+      display: none !important;
+    }
+    body::before {
+      content: "Printing the preview is not allowed. Buy the programme to receive the full plan by email.";
+      display: block;
+      padding: 2rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .preview-cta {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.85) 0%, rgba(105, 0, 90, 0.7) 100%);
+    color: var(--green-light);
+    text-align: center;
+  }
+
+  .preview-cta h2 {
+    margin: 0 0 0.6rem;
+    color: var(--green-lime);
+  }
+
+  .preview-cta p {
+    margin: 0 0 1.2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    border: 2px solid var(--green-lime);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .cta-primary {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .cta-secondary {
+    background: transparent;
+    color: var(--green-lime);
+  }
+
+  .cta-button:hover {
+    transform: translateY(-1px);
+    background: var(--purple-light);
+    border-color: var(--purple-light);
+    color: var(--green-dark);
+  }
+
+  .cta-footnote {
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  .cta-footnote a {
+    color: var(--green-lime);
+    text-decoration: underline;
+  }
+
+  .error-message {
+    color: #ffb3b3;
+    padding: 1rem;
+    border-radius: 8px;
+    background: rgba(120, 0, 0, 0.3);
+    border: 1px solid #ffb3b3;
+  }
+
+  .error-message a {
+    color: var(--green-lime);
+    text-decoration: underline;
+  }
+</style>
