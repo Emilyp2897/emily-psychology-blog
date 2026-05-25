@@ -8,7 +8,9 @@ export interface ConsultationWithPlanRequest {
   email: string;
   phone?: string;
   sport: string;
-  contactMethod: string;
+  // Legacy fields kept optional for backwards compatibility with older
+  // form submissions; the current intake form does not collect these.
+  contactMethod?: string;
   preferredTime?: string;
   goals: string;
   includeProgressionPlan: boolean;
@@ -20,6 +22,12 @@ export interface ConsultationWithPlanRequest {
   exerciseLevel?: string;
   sportsOrNot?: string;
   equipment?: string[];
+  // The athlete's current weekly activity level (band). Captures where
+  // they are right now, regardless of what their schedule allows.
+  currentActivityLevel?: string;
+  // The number of sessions per week the athlete can realistically commit
+  // to. This is what shapes the plan structure (vs. currentActivityLevel
+  // which informs starting load).
   frequencyPerWeek?: number;
   planDuration?: string;
   planGoals?: string[];

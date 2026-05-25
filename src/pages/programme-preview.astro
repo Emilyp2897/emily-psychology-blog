@@ -89,6 +89,15 @@ import { SITE_TITLE } from '../consts';
           if (buy12 instanceof HTMLAnchorElement) {
             buy12.href = '/api/create-checkout-session?plan=programme-12-week&token=' + encodeURIComponent(token);
           }
+
+          // Hide whichever Buy button doesn't match the duration the client
+          // chose on the intake form. If they didn't pick a duration, show both.
+          const duration = (data.planDuration || '').toLowerCase();
+          if (duration.includes('6') && !duration.includes('12') && buy12) {
+            buy12.hidden = true;
+          } else if (duration.includes('12') && buy6) {
+            buy6.hidden = true;
+          }
         } catch (err) {
           console.error('Preview load error:', err);
           if (statusEl) statusEl.innerHTML = '<p class="error-message">Unable to load preview. Please try refreshing the page.</p>';
@@ -279,8 +288,13 @@ import { SITE_TITLE } from '../consts';
   }
 
   .cta-footnote a {
-    color: var(--green-lime);
+    color: #ffffff;
     text-decoration: underline;
+    font-weight: 700;
+  }
+
+  .cta-footnote a:hover {
+    color: var(--green-lime);
   }
 
   .error-message {

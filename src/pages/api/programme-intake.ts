@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import Anthropic from '@anthropic-ai/sdk';
-import { sql } from '@vercel/postgres';
+import { sql } from '../../lib/db';
 import type { ConsultationWithPlanRequest, ProgramTrackId } from '../../data/types';
 import { findSportProfile } from '../../data/sport-profiles';
 import { detectRedFlags } from '../../data/red-flags';
@@ -163,7 +163,8 @@ async function generateTeaser(
     `- Experience level: ${body.exerciseLevel || 'not provided'}`,
     `- Sports background: ${body.sportsOrNot || 'not provided'}`,
     `- Equipment: ${(body.equipment || []).join(', ') || 'not provided'}`,
-    `- Frequency: ${body.frequencyPerWeek} sessions per week`,
+    `- Current activity level: ${body.currentActivityLevel || 'not provided'}`,
+    `- Sessions per week the schedule allows: ${body.frequencyPerWeek ?? 'not provided'}`,
     `- Plan duration: ${body.planDuration || '6 weeks'}`,
     `- Plan goals: ${(body.planGoals || []).join(', ')}`,
     `- Lifestyle: ${body.lifestyle || 'not provided'}`,

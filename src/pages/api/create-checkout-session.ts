@@ -38,17 +38,15 @@ function getPlanDetails(plan: string): PlanDetails {
       amount: 72000,
       mode: "payment",
     },
-    // Productised personal training programmes. Amounts are PLACEHOLDERS:
-    // Emily will set the real price (in pence) before launch. The names and
-    // mode are correct.
+    // Productised personal training programmes.
     "programme-6-week": {
       name: "6-Week Online Personal Training Programme",
-      amount: 100, // PLACEHOLDER (£1.00); set real price in pence before launch
+      amount: 1000, // £10.00
       mode: "payment",
     },
     "programme-12-week": {
       name: "12-Week Online Personal Training Programme",
-      amount: 100, // PLACEHOLDER (£1.00); set real price in pence before launch
+      amount: 2000, // £20.00
       mode: "payment",
     },
     // Legacy plans below. The "online-1-1" and "in-person-1-1" plans are no

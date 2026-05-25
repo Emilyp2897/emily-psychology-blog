@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import Anthropic from '@anthropic-ai/sdk';
 import Stripe from 'stripe';
-import { sql } from '@vercel/postgres';
+import { sql } from '../../lib/db';
 import type { ConsultationWithPlanRequest, ProgramTrackId, SportProfile, Exercise } from '../../data/types';
 import { findSportProfile } from '../../data/sport-profiles';
 import {
@@ -12,6 +12,7 @@ import {
 } from '../../data/exercises';
 import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
 import { EMILY_CALENDAR_BOOKING_URL } from '../../consts';
+import { buildClientPlanEmailHtml, buildEmilyNotificationEmailHtml } from '../../lib/email-format';
 
 export const prerender = false;
 
@@ -275,7 +276,8 @@ function buildPlanPrompt(input: {
     `- Experience level: ${intake.exerciseLevel || 'not provided'}`,
     `- Sports background: ${intake.sportsOrNot || 'not provided'}`,
     `- Equipment available: ${(intake.equipment || []).join(', ') || 'not provided'}`,
-    `- Training frequency: ${intake.frequencyPerWeek} sessions per week`,
+    `- Current activity level: ${intake.currentActivityLevel || 'not provided'}`,
+    `- Sessions per week the schedule allows: ${intake.frequencyPerWeek ?? 'not provided'}`,
     `- Plan duration: ${intake.planDuration || '6 weeks'}`,
     `- Plan goals: ${(intake.planGoals || []).join(', ')}`,
     `- Issues/concerns: ${intake.issuesWorries || 'none provided'}`,
@@ -321,6 +323,7 @@ async function sendClientPlanEmail(input: {
   const firstName = (intake.name || '').split(' ')[0] || 'there';
   const duration = intake.planDuration || '6-week';
 
+  // Plain text fallback for email clients that don't render HTML.
   const text = [
     `Hi ${firstName},`,
     '',
@@ -345,6 +348,17 @@ async function sendClientPlanEmail(input: {
     'Mind the Gael',
   ].join('\n');
 
+  // Styled HTML version. Modern email clients render this; older ones fall
+  // back to the plain text above (Resend handles multipart automatically).
+  const html = buildClientPlanEmailHtml({
+    firstName,
+    duration,
+    sportProfileName: sportProfile.name,
+    planText: fullPlan,
+    calendarUrl: EMILY_CALENDAR_BOOKING_URL,
+    emilyEmail: EMILY_EMAIL,
+  });
+
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -356,6 +370,7 @@ async function sendClientPlanEmail(input: {
       to: [intake.email],
       subject: `Your ${duration} plan from Mind the Gael`,
       text,
+      html,
       reply_to: EMILY_EMAIL,
     }),
   });
@@ -381,8 +396,9 @@ async function sendEmilyNotification(input: {
 
   const { intake, fullPlan, sportProfile, track, sessionId, token } = input;
 
+  // Plain text fallback.
   const text = [
-    'A new programme purchase has been finalized and the plan has been emailed to the client.',
+    'A new programme purchase has been finalised and the plan has been emailed to the client.',
     '',
     `Submitted: ${new Date().toISOString()}`,
     `Name: ${intake.name}`,
@@ -399,6 +415,20 @@ async function sendEmilyNotification(input: {
     fullPlan,
   ].join('\n');
 
+  // Styled HTML version.
+  const html = buildEmilyNotificationEmailHtml({
+    clientName: intake.name,
+    clientEmail: intake.email,
+    clientPhone: intake.phone,
+    sport: intake.sport,
+    sportProfileName: sportProfile.name,
+    track,
+    planDuration: intake.planDuration || 'Not provided',
+    stripeSessionId: sessionId,
+    intakeToken: token,
+    planText: fullPlan,
+  });
+
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -408,8 +438,9 @@ async function sendEmilyNotification(input: {
     body: JSON.stringify({
       from: fromEmail,
       to: [EMILY_EMAIL],
-      subject: `[Programme finalized] ${intake.name} | ${intake.planDuration || 'plan'}`,
+      subject: `[Programme finalised] ${intake.name} | ${intake.planDuration || 'plan'}`,
       text,
+      html,
       reply_to: intake.email,
     }),
   });

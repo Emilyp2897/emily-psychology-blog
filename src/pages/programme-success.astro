@@ -162,11 +162,14 @@ import { SITE_TITLE } from '../consts';
   .action-primary {
     background: var(--green-lime);
     color: var(--green-dark);
+    text-decoration: none;
   }
 
   .action-secondary {
     background: transparent;
-    color: var(--green-lime);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
   }
 
   .action-primary:hover,
@@ -174,5 +177,14 @@ import { SITE_TITLE } from '../consts';
     transform: translateY(-1px);
     border-color: var(--purple-light);
     color: var(--purple-light);
+  }
+
+  /* Any inline links in the body text on the success page need to be
+     visibly white against the dark background. */
+  .status-box p a,
+  .status-box .footnote a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 700;
   }
 </style>

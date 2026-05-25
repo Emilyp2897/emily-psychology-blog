@@ -78,21 +78,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
               Sport / Team
               <input type="text" name="sport" required />
             </label>
-
-            <label>
-              Preferred Contact Method
-              <select name="contactMethod" required>
-                <option value="">Select one</option>
-                <option value="Email">Email</option>
-                <option value="Phone">Phone</option>
-                <option value="Instagram">Instagram</option>
-              </select>
-            </label>
-
-            <label>
-              Preferred Time to Talk
-              <input type="text" name="preferredTime" placeholder="e.g. weekday evenings" />
-            </label>
           </div>
 
           <div class="progression-plan-fields">
@@ -142,8 +127,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                 </select>
               </label>
               <label>
-                Training Frequency Per Week
-                <input type="number" name="planFrequency" min="1" max="7" />
+                Current activity level
+                <select name="planActivityLevel">
+                  <option value="">Select option</option>
+                  <option value="Mostly inactive (less than 1 session per week)">Mostly inactive (less than 1 session per week)</option>
+                  <option value="Light (1-2 sessions per week)">Light (1-2 sessions per week)</option>
+                  <option value="Moderate (3-4 sessions per week)">Moderate (3-4 sessions per week)</option>
+                  <option value="Active (5-6 sessions per week)">Active (5-6 sessions per week)</option>
+                  <option value="Highly active (6+ sessions per week)">Highly active (6+ sessions per week)</option>
+                </select>
+              </label>
+              <label>
+                How many sessions per week can your schedule allow?
+                <input type="number" name="planFrequency" min="1" max="7" placeholder="e.g. 3" />
               </label>
               <label>
                 Plan Duration
@@ -328,8 +324,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           const email = String(formData.get('email') || '').trim();
           const phone = String(formData.get('phone') || '').trim();
           const sport = String(formData.get('sport') || '').trim();
-          const contactMethod = String(formData.get('contactMethod') || '').trim();
-          const preferredTime = String(formData.get('preferredTime') || '').trim();
           const goals = String(formData.get('goals') || '').trim();
 
           const requestData = {
@@ -337,8 +331,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             email,
             phone: phone || undefined,
             sport,
-            contactMethod,
-            preferredTime: preferredTime || undefined,
             goals,
             includeProgressionPlan: true,
           };
@@ -375,6 +367,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             cycleStatus: String(formData.get('cycleStatus') || '').trim() || undefined,
             currentWeek: String(formData.get('currentWeek') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
+            currentActivityLevel: String(formData.get('planActivityLevel') || '').trim() || undefined,
           });
 
           try {

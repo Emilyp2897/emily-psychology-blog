@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { sql } from '@vercel/postgres';
+import { sql } from '../../lib/db';
 
 export const prerender = false;
 
@@ -22,10 +22,11 @@ export const GET: APIRoute = async ({ url }) => {
       teaser_content: string;
       client_name: string;
       client_email: string;
+      intake_data: { planDuration?: string };
       finalized_at: string | null;
       red_flag_id: string | null;
     }>`
-      SELECT teaser_content, client_name, client_email, finalized_at, red_flag_id
+      SELECT teaser_content, client_name, client_email, intake_data, finalized_at, red_flag_id
       FROM intake_sessions
       WHERE id = ${token}::uuid
       LIMIT 1
@@ -50,6 +51,7 @@ export const GET: APIRoute = async ({ url }) => {
       teaserContent: row.teaser_content,
       clientName: row.client_name,
       clientEmail: row.client_email,
+      planDuration: row.intake_data?.planDuration || null,
     });
   } catch (error: any) {
     console.error('Programme preview fetch error:', error);

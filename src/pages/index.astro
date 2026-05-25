@@ -60,8 +60,10 @@ const latestPosts = featuredSlugs
       <!-- What you'll find: 3-column cards -->
       <section class="home-band home-band-find">
         <div class="container home-band-inner">
-          <h2>What will you find here?</h2>
-          <p class="find-intro">You will find three core areas: the Content Hub, Personal Training, and Online Workshops.</p>
+          <div class="find-header">
+            <h2>What will you find here?</h2>
+            <p class="find-intro">You will find three core areas: the Content Hub, Personal Training, and Online Workshops.</p>
+          </div>
           <div class="find-cards">
             <div class="find-card find-card-1">
               <h3>Content Hub</h3>
@@ -123,8 +125,8 @@ const latestPosts = featuredSlugs
 
       <section class="home-band home-band-latest">
         <div class="container home-band-inner">
+          <h2>Latest Articles and Toolkits</h2>
           <section class="latest-blog-box">
-            <h2>Latest Articles and Toolkits</h2>
             <ul class="latest-posts">
               {latestPosts.map((post) => (
                 <li>
@@ -172,36 +174,60 @@ const latestPosts = featuredSlugs
   }
 
   .home-band-problem {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     --band-text: var(--green-dark);
     --band-heading: var(--purple);
     padding: 0;
   }
 
   .home-band-find {
-    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
     --band-text: var(--green-light);
-    --band-heading: var(--purple-light);
+    --band-heading: var(--green-lime);
+  }
+
+  .find-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .home-band-find h2 {
+    text-align: center;
+    width: min(100%, 56ch);
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .home-band-who {
-    background: linear-gradient(180deg, rgba(244, 255, 232, 0.9) 0%, rgba(240, 205, 255, 0.78) 100%);
+    background: #ffffff;
     --band-text: var(--green-dark);
     --band-heading: var(--purple);
     padding: 0;
   }
 
+  .home-band-who .split-row {
+    max-width: 1200px;
+  }
+
+  .home-band-who .split-text {
+    padding-left: 1em;
+  }
+
   .home-band-start {
-    background: linear-gradient(180deg, var(--green-lime) 0%, rgba(192, 254, 113, 0.82) 100%);
-    --band-text: var(--green-dark);
-    --band-heading: var(--purple);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    --band-text: var(--green-light);
+    --band-heading: var(--green-lime);
+    padding-bottom: 1.1rem;
   }
 
   .home-band-latest {
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
     --band-text: var(--green-light);
     --band-heading: var(--green-lime);
-    padding-top: 1.7rem;
+    padding-top: 0.9rem;
   }
 
   .home-band-photo {
@@ -263,8 +289,9 @@ const latestPosts = featuredSlugs
   /* ── 3-column cards for "What will you find here" ── */
   .find-intro {
     text-align: center;
-    max-width: 56ch;
-    margin: 0 auto 1.8rem;
+    width: min(100%, 56ch);
+    max-width: none;
+    margin: 0 0 1.8rem;
   }
 
   .find-cards {
@@ -413,6 +440,7 @@ const latestPosts = featuredSlugs
     border: 2px solid var(--purple);
     border-radius: 10px;
     background: #ffffff;
+    color: var(--green-dark);
   }
 
   .founding-offer h3 {
@@ -602,14 +630,14 @@ const latestPosts = featuredSlugs
   }
 
   .latest-blog-box {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(240, 205, 255, 0.82) 100%);
-    border: 2px solid rgba(240, 205, 255, 0.92);
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.5rem;
     transition: transform 0.2s ease, border-color 0.2s ease;
     margin-bottom: 2rem;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-    color: var(--green-dark);
+    color: #000000;
   }
 
   .latest-blog-box:hover {
@@ -623,7 +651,7 @@ const latestPosts = featuredSlugs
   .latest-blog-box .post-description,
   .latest-blog-box .view-all-link,
   .latest-blog-box li a {
-    color: var(--green-dark);
+    color: #000000;
   }
 
   .latest-blog-box li a:hover h3,
@@ -634,12 +662,12 @@ const latestPosts = featuredSlugs
   .latest-posts {
     list-style: none;
     padding: 0;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
   }
 
   .latest-posts li {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
     border-bottom: 1px solid rgba(192, 254, 113, 0.2);
   }
 
@@ -662,13 +690,14 @@ const latestPosts = featuredSlugs
   .post-date {
     color: var(--green-light);
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
 
   .post-description {
     color: var(--green-light);
     font-size: 1rem;
     line-height: 1.5;
+    margin-bottom: 0;
   }
 
   .view-all-link {
@@ -787,6 +816,16 @@ const latestPosts = featuredSlugs
     .find-intro {
       margin: 0 0 1.25rem;
       max-width: none;
+    }
+
+    .home-band-find .find-header {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .home-band-find .find-header h2,
+    .home-band-find .find-intro {
+      text-align: left;
     }
 
     .view-all-link {

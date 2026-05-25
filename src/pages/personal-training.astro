@@ -75,12 +75,12 @@ import { SITE_TITLE } from '../consts';
                 <tbody>
                   <tr>
                     <td>6-Week Online Programme</td>
-                    <td>TBC</td>
+                    <td>£10</td>
                     <td>A 6-week online training programme built around your sport, your equipment, and your goals. Delivered as a full plan to follow at your own pace, with no scheduled check-ins. Optional follow-up chat available if you'd like to discuss your plan.</td>
                   </tr>
                   <tr>
                     <td>12-Week Online Programme</td>
-                    <td>TBC</td>
+                    <td>£20</td>
                     <td>A 12-week online training programme for longer arcs: pre-season builds, return-to-play phases, or extended training blocks. Same self-paced delivery, with optional follow-up chat if you want to talk it through.</td>
                   </tr>
                   <tr>
@@ -136,21 +136,6 @@ import { SITE_TITLE } from '../consts';
                 Sport / Team
                 <input type="text" name="sport" required />
               </label>
-
-              <label>
-                Preferred Contact Method
-                <select name="contactMethod" required>
-                  <option value="">Select one</option>
-                  <option value="Email">Email</option>
-                  <option value="Phone">Phone</option>
-                  <option value="Instagram">Instagram</option>
-                </select>
-              </label>
-
-              <label>
-                Preferred Time to Talk
-                <input type="text" name="preferredTime" placeholder="e.g. weekday evenings" />
-              </label>
             </div>
 
             <div class="progression-plan-fields">
@@ -200,8 +185,19 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
-                  Training Frequency Per Week
-                  <input type="number" name="planFrequency" min="1" max="7" />
+                  Current activity level
+                  <select name="planActivityLevel">
+                    <option value="">Select option</option>
+                    <option value="Mostly inactive (less than 1 session per week)">Mostly inactive (less than 1 session per week)</option>
+                    <option value="Light (1-2 sessions per week)">Light (1-2 sessions per week)</option>
+                    <option value="Moderate (3-4 sessions per week)">Moderate (3-4 sessions per week)</option>
+                    <option value="Active (5-6 sessions per week)">Active (5-6 sessions per week)</option>
+                    <option value="Highly active (6+ sessions per week)">Highly active (6+ sessions per week)</option>
+                  </select>
+                </label>
+                <label>
+                  How many sessions per week can your schedule allow?
+                  <input type="number" name="planFrequency" min="1" max="7" placeholder="e.g. 3" />
                 </label>
                 <label>
                   Plan Duration
@@ -386,8 +382,6 @@ import { SITE_TITLE } from '../consts';
           const email = String(formData.get('email') || '').trim();
           const phone = String(formData.get('phone') || '').trim();
           const sport = String(formData.get('sport') || '').trim();
-          const contactMethod = String(formData.get('contactMethod') || '').trim();
-          const preferredTime = String(formData.get('preferredTime') || '').trim();
           const goals = String(formData.get('goals') || '').trim();
 
           // Build request payload
@@ -396,8 +390,6 @@ import { SITE_TITLE } from '../consts';
             email,
             phone: phone || undefined,
             sport,
-            contactMethod,
-            preferredTime: preferredTime || undefined,
             goals,
             includeProgressionPlan: true,
           };
@@ -437,6 +429,7 @@ import { SITE_TITLE } from '../consts';
             cycleStatus: String(formData.get('cycleStatus') || '').trim() || undefined,
             currentWeek: String(formData.get('currentWeek') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
+            currentActivityLevel: String(formData.get('planActivityLevel') || '').trim() || undefined,
           });
 
           // Submit to the new preview-then-buy endpoint. On success we redirect
@@ -516,7 +509,7 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pt-band-focus-areas {
-    background: linear-gradient(180deg, var(--green-lime) 0%, rgba(192, 254, 113, 0.82) 100%);
+    background: linear-gradient(180deg, rgba(230, 206, 247, 0.9) 0%, rgba(246, 237, 255, 0.86) 100%);
   }
 
   .pt-band-booking {
@@ -831,29 +824,35 @@ import { SITE_TITLE } from '../consts';
   }
 
   .consultation-modal-backdrop {
-    position: fixed;
-    inset: 0;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.6);
     display: none;
-    align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem 1rem;
     z-index: 3000;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .consultation-modal-backdrop.active {
     display: flex;
+    align-items: flex-start;
   }
 
   .consultation-modal {
     width: min(760px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
     border: 2px solid var(--green-lime);
     border-radius: 12px;
     background: var(--green-dark);
     padding: 1.1rem;
     position: relative;
+    margin: auto;
   }
 
   .consultation-close {
