@@ -34,6 +34,10 @@ const plans = [
 				<p class="hero-tagline">Structured support for confidence, focus, routines, and staying composed under pressure.</p>
 			</section>
 
+			<div class="coming-soon-banner">
+				<p class="coming-soon-text">Coming soon</p>
+			</div>
+
 			<section class="intro-card" aria-label="Mental performance overview">
 				<p>
 					This page is for the mental performance plans only. The practical tools and article library live in the
@@ -66,7 +70,6 @@ const plans = [
 			</section>
 
 			<section class="actions-card" aria-label="Mental performance next steps">
-				<a href="/pricing" class="primary-cta">View Full Pricing</a>
 				<a href="/content-hub/gael-performance-toolkit/" class="secondary-cta">Browse Gael Performance Toolkit</a>
 			</section>
 		</main>
@@ -75,6 +78,23 @@ const plans = [
 </html>
 
 <style>
+	.coming-soon-banner {
+		background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+		border: none;
+		border-radius: 0;
+		padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+		margin: 1.5rem calc(50% - 50vw);
+		text-align: center;
+	}
+
+	.coming-soon-text {
+		color: var(--green-lime);
+		font-size: 1.2rem;
+		font-weight: 700;
+		margin: 0;
+		letter-spacing: 0.5px;
+	}
+
 	.mental-performance-main {
 		padding-top: 0;
 		padding-bottom: 3rem;
