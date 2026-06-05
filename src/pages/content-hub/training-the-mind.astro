@@ -16,177 +16,315 @@ const featuredSlugs = [
 const childPosts = featuredSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
   .filter((post): post is (typeof allPosts)[number] => post !== undefined);
+
+// Upcoming posts shown as "Coming Soon" cards. They are NOT clickable
+// (no slug yet) and signal to readers what's next in the monthly arc.
+const upcomingMonth1 = [
+  {
+    title: 'How Pressure Shows Up in Ladies Gaelic Football',
+    description: 'Where the pressure actually comes from. Selection anxiety, fear of letting your team down, social comparison, and the dual-career load.',
+    series: 'Training the Mind',
+  },
+  {
+    title: "When it's More Than Nerves",
+    description: 'How to tell normal competitive nerves from something that needs more support, and where to find that support.',
+    series: 'Stronger Minds, Stronger Players',
+  },
+];
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Training the Mind | ${SITE_TITLE}`} description="Training the Mind: practical psychology for female athletes, with short weekly posts on pressure, focus, and confidence." />
   </head>
-  <body>
+  <body class="training-mind-page">
     <Header />
-    <main class="container">
+    <main class="container training-mind-main">
       <section class="hero">
+        <p class="hero-kicker">Content Hub Series</p>
         <h1>Training the Mind</h1>
+        <p class="hero-tagline">A 12-month journey through pressure, focus, confidence, and composure in female sport.</p>
       </section>
 
-      <div class="prose">
-        <p>This is a 12 month journey through the mental side of sport, created specifically for female athletes.</p>
+      <section class="intro-card fade-in" aria-label="Series introduction">
+        <p>This is a 12-month journey through the mental side of sport, created specifically for female athletes.</p>
+        <p>Each month focuses on one performance theme. We begin with pressure: what it feels like, how it shapes your thoughts, and how it affects your focus before games and after mistakes.</p>
+        <p>These posts are short, practical, and easy to apply. The goal is to help you understand your mind better, so your performance feels more consistent when it matters most.</p>
+      </section>
 
-        <p>Each month we focus on a different theme. We start with pressure, what it actually feels like, how it shows up in your thoughts, and how it influences your focus and decisions before a game, after mistakes, and in high pressure moments.</p>
+      <section class="posts-panel fade-in">
+        <div class="posts-panel-head">
+          <h2>Month 1: Understanding Pressure in Performance</h2>
+          <label class="sr-only" for="search-posts">Search training posts</label>
+          <input
+            type="text"
+            id="search-posts"
+            name="search-posts"
+            placeholder="Search this month..."
+            oninput="filterPosts()"
+          />
+        </div>
 
-        <p>These posts are short, simple and easy to take in. The aim is to help you understand your mind better so you can build confidence, stay consistent and feel more in control when it matters most.</p>
-
-        <p>Take a look through the topics below, follow the journey and start making sense of your thoughts, reactions and performance.</p>
-      </div>
-
-      <section class="posts">
-        <h2>Month 1 - Understanding Pressure in Performance</h2>
-        <label class="sr-only" for="search-posts">Search content hub posts</label>
-        <input
-          type="text"
-          id="search-posts"
-          name="search-posts"
-          placeholder="Search posts..."
-          style="width: 100%; max-width: 400px; margin: 1.5rem 0 2rem 0; display: block; padding: 0.7em 1em; border-radius: 8px; border: 1px solid var(--green-lime); font-size: 1.1em; background: var(--green-dark); color: var(--green-light); text-align: left;"
-          oninput="filterPosts()"
-        />
-        <ul id="posts-list">
+        <ul id="posts-list" class="latest-posts">
           {childPosts.map((post) => (
-            <li class="fade-in card">
+            <li>
               <a href={`/content-hub/${post.slug}/`}>
-                <h2 class="title">{post.data.title}</h2>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
+                <h3 class="title">{post.data.title}</h3>
+                {post.data.description && <p class="description">{post.data.description}</p>}
               </a>
             </li>
           ))}
         </ul>
-    <script is:inline>
-      // 3D Card Hover Effect (delegated for dynamic content)
-      function setup3DHover() {
-        document.querySelectorAll('.card').forEach(card => {
-          card.onmousemove = (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * 15; // increased max tilt
-            const rotateY = ((x - centerX) / centerX) * 25; // increased max tilt
-            card.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
-          };
-          card.onmouseleave = () => {
-            card.style.transform = 'perspective(1000px)';
-          };
-        });
-      }
-      setup3DHover();
-      // Re-run after search filter
-      function filterPosts() {
-        const input = document.getElementById('search-posts');
-        const filter = input.value.toLowerCase();
-        const ul = document.getElementById('posts-list');
-        const lis = ul.getElementsByTagName('li');
-        for (let i = 0; i < lis.length; i++) {
-          const title = lis[i].querySelector('.title').textContent.toLowerCase();
-          const desc = lis[i].querySelector('.description')?.textContent.toLowerCase() || '';
-          if (title.includes(filter) || desc.includes(filter)) {
-            lis[i].style.display = '';
-          } else {
-            lis[i].style.display = 'none';
-          }
-        }
-        setup3DHover();
-      }
-    </script>
       </section>
 
-      <section class="content-feedback-cta">
+      <section class="upcoming-posts fade-in">
+        <h2>Coming next this month</h2>
+        <p class="upcoming-intro">The next posts release weekly as the Month 1 arc unfolds.</p>
+        <ul class="upcoming-list">
+          {upcomingMonth1.map((post) => (
+            <li class="upcoming-card">
+              <span class="upcoming-badge">Coming soon</span>
+              <p class="upcoming-series">{post.series}</p>
+              <h3 class="upcoming-title">{post.title}</h3>
+              <p class="upcoming-description">{post.description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="content-feedback-cta fade-in">
         <p>Got feedback on this content?</p>
         <a href="/content-feedback" class="feedback-cta-link">Share Feedback</a>
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      function filterPosts() {
+        const input = document.getElementById('search-posts');
+        const filter = (input && 'value' in input ? input.value : '').toLowerCase();
+        const list = document.getElementById('posts-list');
+
+        if (!list) return;
+
+        Array.from(list.getElementsByTagName('li')).forEach((item) => {
+          const title = item.querySelector('.title')?.textContent?.toLowerCase() || '';
+          const desc = item.querySelector('.description')?.textContent?.toLowerCase() || '';
+          item.style.display = title.includes(filter) || desc.includes(filter) ? '' : 'none';
+        });
+      }
+
+      const elements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
+        });
+      });
+
+      elements.forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
 
 <style>
-  /* Removed .series-posts styles to use .posts styles from global.css */
+  .training-mind-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
 
-  h1 {
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.1rem;
+    padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0 0 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0;
     color: var(--green-lime);
   }
 
-  h2 {
-    color: var(--green-lime);
-  }
-
-  /* POSTS LAYOUT */
-  .posts ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 0;
-    list-style: none;
-    justify-content: center;
-    margin-bottom: 4rem;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-  @media (min-width: 900px) {
-    .posts ul {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  /* CARD STYLE */
-  .posts li {
-    flex: 1;
-    max-width: 350px;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 12px;
-    padding: 2rem;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  /* HOVER EFFECT */
-  .posts li:hover {
-    /* transform: translateY(-10px) scale(1.02); */
-    border-color: var(--purple-light);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  /* MAKE FULL CARD CLICKABLE */
-  .posts li a {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* TEXT STYLING */
-  .posts li .title {
-    margin-bottom: 1rem;
-    font-size: 1.4em;
-  }
-
-  .posts li .description {
+  .hero-tagline {
+    margin: 0.35rem 0 0;
     color: var(--green-light);
-    line-height: 1.6;
+    max-width: 60ch;
   }
 
-  /* FADE-IN ANIMATION */
+  .intro-card,
+  .posts-panel,
+  .upcoming-posts,
+  .content-feedback-cta {
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .intro-card p,
+  .posts-panel p,
+  .upcoming-posts p,
+  .content-feedback-cta p {
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+  }
+
+  .intro-card p:last-child,
+  .content-feedback-cta p {
+    margin-bottom: 0;
+  }
+
+  .posts-panel-head h2,
+  .upcoming-posts h2 {
+    color: var(--purple);
+    margin-bottom: 0.6rem;
+  }
+
+  #search-posts {
+    width: 100%;
+    max-width: 430px;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(105, 0, 90, 0.45);
+    background: #fff;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+  }
+
+  .latest-posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .latest-posts li {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+  }
+
+  .latest-posts li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .latest-posts li a {
+    display: block;
+    text-decoration: none;
+    color: #000000 !important;
+  }
+
+  .latest-posts li a:hover .title {
+    color: var(--purple);
+  }
+
+  .latest-posts .title {
+    margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+    color: #000000;
+  }
+
+  .latest-posts .description {
+    margin: 0;
+    color: #000000;
+    line-height: 1.5;
+    font-size: 0.96rem;
+  }
+
+  .upcoming-intro {
+    margin-bottom: 0.85rem;
+  }
+
+  .upcoming-list {
+    list-style: none;
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .upcoming-card {
+    border: 1px solid rgba(105, 0, 90, 0.5);
+    border-radius: 10px;
+    padding: 0.9rem;
+    background: rgba(240, 205, 255, 0.15);
+  }
+
+  .upcoming-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--green-dark);
+    background: var(--green-lime);
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    margin-bottom: 0.55rem;
+  }
+
+  .upcoming-series {
+    margin: 0;
+    color: var(--purple);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .upcoming-title {
+    margin: 0.25rem 0 0.4rem;
+    color: var(--green-dark);
+    font-size: 1rem;
+  }
+
+  .upcoming-description {
+    margin: 0;
+    color: var(--green-dark);
+    line-height: 1.45;
+    font-size: 0.93rem;
+  }
+
+  .content-feedback-cta {
+    text-align: center;
+  }
+
+  .feedback-cta-link {
+    display: inline-block;
+    margin-top: 0.6rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.52rem 0.95rem;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .feedback-cta-link:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+    color: var(--purple) !important;
+  }
+
   .fade-in {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   .fade-in.show {
@@ -194,70 +332,20 @@ const childPosts = featuredSlugs
     transform: translateY(0);
   }
 
-  /* RESPONSIVE */
-  @media (max-width: 1024px) {
-    .posts ul {
-      flex-direction: column;
-      align-items: center;
+  @media (max-width: 720px) {
+    .training-mind-main {
+      padding-bottom: 2rem;
     }
-    .posts li {
-      max-width: 100%;
-      width: 100%;
+
+    .hero {
+      padding: 1.4rem max(0.8rem, calc(50vw - 600px + 1rem));
+      margin-bottom: 0.9rem;
     }
-  }
 
-  /* 3D HOVER EFFECT */
-  .posts li.card {
-    perspective: 1000px;
-    transition:
-      transform 0.3s cubic-bezier(.25,.8,.25,1),
-      box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
-    will-change: transform;
-    /* Remove conflicting transform from .posts li:hover */
-  }
-
-  .posts li.card:hover {
-    /* No transform here, JS handles it */
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-    border-color: var(--purple-light);
-  }
-
-  .content-feedback-cta {
-    margin: 0 0 2.5rem;
-    text-align: center;
-  }
-
-  .content-feedback-cta p {
-    margin-bottom: 0.55rem;
-    color: var(--green-light);
-  }
-
-  .feedback-cta-link {
-    display: inline-block;
-    border: 2px solid var(--green-lime);
-    border-radius: 8px;
-    padding: 0.48rem 0.85rem;
-    background: var(--green-lime);
-    color: var(--green-dark);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .feedback-cta-link:hover {
-    border-color: var(--purple-light);
-    background: var(--purple-light);
+    .posts-panel,
+    .upcoming-posts,
+    .content-feedback-cta {
+      padding: 1rem;
+    }
   }
 </style>
-
-<!-- Scroll Animation Script -->
-    <script is:inline>
-      const elements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      });
-      elements.forEach(el => observer.observe(el));
-    </script>

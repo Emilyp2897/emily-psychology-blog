@@ -12,7 +12,7 @@ import {
 } from '../../data/exercises';
 import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
 import { EMILY_CALENDAR_BOOKING_URL } from '../../consts';
-import { buildClientPlanEmailHtml, buildEmilyNotificationEmailHtml } from '../../lib/email-format';
+import { buildClientPlanEmailHtml, buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
 
 export const prerender = false;
 
@@ -149,19 +149,37 @@ async function generateFullPlan(input: {
 
   const client = new Anthropic({ apiKey });
 
+  // Token budget scales with plan duration. The new format (tables + a
+  // blockquote describing each exercise + coach notes per week) needs
+  // ~800-1200 tokens per week. Headroom factored in to avoid mid-week
+  // cutoffs. Specialised tracks include the extra protocol block so they
+  // get a bit more.
+  const is12Week = (input.intake.planDuration || '').includes('12');
+  const baseTokens = is12Week ? 12000 : 6000;
+  const trackBonus = input.track !== 'standard' ? 1500 : 0;
+  const maxTokens = baseTokens + trackBonus;
+
   const response = await client.messages.create({
     model,
     temperature: 0.5,
-    max_tokens: input.track === 'standard' ? 2400 : 2800,
-    system: buildSystemPrompt(),
+    max_tokens: maxTokens,
+    // Cache the full-plan system prompt. This is the longest prompt in
+    // the codebase (~1500 tokens with the beginner-accessibility rule,
+    // output structure spec, etc.) and the biggest cache-savings target.
+    system: [
+      { type: 'text', text: buildSystemPrompt(), cache_control: { type: 'ephemeral' } },
+    ],
     messages: [{ role: 'user', content: buildPlanPrompt(input) }],
   });
 
-  return response.content
+  const raw = response.content
     .filter((block) => block.type === 'text')
     .map((block) => block.text)
     .join('\n')
     .trim();
+
+  // Strip em-dashes the model may have emitted despite the prompt rule.
+  return stripDashes(raw);
 }
 
 function buildSystemPrompt(): string {
@@ -183,6 +201,17 @@ function buildSystemPrompt(): string {
     '5. Cycle awareness: assume a typical 28-day cycle unless the client states otherwise. Where relevant, suggest where heavier strength work and higher-intensity conditioning fit best (typically follicular phase) and where deload, mobility, and aerobic work fit best (typically late luteal). Phrase as GUIDANCE, not prescription.',
     '6. Contraindications: read the injuries and medical fields carefully. The AVAILABLE EXERCISE POOL has already been filtered to remove exercises contraindicated by the client\'s stated history.',
     '',
+    'BEGINNER ACCESSIBILITY RULE:',
+    'If the client\'s experience level is "Beginner" or contains "less than 1 year", you MUST explain every S&C term in plain English the first time it appears in client-facing content. In particular:',
+    '- RPE: "Rate of Perceived Exertion. A scale from 1 to 10 of how hard the effort feels. RPE 6 means you have 4 reps left in the tank. RPE 9 means you have 1 rep left."',
+    '- Sets and reps: "A rep is one complete movement (one squat). A set is a group of reps done back-to-back (e.g. 1 set of 8 reps = 8 squats in a row)."',
+    '- Deload: "A planned lighter week. The point is recovery, not progress. You will still train, just with less weight or fewer sets."',
+    '- Progressive overload: "Gradually doing a bit more over time, e.g. one more rep, slightly more weight, or one more set."',
+    '- Tempo (if used): explain the 4-digit notation (e.g. 3-0-1-0 = 3 seconds down, 0 hold at bottom, 1 second up, 0 pause at top).',
+    '- Any other technical term gets a short plain-English explanation the first time it appears.',
+    'For intermediate and advanced clients, assume familiarity with these terms.',
+    'Write all client-facing sections in second person ("You will...", "Your goal this week..."). Use concrete cues, not abstract directives. Avoid jargon for jargon\'s sake.',
+    '',
     'CITATION RULE:',
     'Any specific claim, statistic, or technique you offer that is NOT obvious general programming knowledge must come from a real named source: a peer-reviewed paper (author plus year), a recognised authority (NICE, POGP, Aspetar, NHS, WHO, ACOG, ESHRE), or a widely-cited framework. If you cannot name a real source you are confident exists, do NOT make the specific claim. Frame it as general principle instead. Never invent citations, statistics, study findings, author names, or journal names.',
     '',
@@ -195,15 +224,32 @@ function buildSystemPrompt(): string {
     '(Goals, weekly structure at a glance, planned deload week(s), expected progression arc.)',
     '',
     '# WEEK-BY-WEEK PLAN',
-    '(For each week:',
+    'For each week, use this exact structure:',
+    '',
     '  ## Week N: [theme]',
-    '  Focus:',
-    '  Sessions:',
-    '    Session 1 (day type): exercises with sets x reps at RPE, rest periods',
-    '    Session 2 ...',
-    '  Cues for the week:',
-    '  Cycle consideration:',
-    '  How to know you are ready to progress: )',
+    '  **Focus:** one short line on the week\'s focus.',
+    '',
+    '  ### Session 1: [day type, e.g. Lower body strength]',
+    '  | Exercise | Sets | Reps | RPE | Rest |',
+    '  | --- | --- | --- | --- | --- |',
+    '  | Goblet squat | 3 | 8 | 7 | 90s |',
+    '  | Dumbbell RDL | 3 | 10 | 7 | 60s |',
+    '',
+    '  Immediately after the table, add a markdown blockquote describing each exercise in one short plain-English line. Format:',
+    '  > **Goblet squat:** stand tall holding a dumbbell at chest height, sit your hips back and down like sitting into a chair, drive through your feet to stand. Knees track over toes.',
+    '  > **Dumbbell RDL:** hold dumbbells in front of your thighs, hinge at the hips while keeping a soft bend in your knees, lower the weights down your shins, squeeze your glutes to stand.',
+    '',
+    '  For beginners, ALWAYS include an exercise description. For intermediate/advanced you can omit descriptions for very common exercises (squat, deadlift, pull-up) but always describe less common ones.',
+    '',
+    '  **Cues:** one short line of session-level coaching cues.',
+    '',
+    '  ### Session 2: [day type]',
+    '  (same table format)',
+    '',
+    '  **Cycle consideration:** one short line.',
+    '  **How to know you are ready to progress:** one short line.',
+    '',
+    'EVERY session block MUST contain a markdown table with the columns: Exercise, Sets, Reps, RPE, Rest. Do not list exercises as bullet points. Do not omit the separator row (| --- | --- | --- | --- | --- |).',
     '',
     '# COACH NOTES',
     '(For each week, 2-4 lines:',
@@ -344,8 +390,7 @@ async function sendClientPlanEmail(input: {
     '',
     'You can also reach me any time at ' + EMILY_EMAIL + '. I want to know how you get on.',
     '',
-    'Emily',
-    'Mind the Gael',
+    buildSignatureText(),
   ].join('\n');
 
   // Styled HTML version. Modern email clients render this; older ones fall

@@ -1,0 +1,219 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const plans = [
+	{
+		title: '6-Week Mental Performance Plan',
+		price: 'TBC',
+		description:
+			'A 6-week online mental performance plan built around your sport, your routines, and the performance moments you want to work on, including pre-game nerves, focus during play, and recovery from mistakes.',
+	},
+	{
+		title: '12-Week Mental Performance Plan',
+		price: 'TBC',
+		description:
+			'A 12-week online mental performance plan for longer arcs such as pre-season mental prep, post-injury return, or sustained mental skill development.',
+	},
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Mental Performance | ${SITE_TITLE}`} description="Mental performance plans for female athletes, plus practical tools in the Content Hub." />
+	</head>
+	<body class="mental-performance-page">
+		<Header />
+		<main class="container mental-performance-main">
+			<section class="hero">
+				<p class="hero-kicker">Mental Performance</p>
+				<h1>Mental Performance Plans</h1>
+				<p class="hero-tagline">Structured support for confidence, focus, routines, and staying composed under pressure.</p>
+			</section>
+
+			<section class="intro-card" aria-label="Mental performance overview">
+				<p>
+					This page is for the mental performance plans only. The practical tools and article library live in the
+					<a href="/content-hub/gael-performance-toolkit/">Gael Performance Toolkit</a>.
+				</p>
+			</section>
+
+			<section class="plans-card" aria-labelledby="mental-performance-plans-heading">
+				<h2 id="mental-performance-plans-heading">Plans</h2>
+				<div class="pricing-table-wrap">
+					<table class="pricing-table">
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Price</th>
+								<th>Includes</th>
+							</tr>
+						</thead>
+						<tbody>
+							{plans.map((plan) => (
+								<tr>
+									<td>{plan.title}</td>
+									<td>{plan.price}</td>
+									<td>{plan.description}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section class="actions-card" aria-label="Mental performance next steps">
+				<a href="/pricing" class="primary-cta">View Full Pricing</a>
+				<a href="/content-hub/gael-performance-toolkit/" class="secondary-cta">Browse Gael Performance Toolkit</a>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.mental-performance-main {
+		padding-top: 0;
+		padding-bottom: 3rem;
+	}
+
+	.hero {
+		margin: 0 calc(50% - 50vw) 1rem;
+		padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+		background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+	}
+
+	.hero-kicker {
+		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-size: 0.75rem;
+		color: var(--purple-light);
+		font-weight: 700;
+	}
+
+	.hero h1 {
+		margin: 0.2rem 0 0;
+		color: var(--green-lime);
+	}
+
+	.hero-tagline {
+		margin: 0.35rem 0 0;
+		color: var(--green-light);
+		max-width: 62ch;
+	}
+
+	.intro-card,
+	.plans-card,
+	.actions-card {
+		background: #ffffff;
+		border: 2px solid rgba(105, 0, 90, 0.22);
+		border-radius: 8px;
+		padding: 1.5rem;
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+		color: #000000;
+	}
+
+	.intro-card,
+	.plans-card {
+		margin-bottom: 1rem;
+	}
+
+	.intro-card p {
+		margin: 0;
+	}
+
+	.intro-card a {
+		color: #4f0044;
+		font-weight: 700;
+	}
+
+	.plans-card h2 {
+		margin-top: 0;
+		color: var(--purple);
+	}
+
+	.pricing-table-wrap {
+		overflow-x: auto;
+	}
+
+	.pricing-table {
+		width: 100%;
+		border-collapse: collapse;
+		background-color: rgba(244, 255, 232, 0.95);
+		border: 2px solid rgba(105, 0, 90, 0.5);
+	}
+
+	.pricing-table th,
+	.pricing-table td {
+		padding: 0.85rem;
+		text-align: left;
+		border: 1px solid rgba(105, 0, 90, 0.45);
+		vertical-align: middle;
+	}
+
+	.pricing-table th {
+		background: rgba(192, 254, 113, 0.14);
+		color: var(--purple);
+		font-weight: 700;
+	}
+
+	.pricing-table td {
+		color: var(--green-dark);
+	}
+
+	.actions-card {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.primary-cta,
+	.secondary-cta {
+		display: inline-block;
+		padding: 0.75rem 1.2rem;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 700;
+		border: 2px solid transparent;
+		transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+
+	.primary-cta {
+		background: var(--green-lime);
+		color: var(--green-dark) !important;
+		border-color: var(--green-lime);
+	}
+
+	.secondary-cta {
+		background: #ffffff;
+		color: var(--purple) !important;
+		border-color: rgba(105, 0, 90, 0.35);
+	}
+
+	.primary-cta:hover,
+	.secondary-cta:hover {
+		transform: translateY(-1px);
+		border-color: var(--purple-light);
+	}
+
+	@media (max-width: 720px) {
+		.mental-performance-main {
+			padding-bottom: 2rem;
+		}
+
+		.hero {
+			padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
+		}
+
+		.intro-card,
+		.plans-card,
+		.actions-card {
+			padding: 1rem;
+		}
+	}
+</style>

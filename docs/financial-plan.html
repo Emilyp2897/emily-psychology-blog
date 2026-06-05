@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mind the Gael — Financial Plan</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm; }
+
+  :root {
+    --green-dark: #0a1a0e;
+    --green-lime: #c0fe71;
+    --purple: #69005a;
+    --text: #1a1a1a;
+    --muted: #555;
+    --border: #d8d8d8;
+    --soft-bg: #f7f7f5;
+    --callout-bg: #f6e8f3;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.55;
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+    font-size: 14px;
+  }
+
+  header.cover {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 0 -24px 40px;
+    background: var(--green-dark);
+    color: #fff;
+    page-break-after: always;
+  }
+  header.cover h1 {
+    color: var(--green-lime);
+    font-size: 38px;
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+  }
+  header.cover p.subtitle {
+    margin: 6px 0 30px;
+    color: #fff;
+    font-size: 16px;
+    opacity: 0.9;
+  }
+  header.cover .meta {
+    margin-top: 50px;
+    font-size: 13px;
+    color: #ccc;
+  }
+
+  h2 {
+    color: var(--purple);
+    font-size: 22px;
+    margin: 48px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-lime);
+    page-break-after: avoid;
+  }
+
+  h3 {
+    color: var(--purple);
+    font-size: 16px;
+    margin: 24px 0 6px;
+    page-break-after: avoid;
+  }
+
+  p { margin: 6px 0 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 22px;
+    page-break-inside: avoid;
+  }
+  th, td {
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  th {
+    background: var(--green-dark);
+    color: var(--green-lime);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  ul, ol { margin: 6px 0 14px; padding-left: 22px; }
+  li { margin-bottom: 3px; }
+
+  .callout {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--purple);
+    padding: 12px 14px;
+    margin: 14px 0 22px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .callout strong { color: var(--purple); }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 14px 0;
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    background: var(--soft-bg);
+    page-break-inside: avoid;
+  }
+  .card h4 {
+    margin: 0 0 8px;
+    color: var(--purple);
+    font-size: 14px;
+  }
+  .card .big {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 4px 0;
+  }
+  .card .sub { font-size: 12px; color: var(--muted); }
+
+  footer.doc-footer {
+    margin-top: 60px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media print {
+    body { margin: 0; padding: 0; max-width: none; }
+    h2 { margin-top: 30px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>Mind the Gael</h1>
+  <p class="subtitle">Financial Plan</p>
+  <p class="subtitle">Online platform for mental wellbeing &amp; performance coaching for female athletes</p>
+  <div class="meta">Prepared 2026<br/>Founder: Emily Phelan</div>
+</header>
+
+<h2>1. Executive Summary</h2>
+
+<p>Mind the Gael is an online platform delivering productised mental wellbeing and physical training content to female athletes. The business model is direct-to-consumer digital products with very high gross margins, supported by a small fixed-cost stack (Vercel, Postgres, Resend, Anthropic API, Stripe).</p>
+
+<p>The revenue mix sits across four product families: <strong>personal training plans</strong> (one-off purchases), <strong>mental performance plans</strong> (one-off purchases, new product), <strong>workshops</strong>, and a <strong>monthly blog subscription</strong>. Each purchase costs the business roughly <strong>£0.40 to £0.90 in variable cost</strong> (API + payment processing), against retail prices that range from £5 to £30.</p>
+
+<p>The platform is engineered to scale: the training plan generator runs autonomously after Stripe verification, content is served from a CDN-backed static site, and the live human intervention layer (Emily) is only invoked for clinical-pause cases and the four specialised training tracks (pregnancy, postpartum, endometriosis, return-to-play).</p>
+
+<div class="callout">
+  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>92 % and 99 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even at <strong>4 programme sales per month</strong>.
+</div>
+
+<h2>2. Revenue Streams</h2>
+
+<h3>2.1 Personal Training Plans (live)</h3>
+<table>
+  <thead>
+    <tr><th>Product</th><th class="num">Price</th><th>Delivery</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>6-Week Online Programme</td><td class="num">£10</td><td>Self-paced plan delivered by email after Stripe checkout. No scheduled check-ins.</td></tr>
+    <tr><td>12-Week Online Programme</td><td class="num">£20</td><td>As above, twice the duration. Suited to pre-season builds or return-to-play.</td></tr>
+  </tbody>
+</table>
+
+<h3>2.2 Mental Performance Plans (new)</h3>
+<p>A productised offering parallel to the training plans. Intake &rarr; teaser preview &rarr; Stripe &rarr; full plan emailed. Content backbone is the Gael Performance Toolkit. The intake captures mental-performance context (competition anxiety, focus issues, pre-performance routines, recovery from setbacks) rather than physical-training context. Pricing TBD; initial plan to mirror training-programme economics.</p>
+<table>
+  <thead>
+    <tr><th>Product</th><th class="num">Price</th><th>Delivery</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>6-Week Mental Performance Plan</td><td class="num">TBC</td><td>Self-paced plan delivered by email after Stripe checkout.</td></tr>
+    <tr><td>12-Week Mental Performance Plan</td><td class="num">TBC</td><td>As above, twice the duration.</td></tr>
+  </tbody>
+</table>
+
+<h3>2.3 Online Workshops</h3>
+<table>
+  <thead>
+    <tr><th>Workshop</th><th class="num">Price</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mindfulness for Female Athletes</td><td class="num">£30</td></tr>
+    <tr><td>Performance Coaching for Female Athletes</td><td class="num">£30</td></tr>
+    <tr><td>Nutrition for Female Athletes</td><td class="num">£30</td></tr>
+    <tr><td>Mental Wellbeing Workshop</td><td class="num">£30</td></tr>
+  </tbody>
+</table>
+
+<h3>2.4 Blog Subscription</h3>
+<table>
+  <thead>
+    <tr><th>Product</th><th class="num">Price</th><th>Delivery</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Monthly Subscription (Founding Offer)</td><td class="num">£5/mo first 50, then £8/mo</td><td>14-day free trial, then monthly billing via Stripe. Includes 4 Training the Mind articles per month, 4 Gael Performance Toolkits, and 1 mindfulness newsletter. Stronger Minds, Stronger Players is always free.</td></tr>
+  </tbody>
+</table>
+
+<p style="color: var(--muted); font-style: italic;">Team programmes (£75/month, £405/£720 upfront, Pre-Season £850-£1,250) were previously offered but are paused as of 2026-05-25. Emily may revisit at a later date.</p>
+
+<h2>3. Variable Cost Per Sale</h2>
+
+<p>Every transaction has two variable costs: the AI generation cost (Anthropic API) and the Stripe payment processing fee.</p>
+
+<h3>3.1 AI generation cost (Anthropic Claude Sonnet 4.5)</h3>
+
+<p>Pricing: $3 per 1M input tokens, $15 per 1M output tokens (approximate). Each programme purchase triggers two calls: a cheap teaser at intake, then a full plan after payment.</p>
+
+<table>
+  <thead>
+    <tr><th>Step</th><th class="num">Input tokens</th><th class="num">Output tokens</th><th class="num">Cost (USD)</th><th class="num">Cost (GBP)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Teaser (every intake submission)</td><td class="num">~1,500</td><td class="num">~600</td><td class="num">$0.014</td><td class="num">£0.011</td></tr>
+    <tr><td>Full 6-week plan (after purchase)</td><td class="num">~2,500</td><td class="num">~5,000</td><td class="num">$0.082</td><td class="num">£0.065</td></tr>
+    <tr><td>Full 12-week plan (after purchase)</td><td class="num">~2,500</td><td class="num">~10,000</td><td class="num">$0.158</td><td class="num">£0.125</td></tr>
+  </tbody>
+</table>
+
+<h3>3.2 Stripe payment processing</h3>
+<table>
+  <thead>
+    <tr><th>Transaction</th><th class="num">Fee</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>UK card (standard)</td><td class="num">1.5 % + £0.20</td></tr>
+    <tr><td>EU card</td><td class="num">2.5 % + £0.20</td></tr>
+    <tr><td>International / Amex</td><td class="num">3.25 % + £0.20</td></tr>
+  </tbody>
+</table>
+
+<h2>4. Per-Product Margin</h2>
+
+<p>Assuming UK-card processing rate, full-cap token usage, and one teaser per buyer:</p>
+
+<table>
+  <thead>
+    <tr><th>Product</th><th class="num">Price</th><th class="num">API cost</th><th class="num">Stripe fee</th><th class="num">Net per sale</th><th class="num">Margin</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>6-Week Personal Training Plan</td><td class="num">£10.00</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
+    <tr><td>12-Week Personal Training Plan</td><td class="num">£20.00</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
+    <tr><td>6-Week Mental Performance Plan (est.)</td><td class="num">£10.00*</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
+    <tr><td>12-Week Mental Performance Plan (est.)</td><td class="num">£20.00*</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
+    <tr><td>Blog Subscription monthly (after trial)</td><td class="num">£5.00</td><td class="num">£0.00</td><td class="num">£0.28</td><td class="num">£4.72</td><td class="num">94.4 %</td></tr>
+    <tr><td>Workshop (any)</td><td class="num">£30.00</td><td class="num">£0.00</td><td class="num">£0.65</td><td class="num">£29.35</td><td class="num">97.8 %</td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:var(--muted);">*Mental Performance Plan pricing is TBC; rows show estimates assuming parity with training plans.</p>
+
+<h2>5. Fixed Costs</h2>
+
+<table>
+  <thead>
+    <tr><th>Service</th><th>Tier</th><th class="num">Monthly cost</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Domain (mindthegael.co.uk)</td><td>Annual</td><td class="num">~£1.25 (£15/yr)</td></tr>
+    <tr><td>Canva subscription</td><td>Pro</td><td class="num">£18.00</td></tr>
+    <tr><td>Claude AI Pro account</td><td>Personal subscription</td><td class="num">~£16.00*</td></tr>
+    <tr><td>Vercel hosting</td><td>Hobby tier</td><td class="num">£0 (Pro: $20 at scale)</td></tr>
+    <tr><td>Vercel Postgres (Neon)</td><td>Free tier covers small DB</td><td class="num">£0 (paid tier from ~$20)</td></tr>
+    <tr><td>Resend (transactional email)</td><td>Free up to 3,000 emails/month</td><td class="num">£0 (paid $20 for 50,000)</td></tr>
+    <tr><td>Stripe</td><td>No platform fee</td><td class="num">£0 fixed</td></tr>
+    <tr><td>Anthropic API (Mind the Gael platform)</td><td>Pay-as-you-go (separate from Claude Pro)</td><td class="num">£0 fixed (per-call only)</td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:var(--muted);">*Claude AI Pro account is Emily's personal Anthropic subscription used for site/content work. Estimate based on US$20/month; please confirm exact GBP figure.</p>
+
+<div class="callout">
+  <strong>Total fixed cost at v1 scale: ~£35.25/month.</strong> Dominated by Canva (£18) and Claude Pro (~£16). Hosting, database, and email services have generous free tiers that cover low traffic. Moving to paid Vercel/Postgres/Resend tiers happens around <strong>50,000 monthly visits</strong> or <strong>3,000 emails/month</strong> &mdash; far above current needs.
+</div>
+
+<h2>6. Scaling Scenarios</h2>
+
+<p>Three sales-volume scenarios for the 6-week programme alone (other revenue is additive on top). Assumes 10 % conversion from teaser to purchase.</p>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Conservative</h4>
+    <div class="big">10 sales / month</div>
+    <div class="sub">90 non-buyer teasers + 10 buyers</div>
+    <p style="margin:10px 0 0;">Revenue: <strong>£100</strong><br/>API spend: ~£1.80<br/>Stripe fees: ~£3.50<br/>Fixed: £35.25<br/><strong>Net profit: ~£59.45</strong></p>
+  </div>
+  <div class="card">
+    <h4>Moderate</h4>
+    <div class="big">50 sales / month</div>
+    <div class="sub">450 non-buyer teasers + 50 buyers</div>
+    <p style="margin:10px 0 0;">Revenue: <strong>£500</strong><br/>API spend: ~£8.95<br/>Stripe fees: ~£17.50<br/>Fixed: £35.25<br/><strong>Net profit: ~£438.30</strong></p>
+  </div>
+  <div class="card">
+    <h4>High</h4>
+    <div class="big">200 sales / month</div>
+    <div class="sub">1,800 non-buyer teasers + 200 buyers</div>
+    <p style="margin:10px 0 0;">Revenue: <strong>£2,000</strong><br/>API spend: ~£35.80<br/>Stripe fees: ~£70<br/>Fixed: £55.25 (+ Vercel Pro)<br/><strong>Net profit: ~£1,838.95</strong></p>
+  </div>
+  <div class="card">
+    <h4>Stretch (mixed)</h4>
+    <div class="big">500 mixed sales / mo</div>
+    <div class="sub">150 training plans + 150 mental performance plans + 100 workshops + 100 blog subscribers</div>
+    <p style="margin:10px 0 0;">Revenue: <strong>~£8,400</strong><br/>API spend: ~£40<br/>Stripe fees: ~£165<br/>Fixed: £55.25<br/><strong>Net profit: ~£8,140</strong></p>
+  </div>
+</div>
+
+<h2>7. Break-Even Analysis</h2>
+
+<p>Fixed costs at v1 are dominated by Canva (£18/mo) and Claude Pro (~£16/mo), totalling about £35/month. Each 6-week programme sale nets ~£9.57 after variable costs. Therefore:</p>
+
+<table>
+  <thead>
+    <tr><th>Scenario</th><th class="num">Sales required / month</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Cover fixed costs only (v1, £35/mo)</td><td class="num">4 sales</td></tr>
+    <tr><td>Cover v1 fixed + £100 personal draw</td><td class="num">~14 sales</td></tr>
+    <tr><td>Cover v1 fixed + £500 personal draw</td><td class="num">~56 sales</td></tr>
+    <tr><td>Cover v1 fixed + £1,000 personal draw</td><td class="num">~108 sales</td></tr>
+  </tbody>
+</table>
+
+<h2>8. 12-Month Revenue Projection (illustrative)</h2>
+
+<p>Assumes gradual ramp from conservative (month 1) to moderate (month 12) traffic. Single-product (6-week programmes) baseline; subscriptions and workshops are additive upside.</p>
+
+<table>
+  <thead>
+    <tr><th>Month</th><th class="num">Sales</th><th class="num">Revenue</th><th class="num">Variable cost</th><th class="num">Fixed cost</th><th class="num">Net profit</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Month 1</td><td class="num">5</td><td class="num">£50</td><td class="num">£2.65</td><td class="num">£35.25</td><td class="num">£12.10</td></tr>
+    <tr><td>Month 2</td><td class="num">8</td><td class="num">£80</td><td class="num">£4.24</td><td class="num">£35.25</td><td class="num">£40.51</td></tr>
+    <tr><td>Month 3</td><td class="num">12</td><td class="num">£120</td><td class="num">£6.36</td><td class="num">£35.25</td><td class="num">£78.39</td></tr>
+    <tr><td>Month 4</td><td class="num">18</td><td class="num">£180</td><td class="num">£9.54</td><td class="num">£35.25</td><td class="num">£135.21</td></tr>
+    <tr><td>Month 5</td><td class="num">22</td><td class="num">£220</td><td class="num">£11.66</td><td class="num">£35.25</td><td class="num">£173.09</td></tr>
+    <tr><td>Month 6</td><td class="num">28</td><td class="num">£280</td><td class="num">£14.84</td><td class="num">£35.25</td><td class="num">£229.91</td></tr>
+    <tr><td>Month 7</td><td class="num">34</td><td class="num">£340</td><td class="num">£18.02</td><td class="num">£35.25</td><td class="num">£286.73</td></tr>
+    <tr><td>Month 8</td><td class="num">40</td><td class="num">£400</td><td class="num">£21.20</td><td class="num">£35.25</td><td class="num">£343.55</td></tr>
+    <tr><td>Month 9</td><td class="num">42</td><td class="num">£420</td><td class="num">£22.26</td><td class="num">£35.25</td><td class="num">£362.49</td></tr>
+    <tr><td>Month 10</td><td class="num">45</td><td class="num">£450</td><td class="num">£23.85</td><td class="num">£35.25</td><td class="num">£390.90</td></tr>
+    <tr><td>Month 11</td><td class="num">48</td><td class="num">£480</td><td class="num">£25.44</td><td class="num">£35.25</td><td class="num">£419.31</td></tr>
+    <tr><td>Month 12</td><td class="num">50</td><td class="num">£500</td><td class="num">£26.50</td><td class="num">£35.25</td><td class="num">£438.25</td></tr>
+    <tr><th>Year 1 total</th><th class="num">352</th><th class="num">£3,520</th><th class="num">£186.56</th><th class="num">£423.00</th><th class="num">~£2,910.44</th></tr>
+  </tbody>
+</table>
+
+<p>This is a single-product line projection. Realistic Year 1 totals with mental performance plans, workshops, blog subscriptions, and team programmes added are likely <strong>2&ndash;4&times; higher</strong>, but rest on Emily's marketing reach + conversion. The pessimistic case (single-product, slow ramp) still clears costs comfortably and leaves a meaningful personal draw.</p>
+
+<h2>9. Cost Optimisations Available</h2>
+
+<ul>
+  <li><strong>Prompt caching</strong> &mdash; Anthropic discounts identical prompt prefixes when used within 5 minutes. Could shave ~50 % off input-token cost. Worth implementing once traffic justifies it.</li>
+  <li><strong>Lower max_tokens caps</strong> &mdash; current 6,000 and 12,000 token caps are generous. Empirical usage will likely be 30&ndash;40 % lower. Caps can be tightened after testing.</li>
+  <li><strong>Cheaper model for teasers</strong> &mdash; Claude Haiku is ~5&times; cheaper than Sonnet. The teaser is short and structured; could be moved to Haiku for ~80 % cost reduction on the non-buyer path.</li>
+  <li><strong>Move Postgres to Supabase free tier</strong> if Neon (Vercel Postgres) pricing becomes unfavourable at scale.</li>
+</ul>
+
+<h2>10. Risk Factors</h2>
+
+<table>
+  <thead>
+    <tr><th>Risk</th><th>Likelihood</th><th>Mitigation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Low conversion rate from teaser to purchase</td><td>Medium</td><td>Track teaser-to-buyer ratio. Iterate teaser content and pricing.</td></tr>
+    <tr><td>Subscription churn (founding offer)</td><td>Medium</td><td>Strong weekly content delivery. Monitor renewal rates.</td></tr>
+    <tr><td>API price increase (Anthropic)</td><td>Low</td><td>Single-vendor risk. Architecture allows swapping models; OpenAI/Mistral are credible alternatives.</td></tr>
+    <tr><td>Stripe chargebacks or refund requests</td><td>Low</td><td>Low product price reduces dispute likelihood. Clear T&amp;Cs needed before launch.</td></tr>
+    <tr><td>Bot abuse of free teaser endpoint</td><td>Low&ndash;Medium</td><td>Rate-limit by IP / device. Each teaser costs ~£0.01 so threshold for concern is high.</td></tr>
+    <tr><td>Clinical-pause / crisis cases overload Emily's time</td><td>Low</td><td>Routing already segments these. Track volume; consider partnering with a clinician if it scales.</td></tr>
+    <tr><td>Content liability (training plan misadvice)</td><td>Medium</td><td>Clear "educational, not medical advice" disclaimers already in product. Consider liability insurance once revenue justifies it.</td></tr>
+    <tr><td>Anthropic API outage (downtime)</td><td>Low</td><td>Plans get queued, regenerated when API returns. Communicate to clients if delays exceed 24h.</td></tr>
+  </tbody>
+</table>
+
+<h2>11. Pricing Strategy Notes</h2>
+
+<p><strong>Why £10 / £20 for the programmes:</strong> low enough to remove purchase friction; high enough to filter out non-serious buyers and signal that the work has value. At these prices, conversion is more important than margin per sale.</p>
+
+<p><strong>Blog subscription anchoring:</strong> the £5/month founding offer creates a low-friction entry point. Once trust is established, subscribers upgrade to training plans (~£10&ndash;£20), mental performance plans (~£10&ndash;£20), and workshops (£30).</p>
+
+<p><strong>Workshop pricing:</strong> all workshops priced uniformly at £30 (no installments). Simpler purchase decision; positions workshops as a slight upgrade from the £10/£20 plans.</p>
+
+<p><strong>Team programmes</strong> are paused for now. If/when relaunched, they would target clubs and panels (20&ndash;30 athletes) at a per-athlete cost positioned against in-person S&amp;C coaches.</p>
+
+<h2>12. Summary Recommendation</h2>
+
+<div class="callout">
+  <strong>Position:</strong> the platform is structurally profitable from day one. Variable costs per sale are negligible (&lt;5 % of price). Fixed costs are near-zero until traffic crosses ~50k visits/month.<br/><br/>
+  <strong>Focus:</strong> the limiting factor is not cost or technology &mdash; it is acquisition and conversion. Year 1 priority should be marketing reach (Instagram, GAA / LGFA partnerships, partner clubs) rather than further product engineering.<br/><br/>
+  <strong>Next products to validate:</strong> mental performance plans (parallel to training plans) and the workshops, both of which can be tested with minimal additional fixed cost.
+</div>
+
+<footer class="doc-footer">
+  <p>Mind the Gael &mdash; Financial Plan &mdash; Generated 2026.</p>
+  <p>All figures are estimates based on current pricing for third-party services (Anthropic, Stripe, Vercel, Resend) and may change. Conversion-rate and volume assumptions are illustrative.</p>
+</footer>
+
+</body>
+</html>

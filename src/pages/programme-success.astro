@@ -159,16 +159,20 @@ import { SITE_TITLE } from '../consts';
     transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
 
+  /* The global `main a` rule applies !important dark purple to every
+     anchor inside <main>, which is unreadable on this page's dark
+     status-box. Every anchor rule below uses !important to win that. */
+
   .action-primary {
     background: var(--green-lime);
-    color: var(--green-dark);
-    text-decoration: none;
+    color: var(--green-dark) !important;
+    text-decoration: none !important;
   }
 
   .action-secondary {
     background: transparent;
-    color: #ffffff;
-    text-decoration: none;
+    color: #ffffff !important;
+    text-decoration: none !important;
     font-weight: 700;
   }
 
@@ -176,15 +180,16 @@ import { SITE_TITLE } from '../consts';
   .action-secondary:hover {
     transform: translateY(-1px);
     border-color: var(--purple-light);
-    color: var(--purple-light);
+    color: var(--purple-light) !important;
   }
 
   /* Any inline links in the body text on the success page need to be
      visibly white against the dark background. */
+  .status-box a,
   .status-box p a,
   .status-box .footnote a {
-    color: #ffffff;
-    text-decoration: underline;
+    color: #ffffff !important;
+    text-decoration: underline !important;
     font-weight: 700;
   }
 </style>

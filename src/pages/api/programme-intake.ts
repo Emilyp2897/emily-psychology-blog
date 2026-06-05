@@ -5,6 +5,7 @@ import type { ConsultationWithPlanRequest, ProgramTrackId } from '../../data/typ
 import { findSportProfile } from '../../data/sport-profiles';
 import { detectRedFlags } from '../../data/red-flags';
 import { determineTrack } from '../../data/program-tracks';
+import { stripDashes } from '../../lib/email-format';
 
 export const prerender = false;
 
@@ -145,6 +146,8 @@ async function generateTeaser(
     '',
     'VOICE: warm, direct, plain English. Match Emily Phelan\'s voice. No hype. No emojis. No em-dashes or en-dashes (use periods, commas, or parentheses instead). Keep it under 350 words.',
     '',
+    'BEGINNER ACCESSIBILITY: if the client is a beginner ("Beginner" or "less than 1 year"), avoid all S&C jargon (RPE, sets, reps, deload, progressive overload, tempo, etc.) or briefly define it when used. Write in second person ("You will..."). Keep sentences short.',
+    '',
     'Use exactly these section headers, in this order:',
     '# CLIENT SNAPSHOT',
     '# PLAN OVERVIEW',
@@ -183,15 +186,22 @@ async function generateTeaser(
     model,
     temperature: 0.4,
     max_tokens: 700,
-    system: systemPrompt,
+    // Cache the teaser system prompt for 5 minutes; subsequent intake
+    // submissions within that window pay ~10% of normal input-token cost.
+    system: [
+      { type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } },
+    ],
     messages: [{ role: 'user', content: userPrompt }],
   });
 
-  return response.content
+  const raw = response.content
     .filter((block) => block.type === 'text')
     .map((block) => block.text)
     .join('\n')
     .trim();
+
+  // Strip em-dashes the model may have emitted despite the prompt rule.
+  return stripDashes(raw);
 }
 
 async function notifyEmilyOfRedFlag(

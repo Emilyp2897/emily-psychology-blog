@@ -83,11 +83,6 @@ import { SITE_TITLE } from '../consts';
                     <td>£20</td>
                     <td>A 12-week online training programme for longer arcs: pre-season builds, return-to-play phases, or extended training blocks. Same self-paced delivery, with optional follow-up chat if you want to talk it through.</td>
                   </tr>
-                  <tr>
-                    <td>Pre-Season Team Programme (6 Weeks)</td>
-                    <td>Pilot from £850 | Standard £1250</td>
-                    <td>Six-week S&C coaching for a team panel of 20-30 athletes, delivered fully online. Pilot pricing is limited availability.</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -496,7 +491,7 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pt-band-focus {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.92) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     padding: 0;
   }
 
@@ -505,11 +500,11 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pt-band-pricing {
-    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
   .pt-band-focus-areas {
-    background: linear-gradient(180deg, rgba(230, 206, 247, 0.9) 0%, rgba(246, 237, 255, 0.86) 100%);
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
   .pt-band-booking {
@@ -535,22 +530,32 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pt-band-focus p,
-  .pt-band-focus .training-highlight-copy p,
+  .pt-band-focus .training-highlight-copy p {
+    color: var(--green-dark);
+  }
+
+  .pt-band-focus .training-highlight-copy h2 {
+    color: var(--purple);
+  }
+
   .pt-band-focus-areas p,
   .pt-band-focus-areas .focus-card p,
   .pt-band-booking p,
   .pt-band-booking .calendar-copy,
   .pt-band-booking .consultation-note {
-    color: var(--green-dark);
+    color: var(--green-light);
   }
 
   .pt-band-booking .calendar-heading {
     color: var(--green-lime);
   }
 
-  .pt-band-focus-areas .focus-card h3,
+  .pt-band-focus-areas .focus-card h3 {
+    color: var(--green-lime);
+  }
+
   .pt-band-focus-areas .focus-card p {
-    color: var(--green-dark);
+    color: var(--green-light);
   }
 
   .pt-band-booking .calendar-copy,
@@ -560,7 +565,7 @@ import { SITE_TITLE } from '../consts';
 
   .pricing-heading {
     margin: 0 0 0.9rem;
-    color: var(--green-light);
+    color: var(--green-lime);
   }
 
   .pricing-table-wrap {

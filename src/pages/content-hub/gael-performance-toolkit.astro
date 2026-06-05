@@ -19,36 +19,32 @@ const childPosts = allPosts
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Gael Performance Toolkit | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
   </head>
-  <body>
+  <body class="toolkit-page">
     <Header />
-    <main class="container">
+    <main class="container toolkit-main">
       <section class="hero">
+        <p class="hero-kicker">Content Hub Series</p>
         <h1>Gael Performance Toolkit</h1>
+        <p class="hero-tagline">Practical tools for the mental side of sport. Use them before games, between plays, and after the moments that knock your confidence.</p>
       </section>
 
-      <div class="prose">
-
-       
-      </div>
-
-      <section class="posts">
+      <section class="latest-blog-box" aria-label="Practical tools">
         <h2>Practical Tools</h2>
         <label class="sr-only" for="search-posts">Search toolkit posts</label>
         <input
           type="text"
           id="search-posts"
           name="search-posts"
-          placeholder="Search posts..."
-          style="width: 100%; max-width: 400px; margin: 1.5rem 0 2rem 0; display: block; padding: 0.7em 1em; border-radius: 8px; border: 1px solid var(--green-lime); font-size: 1.1em; background: var(--green-dark); color: var(--green-light); text-align: left;"
+          placeholder="Search tools..."
           oninput="filterPosts()"
         />
-        <ul id="posts-list">
+        <ul id="posts-list" class="latest-posts">
           {childPosts.map((post) => (
-            <li class="fade-in card">
+            <li>
               <a href={`/content-hub/${post.slug}/`}>
-                <h2 class="title">{post.data.title}</h2>
+                <h3 class="title">{post.data.title}</h3>
                 {post.data.description && (
                   <p class="description">{post.data.description}</p>
                 )}
@@ -56,42 +52,19 @@ const childPosts = allPosts
             </li>
           ))}
         </ul>
-    <script is:inline>
-      // 3D Card Hover Effect (delegated for dynamic content)
-      function setup3DHover() {
-        document.querySelectorAll('.card').forEach(card => {
-          card.onmousemove = (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * 15; // increased max tilt
-            const rotateY = ((x - centerX) / centerX) * 25; // increased max tilt
-            card.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
-          };
-          card.onmouseleave = () => {
-            card.style.transform = 'perspective(1000px)';
-          };
-        });
-      }
-      setup3DHover();
-      // Re-run after search filter
+        <script is:inline>
       function filterPosts() {
         const input = document.getElementById('search-posts');
-        const filter = input.value.toLowerCase();
+        const filter = (input && 'value' in input ? input.value : '').toLowerCase();
         const ul = document.getElementById('posts-list');
-        const lis = ul.getElementsByTagName('li');
-        for (let i = 0; i < lis.length; i++) {
-          const title = lis[i].querySelector('.title').textContent.toLowerCase();
-          const desc = lis[i].querySelector('.description')?.textContent.toLowerCase() || '';
-          if (title.includes(filter) || desc.includes(filter)) {
-            lis[i].style.display = '';
-          } else {
-            lis[i].style.display = 'none';
-          }
-        }
-        setup3DHover();
+
+        if (!ul) return;
+
+        Array.from(ul.getElementsByTagName('li')).forEach((item) => {
+          const title = item.querySelector('.title')?.textContent?.toLowerCase() || '';
+          const desc = item.querySelector('.description')?.textContent?.toLowerCase() || '';
+          item.style.display = title.includes(filter) || desc.includes(filter) ? '' : 'none';
+        });
       }
     </script>
       </section>
@@ -106,123 +79,125 @@ const childPosts = allPosts
 </html>
 
 <style>
-  /* Removed .series-posts styles to use .posts styles from global.css */
+  .toolkit-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
 
-  h1 {
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.1rem;
+    padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0.2rem 0 0;
     color: var(--green-lime);
   }
 
-  h2 {
-    color: var(--green-lime);
-  }
-
-  /* POSTS LAYOUT */
-  .posts ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 0;
-    list-style: none;
-    justify-content: center;
-    margin-bottom: 4rem;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-  @media (min-width: 900px) {
-    .posts ul {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  /* CARD STYLE */
-  .posts li {
-    flex: 1;
-    max-width: 350px;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 12px;
-    padding: 2rem;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  /* HOVER EFFECT */
-  .posts li:hover {
-    /* transform: translateY(-10px) scale(1.02); */
-    border-color: var(--purple-light);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  /* MAKE FULL CARD CLICKABLE */
-  .posts li a {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* TEXT STYLING */
-  .posts li .title {
-    margin-bottom: 1rem;
-    font-size: 1.4em;
-  }
-
-  .posts li .description {
+  .hero-tagline {
+    margin: 0.35rem 0 0;
     color: var(--green-light);
-    line-height: 1.6;
+    max-width: 64ch;
   }
 
-  /* FADE-IN ANIMATION */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
+  .latest-blog-box {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
   }
 
-  .fade-in.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 1024px) {
-    .posts ul {
-      flex-direction: column;
-      align-items: center;
-    }
-    .posts li {
-      max-width: 100%;
-      width: 100%;
-    }
-  }
-
-  /* 3D HOVER EFFECT */
-  .posts li.card {
-    perspective: 1000px;
-    transition:
-      transform 0.3s cubic-bezier(.25,.8,.25,1),
-      box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
-    will-change: transform;
-    /* Remove conflicting transform from .posts li:hover */
-  }
-
-  .posts li.card:hover {
-    /* No transform here, JS handles it */
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+  .latest-blog-box:hover {
+    transform: translateY(-2px);
     border-color: var(--purple-light);
+  }
+
+  .latest-blog-box h2 {
+    color: var(--purple);
+    margin-bottom: 0.7rem;
+  }
+
+  #search-posts {
+    width: 100%;
+    max-width: 420px;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(105, 0, 90, 0.45);
+    background: #fff;
+    color: #000000;
+    font-size: 0.95rem;
+  }
+
+  .latest-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .latest-posts li {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+  }
+
+  .latest-posts li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .latest-posts li a {
+    text-decoration: none;
+    color: #000000 !important;
+    display: block;
+  }
+
+  .latest-posts li a:hover .title {
+    color: var(--purple);
+  }
+
+  .latest-posts .title {
+    margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+    color: #000000;
+  }
+
+  .latest-posts .description {
+    margin: 0;
+    color: #000000;
+    line-height: 1.5;
+    font-size: 0.96rem;
   }
 
   .content-feedback-cta {
-    margin: 0 0 2.5rem;
+    margin: 0;
     text-align: center;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
   }
 
   .content-feedback-cta p {
     margin-bottom: 0.55rem;
-    color: var(--green-light);
+    color: #000000;
   }
 
   .feedback-cta-link {
@@ -231,26 +206,28 @@ const childPosts = allPosts
     border-radius: 8px;
     padding: 0.48rem 0.85rem;
     background: var(--green-lime);
-    color: var(--green-dark);
+    color: var(--green-dark) !important;
     font-weight: 700;
-    text-decoration: none;
+    text-decoration: none !important;
   }
 
   .feedback-cta-link:hover {
     border-color: var(--purple-light);
-    background: var(--purple-light);
+    color: var(--purple) !important;
+  }
+
+  @media (max-width: 720px) {
+    .toolkit-main {
+      padding-bottom: 2rem;
+    }
+
+    .hero {
+      padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
+      margin-bottom: 0.9rem;
+    }
+
+    .latest-blog-box {
+      padding: 1rem;
+    }
   }
 </style>
-
-<!-- Scroll Animation Script -->
-    <script is:inline>
-      const elements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      });
-      elements.forEach(el => observer.observe(el));
-    </script>

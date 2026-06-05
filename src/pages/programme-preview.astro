@@ -265,21 +265,27 @@ import { SITE_TITLE } from '../consts';
     transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
   }
 
+  /* The global `main a` rule forces dark purple on every anchor inside
+     <main> with !important. Every anchor color on this dark-background
+     page needs !important to win that. */
+
   .cta-primary {
     background: var(--green-lime);
-    color: var(--green-dark);
+    color: var(--green-dark) !important;
+    text-decoration: none !important;
   }
 
   .cta-secondary {
     background: transparent;
-    color: var(--green-lime);
+    color: var(--green-lime) !important;
+    text-decoration: none !important;
   }
 
   .cta-button:hover {
     transform: translateY(-1px);
     background: var(--purple-light);
     border-color: var(--purple-light);
-    color: var(--green-dark);
+    color: var(--green-dark) !important;
   }
 
   .cta-footnote {
@@ -288,13 +294,13 @@ import { SITE_TITLE } from '../consts';
   }
 
   .cta-footnote a {
-    color: #ffffff;
-    text-decoration: underline;
+    color: #ffffff !important;
+    text-decoration: underline !important;
     font-weight: 700;
   }
 
   .cta-footnote a:hover {
-    color: var(--green-lime);
+    color: var(--green-lime) !important;
   }
 
   .error-message {
@@ -306,7 +312,7 @@ import { SITE_TITLE } from '../consts';
   }
 
   .error-message a {
-    color: var(--green-lime);
+    color: var(--green-lime) !important;
     text-decoration: underline;
   }
 </style>

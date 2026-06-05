@@ -5,7 +5,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import saoirseImage from '../assets/saoirse.png';
 
 type BlogPostData = CollectionEntry<'blog'>['data'];
 
@@ -15,66 +14,86 @@ interface Props extends BlogPostData {
 
 const { title, description, pubDate, updatedDate, postSlug } = Astro.props as Props;
 
-const toolkitCtas: Record<string, { href: string }> = {
-  'training-the-mind/attention-control-theory': {
-    href: '/content-hub/gael-performance-toolkit/reset-your-focus-toolkit/',
+const sectionRoutes: Record<string, { title: string; href: string }> = {
+  'training-the-mind': {
+    title: 'Training the Mind',
+    href: '/content-hub/training-the-mind/',
   },
-  'training-the-mind/choking-under-pressure': {
-    href: '/content-hub/gael-performance-toolkit/stay-composed-under-pressure-toolkit/',
+  'gael-performance-toolkit': {
+    title: 'Gael Performance Toolkit',
+    href: '/content-hub/gael-performance-toolkit/',
+  },
+  'strong-minds-stronger-players': {
+    title: 'Strong Minds, Stronger Players',
+    href: '/content-hub/strong-minds-stronger-players/',
   },
 };
 
-const toolkitCta = postSlug ? toolkitCtas[postSlug] : undefined;
+const sectionSlug = postSlug?.split('/')[0];
+const sectionMeta = sectionSlug ? sectionRoutes[sectionSlug] : undefined;
+const shouldBypassSubscriptionGate = import.meta.env.DEV;
+const shouldBypassSubscriptionGateLiteral = JSON.stringify(shouldBypassSubscriptionGate);
+
+const toolkitRelatedArticles = new Set([
+  'training-the-mind/attention-control-theory',
+  'training-the-mind/choking-under-pressure',
+]);
+
+const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : false;
 ---
 
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body>
+  <body class="blog-post-page">
     <Header />
 
-    <!-- MAIN CONTENT CENTERED -->
-    <main class="container">
-      <article>
-        <div class="prose">
-          <div class="title">
-            <div class="date">
-              <FormattedDate date={pubDate} />
-              {updatedDate && (
-                <div class="last-updated-on">
-                  Last updated on <FormattedDate date={updatedDate} />
-                </div>
-              )}
-            </div>
-            <h1>{title}</h1>
-            <hr />
-          </div>
+    <main class="container article-main">
+      <section class="article-hero">
+        <p class="article-kicker">Content Hub Article</p>
+        <h1>{title}</h1>
+        <div class="article-meta">
+          <p>
+            Published <FormattedDate date={pubDate} />
+          </p>
+          {updatedDate && (
+            <p>
+              Updated <FormattedDate date={updatedDate} />
+            </p>
+          )}
+          {sectionMeta && (
+            <p>
+              <a href={sectionMeta.href} class="section-link">Back to {sectionMeta.title}</a>
+            </p>
+          )}
+        </div>
+      </section>
 
+      <article class="article-shell">
+        {!shouldBypassSubscriptionGate && (
           <div id="subscription-gate" class="subscription-gate">
-            <h2>Subscribe To Keep Reading</h2>
+            <h2>Subscribe to Keep Reading</h2>
             <p>This article is for subscribers. Join now to unlock full access.</p>
             <a href="/api/create-checkout-session?plan=individual" class="gate-cta">Subscribe Now</a>
           </div>
+        )}
 
-          <div id="paid-content" class="paid-content is-locked">
-            <slot />
+        <div id="paid-content" class:list={["paid-content prose", !shouldBypassSubscriptionGate && "is-locked"]}>
+          <slot />
 
-            {toolkitCta && (
-              <section class="toolkit-sign">
-                <Image src={saoirseImage} alt="Saoirse shamrock" class="toolkit-sign-image" loading="eager" />
-                <div class="toolkit-sign-copy">
-                  <p class="toolkit-sign-text">Go to the practical tools in the Gael Performance Toolkit</p>
-                  <a href={toolkitCta.href} class="toolkit-sign-link">Open Toolkit</a>
-                </div>
-              </section>
-            )}
-
-            <section class="content-feedback-link-box">
-              <p>Have feedback on this content?</p>
-              <a href="/content-feedback" class="content-feedback-link">Share feedback</a>
+          {showToolkitToolsBox && (
+            <section class="toolkit-tools-box" aria-label="Related practical tools">
+              <p class="toolkit-tools-title">Looking for practical tools to use this in real matches?</p>
+              <p class="toolkit-tools-copy">Go to the Gael Performance Toolkit for practical tools related to this article.</p>
+              <a href="/content-hub/gael-performance-toolkit/" class="toolkit-tools-link">Open Gael Performance Toolkit</a>
             </section>
-          </div>
+          )}
+
+          <section class="content-feedback-link-box">
+            <p>Have feedback on this content?</p>
+            <a href="/content-feedback" class="content-feedback-link">Share feedback</a>
+          </section>
         </div>
       </article>
     </main>
@@ -83,8 +102,26 @@ const toolkitCta = postSlug ? toolkitCtas[postSlug] : undefined;
 
     <script is:inline>
       window.addEventListener('DOMContentLoaded', () => {
-        const gate = document.getElementById('subscription-gate');
+        const shouldBypassSubscriptionGate = {shouldBypassSubscriptionGateLiteral};
         const paidContent = document.getElementById('paid-content');
+        const toolkitToolsBox = paidContent?.querySelector('.toolkit-tools-box');
+
+        if (paidContent && toolkitToolsBox) {
+          const referencesHeading = Array.from(paidContent.querySelectorAll('h2, h3')).find((heading) =>
+            heading.textContent?.trim().toLowerCase() === 'references'
+          );
+
+          if (referencesHeading) {
+            paidContent.insertBefore(toolkitToolsBox, referencesHeading);
+          }
+        }
+
+        if (shouldBypassSubscriptionGate) {
+          return;
+        }
+
+        const gate = document.getElementById('subscription-gate');
+
         const isSubscribed = localStorage.getItem('mtg_subscribed') === 'true';
 
         if (isSubscribed && gate && paidContent) {
@@ -97,174 +134,251 @@ const toolkitCta = postSlug ? toolkitCtas[postSlug] : undefined;
 </html>
 
 <style>
-  h1 {
+  .article-main {
+    width: 900px;
+    max-width: calc(100% - 2em);
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .article-hero {
+    margin: 0 calc(50% - 50vw) 1rem;
+    padding: 2rem max(1rem, calc(50vw - 450px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .article-kicker {
+    margin: 0;
+    color: var(--purple-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .article-hero h1 {
+    margin: 0.25rem 0 0.5rem;
     color: var(--green-lime);
   }
-</style>
 
-<style>
-/* Container ensures content is centered and matches other pages */
-.container {
-  width: 720px;
-  max-width: calc(100% - 2em);
-  margin: 0 auto;
-  padding: 2rem 1em;
-}
-
-/* Prose/content styling */
-.prose {
-  margin-top: 2em;
-}
-
-.title h1 {
-  margin-bottom: 0.5em;
-  color: var(--green-lime);
-}
-
-.date {
-  color: rgb(var(--gray));
-  font-size: 0.9rem;
-  margin-bottom: 0.5em;
-}
-
-.last-updated-on {
-  font-style: italic;
-  font-size: 0.8rem;
-  color: rgb(var(--gray-light));
-}
-
-/* Slot content styling */
-.prose p {
-  margin-bottom: 1.5em;
-}
-
-.prose h2, .prose h3 {
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-  color: var(--green-lime);
-}
-
-.prose a {
-  color: var(--green-lime);
-  text-decoration: underline;
-}
-
-.prose a:hover {
-  color: var(--purple-light);
-}
-
-.subscription-gate {
-  margin: 1rem 0 1.5rem;
-  padding: 1rem;
-  border: 2px solid var(--green-lime);
-  border-radius: 10px;
-  background: rgba(240, 205, 255, 0.1);
-}
-
-.subscription-gate h2 {
-  margin: 0 0 0.5rem;
-}
-
-.subscription-gate .gate-cta {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
-  background: var(--green-lime);
-  color: var(--purple);
-  font-weight: 700;
-}
-
-.subscription-gate .gate-cta:hover {
-  color: var(--purple);
-}
-
-.paid-content.is-locked {
-  max-height: 220px;
-  overflow: hidden;
-  filter: blur(1.5px);
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.7;
-}
-
-.toolkit-sign {
-  margin-top: 2rem;
-  padding: 1.1rem;
-  border: 2px solid var(--green-lime);
-  border-radius: 12px;
-  background: rgba(240, 205, 255, 0.14);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.9rem;
-  align-items: center;
-}
-
-.toolkit-sign-image {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
-}
-
-.toolkit-sign-copy {
-  min-width: 0;
-}
-
-.toolkit-sign-text {
-  margin: 0;
-  color: var(--green-light);
-  font-weight: 700;
-}
-
-.toolkit-sign-link {
-  display: inline-block;
-  margin-top: 0.55rem;
-  padding: 0.45rem 0.85rem;
-  border-radius: 8px;
-  background: var(--green-lime);
-  color: var(--green-dark);
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.toolkit-sign-link:hover {
-  color: var(--purple);
-}
-
-.content-feedback-link-box {
-  margin-top: 1.6rem;
-  padding: 0.9rem;
-  border: 1px solid rgba(192, 254, 113, 0.45);
-  border-radius: 10px;
-  background: rgba(240, 205, 255, 0.08);
-}
-
-.content-feedback-link-box p {
-  margin: 0 0 0.45rem;
-  color: var(--green-light);
-}
-
-.content-feedback-link {
-  display: inline-block;
-  text-decoration: none;
-  border: 2px solid var(--green-lime);
-  border-radius: 8px;
-  padding: 0.4rem 0.8rem;
-  background: var(--green-lime);
-  color: var(--green-dark);
-  font-weight: 700;
-}
-
-.content-feedback-link:hover {
-  border-color: var(--purple-light);
-  background: var(--purple-light);
-}
-
-/* Responsive adjustments */
-@media (max-width: 720px) {
-  .container {
-    width: 100%;
-    padding: 1rem;
+  .article-meta {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
   }
-}
+
+  .article-meta p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--green-light);
+  }
+
+  .section-link {
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: underline !important;
+  }
+
+  .section-link:hover {
+    color: var(--green-lime) !important;
+  }
+
+  .article-shell {
+    border: 1px solid rgba(105, 0, 90, 0.24);
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 1.1rem;
+  }
+
+  .subscription-gate {
+    margin: 0 0 1.2rem;
+    padding: 1rem;
+    border: 2px solid rgba(105, 0, 90, 0.5);
+    border-radius: 10px;
+    background: rgba(240, 205, 255, 0.2);
+  }
+
+  .subscription-gate h2 {
+    margin: 0 0 0.5rem;
+    color: var(--purple);
+    font-size: 1.2rem;
+  }
+
+  .subscription-gate p {
+    margin: 0;
+    color: var(--green-dark);
+  }
+
+  .subscription-gate .gate-cta {
+    display: inline-block;
+    margin-top: 0.7rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 8px;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    text-decoration: none !important;
+    font-weight: 700;
+    border: 2px solid var(--green-lime);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .subscription-gate .gate-cta:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple-light);
+  }
+
+  .paid-content {
+    color: var(--green-dark);
+  }
+
+  .paid-content.is-locked {
+    max-height: 240px;
+    overflow: hidden;
+    filter: blur(1.5px);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.72;
+  }
+
+  .prose :global(p),
+  .prose :global(li),
+  .prose :global(ol),
+  .prose :global(ul),
+  .prose :global(blockquote) {
+    color: var(--green-dark);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 0.8rem;
+    line-height: 1.55;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.25rem;
+    margin-left: 0.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .prose :global(li) {
+    padding-left: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4) {
+    color: var(--purple);
+    line-height: 1.3;
+  }
+
+  .prose :global(h2) {
+    margin-top: 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .prose :global(h3) {
+    margin-top: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .prose :global(h4) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .prose :global(blockquote) {
+    margin: 0.75rem 0;
+  }
+
+  .prose :global(a) {
+    color: #4f0044 !important;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose :global(a:hover) {
+    color: #2e0028 !important;
+  }
+
+  .content-feedback-link-box {
+    margin-top: 1.2rem;
+    padding: 0.9rem;
+    border: 1px solid rgba(105, 0, 90, 0.5);
+    border-radius: 10px;
+    background: rgba(244, 255, 232, 0.95);
+  }
+
+  .content-feedback-link-box p {
+    margin: 0 0 0.45rem;
+    color: var(--green-dark);
+  }
+
+  .content-feedback-link {
+    display: inline-block;
+    text-decoration: none !important;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    font-weight: 700;
+  }
+
+  .content-feedback-link:hover {
+    border-color: var(--purple-light);
+  }
+
+  .toolkit-tools-box {
+    margin-top: 1.2rem;
+    padding: 0.9rem;
+    border: 1px solid rgba(105, 0, 90, 0.5);
+    border-radius: 10px;
+    background: rgba(240, 205, 255, 0.55);
+  }
+
+  .toolkit-tools-title {
+    margin: 0 0 0.45rem;
+    color: var(--purple);
+    font-weight: 700;
+  }
+
+  .toolkit-tools-copy {
+    margin: 0 0 0.6rem;
+    color: var(--green-dark);
+  }
+
+  .toolkit-tools-link {
+    display: inline-block;
+    text-decoration: none !important;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    font-weight: 700;
+  }
+
+  .toolkit-tools-link:hover {
+    border-color: var(--purple-light);
+  }
+
+  @media (max-width: 720px) {
+    .article-main {
+      width: 100%;
+      max-width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .article-hero {
+      padding: 1.4rem max(0.85rem, calc(50vw - 450px + 1rem));
+      margin-bottom: 0.9rem;
+    }
+
+    .article-shell {
+      padding: 0.9rem;
+    }
+  }
 </style>

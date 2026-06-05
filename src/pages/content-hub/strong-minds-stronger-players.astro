@@ -17,21 +17,23 @@ const childPosts = allPosts.filter(
   <head>
     <BaseHead title={`Strong Minds, Stronger Players | ${SITE_TITLE}`} description="Understand mental health, recognising what to look out for, when pressure becomes something more serious, and how to seek the right support when you need it." />
   </head>
-  <body>
+  <body class="strong-minds-page">
     <Header />
-    <main class="container">
+    <main class="container strong-minds-main">
       <section class="hero">
+        <p class="hero-kicker">Content Hub Series</p>
         <h1>Strong Minds, Stronger Players</h1>
+        <p class="hero-tagline">Understanding mental health in sport, spotting warning signs early, and knowing where to seek support.</p>
       </section>
 
-      <div class="prose">
+      <div class="intro-card">
         <p>Each post helps you build awareness of mental health in sport, so you can recognise changes early, understand what they might mean, and know when to seek the right support.</p>
       </div>
 
-      <section class="posts">
-        <ul id="posts-list">
+      <section class="latest-blog-box">
+        <ul id="posts-list" class="latest-posts">
           {childPosts.length > 0 ? childPosts.map((post) => (
-            <li class="fade-in card">
+            <li>
               <a href={`/content-hub/${post.slug}/`}>
                 <h2 class="title">{post.data.title}</h2>
                 {post.data.description && (
@@ -57,104 +59,137 @@ const childPosts = allPosts.filter(
 </html>
 
 <style>
-  h1 {
+  .strong-minds-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.1rem;
+    padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0.2rem 0 0;
     color: var(--green-lime);
   }
 
-  h2 {
-    color: var(--green-lime);
-  }
-
-  .posts ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 0;
-    list-style: none;
-    justify-content: center;
-    margin-bottom: 4rem;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-  @media (min-width: 900px) {
-    .posts ul {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .posts li {
-    max-width: 350px;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 12px;
-    padding: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  }
-
-  .posts li:hover {
-    border-color: var(--purple-light);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  .posts li a {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .posts li .title {
-    margin-bottom: 1rem;
-    font-size: 1.4em;
-  }
-
-  .posts li .description {
+  .hero-tagline {
+    margin: 0.35rem 0 0;
     color: var(--green-light);
-    line-height: 1.6;
+    max-width: 64ch;
+  }
+
+  .intro-card,
+  .latest-blog-box,
+  .content-feedback-cta {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
+  }
+
+  .intro-card p,
+  .content-feedback-cta p {
+    color: #000000;
+    margin: 0;
+  }
+
+  .latest-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .latest-posts li {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+  }
+
+  .latest-posts li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .latest-posts li a {
+    display: block;
+    text-decoration: none;
+    color: #000000 !important;
+  }
+
+  .latest-posts li a:hover .title {
+    color: var(--purple);
+  }
+
+  .latest-posts .title {
+    margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+    color: #000000;
+  }
+
+  .latest-posts .description {
+    margin: 0;
+    color: #000000;
+    line-height: 1.5;
+    font-size: 0.96rem;
   }
 
   .coming-soon {
-    color: var(--green-light);
-    font-size: 1.1rem;
-    padding: 1rem 0;
-    list-style: none;
-  }
-
-  @media (max-width: 1024px) {
-    .posts ul {
-      flex-direction: column;
-      align-items: center;
-    }
-    .posts li {
-      max-width: 100%;
-      width: 100%;
-    }
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .content-feedback-cta {
-    margin: 0 0 2.5rem;
     text-align: center;
-  }
-
-  .content-feedback-cta p {
-    margin-bottom: 0.55rem;
-    color: var(--green-light);
   }
 
   .feedback-cta-link {
     display: inline-block;
+    margin-top: 0.6rem;
     border: 2px solid var(--green-lime);
     border-radius: 8px;
     padding: 0.48rem 0.85rem;
     background: var(--green-lime);
-    color: var(--green-dark);
+    color: var(--green-dark) !important;
     font-weight: 700;
-    text-decoration: none;
+    text-decoration: none !important;
   }
 
   .feedback-cta-link:hover {
     border-color: var(--purple-light);
-    background: var(--purple-light);
+    color: var(--purple) !important;
+  }
+
+  @media (max-width: 720px) {
+    .strong-minds-main {
+      padding-bottom: 2rem;
+    }
+
+    .hero {
+      padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
+      margin-bottom: 0.9rem;
+    }
+
+    .intro-card,
+    .latest-blog-box,
+    .content-feedback-cta {
+      padding: 1rem;
+    }
   }
 </style>

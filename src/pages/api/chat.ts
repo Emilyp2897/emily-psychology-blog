@@ -158,13 +158,6 @@ async function generateAnthropicReply(input: {
     .map((m) => `${m.role === 'assistant' ? 'Saoirse' : 'User'}: ${m.content}`)
     .join('\n');
 
-  const responseStyles = [
-    'Style for this answer: practical checklist with concise action steps.',
-    'Style for this answer: supportive coaching tone with brief examples.',
-    'Style for this answer: clear plan-first structure with what-to-do-next.'
-  ];
-  const styleHint = responseStyles[Math.floor(Math.random() * responseStyles.length)];
-
   const systemPrompt = [
     // Who Saoirse is
     'You are Saoirse, the educational guide for Mind the Gael, an online platform that bridges the gap in mental wellbeing and performance support for female athletes.',
@@ -186,9 +179,14 @@ async function generateAnthropicReply(input: {
     // Empathy without impersonation
     'Validate feelings without pretending you share them. You are a chatbot, not an athlete. Never say "I get that", "I\'ve been there", "I struggle with that too", or anything that implies you have lived experience. Instead use phrasing like "That is a really common experience for athletes" or "A lot of female athletes describe this exact feeling".',
 
+    // Output format (this chat panel renders plain text only)
+    'Plain text only. NO markdown formatting. No ** for bold, no # or ## headers, no * or - bullet markers, no [text](url) link syntax. The chat panel does not parse markdown, so any markdown shows up as raw asterisks and hashes in the user\'s reply.',
+    'For emphasis, use a separate short sentence rather than bold. For lists, write them as plain sentences or use numbered prefixes ("1.", "2.") which the user can read as text.',
+
     // Response shape
-    'Default response shape: one short line that names what the user is experiencing, then 2-3 concrete usable points, then one next step. The next step can be a small action, a question back, or a relevant article from the provided context. Vary this; do not be formulaic.',
-    'Keep responses brief. Default under 150 words. People often open this chat in a moment of stress, not for a long read.',
+    'Match the question. If the user asks something quick, answer in 1-2 sentences. If they ask something open, 3-5 sentences is usually enough. Do NOT use a fixed structure (don\'t always start with empathy, don\'t always end with a CTA). Vary how you reply so it does not feel formulaic.',
+    'Hard length cap: stay under 100 words for almost every reply. Only exceed this if the user explicitly asks for detail. People open this chat in a moment of stress, not for a long read.',
+    'When the provided website context contains a relevant Mind the Gael article, end your reply with a one-line pointer to that article ("Emily writes about this in [article title]") so the user knows where to read more.',
 
     // Knowledge boundaries
     'Prefer the provided website context. Any claim you make that is NOT from a Mind the Gael article must be attributable to a real, named source: a peer-reviewed article (with at least author surname and approximate year), a recognised authority (e.g. NICE, POGP, Aspetar, NHS, WHO), or a well-established named framework in sports psychology (e.g. IZOF, self-determination theory, catastrophe theory, attention control theory).',
@@ -203,8 +201,7 @@ async function generateAnthropicReply(input: {
     // Safety — this overrides every other rule
     'If a user shows ANY sign of mental health crisis (suicidal thoughts, self-harm, feeling unsafe, being at breaking point, feeling hopeless or broken, not wanting to be here, being in dire need of support, having a breakdown, or any other language suggesting they need urgent mental health support), STOP your normal response. This rule overrides every other rule in this prompt. Tell them you are glad they reached out and that you are not the right support for what they are going through. Provide crisis contacts (UK: Samaritans 116 123, emergency 999; Ireland: Samaritans 116 123, Pieta 1800 247 247 for suicide/self-harm, emergency 112). Direct them to /resources. Tell them to email Emily directly at emilyphelan@mindthegael.co.uk. Do not provide any other content or advice.',
 
-    styleHint
-  ].join(' ');
+  ].join('\n\n');
 
   const userPrompt = [
     `User question: ${input.message}`,
@@ -217,13 +214,22 @@ async function generateAnthropicReply(input: {
   try {
     const response = await client.messages.create({
       model: configuredModel,
-      system: systemPrompt,
+      // Mark the system prompt as cacheable. Anthropic caches it for
+      // 5 minutes; subsequent chat messages within that window pay ~10%
+      // of normal input-token cost. No-op if the prompt is below the
+      // 1024-token minimum cache size.
+      system: [
+        { type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } },
+      ],
       messages: [{ role: 'user', content: userPrompt }],
       temperature: 0.55,
-      max_tokens: 320,
+      max_tokens: 220,
     });
     const block = response.content?.[0];
-    return block?.type === 'text' ? block.text.trim() : null;
+    if (block?.type !== 'text') return null;
+    // Belt-and-braces: strip any markdown the model emits despite the
+    // prompt telling it not to. The chat panel renders plain text only.
+    return stripMarkdownForChat(block.text.trim());
   } catch (error) {
     console.error('Anthropic API error:', error);
     return null;
@@ -233,6 +239,29 @@ async function generateAnthropicReply(input: {
 function isCrisisMessage(message: string): boolean {
   const lower = message.toLowerCase();
   return CRISIS_TERMS.some((term) => lower.includes(term));
+}
+
+// Strip markdown formatting from chatbot replies so the chat panel
+// renders cleanly (it does not parse markdown). The system prompt asks
+// the model not to use markdown but this is the safety net.
+function stripMarkdownForChat(text: string): string {
+  if (!text) return text;
+  return text
+    // Bold + italic markers, keep inner text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1$2')
+    .replace(/__([^_]+)__/g, '$1')
+    // Markdown links [text](url) become "text (url)"
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+    // Heading hashes at start of line
+    .replace(/^#{1,6}\s+/gm, '')
+    // Blockquote markers at start of line
+    .replace(/^>\s?/gm, '')
+    // Leading bullet asterisks (keep hyphen bullets, they read fine)
+    .replace(/^\s*\*\s+/gm, '- ')
+    // Em-dashes the model may have emitted despite the rule elsewhere
+    .replace(/\s*[—–]\s*/g, ', ')
+    .trim();
 }
 
 function jsonResponse(payload: ChatApiResponse, init: ResponseInit = {}): Response {

@@ -41,11 +41,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         </article>
       </section>
 
-      <section class="consultation-section" aria-label="Book initial consultation">
-        <button type="button" class="consultation-btn" id="open-consultation-modal">Book Initial Consultation</button>
-        <p class="consultation-note">The consultation form opens in a pop-up when you click the button above.</p>
-      </section>
-
       <section class="support-note">
         <p>If you need urgent mental health support, please visit our <a href="/resources">Support Resources page</a> for professional services. If you are in immediate danger, call emergency services on 112 or 999.</p>
       </section>
@@ -449,7 +444,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .contact-card {
     border: 2px solid rgba(105, 0, 90, 0.24);
     border-radius: 12px;
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     padding: 1.1rem;
   }
 
@@ -501,16 +496,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     padding: 1rem 1.2rem;
     border-radius: 10px;
     border: 1px solid rgba(105, 0, 90, 0.3);
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
-    color: var(--green-dark);
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.88) 0%, rgba(105, 0, 90, 0.72) 100%);
+    color: #ffffff;
   }
 
   .support-note p {
     margin: 0;
   }
 
-  .support-note a {
-    color: var(--green-lime);
+  .support-note a,
+  .support-note a:visited,
+  .support-note a:hover,
+  .support-note a:active {
+    color: var(--green-lime) !important;
     text-decoration: underline;
     font-weight: 700;
   }
@@ -519,7 +517,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     margin-top: 1.3rem;
     border: 2px solid rgba(105, 0, 90, 0.24);
     border-radius: 12px;
-    background: linear-gradient(180deg, rgba(105, 0, 90, 0.82) 0%, rgba(105, 0, 90, 0.64) 100%);
+    background: #ffffff;
     padding: 1.25rem;
   }
 
@@ -550,7 +548,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .consultation-note {
     margin: 0;
     font-size: 0.92rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .consultation-modal-backdrop {
@@ -572,9 +570,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     width: min(760px, 100%);
     max-height: 90vh;
     overflow-y: auto;
-    border: 2px solid var(--green-lime);
+    border: 2px solid rgba(105, 0, 90, 0.24);
     border-radius: 12px;
-    background: var(--green-dark);
+    background: #ffffff;
     padding: 1.1rem;
     position: relative;
   }
@@ -588,19 +586,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     border: 0;
     border-radius: 6px;
     background: rgba(240, 205, 255, 0.22);
-    color: var(--green-light);
+    color: var(--purple);
     cursor: pointer;
   }
 
   .consultation-modal h2 {
     margin: 0;
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1.25rem;
   }
 
   .consultation-intro {
     margin: 0.55rem 0 1rem;
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .consultation-form {
@@ -617,11 +615,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .consultation-form label {
     display: grid;
     gap: 0.4rem;
-    border: 1px solid rgba(192, 254, 113, 0.26);
+    border: 1px solid rgba(105, 0, 90, 0.24);
     border-radius: 10px;
     padding: 0.65rem 0.7rem;
-    background: rgba(3, 10, 6, 0.34);
-    color: var(--green-light);
+    background: #ffffff;
+    color: var(--green-dark);
     font-weight: 600;
     font-size: 0.9rem;
   }
@@ -664,11 +662,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     display: flex !important;
     align-items: center;
     gap: 0.55rem;
-    border: 1px solid rgba(192, 254, 113, 0.26);
+    border: 1px solid rgba(105, 0, 90, 0.24);
     border-radius: 10px;
     padding: 0.65rem 0.7rem;
-    background: rgba(3, 10, 6, 0.34);
+    background: #ffffff;
     font-weight: 500 !important;
+    color: var(--green-dark);
   }
 
   .consultation-consent input {
@@ -696,22 +695,22 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   }
 
   .progression-plan-fields {
-    border: 1px solid rgba(192, 254, 113, 0.2);
+    border: 1px solid rgba(105, 0, 90, 0.24);
     border-radius: 10px;
     padding: 1rem;
-    background: rgba(192, 254, 113, 0.06);
+    background: #ffffff;
     margin: 1rem 0;
   }
 
   .progression-plan-fields h3 {
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1rem;
     margin: 0 0 0.6rem;
   }
 
   .plan-fields-intro {
     margin: 0 0 0.8rem;
-    color: var(--green-light);
+    color: var(--green-dark);
     font-size: 0.9rem;
     font-weight: 500;
   }
@@ -726,7 +725,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   .plan-basic-fields label {
     display: grid;
     gap: 0.3rem;
-    color: var(--green-light);
+    color: var(--green-dark);
     font-weight: 600;
     font-size: 0.85rem;
   }
