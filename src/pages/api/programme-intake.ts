@@ -57,17 +57,19 @@ export const POST: APIRoute = async (context) => {
       await notifyEmilyOfRedFlag(body, redFlags.map((f) => f.id));
 
       // Log to the database with a marker so Emily can audit later.
+      const flaggedPlanType: 'physical' | 'mental' = body.planType === 'mental' ? 'mental' : 'physical';
       await sql`
         INSERT INTO intake_sessions (
           intake_data, teaser_content, client_email, client_name,
-          programme_track, red_flag_id
+          programme_track, red_flag_id, plan_type
         ) VALUES (
           ${JSON.stringify(body)}::jsonb,
           ${'[RED FLAG: no teaser generated]'},
           ${body.email},
           ${body.name},
           ${body.programTrack || null},
-          ${redFlags[0].id}
+          ${redFlags[0].id},
+          ${flaggedPlanType}
         )
       `;
 
@@ -77,22 +79,29 @@ export const POST: APIRoute = async (context) => {
       );
     }
 
-    // Determine the track (standard / pregnancy / postpartum / endo / RTP).
+    // Plan type defaults to physical for backwards compatibility.
+    const planType: 'physical' | 'mental' = body.planType === 'mental' ? 'mental' : 'physical';
+
+    // Determine the track (only used for physical plans).
     const track = determineTrack(body);
 
     // Generate the TEASER. This is deliberately NOT the full plan.
-    const teaserContent = await generateTeaser(body, track);
+    const teaserContent =
+      planType === 'mental'
+        ? await generateMentalTeaser(body)
+        : await generateTeaser(body, track);
 
     // Persist the intake + teaser in the database, returning the new id.
     const result = await sql<{ id: string }>`
       INSERT INTO intake_sessions (
-        intake_data, teaser_content, client_email, client_name, programme_track
+        intake_data, teaser_content, client_email, client_name, programme_track, plan_type
       ) VALUES (
         ${JSON.stringify(body)}::jsonb,
         ${teaserContent},
         ${body.email},
         ${body.name},
-        ${track}
+        ${track},
+        ${planType}
       )
       RETURNING id
     `;
@@ -124,10 +133,13 @@ async function generateTeaser(
     throw new Error('Missing ANTHROPIC_API_KEY environment variable.');
   }
 
+  // Teasers use Haiku by default: ~3x faster than Sonnet, ~5x cheaper, and
+  // the teaser is a short structured output Haiku handles cleanly. The full
+  // plan keeps Sonnet. Override via ANTHROPIC_MODEL_TEASER if needed.
   const model =
-    import.meta.env.ANTHROPIC_MODEL_PLAN ||
+    import.meta.env.ANTHROPIC_MODEL_TEASER ||
     import.meta.env.ANTHROPIC_MODEL ||
-    'claude-sonnet-4-5';
+    'claude-haiku-4-5-20251001';
 
   const sportProfile = findSportProfile(body.sport || '');
 
@@ -175,7 +187,10 @@ async function generateTeaser(
     `- Issues/concerns: ${body.issuesWorries || 'none provided'}`,
     `- Medical: ${body.medicalConditions || 'none'}`,
     `- Injuries: ${body.injuries || 'none'}`,
+    `- Companion mental performance plan the client is also doing: ${body.companionPlanSummary || 'not provided. Build the training plan as a standalone.'}`,
     `- Specific goals narrative: ${body.goals}`,
+    '',
+    'If a companion mental performance plan summary is provided, briefly hint in the teaser that this training plan will be built to reinforce it (e.g. session structure supports applying their mental routines and refocus cues). Do not invent details about the mental plan beyond what the client shared.',
     '',
     'Generate the teaser now. Remember: no specific exercises, sets, reps, weights, RPE, or session content. Just the structure and the value-pitch for buying.',
   ].join('\n');
@@ -185,7 +200,7 @@ async function generateTeaser(
   const response = await client.messages.create({
     model,
     temperature: 0.4,
-    max_tokens: 700,
+    max_tokens: 550,
     // Cache the teaser system prompt for 5 minutes; subsequent intake
     // submissions within that window pay ~10% of normal input-token cost.
     system: [
@@ -201,6 +216,93 @@ async function generateTeaser(
     .trim();
 
   // Strip em-dashes the model may have emitted despite the prompt rule.
+  return stripDashes(raw);
+}
+
+// Mental performance teaser. Parallel to generateTeaser but for the
+// psychological side: confidence, focus, pre-performance routines,
+// composure under pressure, recovery from mistakes.
+async function generateMentalTeaser(
+  body: ConsultationWithPlanRequest
+): Promise<string> {
+  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing ANTHROPIC_API_KEY environment variable.');
+  }
+
+  // Teasers use Haiku by default: ~3x faster than Sonnet, ~5x cheaper, and
+  // the teaser is a short structured output Haiku handles cleanly. The full
+  // plan keeps Sonnet. Override via ANTHROPIC_MODEL_TEASER if needed.
+  const model =
+    import.meta.env.ANTHROPIC_MODEL_TEASER ||
+    import.meta.env.ANTHROPIC_MODEL ||
+    'claude-haiku-4-5-20251001';
+
+  const systemPrompt = [
+    'You are generating a TEASER preview of a Mental Performance Plan for the Mind the Gael platform. The athlete has NOT paid yet.',
+    '',
+    'Mental Performance Plans focus on the psychological side of sport: confidence, focus, pre-performance routines, managing pressure, recovery from mistakes, and composure in big moments. The full plan draws on the 12-month Gael Performance Toolkit content (Pre-Performance Routines, Self-Talk and Confidence, Mistake Reset, Team Communication, Goal Setting, Imagery and Graded Exposure, Focus and Refocus, Nutrition and Language, Boundaries and Assertiveness, Championship Routines, Values and Balance, Off-Season Recovery).',
+    '',
+    'Your goal in this TEASER: show them the SHAPE of their mental performance plan without giving away the workable tools.',
+    '',
+    'STRICT RULES:',
+    '- Do NOT teach specific tools, routines, scripts, or techniques.',
+    '- Do NOT include session-by-session content.',
+    '- DO include weekly themes (e.g. "Week 1: Building your pre-performance routine") so they understand the arc.',
+    '- DO include a Client Snapshot (2-3 lines acknowledging what they shared).',
+    '- DO include a Plan Overview (what the plan addresses, how it works, expected outcomes).',
+    '- DO include a "What you unlock when you buy" section listing what the full plan contains (in bullets).',
+    '- Mental performance plans NEVER have exercises, sets, or reps. They are about routines, attentional skills, self-talk, breathing patterns, reset cues, and mindset frames.',
+    '',
+    'VOICE: warm, direct, plain English. Match Emily Phelan\'s voice. No hype. No emojis. No em-dashes or en-dashes (use periods, commas, or parentheses instead). Keep it under 350 words.',
+    '',
+    'Use exactly these section headers, in this order:',
+    '# CLIENT SNAPSHOT',
+    '# PLAN OVERVIEW',
+    '# WEEKLY THEMES',
+    '# WHAT YOU UNLOCK WHEN YOU BUY',
+  ].join('\n');
+
+  const userPrompt = [
+    `Generate a Mental Performance Plan teaser for the following female athlete. They have requested a ${body.planDuration || '6-week'} plan.`,
+    '',
+    'CLIENT INPUT:',
+    `- Sport: ${body.sport || 'not provided'}`,
+    `- Level of competition: ${body.competitionLevel || 'not provided'}`,
+    `- Years competing: ${body.yearsCompeting || 'not provided'}`,
+    `- Plan duration: ${body.planDuration || '6 weeks'}`,
+    `- Performance moments they want to work on: ${(body.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
+    `- Current pre-performance routines: ${body.currentRoutines || 'not provided'}`,
+    `- A peak moment they remember: ${body.peakMoment || 'not provided'}`,
+    `- A struggle moment that stuck with them: ${body.struggleMoment || 'not provided'}`,
+    `- Current confidence level (1-10): ${body.confidenceLevel || 'not provided'}`,
+    `- Companion physical training plan the client is also doing: ${body.companionPlanSummary || 'not provided. Build the mental plan as a standalone.'}`,
+    `- Anything else: ${body.anythingElse || 'not provided'}`,
+    `- Goals narrative: ${body.goals}`,
+    '',
+    'If a companion physical training plan summary is provided, briefly hint in the teaser that this mental plan will be built to apply to their training and match moments. Do not invent details about the physical plan beyond what the client shared.',
+    '',
+    'Generate the teaser now. Remember: no specific tools, routines, or scripts. Just the structure and the value-pitch for buying.',
+  ].join('\n');
+
+  const client = new Anthropic({ apiKey });
+
+  const response = await client.messages.create({
+    model,
+    temperature: 0.4,
+    max_tokens: 550,
+    system: [
+      { type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } },
+    ],
+    messages: [{ role: 'user', content: userPrompt }],
+  });
+
+  const raw = response.content
+    .filter((block) => block.type === 'text')
+    .map((block) => block.text)
+    .join('\n')
+    .trim();
+
   return stripDashes(raw);
 }
 

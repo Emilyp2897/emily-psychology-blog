@@ -31,8 +31,8 @@ const sectionRoutes: Record<string, { title: string; href: string }> = {
 
 const sectionSlug = postSlug?.split('/')[0];
 const sectionMeta = sectionSlug ? sectionRoutes[sectionSlug] : undefined;
+const isGaelToolkitPost = sectionSlug === 'gael-performance-toolkit';
 const shouldBypassSubscriptionGate = import.meta.env.DEV;
-const shouldBypassSubscriptionGateLiteral = JSON.stringify(shouldBypassSubscriptionGate);
 
 const toolkitRelatedArticles = new Set([
   'training-the-mind/attention-control-theory',
@@ -46,7 +46,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body class="blog-post-page">
+  <body class:list={["blog-post-page", isGaelToolkitPost && "gael-toolkit-post"]}>
     <Header />
 
     <main class="container article-main">
@@ -100,11 +100,36 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
 
     <Footer />
 
-    <script is:inline>
+    <script is:inline define:vars={{ shouldBypassSubscriptionGate, isGaelToolkitPost }}>
       window.addEventListener('DOMContentLoaded', () => {
-        const shouldBypassSubscriptionGate = {shouldBypassSubscriptionGateLiteral};
         const paidContent = document.getElementById('paid-content');
         const toolkitToolsBox = paidContent?.querySelector('.toolkit-tools-box');
+
+        if (paidContent && isGaelToolkitPost) {
+          const headings = Array.from(paidContent.querySelectorAll('h2'));
+          const toolHeadings = headings.filter((heading) => {
+            const text = heading.textContent?.trim().toLowerCase() || '';
+            return text.startsWith('tool ');
+          });
+
+          toolHeadings.forEach((heading) => {
+            const card = document.createElement('section');
+            card.className = 'toolkit-tool-card';
+            heading.parentNode?.insertBefore(card, heading);
+            card.appendChild(heading);
+
+            let node = card.nextSibling;
+            while (node) {
+              if (node.nodeType === Node.ELEMENT_NODE) {
+                const el = node;
+                if (el.tagName === 'H2') break;
+              }
+              const next = node.nextSibling;
+              card.appendChild(node);
+              node = next;
+            }
+          });
+        }
 
         if (paidContent && toolkitToolsBox) {
           const referencesHeading = Array.from(paidContent.querySelectorAll('h2, h3')).find((heading) =>
@@ -113,6 +138,29 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
 
           if (referencesHeading) {
             paidContent.insertBefore(toolkitToolsBox, referencesHeading);
+          }
+        }
+
+        // Style the paragraph immediately before the References heading as a
+        // purple banner IF it contains a link to the Gael Performance Toolkit.
+        // The wording of this paragraph varies across posts ("Practical tools
+        // in...", "Practical tools at...", etc.); matching by position +
+        // toolkit link is more robust than matching by text.
+        if (paidContent) {
+          const referencesHeading = Array.from(paidContent.querySelectorAll('h2, h3')).find((heading) =>
+            (heading.textContent || '').trim().toLowerCase() === 'references'
+          );
+          if (referencesHeading) {
+            let prev = referencesHeading.previousElementSibling;
+            while (prev && prev.tagName !== 'P') {
+              prev = prev.previousElementSibling;
+            }
+            if (prev && prev.tagName === 'P') {
+              const link = prev.querySelector('a[href*="/gael-performance-toolkit/"]');
+              if (link) {
+                prev.classList.add('practical-tools-banner');
+              }
+            }
           }
         }
 
@@ -276,6 +324,48 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
   .prose :global(h2) {
     margin-top: 1rem;
     margin-bottom: 0.35rem;
+  }
+
+  .gael-toolkit-post .prose :global(.toolkit-tool-card) {
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    background: var(--green-light);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    margin: 0.9rem 0 1rem;
+  }
+
+  .gael-toolkit-post .prose :global(.toolkit-tool-card h2) {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--green-dark);
+    font-size: 1.25rem;
+  }
+
+  .prose :global(.practical-tools-banner) {
+    background: var(--purple);
+    color: var(--green-light);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin: 1.4rem 0;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(105, 0, 90, 0.25);
+  }
+
+  .prose :global(.practical-tools-banner a) {
+    color: var(--green-lime) !important;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  .prose :global(.practical-tools-banner a:hover) {
+    color: #ffffff !important;
+  }
+
+  .gael-toolkit-post .prose :global(.toolkit-tool-card p:last-child),
+  .gael-toolkit-post .prose :global(.toolkit-tool-card ul:last-child),
+  .gael-toolkit-post .prose :global(.toolkit-tool-card ol:last-child) {
+    margin-bottom: 0;
   }
 
   .prose :global(h3) {

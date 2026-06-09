@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
-import saoirseImage from '../../assets/saoirse.png';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_TITLE } from '../../consts';
 
 const seriesCards = [
   {
@@ -21,14 +19,6 @@ const seriesCards = [
     title: 'Stronger Minds, Stronger Players',
     description: 'Understand mental health in sport, recognise warning signs, and know where to get support.',
     href: '/content-hub/strong-minds-stronger-players/',
-  },
-];
-
-const onlineContentBundles = [
-  {
-    title: 'Monthly Subscription (Founding Offer)',
-    price: '£5 / month (first 50, then £8)',
-    description: '14-day free trial, then monthly access. Includes 4 Training the Mind articles per month, 4 Gael Performance Toolkits, and 1 mindfulness newsletter. Stronger Minds, Stronger Players is always free.',
   },
 ];
 ---
@@ -56,40 +46,6 @@ const onlineContentBundles = [
             <p class="description">{card.description}</p>
           </a>
         ))}
-      </section>
-
-      <section class="online-content-bundles fade-in" aria-label="Blog subscription">
-        <div class="bundle-header">
-          <a href="/api/create-checkout-session?plan=individual" class="subscribe-cta-link">
-            <Image src={saoirseImage} class="subscribe-cta-img" alt="Saoirse the shamrock mascot" />
-          </a>
-        </div>
-        <p class="access-note"><strong>Subscriptions include access to:</strong> Training the Mind and the Gael Performance Toolkit. <strong>Stronger Minds, Stronger Players will always be free</strong> because the content focuses on spotting when someone may be struggling with mental health and signposting pathways to professional support resources.</p>
-        <p class="bundle-intro">Subscribe monthly to keep getting fresh content every week.</p>
-        <div class="pricing-table-wrap">
-          <table class="pricing-table">
-            <thead>
-              <tr>
-                <th>Option</th>
-                <th>Price</th>
-                <th>Includes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {onlineContentBundles.map((bundle) => (
-                <tr>
-                  <td>{bundle.title}</td>
-                  <td>{bundle.price}</td>
-                  <td>{bundle.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div class="bundle-actions">
-          <a href="/pricing" class="subscriptions-main-cta">View Full Pricing</a>
-          <a href="/api/create-checkout-session?plan=individual" class="subscriptions-main-cta">Subscribe Now</a>
-        </div>
       </section>
 
       <section class="content-feedback-cta fade-in" aria-label="Content hub feedback">

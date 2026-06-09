@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mind the Gael — Technical Documentation</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+
+  :root {
+    --green-dark: #0a1a0e;
+    --green-lime: #c0fe71;
+    --purple: #69005a;
+    --text: #1a1a1a;
+    --muted: #555;
+    --border: #d8d8d8;
+    --soft-bg: #f7f7f5;
+    --code-bg: #1d2433;
+    --code-text: #e6e6e6;
+    --callout-bg: #f6e8f3;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 980px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+    font-size: 14px;
+  }
+
+  header.cover {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 0 -24px 40px;
+    background: var(--green-dark);
+    color: #fff;
+    page-break-after: always;
+  }
+  header.cover h1 {
+    color: var(--green-lime);
+    font-size: 36px;
+    margin: 0 0 8px;
+  }
+  header.cover .subtitle {
+    color: #fff;
+    font-size: 16px;
+    opacity: 0.9;
+    margin: 0;
+  }
+  header.cover .meta {
+    margin-top: 36px;
+    font-size: 13px;
+    color: #ccc;
+  }
+
+  h2 {
+    color: var(--purple);
+    font-size: 22px;
+    margin: 44px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-lime);
+    page-break-after: avoid;
+  }
+  h3 {
+    color: var(--purple);
+    font-size: 16px;
+    margin: 24px 0 6px;
+    page-break-after: avoid;
+  }
+  h4 {
+    color: var(--text);
+    font-size: 14px;
+    margin: 16px 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    page-break-after: avoid;
+  }
+
+  p { margin: 6px 0 12px; }
+
+  code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin: 10px 0 16px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    page-break-inside: avoid;
+  }
+  pre code { background: transparent; padding: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 22px;
+    page-break-inside: avoid;
+  }
+  th, td {
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  th {
+    background: var(--green-dark);
+    color: var(--green-lime);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  ul, ol { margin: 6px 0 14px; padding-left: 22px; }
+  li { margin-bottom: 3px; }
+
+  .callout, .plain-english, .under-hood {
+    padding: 12px 14px;
+    margin: 12px 0 20px;
+    border-radius: 6px;
+    page-break-inside: avoid;
+  }
+  .plain-english {
+    background: #eef7e3;
+    border-left: 4px solid var(--green-lime);
+  }
+  .plain-english::before {
+    content: "Plain English";
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  .under-hood {
+    background: #e9eef7;
+    border-left: 4px solid #3a5fa3;
+  }
+  .under-hood::before {
+    content: "Under the hood";
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #21407a;
+    margin-bottom: 4px;
+  }
+  .callout {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--purple);
+  }
+  .callout strong { color: var(--purple); }
+
+  .toc {
+    background: var(--soft-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+  }
+  .toc h2 {
+    margin-top: 0;
+    border-bottom: 0;
+    font-size: 16px;
+    padding-bottom: 4px;
+  }
+  .toc ol { padding-left: 22px; margin: 6px 0; }
+  .toc a { color: var(--purple); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .arch-diagram {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 20px;
+    border-radius: 8px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-x: auto;
+    white-space: pre;
+    margin: 14px 0 22px;
+    page-break-inside: avoid;
+  }
+
+  footer.doc-footer {
+    margin-top: 60px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media print {
+    body { margin: 0; padding: 0; max-width: none; }
+    h2 { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>Mind the Gael</h1>
+  <p class="subtitle">Technical Documentation</p>
+  <p class="subtitle">End-to-end walkthrough of how the platform works</p>
+  <div class="meta">Prepared 2026 &mdash; Audience: Emily, technical contractors, and anyone who needs to understand the platform from the outside in.</div>
+</header>
+
+<div class="toc">
+<h2>Table of Contents</h2>
+<ol>
+  <li><a href="#overview">Platform Overview</a></li>
+  <li><a href="#architecture">Architecture at a Glance</a></li>
+  <li><a href="#framework">The Site Framework (Astro &amp; Vercel)</a></li>
+  <li><a href="#content">Content Hub &amp; Blog Posts</a></li>
+  <li><a href="#chatbot">The Chatbot (Saoirse)</a></li>
+  <li><a href="#training">Personal Training Plans (Preview-then-Buy)</a></li>
+  <li><a href="#mental">Mental Performance Plans (Live)</a></li>
+  <li><a href="#payments">Payments (Stripe)</a></li>
+  <li><a href="#database">Database (Postgres / Neon)</a></li>
+  <li><a href="#email">Email Delivery (Resend)</a></li>
+  <li><a href="#safety">Safety Features &amp; Hard Rules</a></li>
+  <li><a href="#env">Environment Variables</a></li>
+  <li><a href="#deployment">Deployment &amp; Operations</a></li>
+  <li><a href="#fileref">File-by-File Reference</a></li>
+  <li><a href="#glossary">Glossary</a></li>
+</ol>
+</div>
+
+<h2 id="overview">1. Platform Overview</h2>
+
+<p>Mind the Gael is an online platform for mental wellbeing and physical performance coaching, built specifically for female athletes. The site delivers four product lines:</p>
+
+<ul>
+  <li><strong>Personal training plans</strong> (6-week and 12-week online programmes)</li>
+  <li><strong>Mental performance plans</strong> (live, parallel architecture, branched by <code>plan_type</code>)</li>
+  <li><strong>Blog subscription</strong> (monthly content access)</li>
+</ul>
+
+<p>Behind the public website sit four AI-driven and automated systems: a chatbot called Saoirse, a personal training plan generator, a content delivery layer, and a Stripe-based payment layer. The platform is structurally designed to operate autonomously once Emily has validated the training-plan output (referred to in this document as the v1 to v2 transition).</p>
+
+<div class="plain-english">
+The site is a digital storefront and content library combined. Visitors can read free blog content, subscribe to premium articles, or buy a training plan that is generated automatically using AI. A chatbot named Saoirse answers questions and points users to relevant articles. A human (Emily) reviews each training plan before sending it during the launch phase; eventually plans will go directly to buyers without that review step.
+</div>
+
+<h2 id="architecture">2. Architecture at a Glance</h2>
+
+<div class="arch-diagram">
+                            ┌──────────────────────────┐
+                            │     Visitor's browser    │
+                            └────────────┬─────────────┘
+                                         │ HTTPS
+                                         ▼
+                            ┌──────────────────────────┐
+                            │   Vercel (CDN + Edge)    │
+                            │   serves Astro site      │
+                            └─┬──────────┬──────────┬──┘
+                              │          │          │
+                              │ Static   │ Server   │ Server
+                              │ pages    │ endpoints│ endpoints
+                              │ (HTML)   │ (API)    │ (API)
+                              │          │          │
+                              ▼          ▼          ▼
+              ┌────────────────────┐ ┌─────────────────────┐
+              │  Static pages:     │ │  /api/chat          │
+              │  home, about,      │ │  /api/programme-... │
+              │  pricing, content  │ │  /api/create-       │
+              │  hub, blog posts   │ │     checkout-session│
+              └────────────────────┘ └──────┬───────┬──────┘
+                                            │       │
+                                            ▼       ▼
+                                    ┌──────────┐ ┌──────────┐
+                                    │Anthropic │ │  Stripe  │
+                                    │Claude API│ │  Checkout│
+                                    └──────────┘ └──────────┘
+                                            │
+                                            ▼
+                                    ┌──────────┐
+                                    │  Resend  │ (transactional email)
+                                    └──────────┘
+
+                                ┌──────────────────────┐
+                                │  Vercel Postgres     │ (intake sessions,
+                                │  (Neon-hosted)       │  chat feedback)
+                                └──────────────────────┘
+</div>
+
+<p>Three external services do the heavy lifting:</p>
+
+<ul>
+  <li><strong>Anthropic Claude API</strong> generates chatbot replies, training plan teasers, and full training plans.</li>
+  <li><strong>Stripe</strong> handles every payment (founding-offer subscription, programme purchases, workshops).</li>
+  <li><strong>Resend</strong> sends every transactional email (plan delivery, notifications to Emily, crisis-flag alerts).</li>
+</ul>
+
+<p>Two internal stores hold state:</p>
+
+<ul>
+  <li><strong>Vercel Postgres</strong> (Neon-hosted) stores intake sessions and chat feedback.</li>
+  <li><strong>Static markdown files</strong> in <code>src/content/blog/</code> hold every blog post and toolkit article.</li>
+</ul>
+
+<h2 id="framework">3. The Site Framework (Astro &amp; Vercel)</h2>
+
+<div class="plain-english">
+The website is built using a framework called Astro. It generates fast, static HTML pages (like the home page, pricing page, blog posts) and also runs small server-side endpoints (the chatbot, the plan generator). The whole thing is hosted on Vercel, which serves the pages from data centres close to your visitors so it loads quickly.
+</div>
+
+<h3>3.1 Why Astro</h3>
+<p>Astro is a modern framework that produces almost-pure HTML for content pages (no JavaScript framework overhead). For pages that need interactivity or server-side logic (the chatbot, the intake form, the Stripe checkout), Astro runs server endpoints. This gives the best of both worlds: fast content pages and dynamic functionality where needed.</p>
+
+<h3>3.2 Project structure</h3>
+<pre><code>emily-psychology-blog/
+├── src/
+│   ├── components/        Header, Footer, BaseHead, HeaderLink, FormattedDate
+│   ├── content/           Markdown blog posts &amp; toolkit articles
+│   │   └── blog/
+│   │       ├── training-the-mind/
+│   │       ├── gael-performance-toolkit/
+│   │       └── strong-minds-stronger-players/
+│   ├── data/              Sport profiles, exercises, red flags, program tracks
+│   ├── layouts/           BlogPost.astro (renders individual blog posts)
+│   ├── lib/               Reusable server-side modules (db, email-format, plan-routing)
+│   ├── pages/             Routes (each .astro file becomes a URL)
+│   │   ├── api/           Server endpoints (chat, training-plan, stripe)
+│   │   ├── content-hub/   Content hub and individual posts
+│   │   └── *.astro        Public pages (home, about, pricing, etc.)
+│   ├── styles/global.css  Global CSS variables and base styles
+│   └── consts.ts          Site-wide constants (SITE_TITLE, EMILY_CALENDAR_BOOKING_URL)
+├── migrations/            SQL migrations for the Postgres database
+├── docs/                  Internal documentation (this file, financial plan)
+├── public/                Static assets served as-is (logo images, favicon)
+└── .env                   Local environment variables (NOT committed to git)
+</code></pre>
+
+<h3>3.3 Routing</h3>
+<p>Astro uses file-based routing. Every <code>.astro</code> file in <code>src/pages/</code> becomes a URL:</p>
+
+<table>
+  <thead><tr><th>File</th><th>URL</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/pages/index.astro</code></td><td><code>/</code></td></tr>
+    <tr><td><code>src/pages/personal-training.astro</code></td><td><code>/personal-training</code></td></tr>
+    <tr><td><code>src/pages/content-hub/training-the-mind.astro</code></td><td><code>/content-hub/training-the-mind</code></td></tr>
+    <tr><td><code>src/pages/content-hub/[...slug].astro</code></td><td><code>/content-hub/&lt;any-slug&gt;</code> (dynamic; renders blog posts)</td></tr>
+    <tr><td><code>src/pages/api/chat.ts</code></td><td><code>/api/chat</code> (POST endpoint)</td></tr>
+  </tbody>
+</table>
+
+<h3>3.4 Hosting on Vercel</h3>
+<p>Every push to the <code>main</code> branch on GitHub triggers a Vercel deployment. Vercel:</p>
+
+<ul>
+  <li>Builds the Astro site (running <code>npm run build</code>)</li>
+  <li>Serves the static pages from its global CDN</li>
+  <li>Runs the API endpoints as serverless functions when called</li>
+  <li>Provides the Postgres database (via Neon integration)</li>
+  <li>Injects environment variables at runtime</li>
+</ul>
+
+<div class="under-hood">
+Astro is configured for hybrid output via <code>@astrojs/vercel</code> adapter. Pages that need server execution declare <code>export const prerender = false</code> at the top of the file. API endpoints in <code>src/pages/api/</code> are always server-rendered. The integration with Vercel is handled by <code>astro.config.mjs</code>.
+</div>
+
+<h2 id="content">4. Content Hub &amp; Blog Posts</h2>
+
+<div class="plain-english">
+All blog posts live as markdown files in the project. Each post has a small header at the top (title, description, publish date) and the body of the article underneath. The site automatically generates a URL and rendered page for every markdown file in the right folder.
+</div>
+
+<h3>4.1 Content collections</h3>
+<p>All articles live in <code>src/content/blog/</code>, organised into three series subfolders:</p>
+
+<table>
+  <thead><tr><th>Series</th><th>Folder</th><th>Listing page</th></tr></thead>
+  <tbody>
+    <tr><td>Training the Mind</td><td><code>training-the-mind/</code></td><td><code>/content-hub/training-the-mind</code></td></tr>
+    <tr><td>Gael Performance Toolkit</td><td><code>gael-performance-toolkit/</code></td><td><code>/gael-performance-toolkit</code> (top-level)</td></tr>
+    <tr><td>Stronger Minds, Stronger Players</td><td><code>strong-minds-stronger-players/</code></td><td><code>/content-hub/strong-minds-stronger-players</code></td></tr>
+  </tbody>
+</table>
+
+<h3>4.2 Frontmatter format</h3>
+<p>Every markdown file starts with a "frontmatter" block of metadata between two <code>---</code> lines:</p>
+
+<pre><code>---
+title: "Choking Under Pressure: Why You Freeze in Big Moments"
+description: "What's actually happening when..."
+pubDate: "2026-06-01"
+track: "training-the-mind"
+---
+
+Heeyyyyy gaels, this is Emily...
+</code></pre>
+
+<h3>4.3 How blog posts are rendered</h3>
+<p>The dynamic route <code>src/pages/content-hub/[...slug].astro</code> catches any URL under <code>/content-hub/</code> and renders the matching markdown file using the <code>BlogPost.astro</code> layout. The layout adds the header, footer, a subscription gate (for premium content), and a "go to the relevant toolkit" call-to-action at the bottom.</p>
+
+<div class="under-hood">
+Astro's content collections feature (<code>getCollection('blog')</code>) returns a list of all posts. The dynamic route calls <code>post.render()</code> to compile the markdown to HTML, then passes it as a slot into the BlogPost layout. The collection schema is defined in <code>src/content/config.ts</code>.
+</div>
+
+<h3>4.4 Editorial workflow</h3>
+
+<ol>
+  <li>Emily writes drafts in Google Drive (<code>.docx</code>).</li>
+  <li>Drafts saved to <code>docs/Month X - ...</code> in the project folder.</li>
+  <li>I (Claude) convert to markdown, voice-edit per Emily's rules, and place in the right collection folder.</li>
+  <li>Push to GitHub. Vercel rebuilds and the post is live.</li>
+</ol>
+
+<h3>4.5 Voice rules baked into all content</h3>
+<ul>
+  <li>No em-dashes or en-dashes (an AI tell; replace with periods, commas, or parentheses).</li>
+  <li>Hyphens in compound modifiers like "6-week" are fine; they are standard English.</li>
+  <li>First-person, conversational, direct address ("you" not "the athlete").</li>
+  <li>Plain English. No hype, no motivational filler.</li>
+  <li>Any non-Mind-the-Gael claim must be backed by a real, citable source.</li>
+</ul>
+
+<h2 id="chatbot">5. The Chatbot (Saoirse)</h2>
+
+<div class="plain-english">
+Saoirse is the chat panel in the bottom-right of every page. When a visitor types a question, the question is sent to Anthropic's Claude AI along with a "system prompt" that tells the AI who it is and how to respond. The AI's reply is shown back to the visitor. Crisis-related messages are caught BEFORE the AI is called and replaced with safe support information.
+</div>
+
+<h3>5.1 Data flow</h3>
+
+<pre><code>Visitor types message
+  │
+  ▼
+Browser sends POST /api/chat with { message, history }
+  │
+  ▼
+chat.ts:
+  1. Crisis-keyword check (if matched, return safe message, do NOT call AI)
+  2. Retrieve relevant Mind the Gael article context from content collection
+  3. Build system prompt (voice rules, citation rule, safety rules)
+  4. Call Anthropic API with prompt + user message
+  5. Strip any markdown formatting from the AI's reply
+  6. Return reply + source URLs to the browser
+  │
+  ▼
+Chat panel renders the reply.
+</code></pre>
+
+<h3>5.2 Key files</h3>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/pages/api/chat.ts</code></td><td>The chatbot endpoint. Builds the prompt, calls Anthropic, strips markdown, handles crisis cases.</td></tr>
+    <tr><td><code>src/pages/api/chat-feedback.ts</code></td><td>Records user feedback on chatbot replies to Postgres for review.</td></tr>
+    <tr><td><code>src/components/Footer.astro</code></td><td>Contains the chat panel UI (open/close drawer, message list).</td></tr>
+  </tbody>
+</table>
+
+<h3>5.3 Crisis detection</h3>
+<p>Before any AI call, the user's message is scanned against a list of crisis keywords (<code>CRISIS_TERMS</code> in <code>chat.ts</code>). The list covers suicide and self-harm vocabulary plus broader mental-health-crisis indicators ("breaking point", "in crisis", "feel hopeless", etc.). If matched:</p>
+
+<ul>
+  <li>The AI is NOT called. No tokens spent.</li>
+  <li>A fixed safe response is returned. It thanks the user, directs them to emergency services (999 UK / 112 Ireland), lists Samaritans and Pieta hotlines, points to the <code>/resources</code> page, and gives Emily's direct email.</li>
+  <li>The event is logged to Postgres for Emily to review.</li>
+</ul>
+
+<div class="callout">
+<strong>Why bypass the AI for crisis cases?</strong> Even with strong prompting, AI replies have non-zero variance. For mental-health-crisis situations, deterministic safety messages are required. The keyword filter is the "always on" backstop.
+</div>
+
+<h3>5.4 System prompt highlights</h3>
+<p>The system prompt sent to Claude includes (in summary):</p>
+
+<ul>
+  <li>Saoirse's identity: educational guide for Mind the Gael, not Emily, not a therapist.</li>
+  <li>Voice rules: warm, direct, plain English, no hype, no emojis, no em-dashes.</li>
+  <li>Output format: no markdown (the chat panel renders plain text only).</li>
+  <li>Length: under 100 words for almost every reply.</li>
+  <li>Citation rule: any claim outside Mind the Gael articles must be attributable to a real source.</li>
+  <li>Safety override: if any crisis indicator slips past the keyword filter, the AI is instructed to respond with the same crisis-resource message and stop.</li>
+</ul>
+
+<h3>5.5 Prompt caching</h3>
+<p>The system prompt is sent with <code>cache_control: { type: 'ephemeral' }</code> so Anthropic caches it for 5 minutes. Subsequent calls within that window pay ~10% of normal input-token cost (with a slight write premium on the first call).</p>
+
+<h2 id="training">6. Personal Training Plans (Preview-then-Buy)</h2>
+
+<div class="plain-english">
+A visitor fills in a form describing their sport, goals, and equipment. The system generates a SHORT teaser preview of what their plan will look like (no actual exercises). They see the teaser on a page with watermarks and theft deterrents. If they like it, they click "Buy" and pay via Stripe. After payment is confirmed, the system generates the FULL plan and emails it to them. Emily gets a notification copy of every plan.
+</div>
+
+<h3>6.1 The four-step flow</h3>
+
+<pre><code>Step 1 — Intake
+  Visitor fills form on /personal-training
+  Submit → POST /api/programme-intake
+    ├─ Red-flag detection (crisis, eating concerns, RED-S, active injury)
+    │     → If matched: NO teaser, NO purchase, route to Emily, show safe message
+    └─ Generate teaser (overview only, no sessions)
+       Store intake + teaser in Postgres (intake_sessions table)
+       Return { previewToken, teaserContent }
+
+Step 2 — Preview
+  Browser redirects to /programme-preview?token=&lt;previewToken&gt;
+  Page fetches teaser via GET /api/programme-preview?token=...
+  Displays teaser with:
+    - user-select:none CSS
+    - oncontextmenu disabled
+    - Ctrl+P blocked
+    - Watermark with client email
+    - Blur on window blur
+  Two Buy buttons (6-week / 12-week) carry the token to Stripe.
+
+Step 3 — Stripe Checkout
+  Buy button → GET /api/create-checkout-session?plan=programme-6-week&token=...
+  Endpoint creates a Stripe Checkout session with metadata (plan + token).
+  Stripe collects payment + email.
+  On success → /programme-success?session_id=...&token=...
+
+Step 4 — Finalize
+  /programme-success page calls POST /api/programme-finalize { sessionId, token }
+  Endpoint:
+    1. Looks up intake by token from Postgres
+    2. Verifies Stripe session is paid (via Stripe API)
+    3. Generates the FULL plan (Anthropic call with sport profile + exercise pool)
+    4. Emails the plan to the client (HTML + plain text)
+    5. Emails Emily a notification copy
+    6. Marks intake_sessions row as finalized
+  Page shows "Your plan is on its way".
+</code></pre>
+
+<h3>6.2 Key data files</h3>
+
+<table>
+  <thead><tr><th>File</th><th>What's in it</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/data/types.ts</code></td><td>Shared TypeScript types (intake request, sport profile, exercise, red flag, etc.).</td></tr>
+    <tr><td><code>src/data/sport-profiles.ts</code></td><td>12 sport profiles (LGFA, Camogie, Soccer, Rugby, Hockey, Netball, Basketball, Athletics x 3, Tennis, Skiing) plus a fallback. Each profile defines energy systems, demands, injury hotspots, programming notes.</td></tr>
+    <tr><td><code>src/data/exercises.ts</code></td><td>~50 exercises tagged with category, equipment, level, contraindications.</td></tr>
+    <tr><td><code>src/data/red-flags.ts</code></td><td>Four "pause-for-clinical-review" flags: mental health crisis, eating concerns, RED-S/amenorrhea, active unresolved injury.</td></tr>
+    <tr><td><code>src/data/program-tracks.ts</code></td><td>Four specialised tracks (pregnancy, postpartum, endometriosis, return-to-play) with protocols and real citations.</td></tr>
+    <tr><td><code>src/lib/plan-routing.ts</code></td><td>The single function that decides where each plan goes (Emily review vs autonomous to client).</td></tr>
+  </tbody>
+</table>
+
+<h3>6.3 Routing logic (v1 vs v2)</h3>
+
+<table>
+  <thead><tr><th>Case</th><th>v1 (current)</th><th>v2 (autonomous)</th></tr></thead>
+  <tbody>
+    <tr><td>Standard plan, no flags</td><td>To Emily for review</td><td>Direct to client</td></tr>
+    <tr><td>Any specialised track (pregnancy / postpartum / endo / RTP)</td><td>To Emily</td><td>To Emily (always)</td></tr>
+    <tr><td>Any red flag detected</td><td>No plan, route to Emily</td><td>No plan, route to Emily</td></tr>
+  </tbody>
+</table>
+
+<p>The flip from v1 to v2 is a single environment variable change: <code>PLAN_DESTINATION_STANDARD=client</code> in Vercel.</p>
+
+<h3>6.4 Teaser vs full plan (why two AI calls)</h3>
+<p>The fake-preview approach minimises API spend on visitors who don't buy:</p>
+
+<ul>
+  <li><strong>Teaser</strong> (~600 output tokens, ~£0.01 per visitor): plan overview and weekly themes only. No exercises, sets, or reps.</li>
+  <li><strong>Full plan</strong> (~5,000 to 10,000 output tokens, ~£0.08 to £0.16 per buyer): generated only AFTER Stripe verifies payment.</li>
+</ul>
+
+<div class="under-hood">
+Both AI calls use Anthropic's <code>cache_control: { type: 'ephemeral' }</code> on the system prompt. The full-plan system prompt is ~1500 tokens, well above the 1024-token minimum cache size, so subsequent calls within a 5-minute window pay ~10% on the cached portion. The teaser prompt is smaller and may not cache.
+</div>
+
+<h2 id="mental">7. Mental Performance Plans (Live)</h2>
+
+<div class="plain-english">
+Mental Performance Plans are a parallel product to the physical training plans. The whole stack (intake form, teaser, Stripe, full plan, email) reuses the same infrastructure, branched on a single database column. The content backbone is the 12-month Gael Performance Toolkit (the 12 mental-skill themes used across the editorial calendar).
+</div>
+
+<h3>7.1 Architecture</h3>
+<p>The mental flow runs through the same API endpoints as the physical flow. The branch happens on a single field, <code>plan_type</code>, which lives both on the request payload (<code>planType: 'physical' | 'mental'</code>) and as a column on <code>intake_sessions</code>. Migration <code>003-add-plan-type-to-intake-sessions.sql</code> introduced this column with a default of <code>'physical'</code> so legacy rows stay valid.</p>
+
+<table>
+  <thead><tr><th>Endpoint</th><th>Branch behaviour</th></tr></thead>
+  <tbody>
+    <tr><td><code>POST /api/programme-intake</code></td><td>Routes to <code>generateMentalTeaser()</code> when <code>planType === 'mental'</code>, otherwise <code>generateTeaser()</code>. Persists <code>plan_type</code> alongside the intake data.</td></tr>
+    <tr><td><code>GET /api/programme-preview</code></td><td>Returns <code>planType</code> in the response so the preview page can route Buy buttons to the correct Stripe plan slug.</td></tr>
+    <tr><td><code>POST /api/programme-finalize</code></td><td>Reads <code>plan_type</code> from the row, calls <code>generateMentalFullPlan()</code> or <code>generateFullPlan()</code>, then sends the same email pipeline.</td></tr>
+  </tbody>
+</table>
+
+<h3>7.2 Intake form</h3>
+<p>The Performance Plans page (<code>src/pages/personal-training.astro</code>) carries two intake modals: one for physical, one for mental. The mental modal collects different fields:</p>
+
+<ul>
+  <li>Sport (shared)</li>
+  <li>Competition level (Recreational, Club, County / Regional, Inter-county / National, International)</li>
+  <li>Years competing (banded: less than 1, 1-3, 3-5, 5-10, 10+)</li>
+  <li>Plan duration (6 weeks or 12 weeks)</li>
+  <li>Current confidence level (1-10)</li>
+  <li>Performance moments to work on (multi-select: pre-game nerves, confidence, focus, recovery from mistakes, pre-performance routines, self-talk, visualisation, motivation, team and social pressure, return from injury)</li>
+  <li>Current mental performance routines (free text)</li>
+  <li>Past peak moment (free text)</li>
+  <li>Past struggle moment (free text)</li>
+  <li>Companion physical plan summary (optional, see 7.5)</li>
+  <li>Goals narrative (shared, required)</li>
+  <li>Anything else (free text)</li>
+</ul>
+
+<h3>7.3 Teaser and full plan prompts</h3>
+<p>Two new functions in the existing files:</p>
+
+<ul>
+  <li><code>generateMentalTeaser()</code> in <code>src/pages/api/programme-intake.ts</code>: ~80 lines, produces the same four-section teaser (Client Snapshot, Plan Overview, Weekly Themes, What You Unlock When You Buy) but anchored to mental-performance content. Holds back specific scripts, drills, and routines until purchase.</li>
+  <li><code>generateMentalFullPlan()</code> in <code>src/pages/api/programme-finalize.ts</code>: produces the full plan. Output structure: Athlete Snapshot &rarr; Plan Overview &rarr; Week-by-Week Plan (concept explainer + daily practice table + performance moment to apply it + reflection prompt) &rarr; Routines to Build &rarr; Coach Notes &rarr; Things to Track.</li>
+</ul>
+
+<p>The mental system prompt names the 12 toolkit themes explicitly and instructs the model to anchor weekly concepts to them. Citation rule applies in full: Eysenck et al. 2007 (Attention Control Theory), Hatzigeorgiadis et al. 2011 (self-talk), Bandura 1997 (self-efficacy), PETTLEP for imagery, Self-Determination Theory for motivation, etc. Hallucinated citations are forbidden.</p>
+
+<h3>7.4 Stripe plan slugs</h3>
+<p>Four plan slugs now in <code>create-checkout-session.ts</code>:</p>
+
+<pre><code>"programme-6-week":  { name: "6-Week Online Personal Training Programme", amount: 1000 },
+"programme-12-week": { name: "12-Week Online Personal Training Programme", amount: 2000 },
+"mental-6-week":     { name: "6-Week Mental Performance Plan",             amount: 1000 },
+"mental-12-week":    { name: "12-Week Mental Performance Plan",            amount: 2000 },</code></pre>
+
+<p>All four route to the <code>/programme-success</code> page so <code>/api/programme-finalize</code> can verify the Stripe session and generate the matching plan. The preview page reads <code>planType</code> from the API and rewrites the Buy button hrefs and labels accordingly.</p>
+
+<h3>7.5 Cross-plan companion linking</h3>
+<p>Both intake forms carry an optional field: "Are you also doing a Mind the Gael [Mental / Physical] Plan?" If the client pastes a short summary of their other plan, the value is stored on the intake (<code>companionPlanSummary</code> on <code>ConsultationWithPlanRequest</code>) and injected into both the teaser and full-plan prompts.</p>
+
+<p>The prompt-injection block is conditional. When the field is empty, nothing is added. When it has content, the model is instructed:</p>
+
+<ul>
+  <li>On a <strong>mental plan</strong>: anchor each week's "performance moment to apply it" to a real session from the client's physical plan; in Routines to Build, pin pre-performance routines to specific training days.</li>
+  <li>On a <strong>physical plan</strong>: in session cues and Coach Notes, suggest moments to layer in refocus routines, pre-performance routines, and self-talk practice that the client is already developing in their mental plan.</li>
+</ul>
+
+<p>The injection always carries a safety rail: "Stay within what they actually described, never invent specifics about the other plan." No database join is required; the two plans link through what the client copies into the field.</p>
+
+<h2 id="payments">8. Payments (Stripe)</h2>
+
+<div class="plain-english">
+Stripe is the payment processor. Every "buy" button on the site routes through Stripe Checkout (their hosted payment page). Stripe handles cards, fraud prevention, receipts, and refunds. The site never sees the card number; Stripe gives us back a session ID we can verify.
+</div>
+
+<h3>8.1 Plan map</h3>
+<p><code>src/pages/api/create-checkout-session.ts</code> defines every product available for purchase:</p>
+
+<pre><code>const planMap = {
+  individual:          { name: "Founding Offer subscription",     mode: "subscription", amount: 500 },
+  "programme-6-week":  { name: "6-Week Personal Training Plan",   mode: "payment",      amount: 1000 },
+  "programme-12-week": { name: "12-Week Personal Training Plan",  mode: "payment",      amount: 2000 },
+  "mental-6-week":     { name: "6-Week Mental Performance Plan",  mode: "payment",      amount: 1000 },
+  "mental-12-week":    { name: "12-Week Mental Performance Plan", mode: "payment",      amount: 2000 },
+  // Legacy team/workshop entries kept in the map for any old URLs still pointing here; not exposed in UI.
+  ...
+};
+</code></pre>
+
+<p>Amounts are in pence. <code>mode: "subscription"</code> creates recurring billing; <code>mode: "payment"</code> is a one-off charge.</p>
+
+<h3>8.2 Test vs Live mode</h3>
+<p>Stripe has two completely separate environments:</p>
+
+<ul>
+  <li><strong>Test mode</strong>: <code>STRIPE_SECRET_KEY=sk_test_...</code>. Use test card <code>4242 4242 4242 4242</code>. No real money moves.</li>
+  <li><strong>Live mode</strong>: <code>STRIPE_SECRET_KEY=sk_live_...</code>. Real cards, real money.</li>
+</ul>
+
+<p>The environment is controlled by which key is in <code>.env</code> (local) or Vercel environment variables (production).</p>
+
+<h3>8.3 Programme-specific success URL</h3>
+<p>Standard checkouts redirect to <code>/success</code>. Programme purchases redirect to <code>/programme-success?session_id={CHECKOUT_SESSION_ID}&plan=...&token=...</code>. This lets the success page call <code>/api/programme-finalize</code> with the right session ID and intake token.</p>
+
+<h2 id="database">9. Database (Postgres / Neon)</h2>
+
+<div class="plain-english">
+A small database stores data the site can't generate on the fly. Most pages don't need it. It's used for two specific things: storing intake forms and their teasers (so the buyer can pay later and then get the full plan generated), and recording feedback on chatbot replies.
+</div>
+
+<h3>9.1 Tables</h3>
+
+<table>
+  <thead><tr><th>Table</th><th>What's in it</th><th>Created by</th></tr></thead>
+  <tbody>
+    <tr><td><code>chat_feedback</code></td><td>User ratings and notes on individual chatbot replies.</td><td><code>migrations/001-create-chat-feedback.sql</code></td></tr>
+    <tr><td><code>intake_sessions</code></td><td>Intake form data, generated teaser, Stripe session ID, finalize state, and the <code>plan_type</code> column that branches physical vs mental.</td><td><code>migrations/002-create-intake-sessions.sql</code>, with <code>plan_type</code> added by <code>migrations/003-add-plan-type-to-intake-sessions.sql</code>.</td></tr>
+  </tbody>
+</table>
+
+<h3>9.2 Connection</h3>
+<p>The Postgres connection is initialised in <code>src/lib/db.ts</code>:</p>
+
+<pre><code>import { createPool } from '@vercel/postgres';
+
+const connectionString =
+  import.meta.env.POSTGRES_URL ||
+  import.meta.env.POSTGRES_URL_NON_POOLING ||
+  process.env.POSTGRES_URL;
+
+const pool = createPool({ connectionString });
+export const sql = pool.sql.bind(pool);
+</code></pre>
+
+<div class="under-hood">
+The pool is created explicitly (rather than using <code>@vercel/postgres</code>'s default <code>sql</code> tagged template) because Astro exposes env vars via <code>import.meta.env</code> but doesn't always copy them to <code>process.env</code>. The library's default reads <code>process.env.POSTGRES_URL</code> and fails locally if it's missing. This wrapper bypasses that.
+</div>
+
+<h3>9.3 Running migrations</h3>
+<p>Two options:</p>
+
+<ol>
+  <li><strong>Vercel dashboard</strong>: Storage → Postgres → Query tab → paste the SQL → run.</li>
+  <li><strong>Terminal</strong>: <code>psql "$POSTGRES_URL" &lt; migrations/002-create-intake-sessions.sql</code></li>
+</ol>
+
+<h2 id="email">10. Email Delivery (Resend)</h2>
+
+<div class="plain-english">
+Every email from the platform (the plan that arrives after purchase, the notification copy Emily receives, crisis flag alerts) goes through Resend. Resend is a transactional email service. The site builds the email's HTML and plain text in code, then hands it to Resend's API which delivers it.
+</div>
+
+<h3>10.1 Email types</h3>
+
+<table>
+  <thead><tr><th>Type</th><th>Trigger</th><th>To</th><th>Content</th></tr></thead>
+  <tbody>
+    <tr><td>Plan delivery (client)</td><td>Stripe payment verified</td><td>Buyer</td><td>Full plan, styled HTML, with Mind the Gael logo, Saoirse mascot, signature, calendar link</td></tr>
+    <tr><td>Notification (Emily)</td><td>Plan generated</td><td>emilyphelan@mindthegael.co.uk</td><td>Same plan plus client metadata and Stripe session ID</td></tr>
+    <tr><td>Red flag alert</td><td>Red flag detected on intake</td><td>emilyphelan@mindthegael.co.uk</td><td>Crisis/clinical pause notification with all client input</td></tr>
+  </tbody>
+</table>
+
+<h3>10.2 HTML formatting</h3>
+<p>All HTML is built in <code>src/lib/email-format.ts</code> using inline CSS only (email clients strip external stylesheets). Key helpers:</p>
+
+<ul>
+  <li><code>buildClientPlanEmailHtml()</code>: client email with logo, intro, safety callout, plan body, calendar CTA, signature.</li>
+  <li><code>buildEmilyNotificationEmailHtml()</code>: same shell, with a metadata table at the top showing client name, email, sport, track, Stripe session, intake token.</li>
+  <li><code>planTextToHtmlBody()</code>: converts the AI's markdown-style output to styled HTML. Handles headers, bullets, bold, italic, markdown tables (sessions rendered as proper tables), and blockquotes (exercise descriptions rendered as lavender callout boxes).</li>
+  <li><code>stripDashes()</code>: post-processes AI output to remove em-dashes the model emitted despite the prompt rule.</li>
+</ul>
+
+<h3>10.3 Logo and signature</h3>
+<p>The email header uses <code>MTG_colour.png</code> served from <code>https://mindthegael.co.uk/assets/</code>. The signature block at the bottom embeds Saoirse (<code>saoirse.png</code>) beside Emily's name, role, email, Instagram, and website.</p>
+
+<div class="under-hood">
+Image URLs are absolute, pointing to the production domain. Local-development testing will show broken images in test emails until the production deploy exists.
+</div>
+
+<h2 id="safety">11. Safety Features &amp; Hard Rules</h2>
+
+<p>Four hard rules apply across the platform:</p>
+
+<h3>11.1 Mental health crisis &mdash; hard stop</h3>
+<p>Both the chatbot and the training-plan flow halt on any mental-health-crisis indicator. The chatbot bypasses the AI and returns a safe message. The training plan stores the intake with a <code>red_flag_id</code> marker but generates no teaser and offers no purchase. Crisis vocabulary is centralised in <code>CRISIS_TERMS</code> (chat.ts) and <code>CRISIS_PATTERNS</code> (red-flags.ts).</p>
+
+<h3>11.2 Citation rule</h3>
+<p>Any claim the AI makes that is NOT from Mind the Gael's own content must be attributable to a real, named source: a peer-reviewed paper (author plus year), a recognised authority (NICE, POGP, Aspetar, NHS, WHO, ACOG, ESHRE), or a well-established named framework. Hallucinated citations are forbidden. The system prompts repeat this rule explicitly.</p>
+
+<h3>11.3 No em-dashes</h3>
+<p>Em-dashes (&mdash;) and en-dashes (&ndash;) are an AI tell and not in Emily's voice. They are removed from:</p>
+<ul>
+  <li>All user-facing website copy</li>
+  <li>All email bodies</li>
+  <li>All system prompts (so the model doesn't echo them back)</li>
+  <li>All model output (via <code>stripDashes()</code> post-processing in both <code>chat.ts</code> and the plan generators)</li>
+</ul>
+<p>Hyphens in compound modifiers ("6-week", "32-year-old") are kept; those are standard English.</p>
+
+<h3>11.4 Beginner accessibility</h3>
+<p>The training-plan system prompts include explicit rules that for beginner-level clients, every S&amp;C term (RPE, sets, reps, deload, progressive overload, tempo) must be defined in plain English the first time it appears.</p>
+
+<h2 id="env">12. Environment Variables</h2>
+
+<table>
+  <thead><tr><th>Variable</th><th>Used by</th><th>Where to set</th></tr></thead>
+  <tbody>
+    <tr><td><code>ANTHROPIC_API_KEY</code></td><td>Chatbot and training plan generators</td><td>.env (local), Vercel env vars (production)</td></tr>
+    <tr><td><code>ANTHROPIC_MODEL</code></td><td>Override default model</td><td>Optional</td></tr>
+    <tr><td><code>STRIPE_SECRET_KEY</code></td><td>create-checkout-session, programme-finalize</td><td>.env / Vercel. Use sk_test_... for testing.</td></tr>
+    <tr><td><code>RESEND_API_KEY</code></td><td>All transactional email</td><td>.env / Vercel</td></tr>
+    <tr><td><code>CONSULTATION_FROM_EMAIL</code></td><td>"From" address on outbound emails</td><td>.env / Vercel</td></tr>
+    <tr><td><code>POSTGRES_URL</code></td><td>Database access</td><td>Auto-injected by Vercel when Postgres is provisioned. Locally pulled via <code>vercel env pull</code>.</td></tr>
+    <tr><td><code>PUBLIC_SITE</code></td><td>Stripe success URLs, email image URLs</td><td>.env (e.g. <code>http://localhost:4321</code>), Vercel (production URL)</td></tr>
+    <tr><td><code>PLAN_DESTINATION_STANDARD</code></td><td>Flips standard plans from Emily review to autonomous client delivery</td><td>Vercel env var only. Default: <code>emily</code>. Set to <code>client</code> for v2.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="deployment">13. Deployment &amp; Operations</h2>
+
+<h3>13.1 Deploy</h3>
+<p>Push to <code>main</code> on GitHub. Vercel automatically builds and deploys within ~60 seconds.</p>
+
+<h3>13.2 Local development</h3>
+<pre><code>cd /Users/emily/emily-psychology-blog
+npm run dev
+# opens http://localhost:4321/
+</code></pre>
+
+<p>If port 4321 is in use (often from a stale dev server), run <code>pkill -f astro</code> first.</p>
+
+<h3>13.3 Testing the training plan flow end-to-end</h3>
+<ol>
+  <li>Confirm <code>STRIPE_SECRET_KEY</code> starts with <code>sk_test_</code>.</li>
+  <li>Visit <code>/personal-training</code>, click "Start the Intake Form", fill out and submit.</li>
+  <li>You land on <code>/programme-preview?token=...</code> with the teaser.</li>
+  <li>Click Buy. Use Stripe test card <code>4242 4242 4242 4242</code>, any future expiry, any CVC.</li>
+  <li>Stripe redirects to <code>/programme-success</code> which calls <code>/api/programme-finalize</code>.</li>
+  <li>Check inbox for plan email and Emily's inbox for notification.</li>
+</ol>
+
+<h3>13.4 Monitoring</h3>
+<ul>
+  <li>Vercel dashboard shows deployments, function logs, and analytics.</li>
+  <li>Stripe dashboard shows every payment, refund, and chargeback.</li>
+  <li>Resend dashboard shows email delivery, bounces, and opens.</li>
+  <li>Anthropic Console shows API usage and credit balance.</li>
+</ul>
+
+<h2 id="fileref">14. File-by-File Reference</h2>
+
+<h3>14.1 API endpoints (<code>src/pages/api/</code>)</h3>
+<table>
+  <thead><tr><th>File</th><th>Method</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>chat.ts</code></td><td>POST</td><td>Chatbot: builds prompt, calls Anthropic, returns reply.</td></tr>
+    <tr><td><code>chat-feedback.ts</code></td><td>POST</td><td>Stores user ratings of chatbot replies.</td></tr>
+    <tr><td><code>create-checkout-session.ts</code></td><td>GET, POST</td><td>Creates Stripe Checkout sessions for every product.</td></tr>
+    <tr><td><code>training-plan.ts</code></td><td>POST</td><td>Legacy training-plan endpoint. Still in codebase for backwards compat; no UI uses it.</td></tr>
+    <tr><td><code>programme-intake.ts</code></td><td>POST</td><td>Receives the intake form, detects red flags, generates teaser, stores in Postgres.</td></tr>
+    <tr><td><code>programme-preview.ts</code></td><td>GET</td><td>Returns teaser content for a given preview token.</td></tr>
+    <tr><td><code>programme-finalize.ts</code></td><td>POST</td><td>Verifies Stripe payment, generates full plan, emails it.</td></tr>
+  </tbody>
+</table>
+
+<h3>14.2 Library modules (<code>src/lib/</code>)</h3>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>db.ts</code></td><td>Postgres connection pool, exports the <code>sql</code> tagged template.</td></tr>
+    <tr><td><code>email-format.ts</code></td><td>Email HTML builders, signature, em-dash stripper, markdown-to-HTML converter.</td></tr>
+    <tr><td><code>plan-routing.ts</code></td><td>Single function that decides plan destination (Emily vs client) based on red flags and track.</td></tr>
+  </tbody>
+</table>
+
+<h3>14.3 Data files (<code>src/data/</code>)</h3>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>types.ts</code></td><td>TypeScript types shared across the training-plan system.</td></tr>
+    <tr><td><code>sport-profiles.ts</code></td><td>12 sport profiles + General Female Athlete fallback. Each defines energy systems, demands, injury hotspots, programming notes.</td></tr>
+    <tr><td><code>exercises.ts</code></td><td>Curated exercise library with category/equipment/level/contraindication tags. Provides <code>filterExercises()</code> helper.</td></tr>
+    <tr><td><code>red-flags.ts</code></td><td>Four pause-for-clinical-review flag rules with detection patterns and client messages.</td></tr>
+    <tr><td><code>program-tracks.ts</code></td><td>Pregnancy, postpartum, endometriosis, and return-to-play protocols with real-source citations.</td></tr>
+  </tbody>
+</table>
+
+<h3>14.4 Pages (<code>src/pages/</code>)</h3>
+<p>Top-level public pages:</p>
+<ul>
+  <li><code>index.astro</code> &mdash; homepage</li>
+  <li><code>about.astro</code> &mdash; About Emily</li>
+  <li><code>personal-training.astro</code> &mdash; product page for training programmes (intake form lives in a modal here)</li>
+  <li><code>gael-performance-toolkit.astro</code> &mdash; toolkit section landing page</li>
+  <li><code>workshops.astro</code> &mdash; workshop product list</li>
+  <li><code>pricing.astro</code> &mdash; consolidated pricing tables</li>
+  <li><code>contact-us.astro</code> &mdash; contact form (also has the intake modal)</li>
+  <li><code>resources.astro</code> &mdash; crisis support resources</li>
+  <li><code>meet-the-team.astro</code> &mdash; Emily's bio</li>
+  <li><code>programme-preview.astro</code> &mdash; teaser preview after intake submission</li>
+  <li><code>programme-success.astro</code> &mdash; post-payment landing for programme buyers</li>
+  <li><code>success.astro</code> &mdash; post-payment landing for subscription buyers</li>
+  <li><code>cancel.astro</code> &mdash; if user cancels Stripe checkout</li>
+</ul>
+
+<p>Content hub:</p>
+<ul>
+  <li><code>content-hub/index.astro</code> &mdash; content hub homepage</li>
+  <li><code>content-hub/training-the-mind.astro</code> &mdash; Training the Mind series listing</li>
+  <li><code>content-hub/strong-minds-stronger-players.astro</code> &mdash; SMSP listing</li>
+  <li><code>content-hub/gael-performance-toolkit.astro</code> &mdash; older Toolkit listing (kept for URL stability; the canonical Toolkit landing is now <code>/gael-performance-toolkit</code>)</li>
+  <li><code>content-hub/[...slug].astro</code> &mdash; dynamic route that renders any blog post by slug</li>
+</ul>
+
+<h2 id="glossary">15. Glossary</h2>
+
+<table>
+  <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+  <tbody>
+    <tr><td>Astro</td><td>The web framework Mind the Gael is built with. Produces static HTML for content pages and runs server endpoints for dynamic functionality.</td></tr>
+    <tr><td>API endpoint</td><td>A URL on the site that runs server-side code rather than returning a page (e.g. <code>/api/chat</code> processes a chatbot message).</td></tr>
+    <tr><td>Content collection</td><td>Astro's system for managing structured content (markdown files with frontmatter), used here for all blog posts and toolkit articles.</td></tr>
+    <tr><td>Edge / CDN</td><td>Vercel's global network of servers that serve the site quickly from a location near each visitor.</td></tr>
+    <tr><td>Environment variable</td><td>A piece of configuration (like an API key) that lives outside the code, set per environment (local dev, production).</td></tr>
+    <tr><td>Frontmatter</td><td>The YAML block at the top of a markdown file (between the two <code>---</code> lines) holding metadata like title and publish date.</td></tr>
+    <tr><td>Markdown</td><td>A plain-text formatting syntax for writing content (# for headers, ** for bold, etc.). All blog posts are written in markdown.</td></tr>
+    <tr><td>Postgres / Neon</td><td>The relational database the site uses. Provisioned through Vercel's Storage product; Neon is the underlying provider.</td></tr>
+    <tr><td>Preview token</td><td>The UUID stored in <code>intake_sessions</code> when an intake form is submitted. It carries through Stripe and is used by <code>/api/programme-finalize</code> to look up the intake.</td></tr>
+    <tr><td>Resend</td><td>The transactional email service used to send all platform emails.</td></tr>
+    <tr><td>Saoirse</td><td>The name of the chatbot. Greeted with a shamrock mascot of the same name.</td></tr>
+    <tr><td>Stripe Checkout</td><td>Stripe's hosted payment page. The site sends a buyer there with a session ID; Stripe handles the rest and redirects them back.</td></tr>
+    <tr><td>System prompt</td><td>The text sent to Claude AI at the start of every request, defining who the AI is and how to respond. Roughly equivalent to giving a new employee a brief on their role.</td></tr>
+    <tr><td>v1 / v2</td><td>v1 is the launch phase: every training plan goes to Emily for review before being sent to the client. v2 is autonomous: standard plans go straight to the client. Specialised tracks always route to Emily regardless.</td></tr>
+    <tr><td>Vercel</td><td>The hosting platform. Pulls code from GitHub, builds the site, serves it globally, runs the API endpoints as serverless functions.</td></tr>
+  </tbody>
+</table>
+
+<footer class="doc-footer">
+  <p>Mind the Gael &mdash; Technical Documentation &mdash; Generated 2026.</p>
+  <p>This document describes the platform as it stands at the time of writing. Mental Performance Plans are live and share infrastructure with the physical training plans (branched by <code>plan_type</code>). Architecture is subject to change as the v1 to v2 transition is made.</p>
+</footer>
+
+</body>
+</html>

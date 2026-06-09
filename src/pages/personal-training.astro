@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`Personal Training | ${SITE_TITLE}`} description="Exercise-based personal training for female athletes, with a special focus on women's health." />
+    <BaseHead title={`Performance Plans | ${SITE_TITLE}`} description="Performance plans for female athletes. Physical training plans + mental performance plans, all delivered online with a special focus on women's health." />
   </head>
   <body class="personal-training-page">
     <Header />
@@ -16,8 +16,56 @@ import { SITE_TITLE } from '../consts';
       <section class="intro">
         <div class="pt-band pt-band-intro">
           <div class="pt-band-inner">
-            <h1>Online Personal Training</h1>
-            <p>The Mind the Gael personal training offering is delivered as a 6-week or 12-week online programme, built around women's health for female athletes. You receive a full plan to follow at your own pace. There are no scheduled check-ins. Performance and mental wellbeing show up in this work, but the focus here is physical training. If you want to talk through your plan once you have it, you can book an optional chat.</p>
+            <h1>Performance Plans</h1>
+            <p>Two performance plans, both delivered fully online and built around women's health for female athletes. The physical training plan is exercise-based: strength, conditioning, recovery, sport-specific work. The mental performance plan focuses on confidence, focus, routines, and staying composed under pressure. Each plan runs as a 6-week or 12-week programme. You receive a full plan to follow at your own pace, with no scheduled check-ins. If you want to talk through your plan once you have it, you can book an optional chat.</p>
+          </div>
+        </div>
+
+        <div class="pt-band pt-band-pricing pt-band-mental">
+          <div class="pt-band-inner">
+            <h2 id="mental-performance-plans" class="pricing-heading">Mental Performance Plans</h2>
+            <p class="pricing-intro">Built around your sport, your routines, and the performance moments you want to work on. Confidence, focus, pre-game nerves, recovery from mistakes, staying composed under pressure.</p>
+            <div class="plan-option-list">
+              <article class="plan-option-item">
+                <h3>6-Week Mental Performance Plan</h3>
+                <p class="plan-option-price">£10</p>
+                <p>A 6-week online mental performance plan built around your sport, your routines, and the moments you want to work on: pre-game nerves, focus during play, recovery from mistakes.</p>
+                <h4>What you get</h4>
+                <ul class="plan-option-list-bullets">
+                  <li>6 weekly themes drawn from the 12 Gael Performance Toolkit areas, picked to match what you shared in the intake</li>
+                  <li>A weekly concept explainer in plain English, with named frameworks and academic sources where they apply</li>
+                  <li>A daily practice table (5-10 minutes a day, 7 days a week) you can do at home, in the car, or before training</li>
+                  <li>A "performance moment to apply it" each week, anchored to a real session or match moment in your week</li>
+                  <li>A weekly reflection prompt so you can track what is shifting</li>
+                  <li>A Routines to Build section: pre-performance routine, refocus routine, post-mistake reset cue, all built around your sport</li>
+                  <li>Coach notes for each week (why this week comes here, what to watch for, when to adjust)</li>
+                  <li>A Things to Track checklist (confidence, refocus speed, sleep before competition)</li>
+                  <li>Optional follow-up chat if you want to talk it through once you have read it</li>
+                </ul>
+                <p class="plan-option-best-for"><strong>Best for:</strong> one focused mental skill arc — a championship run, a confidence reset, returning from a tough patch.</p>
+              </article>
+              <article class="plan-option-item">
+                <h3>12-Week Mental Performance Plan</h3>
+                <p class="plan-option-price">£20</p>
+                <p>A 12-week online mental performance plan for longer arcs: pre-season mental prep, post-injury return, or sustained mental skill development.</p>
+                <h4>What you get</h4>
+                <ul class="plan-option-list-bullets">
+                  <li>12 weekly themes spanning the full Gael Performance Toolkit (confidence, focus, routines, self-talk, visualisation, motivation, recovery from mistakes, team pressure, return from injury, long-term mental development)</li>
+                  <li>A weekly concept explainer in plain English, with named frameworks and academic sources</li>
+                  <li>A daily practice table for every week, scaling complexity as the plan progresses</li>
+                  <li>A "performance moment to apply it" each week, mapped to your training and match calendar</li>
+                  <li>A weekly reflection prompt</li>
+                  <li>A Routines to Build section that layers across the 12 weeks (week 1's breathing becomes week 6's full pre-game routine, becomes week 12's championship-ready protocol)</li>
+                  <li>Coach notes for each of the 12 weeks</li>
+                  <li>A Things to Track checklist</li>
+                  <li>Optional follow-up chat if you want to talk it through</li>
+                </ul>
+                <p class="plan-option-best-for"><strong>Best for:</strong> a full block of mental skill development — a season build, a return from injury, or laying foundations that hold for the long term.</p>
+              </article>
+            </div>
+            <h3 class="start-plan-heading">Start your plan</h3>
+            <p class="consultation-note">Start your mental performance plan by filling in the intake form below. Your plan is built around what you share, then emailed straight to you. Please include as much detail as possible so your programme matches your sport, routines, and goals.</p>
+            <button type="button" class="consultation-btn" id="open-mental-modal">Start a Mental Performance Plan</button>
           </div>
         </div>
 
@@ -25,9 +73,9 @@ import { SITE_TITLE } from '../consts';
           <div class="pt-band-inner">
             <div class="training-highlight">
               <div class="training-highlight-copy">
-                <h2>Training built around your sport and your body, not a generic programme</h2>
+                <h2>Physical training to complement your mental performance plan</h2>
                 <p>
-                  Every plan is built to be practical and to stick. Clear progression across strength, recovery, and the demands of your sport. Not a generic plan that ignores how you actually train and live.
+                  Once your mental plan is in place, your physical training can reinforce it. Clear progression across strength, recovery, and sport-specific demands helps you apply confidence, focus, and routines under real training and match pressure.
                 </p>
               </div>
               <div class="training-highlight-media">
@@ -60,31 +108,47 @@ import { SITE_TITLE } from '../consts';
           </div>
         </div>
 
-        <div class="pt-band pt-band-pricing">
+        <div class="pt-band pt-band-pricing pt-band-physical">
           <div class="pt-band-inner">
-            <h2 class="pricing-heading">Personal Training Pricing</h2>
-            <div class="pricing-table-wrap">
-              <table class="pricing-table">
-                <thead>
-                  <tr>
-                    <th>Option</th>
-                    <th>Price</th>
-                    <th>Includes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>6-Week Online Programme</td>
-                    <td>£10</td>
-                    <td>A 6-week online training programme built around your sport, your equipment, and your goals. Delivered as a full plan to follow at your own pace, with no scheduled check-ins. Optional follow-up chat available if you'd like to discuss your plan.</td>
-                  </tr>
-                  <tr>
-                    <td>12-Week Online Programme</td>
-                    <td>£20</td>
-                    <td>A 12-week online training programme for longer arcs: pre-season builds, return-to-play phases, or extended training blocks. Same self-paced delivery, with optional follow-up chat if you want to talk it through.</td>
-                  </tr>
-                </tbody>
-              </table>
+            <h2 class="pricing-heading">Physical Performance Plans</h2>
+            <p class="pricing-intro">Exercise-based training plans built around your sport, your equipment, and women's health. Strength, conditioning, recovery, and sport-specific work, delivered as a full plan to follow at your own pace.</p>
+            <div class="plan-option-list">
+              <article class="plan-option-item">
+                <h3>6-Week Physical Training Plan</h3>
+                <p class="plan-option-price">£10</p>
+                <p>A 6-week online training plan built around your sport, your equipment, and your goals. Strength, conditioning, recovery, and sport-specific work. Delivered as a full plan to follow at your own pace, with no scheduled check-ins.</p>
+                <h4>What you get</h4>
+                <ul class="plan-option-list-bullets">
+                  <li>6 weeks of structured training built around your sport, equipment, and the frequency your schedule allows</li>
+                  <li>Every session laid out in a clear table (exercise, sets, reps, RPE, rest) with a plain-English description of every movement</li>
+                  <li>At least one planned deload week for recovery</li>
+                  <li>A cycle-aware programming note each week (where heavier work fits, where mobility and aerobic work fit)</li>
+                  <li>Specialised tracks where they apply: pregnancy, postpartum, endometriosis, return-to-play (each backed by recognised guidance like POGP and Aspetar)</li>
+                  <li>Coach notes for each week (progression rationale, what to watch for, when to adjust)</li>
+                  <li>A list of any exercises excluded for your safety, with the substitutes used in their place</li>
+                  <li>A Things to Track section so you can report back on how it landed</li>
+                  <li>Optional follow-up chat if you want to talk it through</li>
+                </ul>
+                <p class="plan-option-best-for"><strong>Best for:</strong> a focused training block — pre-season ramp, getting back into structure, or a short specific goal.</p>
+              </article>
+              <article class="plan-option-item">
+                <h3>12-Week Physical Training Plan</h3>
+                <p class="plan-option-price">£20</p>
+                <p>A 12-week online training plan for longer arcs: pre-season builds, return-to-play phases, or extended training blocks. Same self-paced delivery, with optional follow-up chat if you want to talk it through.</p>
+                <h4>What you get</h4>
+                <ul class="plan-option-list-bullets">
+                  <li>12 weeks of structured progression with clear phases (accumulation, intensification, peak/taper, deloads)</li>
+                  <li>Every session laid out in a table, every exercise described in plain English</li>
+                  <li>Built-in deload weeks at the right points (not just bolted on at the end)</li>
+                  <li>Cycle-aware notes that shift across the longer arc</li>
+                  <li>Specialised tracks where they apply, with the longer block giving room for true progression</li>
+                  <li>Coach notes for each of the 12 weeks</li>
+                  <li>A list of exercises excluded for your safety, with substitutes</li>
+                  <li>A Things to Track section</li>
+                  <li>Optional follow-up chat</li>
+                </ul>
+                <p class="plan-option-best-for"><strong>Best for:</strong> a full block — pre-season build, return-to-play phase, postpartum rebuild, or any time you want progression that lasts longer than a six-week burst.</p>
+              </article>
             </div>
           </div>
         </div>
@@ -92,11 +156,13 @@ import { SITE_TITLE } from '../consts';
         <div class="pt-band pt-band-booking">
           <div class="pt-band-inner">
             <section class="consultation-cta" aria-labelledby="consultation-heading">
-              <h2 id="consultation-heading" class="calendar-heading">Start your programme</h2>
+              <h2 id="consultation-heading" class="calendar-heading">Start your plan</h2>
               <p class="calendar-copy">
-                Fill in the intake form to share your details, your sport, and your goals. I'll come back to you within 48 hours with your plan. If you'd rather email me directly, you can reach me at emilyphelan@mindthegael.co.uk.
+                Start your physical training plan by filling in the intake form below. Your plan is built around what you share, then emailed straight to you. Please include as much detail as possible so your programme matches your sport, schedule, and goals. If you'd rather email me directly, you can reach me at emilyphelan@mindthegael.co.uk.
               </p>
-              <button type="button" class="consultation-btn" id="open-consultation-modal">Start the Intake Form</button>
+              <div class="consultation-btn-row">
+                <button type="button" class="consultation-btn" id="open-consultation-modal">Start a Physical Training Plan</button>
+              </div>
               <p class="consultation-note">The intake form opens in a pop-up when you click the button above.</p>
             </section>
           </div>
@@ -302,6 +368,11 @@ import { SITE_TITLE } from '../consts';
               </label>
 
               <label>
+                Are you also doing a Mind the Gael Mental Performance Plan? (optional)
+                <textarea name="companionPlanSummary" rows="3" placeholder="If yes, paste the highlights or give a short summary (e.g. weekly themes, routines you are building, performance moments you are working on). Your physical plan will be built to reinforce it."></textarea>
+              </label>
+
+              <label>
                 Anything else we should know? (optional)
                 <textarea name="anythingElse" rows="2" placeholder="A catchall. Anything that didn't fit above, or anything you'd want Emily to know before building your plan"></textarea>
               </label>
@@ -316,10 +387,223 @@ import { SITE_TITLE } from '../consts';
           </form>
         </div>
       </div>
+
+      <div class="consultation-modal-backdrop" id="mental-modal-backdrop" aria-hidden="true">
+        <div class="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="mental-modal-title">
+          <button type="button" class="consultation-close" id="close-mental-modal" aria-label="Close mental performance form">✕</button>
+          <h2 id="mental-modal-title">Mental Performance Plan Intake</h2>
+          <p class="consultation-intro">Tell me about your sport, your competitive history, and the performance moments you want to work on. Your plan is built around what you share here.</p>
+
+          <form id="mental-form" class="consultation-form">
+            <div class="consultation-grid">
+              <label>
+                Full Name
+                <input type="text" name="name" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+              <label>
+                Phone (optional)
+                <input type="tel" name="phone" />
+              </label>
+              <label>
+                Sport / Team
+                <input type="text" name="sport" required />
+              </label>
+            </div>
+
+            <div class="progression-plan-fields">
+              <h3>Your Competitive Background</h3>
+              <p class="plan-fields-intro">A bit of context on where you are competing and how long you have been at it. This shapes the level your plan is pitched at.</p>
+
+              <div class="plan-basic-fields">
+                <label>
+                  Competition Level
+                  <select name="competitionLevel" required>
+                    <option value="">Select level</option>
+                    <option value="Recreational / Local club">Recreational / Local club</option>
+                    <option value="Club">Club</option>
+                    <option value="County / Regional">County / Regional</option>
+                    <option value="Inter-county / National">Inter-county / National</option>
+                    <option value="International">International</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </label>
+                <label>
+                  Years competing in your main sport
+                  <select name="yearsCompeting">
+                    <option value="">Select</option>
+                    <option value="Less than 1 year">Less than 1 year</option>
+                    <option value="1-3 years">1-3 years</option>
+                    <option value="3-5 years">3-5 years</option>
+                    <option value="5-10 years">5-10 years</option>
+                    <option value="10+ years">10+ years</option>
+                  </select>
+                </label>
+                <label>
+                  Plan Duration
+                  <select name="planDuration" required>
+                    <option value="">Select duration</option>
+                    <option value="6 weeks">6-Week Plan</option>
+                    <option value="12 weeks">12-Week Plan</option>
+                  </select>
+                </label>
+                <label>
+                  Current confidence level (1-10)
+                  <select name="confidenceLevel">
+                    <option value="">Select</option>
+                    <option value="1">1 - very low</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - middle</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10 - very high</option>
+                  </select>
+                </label>
+              </div>
+
+              <label class="plan-goals-label">
+                Which performance moments do you want to work on? (select all that apply)
+                <div class="plan-checkbox-group">
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Pre-game nerves" />
+                    <span>Pre-game nerves and pressure</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Confidence" />
+                    <span>Building and holding confidence</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Focus during play" />
+                    <span>Focus and concentration during play</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Recovery from mistakes" />
+                    <span>Recovering from mistakes mid-game</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Pre-performance routines" />
+                    <span>Pre-performance routines</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Self-talk" />
+                    <span>Self-talk under fatigue</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Visualisation" />
+                    <span>Visualisation and imagery</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Motivation" />
+                    <span>Motivation and goal setting</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Team and social pressure" />
+                    <span>Team and social pressure</span>
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" name="performanceMoments" value="Return from injury" />
+                    <span>Mental return from injury</span>
+                  </label>
+                </div>
+              </label>
+
+              <label>
+                Any current mental performance routines you already use? (optional)
+                <textarea name="currentRoutines" rows="2" placeholder="e.g. breathing before warm-up, visualisation the night before, a phrase you say to yourself, journaling. Or none."></textarea>
+              </label>
+
+              <label>
+                A peak moment you've had in your sport (optional)
+                <textarea name="peakMoment" rows="3" placeholder="A moment you felt fully on top of things. What was happening, what did it feel like, what were you doing differently?"></textarea>
+              </label>
+
+              <label>
+                A struggle moment you've had in your sport (optional)
+                <textarea name="struggleMoment" rows="3" placeholder="A moment things felt off. What happened, what was running through your head, what would you want to change about that response?"></textarea>
+              </label>
+
+              <label class="consultation-full-width">
+                What do you most want this plan to help you with?
+                <textarea name="goals" rows="4" required placeholder="Be specific. What does success look like for you by the end of this plan?"></textarea>
+              </label>
+
+              <label>
+                Are you also doing a Mind the Gael Physical Training Plan? (optional)
+                <textarea name="companionPlanSummary" rows="3" placeholder="If yes, paste the highlights or give a short summary (e.g. session split, focus areas, weeks completed). Your mental plan will be built to apply directly to those training and match moments."></textarea>
+              </label>
+
+              <label>
+                Anything else I should know? (optional)
+                <textarea name="anythingElse" rows="2" placeholder="A catchall. Anything that didn't fit above."></textarea>
+              </label>
+            </div>
+
+            <label class="consultation-consent">
+              <input type="checkbox" name="consent" required />
+              <span>I consent to being contacted about my mental performance plan.</span>
+            </label>
+
+            <button type="submit" class="consultation-submit">Submit Mental Performance Intake</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="intake-loading-overlay" id="intake-loading-overlay" aria-hidden="true" role="status">
+        <div class="intake-loading-card">
+          <div class="intake-loading-spinner" aria-hidden="true"></div>
+          <p class="intake-loading-title">Building your preview</p>
+          <p class="intake-loading-status" id="intake-loading-status">Reading your details...</p>
+          <p class="intake-loading-footnote">This usually takes a few seconds.</p>
+        </div>
+      </div>
     </main>
     <Footer />
 
     <script is:inline>
+      // ── Shared intake-submit loading overlay ──
+      // Both the mental and physical intake forms route through Anthropic
+      // for a teaser. The wait is short (~2-3s on Haiku) but feels long if
+      // the page looks frozen. The overlay rotates short status messages
+      // so the wait feels intentional.
+      const intakeLoadingOverlay = document.getElementById('intake-loading-overlay');
+      const intakeLoadingStatus = document.getElementById('intake-loading-status');
+      const INTAKE_LOADING_STEPS = [
+        'Reading your details...',
+        'Picking your weekly themes...',
+        'Building your preview...',
+        'Almost there...',
+      ];
+      let intakeLoadingTimer = null;
+
+      const startIntakeLoading = () => {
+        if (!intakeLoadingOverlay) return;
+        intakeLoadingOverlay.classList.add('active');
+        intakeLoadingOverlay.setAttribute('aria-hidden', 'false');
+        let step = 0;
+        if (intakeLoadingStatus) intakeLoadingStatus.textContent = INTAKE_LOADING_STEPS[0];
+        intakeLoadingTimer = window.setInterval(() => {
+          step = Math.min(step + 1, INTAKE_LOADING_STEPS.length - 1);
+          if (intakeLoadingStatus) intakeLoadingStatus.textContent = INTAKE_LOADING_STEPS[step];
+        }, 1800);
+      };
+
+      const stopIntakeLoading = () => {
+        if (!intakeLoadingOverlay) return;
+        intakeLoadingOverlay.classList.remove('active');
+        intakeLoadingOverlay.setAttribute('aria-hidden', 'true');
+        if (intakeLoadingTimer) {
+          window.clearInterval(intakeLoadingTimer);
+          intakeLoadingTimer = null;
+        }
+      };
+
       const openModalBtn = document.getElementById('open-consultation-modal');
       const closeModalBtn = document.getElementById('close-consultation-modal');
       const modalBackdrop = document.getElementById('consultation-modal-backdrop');
@@ -371,6 +655,7 @@ import { SITE_TITLE } from '../consts';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
           }
+          startIntakeLoading();
 
           const formData = new FormData(consultationForm);
           const name = String(formData.get('name') || '').trim();
@@ -425,6 +710,7 @@ import { SITE_TITLE } from '../consts';
             currentWeek: String(formData.get('currentWeek') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
             currentActivityLevel: String(formData.get('planActivityLevel') || '').trim() || undefined,
+            companionPlanSummary: String(formData.get('companionPlanSummary') || '').trim() || undefined,
           });
 
           // Submit to the new preview-then-buy endpoint. On success we redirect
@@ -468,6 +754,121 @@ import { SITE_TITLE } from '../consts';
               submitBtn.disabled = false;
               submitBtn.textContent = originalSubmitLabel || 'Submit Consultation Request';
             }
+            stopIntakeLoading();
+          }
+        });
+      }
+
+      // ── Mental Performance Plan modal + form ──
+
+      const openMentalBtn = document.getElementById('open-mental-modal');
+      const closeMentalBtn = document.getElementById('close-mental-modal');
+      const mentalBackdrop = document.getElementById('mental-modal-backdrop');
+      const mentalForm = document.getElementById('mental-form');
+
+      const openMental = () => {
+        if (!mentalBackdrop) return;
+        mentalBackdrop.classList.add('active');
+        mentalBackdrop.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeMental = () => {
+        if (!mentalBackdrop) return;
+        mentalBackdrop.classList.remove('active');
+        mentalBackdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      if (openMentalBtn) openMentalBtn.addEventListener('click', openMental);
+      if (closeMentalBtn) closeMentalBtn.addEventListener('click', closeMental);
+      if (mentalBackdrop) {
+        mentalBackdrop.addEventListener('click', (event) => {
+          if (event.target === mentalBackdrop) closeMental();
+        });
+      }
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMental();
+      });
+
+      if (mentalForm instanceof HTMLFormElement) {
+        mentalForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          const submitBtn = mentalForm.querySelector('.consultation-submit');
+          const originalSubmitLabel = submitBtn ? submitBtn.textContent : '';
+          if (submitBtn instanceof HTMLButtonElement) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+          }
+          startIntakeLoading();
+
+          const formData = new FormData(mentalForm);
+
+          const performanceMoments = [];
+          formData.getAll('performanceMoments').forEach((m) => {
+            performanceMoments.push(String(m));
+          });
+
+          const requestData = {
+            planType: 'mental',
+            name: String(formData.get('name') || '').trim(),
+            email: String(formData.get('email') || '').trim(),
+            phone: String(formData.get('phone') || '').trim() || undefined,
+            sport: String(formData.get('sport') || '').trim(),
+            goals: String(formData.get('goals') || '').trim(),
+            includeProgressionPlan: true,
+            planDuration: String(formData.get('planDuration') || '').trim() || undefined,
+            competitionLevel: String(formData.get('competitionLevel') || '').trim() || undefined,
+            yearsCompeting: String(formData.get('yearsCompeting') || '').trim() || undefined,
+            confidenceLevel: String(formData.get('confidenceLevel') || '').trim() || undefined,
+            performanceMomentsToWorkOn: performanceMoments,
+            currentRoutines: String(formData.get('currentRoutines') || '').trim() || undefined,
+            peakMoment: String(formData.get('peakMoment') || '').trim() || undefined,
+            struggleMoment: String(formData.get('struggleMoment') || '').trim() || undefined,
+            companionPlanSummary: String(formData.get('companionPlanSummary') || '').trim() || undefined,
+            anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
+          };
+
+          try {
+            const response = await fetch('/api/programme-intake', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(requestData),
+            });
+
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok && result.reason !== 'red_flag') {
+              throw new Error(result.message || 'Submission failed.');
+            }
+
+            if (result.success && result.previewToken) {
+              closeMental();
+              mentalForm.reset();
+              window.location.href = '/programme-preview?token=' + encodeURIComponent(result.previewToken);
+              return;
+            }
+
+            if (result.reason === 'red_flag' && result.message) {
+              closeMental();
+              mentalForm.reset();
+              alert(result.message);
+              return;
+            }
+
+            alert('Error: ' + (result.message || 'Something went wrong'));
+          } catch (error) {
+            console.error('Error:', error);
+            const message = error instanceof Error
+              ? error.message
+              : 'Failed to submit your request. Please try again or contact me directly at emilyphelan@mindthegael.co.uk';
+            alert(message);
+          } finally {
+            if (submitBtn instanceof HTMLButtonElement) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalSubmitLabel || 'Submit Mental Performance Intake';
+            }
+            stopIntakeLoading();
           }
         });
       }
@@ -491,7 +892,7 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pt-band-focus {
-    background: #ffffff;
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.98) 0%, rgba(3, 10, 6, 0.9) 100%);
     padding: 0;
   }
 
@@ -503,8 +904,12 @@ import { SITE_TITLE } from '../consts';
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
+  .pt-band-mental {
+    background: #ffffff;
+  }
+
   .pt-band-focus-areas {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+    background: #ffffff;
   }
 
   .pt-band-booking {
@@ -531,11 +936,11 @@ import { SITE_TITLE } from '../consts';
 
   .pt-band-focus p,
   .pt-band-focus .training-highlight-copy p {
-    color: var(--green-dark);
+    color: var(--green-lime);
   }
 
   .pt-band-focus .training-highlight-copy h2 {
-    color: var(--purple);
+    color: var(--green-lime);
   }
 
   .pt-band-focus-areas p,
@@ -546,16 +951,83 @@ import { SITE_TITLE } from '../consts';
     color: var(--green-light);
   }
 
+  .pt-band-focus-areas p,
+  .pt-band-focus-areas .focus-card p {
+    color: var(--green-dark);
+  }
+
+  .pt-band-mental .pricing-heading {
+    color: var(--purple);
+  }
+
+  .pt-band-mental .pricing-intro,
+  .pt-band-mental .plan-option-item h3,
+  .pt-band-mental .plan-option-item p {
+    color: var(--green-dark);
+  }
+
+  .pt-band-mental .plan-option-item {
+    background: var(--green-dark);
+    border-color: rgba(192, 254, 113, 0.45);
+  }
+
+  .pt-band-mental .plan-option-item h3 {
+    color: var(--green-lime);
+  }
+
+  .pt-band-mental .plan-option-item p {
+    color: var(--green-light);
+  }
+
+  .pt-band-mental .plan-option-price {
+    color: var(--green-lime) !important;
+  }
+
+  .pt-band-mental .plan-option-item h4 {
+    color: var(--green-lime);
+  }
+
+  .pt-band-mental .plan-option-list-bullets,
+  .pt-band-mental .plan-option-list-bullets li {
+    color: var(--green-light);
+  }
+
+  .pt-band-mental .plan-option-best-for {
+    color: var(--green-light);
+    border-top-color: rgba(192, 254, 113, 0.35);
+  }
+
+  .pt-band-mental .plan-option-best-for strong {
+    color: var(--green-lime);
+  }
+
+  .pt-band-mental .start-plan-heading {
+    margin: 1.5rem 0 0.45rem;
+    color: var(--purple);
+    font-size: 1.22rem;
+  }
+
+  .pt-band-mental .consultation-note {
+    margin-top: 0;
+    margin-bottom: 0.85rem;
+    max-width: 64ch;
+    color: var(--green-dark);
+  }
+
+  .pt-band-mental #open-mental-modal {
+    margin-top: 1rem;
+  }
+
   .pt-band-booking .calendar-heading {
     color: var(--green-lime);
   }
 
   .pt-band-focus-areas .focus-card h3 {
-    color: var(--green-lime);
+    color: var(--purple);
   }
 
   .pt-band-focus-areas .focus-card p {
-    color: var(--green-light);
+    color: var(--green-dark);
   }
 
   .pt-band-booking .calendar-copy,
@@ -564,8 +1036,83 @@ import { SITE_TITLE } from '../consts';
   }
 
   .pricing-heading {
-    margin: 0 0 0.9rem;
+    margin: 0 0 0.4rem;
     color: var(--green-lime);
+  }
+
+  .pricing-intro {
+    margin: 0 0 0.9rem;
+    color: var(--green-light);
+    max-width: 64ch;
+    line-height: 1.5;
+  }
+
+  .plan-option-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .plan-option-item {
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.25);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .plan-option-item h3 {
+    margin: 0 0 0.5rem;
+    color: var(--purple);
+    font-size: 1.1rem;
+  }
+
+  .plan-option-item p {
+    margin: 0;
+    color: var(--green-dark);
+    line-height: 1.55;
+  }
+
+  .plan-option-item p + p,
+  .plan-option-item p + ul,
+  .plan-option-item h4 + ul {
+    margin-top: 0.6rem;
+  }
+
+  .plan-option-price {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--green-dark) !important;
+    margin: 0 0 0.6rem !important;
+    letter-spacing: 0.02em;
+  }
+
+  .plan-option-item h4 {
+    margin: 1rem 0 0.4rem;
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--purple);
+  }
+
+  .plan-option-list-bullets {
+    margin: 0 0 0.6rem;
+    padding-left: 1.1rem;
+    color: var(--green-dark);
+    line-height: 1.55;
+  }
+
+  .plan-option-list-bullets li {
+    margin-bottom: 0.35rem;
+  }
+
+  .plan-option-best-for {
+    margin-top: 0.8rem !important;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.18);
+    font-size: 0.95rem;
+    color: var(--green-dark);
   }
 
   .pricing-table-wrap {
@@ -640,6 +1187,13 @@ import { SITE_TITLE } from '../consts';
     color: var(--green-dark);
   }
 
+  .consultation-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0 0 0.5rem;
+  }
+
   .consultation-btn {
     display: inline-block;
     margin: 0 0 1rem;
@@ -653,6 +1207,10 @@ import { SITE_TITLE } from '../consts';
     line-height: 1.2;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .consultation-btn-row .consultation-btn {
+    margin: 0;
   }
 
   .consultation-btn:hover {
@@ -766,6 +1324,10 @@ import { SITE_TITLE } from '../consts';
       grid-template-columns: 1fr;
     }
 
+    .plan-option-list {
+      grid-template-columns: 1fr;
+    }
+
     .calendar-embed-wrap iframe {
       height: 760px;
     }
@@ -843,6 +1405,72 @@ import { SITE_TITLE } from '../consts';
     z-index: 3000;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .intake-loading-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 10, 6, 0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+    padding: 1.5rem;
+  }
+
+  .intake-loading-overlay.active {
+    display: flex;
+  }
+
+  .intake-loading-card {
+    background: var(--green-dark);
+    color: var(--green-light);
+    border: 2px solid var(--green-lime);
+    border-radius: 16px;
+    padding: 2.2rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  .intake-loading-spinner {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 4px solid rgba(192, 254, 113, 0.25);
+    border-top-color: var(--green-lime);
+    margin: 0 auto 1.1rem;
+    animation: intake-spin 0.9s linear infinite;
+  }
+
+  .intake-loading-title {
+    margin: 0 0 0.4rem;
+    color: var(--green-lime);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .intake-loading-status {
+    margin: 0 0 0.9rem;
+    color: var(--green-light);
+    font-size: 1rem;
+    min-height: 1.5em;
+    transition: opacity 0.2s ease;
+  }
+
+  .intake-loading-footnote {
+    margin: 0;
+    color: rgba(244, 255, 232, 0.7);
+    font-size: 0.88rem;
+  }
+
+  @keyframes intake-spin {
+    to { transform: rotate(360deg); }
   }
 
   .consultation-modal-backdrop.active {

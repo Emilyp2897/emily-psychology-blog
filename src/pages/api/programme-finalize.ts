@@ -42,8 +42,9 @@ export const POST: APIRoute = async ({ request }) => {
       programme_track: ProgramTrackId | null;
       finalized_at: string | null;
       red_flag_id: string | null;
+      plan_type: 'physical' | 'mental' | null;
     }>`
-      SELECT intake_data, programme_track, finalized_at, red_flag_id
+      SELECT intake_data, programme_track, finalized_at, red_flag_id, plan_type
       FROM intake_sessions
       WHERE id = ${token}::uuid
       LIMIT 1
@@ -77,41 +78,73 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 3. Generate the FULL plan.
+    // 3. Generate the FULL plan. Branch on plan type.
     const intake = row.intake_data;
+    const planType = row.plan_type || 'physical';
     const track = (row.programme_track || 'standard') as ProgramTrackId;
-
     const sportProfile = findSportProfile(intake.sport || '');
-    const level = normaliseLevel(intake.exerciseLevel);
-    const equipmentTags = expandEquipmentTags(intake.equipment);
-    const avoidIfTags = detectAvoidIfTags({
-      injuries: intake.injuries,
-      medicalConditions: intake.medicalConditions,
-      issuesWorries: intake.issuesWorries,
-      cycleStatus: intake.cycleStatus,
-      programTrack: intake.programTrack,
-    });
-    const exercisePool = filterExercises({
-      equipment: equipmentTags,
-      level,
-      avoidIfTags,
-    });
 
-    const fullPlan = await generateFullPlan({
+    let fullPlan: string;
+    if (planType === 'mental') {
+      fullPlan = await generateMentalFullPlan({ intake });
+    } else {
+      const level = normaliseLevel(intake.exerciseLevel);
+      const equipmentTags = expandEquipmentTags(intake.equipment);
+      const avoidIfTags = detectAvoidIfTags({
+        injuries: intake.injuries,
+        medicalConditions: intake.medicalConditions,
+        issuesWorries: intake.issuesWorries,
+        cycleStatus: intake.cycleStatus,
+        programTrack: intake.programTrack,
+      });
+      const exercisePool = filterExercises({
+        equipment: equipmentTags,
+        level,
+        avoidIfTags,
+      });
+      fullPlan = await generateFullPlan({
+        intake,
+        track,
+        sportProfile,
+        exercisePool,
+        avoidIfTags,
+      });
+    }
+
+    // 4. Decide where the plan goes.
+    //
+    // Default (v1, currently active): plans go to Emily only for review. The
+    // customer receives a short holding confirmation so they know payment
+    // landed and the plan is being reviewed.
+    //
+    // To flip to v2 (autonomous), set PLAN_DESTINATION_STANDARD=client in
+    // Vercel environment variables. Specialised physical tracks (pregnancy,
+    // postpartum, endometriosis, return-to-play) always route to Emily
+    // regardless, per the long-standing routing rule.
+    const standardDestination = readStandardDestination();
+    const isSpecialisedPhysicalTrack = planType === 'physical' && track !== 'standard';
+    const sendFullPlanToClient = standardDestination === 'client' && !isSpecialisedPhysicalTrack;
+
+    // 5. Email Emily a notification copy (always).
+    await sendEmilyNotification({
       intake,
-      track,
+      fullPlan,
       sportProfile,
-      exercisePool,
-      avoidIfTags,
+      track,
+      sessionId,
+      token,
+      planType,
+      reviewRequired: !sendFullPlanToClient,
     });
 
-    // 4. Email the client.
-    await sendClientPlanEmail({ intake, fullPlan, sportProfile });
+    // 6. Email the client.
+    if (sendFullPlanToClient) {
+      await sendClientPlanEmail({ intake, fullPlan, sportProfile });
+    } else {
+      await sendClientHoldingEmail({ intake, planType });
+    }
 
-    // 5. Email Emily a notification copy.
-    await sendEmilyNotification({ intake, fullPlan, sportProfile, track, sessionId, token });
-
-    // 6. Mark intake session finalized.
+    // 7. Mark intake session finalized.
     await sql`
       UPDATE intake_sessions
       SET finalized_at = NOW(), stripe_session_id = ${sessionId}
@@ -120,7 +153,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     return json({
       success: true,
-      message: 'Your plan has been generated and emailed to you. Check your inbox.',
+      message: sendFullPlanToClient
+        ? 'Your plan has been generated and emailed to you. Check your inbox.'
+        : 'Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.',
     });
   } catch (error: any) {
     console.error('Programme finalize error:', error);
@@ -180,6 +215,161 @@ async function generateFullPlan(input: {
 
   // Strip em-dashes the model may have emitted despite the prompt rule.
   return stripDashes(raw);
+}
+
+// ─── Mental performance plan generation ─────────────────────────────
+
+async function generateMentalFullPlan(input: {
+  intake: ConsultationWithPlanRequest;
+}): Promise<string> {
+  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing ANTHROPIC_API_KEY environment variable.');
+  }
+
+  const model =
+    import.meta.env.ANTHROPIC_MODEL_PLAN ||
+    import.meta.env.ANTHROPIC_MODEL ||
+    'claude-sonnet-4-5';
+
+  const client = new Anthropic({ apiKey });
+
+  const is12Week = (input.intake.planDuration || '').includes('12');
+  const maxTokens = is12Week ? 12000 : 6000;
+
+  const response = await client.messages.create({
+    model,
+    temperature: 0.5,
+    max_tokens: maxTokens,
+    system: [
+      { type: 'text', text: buildMentalSystemPrompt(), cache_control: { type: 'ephemeral' } },
+    ],
+    messages: [{ role: 'user', content: buildMentalPlanPrompt(input) }],
+  });
+
+  const raw = response.content
+    .filter((block) => block.type === 'text')
+    .map((block) => block.text)
+    .join('\n')
+    .trim();
+
+  return stripDashes(raw);
+}
+
+function buildMentalSystemPrompt(): string {
+  return [
+    'You are the mental performance planning assistant for Mind the Gael, an online platform run by Emily Phelan that focuses on women\'s health and performance for female athletes.',
+    '',
+    'You are generating the FULL mental performance plan for a client who has just paid. This plan goes directly to the client. There is no human review step. Make it complete, accurate, clear, and practical.',
+    '',
+    'You are NOT a clinician. You do NOT diagnose. You DO note any limitations and route the athlete to qualified support where appropriate.',
+    '',
+    'KNOWLEDGE BASE. Build your plan on the 12 themes of the Gael Performance Toolkit, used by Mind the Gael across the 12-month editorial calendar:',
+    '1. Pressure and performance anxiety (choking under pressure, pre-game nerves, breath control, reframing arousal).',
+    '2. Attention and focus (attention control theory, narrow vs broad focus, refocusing routines after errors).',
+    '3. Confidence (self-efficacy sources, evidence logs, recovering confidence after setbacks).',
+    '4. Identity and pressure (multiple selves, athlete identity as one part of you, deidentification under high stakes).',
+    '5. Motivation (intrinsic vs extrinsic, autonomous motivation, values-based goal setting, self-determination theory).',
+    '6. Pre-performance routines (anchoring, ritual vs superstition, building a routine that scales to pressure).',
+    '7. Self-talk (instructional vs motivational, switching internal voice under fatigue, second-person framing).',
+    '8. Recovery from mistakes (the next-play mindset, behavioural reset cues, error tolerance).',
+    '9. Visualisation and imagery (PETTLEP model, internal vs external imagery, layering somatic detail).',
+    '10. Team and social pressure (social identity, group dynamics, communicating under load).',
+    '11. Injury and return-to-play psychology (identity disruption, kinesiophobia, staged psychological return).',
+    '12. Long-term mental skill development (off-season skill consolidation, lifelong athlete identity, transition planning).',
+    '',
+    'CITATION RULE:',
+    'Any specific claim, statistic, or technique you offer that is NOT obvious general sport psychology knowledge must come from a real named source: a peer-reviewed paper (author plus year, e.g. Eysenck et al. 2007 on Attention Control Theory; Hatzigeorgiadis et al. 2011 on self-talk; Bandura 1997 on self-efficacy), a recognised authority (BPS, NHS, BASES, AASP), or a widely-cited framework (PETTLEP, Self-Determination Theory, Reinvestment Theory). If you cannot name a real source you are confident exists, do NOT make the specific claim. Frame it as general principle. Never invent citations, statistics, study findings, author names, or journal names.',
+    '',
+    'CRISIS RULE:',
+    'If the intake responses indicate the client is in mental health crisis (panic, self-harm, severe distress), do NOT proceed with a plan. Output a short message directing them to emergency support (Samaritans 116 123 in UK/IE, Pieta House 1800 247 247 in IE) and tell them Emily will be in touch directly.',
+    '',
+    'OUTPUT STRUCTURE. Use exactly these section headers, in this order:',
+    '',
+    '# ATHLETE SNAPSHOT',
+    '(2-3 lines summarising who they are, their sport, competitive level, and the headline mental performance areas they want to work on.)',
+    '',
+    '# PLAN OVERVIEW',
+    '(Goals for the plan, the weekly themes they will move through, and the through-line: what state you are trying to help them move toward by the end.)',
+    '',
+    '# WEEK-BY-WEEK PLAN',
+    'For each week use this exact structure:',
+    '',
+    '  ## Week N: [theme name, drawn from the 12 toolkit themes where relevant]',
+    '  **Focus:** one short line on what this week is doing for them.',
+    '',
+    '  **Concept of the week**',
+    '  (3-5 lines explaining the concept in plain English. Name the framework or author where relevant, e.g. "Attention Control Theory (Eysenck et al. 2007) says that under pressure, attention narrows toward threat cues. The fix is not to try harder, it is to pre-train a refocus trigger.")',
+    '',
+    '  **Daily practice (5-10 minutes)**',
+    '  A short markdown table listing what they do each day this week. Format:',
+    '  | Day | Practice | What it builds |',
+    '  | --- | --- | --- |',
+    '  | Mon | 4-7-8 breath cycle, 3 rounds before bed | Down-regulation under load |',
+    '  | Tue | Write three confidence anchors in your phone notes | Self-efficacy evidence base |',
+    '',
+    '  **Performance moment to apply it**',
+    '  One short paragraph: where in their training or competition week they should consciously apply the concept. Make this concrete to the sport and competitive level they gave you.',
+    '',
+    '  **Reflection prompt**',
+    '  One question they answer at the end of the week, three lines max in their notes.',
+    '',
+    '# ROUTINES TO BUILD',
+    '(A short section assembling the pre-performance routine, refocus routine, and post-mistake reset cue the client has built up by the end of the plan. Make these specific to the client, not generic.)',
+    '',
+    '# COACH NOTES (FOR THE CLIENT)',
+    '(For each week, 2-3 lines:',
+    '  ## Week N',
+    '  Why this week comes here:',
+    '  What to watch for in yourself:',
+    '  Adjust if: )',
+    '',
+    '# THINGS TO TRACK',
+    '(A short list of what the athlete should journal or notice during the plan: confidence level pre and post training, refocus speed after errors, sleep quality before competition, etc.)',
+    '',
+    'VOICE:',
+    '- Warm, direct, grounded. Plain English. Match Emily\'s voice: no hype, no motivational filler, no emojis.',
+    '- Second person ("You will...", "Your goal this week...").',
+    '- Avoid em-dashes and en-dashes (use periods, commas, or parentheses instead).',
+    '- Concrete cues, not abstract directives. If you mention a technique, give the actual steps.',
+    '- The plan goes to a real athlete, not a textbook reader. Practical over academic.',
+  ].join('\n');
+}
+
+function buildMentalPlanPrompt(input: {
+  intake: ConsultationWithPlanRequest;
+}): string {
+  const { intake } = input;
+
+  const clientBlock = [
+    'CLIENT INPUT:',
+    `- Name: ${intake.name}`,
+    `- Sport: ${intake.sport || 'not provided'}`,
+    `- Competition level: ${intake.competitionLevel || 'not provided'}`,
+    `- Years competing: ${intake.yearsCompeting || 'not provided'}`,
+    `- Plan duration: ${intake.planDuration || '6 weeks'}`,
+    `- Performance moments they want to work on: ${(intake.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
+    `- Current mental performance routines: ${intake.currentRoutines || 'not provided'}`,
+    `- Past peak moment: ${intake.peakMoment || 'not provided'}`,
+    `- Past struggle moment: ${intake.struggleMoment || 'not provided'}`,
+    `- Current confidence level (1-10): ${intake.confidenceLevel || 'not provided'}`,
+    `- Companion physical training plan the client is also doing: ${intake.companionPlanSummary || 'not provided. Build this plan as a standalone.'}`,
+    `- Their goals narrative: ${intake.goals}`,
+    `- Anything else they shared: ${intake.anythingElse || 'not provided'}`,
+  ].join('\n');
+
+  const companionInstruction = intake.companionPlanSummary
+    ? '\nThe client is also doing a Mind the Gael Physical Training Plan. Where it fits, anchor "Performance moment to apply it" each week to a real session or moment from their training plan (e.g. the heaviest lift day, conditioning blocks, sport-specific work). In Routines to Build, suggest applying pre-performance routines to those specific sessions. Stay within what they actually described, never invent specifics about the physical plan.'
+    : '';
+
+  return [
+    `Create a ${intake.planDuration || '6-week'} mental performance plan for the following female athlete client. This plan will be emailed directly to them.`,
+    '',
+    clientBlock,
+    companionInstruction,
+    '',
+    'Follow the system prompt rules strictly. Use the exact output section headers it specifies. Anchor every week\'s concept to the 12 themes of the Gael Performance Toolkit, choosing the themes that best match the performance moments and struggles the client described.',
+  ].join('\n');
 }
 
 function buildSystemPrompt(): string {
@@ -332,9 +522,14 @@ function buildPlanPrompt(input: {
     `- Injuries / limitations: ${intake.injuries || 'none'}`,
     `- Cycle status: ${intake.cycleStatus || 'not provided'}`,
     `- Current week looks like: ${intake.currentWeek || 'not provided'}`,
+    `- Companion mental performance plan the client is also doing: ${intake.companionPlanSummary || 'not provided. Build this plan as a standalone.'}`,
     `- Anything else: ${intake.anythingElse || 'not provided'}`,
     `- Specific goals narrative: ${intake.goals}`,
   ].join('\n');
+
+  const companionInstruction = intake.companionPlanSummary
+    ? '\nThe client is also doing a Mind the Gael Mental Performance Plan. Where it fits naturally, write session cues and weekly notes that reinforce the mental work they shared. For example: tie session-level focus cues to refocus routines they are practising; in Coach Notes, suggest moments in the training week where they can layer in pre-performance routines or self-talk practice. Stay within what they actually described, never invent specifics from the mental plan.'
+    : '';
 
   return [
     `Create a ${intake.planDuration || '6-week'} progression plan for the following female athlete client. This plan will be emailed directly to them.`,
@@ -348,6 +543,7 @@ function buildPlanPrompt(input: {
     avoidBlock,
     '',
     clientBlock,
+    companionInstruction,
     '',
     'Follow the system prompt rules strictly. Use the exact output section headers it specifies.',
   ].join('\n');
@@ -433,19 +629,32 @@ async function sendEmilyNotification(input: {
   track: ProgramTrackId;
   sessionId: string;
   token: string;
+  planType: 'physical' | 'mental';
+  reviewRequired: boolean;
 }): Promise<void> {
   const resendApiKey = import.meta.env.RESEND_API_KEY;
   const fromEmail =
     import.meta.env.CONSULTATION_FROM_EMAIL || 'Mind the Gael <onboarding@resend.dev>';
   if (!resendApiKey) return;
 
-  const { intake, fullPlan, sportProfile, track, sessionId, token } = input;
+  const { intake, fullPlan, sportProfile, track, sessionId, token, planType, reviewRequired } = input;
+
+  const planLabel = planType === 'mental' ? 'Mental Performance Plan' : 'Training Plan';
+
+  const subject = reviewRequired
+    ? `[REVIEW REQUIRED] ${planLabel} for ${intake.name} | ${intake.planDuration || 'plan'}`
+    : `[Plan sent to client] ${planLabel} for ${intake.name} | ${intake.planDuration || 'plan'}`;
+
+  const headlineLine = reviewRequired
+    ? 'A new plan has been generated. The client has NOT received it. Review the plan below, edit if needed, then forward to the client manually.'
+    : 'A new plan has been generated AND sent to the client. This is your notification copy.';
 
   // Plain text fallback.
   const text = [
-    'A new programme purchase has been finalised and the plan has been emailed to the client.',
+    headlineLine,
     '',
     `Submitted: ${new Date().toISOString()}`,
+    `Plan type: ${planLabel}`,
     `Name: ${intake.name}`,
     `Email: ${intake.email}`,
     `Phone: ${intake.phone || 'Not provided'}`,
@@ -455,7 +664,7 @@ async function sendEmilyNotification(input: {
     `Stripe session: ${sessionId}`,
     `Intake token: ${token}`,
     '',
-    'PLAN SENT TO CLIENT',
+    reviewRequired ? 'PLAN (NOT YET SENT TO CLIENT — REVIEW AND FORWARD)' : 'PLAN SENT TO CLIENT',
     '------------------------------------------',
     fullPlan,
   ].join('\n');
@@ -483,12 +692,89 @@ async function sendEmilyNotification(input: {
     body: JSON.stringify({
       from: fromEmail,
       to: [EMILY_EMAIL],
-      subject: `[Programme finalised] ${intake.name} | ${intake.planDuration || 'plan'}`,
+      subject,
       text,
       html,
       reply_to: intake.email,
     }),
   });
+}
+
+// Send the customer a short "we received your purchase, plan is under review"
+// confirmation when the plan routes to Emily for review (v1 default).
+async function sendClientHoldingEmail(input: {
+  intake: ConsultationWithPlanRequest;
+  planType: 'physical' | 'mental';
+}): Promise<void> {
+  const resendApiKey = import.meta.env.RESEND_API_KEY;
+  const fromEmail =
+    import.meta.env.CONSULTATION_FROM_EMAIL || 'Mind the Gael <onboarding@resend.dev>';
+  if (!resendApiKey) throw new Error('Missing RESEND_API_KEY.');
+
+  const { intake, planType } = input;
+  const firstName = (intake.name || '').split(' ')[0] || 'there';
+  const duration = intake.planDuration || '6-week';
+  const planLabel = planType === 'mental' ? 'mental performance plan' : 'training plan';
+
+  const text = [
+    `Hi ${firstName},`,
+    '',
+    `Thanks for buying the ${duration} ${planLabel}. Your payment has landed.`,
+    '',
+    'Your plan has been drafted and is now with Emily for a quick review. You will receive the full plan by email within 48 hours.',
+    '',
+    'Why a review: while the platform is in its early phase, every plan gets a final read-through from Emily before it lands in your inbox. This is to make sure the plan reflects what you shared and meets the standard you paid for.',
+    '',
+    'If anything is urgent in the meantime, you can email Emily directly at ' + EMILY_EMAIL + '.',
+    '',
+    buildSignatureText(),
+  ].join('\n');
+
+  const html = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #1a2e1f; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://mindthegael.co.uk/assets/MTG_colour.png" alt="Mind the Gael" style="max-width: 180px; height: auto;" />
+      </div>
+      <p>Hi ${firstName},</p>
+      <p>Thanks for buying the <strong>${duration} ${planLabel}</strong>. Your payment has landed.</p>
+      <p>Your plan has been drafted and is now with Emily for a quick review. You will receive the full plan by email <strong>within 48 hours</strong>.</p>
+      <div style="background: #f4ffe8; border-left: 4px solid #c0fe71; padding: 14px 18px; margin: 20px 0; border-radius: 6px;">
+        <strong>Why the review:</strong> while the platform is in its early phase, every plan gets a final read-through from Emily before it lands in your inbox. This is to make sure the plan reflects what you shared and meets the standard you paid for.
+      </div>
+      <p>If anything is urgent in the meantime, you can email Emily directly at <a href="mailto:${EMILY_EMAIL}" style="color: #69005a;">${EMILY_EMAIL}</a>.</p>
+      <p style="margin-top: 30px; color: #69005a; font-style: italic;">
+        Emily Phelan<br/>
+        Mind the Gael<br/>
+        <a href="https://mindthegael.co.uk" style="color: #69005a;">mindthegael.co.uk</a>
+      </p>
+    </div>
+  `;
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: fromEmail,
+      to: [intake.email],
+      subject: `Your ${duration} ${planLabel} is being reviewed`,
+      text,
+      html,
+      reply_to: EMILY_EMAIL,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => 'No response body');
+    throw new Error(`Failed to send client holding email: ${response.status} ${details}`);
+  }
+}
+
+function readStandardDestination(): 'emily' | 'client' {
+  const raw = (import.meta.env.PLAN_DESTINATION_STANDARD as string | undefined) || 'emily';
+  return raw === 'client' ? 'client' : 'emily';
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────

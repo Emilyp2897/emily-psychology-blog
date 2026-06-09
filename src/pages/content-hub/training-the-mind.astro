@@ -3,146 +3,193 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_TITLE } from '../../consts';
 
-// Show only the two approved articles.
 const allPosts = await getCollection('blog');
 
-const featuredSlugs = [
-  'training-the-mind/attention-control-theory',
-  'training-the-mind/choking-under-pressure'
-];
+type MonthEntry = {
+  month: string;
+  theme: string;
+  slugs: string[];
+};
 
-const childPosts = featuredSlugs
-  .map((slug) => allPosts.find((post) => post.slug === slug))
-  .filter((post): post is (typeof allPosts)[number] => post !== undefined);
-
-// Upcoming posts shown as "Coming Soon" cards. They are NOT clickable
-// (no slug yet) and signal to readers what's next in the monthly arc.
-const upcomingMonth1 = [
+const monthlySeries: MonthEntry[] = [
   {
-    title: 'How Pressure Shows Up in Ladies Gaelic Football',
-    description: 'Where the pressure actually comes from. Selection anxiety, fear of letting your team down, social comparison, and the dual-career load.',
-    series: 'Training the Mind',
+    month: 'Month 1',
+    theme: 'Pressure & Performance Anxiety',
+    slugs: [
+      'training-the-mind/attention-control-theory',
+      'training-the-mind/how-pressure-shows-in-ladies-football',
+      'training-the-mind/choking-under-pressure',
+    ],
   },
   {
-    title: "When it's More Than Nerves",
-    description: 'How to tell normal competitive nerves from something that needs more support, and where to find that support.',
-    series: 'Stronger Minds, Stronger Players',
+    month: 'Month 2',
+    theme: 'Confidence & Self-Talk',
+    slugs: [
+      'training-the-mind/understanding-confidence',
+      'training-the-mind/applying-confidence-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 3',
+    theme: 'Mistakes, Perfectionism & Shame',
+    slugs: [
+      'training-the-mind/understanding-mistakes-and-perfectionism',
+      'training-the-mind/applying-mistake-resilience-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 4',
+    theme: 'Team Culture, Belonging & Communication',
+    slugs: [
+      'training-the-mind/understanding-team-culture-and-belonging',
+      'training-the-mind/applying-team-culture-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 5',
+    theme: 'Motivation, Discipline & Burnout Risk',
+    slugs: [
+      'training-the-mind/understanding-motivation',
+      'training-the-mind/applying-motivation-and-discipline-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 6',
+    theme: 'Injury Psychology & Comeback Confidence',
+    slugs: [
+      'training-the-mind/understanding-identity-and-fear-after-injury',
+      'training-the-mind/applying-comeback-confidence-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 7',
+    theme: 'Flow, Focus & Playing Free',
+    slugs: [
+      'training-the-mind/understanding-flow-and-focus',
+      'training-the-mind/applying-flow-and-focus-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 8',
+    theme: 'Body Image, RED-S & Food Culture',
+    slugs: [
+      'training-the-mind/understanding-body-image-in-sport',
+      'training-the-mind/applying-body-confidence-and-fuelling-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 9',
+    theme: 'Boundaries, Coaches & People-Pleasing',
+    slugs: [
+      'training-the-mind/understanding-why-women-athletes-over-accommodate',
+      'training-the-mind/applying-boundaries-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 10',
+    theme: 'Championship Pressure & Fear of Failure',
+    slugs: [
+      'training-the-mind/understanding-pressure-and-fear-of-failure',
+      'training-the-mind/applying-championship-pressure-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 11',
+    theme: 'Identity Beyond Sport & Balance',
+    slugs: [
+      'training-the-mind/understanding-athletic-identity',
+      'training-the-mind/applying-balanced-identity-in-lgfa',
+    ],
+  },
+  {
+    month: 'Month 12',
+    theme: 'Off-Season Mental Health & Reset',
+    slugs: [
+      'training-the-mind/understanding-off-season-mental-health',
+      'training-the-mind/applying-off-season-recovery-in-lgfa',
+    ],
   },
 ];
+
+function postFor(slug: string) {
+  return allPosts.find((post) => post.slug === slug);
+}
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`Training the Mind | ${SITE_TITLE}`} description="Training the Mind: practical psychology for female athletes, with short weekly posts on pressure, focus, and confidence." />
+    <BaseHead title={`Training the Mind | ${SITE_TITLE}`} description="A 12-month journey through the mental side of sport, built for female athletes." />
   </head>
-  <body class="training-mind-page">
+  <body class="ttm-page">
     <Header />
-    <main class="container training-mind-main">
+    <main class="container ttm-main">
       <section class="hero">
         <p class="hero-kicker">Content Hub Series</p>
         <h1>Training the Mind</h1>
-        <p class="hero-tagline">A 12-month journey through pressure, focus, confidence, and composure in female sport.</p>
+        <p class="hero-tagline">A 12-month journey through the mental side of sport, built for female athletes. Two posts per month, with a companion toolkit over in the Gael Performance Toolkit.</p>
       </section>
 
-      <section class="intro-card fade-in" aria-label="Series introduction">
-        <p>This is a 12-month journey through the mental side of sport, created specifically for female athletes.</p>
-        <p>Each month focuses on one performance theme. We begin with pressure: what it feels like, how it shapes your thoughts, and how it affects your focus before games and after mistakes.</p>
-        <p>These posts are short, practical, and easy to apply. The goal is to help you understand your mind better, so your performance feels more consistent when it matters most.</p>
+      <section class="ttm-series" aria-label="Monthly blog posts">
+        <h2>The 12-Month Series</h2>
+        <p class="series-intro">Each month focuses on a different theme. Understanding the theory, then applying it in real Gaelic football situations.</p>
+
+        {monthlySeries.map((entry) => (
+          <div class="month-group">
+            <h3 class="month-heading">{entry.month}: {entry.theme}</h3>
+            <ul class="month-list">
+              {entry.slugs.map((slug) => {
+                const post = postFor(slug);
+                if (!post) {
+                  return (
+                    <li class="ttm-card ttm-card-missing">
+                      <span class="ttm-status">Coming soon</span>
+                      <h4 class="ttm-title">{slug.split('/').pop()?.replace(/-/g, ' ')}</h4>
+                    </li>
+                  );
+                }
+                return (
+                  <li class="ttm-card">
+                    <a href={`/content-hub/${post.slug}/`}>
+                      <h4 class="ttm-title">{post.data.title}</h4>
+                      {post.data.description && (
+                        <p class="ttm-description">{post.data.description}</p>
+                      )}
+                      <span class="ttm-cta">Read post →</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </section>
 
-      <section class="posts-panel fade-in">
-        <div class="posts-panel-head">
-          <h2>Month 1: Understanding Pressure in Performance</h2>
-          <label class="sr-only" for="search-posts">Search training posts</label>
-          <input
-            type="text"
-            id="search-posts"
-            name="search-posts"
-            placeholder="Search this month..."
-            oninput="filterPosts()"
-          />
-        </div>
-
-        <ul id="posts-list" class="latest-posts">
-          {childPosts.map((post) => (
-            <li>
-              <a href={`/content-hub/${post.slug}/`}>
-                <h3 class="title">{post.data.title}</h3>
-                {post.data.description && <p class="description">{post.data.description}</p>}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="upcoming-posts fade-in">
-        <h2>Coming next this month</h2>
-        <p class="upcoming-intro">The next posts release weekly as the Month 1 arc unfolds.</p>
-        <ul class="upcoming-list">
-          {upcomingMonth1.map((post) => (
-            <li class="upcoming-card">
-              <span class="upcoming-badge">Coming soon</span>
-              <p class="upcoming-series">{post.series}</p>
-              <h3 class="upcoming-title">{post.title}</h3>
-              <p class="upcoming-description">{post.description}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="content-feedback-cta fade-in">
+      <section class="content-feedback-cta" aria-label="Content feedback">
         <p>Got feedback on this content?</p>
-        <a href="/content-feedback" class="feedback-cta-link">Share Feedback</a>
+        <a href="/content-feedback" class="feedback-cta-link">Share feedback</a>
       </section>
     </main>
     <Footer />
-
-    <script is:inline>
-      function filterPosts() {
-        const input = document.getElementById('search-posts');
-        const filter = (input && 'value' in input ? input.value : '').toLowerCase();
-        const list = document.getElementById('posts-list');
-
-        if (!list) return;
-
-        Array.from(list.getElementsByTagName('li')).forEach((item) => {
-          const title = item.querySelector('.title')?.textContent?.toLowerCase() || '';
-          const desc = item.querySelector('.description')?.textContent?.toLowerCase() || '';
-          item.style.display = title.includes(filter) || desc.includes(filter) ? '' : 'none';
-        });
-      }
-
-      const elements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-          }
-        });
-      });
-
-      elements.forEach((el) => observer.observe(el));
-    </script>
   </body>
 </html>
 
 <style>
-  .training-mind-main {
+  .ttm-main {
     padding-top: 0;
     padding-bottom: 3rem;
   }
 
   .hero {
-    margin: 0 calc(50% - 50vw) 1.1rem;
+    margin: 0 calc(50% - 50vw) 0.8rem;
     padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
 
   .hero-kicker {
-    margin: 0 0 0.2rem;
+    margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-size: 0.75rem;
@@ -151,201 +198,137 @@ const upcomingMonth1 = [
   }
 
   .hero h1 {
-    margin: 0;
+    margin: 0.2rem 0 0;
     color: var(--green-lime);
   }
 
   .hero-tagline {
     margin: 0.35rem 0 0;
     color: var(--green-light);
+    max-width: 64ch;
+  }
+
+  .ttm-series {
+    margin-top: 0.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .ttm-series h2 {
+    color: var(--purple-light);
+    margin: 0 0 0.25rem;
+  }
+
+  .series-intro {
+    margin: 0 0 0.4rem;
+    color: var(--green-light);
     max-width: 60ch;
-  }
-
-  .intro-card,
-  .posts-panel,
-  .upcoming-posts,
-  .content-feedback-cta {
-    border: 2px solid rgba(105, 0, 90, 0.22);
-    border-radius: 8px;
-    background: #ffffff;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-  }
-
-  .intro-card p,
-  .posts-panel p,
-  .upcoming-posts p,
-  .content-feedback-cta p {
-    color: var(--green-dark);
-    margin-bottom: 1rem;
-  }
-
-  .intro-card p:last-child,
-  .content-feedback-cta p {
-    margin-bottom: 0;
-  }
-
-  .posts-panel-head h2,
-  .upcoming-posts h2 {
-    color: var(--purple);
-    margin-bottom: 0.6rem;
-  }
-
-  #search-posts {
-    width: 100%;
-    max-width: 430px;
-    display: block;
-    margin-bottom: 1rem;
-    padding: 0.65rem 0.85rem;
-    border-radius: 8px;
-    border: 1px solid rgba(105, 0, 90, 0.45);
-    background: #fff;
-    color: var(--green-dark);
     font-size: 0.95rem;
   }
 
-  .latest-posts {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .month-group {
+    margin-top: 1rem;
   }
 
-  .latest-posts li {
-    margin-bottom: 0.9rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
-  }
-
-  .latest-posts li:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .latest-posts li a {
-    display: block;
-    text-decoration: none;
-    color: #000000 !important;
-  }
-
-  .latest-posts li a:hover .title {
-    color: var(--purple);
-  }
-
-  .latest-posts .title {
-    margin: 0 0 0.25rem;
+  .month-heading {
+    color: var(--purple-light);
+    margin: 0 0 0.5rem;
     font-size: 1.15rem;
-    color: #000000;
+    font-weight: 700;
   }
 
-  .latest-posts .description {
-    margin: 0;
-    color: #000000;
-    line-height: 1.5;
-    font-size: 0.96rem;
-  }
-
-  .upcoming-intro {
-    margin-bottom: 0.85rem;
-  }
-
-  .upcoming-list {
+  .month-list {
     list-style: none;
-    display: grid;
-    gap: 0.9rem;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
 
-  .upcoming-card {
-    border: 1px solid rgba(105, 0, 90, 0.5);
-    border-radius: 10px;
-    padding: 0.9rem;
-    background: rgba(240, 205, 255, 0.15);
+  /* White cards with dark titles. */
+  .ttm-card {
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    background: #ffffff;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .upcoming-badge {
+  .ttm-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .ttm-card a {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .ttm-status {
     display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--green-dark);
-    background: var(--green-lime);
-    padding: 0.2rem 0.45rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 999px;
-    margin-bottom: 0.55rem;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
   }
 
-  .upcoming-series {
-    margin: 0;
-    color: var(--purple);
-    font-size: 0.88rem;
+  .ttm-title {
+    color: var(--green-dark) !important;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
     font-weight: 700;
   }
 
-  .upcoming-title {
-    margin: 0.25rem 0 0.4rem;
+  .ttm-description {
     color: var(--green-dark);
-    font-size: 1rem;
+    font-size: 0.92rem;
+    margin: 0 0 0.7rem;
+    line-height: 1.5;
+    opacity: 0.82;
   }
 
-  .upcoming-description {
-    margin: 0;
-    color: var(--green-dark);
-    line-height: 1.45;
-    font-size: 0.93rem;
+  .ttm-cta {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .ttm-card-missing {
+    opacity: 0.65;
+    background: #f7f5f8;
   }
 
   .content-feedback-cta {
+    margin: 1.4rem 0 0;
     text-align: center;
+  }
+
+  .content-feedback-cta p {
+    margin: 0 0 0.55rem;
+    color: var(--green-light);
   }
 
   .feedback-cta-link {
     display: inline-block;
-    margin-top: 0.6rem;
     border: 2px solid var(--green-lime);
     border-radius: 8px;
-    padding: 0.52rem 0.95rem;
+    padding: 0.5rem 0.9rem;
     background: var(--green-lime);
     color: var(--green-dark) !important;
     font-weight: 700;
     text-decoration: none !important;
-    transition: transform 0.2s ease, border-color 0.2s ease;
   }
 
   .feedback-cta-link:hover {
-    transform: translateY(-1px);
     border-color: var(--purple-light);
-    color: var(--purple) !important;
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .fade-in.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 720px) {
-    .training-mind-main {
-      padding-bottom: 2rem;
-    }
-
-    .hero {
-      padding: 1.4rem max(0.8rem, calc(50vw - 600px + 1rem));
-      margin-bottom: 0.9rem;
-    }
-
-    .posts-panel,
-    .upcoming-posts,
-    .content-feedback-cta {
-      padding: 1rem;
-    }
+    background: var(--purple-light);
   }
 </style>

@@ -83,11 +83,19 @@ import { SITE_TITLE } from '../consts';
           if (ctaEl) ctaEl.hidden = false;
 
           // Wire the Buy buttons to carry the token through Stripe.
+          // Route to mental plan IDs if this intake is a mental performance plan.
+          const planType = (data.planType === 'mental') ? 'mental' : 'physical';
+          const plan6 = planType === 'mental' ? 'mental-6-week' : 'programme-6-week';
+          const plan12 = planType === 'mental' ? 'mental-12-week' : 'programme-12-week';
+          const buy6Label = planType === 'mental' ? 'Buy 6-Week Mental Plan' : 'Buy 6-Week Programme';
+          const buy12Label = planType === 'mental' ? 'Buy 12-Week Mental Plan' : 'Buy 12-Week Programme';
           if (buy6 instanceof HTMLAnchorElement) {
-            buy6.href = '/api/create-checkout-session?plan=programme-6-week&token=' + encodeURIComponent(token);
+            buy6.href = '/api/create-checkout-session?plan=' + plan6 + '&token=' + encodeURIComponent(token);
+            buy6.textContent = buy6Label;
           }
           if (buy12 instanceof HTMLAnchorElement) {
-            buy12.href = '/api/create-checkout-session?plan=programme-12-week&token=' + encodeURIComponent(token);
+            buy12.href = '/api/create-checkout-session?plan=' + plan12 + '&token=' + encodeURIComponent(token);
+            buy12.textContent = buy12Label;
           }
 
           // Hide whichever Buy button doesn't match the duration the client

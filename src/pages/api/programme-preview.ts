@@ -25,8 +25,9 @@ export const GET: APIRoute = async ({ url }) => {
       intake_data: { planDuration?: string };
       finalized_at: string | null;
       red_flag_id: string | null;
+      plan_type: 'physical' | 'mental' | null;
     }>`
-      SELECT teaser_content, client_name, client_email, intake_data, finalized_at, red_flag_id
+      SELECT teaser_content, client_name, client_email, intake_data, finalized_at, red_flag_id, plan_type
       FROM intake_sessions
       WHERE id = ${token}::uuid
       LIMIT 1
@@ -52,6 +53,7 @@ export const GET: APIRoute = async ({ url }) => {
       clientName: row.client_name,
       clientEmail: row.client_email,
       planDuration: row.intake_data?.planDuration || null,
+      planType: row.plan_type || 'physical',
     });
   } catch (error: any) {
     console.error('Programme preview fetch error:', error);

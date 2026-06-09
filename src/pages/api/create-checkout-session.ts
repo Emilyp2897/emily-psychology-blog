@@ -38,7 +38,7 @@ function getPlanDetails(plan: string): PlanDetails {
       amount: 72000,
       mode: "payment",
     },
-    // Productised personal training programmes.
+    // Productised physical training programmes.
     "programme-6-week": {
       name: "6-Week Online Personal Training Programme",
       amount: 1000, // £10.00
@@ -46,6 +46,17 @@ function getPlanDetails(plan: string): PlanDetails {
     },
     "programme-12-week": {
       name: "12-Week Online Personal Training Programme",
+      amount: 2000, // £20.00
+      mode: "payment",
+    },
+    // Productised mental performance plans.
+    "mental-6-week": {
+      name: "6-Week Mental Performance Plan",
+      amount: 1000, // £10.00
+      mode: "payment",
+    },
+    "mental-12-week": {
+      name: "12-Week Mental Performance Plan",
       amount: 2000, // £20.00
       mode: "payment",
     },
@@ -76,7 +87,11 @@ async function createCheckoutSession(plan: string, email?: string, intakeToken?:
   // /api/programme-finalize to verify the Stripe session and generate the
   // full plan. The intake token is carried through so the finalize endpoint
   // knows which intake to use.
-  const isProgramme = plan === "programme-6-week" || plan === "programme-12-week";
+  const isProgramme =
+    plan === "programme-6-week" ||
+    plan === "programme-12-week" ||
+    plan === "mental-6-week" ||
+    plan === "mental-12-week";
   const successUrl = isProgramme
     ? `${site}/programme-success?session_id={CHECKOUT_SESSION_ID}&plan=${plan}${intakeToken ? `&token=${encodeURIComponent(intakeToken)}` : ''}`
     : `${site}/success`;
@@ -117,6 +132,8 @@ export const GET = async ({ url }: { url: URL }) => {
       "team-12m",
       "programme-6-week",
       "programme-12-week",
+      "mental-6-week",
+      "mental-12-week",
       "online-1-1",
       "in-person-1-1",
       "pre-season-team",

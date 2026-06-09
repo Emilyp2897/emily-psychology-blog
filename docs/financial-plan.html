@@ -163,12 +163,12 @@
 
 <p>Mind the Gael is an online platform delivering productised mental wellbeing and physical training content to female athletes. The business model is direct-to-consumer digital products with very high gross margins, supported by a small fixed-cost stack (Vercel, Postgres, Resend, Anthropic API, Stripe).</p>
 
-<p>The revenue mix sits across four product families: <strong>personal training plans</strong> (one-off purchases), <strong>mental performance plans</strong> (one-off purchases, new product), <strong>workshops</strong>, and a <strong>monthly blog subscription</strong>. Each purchase costs the business roughly <strong>£0.40 to £0.90 in variable cost</strong> (API + payment processing), against retail prices that range from £5 to £30.</p>
+<p>The revenue mix sits across three product families: <strong>physical training plans</strong> (one-off purchases), <strong>mental performance plans</strong> (one-off purchases, parallel architecture to training plans), and a <strong>monthly blog subscription</strong>. Each purchase costs the business roughly <strong>£0.40 to £0.65 in variable cost</strong> (API + payment processing), against retail prices of £5 to £20.</p>
 
-<p>The platform is engineered to scale: the training plan generator runs autonomously after Stripe verification, content is served from a CDN-backed static site, and the live human intervention layer (Emily) is only invoked for clinical-pause cases and the four specialised training tracks (pregnancy, postpartum, endometriosis, return-to-play).</p>
+<p>The platform is engineered to scale: both plan generators run autonomously after Stripe verification, content is served from a CDN-backed static site, and the live human intervention layer (Emily) is only invoked for clinical-pause cases and the four specialised training tracks (pregnancy, postpartum, endometriosis, return-to-play).</p>
 
 <div class="callout">
-  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>92 % and 99 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even at <strong>4 programme sales per month</strong>.
+  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>94 % and 97 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even at <strong>4 plan sales per month</strong>.
 </div>
 
 <h2>2. Revenue Streams</h2>
@@ -184,32 +184,21 @@
   </tbody>
 </table>
 
-<h3>2.2 Mental Performance Plans (new)</h3>
-<p>A productised offering parallel to the training plans. Intake &rarr; teaser preview &rarr; Stripe &rarr; full plan emailed. Content backbone is the Gael Performance Toolkit. The intake captures mental-performance context (competition anxiety, focus issues, pre-performance routines, recovery from setbacks) rather than physical-training context. Pricing TBD; initial plan to mirror training-programme economics.</p>
+<h3>2.2 Mental Performance Plans (live)</h3>
+<p>A productised offering parallel to the training plans, with shared infrastructure (same intake &rarr; teaser preview &rarr; Stripe &rarr; full plan emailed flow, branched by <code>plan_type</code> in the database). Content backbone is the 12-month Gael Performance Toolkit. The intake captures mental-performance context (competition level, performance moments to work on, current routines, peak moments, struggle moments, confidence level) rather than physical-training context. Pricing mirrors training plans.</p>
 <table>
   <thead>
     <tr><th>Product</th><th class="num">Price</th><th>Delivery</th></tr>
   </thead>
   <tbody>
-    <tr><td>6-Week Mental Performance Plan</td><td class="num">TBC</td><td>Self-paced plan delivered by email after Stripe checkout.</td></tr>
-    <tr><td>12-Week Mental Performance Plan</td><td class="num">TBC</td><td>As above, twice the duration.</td></tr>
+    <tr><td>6-Week Mental Performance Plan</td><td class="num">£10</td><td>Self-paced plan delivered by email after Stripe checkout. Six weekly themes drawn from the Gael Performance Toolkit, daily practice tables, routines to build, weekly reflection prompts.</td></tr>
+    <tr><td>12-Week Mental Performance Plan</td><td class="num">£20</td><td>Twelve-week version, spanning the full toolkit across confidence, focus, routines, self-talk, visualisation, motivation, mistake recovery, team pressure, return from injury.</td></tr>
   </tbody>
 </table>
 
-<h3>2.3 Online Workshops</h3>
-<table>
-  <thead>
-    <tr><th>Workshop</th><th class="num">Price</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Mindfulness for Female Athletes</td><td class="num">£30</td></tr>
-    <tr><td>Performance Coaching for Female Athletes</td><td class="num">£30</td></tr>
-    <tr><td>Nutrition for Female Athletes</td><td class="num">£30</td></tr>
-    <tr><td>Mental Wellbeing Workshop</td><td class="num">£30</td></tr>
-  </tbody>
-</table>
+<p><strong>Cross-plan companion linking.</strong> Both intake forms include an optional field asking if the client is also doing the other Mind the Gael plan. If they paste a short summary, that context is injected into the generator prompt, so a mental plan can anchor its weekly "performance moment to apply it" to real sessions from the client's physical plan, and a physical plan can layer refocus cues and routine practice into specific training days. The two plans reinforce each other without requiring any cross-database join.</p>
 
-<h3>2.4 Blog Subscription</h3>
+<h3>2.3 Blog Subscription</h3>
 <table>
   <thead>
     <tr><th>Product</th><th class="num">Price</th><th>Delivery</th></tr>
@@ -263,13 +252,11 @@
   <tbody>
     <tr><td>6-Week Personal Training Plan</td><td class="num">£10.00</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
     <tr><td>12-Week Personal Training Plan</td><td class="num">£20.00</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
-    <tr><td>6-Week Mental Performance Plan (est.)</td><td class="num">£10.00*</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
-    <tr><td>12-Week Mental Performance Plan (est.)</td><td class="num">£20.00*</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
+    <tr><td>6-Week Mental Performance Plan</td><td class="num">£10.00</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
+    <tr><td>12-Week Mental Performance Plan</td><td class="num">£20.00</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
     <tr><td>Blog Subscription monthly (after trial)</td><td class="num">£5.00</td><td class="num">£0.00</td><td class="num">£0.28</td><td class="num">£4.72</td><td class="num">94.4 %</td></tr>
-    <tr><td>Workshop (any)</td><td class="num">£30.00</td><td class="num">£0.00</td><td class="num">£0.65</td><td class="num">£29.35</td><td class="num">97.8 %</td></tr>
   </tbody>
 </table>
-<p style="font-size:12px;color:var(--muted);">*Mental Performance Plan pricing is TBC; rows show estimates assuming parity with training plans.</p>
 
 <h2>5. Fixed Costs</h2>
 
@@ -320,8 +307,8 @@
   <div class="card">
     <h4>Stretch (mixed)</h4>
     <div class="big">500 mixed sales / mo</div>
-    <div class="sub">150 training plans + 150 mental performance plans + 100 workshops + 100 blog subscribers</div>
-    <p style="margin:10px 0 0;">Revenue: <strong>~£8,400</strong><br/>API spend: ~£40<br/>Stripe fees: ~£165<br/>Fixed: £55.25<br/><strong>Net profit: ~£8,140</strong></p>
+    <div class="sub">200 training plans + 200 mental performance plans + 100 blog subscribers</div>
+    <p style="margin:10px 0 0;">Revenue: <strong>~£4,500</strong><br/>API spend: ~£36<br/>Stripe fees: ~£90<br/>Fixed: £55.25<br/><strong>Net profit: ~£4,320</strong></p>
   </div>
 </div>
 
@@ -343,7 +330,7 @@
 
 <h2>8. 12-Month Revenue Projection (illustrative)</h2>
 
-<p>Assumes gradual ramp from conservative (month 1) to moderate (month 12) traffic. Single-product (6-week programmes) baseline; subscriptions and workshops are additive upside.</p>
+<p>Assumes gradual ramp from conservative (month 1) to moderate (month 12) traffic. Single-product (6-week physical training plans) baseline; mental performance plans and blog subscriptions are additive upside.</p>
 
 <table>
   <thead>
@@ -366,7 +353,7 @@
   </tbody>
 </table>
 
-<p>This is a single-product line projection. Realistic Year 1 totals with mental performance plans, workshops, blog subscriptions, and team programmes added are likely <strong>2&ndash;4&times; higher</strong>, but rest on Emily's marketing reach + conversion. The pessimistic case (single-product, slow ramp) still clears costs comfortably and leaves a meaningful personal draw.</p>
+<p>This is a single-product line projection (physical training plans only). Realistic Year 1 totals with mental performance plans and blog subscriptions layered on top are likely <strong>2&ndash;3&times; higher</strong>, but rest on Emily's marketing reach + conversion. The pessimistic case (single-product, slow ramp) still clears costs comfortably and leaves a meaningful personal draw.</p>
 
 <h2>9. Cost Optimisations Available</h2>
 
@@ -399,18 +386,18 @@
 
 <p><strong>Why £10 / £20 for the programmes:</strong> low enough to remove purchase friction; high enough to filter out non-serious buyers and signal that the work has value. At these prices, conversion is more important than margin per sale.</p>
 
-<p><strong>Blog subscription anchoring:</strong> the £5/month founding offer creates a low-friction entry point. Once trust is established, subscribers upgrade to training plans (~£10&ndash;£20), mental performance plans (~£10&ndash;£20), and workshops (£30).</p>
+<p><strong>Blog subscription anchoring:</strong> the £5/month founding offer creates a low-friction entry point. Once trust is established, subscribers upgrade to physical training plans (£10&ndash;£20) and mental performance plans (£10&ndash;£20).</p>
 
-<p><strong>Workshop pricing:</strong> all workshops priced uniformly at £30 (no installments). Simpler purchase decision; positions workshops as a slight upgrade from the £10/£20 plans.</p>
+<p><strong>Cross-plan companion pricing:</strong> physical and mental plans are priced identically. A client doing both pays £20 (two 6-week plans) or £40 (two 12-week plans) and gets a coordinated training and mental performance arc rather than two disconnected products.</p>
 
-<p><strong>Team programmes</strong> are paused for now. If/when relaunched, they would target clubs and panels (20&ndash;30 athletes) at a per-athlete cost positioned against in-person S&amp;C coaches.</p>
+<p><strong>Team programmes and workshops</strong> are paused for now. If/when relaunched, team programmes would target clubs and panels (20&ndash;30 athletes) at a per-athlete cost positioned against in-person S&amp;C coaches; workshops would be revisited as live online events once the productised plans are at scale.</p>
 
 <h2>12. Summary Recommendation</h2>
 
 <div class="callout">
   <strong>Position:</strong> the platform is structurally profitable from day one. Variable costs per sale are negligible (&lt;5 % of price). Fixed costs are near-zero until traffic crosses ~50k visits/month.<br/><br/>
   <strong>Focus:</strong> the limiting factor is not cost or technology &mdash; it is acquisition and conversion. Year 1 priority should be marketing reach (Instagram, GAA / LGFA partnerships, partner clubs) rather than further product engineering.<br/><br/>
-  <strong>Next products to validate:</strong> mental performance plans (parallel to training plans) and the workshops, both of which can be tested with minimal additional fixed cost.
+  <strong>Live products to scale:</strong> physical training plans and mental performance plans (parallel architecture, cross-linked companion field) are both live. Year-one priority is conversion and acquisition rather than further product engineering.
 </div>
 
 <footer class="doc-footer">

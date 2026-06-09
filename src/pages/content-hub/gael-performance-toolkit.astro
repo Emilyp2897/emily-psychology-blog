@@ -5,15 +5,45 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-// Get toolkit child posts (excluding the main toolkit intro page).
+// Get toolkit posts (excluding the intro page).
 const allPosts = await getCollection('blog');
 
-const childPosts = allPosts
-  .filter((post) =>
+const toolkitPosts = allPosts.filter(
+  (post) =>
     post.slug.startsWith('gael-performance-toolkit/') &&
     post.slug !== 'gael-performance-toolkit/gael-performance-toolkit'
-  )
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+);
+
+// Map each month of the Training the Mind series to its companion toolkit.
+type ToolkitMonth = {
+  month: string;
+  theme: string;
+  slug: string;
+};
+
+const monthlyToolkits: ToolkitMonth[] = [
+  { month: 'Month 1',  theme: 'Pressure & Performance Anxiety',         slug: 'gael-performance-toolkit/pre-performance-routines-toolkit' },
+  { month: 'Month 2',  theme: 'Confidence & Self-Talk',                  slug: 'gael-performance-toolkit/self-talk-and-confidence-toolkit' },
+  { month: 'Month 3',  theme: 'Mistakes, Perfectionism & Shame',          slug: 'gael-performance-toolkit/mistake-reset-toolkit' },
+  { month: 'Month 4',  theme: 'Team Culture, Belonging & Communication',  slug: 'gael-performance-toolkit/team-communication-toolkit' },
+  { month: 'Month 5',  theme: 'Motivation, Discipline & Burnout Risk',    slug: 'gael-performance-toolkit/goal-setting-toolkit' },
+  { month: 'Month 6',  theme: 'Injury Psychology & Comeback Confidence',  slug: 'gael-performance-toolkit/imagery-and-graded-exposure-toolkit' },
+  { month: 'Month 7',  theme: 'Flow, Focus & Playing Free',               slug: 'gael-performance-toolkit/focus-and-refocus-toolkit' },
+  { month: 'Month 8',  theme: 'Body Image, RED-S & Food Culture',         slug: 'gael-performance-toolkit/nutrition-and-language-toolkit' },
+  { month: 'Month 9',  theme: 'Boundaries, Coaches & People-Pleasing',    slug: 'gael-performance-toolkit/boundaries-and-assertiveness-toolkit' },
+  { month: 'Month 10', theme: 'Championship Pressure & Fear of Failure',  slug: 'gael-performance-toolkit/championship-routines-toolkit' },
+  { month: 'Month 11', theme: 'Identity Beyond Sport & Balance',          slug: 'gael-performance-toolkit/values-and-balance-toolkit' },
+  { month: 'Month 12', theme: 'Off-Season Mental Health & Reset',         slug: 'gael-performance-toolkit/off-season-recovery-toolkit' },
+];
+
+// Bonus toolkits = anything not in the monthly map (e.g. older standalone
+// toolkits like reset-your-focus-toolkit, stay-composed-under-pressure-toolkit).
+const monthlySlugSet = new Set(monthlyToolkits.map((m) => m.slug));
+const bonusToolkits = toolkitPosts.filter((p) => !monthlySlugSet.has(p.slug));
+
+function toolkitFor(slug: string) {
+  return toolkitPosts.find((p) => p.slug === slug);
+}
 ---
 
 <!DOCTYPE html>
@@ -30,44 +60,57 @@ const childPosts = allPosts
         <p class="hero-tagline">Practical tools for the mental side of sport. Use them before games, between plays, and after the moments that knock your confidence.</p>
       </section>
 
-      <section class="latest-blog-box" aria-label="Practical tools">
-        <h2>Practical Tools</h2>
-        <label class="sr-only" for="search-posts">Search toolkit posts</label>
-        <input
-          type="text"
-          id="search-posts"
-          name="search-posts"
-          placeholder="Search tools..."
-          oninput="filterPosts()"
-        />
-        <ul id="posts-list" class="latest-posts">
-          {childPosts.map((post) => (
-            <li>
-              <a href={`/content-hub/${post.slug}/`}>
-                <h3 class="title">{post.data.title}</h3>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
-              </a>
-            </li>
-          ))}
+      <section class="toolkit-series" aria-label="Monthly toolkits">
+        <h2>The 12-Month Toolkit Series</h2>
+        <p class="series-intro">Each toolkit pairs with the matching Training the Mind month. Use them on their own or alongside the blog posts.</p>
+        <ul class="month-toolkit-list">
+          {monthlyToolkits.map((entry) => {
+            const post = toolkitFor(entry.slug);
+            if (!post) {
+              return (
+                <li class="toolkit-card toolkit-card-missing">
+                  <span class="toolkit-month">{entry.month}</span>
+                  <span class="toolkit-status">Coming soon</span>
+                  <h3 class="toolkit-title">{entry.theme}</h3>
+                </li>
+              );
+            }
+            return (
+              <li class="toolkit-card">
+                <a href={`/content-hub/${post.slug}/`}>
+                  <span class="toolkit-month">{entry.month}</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description">{post.data.description}</p>
+                  )}
+                  <span class="toolkit-cta">Open toolkit →</span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
-        <script is:inline>
-      function filterPosts() {
-        const input = document.getElementById('search-posts');
-        const filter = (input && 'value' in input ? input.value : '').toLowerCase();
-        const ul = document.getElementById('posts-list');
-
-        if (!ul) return;
-
-        Array.from(ul.getElementsByTagName('li')).forEach((item) => {
-          const title = item.querySelector('.title')?.textContent?.toLowerCase() || '';
-          const desc = item.querySelector('.description')?.textContent?.toLowerCase() || '';
-          item.style.display = title.includes(filter) || desc.includes(filter) ? '' : 'none';
-        });
-      }
-    </script>
       </section>
+
+      {bonusToolkits.length > 0 && (
+        <section class="toolkit-bonus" aria-label="Bonus toolkits">
+          <h2>Bonus Toolkits</h2>
+          <p class="series-intro">Standalone tools outside the 12-month series.</p>
+          <ul class="month-toolkit-list">
+            {bonusToolkits.map((post) => (
+              <li class="toolkit-card">
+                <a href={`/content-hub/${post.slug}/`}>
+                  <span class="toolkit-month toolkit-month-bonus">Bonus</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description">{post.data.description}</p>
+                  )}
+                  <span class="toolkit-cta">Open toolkit →</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section class="content-feedback-cta">
         <p>Got feedback on this content?</p>
@@ -229,5 +272,117 @@ const childPosts = allPosts
     .latest-blog-box {
       padding: 1rem;
     }
+  }
+
+  /* New: monthly toolkit series listing */
+  .toolkit-series {
+    margin-top: 0.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .toolkit-bonus {
+    margin-top: 1.2rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .toolkit-series h2,
+  .toolkit-bonus h2 {
+    color: var(--purple-light);
+    margin: 0 0 0.25rem;
+  }
+
+  .series-intro {
+    margin: 0 0 0.6rem;
+    color: var(--green-light);
+    max-width: 60ch;
+    font-size: 0.95rem;
+  }
+
+  .month-toolkit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .toolkit-card {
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    background: #ffffff;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .toolkit-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .toolkit-card a {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .toolkit-month {
+    display: inline-block;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .toolkit-month-bonus {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .toolkit-status {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(105, 0, 90, 0.55);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .toolkit-title {
+    color: var(--green-dark) !important;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  .toolkit-description {
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    margin: 0 0 0.7rem;
+    line-height: 1.5;
+    opacity: 0.82;
+  }
+
+  .toolkit-cta {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .toolkit-card-missing {
+    opacity: 0.65;
+    background: #f7f5f8;
   }
 </style>

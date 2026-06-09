@@ -62,7 +62,7 @@ const latestPosts = featuredSlugs
         <div class="container home-band-inner">
           <div class="find-header">
             <h2>What will you find here?</h2>
-            <p class="find-intro">You will find three core areas: the Content Hub, Personal Training, and Online Workshops.</p>
+            <p class="find-intro">You will find three core areas: the Content Hub, Mental Performance, and Physical Performance.</p>
           </div>
           <div class="find-cards">
             <div class="find-card find-card-1">
@@ -76,14 +76,14 @@ const latestPosts = featuredSlugs
               <a class="find-card-link" href="/content-hub">Explore Content Hub →</a>
             </div>
             <div class="find-card find-card-2">
-              <h3>Personal Training</h3>
-              <p>Exercise-based coaching with a special focus on women's health for female athletes. While there is overlap with performance and wellbeing, physical training support is the core focus.</p>
-              <a class="find-card-link" href="/personal-training">Explore Personal Training →</a>
+              <h3>Mental Performance Plans</h3>
+              <p>Structured, topic-based support focused on mindset, confidence, pressure, and practical performance tools for athletes and teams.</p>
+              <a class="find-card-link" href="/personal-training#mental-performance-plans">Explore Mental Performance Plans →</a>
             </div>
             <div class="find-card find-card-3">
-              <h3>Online Workshops</h3>
-              <p>Structured, topic-based coaching in an accessible format for athletes and teams.</p>
-              <a class="find-card-link" href="/workshops">Explore Workshops →</a>
+              <h3>Physical Performance Plans</h3>
+              <p>Exercise-based coaching with a special focus on women's health for female athletes. While there is overlap with performance and wellbeing, physical training support is the core focus.</p>
+              <a class="find-card-link" href="/personal-training">Explore Physical Performance Plans →</a>
             </div>
           </div>
         </div>
@@ -105,21 +105,6 @@ const latestPosts = featuredSlugs
             </ul>
           </div>
           <div class="split-image split-image-who"></div>
-        </div>
-      </section>
-
-      <section class="home-band home-band-start">
-        <div class="container home-band-inner">
-          <h2>Start here</h2>
-
-          <section class="founding-offer" aria-label="Founding offer">
-            <h3>Founding Offer</h3>
-            <p><strong>£5/month for the first 50 members</strong> (then £8/month).</p>
-            <p><strong>Includes a 14-day free trial</strong>, then full monthly access.</p>
-            <p>Each month includes: 4 Training the Mind articles, 4 Gael Performance Toolkits, and 1 mindfulness newsletter.</p>
-            <p><strong>Stronger Minds, Stronger Players is always free</strong> because it helps people spot when someone may be struggling with their mental health and points them toward professional support pathways.</p>
-            <a class="founding-offer-cta" href="/api/create-checkout-session?plan=individual">Start Free Trial</a>
-          </section>
         </div>
       </section>
 
@@ -307,7 +292,7 @@ const latestPosts = featuredSlugs
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     border: 1px solid rgba(105, 0, 90, 0.22);
     color: var(--green-dark);
   }
@@ -350,12 +335,12 @@ const latestPosts = featuredSlugs
   }
 
   .find-card-1 {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     border: 1px solid rgba(105, 0, 90, 0.22);
   }
 
   .find-card-2 {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     border: 1px solid rgba(105, 0, 90, 0.22);
   }
 
@@ -372,7 +357,7 @@ const latestPosts = featuredSlugs
   }
 
   .find-card-3 {
-    background: linear-gradient(180deg, rgba(240, 205, 255, 0.9) 0%, rgba(244, 255, 232, 0.9) 100%);
+    background: #ffffff;
     border: 1px solid rgba(105, 0, 90, 0.22);
     color: var(--green-dark);
   }
@@ -387,6 +372,13 @@ const latestPosts = featuredSlugs
 
   .find-card-3 .find-card-link:hover {
     border-bottom-color: var(--purple);
+  }
+
+  .home-page .find-card,
+  .home-page .find-card-1,
+  .home-page .find-card-2,
+  .home-page .find-card-3 {
+    background: #ffffff !important;
   }
 
   .about-photo {

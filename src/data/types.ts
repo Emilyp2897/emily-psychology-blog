@@ -46,6 +46,28 @@ export interface ConsultationWithPlanRequest {
   // intake form after a successful programme purchase. Used to verify
   // payment before generating an autonomous plan.
   sessionId?: string;
+
+  // Plan type — physical training plan vs mental performance plan.
+  // Defaults to 'physical' for backwards compatibility with intakes
+  // submitted before mental plans existed.
+  planType?: 'physical' | 'mental';
+
+  // Mental performance plan specific fields (only present when
+  // planType === 'mental'). Captured by the dedicated mental intake form.
+  competitionLevel?: string;             // e.g. "Club", "County", "Inter-county"
+  yearsCompeting?: string;
+  performanceMomentsToWorkOn?: string[]; // multi-select tags
+  currentRoutines?: string;              // free text
+  peakMoment?: string;                   // free text
+  struggleMoment?: string;               // free text
+  confidenceLevel?: string;              // 1-10
+
+  // Cross-plan companion summary. Optional free text the client provides
+  // when they already have (or are planning to do) the OTHER Mind the
+  // Gael plan. On a physical intake this describes their mental plan; on
+  // a mental intake it describes their physical plan. Fed into the prompt
+  // so the new plan can reference and reinforce the existing one.
+  companionPlanSummary?: string;
 }
 
 export type ProgramTrackId =

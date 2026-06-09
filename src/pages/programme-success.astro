@@ -176,7 +176,12 @@ import { SITE_TITLE } from '../consts';
     font-weight: 700;
   }
 
-  .action-primary:hover,
+  .action-primary:hover {
+    transform: translateY(-1px);
+    border-color: var(--purple);
+    color: var(--green-dark) !important;
+  }
+
   .action-secondary:hover {
     transform: translateY(-1px);
     border-color: var(--purple-light);
