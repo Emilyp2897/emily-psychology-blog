@@ -10,7 +10,7 @@ interface Props {
 }
 
 // ✅ SAFE SITE HANDLING
-const site = import.meta.env.PUBLIC_SITE ?? "http://localhost:4332";
+const site = Astro.site?.toString() ?? "https://mindthegael.co.uk";
 
 const canonicalURL = new URL(Astro.url.pathname, site);
 
