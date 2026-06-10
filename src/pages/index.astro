@@ -5,7 +5,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import problemImage from '../assets/FLO_1671.jpg';
+import whyImage from '../assets/DSC_1538.jpg';
+import mentalImage from '../assets/FLO_1671.jpg';
+import physicalImage from '../assets/CiaraFlan-London-1.jpg';
+import hubImage from '../assets/HollowayTeamHuddle.jpg';
+import mtgLogo from '../assets/MTG_colour.png';
+import footballImage from '../assets/football-illustration.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
 
 const allPosts = await getCollection('blog');
@@ -27,819 +32,728 @@ const latestPosts = featuredSlugs
   <head>
     <BaseHead title={SITE_TITLE_FULL} description={SITE_DESCRIPTION} />
   </head>
-  <body class="home-page">
-    <Header />
+  <body class="home-page home-page-hero-first">
     <main class="home-layout">
-      <!-- Why + Problem: split image/text rows on wide screens -->
-      <section class="home-band home-band-why">
-        <div class="split-row">
-          <div class="split-text">
-            <h2>Why this platform exists</h2>
-            <p>Mind the Gael exists because many female athletes, including me, do not get consistent access to sports psychology support.</p>
-            <p>And that creates a gap. A gap in understanding confidence, pressure, focus, anxiety, and mental wellbeing in sport, right when athletes need that understanding the most.</p>
-            <p>Mind the Gael exists to help bridge that gap.</p>
-            <p>Just to be really clear, I am not a sports psychologist. This platform is not clinical advice or therapy. What I share here is based on my own lived experience as an athlete, alongside research I'm actively learning from, exploring, and translating into language that makes sense in real sport.</p>
-            <p>My aim is education and awareness,helping athletes better understand their minds, not diagnosing or treating anything.</p>
-          </div>
-          <div class="split-image"></div>
-        </div>
-      </section>
 
-      <section class="home-band home-band-problem">
-        <div class="split-row">
-          <div class="split-image split-image-problem">
-            <Image src={problemImage} alt="Two players embracing on the pitch" class="problem-photo" loading="lazy" />
-          </div>
-          <div class="split-text">
-            <h2>The Problem I'm Focused On</h2>
-            <p>This platform comes from my own experience as an athlete: struggling with anxiety, overthinking, confidence dips, and pressure, then realizing I needed practical understanding, not generic motivation; Mind the Gael focuses on what these moments actually feel like in training and matches and turns lived experience plus psychological learning into clear, usable guidance for real-time performance.</p>
-          </div>
-        </div>
-      </section>
+      <!-- ─────────────── HERO (animated) ─────────────── -->
+      <!-- The header bar sits BELOW this hero (qube-rt style): the
+           animation plays first, then the nav appears below. -->
+      <section class="home-band home-hero">
+        <div class="hero-stage-wrap">
+          <div class="hero-stage">
+            <!-- Volleyball/Gaelic football illustration: spins in, scales up,
+                 fades out. Sits at the centre of the stage. -->
+            <Image src={footballImage} alt="" class="hero-fb" loading="eager" widths={[220, 320, 440]} sizes="220px" />
 
-      <!-- What you'll find: 3-column cards -->
-      <section class="home-band home-band-find">
-        <div class="container home-band-inner">
-          <div class="find-header">
-            <h2>What will you find here?</h2>
-            <p class="find-intro">You will find three core areas: the Content Hub, Mental Performance, and Physical Performance.</p>
+            <!-- Mind the Gael logo: springs in at the SAME centre point once
+                 the ball has faded. The image overflows the 220x220 stage
+                 box because the logo is wider; that's intentional. -->
+            <Image src={mtgLogo} alt="Mind the Gael" class="hero-logo" loading="eager" widths={[400, 600, 800]} sizes="(max-width: 600px) 280px, 480px" />
           </div>
-          <div class="find-cards">
-            <div class="find-card find-card-1">
-              <h3>Content Hub</h3>
-              <p>All educational content in one place, broken into three parts:</p>
-              <ul>
-                <li><strong>Training the Mind Blog:</strong> sports psychology in simple, practical language.</li>
-                <li><strong>Gael Performance Toolkit:</strong> practical tools for focus, confidence, and match-day decision making.</li>
-                <li><strong>Stronger Minds, Stronger Players:</strong> always free. Spotting struggle and signposting professional support.</li>
-              </ul>
-              <a class="find-card-link" href="/content-hub">Explore Content Hub →</a>
-            </div>
-            <div class="find-card find-card-2">
-              <h3>Mental Performance Plans</h3>
-              <p>Structured, topic-based support focused on mindset, confidence, pressure, and practical performance tools for athletes and teams.</p>
-              <a class="find-card-link" href="/personal-training#mental-performance-plans">Explore Mental Performance Plans →</a>
-            </div>
-            <div class="find-card find-card-3">
-              <h3>Physical Performance Plans</h3>
-              <p>Exercise-based coaching with a special focus on women's health for female athletes. While there is overlap with performance and wellbeing, physical training support is the core focus.</p>
-              <a class="find-card-link" href="/personal-training">Explore Physical Performance Plans →</a>
-            </div>
+
+          <h1 class="hero-tagline">Mental Performance for Female Athletes</h1>
+          <p class="hero-sub">AI-built mental and physical performance plans, the Gael Performance Toolkit, and women's health at the centre. Train your mind like you train your body.</p>
+
+          <div class="hero-ctas">
+            <a href="/personal-training" class="cta-primary">Get your performance plan</a>
+            <a href="/content-hub/gael-performance-toolkit/" class="cta-secondary">Explore the toolkit</a>
           </div>
         </div>
       </section>
 
-      <section class="home-band home-band-who">
-        <div class="split-row">
-          <div class="split-text">
-            <h2>Who This Platform is For</h2>
-            <p>This is for female athletes, coaches, and support staff who want to better understand the mental side of performance.</p>
-            <p>It's for those who want to:</p>
-            <ul>
-              <li>perform more consistently under pressure</li>
-              <li>build confidence in key moments</li>
-              <li>Understand how mindset affects focus and decision-making</li>
-              <li>Make sense of what you're experiencing mentally in sport.</li>
-              <li>Support your own wellbeing, and know when to seek further help if needed</li>
-              <li>Or if you're involved in player development or coaching and want a clearer understanding of sports psychology in action.</li>
+      <!-- Header banner sits below the hero animation on the homepage,
+           qube-rt style. It becomes sticky once it scrolls into view. -->
+      <Header />
+
+      <!-- ─────────────── 1. WHY (image + text) ─────────────── -->
+      <section class="home-band band-light band-split" aria-labelledby="why-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-image">
+            <Image src={whyImage} alt="Female athlete in training" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+          </div>
+          <div class="band-text">
+            <p class="band-kicker">Why Mind the Gael exists</p>
+            <h2 id="why-heading">Female athletes deserve consistent access to sports psychology.</h2>
+            <p>Most do not get it. That creates a gap. A gap in understanding confidence, pressure, focus, anxiety, and mental wellbeing in sport, right when athletes need that understanding the most.</p>
+            <p>Mind the Gael exists to help bridge that gap. The platform is built from my own experience as an athlete: struggling with anxiety, overthinking, confidence dips, and pressure, then realising I needed practical understanding, not generic motivation.</p>
+            <p class="band-fine">This platform is not clinical advice or therapy. The aim is education and awareness, translating research into language that makes sense in real sport.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────── 2. MENTAL PERFORMANCE PLANS (text + image right) ─────────────── -->
+      <section class="home-band band-dark band-split" aria-labelledby="mental-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-text">
+            <p class="band-kicker">Mental Performance Plans</p>
+            <h2 id="mental-heading">A six or twelve week mental performance plan, built around your sport.</h2>
+            <p>Fill in a short intake form sharing your sport, your competitive level, the performance moments you want to work on, your peak moments, your struggle moments. Receive a structured plan that pulls from the twelve themes of the Gael Performance Toolkit. Confidence, focus, pre-performance routines, mistake recovery, self-talk, visualisation.</p>
+            <p>Delivered fully online. Self-paced. Built to apply in training and on match day.</p>
+            <a href="/personal-training#mental-performance-plans" class="band-link">Start your mental performance plan →</a>
+          </div>
+          <div class="band-image">
+            <Image src={mentalImage} alt="Two players embracing on the pitch" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────── 3. PHYSICAL PERFORMANCE PLANS (image + text) ─────────────── -->
+      <section class="home-band band-light band-split" aria-labelledby="physical-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-image">
+            <Image src={physicalImage} alt="Ciara Flanagan training in London" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+          </div>
+          <div class="band-text">
+            <p class="band-kicker">Physical Performance Plans</p>
+            <h2 id="physical-heading">Exercise-based training plans built around your sport and women's health.</h2>
+            <p>Strength, conditioning, recovery, sport-specific work. Cycle-aware programming. Specialised tracks where they apply: pregnancy, postpartum, endometriosis, return-to-play.</p>
+            <p>Same six and twelve week format as the mental performance plans. Same self-paced delivery. Both plans can run in parallel and reinforce each other.</p>
+            <a href="/personal-training" class="band-link">Start your physical training plan →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────── 4. CONTENT HUB (text + image right) ─────────────── -->
+      <section class="home-band band-dark band-split" aria-labelledby="hub-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-text">
+            <p class="band-kicker">The Content Hub</p>
+            <h2 id="hub-heading">Three series. Sports psychology in language that makes sense on the pitch.</h2>
+            <ul class="hub-list">
+              <li><strong>Training the Mind.</strong> Sports psychology explained for athletes. Twelve months, twenty four articles.</li>
+              <li><strong>Gael Performance Toolkit.</strong> Practical tools for focus, confidence, and match-day decision making. Twelve toolkits, one per theme.</li>
+              <li><strong>Stronger Minds, Stronger Players.</strong> Always free. Spotting struggle and signposting professional support.</li>
             </ul>
+            <a href="/content-hub" class="band-link">Open the content hub →</a>
           </div>
-          <div class="split-image split-image-who"></div>
+          <div class="band-image">
+            <Image src={hubImage} alt="Team huddle at Holloway" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+          </div>
         </div>
       </section>
 
-      <section class="home-band home-band-latest">
-        <div class="container home-band-inner">
-          <h2>Latest Articles and Toolkits</h2>
-          <section class="latest-blog-box">
-            <ul class="latest-posts">
-              {latestPosts.map((post) => (
-                <li>
-                  <a href={`/content-hub/${post.slug}/`}>
-                    <h3>{post.data.title}</h3>
-                    <p class="post-date">
-                      <FormattedDate date={post.data.pubDate} />
-                    </p>
-                    {post.data.description && <p class="post-description">{post.data.description}</p>}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <a href="/content-hub" class="view-all-link">View All Articles →</a>
-          </section>
+      <!-- ─────────────── BOTTOM CTA CARDS ─────────────── -->
+      <section class="home-band band-cta" aria-label="Get started">
+        <div class="cta-grid">
+          <a href="/personal-training" class="cta-card cta-card-plans">
+            <p class="cta-card-kicker">Performance Plans</p>
+            <h3>Get a plan built around your sport this week.</h3>
+            <span class="cta-card-arrow">→</span>
+          </a>
+          <a href="/content-hub" class="cta-card cta-card-hub">
+            <p class="cta-card-kicker">Content Hub</p>
+            <h3>Read the toolkit. Build your routine. Start today.</h3>
+            <span class="cta-card-arrow">→</span>
+          </a>
         </div>
       </section>
+
+      <!-- ─────────────── LATEST ARTICLES ─────────────── -->
+      <section class="home-band band-latest" aria-labelledby="latest-heading">
+        <div class="band-inner">
+          <h2 id="latest-heading" class="latest-heading">Latest articles and toolkits</h2>
+          <ul class="latest-posts">
+            {latestPosts.map((post) => (
+              <li>
+                <a href={`/content-hub/${post.slug}/`}>
+                  <h3>{post.data.title}</h3>
+                  <p class="post-date">
+                    <FormattedDate date={post.data.pubDate} />
+                  </p>
+                  {post.data.description && <p class="post-description">{post.data.description}</p>}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href="/content-hub" class="view-all-link">View all articles →</a>
+        </div>
+      </section>
+
     </main>
     <Footer />
   </body>
 </html>
 
 <style>
+  /* ────────────────────────────────────────────────────────────
+     Mind the Gael homepage. Structured like qube-rt: animated
+     hero, then alternating light/dark full-bleed bands with one
+     half image, one half text. Bottom CTA cards. Latest posts.
+
+     All bands stretch full viewport width. .band-inner caps the
+     content at 1380px for readability.
+     ──────────────────────────────────────────────────────────── */
+
   .home-layout {
-    padding: 0 0 2rem;
+    padding: 0;
   }
 
   .home-band {
-    padding: 2.4rem 0;
-    --band-text: var(--green-light);
-    --band-heading: var(--green-lime);
-    color: var(--band-text);
+    width: 100%;
   }
 
-  .home-band-inner {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .home-band-why {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    --band-text: var(--green-light);
-    --band-heading: var(--green-lime);
-    padding: 0;
-  }
-
-  .home-band-problem {
-    background: #ffffff;
-    --band-text: var(--green-dark);
-    --band-heading: var(--purple);
-    padding: 0;
-  }
-
-  .home-band-find {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    --band-text: var(--green-light);
-    --band-heading: var(--green-lime);
-  }
-
-  .find-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .home-band-find h2 {
-    text-align: center;
-    width: min(100%, 56ch);
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .home-band-who {
-    background: #ffffff;
-    --band-text: var(--green-dark);
-    --band-heading: var(--purple);
-    padding: 0;
-  }
-
-  .home-band-who .split-row {
-    max-width: 1200px;
-  }
-
-  .home-band-who .split-text {
-    padding-left: 1em;
-  }
-
-  .home-band-start {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    --band-text: var(--green-light);
-    --band-heading: var(--green-lime);
-    padding-bottom: 1.1rem;
-  }
-
-  .home-band-latest {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    --band-text: var(--green-light);
-    --band-heading: var(--green-lime);
-    padding-top: 0.9rem;
-  }
-
-  .home-band-photo {
-    padding: 0;
-    background: var(--green-dark);
-  }
-
-  /* ── Split image/text rows (Why + Problem) ── */
-  .split-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 380px;
-    gap: 0;
-    overflow: hidden;
+  .band-inner {
     max-width: 1380px;
     margin: 0 auto;
+    padding: 0 1.5rem;
   }
 
-  .split-row-reverse {
-    direction: rtl;
-  }
-
-  .split-row-reverse > * {
-    direction: ltr;
-  }
-
-  .split-text {
-    padding: 2.4rem 2rem;
+  /* ── Hero ── */
+  .home-hero {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(105, 0, 90, 0.35) 0%, transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(192, 254, 113, 0.10) 0%, transparent 55%),
+      var(--green-dark);
+    color: var(--green-light);
+    min-height: 100vh;
+    padding: 7rem 1.5rem 4rem;
+    text-align: center;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 
-  .split-image {
-    background-image: url('/assets/DSC_1538.jpg');
-    background-size: cover;
-    background-position: center;
-    min-height: 320px;
-  }
-
-  .split-image-problem {
-    background: #f3ecf7;
-  }
-
-  .problem-photo {
-    width: 100%;
-    height: 100%;
-    min-height: 320px;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
-  }
-
-  .split-image-who {
-    background-image: url('/assets/HollowayTeamHuddle.jpg');
-    background-position: center center;
-  }
-
-  /* ── 3-column cards for "What will you find here" ── */
-  .find-intro {
-    text-align: center;
-    width: min(100%, 56ch);
-    max-width: none;
-    margin: 0 0 1.8rem;
-  }
-
-  .find-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    align-items: stretch;
-  }
-
-  .find-card {
-    border-radius: 12px;
-    padding: 1.6rem 1.3rem;
+  .hero-stage-wrap {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
-    background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.22);
+    align-items: center;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero-stage {
+    position: relative;
+    width: clamp(260px, 28vw, 360px);
+    height: clamp(260px, 28vw, 360px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Logo overflows the stage box; that's fine. */
+    overflow: visible;
+    /* Reserve enough vertical space below the stage so the logo (which is
+       wider than the stage and centred absolutely on the same point as the
+       ball) doesn't overlap the tagline that follows. */
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-fb {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* The Vecteezy ball illustration is on a solid black background.
+       mix-blend-mode: screen makes black pixels transparent against the
+       dark green hero, so only the white ball shows. */
+    mix-blend-mode: screen;
+    animation: heroFbSpin 1.5s cubic-bezier(.15, .8, .35, 1) forwards,
+               heroFbFade 0.3s ease-in 1.75s forwards;
+  }
+
+  .hero-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    width: clamp(360px, 60vw, 720px);
+    height: auto;
+    animation: heroLogoIn 0.6s cubic-bezier(.25, 1.4, .5, 1) 2.0s forwards;
+  }
+
+  @keyframes heroLogoIn {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.35) rotate(-20deg); }
+    62%  { transform: translate(-50%, -50%) scale(1.08) rotate(4deg); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  }
+
+  .hero-tagline {
+    opacity: 0;
+    margin: 2rem 0 0.6rem;
+    color: var(--green-lime);
+    font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    max-width: 22ch;
+    animation: heroFadeUp 0.6s ease-out 3.3s forwards;
+  }
+
+  .hero-sub {
+    opacity: 0;
+    margin: 0 auto 1.6rem;
+    max-width: 56ch;
+    color: var(--green-light);
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.6;
+    animation: heroFadeUp 0.6s ease-out 3.55s forwards;
+  }
+
+  .hero-ctas {
+    opacity: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    animation: heroFadeUp 0.6s ease-out 3.85s forwards;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    border: 2px solid var(--green-lime);
+    transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  }
+
+  .cta-primary {
+    background: var(--green-lime);
     color: var(--green-dark);
   }
 
-  .find-card h3 {
-    font-size: 1.2rem;
-    margin: 0;
-    color: var(--purple);
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    background: var(--purple-light);
+    border-color: var(--purple-light);
+    color: var(--green-dark);
   }
 
-  .find-card p, .find-card ul {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0;
+  .cta-secondary {
+    background: var(--green-lime);
+    color: var(--green-dark);
   }
 
-  .find-card ul {
-    padding-left: 1.1rem;
+  .cta-secondary:hover {
+    transform: translateY(-2px);
+    background: var(--purple-light);
+    border-color: var(--purple-light);
+    color: var(--green-dark);
   }
 
-  .find-card li {
-    margin-bottom: 0.45rem;
+  @keyframes heroFbSpin {
+    0%   { transform: scale(0.15) rotate(0deg); opacity: 0; }
+    12%  { opacity: 1; }
+    78%  { transform: scale(1.07) rotate(350deg); }
+    100% { transform: scale(1) rotate(360deg); }
   }
 
-  .find-card-link {
+  @keyframes heroFbFade {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.3); }
+  }
+
+  @keyframes heroShIn {
+    0%   { opacity: 0; transform: scale(0.35) rotate(-20deg); }
+    62%  { transform: scale(1.12) rotate(6deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  @keyframes heroFadeUp {
+    0%   { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Bands ── */
+  .band-split {
+    padding: 0;
+  }
+
+  .band-split-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 480px;
+    align-items: stretch;
+    max-width: none;
+    padding: 0;
+  }
+
+  .band-split-reverse {
+    direction: rtl;
+  }
+
+  .band-split-reverse > * {
+    direction: ltr;
+  }
+
+  .band-image {
+    overflow: hidden;
+    min-height: 320px;
+  }
+
+  .band-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .band-text {
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .band-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin: 0 0 0.8rem;
+    color: var(--green-lime);
+  }
+
+  .band-text h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    line-height: 1.2;
+    margin: 0 0 1.1rem;
+    font-weight: 800;
+  }
+
+  .band-text p {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin: 0 0 1rem;
+  }
+
+  .band-text p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .band-fine {
+    font-size: 0.9rem !important;
+    opacity: 0.78;
+    margin-top: 0.4rem !important;
+  }
+
+  /* Global `main a !important` rule forces dark purple on every link.
+     The band link sits on a dark green band, so it needs lime green with
+     !important to stay readable. */
+  .band-link {
     display: inline-block;
-    margin-top: auto;
-    padding-top: 0.75rem;
-    color: var(--purple);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
+    margin-top: 1.4rem;
+    color: var(--green-lime) !important;
+    font-weight: 700;
+    text-decoration: none !important;
     border-bottom: 2px solid transparent;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s ease;
     align-self: flex-start;
   }
 
-  .find-card-link:hover {
+  .band-link:hover {
+    color: var(--green-lime) !important;
+    border-bottom-color: var(--green-lime);
+  }
+
+  /* Light-band variant: same logic, but use purple text on the cream
+     background since lime would disappear on cream. */
+  .band-light .band-link {
+    color: var(--purple) !important;
+  }
+
+  .band-light .band-link:hover {
+    color: var(--purple) !important;
     border-bottom-color: var(--purple);
   }
 
-  .find-card-1 {
-    background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.22);
+  /* Light band: cream background, deep text, purple kicker, purple link */
+  .band-light {
+    background: var(--green-light);
+    color: var(--green-dark);
   }
 
-  .find-card-2 {
-    background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.22);
-  }
-
-  .find-card-2 h3 {
+  .band-light .band-kicker {
     color: var(--purple);
   }
 
-  .find-card-2 .find-card-link {
+  .band-light .band-text h2 {
     color: var(--purple);
   }
 
-  .find-card-2 .find-card-link:hover {
+  .band-light .band-link {
+    color: var(--purple);
+  }
+
+  .band-light .band-link:hover {
     border-bottom-color: var(--purple);
   }
 
-  .find-card-3 {
-    background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.22);
-    color: var(--green-dark);
+  /* Dark band: deep green background, light text, lime kicker + link */
+  .band-dark {
+    background:
+      linear-gradient(180deg, rgba(3, 10, 6, 0.96) 0%, rgba(3, 10, 6, 0.88) 100%);
+    color: var(--green-light);
   }
 
-  .find-card-3 h3 {
-    color: var(--purple);
-  }
-
-  .find-card-3 .find-card-link {
-    color: var(--purple);
-  }
-
-  .find-card-3 .find-card-link:hover {
-    border-bottom-color: var(--purple);
-  }
-
-  .home-page .find-card,
-  .home-page .find-card-1,
-  .home-page .find-card-2,
-  .home-page .find-card-3 {
-    background: #ffffff !important;
-  }
-
-  .about-photo {
-    width: 100%;
-    height: 320px;
-    object-fit: cover;
-    object-position: center 30%;
-    border-radius: 0;
-    display: block;
-  }
-
-  .about-photo-block {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    border-top: 3px solid var(--green-lime);
-    border-bottom: 3px solid var(--green-lime);
-  }
-
-  .home-band h2 {
-    margin: 0 0 0.9rem;
-    color: var(--band-heading);
-    font-size: 1.65rem;
-    max-width: 38ch;
-    line-height: 1.25;
-  }
-
-  .home-band p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
-  }
-
-  .home-band ul {
-    margin: 0 0 0.85rem 1.25rem;
-    padding-left: 1rem;
-  }
-
-  .home-band p:last-child,
-  .home-band ul:last-child {
-    margin-bottom: 0;
-  }
-
-  .about li {
-    margin-bottom: 0.5rem;
-  }
-
-  .founding-offer {
-    margin: 1rem 0 2rem;
-    padding: 1rem 1.1rem;
-    border: 2px solid var(--purple);
-    border-radius: 10px;
-    background: #ffffff;
-    color: var(--green-dark);
-  }
-
-  .founding-offer h3 {
-    margin: 0 0 0.6rem;
-    color: var(--purple);
-  }
-
-  .founding-offer p {
-    margin-bottom: 0.6rem;
-  }
-
-  .founding-offer-cta {
-    display: inline-block;
-    margin-top: 0.35rem;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    border: 2px solid var(--green-lime);
-    background: var(--green-lime);
-    color: var(--green-dark);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .founding-offer-cta:hover {
-    border-color: var(--purple-light);
-    background: var(--purple-light);
-  }
-
-  .about-grid {
-    display: flex;
-    flex-direction: column;
-    max-width: 1200px;
-    margin-bottom: 3rem;
-    gap: 0;
-  }
-
-  .why-grid {
-    margin-bottom: 1.25rem;
-  }
-
-  .about-text {
-    margin-bottom: 2rem;
-  }
-
-  .about-text p:last-child {
-    margin-bottom: 0;
-  }
-
-  .arrow-image-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .guess-arrow-text {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  .guess-arrow-text p:last-child {
-    margin-bottom: 0;
-  }
-
-  .arrow-to-image {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 0.5rem;
-  }
-
-  .arrow-image-row-reverse {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
-  .why-hero {
-    margin-top: -1rem;
-  }
-
-  .about-image-img {
-    width: 500px;
-    object-fit: cover;
-    max-width: 100%;
-    border-radius: 12px;
-    border: 2px solid var(--green-lime);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    display: block;
-  }
-
-  .section-heading {
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
+  .band-dark .band-text h2 {
     color: var(--green-lime);
-    font-size: 1.7rem;
   }
 
-  .two-col-grid {
+  .hub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.4rem;
+  }
+
+  .hub-list li {
+    padding: 0.7rem 0 0.7rem 1.5rem;
+    border-top: 1px solid rgba(192, 254, 113, 0.18);
+    position: relative;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .hub-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--green-lime);
+    font-weight: 700;
+  }
+
+  .hub-list li:last-child {
+    border-bottom: 1px solid rgba(192, 254, 113, 0.18);
+  }
+
+  .hub-list strong {
+    color: var(--green-lime);
+    font-weight: 700;
+  }
+
+  /* ── Bottom CTA cards ── */
+  .band-cta {
+    background: var(--green-dark);
+    padding: 0;
+  }
+
+  .cta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    align-items: stretch;
+    gap: 0;
+    min-height: 320px;
   }
 
-  .two-col-grid > section {
+  .cta-card {
+    position: relative;
+    padding: 4rem 3rem;
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
-    height: 100%;
+    justify-content: flex-end;
+    text-decoration: none;
+    overflow: hidden;
+    transition: background 0.25s ease;
   }
 
-  .individual-subscription,
-  .team-subscription {
+  /* Global rule `main a { color: !important }` forces every link in main
+     to dark purple. CTA cards are <a> tags, so explicit colors and
+     text-decoration overrides need !important to win. */
+  .cta-card,
+  .cta-card:visited,
+  .cta-card:hover {
+    text-decoration: none !important;
+  }
+
+  .cta-card-plans,
+  .cta-card-plans:visited {
+    background: var(--purple);
+    color: var(--green-light) !important;
+  }
+
+  .cta-card-plans:hover {
+    background: #7a006c;
+    color: var(--green-light) !important;
+  }
+
+  .cta-card-hub,
+  .cta-card-hub:visited {
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+  }
+
+  .cta-card-hub:hover {
+    background: #cdff85;
+    color: var(--green-dark) !important;
+  }
+
+  .cta-card h3,
+  .cta-card-kicker,
+  .cta-card-arrow {
+    color: inherit;
+  }
+
+  .cta-card-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin: 0 0 0.7rem;
+    opacity: 0.85;
+  }
+
+  .cta-card h3 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height: 1.2;
     margin: 0;
-    padding: 1.5rem 2rem;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 8px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    height: 100%;
-    box-sizing: border-box;
+    font-weight: 800;
+    max-width: 22ch;
   }
 
-  .individual-subscription:hover,
-  .team-subscription:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
+  .cta-card-arrow {
+    position: absolute;
+    top: 2.2rem;
+    right: 2.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 0.25s ease;
   }
 
-  .team-contact-form,
-  .subscription-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: auto;
+  .cta-card:hover .cta-card-arrow {
+    transform: translateX(8px);
   }
 
-  .team-contact-form input,
-  .subscription-form input {
-    padding: 0.75rem;
-    border: 2px solid var(--green-lime);
-    border-radius: 4px;
-    background-color: var(--green-dark);
+  /* ── Latest articles ── */
+  .band-latest {
+    background: var(--green-dark);
     color: var(--green-light);
-    font-family: inherit;
-    font-size: 1rem;
+    padding: 4rem 1.5rem;
   }
 
-  .team-contact-form input::placeholder,
-  .subscription-form input::placeholder {
-    color: rgba(244, 255, 232, 0.6);
-  }
-
-  .team-contact-form button,
-  .subscription-form button {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--green-lime);
-    color: var(--green-dark);
-    border: none;
-    border-radius: 4px;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    font-size: 1rem;
-  }
-
-  .team-contact-form button:hover,
-  .subscription-form button:hover {
-    background-color: var(--purple-light);
-  }
-
-  .personal-training-box {
-    margin: 0 0 2rem 0;
-    padding: 1.5rem 2rem;
-    background-color: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 8px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+  .latest-heading {
+    color: var(--green-lime);
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    margin: 0 0 2rem;
     text-align: center;
-  }
-
-  .personal-training-box:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
-  }
-
-  .latest-blog-box {
-    background: #ffffff;
-    border: 2px solid rgba(105, 0, 90, 0.22);
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    margin-bottom: 2rem;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-    color: #000000;
-  }
-
-  .latest-blog-box:hover {
-    transform: translateY(-2px);
-    border-color: var(--purple-light);
-  }
-
-  .latest-blog-box h2,
-  .latest-blog-box h3,
-  .latest-blog-box .post-date,
-  .latest-blog-box .post-description,
-  .latest-blog-box .view-all-link,
-  .latest-blog-box li a {
-    color: #000000;
-  }
-
-  .latest-blog-box li a:hover h3,
-  .latest-blog-box .view-all-link:hover {
-    color: var(--purple);
+    font-weight: 800;
   }
 
   .latest-posts {
     list-style: none;
     padding: 0;
-    margin: 0 0 1rem 0;
+    margin: 0 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
   }
 
   .latest-posts li {
-    margin-bottom: 0.9rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 1.4rem 1.3rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(192, 254, 113, 0.2);
   }
 
-  .latest-posts li:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+  .latest-posts li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
   }
 
   .latest-posts li a {
     text-decoration: none;
-    color: inherit;
     display: block;
+    color: var(--green-dark);
+  }
+
+  .latest-posts li h3 {
+    color: var(--purple);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
   }
 
   .latest-posts li a:hover h3 {
-    color: var(--purple);
+    text-decoration: underline;
   }
 
   .post-date {
-    color: var(--green-light);
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--purple);
+    margin: 0 0 0.6rem;
+    opacity: 0.75;
   }
 
   .post-description {
-    color: var(--green-light);
-    font-size: 1rem;
+    font-size: 0.92rem;
     line-height: 1.5;
-    margin-bottom: 0;
+    margin: 0;
+    color: var(--green-dark);
   }
 
   .view-all-link {
-    display: inline-block;
+    display: block;
+    text-align: center;
     color: var(--green-lime);
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
     border-bottom: 2px solid transparent;
     transition: border-color 0.2s ease;
-    margin-top: 0.75rem;
-    align-self: center;
+    padding-bottom: 2px;
+    max-width: max-content;
+    margin: 0 auto;
   }
 
   .view-all-link:hover {
     border-bottom-color: var(--green-lime);
   }
 
-  .latest-blog-box .view-all-link:hover {
-    color: var(--purple);
-    border-bottom-color: var(--purple);
-  }
-
-  .coming-soon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0.75rem;
-    gap: 0.75rem;
-    align-self: center;
-  }
-
-  .coming-soon-img {
-    width: 60px;
-    height: 60px;
-    opacity: 0.8;
-  }
-
-  .coming-soon-text {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--green-lime);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
+  /* ── Responsive ── */
   @media (max-width: 900px) {
-    .home-layout {
-      padding-bottom: 0.45rem;
-      flex: 0 0 auto;
+    .home-hero {
+      min-height: auto;
+      padding: 5rem 1.25rem 3rem;
     }
 
-    .two-col-grid {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-
-    .individual-subscription,
-    .team-subscription,
-    .personal-training-box,
-    .latest-blog-box {
-      padding: 1.25rem 1rem;
-    }
-
-    .section-heading {
-      font-size: 1.45rem;
-      margin-top: 2.2rem;
-    }
-
-    .home-band {
-      padding: 1.6rem 0;
-    }
-
-    .home-band-latest {
-      padding-bottom: 0.35rem;
-    }
-
-    .latest-blog-box {
-      margin-bottom: 0;
-    }
-
-    .home-band-why,
-    .home-band-problem,
-    .home-band-who {
-      padding: 0;
-    }
-
-    .split-row {
+    .band-split-inner {
       grid-template-columns: 1fr;
     }
 
-    .split-image {
-      min-height: 220px;
+    .band-split-reverse {
+      direction: ltr;
+    }
+
+    .band-image {
+      min-height: 240px;
       order: -1;
     }
 
-    .home-band-why .split-image {
-      background-position: center 22%;
+    .band-text {
+      padding: 2.5rem 1.5rem;
     }
 
-    .home-band-find .home-band-inner {
-      padding-left: 2rem;
-      padding-right: 2rem;
+    .cta-grid {
+      grid-template-columns: 1fr;
     }
 
-    .home-layout .home-band h2,
-    .home-layout .home-band h3,
-    .home-layout .home-band p,
-    .home-layout .home-band li,
-    .home-layout .find-intro,
-    .home-layout .post-date,
-    .home-layout .post-description {
-      text-align: left;
+    .cta-card {
+      padding: 2.5rem 1.5rem;
     }
 
-    .find-intro {
-      margin: 0 0 1.25rem;
-      max-width: none;
-    }
-
-    .home-band-find .find-header {
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .home-band-find .find-header h2,
-    .home-band-find .find-intro {
-      text-align: left;
-    }
-
-    .view-all-link {
-      align-self: flex-start;
-    }
-
-    .find-cards {
+    .latest-posts {
       grid-template-columns: 1fr;
     }
   }
 
-  @media (max-width: 768px) {
-    .home-band p {
-      font-size: 0.95rem;
+  @media (max-width: 600px) {
+    .hero-logo {
+      width: 320px;
     }
 
-    .home-band h2 {
-      font-size: 1.35rem;
+    .hero-ctas {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
     }
 
-    .about-photo {
-      height: 200px;
+    .cta-primary,
+    .cta-secondary {
+      text-align: center;
     }
   }
 </style>

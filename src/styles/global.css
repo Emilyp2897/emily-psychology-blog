@@ -160,7 +160,7 @@ html, body {
    ============================================ */
 header {
   width: 100%;
-  background-color: #fff;
+  background-color: var(--green-dark);
   display: block;
   padding: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
@@ -187,16 +187,25 @@ header nav.nav-links {
   align-items: center;
 }
 
-header nav a {
-  color: var(--green-dark);
+header nav a,
+header nav a:visited,
+header nav a:link {
+  color: var(--green-lime) !important;
   text-decoration: none;
   font-size: 0.93rem;
+  font-weight: 700;
   padding: 0.5em 0;
   border-bottom: 4px solid transparent;
   white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+header nav a:hover {
+  color: var(--purple-light) !important;
 }
 
 header nav a.active {
+  color: var(--purple-light) !important;
   border-bottom-color: var(--green-lime);
 }
 

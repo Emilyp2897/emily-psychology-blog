@@ -1,0 +1,252 @@
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.scene {
+  width: 100%;
+  min-height: 540px;
+  background: #060d07;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stage {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fb {
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  animation: fbSpin 1.5s cubic-bezier(.15,.8,.35,1) forwards,
+             fbFade 0.3s ease-in 1.75s forwards;
+}
+.sh {
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  opacity: 0;
+  animation: shIn 0.6s cubic-bezier(.25,1.4,.5,1) 2.0s forwards;
+}
+.wordmark {
+  opacity: 0;
+  margin-top: 1rem;
+  animation: fadeUp 0.6s ease-out 2.65s forwards;
+}
+.wm-mind {
+  font-family: Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #f0cdff;
+  letter-spacing: -1px;
+  line-height: 1;
+  display: block;
+  text-align: center;
+  -webkit-text-stroke: 1.5px #69005a;
+}
+.wm-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.1rem;
+}
+.wm-the {
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  color: #f0cdff;
+}
+.wm-gael {
+  font-family: Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #69005a;
+  line-height: 1;
+  -webkit-text-stroke: 1px #2c0a71;
+}
+.scroll-hint {
+  opacity: 0;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  animation: fadeUp 0.5s ease-out 3.3s forwards;
+}
+.scroll-hint span {
+  font-size: 0.68rem;
+  color: #c1ff72;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.chevron {
+  width: 14px;
+  height: 14px;
+  border-right: 2px solid #c1ff72;
+  border-bottom: 2px solid #c1ff72;
+  transform: rotate(45deg);
+  animation: bounce 1.2s ease-in-out 3.8s infinite;
+}
+.replay-btn {
+  opacity: 0;
+  margin-top: 1.4rem;
+  animation: fadeUp 0.4s ease-out 3.5s forwards;
+  background: transparent;
+  border: 1px solid #c1ff72;
+  color: #c1ff72;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  letter-spacing: 0.07em;
+}
+.replay-btn:hover { background: rgba(193,255,114,0.08); }
+@keyframes fbSpin {
+  0%   { transform: scale(0.15) rotate(0deg); opacity: 0; }
+  12%  { opacity: 1; }
+  78%  { transform: scale(1.07) rotate(350deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+@keyframes fbFade {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+@keyframes shIn {
+  0%   { opacity: 0; transform: scale(0.35) rotate(-20deg); }
+  62%  { transform: scale(1.12) rotate(6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes fadeUp {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%,100% { transform: rotate(45deg) translateY(0); }
+  50%      { transform: rotate(45deg) translateY(6px); }
+}
+</style>
+
+<div class="scene">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+
+    <div class="stage">
+
+      <!-- GAELIC FOOTBALL: round ball, white/cream with black hexagonal panels like a real GAA ball -->
+      <svg class="fb" viewBox="0 0 210 210" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="bc"><circle cx="105" cy="105" r="88"/></clipPath>
+          <radialGradient id="bg" cx="38%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#d4cfc8"/>
+          </radialGradient>
+        </defs>
+        <!-- Ball base -->
+        <circle cx="105" cy="105" r="88" fill="url(#bg)" stroke="#1a1a1a" stroke-width="3.5"/>
+        <!-- Black panels - GAA balls have black/dark panels on white -->
+        <!-- Top pentagon -->
+        <polygon points="105,22 130,42 121,70 89,70 80,42" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Bottom pentagon -->
+        <polygon points="105,188 130,168 121,140 89,140 80,168" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Left panel -->
+        <polygon points="20,88 48,78 62,105 48,132 20,122" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Right panel -->
+        <polygon points="190,88 162,78 148,105 162,132 190,122" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Upper left panel -->
+        <polygon points="38,55 64,48 78,72 58,88 32,80" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Upper right panel -->
+        <polygon points="172,55 146,48 132,72 152,88 178,80" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Lower left panel -->
+        <polygon points="38,155 64,162 78,138 58,122 32,130" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- Lower right panel -->
+        <polygon points="172,155 146,162 132,138 152,122 178,130" fill="#1a1a1a" clip-path="url(#bc)"/>
+        <!-- White seam lines -->
+        <line x1="105" y1="22" x2="80" y2="42" stroke="white" stroke-width="1.5" clip-path="url(#bc)"/>
+        <line x1="105" y1="22" x2="130" y2="42" stroke="white" stroke-width="1.5" clip-path="url(#bc)"/>
+        <line x1="80" y1="42" x2="62" y2="50" stroke="white" stroke-width="1.5" clip-path="url(#bc)"/>
+        <line x1="130" y1="42" x2="148" y2="50" stroke="white" stroke-width="1.5" clip-path="url(#bc)"/>
+        <!-- Outer seam -->
+        <circle cx="105" cy="105" r="88" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
+        <!-- Highlight -->
+        <ellipse cx="78" cy="72" rx="18" ry="11" fill="white" opacity="0.22" transform="rotate(-25 78 72)"/>
+      </svg>
+
+      <!-- EXACT SHAMROCK from logo SVG with correct viewBox to isolate just the shamrock -->
+      <svg class="sh" viewBox="95 175 220 255" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lime green shamrock body - exact path from MTG_colour.svg cls-9 -->
+        <path fill="#c1ff72" stroke="#2c0a71" stroke-width="2.5"
+          d="M288.39,317.9a17.09,17.09,0,0,0-1.93-1.71l-1.73-1.34,2.52-.86c.14-.11,1.33-.36,1.76-.54,4.33-1.82,7.38-4.73,10.71-8.6a32,32,0,0,0,4.9-34.61c-4.06-8.54-14.44-17.36-31.4-16.56a64.19,64.19,0,0,0-19.3,3.56l-4.22,1.54,1.46-4.25a62.84,62.84,0,0,0,2.21-35.89c-3.26-14.86-13.65-24.83-27.11-26a34.58,34.58,0,0,0-35.69,22.89c-.22.64-1.21,4.32-1.27,5l0,6-3.83-4.75a32.83,32.83,0,0,0-27-11.81,31.73,31.73,0,0,0-14.36,4.32,27.7,27.7,0,0,0-13.82,20,37,37,0,0,0,1.86,18.82,64.83,64.83,0,0,0,15.67,25.36l3.26,3.22-4.57.41a62.64,62.64,0,0,0-33,12.56c-8.92,7-13.43,18.27-11.51,28.8A34.75,34.75,0,0,0,128,350.8a31.14,31.14,0,0,0,12.62.56l4.65-.74-2.52,4a32.78,32.78,0,0,0,4.59,40.71,27.93,27.93,0,0,0,15.48,7.86,28.84,28.84,0,0,0,11.67-.5c14.12-3.51,28.41-18.05,33.58-29.49L212,364.5l1.12,7c1.59,9.88.29,19.6-1,27-.28,1.6,1.23,3.34,2.74,4.43,2.1,1.51,6.66,2.27,8.42.2,2.9-3.41,3.86-8.47,4.7-12.94,1.45-7.69,1.13-17.3-.89-27.05l-1.42-6.85,5,4.89c9.26,9,19.87,14.8,31.57,17.09a75.74,75.74,0,0,0,9.71,1.36c17.08,1.08,30.35-8.17,33.79-23.58S302,325,288.39,317.9Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Left eye highlight (cls-6) -->
+        <path fill="#f0cdff"
+          d="M175.84,309a8.33,8.33,0,0,0-2.86-.5,9.92,9.92,0,0,0-6.29,2.29c-.53.47-1.72,1.67-1.43,2.9a2.43,2.43,0,0,0,1.58,1.68,9.51,9.51,0,0,0,9.34-1.73,3.71,3.71,0,0,0,1.45-2.48,1.15,1.15,0,0,0,0-.33A2.61,2.61,0,0,0,175.84,309Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Left eye outline (cls-10) -->
+        <path fill="#2c0a71"
+          d="M181.71,309.78a6.81,6.81,0,0,0-4.37-4.74,13.89,13.89,0,0,0-13.48,2.58c-2.33,2.05-3.34,4.63-2.76,7.07a6.61,6.61,0,0,0,4.24,4.7,13,13,0,0,0,4.61.84,13.9,13.9,0,0,0,9.07-3.39C181.35,314.75,182.34,312.18,181.71,309.78Zm-5.53,3.89a9.51,9.51,0,0,1-9.34,1.73,2.43,2.43,0,0,1-1.58-1.68c-.29-1.23.9-2.43,1.43-2.9a9.92,9.92,0,0,1,6.29-2.29,8.33,8.33,0,0,1,2.86.5,2.61,2.61,0,0,1,1.75,1.83,1.15,1.15,0,0,1,0,.33A3.71,3.71,0,0,1,176.18,313.67Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Right eye highlight (cls-6) -->
+        <path fill="#f0cdff"
+          d="M249,291.14a8.38,8.38,0,0,0-2.87-.5,9.92,9.92,0,0,0-6.28,2.29c-.53.47-1.73,1.68-1.44,2.9a2.42,2.42,0,0,0,1.59,1.68,9.52,9.52,0,0,0,9.34-1.73,3.73,3.73,0,0,0,1.44-2.48,1.15,1.15,0,0,0,0-.33A2.61,2.61,0,0,0,249,291.14Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Right eye outline (cls-10) -->
+        <path fill="#2c0a71"
+          d="M254.82,291.89a6.82,6.82,0,0,0-4.38-4.74A13.87,13.87,0,0,0,237,289.73c-2.33,2-3.34,4.63-2.76,7.07a6.61,6.61,0,0,0,4.23,4.7,13.13,13.13,0,0,0,4.61.84,13.9,13.9,0,0,0,9.08-3.39C254.46,296.86,255.44,294.29,254.82,291.89Zm-5.53,3.89a9.52,9.52,0,0,1-9.34,1.73,2.42,2.42,0,0,1-1.59-1.68c-.29-1.22.91-2.43,1.44-2.9a9.92,9.92,0,0,1,6.28-2.29,8.38,8.38,0,0,1,2.87.5,2.61,2.61,0,0,1,1.74,1.83,1.15,1.15,0,0,1,0,.33A3.73,3.73,0,0,1,249.29,295.78Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Left eyebrow stroke (cls-10) -->
+        <path fill="#2c0a71"
+          d="M185.52,292.85l2.21,10.56a3.77,3.77,0,0,0,4.53,2.76,3.83,3.83,0,0,0,2.76-4.54l-2.2-10.56a3.79,3.79,0,0,0-4.54-2.76,3.85,3.85,0,0,0-2.76,4.54Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Right eyebrow stroke (cls-10) -->
+        <path fill="#2c0a71"
+          d="M217.92,286.16l2.2,10.57a3.79,3.79,0,0,0,4.54,2.76,3.85,3.85,0,0,0,2.76-4.54l-2.21-10.56a3.77,3.77,0,0,0-4.53-2.76,3.82,3.82,0,0,0-2.76,4.53Z"
+          transform="translate(-10.63 -0.11)"/>
+        <!-- Smile (cls-10) -->
+        <path fill="#2c0a71"
+          d="M215.3,332.94l-.2.05a21.7,21.7,0,0,1-25.47-14,2.19,2.19,0,1,1,4.13-1.44,17.38,17.38,0,0,0,33.71-7.23,2.19,2.19,0,0,1,4.37-.38,21.76,21.76,0,0,1-16.54,23Z"
+          transform="translate(-10.63 -0.11)"/>
+      </svg>
+
+    </div>
+
+    <div class="wordmark">
+      <span class="wm-mind">mind</span>
+      <div class="wm-row">
+        <span class="wm-the">the</span>
+        <span class="wm-gael">gael</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>scroll to explore</span>
+      <div class="chevron"></div>
+    </div>
+
+    <button class="replay-btn" onclick="replay()">replay</button>
+
+  </div>
+</div>
+
+<script>
+function replay() {
+  const anims = [
+    ['.fb', 'fbSpin 1.5s cubic-bezier(.15,.8,.35,1) forwards, fbFade 0.3s ease-in 1.75s forwards'],
+    ['.sh', 'shIn 0.6s cubic-bezier(.25,1.4,.5,1) 2.0s forwards'],
+    ['.wordmark', 'fadeUp 0.6s ease-out 2.65s forwards'],
+    ['.scroll-hint', 'fadeUp 0.5s ease-out 3.3s forwards'],
+    ['.replay-btn', 'fadeUp 0.4s ease-out 3.5s forwards'],
+  ];
+  anims.forEach(([sel, anim]) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = anim;
+  });
+}
+</script>
