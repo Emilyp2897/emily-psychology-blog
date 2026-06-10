@@ -1,267 +1,404 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
+import storyImage from '../assets/EmilyPhelan-London-YellowCard.jpg';
+import feltLikeImage from '../assets/IMG_7228.jpg';
+import differentHeadspaceImage from '../assets/EmilyPhelan-London-Playing-1.jpg';
+import whyImage from '../assets/EmilyPhelan-Holloway-Playing.jpg';
 import { SITE_TITLE } from '../consts';
+
+const slides = [
+  {
+    image: storyImage,
+    alt: 'Emily Phelan playing in London',
+    kicker: 'Chapter 1',
+    title: 'My Story',
+    paragraphs: [
+      'My name is Emily Phelan. I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.',
+      'Sport has always been a huge part of my life, but my journey with it has not been straightforward. I have struggled with anxiety and depression throughout my sporting career, and for a long time I did not have the language or the tools to understand what was happening in my own head.',
+      'I did not understand why pressure felt like too much sometimes. I did not understand why my confidence could swing so much. I just knew I loved the sport, but I was also struggling in it.',
+    ],
+  },
+  {
+    image: depressedImage,
+    alt: 'Emily Phelan on league final day',
+    kicker: 'Chapter 2',
+    title: 'A Difficult Phase',
+    paragraphs: [
+      'Number 18 is me on league final day. I remember feeling happy for my team, but I could not fully feel it for myself because I was so caught up in my own performance. I was not in a good place mentally, and that showed on the pitch.',
+      'What I understand now, looking back, is that it was not just performance anxiety. I was dealing with undiagnosed anxiety and depression at the time, and that naturally spilled over into my sport.',
+    ],
+  },
+  {
+    image: feltLikeImage,
+    alt: 'Emily Phelan during a game',
+    kicker: 'Chapter 3',
+    title: 'What That Felt Like',
+    paragraphs: [
+      'Everything felt heavier than it should have. Not just games, but life in general. There were days I struggled to get out of bed, times I felt really low for no clear reason, and panic attacks I did not fully understand at the time.',
+      'My mind was constantly busy. I was overthinking, second-guessing myself, and never really fully present in the moment. Afterwards, I would replay everything in my head over and over, feeling disconnected from what had just happened.',
+    ],
+  },
+  {
+    image: differentHeadspaceImage,
+    alt: 'Emily Phelan playing in London',
+    kicker: 'Chapter 4',
+    title: 'Hitting Rock Bottom',
+    paragraphs: [
+      'Eventually I hit rock bottom and went to my doctor. I was put on medication, and for the first time in years my head went quiet.',
+      'That was when I realised how loud it had been. The overthinking had started when I was a teenager, and I had carried it for so long that I thought it was normal. I just did not know.',
+      'Getting the right help was the turning point. It gave me space to think clearly, and from there I could finally start doing the work on the mental side of my sport and my life.',
+    ],
+  },
+  {
+    image: whyImage,
+    alt: 'Emily Phelan playing for Holloway',
+    kicker: 'Chapter 5',
+    title: 'Why This Platform Exists',
+    paragraphs: [
+      'None of that happened overnight. It took a lot of work, a lot of learning, and a lot of uncomfortable reflection on how I was thinking, feeling, and showing up in life and in sport.',
+      'Mind the Gael is the platform I wish I had when I was younger. The language, the tools, and the honest stories that would have helped me understand my own head much sooner.',
+    ],
+  },
+];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`About | ${SITE_TITLE}`} description="My Story - Learn Emily's journey through sports psychology and personal performance." />
+    <BaseHead title={`About | ${SITE_TITLE}`} description="My Story - Emily Phelan's journey through anxiety, depression, and finding mental performance tools for sport." />
   </head>
   <body class="about-page">
     <Header />
     <main class="about-layout">
-      <section class="about-band about-band-light">
-        <div class="container about-band-inner">
-          <h2>My Story</h2>
-          <p>My name is Emily Phelan, I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.</p>
-          <p>Sport has always been a huge part of my life, but my journey with it hasn't always been straightforward. I've experienced anxiety and depression throughout my sporting career, and for a long time I didn't really have the language or the tools to understand what was happening in my own head.</p>
-          <p>I didn't understand why pressure felt like too much sometimes. I didn't understand why my confidence could swing so much. I didn't understand why certain moments affected me so much more then others. I just knew I loved the sport, but I was also struggling in it.</p>
-        </div>
+      <section class="about-intro">
+        <h1>My Story</h1>
+        <p class="about-intro-sub">Use the arrows or dots below to move through.</p>
       </section>
 
-      <section class="about-band about-band-dark about-band-split">
-        <div class="about-split-row">
-          <div class="about-split-image-wrap about-split-image-wrap--difficult">
-            <img class="about-split-image" src="EmilyPhelan-Depressed.jpg" alt="Emily Phelan on league final day" loading="eager" fetchpriority="high" />
-          </div>
-          <div class="about-split-copy">
-            <h2>A Difficult Phase</h2>
-            <p>Number 18 is me on league final day. I remember feeling happy for my team, but I couldn't fully feel it for myself because I was so caught up in my own performance. I wasn't in a good place mentally, and that showed on the pitch.</p>
-            <p>But what I understand now, looking back, is that it wasn't just performance anxiety. I was dealing with undiagnosed anxiety and depression at the time, and that naturally spilled over into my sport.</p>
-          </div>
+      <section class="slideshow" aria-roledescription="carousel" aria-label="Emily's story">
+        <div class="slideshow-stage">
+          {slides.map((slide, index) => (
+            <article
+              class:list={["slide", { active: index === 0 }]}
+              data-slide-index={index}
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${slides.length}: ${slide.title}`}
+              aria-hidden={index !== 0 ? "true" : "false"}
+            >
+              <div class="slide-image-wrap">
+                <Image
+                  src={slide.image}
+                  alt={slide.alt}
+                  class="slide-image"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  widths={[600, 900, 1200, 1600]}
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                />
+              </div>
+              <div class="slide-copy">
+                <p class="slide-kicker">{slide.kicker}</p>
+                <h2>{slide.title}</h2>
+                {slide.paragraphs.map((p) => <p>{p}</p>)}
+              </div>
+            </article>
+          ))}
         </div>
-      </section>
 
-      <section class="about-band about-band-light">
-        <div class="container about-band-inner">
-          <h2>What That Felt Like</h2>
-          <p>I just knew that everything felt heavier than it should have, not just games, but life in general. There were days I struggled to get out of bed, times I would feel really low for no clear reason, and moments where I experienced panic attacks that I didn't fully understand at the time.</p>
-          <p>And one of those panic attacks actually happened that day, when I should have been happy and celebrating with my teammates. Instead, I was completely overwhelmed in my own head. My mind was constantly busy. I didn't really know how to separate what was going on internally from how I was performing externally and the celebrations going on around me afterwards.</p>
-          <p>I was overthinking, second-guessing myself, and never really fully present in the moment. And afterwards, I remember replaying everything in my head over and over, feeling really disconnected from what had just happened, like I wasn't even fully in it in the first place.</p>
-        </div>
-      </section>
+        <button type="button" class="slide-arrow slide-arrow-prev" id="slide-prev" aria-label="Previous chapter">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <button type="button" class="slide-arrow slide-arrow-next" id="slide-next" aria-label="Next chapter">
+          <span aria-hidden="true">›</span>
+        </button>
 
-      <section class="about-band about-band-dark about-band-split">
-        <div class="about-split-row about-split-row-reverse">
-          <div class="about-split-image-wrap">
-            <img class="about-split-image" src="/assets/EmilyPhelan-London-Playing-1.jpg" alt="Emily Phelan playing in London" loading="lazy" />
-          </div>
-          <div class="about-split-copy">
-            <h2>A Different Headspace</h2>
-            <p>And then there's me a year later on the exact same league final day. Same pitch. Same occasion. But a completely different headspace.</p>
-            <p>We actually lost the final that day, but my experience of it was completely different.</p>
-            <p>I was calm. I was present. And I felt content within myself, regardless of the result. I could take the game for what it was, without it defining how I felt about myself afterwards.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="about-band about-band-light about-band-split">
-        <div class="about-split-row">
-          <div class="about-split-image-wrap">
-            <img class="about-split-image" src="/assets/EmilyPhelan-Holloway-Playing.jpg" alt="Emily Phelan playing for Holloway" loading="lazy" />
-          </div>
-          <div class="about-split-copy">
-            <h2>Why This Platform Exists</h2>
-            <p>That didn't happen overnight. It took a lot of work on my mental health, a lot of learning, and a lot of uncomfortable reflection about how I was thinking, feeling, and showing up in both life and sport.</p>
-            <p>The road between those two versions of me was long. And it wasn't linear. But it was worth it.</p>
-          </div>
+        <div class="slide-dots" role="tablist" aria-label="Choose a chapter">
+          {slides.map((slide, index) => (
+            <button
+              type="button"
+              class:list={["slide-dot", { active: index === 0 }]}
+              data-target={index}
+              role="tab"
+              aria-label={`Go to ${slide.title}`}
+              aria-selected={index === 0 ? "true" : "false"}
+            ></button>
+          ))}
         </div>
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      (() => {
+        const stage = document.querySelector('.slideshow-stage');
+        if (!stage) return;
+        const slides = Array.from(stage.querySelectorAll('.slide'));
+        const dots = Array.from(document.querySelectorAll('.slide-dot'));
+        const prevBtn = document.getElementById('slide-prev');
+        const nextBtn = document.getElementById('slide-next');
+        let current = 0;
+        const total = slides.length;
+
+        const goTo = (next) => {
+          const target = ((next % total) + total) % total;
+          if (target === current) return;
+          slides[current].classList.remove('active');
+          slides[current].setAttribute('aria-hidden', 'true');
+          dots[current]?.classList.remove('active');
+          dots[current]?.setAttribute('aria-selected', 'false');
+
+          slides[target].classList.add('active');
+          slides[target].setAttribute('aria-hidden', 'false');
+          dots[target]?.classList.add('active');
+          dots[target]?.setAttribute('aria-selected', 'true');
+          current = target;
+        };
+
+        prevBtn?.addEventListener('click', () => goTo(current - 1));
+        nextBtn?.addEventListener('click', () => goTo(current + 1));
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => goTo(index));
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowLeft') goTo(current - 1);
+          else if (event.key === 'ArrowRight') goTo(current + 1);
+        });
+      })();
+    </script>
   </body>
 </html>
 
 <style>
   .about-layout {
     padding: 0;
+    background: var(--green-dark);
+    min-height: calc(100vh - 220px);
   }
 
-  .about-band {
-    padding: 1.8rem 0;
-  }
-
-  .about-band-split {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .about-band-inner {
+  /* ── Intro ── */
+  .about-intro {
+    text-align: center;
+    padding: 3rem 1.5rem 1.5rem;
     color: var(--green-light);
   }
 
-  .about-band-hero {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-    padding: 2rem 0;
-  }
-
-  .about-band-hero h1 {
-    margin: 0;
-  }
-
-  .about-band-light {
-    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
-  }
-
-  .about-band-light .about-band-inner,
-  .about-band-light p,
-  .about-band-light h2,
-  .about-band-light .about-split-copy {
-    color: var(--green-light);
-  }
-
-  .about-band-light h2 {
-    color: var(--green-lime);
-  }
-
-  .about-band-dark {
-    background: #ffffff;
-  }
-
-  .about-band-dark .about-split-copy,
-  .about-band-dark .about-split-copy p {
-    color: var(--green-dark);
-  }
-
-  .about-band-dark h2 {
+  .about-intro-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.78rem;
+    font-weight: 700;
     color: var(--purple);
+    margin: 0 0 0.6rem;
   }
 
-  .about-band h2 {
-    margin: 0 0 0.8rem;
+  .about-intro h1 {
+    margin: 0 0 0.7rem;
+    color: var(--green-lime);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
   }
 
-  .about-band p {
-    margin: 0 0 0.85rem;
-    line-height: 1.6;
-  }
-
-  .about-split-row {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 380px;
-    gap: 0;
-    overflow: hidden;
-    align-items: stretch;
-  }
-
-  .about-split-row > * {
+  .about-intro-sub {
     margin: 0;
+    color: var(--green-light);
+    opacity: 0.78;
+    font-size: 0.95rem;
   }
 
-  .about-split-row-reverse {
-    direction: rtl;
+  /* ── Slideshow shell ── */
+  .slideshow {
+    position: relative;
+    padding: 1.5rem 4.5rem 3.5rem;
+    max-width: 880px;
+    margin: 0 auto;
   }
 
-  .about-split-row-reverse > * {
-    direction: ltr;
-  }
-
-  .about-split-image-wrap {
-    display: block;
-    height: 100%;
-    min-height: 380px;
-    line-height: 0;
-    font-size: 0;
-    border-radius: 0;
-    overflow: hidden;
-    border: 0;
-    background: transparent;
-  }
-
-  .about-split-image {
+  .slideshow-stage {
+    position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 380px;
-    object-fit: cover;
-    display: block;
-    border-radius: 0 !important;
+    min-height: 620px;
   }
 
-  .about-split-image-wrap :global(img) {
-    width: 100%;
-    height: 100%;
-    min-height: 380px;
-    object-fit: cover;
-    display: block;
-    border-radius: 0 !important;
-  }
-
-  .about-split-image-wrap--difficult .about-split-image {
-    object-position: right top !important;
-  }
-
-  .about-split-copy {
-    padding: 2.4rem 1rem;
-    border-radius: 0;
-    border: 0;
-    background: transparent;
+  /* ── Individual slide card ── */
+  .slide {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.18);
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    inset: auto;
+  }
+
+  .slide-image-wrap {
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem 0.5rem;
+  }
+
+  .slide-image {
+    width: auto;
+    max-width: 360px;
+    max-height: 320px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .slide-copy {
+    padding: 1.6rem 2rem 2rem;
+    text-align: center;
+    color: #1a1a1a;
+    width: 100%;
+  }
+
+  .slide-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--purple);
+    margin: 0 0 0.7rem;
+  }
+
+  .slide-copy h2 {
+    margin: 0 0 1.1rem;
+    color: var(--purple);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  .slide-copy p {
+    margin: 0 0 1rem;
+    line-height: 1.65;
+    font-size: 1.02rem;
+    color: #1a1a1a;
+  }
+
+  .slide-copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── Arrows: sit just outside the card on either side ── */
+  .slide-arrow {
+    position: absolute;
+    top: calc(50% - 30px);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    border: none;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    transition: transform 0.18s ease, background 0.18s ease;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
 
-  @media (max-width: 900px) {
-    .about-band {
-      padding: 1.2rem 0;
+  .slide-arrow:hover {
+    background: var(--purple-light);
+    transform: scale(1.08);
+  }
+
+  .slide-arrow-prev {
+    left: 0.25rem;
+  }
+
+  .slide-arrow-next {
+    right: 0.25rem;
+  }
+
+  /* ── Dots ── */
+  .slide-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 1.4rem 0 0;
+  }
+
+  .slide-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--green-lime);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+
+  .slide-dot:hover {
+    transform: scale(1.18);
+  }
+
+  .slide-dot.active {
+    background: var(--green-lime);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .slideshow {
+      padding: 1rem 1rem 3rem;
     }
 
-    .about-band:not(.about-band-split) {
-      padding-bottom: 0;
+    .slideshow-stage {
+      min-height: 0;
     }
 
-    .about-band:not(.about-band-split) .about-band-inner p:last-child {
-      margin-bottom: 0;
+    .slide:not(.active) {
+      display: none;
     }
 
-    .about-band-split {
-      padding: 0 !important;
-      margin-top: 0 !important;
+    .slide-image {
+      max-width: 100%;
+      max-height: 240px;
     }
 
-    .about-band-dark.about-band-split {
-      background: transparent;
+    .slide-copy {
+      padding: 1.4rem 1.2rem 1.8rem;
     }
 
-    .about-layout > .about-band:nth-of-type(2).about-band-split {
-      margin-top: 0.4rem !important;
+    .slide-arrow {
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+      top: calc(50% - 20px);
     }
 
-    .about-band-dark.about-band-split .about-split-copy {
-      background: #ffffff;
+    .slide-arrow-prev {
+      left: -0.25rem;
     }
 
-    .about-band-split .about-split-row,
-    .about-band-split .about-split-image-wrap,
-    .about-band-split .about-split-image {
-      margin-top: 0;
-      padding-top: 0;
-    }
-
-    .about-split-row,
-    .about-split-row-reverse {
-      grid-template-columns: 1fr;
-      direction: ltr;
-      max-width: none;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .about-split-image-wrap,
-    .about-split-image {
-      min-height: 240px;
-    }
-
-    .about-split-copy {
-      padding: 1.3rem 1rem;
+    .slide-arrow-next {
+      right: -0.25rem;
     }
   }
 </style>

@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { EMILY_CALENDAR_BOOKING_URL, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
@@ -15,7 +15,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     <main class="container contact-main">
       <section class="contact-intro">
         <h1>Contact Us</h1>
-        <p class="intro-copy">If you are reaching out about personal training, workshops, collaboration, or general questions, we would love to hear from you.</p>
+        <p class="intro-copy">If you are reaching out about your performance plan, collaboration, or any general questions, get in touch by email, phone, or Instagram, or book a chat with Emily directly using the calendar below.</p>
       </section>
 
       <section class="contact-grid" aria-label="Contact options">
@@ -39,6 +39,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           <p class="contact-copy">For quicker contact, you can call directly.</p>
           <a class="contact-btn" href="tel:+447425814858">Call Now</a>
         </article>
+      </section>
+
+      <section class="calendar-section" aria-labelledby="calendar-heading">
+        <h2 id="calendar-heading">Book a chat with Emily</h2>
+        <p class="calendar-copy">Pick a slot that works for you and Emily will be in touch to confirm. Best for questions about your plan, collaborations, or anything you would rather talk through.</p>
+        <div class="calendar-embed-wrap">
+          <iframe
+            src={EMILY_CALENDAR_BOOKING_URL}
+            class="calendar-embed"
+            title="Book a chat with Emily"
+            loading="lazy"
+            allowfullscreen
+          ></iframe>
+        </div>
       </section>
 
       <section class="support-note">
@@ -489,6 +503,48 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     background: var(--purple-light);
     border-color: var(--purple);
     color: var(--green-dark);
+  }
+
+  .calendar-section {
+    margin-top: 1.6rem;
+    padding: 1.4rem 1.4rem 1.6rem;
+    border-radius: 12px;
+    border: 2px solid rgba(105, 0, 90, 0.24);
+    background: #ffffff;
+  }
+
+  .calendar-section h2 {
+    margin: 0 0 0.45rem;
+    color: var(--purple);
+    font-size: 1.4rem;
+  }
+
+  .calendar-copy {
+    margin: 0 0 1rem;
+    color: var(--green-dark);
+    max-width: 64ch;
+  }
+
+  .calendar-embed-wrap {
+    width: 100%;
+    border: 1px solid rgba(192, 254, 113, 0.55);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .calendar-embed {
+    width: 100%;
+    height: 720px;
+    border: 0;
+    display: block;
+  }
+
+  @media (max-width: 800px) {
+    .calendar-embed {
+      height: 620px;
+    }
   }
 
   .support-note {

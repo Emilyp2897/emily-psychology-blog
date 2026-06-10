@@ -57,12 +57,10 @@ function toolkitFor(slug: string) {
       <section class="hero">
         <p class="hero-kicker">Content Hub Series</p>
         <h1>Gael Performance Toolkit</h1>
-        <p class="hero-tagline">Practical tools for the mental side of sport. Use them before games, between plays, and after the moments that knock your confidence.</p>
+        <p class="hero-tagline">Practical tools for the mental side of sport. Use them before games, between plays, and after the moments that knock your confidence.Each toolkit pairs with the matching Training the Mind month. Use them on their own or alongside the blog posts.</p>
       </section>
 
       <section class="toolkit-series" aria-label="Monthly toolkits">
-        <h2>The 12-Month Toolkit Series</h2>
-        <p class="series-intro">Each toolkit pairs with the matching Training the Mind month. Use them on their own or alongside the blog posts.</p>
         <ul class="month-toolkit-list">
           {monthlyToolkits.map((entry) => {
             const post = toolkitFor(entry.slug);
