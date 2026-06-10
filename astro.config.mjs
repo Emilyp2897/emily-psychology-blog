@@ -3,7 +3,7 @@ import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   adapter: vercel(),
-  site: "https://emily-psychology-blog.vercel.app",
+  site: "https://mindthegael.co.uk",
   env: {
     schema: {
       STRIPE_SECRET_KEY: envField.string({ context: "server", access: "secret" }),
