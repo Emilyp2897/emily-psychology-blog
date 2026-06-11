@@ -250,8 +250,29 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
-                  How many sessions per week can your schedule allow?
+                  How many sessions per week can your schedule allow for this plan?
                   <input type="number" name="planFrequency" min="1" max="7" placeholder="e.g. 3" />
+                </label>
+                <label>
+                  How many club or sport trainings do you do per week?
+                  <select name="clubTrainingsPerWeek">
+                    <option value="">Select</option>
+                    <option value="0">None right now</option>
+                    <option value="1">1 per week</option>
+                    <option value="2">2 per week</option>
+                    <option value="3">3 per week</option>
+                    <option value="4+">4 or more per week</option>
+                  </select>
+                </label>
+                <label>
+                  How many matches do you typically play per week?
+                  <select name="matchesPerWeek">
+                    <option value="">Select</option>
+                    <option value="0">None (off-season or pre-season)</option>
+                    <option value="1">1 per week</option>
+                    <option value="2">2 per week</option>
+                    <option value="variable">Variable (championship blocks, etc.)</option>
+                  </select>
                 </label>
                 <label>
                   Plan Duration
@@ -259,6 +280,16 @@ import { SITE_TITLE } from '../consts';
                     <option value="">Select duration</option>
                     <option value="6 weeks">6-Week Plan</option>
                     <option value="12 weeks">12-Week Plan</option>
+                  </select>
+                </label>
+                <label>
+                  When is this plan for?
+                  <select name="seasonPhase">
+                    <option value="">Select phase</option>
+                    <option value="pre_season">Pre-season (build a base before the season)</option>
+                    <option value="championship_leadup">Championship lead-up (peak and taper for matches)</option>
+                    <option value="in_season">In-season (maintenance during competition)</option>
+                    <option value="off_season">Off-season (rest, recovery, light work)</option>
                   </select>
                 </label>
               </div>
@@ -371,9 +402,18 @@ import { SITE_TITLE } from '../consts';
               </label>
             </div>
 
+            <div class="intake-disclaimer" role="note">
+              <strong>Important.</strong> Mind the Gael creates AI-generated performance coaching, not medical, psychological, or physiotherapy advice. If anything in your plan feels painful, unclear, or unsafe, stop and check with your GP, physio, or a qualified professional. If you are dealing with a mental health crisis, contact the Samaritans on 116 123 (UK and Ireland) or Pieta House on 1800 247 247 (Ireland).
+            </div>
+
+            <label class="consultation-consent">
+              <input type="checkbox" name="ageConfirm" required />
+              <span>I confirm I am 18 years of age or older.</span>
+            </label>
+
             <label class="consultation-consent">
               <input type="checkbox" name="consent" required />
-              <span>I consent to being contacted about my consultation request.</span>
+              <span>I consent to being contacted about my consultation request and to my details being used to generate my plan.</span>
             </label>
 
             <button type="submit" class="consultation-submit">Submit Consultation Request</button>
@@ -441,6 +481,37 @@ import { SITE_TITLE } from '../consts';
                     <option value="">Select duration</option>
                     <option value="6 weeks">6-Week Plan</option>
                     <option value="12 weeks">12-Week Plan</option>
+                  </select>
+                </label>
+                <label>
+                  When is this plan for?
+                  <select name="seasonPhase">
+                    <option value="">Select phase</option>
+                    <option value="pre_season">Pre-season (build a base before the season)</option>
+                    <option value="championship_leadup">Championship lead-up (peak and taper for matches)</option>
+                    <option value="in_season">In-season (maintenance during competition)</option>
+                    <option value="off_season">Off-season (rest, reflection, mental skills work)</option>
+                  </select>
+                </label>
+                <label>
+                  How many club or sport trainings do you do per week?
+                  <select name="clubTrainingsPerWeek">
+                    <option value="">Select</option>
+                    <option value="0">None right now</option>
+                    <option value="1">1 per week</option>
+                    <option value="2">2 per week</option>
+                    <option value="3">3 per week</option>
+                    <option value="4+">4 or more per week</option>
+                  </select>
+                </label>
+                <label>
+                  How many matches do you typically play per week?
+                  <select name="matchesPerWeek">
+                    <option value="">Select</option>
+                    <option value="0">None right now</option>
+                    <option value="1">1 per week</option>
+                    <option value="2">2 per week</option>
+                    <option value="variable">Variable (championship blocks, etc.)</option>
                   </select>
                 </label>
                 <label>
@@ -538,9 +609,18 @@ import { SITE_TITLE } from '../consts';
               </label>
             </div>
 
+            <div class="intake-disclaimer" role="note">
+              <strong>Important.</strong> Mind the Gael creates AI-generated performance coaching, not medical, psychological, or therapeutic advice. If anything in your plan feels off or you are not in a safe place mentally, stop and reach out for proper support. Samaritans 116 123 (UK and Ireland), Pieta House 1800 247 247 (Ireland), or your GP.
+            </div>
+
+            <label class="consultation-consent">
+              <input type="checkbox" name="ageConfirm" required />
+              <span>I confirm I am 18 years of age or older.</span>
+            </label>
+
             <label class="consultation-consent">
               <input type="checkbox" name="consent" required />
-              <span>I consent to being contacted about my mental performance plan.</span>
+              <span>I consent to being contacted about my mental performance plan and to my details being used to generate my plan.</span>
             </label>
 
             <button type="submit" class="consultation-submit">Submit Mental Performance Intake</button>
@@ -704,6 +784,9 @@ import { SITE_TITLE } from '../consts';
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
             currentActivityLevel: String(formData.get('planActivityLevel') || '').trim() || undefined,
             companionPlanSummary: String(formData.get('companionPlanSummary') || '').trim() || undefined,
+            seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
+            clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
+            matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
           });
 
           // Submit to the new preview-then-buy endpoint. On success we redirect
@@ -820,6 +903,9 @@ import { SITE_TITLE } from '../consts';
             peakMoment: String(formData.get('peakMoment') || '').trim() || undefined,
             struggleMoment: String(formData.get('struggleMoment') || '').trim() || undefined,
             companionPlanSummary: String(formData.get('companionPlanSummary') || '').trim() || undefined,
+            seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
+            clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
+            matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
           };
 
@@ -1547,6 +1633,21 @@ import { SITE_TITLE } from '../consts';
 
   .consultation-full-width {
     grid-column: span 2;
+  }
+
+  .intake-disclaimer {
+    margin: 0.4rem 0 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    background: rgba(240, 205, 255, 0.12);
+    border-left: 4px solid var(--green-lime);
+    color: var(--green-light);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .intake-disclaimer strong {
+    color: var(--green-lime);
   }
 
   .consultation-consent {

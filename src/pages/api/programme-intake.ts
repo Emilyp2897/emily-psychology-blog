@@ -11,6 +11,47 @@ export const prerender = false;
 
 const EMILY_EMAIL = 'emilyphelan@mindthegael.co.uk';
 
+// Map the seasonPhase enum value to a human description the model can read.
+// Used by both the physical and mental teaser prompts and re-used in the
+// full-plan prompts in programme-finalize.ts.
+// Summarise the player's existing sport load (club / sport trainings +
+// matches per week) into a short line the model can act on. Critical for
+// the physical generator (avoids prescribing on top of a player already
+// at 3-4 sessions/week) and useful for the mental generator (informs
+// pre-match routine relevance).
+function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
+  const t = (trainings || '').trim();
+  const m = (matches || '').trim();
+  if (!t && !m) return 'not provided';
+  const parts: string[] = [];
+  if (t) {
+    if (t === '0') parts.push('no club trainings');
+    else if (t === '4+') parts.push('4 or more club trainings per week');
+    else parts.push(`${t} club training${t === '1' ? '' : 's'} per week`);
+  }
+  if (m) {
+    if (m === '0') parts.push('no matches');
+    else if (m === 'variable') parts.push('variable matches (championship blocks etc.)');
+    else parts.push(`${m} match${m === '1' ? '' : 'es'} per week`);
+  }
+  return parts.join(' + ');
+}
+
+function describeSeasonPhase(phase: string | undefined | null): string {
+  switch (phase) {
+    case 'pre_season':
+      return 'Pre-season: building a base before the season starts (general capacity, accumulation, habit-setting).';
+    case 'championship_leadup':
+      return 'Championship lead-up: peaking and tapering for matches (intensification, then volume drop into match-readiness).';
+    case 'in_season':
+      return 'In-season: maintenance during competition (lower volume, top-up work, recovery prioritised).';
+    case 'off_season':
+      return 'Off-season: rest, recovery, lighter work, deeper mental skill development.';
+    default:
+      return 'not provided. Treat as a general plan with no specific phase emphasis.';
+  }
+}
+
 type ProgrammeIntakeSuccess = {
   success: true;
   previewToken: string;
@@ -181,6 +222,8 @@ async function generateTeaser(
     `- Current activity level: ${body.currentActivityLevel || 'not provided'}`,
     `- Sessions per week the schedule allows: ${body.frequencyPerWeek ?? 'not provided'}`,
     `- Plan duration: ${body.planDuration || '6 weeks'}`,
+    `- Season phase: ${describeSeasonPhase(body.seasonPhase)}`,
+    `- Existing weekly sport load: ${describeSportLoad(body.clubTrainingsPerWeek, body.matchesPerWeek)}`,
     `- Plan goals: ${(body.planGoals || []).join(', ')}`,
     `- Lifestyle: ${body.lifestyle || 'not provided'}`,
     `- Cycle status: ${body.cycleStatus || 'not provided'}`,
@@ -190,6 +233,8 @@ async function generateTeaser(
     `- Companion mental performance plan the client is also doing: ${body.companionPlanSummary || 'not provided. Build the training plan as a standalone.'}`,
     `- Specific goals narrative: ${body.goals}`,
     '',
+    'Shape the plan structure to match the season phase the client picked. Pre-season builds a base (general strength, conditioning, accumulation). Championship lead-up peaks and tapers (intensification, then volume drop into match-readiness). In-season maintains (lower volume, top-up work). Off-season focuses on recovery and movement quality. If no phase was provided, treat as general training.',
+    'Factor in the player\'s existing weekly sport load. A player already doing 2 club trainings + 1 match per week is at ~3 sport-specific sessions before this plan adds anything. The plan must not add load that pushes total weekly sessions past what the player can recover from. In-season or championship lead-up with 1-2 matches/week: keep plan sessions short and intense, lower total volume, schedule a light/recovery session day-after-match. Pre-season or off-season with no matches: plan can carry more volume.',
     'If a companion mental performance plan summary is provided, briefly hint in the teaser that this training plan will be built to reinforce it (e.g. session structure supports applying their mental routines and refocus cues). Do not invent details about the mental plan beyond what the client shared.',
     '',
     'Generate the teaser now. Remember: no specific exercises, sets, reps, weights, RPE, or session content. Just the structure and the value-pitch for buying.',
@@ -271,6 +316,8 @@ async function generateMentalTeaser(
     `- Level of competition: ${body.competitionLevel || 'not provided'}`,
     `- Years competing: ${body.yearsCompeting || 'not provided'}`,
     `- Plan duration: ${body.planDuration || '6 weeks'}`,
+    `- Season phase: ${describeSeasonPhase(body.seasonPhase)}`,
+    `- Existing weekly sport load: ${describeSportLoad(body.clubTrainingsPerWeek, body.matchesPerWeek)}`,
     `- Performance moments they want to work on: ${(body.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
     `- Current pre-performance routines: ${body.currentRoutines || 'not provided'}`,
     `- A peak moment they remember: ${body.peakMoment || 'not provided'}`,
@@ -280,6 +327,8 @@ async function generateMentalTeaser(
     `- Anything else: ${body.anythingElse || 'not provided'}`,
     `- Goals narrative: ${body.goals}`,
     '',
+    'Shape the weekly progression to match the season phase the client picked. Pre-season focuses on building confidence, foundational routines, and habits before the season starts. Championship lead-up sharpens focus, pressure tolerance, and peak performance routines. In-season maintains the routines while managing fatigue and mistake recovery. Off-season uses the quieter time for deeper mental skill work and identity reflection.',
+    'Factor in the player\'s existing weekly sport load when anchoring routines to real moments. If the player has matches each week, prioritise pre-match routines, post-mistake reset for mid-game, and post-match decompression. If the player has trainings but no matches right now (pre-season, off-season), prioritise training-day focus routines, in-session attention control, and identity / motivation work. Routines should attach to moments the player actually has in her week.',
     'If a companion physical training plan summary is provided, briefly hint in the teaser that this mental plan will be built to apply to their training and match moments. Do not invent details about the physical plan beyond what the client shared.',
     '',
     'Generate the teaser now. Remember: no specific tools, routines, or scripts. Just the structure and the value-pitch for buying.',

@@ -68,6 +68,20 @@ export interface ConsultationWithPlanRequest {
   // a mental intake it describes their physical plan. Fed into the prompt
   // so the new plan can reference and reinforce the existing one.
   companionPlanSummary?: string;
+
+  // Where in the season this plan is for. Drives plan structure: pre-season
+  // builds a base, championship lead-up peaks and tapers, etc. Optional
+  // (defaults to general/no specific phase) but improves plan relevance.
+  seasonPhase?: 'pre_season' | 'championship_leadup' | 'in_season' | 'off_season' | '';
+
+  // Existing club / sport training load. Critical for the physical plan
+  // generator: an athlete doing 2 club trainings + a match per week is
+  // already at ~3 sessions of sport-specific load before the plan adds
+  // anything. The generator uses this to manage total weekly load and to
+  // schedule lighter sessions on day-after-match. Useful for the mental
+  // plan too (pre-match routines apply differently when matches > 0).
+  clubTrainingsPerWeek?: '0' | '1' | '2' | '3' | '4+' | '';
+  matchesPerWeek?: '0' | '1' | '2' | 'variable' | '';
 }
 
 export type ProgramTrackId =

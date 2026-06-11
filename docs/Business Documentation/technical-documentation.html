@@ -668,6 +668,43 @@ Mental Performance Plans are a parallel product to the physical training plans. 
 
 <p>The injection always carries a safety rail: "Stay within what they actually described, never invent specifics about the other plan." No database join is required; the two plans link through what the client copies into the field.</p>
 
+<h3>7.6 Existing sport-load fields</h3>
+
+<p>Both intake forms collect the player's existing weekly sport load via two selects, stored on the intake as <code>clubTrainingsPerWeek</code> and <code>matchesPerWeek</code> on <code>ConsultationWithPlanRequest</code>:</p>
+
+<ul>
+  <li><code>clubTrainingsPerWeek</code>: <code>0</code> / <code>1</code> / <code>2</code> / <code>3</code> / <code>4+</code></li>
+  <li><code>matchesPerWeek</code>: <code>0</code> / <code>1</code> / <code>2</code> / <code>variable</code> (championship blocks etc.)</li>
+</ul>
+
+<p>A <code>describeSportLoad()</code> helper (duplicated in <code>programme-intake.ts</code> and <code>programme-finalize.ts</code>) renders these as a single line for the prompt, e.g. "2 club trainings per week + 1 match per week".</p>
+
+<p>The <strong>physical plan</strong> generator receives a hard load-management rule in the full-plan prompt: total weekly sessions = club trainings + matches + plan sessions; total recoverable load is 5-6 sessions for most athletes (less when matches are present). The plan must not push the player past this, must schedule a light/recovery session day-after-match, and must NEVER prescribe a heavy lift the day before or the day after a match. Coach Notes for each week should reference how the plan sits alongside the player's stated sport load.</p>
+
+<p>The <strong>mental plan</strong> generator uses the same load to anchor weekly routines: matches &gt; 0 prioritises pre-match routines, mid-game mistake reset, and post-match decompression; matches = 0 anchors routines to training days and between-session homework. The "performance moment to apply it" each week is tied to moments the player actually has in her week, not invented matches.</p>
+
+<h3>7.7 Season phase field</h3>
+
+<p>Both intake forms carry a "When is this plan for?" select with four values:</p>
+
+<ul>
+  <li><code>pre_season</code> &mdash; Pre-season (build a base before the season starts)</li>
+  <li><code>championship_leadup</code> &mdash; Championship lead-up (peak and taper for matches)</li>
+  <li><code>in_season</code> &mdash; In-season (maintenance during competition)</li>
+  <li><code>off_season</code> &mdash; Off-season (rest, recovery, lighter work / deeper mental skill work)</li>
+</ul>
+
+<p>Optional field; an unselected value falls through as a general plan with no phase emphasis. Stored on the intake as <code>seasonPhase</code> on <code>ConsultationWithPlanRequest</code> and read by both the teaser and full-plan prompts via a <code>describeSeasonPhase()</code> helper that maps the enum to a human description.</p>
+
+<p>When the field has a value, the prompt receives an explicit instruction block telling the model how to shape the plan structure for each phase:</p>
+
+<ul>
+  <li><strong>Physical plan</strong>: pre-season = accumulation (general strength, capacity, movement quality, progressive volume). Lead-up = intensification then taper into match-readiness across final 1-2 weeks. In-season = maintenance (lower volume, top-up work, recovery prioritised). Off-season = light, broad-based work focused on mobility and unstructured play.</li>
+  <li><strong>Mental plan</strong>: pre-season = foundation routines (breathing, anchors, pre-performance routines) plus habit-setting. Lead-up = composure under pressure, sharpening focus, mistake reset, championship-week routine. In-season = quick-reset tools, self-talk for fatigue, managing pressure between fixtures. Off-season = deeper identity work, reflection, longer-term mental skill development.</li>
+</ul>
+
+<p>The same helper is duplicated in both <code>programme-intake.ts</code> and <code>programme-finalize.ts</code> so the teaser and the full plan agree on what each phase means.</p>
+
 <h2 id="schedule">7B. Scheduled-Release Lock on Content Hub Listings</h2>
 
 <div class="plain-english">
@@ -849,6 +886,15 @@ Image URLs are absolute, pointing to the production domain. Local-development te
 
 <h3>11.4 Beginner accessibility</h3>
 <p>The training-plan system prompts include explicit rules that for beginner-level clients, every S&amp;C term (RPE, sets, reps, deload, progressive overload, tempo) must be defined in plain English the first time it appears.</p>
+
+<h3>11.5 Legal touchpoints in code</h3>
+<p>Three pieces of legal compliance landed in the code in June 2026:</p>
+
+<ul>
+  <li><strong>Point-of-use intake disclaimer + 18+ checkbox.</strong> Both intake modals on <code>src/pages/personal-training.astro</code> render a purple-bordered disclaimer panel directly above the submit button: "AI-generated performance coaching, not medical, psychological, or therapeutic advice", crisis numbers (Samaritans 116 123, Pieta House 1800 247 247), and a required "I confirm I am 18 years of age or older" checkbox. Form submission is blocked without it.</li>
+  <li><strong>Report-this-output link.</strong> Every plan email (<code>buildClientPlanEmailHtml</code> in <code>src/lib/email-format.ts</code>) ends with a small "Was anything in this plan unclear, unsafe, or off? Report it here" link routing to <code>/content-feedback?source=plan_email</code>. The query param flags plan-email reports separately from generic content feedback.</li>
+  <li><strong>Cookie consent banner.</strong> <code>src/components/CookieBanner.astro</code> renders a bottom-fixed dark green banner with lime border and a "Got it" button. Shows once on first visit, stores consent in <code>localStorage</code> under <code>mtg_cookie_consent</code>, and removes itself from the DOM after acceptance. Included site-wide via <code>Footer.astro</code>. Note: Vercel Analytics is still loaded unconditionally; gating analytics behind consent is a pending follow-up.</li>
+</ul>
 
 <h2 id="env">12. Environment Variables</h2>
 

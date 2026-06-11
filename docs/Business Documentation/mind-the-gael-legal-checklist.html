@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mind the Gael — Legal Compliance Checklist</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm; }
+  :root {
+    --green-dark: #0a1a0e;
+    --green-lime: #c0fe71;
+    --purple: #69005a;
+    --text: #1a1a1a;
+    --muted: #555;
+    --border: #d8d8d8;
+    --soft-bg: #f7f7f5;
+    --callout-bg: #f6e8f3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.55;
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+    font-size: 14px;
+  }
+  header.cover {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 0 -24px 40px;
+    background: var(--green-dark);
+    color: #fff;
+    page-break-after: always;
+  }
+  header.cover h1 { color: var(--green-lime); font-size: 38px; margin: 0 0 8px; letter-spacing: 0.5px; }
+  header.cover p.subtitle { margin: 6px 0 30px; color: #fff; font-size: 16px; opacity: 0.9; }
+  header.cover .meta { margin-top: 50px; font-size: 13px; color: #ccc; }
+  h2 { color: var(--purple); font-size: 22px; margin: 36px 0 14px; padding-bottom: 6px; border-bottom: 2px solid var(--green-lime); page-break-after: avoid; }
+  h3 { color: var(--purple); font-size: 16px; margin: 24px 0 6px; page-break-after: avoid; }
+  p { margin: 6px 0 10px; }
+  .priority-intro { color: var(--muted); font-style: italic; margin-bottom: 14px; }
+  ul.checklist { list-style: none; padding-left: 0; margin: 8px 0 18px; }
+  ul.checklist li {
+    padding: 8px 12px 8px 38px;
+    margin-bottom: 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  ul.checklist li::before {
+    content: attr(data-status);
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    line-height: 1;
+  }
+  ul.checklist li.done { background: #eefcef; border-color: #b7e7b9; }
+  ul.checklist li.done::before { content: "✓"; color: #057a3d; background: #c8f3c8; }
+  ul.checklist li.partial { background: #fff9e6; border-color: #ecd9a3; }
+  ul.checklist li.partial::before { content: "~"; color: #c08000; background: #ffefb8; }
+  ul.checklist li.pending { background: #fff; border-color: var(--border); }
+  ul.checklist li.pending::before { content: "☐"; color: #888; }
+  .status-note { display: block; margin-top: 4px; font-size: 12px; color: var(--muted); font-style: italic; }
+  .callout { background: var(--callout-bg); border-left: 4px solid var(--purple); padding: 12px 14px; margin: 14px 0 22px; border-radius: 4px; font-size: 13px; }
+  .callout strong { color: var(--purple); }
+  ol.workorder { padding-left: 24px; }
+  ol.workorder li { margin-bottom: 6px; }
+  footer.doc-footer { margin-top: 60px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  @media print { body { margin: 0; padding: 0; max-width: none; } h2 { margin-top: 30px; } }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>Mind the Gael</h1>
+  <p class="subtitle">Legal Compliance Checklist</p>
+  <p class="subtitle">Pre-launch and ongoing legal requirements for the platform</p>
+  <div class="meta">Revised June 2026<br/>Founder: Emily Phelan</div>
+</header>
+
+<p>A working checklist for the Mind the Gael platform (AI-powered mental performance and physical training plans, toolkit library, and blog) serving adult users (19-40) in the UK and Ireland.</p>
+
+<p><em>This is a practical checklist, not legal advice. Have a solicitor review the final terms, privacy policy, and disclaimers before any paid launch.</em></p>
+
+<div class="callout">
+  <strong>Legend.</strong>
+  <ul class="checklist" style="margin: 8px 0 0;">
+    <li class="done" data-status="✓">Done &mdash; implemented in code or in policy</li>
+    <li class="partial" data-status="~">Partially done &mdash; in place but needs hardening, formal documentation, or solicitor review</li>
+    <li class="pending" data-status="☐">Pending &mdash; not yet built or written</li>
+  </ul>
+</div>
+
+<h2>Priority 1: Before public launch</h2>
+
+<h3>Age gating (18+)</h3>
+<ul class="checklist">
+  <li class="partial">Add a date-of-birth field to signup
+    <span class="status-note">No traditional account signup currently exists. The intake forms (mental + physical) now include a required "I confirm I am 18 years of age or older" checkbox, which is the workable substitute for the current flow. A formal DOB field would land when an account-based signin is added.</span>
+  </li>
+  <li class="done">Block signups where DOB indicates under 18
+    <span class="status-note">Intake form will not submit without the 18+ checkbox ticked (required attribute).</span>
+  </li>
+  <li class="pending">Use a neutral age gate (do not display the required age on the same screen as the DOB entry)
+    <span class="status-note">Applies only if a DOB field is added later. The current 18+ checkbox is itself the affirmation, not a gate.</span>
+  </li>
+  <li class="pending">Set a cookie or session flag so a failed attempt cannot immediately retry</li>
+  <li class="pending">Store only an over-18 flag, not the full date of birth, unless needed for another purpose</li>
+  <li class="pending">Add to terms: "You must be 18 or over to use this service"</li>
+  <li class="pending">Add to terms: accounts found to belong to under-18s will be closed</li>
+  <li class="partial">Keep all marketing aimed at adult club players; never target school-age or minor-grade GAA audiences
+    <span class="status-note">Current copy across pages reads adult by default; needs an explicit marketing-policy line to formalise.</span>
+  </li>
+</ul>
+
+<h3>In-app disclaimers (on both AI generators)</h3>
+<ul class="checklist">
+  <li class="done">Visible disclaimer on the Mental Performance Plan generator: AI-generated performance coaching, not medical, psychological, or therapeutic advice
+    <span class="status-note">Implemented as a purple-bordered disclaimer panel above the submit button on the mental intake modal. Includes crisis support numbers (Samaritans 116 123, Pieta House 1800 247 247).</span>
+  </li>
+  <li class="done">Visible disclaimer on the physical training plan generator: not medical or physiotherapy advice, consult a GP before starting a new training programme, stop if you feel pain
+    <span class="status-note">Same disclaimer panel on the physical intake modal with training-specific wording (pain, GP consultation before starting).</span>
+  </li>
+  <li class="done">Signpost real support services on the mental performance side (Samaritans UK 116 123, Samaritans Ireland 116 123, Pieta House 1800 247 247, text-based services)
+    <span class="status-note">Crisis routing implemented in both chatbot and intake red-flag detection; signposting included in every Stronger Minds, Stronger Players article; numbers shown in both intake disclaimer panels.</span>
+  </li>
+  <li class="done">Note on both generators that AI output can contain errors and should be used with judgement
+    <span class="status-note">"AI-generated coaching, not medical advice" is the explicit framing on both intake disclaimer panels. Plus the plan email itself includes a report-this-output link routing to /content-feedback?source=plan_email.</span>
+  </li>
+  <li class="done">Place disclaimers at the point of use, not only in a footer or terms page
+    <span class="status-note">Both intake forms now show the disclaimer panel directly above the submit button, where it is read at the moment of submission.</span>
+  </li>
+</ul>
+
+<h2>Priority 2: Core legal documents</h2>
+
+<h3>Terms of service</h3>
+<ul class="checklist">
+  <li class="done">18+ eligibility clause
+    <span class="status-note">Section 3 of /terms — must be 18 or older, accounts found to belong to minors will be closed.</span>
+  </li>
+  <li class="done">Description of the service: performance coaching tools, not healthcare
+    <span class="status-note">Section 4 of /terms — explicit "Mind the Gael is not a medical, psychological, therapeutic, or physiotherapy service" with crisis-routing reference.</span>
+  </li>
+  <li class="done">No warranty on outcomes (no guarantee of performance improvement)
+    <span class="status-note">Section 11 of /terms — "we do not guarantee specific outcomes", service provided "as is" and "as available".</span>
+  </li>
+  <li class="done">Limitation of liability, including exclusion of liability for injury arising from training, to the extent permitted by law
+    <span class="status-note">Section 12 of /terms — caps liability at amount paid in last 12 months or £100, whichever higher; preserves non-excludable consumer rights and death/personal-injury-from-negligence.</span>
+  </li>
+  <li class="done">Acceptable use rules (no abusive inputs, no attempts to misuse the AI, no scraping)
+    <span class="status-note">Section 9 of /terms — six explicit rules including no false info, no jailbreaking, no scraping, no AI-training-on-our-content.</span>
+  </li>
+  <li class="done">Intellectual property in the toolkit, blog, and platform content
+    <span class="status-note">Section 10 of /terms — copyright + brand IP retained by Emily Phelan, normal fair-use citation allowed.</span>
+  </li>
+  <li class="done">What users may do with generated plans (personal use only, or chosen licence)
+    <span class="status-note">Section 8 of /terms — personal use only, may share with personal coach/physio/doctor, may not re-sell or use commercially without permission.</span>
+  </li>
+  <li class="done">Account suspension and termination rights
+    <span class="status-note">Section 13 of /terms — user can close anytime, we can suspend/close for breach or legal requirement with notice where possible.</span>
+  </li>
+  <li class="done">Governing law and jurisdiction (decide: England and Wales, or Ireland)
+    <span class="status-note">Section 15 of /terms — England and Wales chosen (Emily based in London), with explicit preservation of Irish/EU mandatory consumer protections.</span>
+  </li>
+  <li class="done">Right to modify the service and the terms, with notice
+    <span class="status-note">Section 14 of /terms — 14-day advance notice for material changes affecting paying customers, minor edits via "Last revised" date.</span>
+  </li>
+  <li class="partial">Solicitor review of the terms of service
+    <span class="status-note">Terms drafted and live at /terms with "Draft pending solicitor review" notice at the top. Solicitor review required before paid launch.</span>
+  </li>
+</ul>
+
+<h3>Privacy policy (UK GDPR and EU GDPR both apply)</h3>
+<ul class="checklist">
+  <li class="done">What personal data is collected (account details, inputs to the generators, usage data)
+    <span class="status-note">Section 3 of the Privacy Policy at /privacy lists every data type collected (intake details, sport details, plan inputs, health-related data, payment, chatbot, content feedback, analytics).</span>
+  </li>
+  <li class="done">Lawful basis for each processing purpose
+    <span class="status-note">Section 4 of /privacy: table mapping each purpose to lawful basis (contract, consent for special category, legitimate interest, vital interests for crisis disclosures).</span>
+  </li>
+  <li class="done">Explicit consent flow for any health-related data users enter into the generators (likely special category data)
+    <span class="status-note">Section 5 of /privacy specifically addresses Art. 9(2)(a) explicit consent for health-related fields. Consent is captured via the consent checkbox on the intake form.</span>
+  </li>
+  <li class="done">Disclosure that user inputs are sent to Anthropic's API, including international transfer to the US and the safeguard relied on (Standard Contractual Clauses, Data Privacy Framework)
+    <span class="status-note">Sections 6 and 7 of /privacy: full processors table with country, plus international transfer section covering DPF and SCCs.</span>
+  </li>
+  <li class="done">List of other processors (Vercel hosting, Vercel Postgres / Neon, Stripe, Resend, Anthropic)
+    <span class="status-note">Section 6 of /privacy: full table including Anthropic, Stripe, Vercel, Vercel Postgres / Neon, Resend, and Google Calendar.</span>
+  </li>
+  <li class="done">Retention periods for accounts, intake inputs, generated plans
+    <span class="status-note">Section 8 of /privacy: retention schedule (24 months for intakes/plans, 6 years for payment records per HMRC, 12 months for anonymous chatbot feedback).</span>
+  </li>
+  <li class="done">User rights: access, rectification, erasure, portability, objection, withdrawal of consent
+    <span class="status-note">Section 9 of /privacy lists all seven rights.</span>
+  </li>
+  <li class="done">How to exercise rights and contact details
+    <span class="status-note">Section 9 + Section 15: email Emily, one-month response (extendable by two for complex requests).</span>
+  </li>
+  <li class="done">Complaint routes: ICO (UK) and Data Protection Commission (Ireland)
+    <span class="status-note">Section 12 of /privacy: both authorities listed with links and phone numbers.</span>
+  </li>
+  <li class="pending">Confirm whether ICO data protection fee is needed (most UK data controllers do; inexpensive)
+    <span class="status-note">Action item for Emily: register with ICO and pay the data protection fee before paid launch. As a sole-trader processing personal data, this is almost certainly required.</span>
+  </li>
+  <li class="partial">Solicitor review of the privacy policy
+    <span class="status-note">Privacy Policy is drafted and live at /privacy with a clear "Draft pending solicitor review" notice at the top. Solicitor review still required before paid launch.</span>
+  </li>
+</ul>
+
+<h3>Cookies and tracking</h3>
+<ul class="checklist">
+  <li class="done">Cookie consent banner if you use analytics or any non-essential cookies
+    <span class="status-note">CookieBanner.astro component shipped, included site-wide via Footer. Bottom-fixed banner shows once on first visit, stores consent in localStorage on accept, never shows again. Removes itself from DOM after acceptance.</span>
+  </li>
+  <li class="pending">Cookie policy page listing cookies and purposes
+    <span class="status-note">Banner currently links to /privacy. Need to write that page (covering Vercel Analytics, Stripe, Anthropic API processor disclosure).</span>
+  </li>
+  <li class="partial">Analytics blocked until consent is given (UK PECR and EU ePrivacy)
+    <span class="status-note">Vercel Analytics is currently loaded site-wide in Footer regardless of consent. Once the cookie policy page exists, wire the banner to only inject Analytics after consent.</span>
+  </li>
+  <li class="pending">Consider privacy-friendly analytics (Plausible, Fathom) to reduce consent burden</li>
+</ul>
+
+<h2>Priority 3: AI-specific compliance</h2>
+
+<h3>Transparency</h3>
+<ul class="checklist">
+  <li class="done">Clear labelling that plans are AI-generated
+    <span class="status-note">Intake disclaimer panels explicitly label the output as "AI-generated performance coaching". Plan emails repeat this in the report-link footer.</span>
+  </li>
+  <li class="done">Statement that AI output may be inaccurate and is not reviewed by a qualified professional before delivery
+    <span class="status-note">"Plans are AI-generated and can contain errors" is the explicit text in the plan-email report block. In v1 mode every plan IS reviewed by the founder before delivery, which materially reduces this risk; the statement is still visible regardless.</span>
+  </li>
+  <li class="done">A way for users to report problematic or harmful output
+    <span class="status-note">"Was anything in this plan unclear, unsafe, or off? Report it here" link added to the bottom of every plan email. Routes to /content-feedback?source=plan_email so Emily sees plan reports flagged via URL param.</span>
+  </li>
+</ul>
+
+<h3>Anthropic compliance</h3>
+<ul class="checklist">
+  <li class="pending">Review Anthropic's Usage Policy and Commercial Terms for the current use case</li>
+  <li class="pending">Check requirements for health-adjacent and wellbeing use cases</li>
+  <li class="pending">Confirm 18+ policy aligns with Anthropic's requirements for consumer-facing products</li>
+  <li class="done">Keep API usage within agreed tier and terms
+    <span class="status-note">Pre-launch spend (~£435 build cost) sits comfortably within standard pay-per-use tier.</span>
+  </li>
+</ul>
+
+<h3>Safety guardrails</h3>
+<ul class="checklist">
+  <li class="done">System prompt instructions so the generators stay within performance coaching and redirect anything resembling a mental health crisis to support services
+    <span class="status-note">Implemented in both intake (red-flag detection, blocks teaser + flags Emily) and chatbot (CRISIS_TERMS detection, returns safe message).</span>
+  </li>
+  <li class="done">Decide how the product responds if a user discloses self-harm, disordered eating, or injury, and test it
+    <span class="status-note">Red-flag rules in src/data/red-flags.ts cover mental_health_crisis, eating_concerns, RED-S, unresolved injury. All four block the plan and route directly to Emily.</span>
+  </li>
+  <li class="done">Avoid the generators giving specific medical, nutrition, or rehabilitation advice
+    <span class="status-note">System prompts explicitly forbid clinical advice; specialised tracks (pregnancy, postpartum, endometriosis, return-to-play) cite recognised authorities (POGP, Aspetar, NICE, ESHRE) rather than prescribing.</span>
+  </li>
+  <li class="done">Citation rule: any non-MTG content claim must come from a real named source
+    <span class="status-note">Hard-coded into every system prompt across the chatbot, training plan generator, and mental plan generator. Hallucinated citations are explicitly forbidden.</span>
+  </li>
+</ul>
+
+<h2>Priority 4: Content and IP</h2>
+
+<h3>Blog and toolkit</h3>
+<ul class="checklist">
+  <li class="partial">All images licensed, your own, or properly attributed (no copyrighted GAA imagery, player photos, or crests without permission)
+    <span class="status-note">Current site uses Emily's own photos and one licensed Vecteezy ball illustration. Confirm licence terms on the Vecteezy file before paid launch.</span>
+  </li>
+  <li class="done">No reproduction of copyrighted training materials or research beyond fair quotation
+    <span class="status-note">All blog and toolkit posts cite sources by name (author + year + journal); no verbatim reproduction.</span>
+  </li>
+  <li class="done">Cite sources for any sports science claims
+    <span class="status-note">Every Stronger Minds, Stronger Players article and most Training the Mind posts include a References section with real academic sources.</span>
+  </li>
+  <li class="pending">Toolkit documents (GPT-001 onwards) marked with copyright notice</li>
+  <li class="pending">Decide whether to trademark the Mind the Gael name and logo (check existing marks in UK IPO and Irish IPO registries first)</li>
+</ul>
+
+<h3>Brand and claims</h3>
+<ul class="checklist">
+  <li class="done">No medical or therapeutic claims in marketing ("improves mental health" is risky; "supports mental performance" is safer)
+    <span class="status-note">Current site copy stays within performance language. About page describes Emily's personal journey but does not position the platform as therapy.</span>
+  </li>
+  <li class="pending">Testimonials, if used, must be genuine and not imply guaranteed results
+    <span class="status-note">No testimonials currently on site. Pilot will produce named testimonials with genuine attribution.</span>
+  </li>
+  <li class="pending">Comply with ASA (UK) and ASAI (Ireland) advertising codes once marketing begins</li>
+</ul>
+
+<h2>Priority 5: Operational and ongoing</h2>
+
+<ul class="checklist">
+  <li class="pending">Data breach response plan (72-hour notification duty to ICO or DPC where required)</li>
+  <li class="pending">Process for handling data subject access and deletion requests</li>
+  <li class="pending">Records of processing activities (a simple document is fine at current scale)</li>
+  <li class="pending">Review legal documents whenever new features are added, especially anything touching payments or new data types</li>
+  <li class="done">If you add payments: consumer rights (14-day cooling-off for digital services in UK and EU), refund policy, VAT position
+    <span class="status-note">Section 7 of /terms covers the 14-day cancellation right with the digital-services waiver (UK Consumer Contracts Regulations 2013 + EU Consumer Rights Directive), subscriber blog refunds, and the cancellation process. VAT position: prices are stated as inclusive of any applicable VAT in Section 6.1.</span>
+  </li>
+  <li class="pending">Business insurance: consider professional indemnity and public liability once you have paying users</li>
+  <li class="pending">Solicitor review of terms, privacy policy, and disclaimers before paid launch</li>
+</ul>
+
+<h2>Suggested order of work</h2>
+
+<ol class="workorder">
+  <li><strong>Age gate</strong> and terms eligibility clause (about an hour)</li>
+  <li>Move <strong>generator disclaimers</strong> to point-of-use on the intake forms (about an hour)</li>
+  <li><strong>Privacy policy</strong> and cookie banner (a day with templates, then review)</li>
+  <li><strong>Full terms of service</strong> (a day with templates, then review)</li>
+  <li><strong>Anthropic policy review</strong> and AI guardrail audit (formalise what's already built)</li>
+  <li><strong>Content and IP audit</strong> of blog, toolkit, and images (licence check on the Vecteezy ball, copyright notice on toolkits)</li>
+  <li><strong>Solicitor review</strong> before any paid or marketed launch</li>
+</ol>
+
+<div class="callout">
+  <strong>Status summary, June 2026 (updated).</strong> The platform now has all Priority-1 in-app safety landed in code: point-of-use disclaimers and 18+ confirmation on both intake forms, AI-generated labelling, crisis support signposting at the moment of submission, and a report-this-output mechanism on every plan email. Cookie consent banner is live site-wide. Citation rule, red-flag detection, and source-checked content were already in place.<br/><br/>
+  <strong>Priority-2 documents drafted:</strong> Privacy Policy live at /privacy and Terms of Service live at /terms. Both linked from the footer of every page. Each carries a clear "Draft pending solicitor review" notice at the top. The Privacy Policy covers all processors, lawful bases, international transfers, retention, and user rights. The Terms of Service covers eligibility, refunds with the 14-day cooling-off and digital-services waiver, acceptable use, IP, limitation of liability, and governing law (England and Wales, with Irish consumer rights preserved).<br/><br/>
+  <strong>What remains for paid launch (Q4 2026):</strong> wire the cookie banner to actually gate Vercel Analytics until consent; ICO data protection fee registration (~£40/year); trademark check on the Mind the Gael name; professional indemnity and public liability insurance; and solicitor review of the whole legal stack before any paid traffic.
+</div>
+
+<footer class="doc-footer">
+  Mind the Gael Legal Compliance Checklist &middot; Revised June 2026 &middot; Working document &middot; Not legal advice
+</footer>
+
+</body>
+</html>

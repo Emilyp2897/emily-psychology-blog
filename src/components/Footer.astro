@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Analytics from '@vercel/analytics/astro';
 import saoirseImage from '../assets/saoirse.png';
+import CookieBanner from './CookieBanner.astro';
 
 const today = new Date();
 ---
@@ -14,6 +15,10 @@ const today = new Date();
 
     <p class="disclaimer">
       Mind the Gael is an educational platform for female athletes. It is not a therapy service or medical provider. Nothing shared here is medical advice, a diagnosis, or a substitute for professional support. If you're going through a difficult time, please reach out to your GP or a qualified mental health professional. A list of crisis resources is available on our <a href="/resources">resources page</a>. If you feel unsafe or at risk, contact emergency services immediately.
+    </p>
+
+    <p class="footer-legal">
+      <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
     </p>
 
     <!-- Social links removed -->
@@ -495,6 +500,23 @@ const today = new Date();
   .disclaimer a:hover {
     text-decoration: underline;
   }
+
+  .footer-legal {
+    margin: 0.6em 0 0;
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--purple);
+  }
+
+  .footer-legal a {
+    color: var(--purple);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .footer-legal a:hover {
+    color: var(--green-dark);
+  }
 </style>
 
 <script>
@@ -706,5 +728,7 @@ const today = new Date();
     });
   }
 </script>
+
+<CookieBanner />
 
 <Analytics />

@@ -1,0 +1,397 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+// Last revised stamp. Update this whenever the policy changes.
+const lastRevised = '11 June 2026';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Privacy Policy | ${SITE_TITLE}`} description="How Mind the Gael collects, uses, and protects your personal data. UK and EU GDPR compliant." />
+  </head>
+  <body class="privacy-page">
+    <Header />
+    <main class="container privacy-main">
+      <section class="hero">
+        <p class="hero-kicker">Legal</p>
+        <h1>Privacy Policy</h1>
+        <p class="hero-tagline">How Mind the Gael collects, uses, and protects your personal data.</p>
+        <p class="last-revised">Last revised: {lastRevised}</p>
+      </section>
+
+      <div class="draft-notice">
+        <strong>Draft.</strong> This policy reflects how the platform currently handles your data. It is pending review by a qualified solicitor before paid launch. If you have questions in the meantime, email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.
+      </div>
+
+      <section class="policy-section">
+        <h2>1. Who we are</h2>
+        <p>Mind the Gael is operated by Emily Phelan as an individual (sole trader), based in London, United Kingdom. For the purposes of UK GDPR and EU GDPR, Emily Phelan is the <strong>data controller</strong> for any personal data you provide through this platform.</p>
+        <p><strong>Contact:</strong> <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a></p>
+      </section>
+
+      <section class="policy-section">
+        <h2>2. Who this platform is for</h2>
+        <p>Mind the Gael is for adult female athletes aged 18 and over. You must be 18 or older to use the platform. We do not knowingly collect data from anyone under 18. If you believe someone under 18 has provided personal data to us, please contact Emily and we will close the account and delete the data.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>3. What data we collect</h2>
+
+        <h3>3.1 When you fill in an intake form</h3>
+        <ul>
+          <li><strong>Contact details:</strong> full name, email address, optional phone number.</li>
+          <li><strong>Sport details:</strong> sport, competition level, years competing, equipment, schedule, training frequency, matches per week.</li>
+          <li><strong>Plan inputs:</strong> goals, season phase, performance moments to work on, peak and struggle moments, current routines, anything else you choose to share.</li>
+          <li><strong>Health-related information (special category data):</strong> medical conditions, injuries, menstrual cycle status (optional), mental wellbeing context you share through the plan goals or "anything else" fields.</li>
+          <li><strong>Consent confirmations:</strong> your confirmation that you are 18 or over, and that you consent to being contacted about your plan.</li>
+        </ul>
+
+        <h3>3.2 When you buy a plan or subscription</h3>
+        <ul>
+          <li><strong>Payment details:</strong> handled directly by Stripe. Mind the Gael never sees your card number, CVV, or full payment details. We receive only the email address you used at checkout and a Stripe session reference.</li>
+        </ul>
+
+        <h3>3.3 When you use the chatbot (Saoirse)</h3>
+        <ul>
+          <li>The text of your messages to the chatbot, and any feedback you give on individual replies.</li>
+          <li>No account information beyond a per-session anonymous ID. We do not link chatbot messages to other personal data unless you give us your name or email in the message itself.</li>
+        </ul>
+
+        <h3>3.4 When you submit content feedback or a plan report</h3>
+        <ul>
+          <li>The feedback text you submit and an optional email address if you choose to leave one.</li>
+        </ul>
+
+        <h3>3.5 Automatically collected</h3>
+        <ul>
+          <li><strong>Usage data via Vercel Analytics:</strong> aggregated, anonymised page-view counts and basic device/region information. No individual user is identified.</li>
+          <li><strong>Essential cookies:</strong> a small set of cookies needed to run the site (session security, Stripe checkout, your cookie-consent choice).</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>4. Why we collect it (lawful basis)</h2>
+        <table class="legal-table">
+          <thead>
+            <tr><th>Purpose</th><th>Lawful basis (UK / EU GDPR)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Generating your performance plan from your intake submission</td><td>Performance of a contract (you have asked us to generate the plan); for health-related details, your explicit consent (Art. 9(2)(a))</td></tr>
+            <tr><td>Processing your payment</td><td>Performance of a contract</td></tr>
+            <tr><td>Sending you your plan, holding emails, and other plan-related communications</td><td>Performance of a contract</td></tr>
+            <tr><td>Responding to chatbot messages</td><td>Legitimate interest in providing the service you have requested</td></tr>
+            <tr><td>Reviewing reports of problematic AI output to improve safety</td><td>Legitimate interest in maintaining a safe service</td></tr>
+            <tr><td>Aggregate usage analytics</td><td>Legitimate interest in understanding how the site is used</td></tr>
+            <tr><td>Routing crisis disclosures to Emily and to support services</td><td>Vital interests (Art. 6(1)(d)); legal obligation to safeguard users at risk</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="policy-section">
+        <h2>5. Special category data (health-related)</h2>
+        <p>Some of the information you may share through the intake forms is health-related (for example: injuries, medical conditions, menstrual cycle status, mental wellbeing). Under UK / EU GDPR this is <em>special category data</em> and requires a stronger lawful basis to process.</p>
+        <p>We rely on your <strong>explicit consent</strong> (Article 9(2)(a)) for this data, given when you tick the consent checkbox at the bottom of the intake form. You can withdraw consent at any time by emailing Emily; we will delete the relevant data, although withdrawal does not affect any processing that has already taken place.</p>
+        <p>You are free to leave any optional health-related fields blank. We collect only what is needed to generate a safer and more relevant plan.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>6. Who we share your data with (our processors)</h2>
+        <p>We use a small number of trusted third-party services ("processors") to run the platform. Each processes data only on our instructions and only for the purpose described below.</p>
+        <table class="legal-table">
+          <thead>
+            <tr><th>Processor</th><th>Purpose</th><th>Data shared</th><th>Country</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Anthropic (Claude API)</strong></td>
+              <td>Generates the teaser preview and the full performance plan from your intake</td>
+              <td>The text of your intake submission (sport, goals, performance moments, health context you include)</td>
+              <td>United States</td>
+            </tr>
+            <tr>
+              <td><strong>Stripe</strong></td>
+              <td>Processes your payment and issues receipts</td>
+              <td>Email address, payment details (Stripe handles directly; we do not see them)</td>
+              <td>United States / Ireland</td>
+            </tr>
+            <tr>
+              <td><strong>Vercel</strong></td>
+              <td>Hosts the website and runs the API endpoints</td>
+              <td>All data above passes through Vercel's servers</td>
+              <td>United States</td>
+            </tr>
+            <tr>
+              <td><strong>Vercel Postgres (Neon)</strong></td>
+              <td>Stores intake form data, generated teasers, and chat feedback records</td>
+              <td>Your intake submission and teaser content, until deleted per the retention schedule</td>
+              <td>United States / European Union</td>
+            </tr>
+            <tr>
+              <td><strong>Resend</strong></td>
+              <td>Sends your plan email, holding email, and any safety-related emails</td>
+              <td>Email address, plan content, your name</td>
+              <td>United States</td>
+            </tr>
+            <tr>
+              <td><strong>Google (Calendar embed on Contact page)</strong></td>
+              <td>Lets you book a chat directly with Emily</td>
+              <td>Only the details you enter into Google's booking form (your name, email, any notes you include)</td>
+              <td>United States</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>We do not sell your data to anyone. We do not share it for advertising. The processors above are the only third parties who see it.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>7. International transfers</h2>
+        <p>Several of our processors are based in the United States. When we transfer your personal data outside the UK or EU, we rely on the following safeguards:</p>
+        <ul>
+          <li><strong>EU-US Data Privacy Framework (DPF) and UK Extension:</strong> Anthropic, Stripe, Vercel, Resend, and Google are certified under the DPF (or its UK Extension), which the European Commission and the UK Government have recognised as providing an adequate level of protection.</li>
+          <li><strong>Standard Contractual Clauses (SCCs):</strong> where a processor is not DPF-certified for a specific transfer, we rely on the UK / EU Standard Contractual Clauses incorporated into their data processing agreements.</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>8. How long we keep your data</h2>
+        <table class="legal-table">
+          <thead>
+            <tr><th>Type of data</th><th>Retention period</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Intake form submissions and generated plans</td><td>Up to 24 months from submission, then deleted. Earlier on request.</td></tr>
+            <tr><td>Email communications (plans sent, holding emails)</td><td>Retained in Resend's logs per Resend's retention policy; we keep our copy for 24 months.</td></tr>
+            <tr><td>Payment records</td><td>Retained by Stripe per its policies and required by HMRC for at least 6 years for accounting purposes.</td></tr>
+            <tr><td>Chatbot conversations</td><td>Not stored in identifiable form. Individual feedback ratings are kept anonymously for up to 12 months for safety review.</td></tr>
+            <tr><td>Content feedback / plan reports</td><td>Retained as long as needed to investigate and improve the service, then deleted.</td></tr>
+            <tr><td>Analytics data (Vercel Analytics)</td><td>Aggregated and anonymised; retained per Vercel's standard analytics retention.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="policy-section">
+        <h2>9. Your rights under UK and EU GDPR</h2>
+        <p>You have the following rights over your personal data:</p>
+        <ul>
+          <li><strong>Right of access:</strong> ask for a copy of the data we hold about you.</li>
+          <li><strong>Right to rectification:</strong> ask us to correct inaccurate or incomplete data.</li>
+          <li><strong>Right to erasure ("right to be forgotten"):</strong> ask us to delete your data, subject to lawful exceptions (e.g. payment records we are required to retain for tax purposes).</li>
+          <li><strong>Right to restrict processing:</strong> ask us to limit how we use your data while a query is resolved.</li>
+          <li><strong>Right to data portability:</strong> receive a copy of the data you have given us in a machine-readable format.</li>
+          <li><strong>Right to object:</strong> object to processing based on legitimate interests.</li>
+          <li><strong>Right to withdraw consent:</strong> withdraw your consent to special-category processing at any time. Withdrawal does not affect processing already carried out.</li>
+        </ul>
+        <p>To exercise any of these rights, email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>. We will respond within one month (sometimes extended by a further two months for complex requests, with notice).</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>10. Cookies and tracking</h2>
+        <p>Mind the Gael uses only essential cookies needed to run the site:</p>
+        <ul>
+          <li><strong>Cookie consent preference:</strong> stored in your browser's localStorage under <code>mtg_cookie_consent</code> so the consent banner does not return after you have responded.</li>
+          <li><strong>Stripe Checkout cookies:</strong> set during payment by Stripe's hosted checkout page; required for fraud prevention.</li>
+          <li><strong>Vercel session cookies:</strong> standard hosting cookies for site security.</li>
+        </ul>
+        <p>We use <strong>Vercel Analytics</strong> for aggregated, anonymised page-view counts. This does not place tracking cookies in your browser. No advertising or cross-site tracking cookies are set on Mind the Gael.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>11. AI-generated content</h2>
+        <p>Performance plans on Mind the Gael are generated using Anthropic's Claude AI model from the details you submit. We label this clearly on the intake form. AI output can contain errors, and during the platform's early phase every plan is reviewed by Emily before it is sent to you. We provide a "report this plan" link on every plan email so you can flag anything that feels unclear, unsafe, or off.</p>
+        <p>Mind the Gael does not use your data to train AI models. Anthropic's Commercial Terms confirm that API inputs are not used for model training.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>12. How to make a complaint</h2>
+        <p>If you have a concern about how we have handled your data, please contact Emily first at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> so we can try to resolve it.</p>
+        <p>If you are not satisfied with our response, you have the right to complain to a data protection authority:</p>
+        <ul>
+          <li><strong>United Kingdom:</strong> Information Commissioner's Office (ICO), <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">ico.org.uk</a>, helpline 0303 123 1113.</li>
+          <li><strong>Ireland:</strong> Data Protection Commission, <a href="https://www.dataprotection.ie" target="_blank" rel="noopener noreferrer">dataprotection.ie</a>.</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>13. Crisis disclosures</h2>
+        <p>If your intake submission or chatbot message contains an indication that you are in a mental health crisis (for example, self-harm or suicidal ideation), the platform will halt plan generation, show you a support message, and email Emily directly so she can reach out and signpost professional support. We may share what you have written with relevant emergency or support services if we believe it is necessary to protect your life or safety. This is rare and limited to those circumstances.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>14. Changes to this policy</h2>
+        <p>We will update this policy when we change how we handle data. The "Last revised" date at the top reflects the most recent change. For material changes affecting how your data is used, we will let active subscribers and plan customers know by email.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>15. Contact</h2>
+        <p>Questions about this policy or about your data: <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.</p>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .privacy-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.5rem;
+    padding: 2.5rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0.2rem 0 0.4rem;
+    color: var(--green-lime);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+  }
+
+  .hero-tagline {
+    margin: 0;
+    color: var(--green-light);
+    max-width: 64ch;
+  }
+
+  .last-revised {
+    margin: 0.8rem 0 0;
+    color: var(--green-light);
+    opacity: 0.78;
+    font-size: 0.88rem;
+  }
+
+  .draft-notice {
+    margin: 0 0 1.8rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    background: rgba(105, 0, 90, 0.85);
+    color: #ffffff;
+    border-left: 4px solid var(--green-lime);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .draft-notice a,
+  .draft-notice a:visited {
+    color: var(--green-lime) !important;
+    text-decoration: underline !important;
+    font-weight: 700;
+  }
+
+  .policy-section {
+    margin-bottom: 2.2rem;
+    padding: 1.6rem 1.8rem;
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.22);
+    border-radius: 10px;
+    color: var(--green-dark);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .policy-section h2 {
+    margin: 0 0 1rem;
+    color: var(--purple);
+    font-size: 1.35rem;
+  }
+
+  .policy-section h3 {
+    margin: 1.2rem 0 0.5rem;
+    color: var(--purple);
+    font-size: 1.05rem;
+  }
+
+  .policy-section p {
+    margin: 0 0 0.85rem;
+    line-height: 1.65;
+    color: var(--green-dark);
+  }
+
+  .policy-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .policy-section ul {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.4rem;
+    color: var(--green-dark);
+  }
+
+  .policy-section li {
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+  }
+
+  .policy-section strong {
+    color: var(--green-dark);
+  }
+
+  .policy-section a,
+  .policy-section a:visited {
+    color: var(--purple) !important;
+    text-decoration: underline !important;
+    font-weight: 600;
+  }
+
+  .policy-section code {
+    background: rgba(105, 0, 90, 0.08);
+    padding: 0.12rem 0.35rem;
+    border-radius: 4px;
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.88em;
+    color: var(--purple);
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6rem 0;
+    font-size: 0.92rem;
+  }
+
+  .legal-table th,
+  .legal-table td {
+    border: 1px solid rgba(105, 0, 90, 0.22);
+    padding: 0.65rem 0.8rem;
+    text-align: left;
+    vertical-align: top;
+    color: var(--green-dark);
+  }
+
+  .legal-table th {
+    background: rgba(105, 0, 90, 0.08);
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .policy-section {
+      padding: 1.2rem 1.1rem;
+    }
+
+    .legal-table {
+      font-size: 0.85rem;
+    }
+
+    .legal-table th,
+    .legal-table td {
+      padding: 0.5rem 0.55rem;
+    }
+  }
+</style>

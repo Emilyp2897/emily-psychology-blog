@@ -14,6 +14,46 @@ import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
 import { EMILY_CALENDAR_BOOKING_URL } from '../../consts';
 import { buildClientPlanEmailHtml, buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
 
+// Summarise the player's existing sport load. Mirrors the helper in
+// programme-intake.ts. Critical for the physical plan: total weekly
+// sessions = club trainings + matches + plan sessions, and the plan must
+// not push that past recoverable load.
+function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
+  const t = (trainings || '').trim();
+  const m = (matches || '').trim();
+  if (!t && !m) return 'not provided';
+  const parts: string[] = [];
+  if (t) {
+    if (t === '0') parts.push('no club trainings');
+    else if (t === '4+') parts.push('4 or more club trainings per week');
+    else parts.push(`${t} club training${t === '1' ? '' : 's'} per week`);
+  }
+  if (m) {
+    if (m === '0') parts.push('no matches');
+    else if (m === 'variable') parts.push('variable matches (championship blocks etc.)');
+    else parts.push(`${m} match${m === '1' ? '' : 'es'} per week`);
+  }
+  return parts.join(' + ');
+}
+
+// Map seasonPhase enum to a description for the model. Mirrors the helper in
+// programme-intake.ts so the teaser and the full plan agree on what each
+// phase means.
+function describeSeasonPhase(phase: string | undefined | null): string {
+  switch (phase) {
+    case 'pre_season':
+      return 'Pre-season: building a base before the season starts (general capacity, accumulation, habit-setting).';
+    case 'championship_leadup':
+      return 'Championship lead-up: peaking and tapering for matches (intensification, then volume drop into match-readiness).';
+    case 'in_season':
+      return 'In-season: maintenance during competition (lower volume, top-up work, recovery prioritised).';
+    case 'off_season':
+      return 'Off-season: rest, recovery, lighter work, deeper mental skill development.';
+    default:
+      return 'not provided. Treat as a general plan with no specific phase emphasis.';
+  }
+}
+
 export const prerender = false;
 
 const EMILY_EMAIL = 'emilyphelan@mindthegael.co.uk';
@@ -348,6 +388,8 @@ function buildMentalPlanPrompt(input: {
     `- Competition level: ${intake.competitionLevel || 'not provided'}`,
     `- Years competing: ${intake.yearsCompeting || 'not provided'}`,
     `- Plan duration: ${intake.planDuration || '6 weeks'}`,
+    `- Season phase: ${describeSeasonPhase(intake.seasonPhase)}`,
+    `- Existing weekly sport load: ${describeSportLoad(intake.clubTrainingsPerWeek, intake.matchesPerWeek)}`,
     `- Performance moments they want to work on: ${(intake.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
     `- Current mental performance routines: ${intake.currentRoutines || 'not provided'}`,
     `- Past peak moment: ${intake.peakMoment || 'not provided'}`,
@@ -358,6 +400,14 @@ function buildMentalPlanPrompt(input: {
     `- Anything else they shared: ${intake.anythingElse || 'not provided'}`,
   ].join('\n');
 
+  const seasonPhaseInstruction = intake.seasonPhase
+    ? '\nShape the week-by-week progression to fit the season phase. Pre-season: front-load foundation routines (breathing, anchors, pre-performance routines) and habit-setting; later weeks layer self-talk and mistake reset. Championship lead-up: front-load composure under pressure, sharpening focus, and mistake reset; later weeks rehearse the full championship-week routine. In-season: prioritise quick-reset tools, self-talk for fatigue, and managing pressure between fixtures. Off-season: deeper identity work, reflection, and longer-term mental skill development.'
+    : '';
+
+  const sportLoadInstruction = (intake.clubTrainingsPerWeek || intake.matchesPerWeek)
+    ? '\nAnchor weekly routines to moments the player actually has in her week. If matches > 0: prioritise pre-match routines, post-mistake reset for mid-game, post-match decompression. The "performance moment to apply it" should reference real sessions (training days, match day, warm-up, cool-down). If matches = 0 right now (pre-season or off-season): anchor routines to training days, in-session focus, and mental-skill homework between sessions. Do not invent matches the player has not described.'
+    : '';
+
   const companionInstruction = intake.companionPlanSummary
     ? '\nThe client is also doing a Mind the Gael Physical Training Plan. Where it fits, anchor "Performance moment to apply it" each week to a real session or moment from their training plan (e.g. the heaviest lift day, conditioning blocks, sport-specific work). In Routines to Build, suggest applying pre-performance routines to those specific sessions. Stay within what they actually described, never invent specifics about the physical plan.'
     : '';
@@ -366,6 +416,8 @@ function buildMentalPlanPrompt(input: {
     `Create a ${intake.planDuration || '6-week'} mental performance plan for the following female athlete client. This plan will be emailed directly to them.`,
     '',
     clientBlock,
+    seasonPhaseInstruction,
+    sportLoadInstruction,
     companionInstruction,
     '',
     'Follow the system prompt rules strictly. Use the exact output section headers it specifies. Anchor every week\'s concept to the 12 themes of the Gael Performance Toolkit, choosing the themes that best match the performance moments and struggles the client described.',
@@ -515,6 +567,8 @@ function buildPlanPrompt(input: {
     `- Current activity level: ${intake.currentActivityLevel || 'not provided'}`,
     `- Sessions per week the schedule allows: ${intake.frequencyPerWeek ?? 'not provided'}`,
     `- Plan duration: ${intake.planDuration || '6 weeks'}`,
+    `- Season phase: ${describeSeasonPhase(intake.seasonPhase)}`,
+    `- Existing weekly sport load: ${describeSportLoad(intake.clubTrainingsPerWeek, intake.matchesPerWeek)}`,
     `- Plan goals: ${(intake.planGoals || []).join(', ')}`,
     `- Issues/concerns: ${intake.issuesWorries || 'none provided'}`,
     `- Lifestyle: ${intake.lifestyle || 'not provided'}`,
@@ -526,6 +580,14 @@ function buildPlanPrompt(input: {
     `- Anything else: ${intake.anythingElse || 'not provided'}`,
     `- Specific goals narrative: ${intake.goals}`,
   ].join('\n');
+
+  const seasonPhaseInstruction = intake.seasonPhase
+    ? '\nShape the programme structure to match the season phase. Pre-season: accumulation block (general strength, capacity, movement quality), progressive volume, no peaking. Championship lead-up: intensification through the first weeks, then taper into match-readiness across the final 1-2 weeks (volume drops, intensity stays). In-season: maintenance week structure (lower volume, top-up work, recovery sessions, lifts kept brief and frequent). Off-season: light, broad-based work focused on mobility, movement quality, and unstructured play.'
+    : '';
+
+  const sportLoadInstruction = (intake.clubTrainingsPerWeek || intake.matchesPerWeek)
+    ? '\nHARD LOAD-MANAGEMENT RULE: factor the player\'s existing weekly sport load into every week of the plan. Total weekly sessions = club trainings + matches + plan sessions. Total recoverable load per week for most athletes is 5-6 sessions (less if matches are present). If the player already has 2 club trainings + 1 match per week, that is 3 sport-specific sessions; the plan should add no more than 2-3 sessions on top, and at least one of those should be a light/recovery session. Schedule lighter or mobility-focused sessions day-after-match. If the player has 0 matches and pre-season phase, the plan can carry more volume. NEVER prescribe a heavy lift the day before a match or the day after one. Coach Notes for each week should reference how the plan sits alongside the player\'s stated sport load (e.g. "Heavy strength session is Tue, the day after your Mon training and before your Thu training, leaving Fri light into Sat match").'
+    : '';
 
   const companionInstruction = intake.companionPlanSummary
     ? '\nThe client is also doing a Mind the Gael Mental Performance Plan. Where it fits naturally, write session cues and weekly notes that reinforce the mental work they shared. For example: tie session-level focus cues to refocus routines they are practising; in Coach Notes, suggest moments in the training week where they can layer in pre-performance routines or self-talk practice. Stay within what they actually described, never invent specifics from the mental plan.'
@@ -543,6 +605,8 @@ function buildPlanPrompt(input: {
     avoidBlock,
     '',
     clientBlock,
+    seasonPhaseInstruction,
+    sportLoadInstruction,
     companionInstruction,
     '',
     'Follow the system prompt rules strictly. Use the exact output section headers it specifies.',

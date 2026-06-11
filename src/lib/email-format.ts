@@ -294,7 +294,20 @@ export function buildClientPlanEmailHtml(opts: {
     `<p style="margin: 0; font-size: 14px; color: ${TEXT_MUTED};">Or reach me any time at <a href="mailto:${escapeHtml(opts.emilyEmail)}" style="color: ${BRAND_PURPLE}; font-weight: 700;">${escapeHtml(opts.emilyEmail)}</a>. I want to know how you get on.</p>`,
   ].join('\n');
 
-  const body = greeting + intro + safety + planBlock + calendarBlock + buildSignatureHtml();
+  // Report mechanism: lets the client flag anything that felt unclear,
+  // unsafe, or off. Required for AI transparency (Priority 3 of the legal
+  // checklist). Routes to the existing content-feedback form with a
+  // source flag so Emily can spot plan-email reports separately.
+  const reportBlock = [
+    `<hr style="border: 0; border-top: 1px solid ${BORDER_SOFT}; margin: 28px 0 14px;" />`,
+    `<p style="margin: 0; font-size: 13px; color: ${TEXT_MUTED}; line-height: 1.55;">`,
+    `Was anything in this plan unclear, unsafe, or off? Plans are AI-generated and can contain errors.`,
+    `<a href="https://mindthegael.co.uk/content-feedback?source=plan_email" style="color: ${BRAND_PURPLE}; font-weight: 700;">Report it here</a>`,
+    `and Emily will look at it within 48 hours.`,
+    `</p>`,
+  ].join(' ');
+
+  const body = greeting + intro + safety + planBlock + calendarBlock + reportBlock + buildSignatureHtml();
   return emailShell({ title: `Your ${opts.duration} plan`, bodyHtml: body });
 }
 
