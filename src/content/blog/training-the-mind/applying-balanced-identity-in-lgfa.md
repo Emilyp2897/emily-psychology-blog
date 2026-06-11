@@ -1,7 +1,7 @@
 ---
 title: "Applying Balanced Identity in Ladies Gaelic Football"
 description: "How to build identity beyond the sport without giving up the commitment. Dual careers, friendships, what to do in the off-season."
-pubDate: "2027-04-15"
+pubDate: "2027-06-15"
 track: "training-the-mind"
 ---
 

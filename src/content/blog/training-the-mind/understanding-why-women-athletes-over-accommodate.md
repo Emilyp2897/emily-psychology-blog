@@ -1,7 +1,7 @@
 ---
 title: "Understanding Why Women Athletes Over-Accommodate"
 description: "The pattern of saying yes when you mean no, holding the team together silently, and where the over-accommodation actually comes from."
-pubDate: "2027-02-01"
+pubDate: "2027-04-01"
 track: "training-the-mind"
 ---
 

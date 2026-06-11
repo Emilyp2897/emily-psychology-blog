@@ -1,7 +1,7 @@
 ---
 title: "Understanding Team Culture and Belonging"
 description: "What team culture actually is, why belonging matters for performance, and what psychological safety means for a Gaelic squad."
-pubDate: "2026-09-01"
+pubDate: "2026-11-01"
 track: "training-the-mind"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Understanding Mistakes and Perfectionism"
 description: "Why mistakes feel personal, what perfectionism actually does to performance, and the difference between high standards and self-punishment."
-pubDate: "2026-08-01"
+pubDate: "2026-10-01"
 track: "training-the-mind"
 ---
 

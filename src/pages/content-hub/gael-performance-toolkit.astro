@@ -8,6 +8,17 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 // Get toolkit posts (excluding the intro page).
 const allPosts = await getCollection('blog');
 
+// Scheduled-release helper: posts with a pubDate in the future render as
+// locked cards (blurred preview, release date shown, not clickable) until
+// release date passes. Re-evaluated on every request.
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const isUnreleased = (date: Date) => date > today;
+
+const releaseDateLabel = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
 const toolkitPosts = allPosts.filter(
   (post) =>
     post.slug.startsWith('gael-performance-toolkit/') &&
@@ -70,6 +81,18 @@ function toolkitFor(slug: string) {
                   <span class="toolkit-month">{entry.month}</span>
                   <span class="toolkit-status">Coming soon</span>
                   <h3 class="toolkit-title">{entry.theme}</h3>
+                </li>
+              );
+            }
+            if (isUnreleased(post.data.pubDate)) {
+              return (
+                <li class="toolkit-card toolkit-card-locked" aria-disabled="true">
+                  <span class="toolkit-month">{entry.month}</span>
+                  <span class="toolkit-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description toolkit-description-blur">{post.data.description}</p>
+                  )}
                 </li>
               );
             }
@@ -382,5 +405,39 @@ function toolkitFor(slug: string) {
   .toolkit-card-missing {
     opacity: 0.65;
     background: #f7f5f8;
+  }
+
+  /* Scheduled-release lock: pubDate is in the future. Card stays visible
+     with a release-date badge and a blurred description so the title and
+     month are readable but the body content is teased, not revealed. */
+  .toolkit-card-locked {
+    position: relative;
+    background: rgba(244, 255, 232, 0.55);
+    border-color: rgba(105, 0, 90, 0.18);
+    cursor: not-allowed;
+  }
+
+  .toolkit-card-locked .toolkit-title {
+    color: var(--purple);
+    opacity: 0.72;
+  }
+
+  .toolkit-description-blur {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .toolkit-lock-badge {
+    display: inline-block;
+    margin: 0.35rem 0 0.4rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: var(--green-light);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 </style>

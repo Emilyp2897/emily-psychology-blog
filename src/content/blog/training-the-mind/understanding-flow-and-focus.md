@@ -1,7 +1,7 @@
 ---
 title: "Understanding Flow and Focus: When Playing Feels Easy"
 description: "What flow is, why some matches feel effortless, and how to set the conditions for it more often."
-pubDate: "2026-12-01"
+pubDate: "2027-02-01"
 track: "training-the-mind"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Choking Under Pressure: Why You Freeze in Big Moments Even When You Know What to Do"
 description: "What's actually happening when a skill you've done a hundred times in training falls apart in a match, and what the research says about why."
-pubDate: "2026-06-01"
+pubDate: "2026-08-01"
 track: "training-the-mind"
 ---
 

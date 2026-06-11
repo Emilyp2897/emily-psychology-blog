@@ -1,7 +1,7 @@
 ---
 title: "Applying Championship Pressure in Ladies Gaelic Football"
 description: "Specific championship-week moments and how to handle them. The build-up, the morning of, the warm-up, the dressing room, the first 5 minutes."
-pubDate: "2027-03-15"
+pubDate: "2027-05-15"
 track: "training-the-mind"
 ---
 

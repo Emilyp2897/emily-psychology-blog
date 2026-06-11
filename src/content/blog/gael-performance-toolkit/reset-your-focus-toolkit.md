@@ -1,7 +1,7 @@
 ---
 title: "Reset Your Focus Toolkit"
 description: "Simple steps to reset your focus when anxiety starts pulling your attention away from the game."
-pubDate: "2026-06-01"
+pubDate: "2026-08-01"
 track: "gael-performance-toolkit"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Understanding Confidence: Where It Actually Comes From"
 description: "Confidence is a skill, not a personality trait. What the research says about how confidence is built, broken, and rebuilt."
-pubDate: "2026-07-01"
+pubDate: "2026-09-01"
 track: "training-the-mind"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "How to bring your focus back when your mind starts to drift"
 description: "How to bring your focus back in games when pressure and overthinking pull your attention away from the present moment."
-pubDate: "2026-06-01"
+pubDate: "2026-08-01"
 track: "training-the-mind"
 ---
 

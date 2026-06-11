@@ -1,7 +1,7 @@
 ---
 title: "Goal Setting & Training Mindset Toolkit"
 description: "Practical goal-setting frameworks that actually work in a long season. Process goals, micro-goals, and a season planning template."
-pubDate: "2026-10-08"
+pubDate: "2026-12-08"
 track: "gael-performance-toolkit"
 ---
 

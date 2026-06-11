@@ -1,7 +1,7 @@
 ---
 title: "Applying Boundaries in Ladies Gaelic Football"
 description: "Specific LGF situations where boundaries matter most. With coaches, teammates, family, and yourself."
-pubDate: "2027-02-15"
+pubDate: "2027-04-15"
 track: "training-the-mind"
 ---
 

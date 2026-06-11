@@ -1,7 +1,7 @@
 ---
 title: "Nutrition & Language Toolkit"
 description: "Practical fuelling guidance and language tools for healthier food culture in a Gaelic squad."
-pubDate: "2027-01-08"
+pubDate: "2027-03-08"
 track: "gael-performance-toolkit"
 ---
 

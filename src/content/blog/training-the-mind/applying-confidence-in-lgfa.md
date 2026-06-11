@@ -1,7 +1,7 @@
 ---
 title: "Applying Confidence in Ladies Gaelic Football"
 description: "How confidence actually shows up in LGF, and where it gets ambushed. Selection, comparison with teammates, training week pressure, match day."
-pubDate: "2026-07-15"
+pubDate: "2026-09-15"
 track: "training-the-mind"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Championship Routines, Confidence & Sleep Toolkit"
 description: "Tools for big-game week. Sleep protection, threat-to-challenge reframes, and a championship-week structure that works."
-pubDate: "2027-03-08"
+pubDate: "2027-05-08"
 track: "gael-performance-toolkit"
 ---
 

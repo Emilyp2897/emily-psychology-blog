@@ -1,7 +1,7 @@
 ---
 title: "Mistake Reset Toolkit"
 description: "Practical tools to drop a mistake and get back into the game. Resets that take under 10 seconds."
-pubDate: "2026-08-08"
+pubDate: "2026-10-08"
 track: "gael-performance-toolkit"
 ---
 

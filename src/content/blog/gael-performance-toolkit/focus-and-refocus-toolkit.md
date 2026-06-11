@@ -1,7 +1,7 @@
 ---
 title: "Focus & Refocus Toolkit"
 description: "Tools to set up focus before a match and recover it mid-game. Pre-match routines, attention narrowing, and refocus cues."
-pubDate: "2026-12-08"
+pubDate: "2027-02-08"
 track: "gael-performance-toolkit"
 ---
 

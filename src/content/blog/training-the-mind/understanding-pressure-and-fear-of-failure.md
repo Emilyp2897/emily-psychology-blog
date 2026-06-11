@@ -1,7 +1,7 @@
 ---
 title: "Understanding Championship Pressure and Fear of Failure"
 description: "Threat vs challenge appraisal, what your body does in big-game weeks, and why fear of failure is the most common pressure pattern in elite female athletes."
-pubDate: "2027-03-01"
+pubDate: "2027-05-01"
 track: "training-the-mind"
 ---
 

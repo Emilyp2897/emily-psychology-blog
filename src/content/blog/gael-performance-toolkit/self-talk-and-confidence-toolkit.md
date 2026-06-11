@@ -1,7 +1,7 @@
 ---
 title: "Self-Talk and Confidence Toolkit"
 description: "Practical tools to rebuild and protect confidence. Self-talk scripts, evidence ledgers, and a confidence-before-game routine."
-pubDate: "2026-07-08"
+pubDate: "2026-09-08"
 track: "gael-performance-toolkit"
 ---
 

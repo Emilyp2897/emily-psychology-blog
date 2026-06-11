@@ -1,7 +1,7 @@
 ---
 title: "Pre-Performance Routines, Breathing & Cue Words"
 description: "Simple, repeatable tools to settle yourself before a match. Routines, breathing patterns, and cue words you can use this week."
-pubDate: "2026-06-08"
+pubDate: "2026-08-08"
 track: "gael-performance-toolkit"
 ---
 

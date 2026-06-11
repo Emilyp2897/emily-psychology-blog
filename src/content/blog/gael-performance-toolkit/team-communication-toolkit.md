@@ -1,7 +1,7 @@
 ---
 title: "Team Communication Toolkit"
 description: "Practical scripts and routines for hard conversations, conflict resolution, and contribution recognition in a Gaelic squad."
-pubDate: "2026-09-08"
+pubDate: "2026-11-08"
 track: "gael-performance-toolkit"
 ---
 

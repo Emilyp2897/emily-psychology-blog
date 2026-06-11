@@ -1,7 +1,7 @@
 ---
 title: "Understanding Identity and Fear After Injury"
 description: "What happens to your sense of self when you're injured, why coming back is mostly mental work, and how to manage fear of re-injury."
-pubDate: "2026-11-01"
+pubDate: "2027-01-01"
 track: "training-the-mind"
 ---
 

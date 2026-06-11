@@ -1,7 +1,7 @@
 ---
 title: "Understanding Motivation: Why Some Days You Want to Play and Some You Don't"
 description: "What actually drives motivation in sport, why it fluctuates, and how to build the kind that lasts."
-pubDate: "2026-10-01"
+pubDate: "2026-12-01"
 track: "training-the-mind"
 ---
 

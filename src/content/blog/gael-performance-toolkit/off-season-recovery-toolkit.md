@@ -1,7 +1,7 @@
 ---
 title: "Off-Season Recovery Toolkit"
 description: "A 6-week off-season plan that protects mental and physical recovery, with the structures to come back stronger."
-pubDate: "2027-05-08"
+pubDate: "2027-07-08"
 track: "gael-performance-toolkit"
 ---
 

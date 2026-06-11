@@ -7,6 +7,18 @@ import { SITE_TITLE } from '../../consts';
 
 const allPosts = await getCollection('blog');
 
+// Scheduled-release helper. Posts with a pubDate in the future render as
+// locked cards (blurred preview, release date shown, no link) until the
+// release date passes. Computed at request time so the lock lifts
+// automatically without a redeploy.
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const isUnreleased = (date: Date) => date > today;
+
+const releaseDateLabel = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
 type MonthEntry = {
   month: string;
   theme: string;
@@ -147,6 +159,17 @@ function postFor(slug: string) {
                     <li class="ttm-card ttm-card-missing">
                       <span class="ttm-status">Coming soon</span>
                       <h4 class="ttm-title">{slug.split('/').pop()?.replace(/-/g, ' ')}</h4>
+                    </li>
+                  );
+                }
+                if (isUnreleased(post.data.pubDate)) {
+                  return (
+                    <li class="ttm-card ttm-card-locked" aria-disabled="true">
+                      <span class="ttm-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                      <h4 class="ttm-title">{post.data.title}</h4>
+                      {post.data.description && (
+                        <p class="ttm-description ttm-description-blur">{post.data.description}</p>
+                      )}
                     </li>
                   );
                 }
@@ -304,6 +327,40 @@ function postFor(slug: string) {
   .ttm-card-missing {
     opacity: 0.65;
     background: #f7f5f8;
+  }
+
+  /* Scheduled-release lock: post pubDate is in the future. Card is shown
+     in muted form with a release-date badge; description is blurred so
+     users can see something is there but cannot read it yet. */
+  .ttm-card-locked {
+    position: relative;
+    background: rgba(244, 255, 232, 0.55);
+    border-color: rgba(105, 0, 90, 0.18);
+    cursor: not-allowed;
+  }
+
+  .ttm-card-locked .ttm-title {
+    color: var(--purple);
+    opacity: 0.72;
+  }
+
+  .ttm-description-blur {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .ttm-lock-badge {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: var(--green-light);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .content-feedback-cta {

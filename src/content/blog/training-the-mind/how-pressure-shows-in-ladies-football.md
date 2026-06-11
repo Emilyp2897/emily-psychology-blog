@@ -1,7 +1,7 @@
 ---
 title: "How Pressure Shows Up in Ladies Gaelic Football"
 description: "The specific pressures female Gaelic players carry that aren't about ability. Selection anxiety, fear of letting the team down, social comparison, and the dual-career load."
-pubDate: "2026-06-15"
+pubDate: "2026-08-15"
 track: "training-the-mind"
 ---
 
