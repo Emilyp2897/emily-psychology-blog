@@ -168,7 +168,68 @@
 <p>The platform is engineered to scale: both plan generators run autonomously after Stripe verification, content is served from a CDN-backed static site, and the live human intervention layer (Emily) is only invoked for clinical-pause cases and the four specialised training tracks (pregnancy, postpartum, endometriosis, return-to-play).</p>
 
 <div class="callout">
-  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>94 % and 97 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even at <strong>4 plan sales per month</strong>.
+  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>94 % and 97 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even on ongoing costs at <strong>4 plan sales per month</strong>. Total <strong>pre-launch investment to recoup is approximately £620</strong> (see Section 1B below) &mdash; dominated by Anthropic API spend during the build.
+</div>
+
+<h2>1B. Pre-Launch Investment (What's Been Spent)</h2>
+
+<p>The platform has been in build from approximately <strong>March 2026 through July 2026</strong>, ready for a <strong>1 August 2026 launch</strong>. The costs below are what has been spent on subscriptions and tooling during the build, before any revenue. No customer sales have occurred yet; every figure here is pure investment in the build.</p>
+
+<h3>1B.1 Anthropic API: invoice history</h3>
+
+<p>From Emily's Anthropic billing portal, paid credit grants over the build period:</p>
+
+<table>
+  <thead><tr><th>Date</th><th>Invoice type</th><th class="num">Cost (USD)</th></tr></thead>
+  <tbody>
+    <tr><td>11 Jun 2026</td><td>Credit grant</td><td class="num">$120.00</td></tr>
+    <tr><td>11 Jun 2026</td><td>Credit grant</td><td class="num">$24.00</td></tr>
+    <tr><td>10 Jun 2026</td><td>Credit grant</td><td class="num">$24.00</td></tr>
+    <tr><td>10 Jun 2026</td><td>Credit grant</td><td class="num">$24.00</td></tr>
+    <tr><td>9 Jun 2026</td><td>Credit grant</td><td class="num">$24.00</td></tr>
+    <tr><td>5 Jun 2026</td><td>Credit grant</td><td class="num">$120.00</td></tr>
+    <tr><td>2 Jun 2026</td><td>Credit grant</td><td class="num">$120.00</td></tr>
+    <tr><td>25 May 2026</td><td>Credit grant</td><td class="num">$30.00</td></tr>
+    <tr><td>22 May 2026</td><td>Credit grant</td><td class="num">$30.00</td></tr>
+    <tr><td>22 May 2026</td><td>Credit grant</td><td class="num">$24.00</td></tr>
+    <tr><td>19 May 2026</td><td>Credit grant</td><td class="num">$12.00</td></tr>
+    <tr><th colspan="2">Total paid (excludes $3.28 free credit)</th><th class="num">$552.00</th></tr>
+    <tr><th colspan="2">Approximate GBP equivalent (at ~1.27 USD/GBP)</th><th class="num">~£435</th></tr>
+  </tbody>
+</table>
+
+<h3>1B.2 Total pre-launch investment</h3>
+
+<table>
+  <thead>
+    <tr><th>Item</th><th>Cost / month</th><th>Months active</th><th class="num">Total spent (GBP)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Anthropic API</strong> (build, iteration, dev testing &mdash; see 1B.1)</td><td>—</td><td>Pay-per-use</td><td class="num"><strong>~£435</strong></td></tr>
+    <tr><td>Canva Pro subscription</td><td>£18</td><td>5</td><td class="num">£90</td></tr>
+    <tr><td>Claude AI Pro subscription (Emily's personal account)</td><td>~£16</td><td>5</td><td class="num">~£80</td></tr>
+    <tr><td>Domain (mindthegael.co.uk, annual)</td><td>—</td><td>One-off</td><td class="num">~£15</td></tr>
+    <tr><td>Vercel hosting</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
+    <tr><td>Vercel Postgres (Neon)</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
+    <tr><td>Resend (transactional email)</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
+    <tr><th colspan="3">Estimated total pre-launch investment</th><th class="num">~£620</th></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 13px; color: var(--muted); font-style: italic;">Anthropic API figure is exact (pulled directly from invoice history). Canva, Claude Pro, and domain figures are estimates based on the quoted monthly rates in Section 5 &mdash; replace with exact figures from receipts where available.</p>
+
+<div class="callout">
+  <strong>To break even on the build, the platform needs to net ~£620 above ongoing fixed costs.</strong> At an average net margin of £9.57 per plan sale, that is <strong>~65 additional plan sales</strong> on top of whatever is needed to cover monthly fixed costs. Roughly six months of moderate launch volume (or three to four months at the higher end).
+</div>
+
+<div class="callout" style="border-left: 4px solid var(--purple);">
+  <strong>Important: the £435 Anthropic spend was build cost, not per-sale cost.</strong> During development, the platform was generating dozens of test plans and teasers per day across multiple sport profiles, intake variants, prompt revisions, and full iterations of the mental performance generator. No customer transactions have happened. Per-sale economics in production are dramatically lower:
+  <ul style="margin: 8px 0 0 18px;">
+    <li>Teaser per visitor (now on Haiku, ~3× faster + ~5× cheaper than Sonnet): <strong>~£0.002</strong></li>
+    <li>Full 6-week plan per buyer (Sonnet, cached system prompt): <strong>~£0.08</strong></li>
+    <li>Full 12-week plan per buyer: <strong>~£0.16</strong></li>
+  </ul>
+  At launch-volume traffic (~50 teasers + 5 buyers per month), monthly Anthropic spend should land around <strong>£0.50 to £1</strong> &mdash; less than 1% of what build burned per month. The big number above is a one-off investment, not a recurring cost.
 </div>
 
 <h2>2. Revenue Streams</h2>
@@ -392,12 +453,152 @@
 
 <p><strong>Team programmes and workshops</strong> are paused for now. If/when relaunched, team programmes would target clubs and panels (20&ndash;30 athletes) at a per-athlete cost positioned against in-person S&amp;C coaches; workshops would be revisited as live online events once the productised plans are at scale.</p>
 
-<h2>12. Summary Recommendation</h2>
+<h2>12. Three-Year Outlook</h2>
+
+<p>Projections assume the 1 August 2026 launch lands as planned, with the editorial calendar releasing monthly through the first 12 months to drive sustained organic traffic. Years 2 and 3 assume continued content cadence (lighter than the launch year), one round of mental + physical plan price testing, and modest paid acquisition on Instagram.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th class="num">Plan sales / mo (avg)</th>
+      <th class="num">Blog subscribers (end of year)</th>
+      <th class="num">Annual revenue</th>
+      <th class="num">Annual variable cost</th>
+      <th class="num">Annual fixed cost</th>
+      <th class="num">Annual net</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Year 1 (Aug 2026 &ndash; Jul 2027)</td>
+      <td class="num">~10</td>
+      <td class="num">~50</td>
+      <td class="num">~£3,400</td>
+      <td class="num">~£190</td>
+      <td class="num">~£420</td>
+      <td class="num">~£2,790</td>
+    </tr>
+    <tr>
+      <td>Year 2 (Aug 2027 &ndash; Jul 2028)</td>
+      <td class="num">~30</td>
+      <td class="num">~150</td>
+      <td class="num">~£12,500</td>
+      <td class="num">~£540</td>
+      <td class="num">~£540</td>
+      <td class="num">~£11,420</td>
+    </tr>
+    <tr>
+      <td>Year 3 (Aug 2028 &ndash; Jul 2029)</td>
+      <td class="num">~60</td>
+      <td class="num">~300</td>
+      <td class="num">~£28,000</td>
+      <td class="num">~£1,100</td>
+      <td class="num">~£660</td>
+      <td class="num">~£26,240</td>
+    </tr>
+    <tr>
+      <th colspan="6">Three-year cumulative net</th>
+      <th class="num">~£40,450</th>
+    </tr>
+  </tbody>
+</table>
+
+<p style="font-size: 13px; color: var(--muted); font-style: italic;">All figures are net of variable cost and fixed cost. Plan sales assume an even split of mental and physical, mix of 6-week (£10) and 12-week (£20). Blog subscribers assume an average £6.50/month accounting for the £5 founding-offer tier and the £8 standard tier. Fixed costs grow modestly in Years 2 and 3 to reflect moving Vercel + Postgres + Resend to paid tiers at the moderate-volume point.</p>
+
+<h3>12.1 What each year looks like in practice</h3>
+
+<table>
+  <thead><tr><th>Year</th><th>Focus</th><th>What changes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Year 1</strong></td>
+      <td>Launch &amp; trust building</td>
+      <td>Monthly content cadence (TTM + Toolkit + SMSP). v1 review mode active (Emily reviews every plan). Founding-offer subscription priced at £5 to seed early subscribers. Marketing focus: Instagram + LGFA partnerships.</td>
+    </tr>
+    <tr>
+      <td><strong>Year 2</strong></td>
+      <td>Conversion &amp; v2 flip</td>
+      <td>Flip to v2 autonomous plan delivery (single env-var change) once Emily is confident in quality. Founding-offer expires; new subscribers pay £8. Modest Instagram ad budget (~£50/mo) to test acquisition. Potential addition of one or two evergreen products (e.g. mini-courses or downloadable workbooks).</td>
+    </tr>
+    <tr>
+      <td><strong>Year 3</strong></td>
+      <td>Scale &amp; diversify</td>
+      <td>Team programmes return (clubs and panels at £400-£1,250 per panel). Workshops potentially re-launched as live online events at £30. Affiliate / partnership channels with women's sport organisations. Email list at this point is the main acquisition asset, not paid ads.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>13. How to Scale Financially</h2>
+
+<p>Scaling for Mind the Gael is not about more products. It is about doing more of the same things, with the same per-sale margins, to more people. The platform's economics already work: every plan sale nets ~£9-£19 after costs, with no marginal staffing cost. The only thing standing between Year 1 numbers and Year 3 numbers is reach.</p>
+
+<h3>13.1 Three scaling levers, in order of impact</h3>
+
+<table>
+  <thead><tr><th>Lever</th><th>What it changes</th><th>Cost to operate</th><th>Realistic timeline</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Content reach</strong></td>
+      <td>Drives every other metric. Each blog post / toolkit released is a permanent SEO and Instagram asset that brings in traffic for years. Monthly cadence already in place.</td>
+      <td>Time only. Content is already drafted through Month 12.</td>
+      <td>Compounds from Day 1. Reaches meaningful traffic at ~Month 6.</td>
+    </tr>
+    <tr>
+      <td><strong>2. Subscription growth</strong></td>
+      <td>£5-£8 per subscriber per month with near-zero marginal cost. 100 subscribers = ~£600-£800/mo recurring. The low-friction entry that compounds over time.</td>
+      <td>Already built. Stripe handles the billing.</td>
+      <td>Year 1 target: 50 founding subscribers. Year 2: 150. Year 3: 300+.</td>
+    </tr>
+    <tr>
+      <td><strong>3. Flip to v2 autonomous</strong></td>
+      <td>Removes Emily as the bottleneck on plan delivery. v1 routes every plan through her for review (capped at ~10 plans/week without burning out). v2 auto-delivers standard plans. Single env-var change.</td>
+      <td>£0 to flip. The architecture is built.</td>
+      <td>Once Emily has reviewed ~30 plans and is confident the output meets her standard, flip the env var.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>13.2 What does NOT scale (avoid these traps)</h3>
+
+<ul>
+  <li><strong>1:1 coaching at scale.</strong> Hourly capacity is a hard ceiling. Mind the Gael's whole architecture is built to avoid this trap.</li>
+  <li><strong>More products before product-market fit.</strong> Adding new products before the current ones are converting at a known rate splits attention and dilutes data.</li>
+  <li><strong>Heavy paid ads in Year 1.</strong> Without a strong conversion rate, paid ads pour money into a leaky bucket. Wait until organic conversion is measured before scaling paid.</li>
+  <li><strong>Custom enterprise deals.</strong> Bespoke programmes for individual clubs at low volume eat time without scaling. Standardise first, customise later.</li>
+</ul>
+
+<h3>13.3 Where the next 1,000 customers come from</h3>
+
+<p>Realistic acquisition channels for Year 1 &ndash; Year 3, ordered by expected fit:</p>
+
+<ol>
+  <li><strong>Instagram organic.</strong> Every blog and toolkit gets a paired carousel post (already in content tracker). Female athletes are active on Instagram; the platform is built for it.</li>
+  <li><strong>LGFA &amp; GAA partnerships.</strong> Specifically county Health &amp; Wellbeing committees, GPA Player Development, county-level player liaison roles. Free content distribution in return for credibility.</li>
+  <li><strong>Word of mouth from buyers.</strong> Every plan recipient is a potential advocate, especially the early ones who experience the personalisation.</li>
+  <li><strong>SEO from the editorial calendar.</strong> 36+ articles across three series, all targeting search-relevant phrases ("how to deal with pressure in sport", "performance anxiety in female athletes", etc.). Compounds slowly but reliably.</li>
+  <li><strong>Email list to subscribers.</strong> Once the list crosses ~100, it becomes the highest-converting channel for new plan launches and price changes.</li>
+</ol>
+
+<h3>13.4 Break-even at each stage</h3>
+
+<table>
+  <thead><tr><th>Stage</th><th class="num">Monthly sales to break even</th><th>What break-even pays for</th></tr></thead>
+  <tbody>
+    <tr><td>v1 (current)</td><td class="num">4 plan sales/mo</td><td>Ongoing fixed costs (~£35/mo). Pre-launch ~£195 spend recouped after ~21 additional sales.</td></tr>
+    <tr><td>v1 + Emily £500/mo personal draw</td><td class="num">56 plan sales/mo</td><td>Fixed costs + Emily takes home £500/mo. Achievable in Year 2.</td></tr>
+    <tr><td>v2 + £1,000/mo personal draw</td><td class="num">108 plan sales/mo</td><td>Fixed costs + Emily takes home £1,000/mo. Year 3 target.</td></tr>
+    <tr><td>Full-time income equivalent (~£2,500/mo)</td><td class="num">~270 plan sales/mo</td><td>Or equivalent mix of plans + subscribers (e.g. 100 plans + 400 subscribers).</td></tr>
+  </tbody>
+</table>
+
+<h2>14. Summary Recommendation</h2>
 
 <div class="callout">
   <strong>Position:</strong> the platform is structurally profitable from day one. Variable costs per sale are negligible (&lt;5 % of price). Fixed costs are near-zero until traffic crosses ~50k visits/month.<br/><br/>
-  <strong>Focus:</strong> the limiting factor is not cost or technology &mdash; it is acquisition and conversion. Year 1 priority should be marketing reach (Instagram, GAA / LGFA partnerships, partner clubs) rather than further product engineering.<br/><br/>
-  <strong>Live products to scale:</strong> physical training plans and mental performance plans (parallel architecture, cross-linked companion field) are both live. Year-one priority is conversion and acquisition rather than further product engineering.
+  <strong>Focus:</strong> the limiting factor is not cost or technology &mdash; it is acquisition and conversion. Year 1 priority is marketing reach (Instagram, GAA / LGFA partnerships, partner clubs) rather than further product engineering.<br/><br/>
+  <strong>Live products to scale:</strong> physical training plans and mental performance plans (parallel architecture, cross-linked companion field) are both live. Year-one priority is conversion and acquisition.<br/><br/>
+  <strong>Three-year target:</strong> ~£40k cumulative net over Years 1-3, reaching ~£2,200/month net by end of Year 3 (~270 plan sales/month or equivalent mix). Pre-launch investment of ~£620 (~£435 of which is Anthropic API spend during the build, the rest subscriptions + domain) recouped within the first six months of moderate sales.
 </div>
 
 <footer class="doc-footer">

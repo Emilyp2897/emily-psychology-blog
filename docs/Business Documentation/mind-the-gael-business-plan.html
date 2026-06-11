@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mind the Gael — Business Plan</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm; }
+  :root {
+    --green-dark: #0a1a0e;
+    --green-lime: #c0fe71;
+    --purple: #69005a;
+    --text: #1a1a1a;
+    --muted: #555;
+    --border: #d8d8d8;
+    --soft-bg: #f7f7f5;
+    --callout-bg: #f6e8f3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.55;
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+    font-size: 14px;
+  }
+  header.cover {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 0 -24px 40px;
+    background: var(--green-dark);
+    color: #fff;
+    page-break-after: always;
+  }
+  header.cover h1 { color: var(--green-lime); font-size: 38px; margin: 0 0 8px; letter-spacing: 0.5px; }
+  header.cover p.subtitle { margin: 6px 0 30px; color: #fff; font-size: 16px; opacity: 0.9; }
+  header.cover .meta { margin-top: 50px; font-size: 13px; color: #ccc; }
+  h2 { color: var(--purple); font-size: 22px; margin: 48px 0 14px; padding-bottom: 6px; border-bottom: 2px solid var(--green-lime); page-break-after: avoid; }
+  h3 { color: var(--purple); font-size: 16px; margin: 24px 0 6px; page-break-after: avoid; }
+  p { margin: 6px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 22px; page-break-inside: avoid; }
+  th, td { padding: 9px 11px; border: 1px solid var(--border); text-align: left; vertical-align: top; font-size: 13px; }
+  th { background: var(--green-dark); color: var(--green-lime); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  ul, ol { margin: 6px 0 14px; padding-left: 22px; }
+  li { margin-bottom: 3px; }
+  .callout { background: var(--callout-bg); border-left: 4px solid var(--purple); padding: 12px 14px; margin: 14px 0 22px; border-radius: 4px; font-size: 13px; }
+  .callout strong { color: var(--purple); }
+  .status-live { color: #057a3d; font-weight: 700; }
+  .status-build { color: #c08000; font-weight: 700; }
+  .status-planned { color: #555; font-weight: 700; }
+  footer.doc-footer { margin-top: 60px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  @media print { body { margin: 0; padding: 0; max-width: none; } h2 { margin-top: 30px; } }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>Mind the Gael</h1>
+  <p class="subtitle">Business Plan</p>
+  <p class="subtitle">AI-powered mental performance and physical training for female Gaelic footballers</p>
+  <div class="meta">June 2026 (revised)<br/>Founder: Emily Phelan</div>
+</header>
+
+<h2>1. Executive Summary</h2>
+
+<p>Mind the Gael is an AI-powered mental performance and physical training platform built specifically for female Gaelic footballers. The platform combines a library of evidence-based mental performance tools (the <strong>Gael Performance Toolkit</strong>) with AI-generated, personalised Mental Performance Plans and physical training plans, delivered through a modern web platform built on the <strong>Anthropic Claude API</strong>.</p>
+
+<p>Ladies Gaelic football is one of the fastest growing female sports in Europe, with the LGFA reporting almost 200,000 members across roughly 1,000 clubs in Ireland and Britain. Yet sport psychology and structured strength and conditioning remain concentrated at county level. The ordinary club player, the vast majority of the playing population, has no affordable access to either. Mind the Gael closes that gap at a price point any club player can afford.</p>
+
+<p>The platform is currently <strong>built and in v1 review mode</strong>, ahead of the <strong>1 August 2026 content launch</strong>. The next milestone is an eight-week pilot with 15 players across four clubs, supervised by a sports psychologist, a strength and conditioning coach, and two to three personal trainers including the founder. The pilot will produce expert endorsements, named testimonials, and case studies that underpin the paid product launch later in 2026.</p>
+
+<p>The business model combines low-friction one-off plan purchases with a content subscription: a <strong>£5 per month founding-offer subscriber blog</strong> (first 50 subscribers, then £8 per month standard), <strong>£10 for a 6-week plan and £20 for a 12-week plan</strong>, priced identically across mental performance and physical training. Phase 2 rolls the platform out to club memberships. The plan targets sustainable, founder-led growth funded from revenue, with modest startup costs because the founder builds the product herself.</p>
+
+<p>Ladies Gaelic football is the proving ground, not the ceiling. The platform is built as a sport-agnostic engine: expert-reviewed content turned into AI-personalised plans for a specific sporting community, with Gaelic football as the first community. Once the model is proven against defined gate criteria, the same playbook extends to camogie and then to other women's sports.</p>
+
+<h3>Mission</h3>
+<p>To give every female Gaelic footballer access to the mental performance and physical training support that has, until now, been reserved for county panels.</p>
+
+<div class="callout">
+  <strong>Build status (June 2026).</strong> The platform is fully built and operating in v1 (Emily-review) mode. Mental Performance Plan generator and physical training plan generator are both live and cross-linked. Content schedule loaded with 36 articles across three series; first batch unlocks on 1 August 2026. Pre-launch investment to date: ~£620 (~£435 of which is Anthropic API spend during build &mdash; see Financial Plan document).
+</div>
+
+<h2>2. The Problem</h2>
+
+<ul>
+  <li><strong>Mental performance support is rationed.</strong> Sport psychology in Gaelic games is concentrated in county setups. Club players dealing with match-day nerves, confidence dips, or focus problems have nowhere structured to turn.</li>
+  <li><strong>Generic fitness apps do not fit the sport.</strong> Mainstream training apps are not built for the demands of Gaelic football: the mix of sprinting, kicking, contact, and the club training calendar. None are built for women in the sport.</li>
+  <li><strong>The female player is underserved.</strong> Training and psychology content is overwhelmingly written for male athletes. Female players face distinct needs across physiology, injury risk profiles, and the realities of balancing sport with work and life.</li>
+  <li><strong>One-to-one support does not scale or suit budgets.</strong> A sport psychologist costs far more per session than a club player will spend in a year. Clubs cannot fund it either.</li>
+</ul>
+
+<h3>Who feels this problem</h3>
+<p>The primary user is the adult female club player, aged 19 to 40, playing junior to senior club football in Ireland or Britain. She trains two to three times a week, plays matches through the summer, cares about performing, and has disposable income for sport at the price of a streaming subscription but not at the price of private coaching.</p>
+
+<h2>3. The Solution and Product</h2>
+
+<p>Mind the Gael is a web platform with four connected layers. Mental performance is the primary differentiator; physical training plans are a complementary product. The two product lines are <strong>cross-linked</strong> through an optional companion field on both intake forms, so a player doing both can have her mental plan reference her training schedule and vice versa.</p>
+
+<table>
+  <thead><tr><th>Layer</th><th>What it is</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Gael Performance Toolkit</strong></td>
+      <td>A standalone library of evidence-based mental performance tools, each documented and usable on its own. Currently 12 toolkits drafted across the editorial calendar (pre-performance routines, self-talk, mistake reset, focus, championship routines, off-season recovery, and more).</td>
+      <td><span class="status-live">Live, scheduled-release</span></td>
+    </tr>
+    <tr>
+      <td><strong>Mental Performance Plan</strong></td>
+      <td>An AI-generated, personalised selection and sequencing of toolkit resources, matched to the player's competition level, performance moments to work on, peak moments, struggle moments, and schedule. Built on the Anthropic Claude API.</td>
+      <td><span class="status-live">Live (v1 review)</span></td>
+    </tr>
+    <tr>
+      <td><strong>Physical training plans</strong></td>
+      <td>AI-generated training programmes built around the Gaelic football season, the club training week, women's health (cycle-aware programming), and four specialised tracks (pregnancy, postpartum, endometriosis, return-to-play). Cross-linked with the mental plan when the player opts in.</td>
+      <td><span class="status-live">Live (v1 review)</span></td>
+    </tr>
+    <tr>
+      <td><strong>Blog and content</strong></td>
+      <td>Three series across the 12-month editorial calendar: <em>Training the Mind</em> (sports psychology in plain English), <em>Gael Performance Toolkit</em> (practical tools), and <em>Stronger Minds, Stronger Players</em> (always free; recognising mental health struggle and where to seek support). 36 articles total.</td>
+      <td><span class="status-live">Live, first release 1 Aug 2026</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Why this product wins</h3>
+<ul>
+  <li><strong>Specificity.</strong> Built for one sport, one gender, one community. Generic competitors cannot match the relevance, and the niche is too small for big platforms to chase.</li>
+  <li><strong>AI economics.</strong> Personalised plans at near-zero marginal cost (~£0.08-£0.16 per buyer) make individualised support viable at a club player's price point for the first time.</li>
+  <li><strong>Expert-reviewed, AI-delivered.</strong> Toolkit content is reviewed by qualified professionals; the AI personalises and sequences it. The platform never positions itself as therapy or medical advice. Crisis disclosure routes the conversation to support services and to the founder rather than continuing as performance coaching.</li>
+  <li><strong>Cross-linked products.</strong> The mental and physical plans are not silos. A player doing both has her mental plan anchored to specific training sessions and her physical plan layered with refocus cues and pre-performance routines.</li>
+  <li><strong>Community roots.</strong> Founder-led, built from inside the GAA community, launched through founding clubs rather than paid acquisition.</li>
+</ul>
+
+<h2>4. Market Analysis</h2>
+
+<p>The LGFA reports almost 200,000 members across roughly 1,000 clubs in Ireland and Britain, and describes ladies Gaelic football as one of the fastest growing female sports in Europe. Membership grew from around 80,000 in 2001 to over 190,000 by 2020, and the club count has more than doubled over the same period. There is also a growing international scene across Europe, North America, and Australasia.</p>
+
+<p>LGFA membership skews young, with under-16s the largest cohort. The addressable market for Mind the Gael is the adult playing population, estimated below deliberately conservatively.</p>
+
+<table>
+  <thead><tr><th>Tier</th><th>Definition</th><th>Estimate</th></tr></thead>
+  <tbody>
+    <tr><td>TAM</td><td>Adult female Gaelic footballers in Ireland and Britain (estimated 30-40% of total membership)</td><td>60,000 to 80,000 players</td></tr>
+    <tr><td>SAM</td><td>Adult club players aged 19-40 who train regularly and would pay for performance support</td><td>25,000 to 40,000 players</td></tr>
+    <tr><td>SOM (3 years)</td><td>Realistic share reachable through founding clubs, community channels, and content, at 3-5% of SAM</td><td>1,000 to 2,000 active customers</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">Adjacent expansion markets, not in the core plan but available later: camogie (a separate association with a large membership of its own), international LGFA clubs, and male Gaelic footballers.</p>
+
+<h3>Market tailwinds</h3>
+<ul>
+  <li>Record visibility for women's Gaelic games: televised championships, growing attendances, and the LGFA's integration into the wider GAA structure</li>
+  <li>Normalisation of mental performance work in sport, led by high-profile athletes speaking openly about it</li>
+  <li>Players already accustomed to paying for fitness apps and subscriptions</li>
+</ul>
+
+<h3>Competition</h3>
+<table>
+  <thead><tr><th>Competitor type</th><th>Examples</th><th>Why Mind the Gael differs</th></tr></thead>
+  <tbody>
+    <tr><td>Generic fitness apps</td><td>Mainstream training and workout apps</td><td>No Gaelic football specificity, no mental performance depth, not built for female players</td></tr>
+    <tr><td>Mental wellness apps</td><td>Meditation and mindfulness apps</td><td>General wellbeing, not sport performance, no connection to the player's actual season and matches</td></tr>
+    <tr><td>GAA-focused S&amp;C programmes</td><td>Online GAA strength and conditioning coaches and programmes</td><td>Mostly male-focused, physical only, no mental performance product, often priced above the club player</td></tr>
+    <tr><td>One-to-one professionals</td><td>Sport psychologists, personal trainers</td><td>Excellent but expensive and scarce. Mind the Gael is complementary at a fraction of the cost</td></tr>
+  </tbody>
+</table>
+
+<p>The defensible position is the intersection: female, Gaelic football, mental performance first, expert-reviewed, at a club player's price. No current competitor occupies it.</p>
+
+<h2>5. Business Model and Pricing</h2>
+
+<p>The model combines one-off plan purchases with a content subscription. Plans are bought per training block rather than as an open-ended subscription, which matches how players actually think about a season (pre-season block, championship block) and keeps the buying decision small. Pricing is identical across the mental performance and physical training product lines.</p>
+
+<table>
+  <thead><tr><th>Product</th><th>Price</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Subscriber blog (founding offer)</td>
+      <td>£5 / month</td>
+      <td>14-day free trial. <strong>First 50 subscribers</strong> only. Recurring revenue base and the warm audience for plan sales.</td>
+    </tr>
+    <tr>
+      <td>Subscriber blog (standard)</td>
+      <td>£8 / month</td>
+      <td>From subscriber 51 onwards. Same content, expires the founding-offer discount.</td>
+    </tr>
+    <tr>
+      <td>Mental Performance Plan, 6 weeks</td>
+      <td>£10 one-off</td>
+      <td>AI-generated, personalised sequence of Gael Performance Toolkit resources, anchored to the player's competition level and performance moments.</td>
+    </tr>
+    <tr>
+      <td>Mental Performance Plan, 12 weeks</td>
+      <td>£20 one-off</td>
+      <td>Full season or pre-season to championship block.</td>
+    </tr>
+    <tr>
+      <td>Physical training plan, 6 weeks</td>
+      <td>£10 one-off</td>
+      <td>AI-generated programme built around the club training week, women's health, and the player's equipment.</td>
+    </tr>
+    <tr>
+      <td>Physical training plan, 12 weeks</td>
+      <td>£20 one-off</td>
+      <td>Same structure and pricing as the mental performance line.</td>
+    </tr>
+    <tr>
+      <td>Club membership (Phase 2)</td>
+      <td>Indicative, to be priced</td>
+      <td>Squad-wide access sold to clubs; pricing validated with founding clubs before launch.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>See the separate <strong>Pricing Model Options</strong> document for the recommended ladder structure (one-off &rarr; Season Pass &rarr; All-In Pass) that layers on top of the one-off base.</p>
+
+<h3>Unit economics</h3>
+<ul>
+  <li>Per-sale Anthropic API cost: <strong>~£0.002 per teaser</strong> (Haiku) and <strong>~£0.08-£0.16 per full plan</strong> (Sonnet, cached system prompt). Gross margin above 94% on plan sales.</li>
+  <li>A player buying one mental and one physical 12-week block spends £40 per season; an engaged blog subscriber adds £60-£96 per year.</li>
+  <li>The blog subscription is the recurring base and the conversion path: subscribers are the warmest buyers of plans at season milestones (pre-season, championship, return from injury).</li>
+  <li>One-off pricing removes churn risk on plans entirely; revenue seasonality is managed with January pre-season and May championship campaigns.</li>
+  <li>Hosting on Vercel and static architecture on Astro keep infrastructure costs near zero at this scale.</li>
+</ul>
+
+<h2>6. Go to Market</h2>
+
+<h3>Phase 0: Content launch (live from 1 August 2026)</h3>
+<ul>
+  <li>The 12-month editorial calendar opens on 1 August 2026. Month 1 unlocks three Training the Mind articles, one Gael Performance Toolkit, and one Stronger Minds, Stronger Players article.</li>
+  <li>Subsequent months release on the 1st, 8th, and 15th. The pubDate-driven lock on listing pages means later months stay blurred until release.</li>
+  <li>Founding-offer subscription (£5/month, first 50) opens at the same time. Plans are not yet sold publicly.</li>
+</ul>
+
+<h3>Phase 1: Pilot, proof, and individual launch</h3>
+<ul>
+  <li>Eight-week pilot: 15 players, 4 clubs, expert panel of a sports psychologist and an S&amp;C coach, coordinated by 2-3 personal trainers including the founder.</li>
+  <li>Outputs: named expert endorsements, 8 or more named testimonials, 2-3 case studies, and a public pilot results page.</li>
+  <li>Public launch of paid plans following the pilot: £10/£20 one-off plans across both lines, carried by the pilot's credibility assets, with the 4 pilot clubs positioned as founding clubs.</li>
+  <li>Content engine: weekly blog and social content (the carousel and email cadence already planned in the Content Tracker) answering real player questions, distributed where players already are (Instagram, TikTok, club WhatsApp groups).</li>
+</ul>
+
+<h3>Phase 2: Club membership rollout</h3>
+<ul>
+  <li>Club membership product giving squad-wide access, sold to club committees, starting with the 4 founding clubs.</li>
+  <li>Pricing validated with founding clubs before wider rollout; positioned against what clubs already spend on equipment and external coaching.</li>
+  <li>Club-by-club expansion through county networks in Cork and London GAA communities, where the founder has roots.</li>
+</ul>
+
+<h3>Phase 3: Community scale</h3>
+<ul>
+  <li>Partnerships with ladies club committees, county development squads, and respected voices in the women's game.</li>
+  <li>Seasonal campaign rhythm: January pre-season push, May championship push, autumn reflection and goal-setting content.</li>
+  <li>Evaluate adjacent expansion: camogie, international LGFA clubs.</li>
+</ul>
+
+<h2>7. Expansion Strategy: Beyond LGFA</h2>
+
+<p>The scalable asset is not Mind the Gael the brand; it is the engine underneath it: expert-reviewed performance content, structured as a toolkit, turned into personalised plans by AI, launched into a sporting community through a pilot and founding clubs. Ladies Gaelic football proves the engine. Expansion replicates it.</p>
+
+<h3>Sport-agnostic architecture</h3>
+<ul>
+  <li>Toolkit content, plan generation logic, and sport-specific knowledge are kept as separate layers. Core mental performance tools (attention control, confidence, routines) are sport-neutral; each sport adds a flavour layer of context, language, and examples.</li>
+  <li>Generation prompts treat sport, season structure, positions, and competition names as variables rather than hardcoded text. A <code>sport-profiles.ts</code> file contains 12 sport profiles with a General Female Athlete fallback for any sport not yet documented.</li>
+  <li>Result: launching a new sport is a content and community job, not a platform rebuild.</li>
+</ul>
+
+<h3>The expansion gate</h3>
+<p>Expansion begins only when the LGFA version has proven the model. Gate criteria, measured over a full season cycle:</p>
+<ul>
+  <li>Repeat purchase rate of 40% or higher among plan buyers</li>
+  <li>Average plan usefulness rating of 4.0 or higher</li>
+  <li>Blog subscriber to plan buyer conversion of 25% or higher per season</li>
+  <li>At least 4 club memberships sold and renewed intent confirmed</li>
+  <li>Expert review and AI guardrail process running with a report rate under 1%</li>
+</ul>
+
+<h3>Sequencing</h3>
+<table>
+  <thead><tr><th>Wave</th><th>Market</th><th>Why and how</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Camogie</td><td>Same clubs, same communities, often the same women playing both codes. Acquisition cost near zero, content overlap high. First test of the replication playbook.</td></tr>
+    <tr><td>2</td><td>International LGFA and GAA communities</td><td>Established clubs across Britain, Europe, North America, and Australasia. Same sport, new geography, English language.</td></tr>
+    <tr><td>3</td><td>Other women's team sports</td><td>Women's rugby and soccer as candidate markets, each entered with the standard playbook: expert panel, 15-player pilot across founding clubs, credibility assets, then launch.</td></tr>
+  </tbody>
+</table>
+
+<h3>Brand architecture</h3>
+<p>Mind the Gael remains the brand for Gaelic games, where the name carries community meaning, and stretches naturally to camogie. Expansion beyond Gaelic games will sit under a neutral platform identity, with Mind the Gael as its first and flagship product. No renaming is needed now; the principle is simply not to bind the Gaelic-specific name into structures that are costly to change, such as the company registration and the codebase.</p>
+
+<h2>8. Technology and Operations</h2>
+
+<table>
+  <thead><tr><th>Component</th><th>Choice</th><th>Rationale</th></tr></thead>
+  <tbody>
+    <tr><td>Frontend &amp; framework</td><td>Astro 5, TypeScript</td><td>Fast, content-friendly, low-cost static-first architecture. Server-side rendering for API routes.</td></tr>
+    <tr><td>Hosting</td><td>Vercel</td><td>Zero-ops deployment, scales with traffic. Free tier covers launch volume.</td></tr>
+    <tr><td>AI</td><td>Anthropic Claude API (Sonnet 4.5 for full plans, Haiku 4.5 for teasers)</td><td>Plan generation and personalisation. Haiku on teasers is ~3x faster and ~5x cheaper than Sonnet for the short structured output. System prompts cached via Anthropic's ephemeral cache for ~10% input-token cost on subsequent calls within 5 minutes.</td></tr>
+    <tr><td>Database</td><td>Vercel Postgres (Neon)</td><td>Stores intake sessions, teaser content, plan_type for branching mental/physical, and chat feedback. Free tier covers launch volume.</td></tr>
+    <tr><td>Payments</td><td>Stripe Checkout</td><td>Hosted payment page handles cards, fraud, receipts, refunds. The site never sees card numbers.</td></tr>
+    <tr><td>Email</td><td>Resend</td><td>Transactional email for plan delivery, the v1 holding email, the founder notification copy, and crisis-flag alerts.</td></tr>
+    <tr><td>Source control</td><td>GitHub</td><td>Version control and deployment pipeline (auto-deploys to Vercel on push to main).</td></tr>
+  </tbody>
+</table>
+
+<h3>Operating principles</h3>
+<ul>
+  <li>Founder builds and operates the product; no salaried staff in year one.</li>
+  <li>Expert reviewers engaged on agreed terms per review cycle rather than employed.</li>
+  <li>AI guardrails: system prompts keep generators within performance coaching, with hard-stop crisis detection routing the user to support services and directly to the founder.</li>
+  <li>v1 (current) review mode: every generated plan goes to Emily for review before reaching the customer. Customer receives a "your plan is being reviewed" holding email and the plan within 48 hours. Single env-var change flips to v2 autonomous mode once Emily is confident in quality.</li>
+  <li>Quality loop: every reported output reviewed within 48 hours, with fixes shipped or logged.</li>
+</ul>
+
+<h2>9. Legal and Compliance</h2>
+
+<p>A full legal checklist exists as a separate working document (<em>Mind the Gael Legal Compliance Checklist</em>). The headline positions:</p>
+
+<ul>
+  <li><strong>18+ platform.</strong> Date-of-birth gate at signup (pending implementation), eligibility clause in terms, no marketing to underage players. This removes the minors exposure entirely, and the 19-40 target market loses nothing.</li>
+  <li><strong>Not medical advice.</strong> Disclaimers at the point of use on both generators: AI-generated performance coaching, not medical, psychological, or physiotherapy advice, with support service signposting. Hard-coded into the system prompts.</li>
+  <li><strong>Crisis hard stop.</strong> Already implemented in code: both chatbot and the training plan flow halt on any mental-health-crisis indicator, route the user to Samaritans / Pieta House, and notify Emily directly.</li>
+  <li><strong>Citation rule.</strong> Hard-coded into every system prompt: any non-MTG content claim must be backed by a real named source (author + year). Hallucinated citations are explicitly forbidden.</li>
+  <li><strong>GDPR (UK and EU).</strong> Privacy policy (pending) covering generator inputs, Anthropic API processing and international transfer, explicit consent for health-related inputs, retention, and user rights.</li>
+  <li><strong>AI transparency.</strong> Clear labelling of AI-generated output, aligned with EU AI Act transparency obligations phasing in through 2026.</li>
+  <li><strong>Anthropic compliance.</strong> Usage within Anthropic's Usage Policy and Commercial Terms for health-adjacent consumer products.</li>
+  <li><strong>Solicitor review</strong> of terms, privacy policy, and disclaimers before paid launch.</li>
+</ul>
+
+<h2>10. Team</h2>
+
+<p><strong>Emily Phelan, Founder.</strong> Technical Program Manager with six years at Amazon and AWS, most recently in cybersecurity programme management, with a background spanning cloud security operations, penetration testing programme management, and physical security engineering. AWS Certified Cloud Practitioner and GIAC Certified Project Manager. Emily designs, builds, and operates the platform end-to-end, and brings the programme management discipline to run the pilot, the compliance work, and the launch as a structured programme. From Cork, embedded in the GAA community the product serves.</p>
+
+<p><strong>Expert panel (engaged, not employed).</strong> A sports psychologist reviewing all mental performance content, an accredited S&amp;C coach reviewing training outputs, and 2-3 personal trainers acting as pilot coordinators. Named expert review is a core trust asset of the brand.</p>
+
+<h2>11. Roadmap</h2>
+
+<table>
+  <thead><tr><th>Period</th><th>Milestones</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Q3 2026 (Jul-Sep)</strong></td>
+      <td>Legal items complete: age gate, disclaimers, consent and privacy documents live. Expert panel agreed. Pilot recruitment through 4 clubs. <strong>Content launch on 1 August 2026</strong>: Month 1 articles and toolkits unlock, founding-offer blog subscription opens. Pilot starts.</td>
+    </tr>
+    <tr>
+      <td><strong>Q4 2026 (Oct-Dec)</strong></td>
+      <td>Pilot completes. Results page, testimonials, and endorsements published. <strong>Paid plan launch</strong>: £10/£20 mental and physical plans go on sale, with founding-member positioning for the 4 pilot clubs. v1 review mode active (Emily reviews every plan).</td>
+    </tr>
+    <tr>
+      <td><strong>H1 2027</strong></td>
+      <td>Pre-season campaign in January, championship campaign in May. Content engine running monthly (Month 6-11 release). Solicitor-reviewed legal stack for paid scale.</td>
+    </tr>
+    <tr>
+      <td><strong>H2 2027</strong></td>
+      <td>Phase 2: club membership rollout starting with the 4 founding clubs, pricing validated with committees. County development squad partnership conversations. Flip to v2 autonomous mode once Emily has reviewed ~30 plans and is confident in quality.</td>
+    </tr>
+    <tr>
+      <td><strong>2028</strong></td>
+      <td>1,200+ plans sold and 30 club memberships targeted. Expansion gate assessed against a full season of data; camogie pilot launched if criteria are met. Decide on first hire or contractor support.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>12. Financial Projections (Illustrative)</h2>
+
+<p>All figures are founder assumptions for planning, not forecasts, in pounds sterling. The model assumes plan sales at an average £15 per plan (mix of £10 six-week and £20 twelve-week blocks across both product lines), blog subscriptions averaging £6.50 per month (mix of £5 founding and £8 standard), and club memberships from year two at an indicative £300 per club per year, to be validated with founding clubs. See the separate <strong>Financial Plan</strong> document for variable cost detail, break-even analysis, and 3-year scaling levers.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th class="num">Year 1 (Aug 2026 – Jul 2027)</th>
+      <th class="num">Year 2 (Aug 2027 – Jul 2028)</th>
+      <th class="num">Year 3 (Aug 2028 – Jul 2029)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Plans sold (avg £15)</strong></td><td class="num">~120</td><td class="num">~360</td><td class="num">~720</td></tr>
+    <tr><td>Blog subscribers (avg active)</td><td class="num">~50</td><td class="num">~150</td><td class="num">~300</td></tr>
+    <tr><td>Club memberships</td><td class="num">0</td><td class="num">10</td><td class="num">30</td></tr>
+    <tr><td>Plan sales revenue</td><td class="num">£1,800</td><td class="num">£5,400</td><td class="num">£10,800</td></tr>
+    <tr><td>Blog subscription revenue</td><td class="num">£1,600</td><td class="num">£7,100</td><td class="num">£17,200</td></tr>
+    <tr><td>Club membership revenue</td><td class="num">£0</td><td class="num">£3,000</td><td class="num">£9,000</td></tr>
+    <tr><td><strong>Total revenue</strong></td><td class="num"><strong>£3,400</strong></td><td class="num"><strong>£15,500</strong></td><td class="num"><strong>£37,000</strong></td></tr>
+    <tr><td>API and hosting (production)</td><td class="num">£20</td><td class="num">£80</td><td class="num">£200</td></tr>
+    <tr><td>Stripe fees + variable costs</td><td class="num">£170</td><td class="num">£460</td><td class="num">£900</td></tr>
+    <tr><td>Fixed monthly costs (Canva, Claude Pro, domain)</td><td class="num">£420</td><td class="num">£540</td><td class="num">£660</td></tr>
+    <tr><td>Expert review fees</td><td class="num">£0</td><td class="num">£1,000</td><td class="num">£2,000</td></tr>
+    <tr><td>Legal, insurance, admin</td><td class="num">£800</td><td class="num">£1,500</td><td class="num">£2,000</td></tr>
+    <tr><td>Marketing and content</td><td class="num">£0</td><td class="num">£500</td><td class="num">£2,000</td></tr>
+    <tr><td><strong>Total costs</strong></td><td class="num"><strong>£1,410</strong></td><td class="num"><strong>£4,080</strong></td><td class="num"><strong>£7,760</strong></td></tr>
+    <tr><td><strong>Operating result</strong></td><td class="num"><strong>~£1,990</strong></td><td class="num"><strong>~£11,420</strong></td><td class="num"><strong>~£29,240</strong></td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">Excludes founder salary: in Years 1 and 2 the business runs alongside the founder's employment, with founder compensation beginning as the operating result allows. Pre-launch investment of ~£620 (mostly Anthropic API during the build) is treated as sunk capital and is not in the table above; recoup happens within the first six months of moderate launch volume. No external investment required for this plan.</p>
+
+<h3>Key performance indicators</h3>
+<ul>
+  <li>Plans sold per month, and 6-week to 12-week mix (the £20 block is the margin driver)</li>
+  <li>Repeat purchase rate: share of buyers purchasing a second block within the same season (target 40%)</li>
+  <li>Cross-sell rate between mental performance and physical training lines via the companion-plan field (target 30%)</li>
+  <li>Blog subscriber count, monthly churn (target under 5%), and subscriber to plan buyer conversion (target 25% per season)</li>
+  <li>Report rate on AI outputs (target under 1%)</li>
+</ul>
+
+<h2>13. Risks and Mitigations</h2>
+
+<table>
+  <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+  <tbody>
+    <tr><td>AI output causes harm or embarrassment</td><td>v1 review mode catches every plan before delivery. Expert review of all toolkit content, guardrailed prompts, hard-stop crisis detection, point-of-use disclaimers, in-product reporting, 48-hour triage, 18+ policy.</td></tr>
+    <tr><td>Niche proves too small to sustain growth</td><td>Conservative SOM, low cost base profitable at small scale, adjacent expansion paths (camogie, international, men's game).</td></tr>
+    <tr><td>Seasonal revenue concentration</td><td>One-off plan pricing carries no churn; revenue is campaign-driven with January pre-season and May championship pushes, while the £5/£8 blog subscription provides a year-round recurring base.</td></tr>
+    <tr><td>Founder bandwidth alongside employment</td><td>Fixed weekly time blocks, pilot designed with distributed coordinator roles, automation-first operations. v1 review is the only manual bottleneck; v2 flip removes it.</td></tr>
+    <tr><td>Regulatory change (EU AI Act, GDPR enforcement)</td><td>Transparency by default, minimal data collection, legal checklist maintained, solicitor review before paid scale.</td></tr>
+    <tr><td>Copycat competitors</td><td>Community roots, expert endorsements, and founding-club relationships are slow to replicate; content library compounds over time.</td></tr>
+    <tr><td>API cost or platform dependency</td><td>Margin headroom above 94% absorbs price changes; plan generation architecture is portable across model providers if ever required. The Anthropic build spend (£435) was a one-off; ongoing API cost is sub-1% of revenue at launch volume.</td></tr>
+  </tbody>
+</table>
+
+<h2>14. The Ask and Next Steps</h2>
+
+<p>This plan requires no external funding. The immediate priorities are:</p>
+
+<ul>
+  <li>Complete the pre-launch legal items: age gate, disclaimers, consent forms, privacy notice (see Legal Compliance Checklist for the working list)</li>
+  <li>Sign the expert panel and recruit the 15 pilot players through the four clubs</li>
+  <li>1 August 2026: launch content (Month 1 articles + toolkits + SMSP) and open founding-offer subscription</li>
+  <li>Run the eight-week pilot and capture the trust assets</li>
+  <li>Launch paid plans publicly in Q4 2026 with founding-member positioning</li>
+</ul>
+
+<footer class="doc-footer">
+  Mind the Gael Business Plan &middot; Revised June 2026 &middot; Emily Phelan, Founder &middot; Confidential
+</footer>
+
+</body>
+</html>

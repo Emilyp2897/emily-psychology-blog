@@ -233,6 +233,7 @@
   <li><a href="#chatbot">The Chatbot (Saoirse)</a></li>
   <li><a href="#training">Personal Training Plans (Preview-then-Buy)</a></li>
   <li><a href="#mental">Mental Performance Plans (Live)</a></li>
+  <li><a href="#schedule">Scheduled-Release Lock on Content Hub Listings</a></li>
   <li><a href="#payments">Payments (Stripe)</a></li>
   <li><a href="#database">Database (Postgres / Neon)</a></li>
   <li><a href="#email">Email Delivery (Resend)</a></li>
@@ -572,6 +573,21 @@ Step 4 — Finalize
 
 <p>The flip from v1 to v2 is a single environment variable change: <code>PLAN_DESTINATION_STANDARD=client</code> in Vercel.</p>
 
+<p>The <code>/api/programme-finalize</code> endpoint now respects this env var directly (it previously always sent the full plan to both client and Emily). The same flip controls both the legacy <code>/api/training-plan</code> and the new productised flow.</p>
+
+<h4>v1 client communication: the holding email</h4>
+<p>In v1 mode the customer has paid via Stripe but the full plan is not sent to them. Instead:</p>
+
+<ul>
+  <li><strong>Emily</strong> receives the full plan with subject <code>[REVIEW REQUIRED] {Mental|Training} Plan for {client name}</code> so it stands out from the autonomous-mode notification.</li>
+  <li><strong>The customer</strong> receives a short holding email titled <em>"Your {duration} {mental performance | training} plan is being reviewed"</em>. It explains payment landed, the plan is drafted and with Emily for review, and they will have it by email within 48 hours.</li>
+  <li><strong>The programme-success page</strong> displays the same holding message instead of "your plan is in your inbox."</li>
+</ul>
+
+<p>The holding email is built inline in <code>programme-finalize.ts</code> as <code>sendClientHoldingEmail()</code>. It uses the same MTG logo, signature, and lavender callout box style as the full plan email so the brand is consistent.</p>
+
+<p>Specialised physical tracks always force routing to Emily regardless of the env var, by the existing rule.</p>
+
 <h3>6.4 Teaser vs full plan (why two AI calls)</h3>
 <p>The fake-preview approach minimises API spend on visitors who don't buy:</p>
 
@@ -651,6 +667,54 @@ Mental Performance Plans are a parallel product to the physical training plans. 
 </ul>
 
 <p>The injection always carries a safety rail: "Stay within what they actually described, never invent specifics about the other plan." No database join is required; the two plans link through what the client copies into the field.</p>
+
+<h2 id="schedule">7B. Scheduled-Release Lock on Content Hub Listings</h2>
+
+<div class="plain-english">
+The 12-month editorial calendar releases content on a fixed schedule (1st August 2026 launch, then monthly). Posts are written and committed ahead of release date, but visitors should only be able to read the ones whose date has arrived. The Training the Mind and Gael Performance Toolkit listing pages render unreleased posts as locked cards: blurred preview, release date badge, no link.
+</div>
+
+<h3>7B.1 How the lock works</h3>
+
+<p>On <code>src/pages/content-hub/training-the-mind.astro</code> and <code>gael-performance-toolkit.astro</code>:</p>
+
+<pre><code>const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const isUnreleased = (date: Date) =&gt; date &gt; today;
+
+const releaseDateLabel = (date: Date) =&gt;
+  date.toLocaleDateString('en-GB',
+    { day: 'numeric', month: 'long', year: 'numeric' });</code></pre>
+
+<p>Each card check the post's <code>pubDate</code> from frontmatter:</p>
+
+<ul>
+  <li>If <code>pubDate &gt; today</code>: render a locked card variant. Title visible (dimmed purple), description blurred (CSS <code>filter: blur(4px)</code>), no anchor element so the card is not clickable, and a lime "🔒 Releases {date}" badge.</li>
+  <li>Otherwise: render a normal anchor card linking to the post.</li>
+</ul>
+
+<h3>7B.2 No redeploy required to unlock</h3>
+
+<p><code>new Date()</code> is evaluated at request time (Astro is running in SSR mode because of API routes), so the lock lifts automatically the first time the page is loaded after a release date passes. No cron job, no rebuild, no manual action.</p>
+
+<div class="under-hood">
+The Stronger Minds, Stronger Players listing does not currently apply the lock; it pulls posts dynamically and renders any post that exists. If a SMSP post is committed ahead of its release date and you want it hidden, add the same <code>isUnreleased</code> filter to <code>strong-minds-stronger-players.astro</code>.
+</div>
+
+<h3>7B.3 Launch schedule (1 August 2026)</h3>
+
+<p>All blog post pubDates were shifted forward by two months in June 2026 so the first batch unlocks on the launch date. The release cadence:</p>
+
+<table>
+  <thead><tr><th>Month</th><th>TTM &amp; Toolkit posts release</th><th>SMSP post releases</th></tr></thead>
+  <tbody>
+    <tr><td>Month 1</td><td>1, 8, 15 August 2026</td><td>15 August 2026</td></tr>
+    <tr><td>Month 2</td><td>1, 8, 15 September 2026</td><td>15 September 2026</td></tr>
+    <tr><td colspan="3" style="color:var(--muted);font-style:italic;">… one month per release cycle …</td></tr>
+    <tr><td>Month 12</td><td>1, 8, 15 July 2027</td><td>15 July 2027</td></tr>
+  </tbody>
+</table>
 
 <h2 id="payments">8. Payments (Stripe)</h2>
 
@@ -874,19 +938,24 @@ npm run dev
 <h3>14.4 Pages (<code>src/pages/</code>)</h3>
 <p>Top-level public pages:</p>
 <ul>
-  <li><code>index.astro</code> &mdash; homepage</li>
-  <li><code>about.astro</code> &mdash; About Emily</li>
-  <li><code>personal-training.astro</code> &mdash; product page for training programmes (intake form lives in a modal here)</li>
-  <li><code>gael-performance-toolkit.astro</code> &mdash; toolkit section landing page</li>
-  <li><code>workshops.astro</code> &mdash; workshop product list</li>
-  <li><code>pricing.astro</code> &mdash; consolidated pricing tables</li>
-  <li><code>contact-us.astro</code> &mdash; contact form (also has the intake modal)</li>
+  <li><code>index.astro</code> &mdash; <strong>homepage, redesigned June 2026</strong>. Animated hero (Vecteezy volleyball spins in → fades → MTG logo image springs in at same centre point), then qube-rt-style alternating image+text bands for Why, Mental Plans, Physical Plans, Content Hub, two bottom CTA cards, latest articles grid. Header sits below the hero animation, not above it. Uses <code>SITE_TITLE_FULL</code> for the page title (which includes the "Mental Performance for Female Athletes" tagline).</li>
+  <li><code>about.astro</code> &mdash; <strong>About Emily, slideshow format</strong>. Five-chapter story (My Story, A Difficult Phase, What That Felt Like, Hitting Rock Bottom, Why This Platform Exists) rendered as a centred white-card slideshow with lime arrow buttons, dot indicators, and keyboard ←/→ navigation. Each slide has a thumbnail image and ~3 paragraphs.</li>
+  <li><code>personal-training.astro</code> &mdash; Performance Plans page. Mental + Physical plan intake modals, each with full "what you get" detail per 6/12-week option.</li>
+  <li><code>pricing.astro</code> &mdash; Mental Performance Plans listed first (above Physical Training Plans), workshops section removed, blog subscription at the bottom.</li>
+  <li><code>contact-us.astro</code> &mdash; Contact options + embedded Google Calendar iframe pulling from <code>EMILY_CALENDAR_BOOKING_URL</code> for direct booking.</li>
   <li><code>resources.astro</code> &mdash; crisis support resources</li>
-  <li><code>meet-the-team.astro</code> &mdash; Emily's bio</li>
-  <li><code>programme-preview.astro</code> &mdash; teaser preview after intake submission</li>
-  <li><code>programme-success.astro</code> &mdash; post-payment landing for programme buyers</li>
+  <li><code>programme-preview.astro</code> &mdash; teaser preview after intake submission. Routes Buy buttons to <code>mental-6-week</code> / <code>mental-12-week</code> Stripe plans for mental intakes, <code>programme-6-week</code> / <code>programme-12-week</code> for physical.</li>
+  <li><code>programme-success.astro</code> &mdash; post-payment landing. Displays the v1 holding message ("Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.") when routing is to Emily.</li>
   <li><code>success.astro</code> &mdash; post-payment landing for subscription buyers</li>
   <li><code>cancel.astro</code> &mdash; if user cancels Stripe checkout</li>
+</ul>
+
+<p>Header and site-wide changes (June 2026):</p>
+<ul>
+  <li><strong>Header background</strong> flipped from white to <code>var(--green-dark)</code> across every page. Nav links are lime green with light-purple hover and active state (explicit <code>:visited</code> and <code>:link</code> rules with <code>!important</code> to override browser default purple).</li>
+  <li><strong>Rosario font</strong> loaded site-wide via Google Fonts in <code>BaseHead.astro</code> for the brand wordmark.</li>
+  <li><strong><code>og:url</code> and <code>twitter:url</code></strong> now use <code>canonicalURL</code> (built from <code>Astro.site</code> falling back to <code>https://mindthegael.co.uk</code>) instead of <code>Astro.url</code>, so social shares always show the production domain even when posted from a Vercel preview URL.</li>
+  <li><strong><code>SITE_TITLE_FULL</code></strong> constant in <code>consts.ts</code> for the homepage tagline, while <code>SITE_TITLE</code> stays short for per-page suffixes.</li>
 </ul>
 
 <p>Content hub:</p>
