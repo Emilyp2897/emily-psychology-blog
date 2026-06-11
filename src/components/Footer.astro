@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Analytics from '@vercel/analytics/astro';
 import saoirseImage from '../assets/saoirse.png';
 import CookieBanner from './CookieBanner.astro';
 
@@ -731,4 +730,39 @@ const today = new Date();
 
 <CookieBanner />
 
-<Analytics />
+<!-- Consent-gated analytics loader. Vercel Analytics is no longer loaded
+     unconditionally. The script below checks the same localStorage key the
+     CookieBanner sets ('mtg_cookie_consent'). If consent is present, the
+     Vercel insights script is injected; if not, nothing is loaded. The
+     CookieBanner dispatches a 'mtg-consent-accepted' custom event on
+     Accept so the script loads immediately without a page reload. -->
+<script is:inline>
+  (() => {
+    const KEY = 'mtg_cookie_consent';
+    let loaded = false;
+
+    function loadAnalytics() {
+      if (loaded) return;
+      loaded = true;
+      const script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      script.setAttribute('data-endpoint', '/_vercel/insights');
+      document.head.appendChild(script);
+    }
+
+    function hasConsent() {
+      try {
+        return Boolean(localStorage.getItem(KEY));
+      } catch {
+        return false;
+      }
+    }
+
+    if (hasConsent()) {
+      loadAnalytics();
+    } else {
+      window.addEventListener('mtg-consent-accepted', loadAnalytics, { once: true });
+    }
+  })();
+</script>

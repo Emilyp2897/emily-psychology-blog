@@ -225,11 +225,11 @@
   <li class="done">Cookie consent banner if you use analytics or any non-essential cookies
     <span class="status-note">CookieBanner.astro component shipped, included site-wide via Footer. Bottom-fixed banner shows once on first visit, stores consent in localStorage on accept, never shows again. Removes itself from DOM after acceptance.</span>
   </li>
-  <li class="pending">Cookie policy page listing cookies and purposes
-    <span class="status-note">Banner currently links to /privacy. Need to write that page (covering Vercel Analytics, Stripe, Anthropic API processor disclosure).</span>
+  <li class="done">Cookie policy page listing cookies and purposes
+    <span class="status-note">Section 10 of /privacy lists every cookie used (consent preference, Stripe Checkout, Vercel session) and notes that Vercel Analytics is now consent-gated and does not set tracking cookies. Banner links to /privacy.</span>
   </li>
-  <li class="partial">Analytics blocked until consent is given (UK PECR and EU ePrivacy)
-    <span class="status-note">Vercel Analytics is currently loaded site-wide in Footer regardless of consent. Once the cookie policy page exists, wire the banner to only inject Analytics after consent.</span>
+  <li class="done">Analytics blocked until consent is given (UK PECR and EU ePrivacy)
+    <span class="status-note">The unconditional <code>&lt;Analytics /&gt;</code> Astro component has been removed from Footer. A consent-gated loader script checks <code>localStorage</code> for <code>mtg_cookie_consent</code> on every page load; if consent is present, the Vercel insights script is dynamically injected. If not, nothing loads. The CookieBanner dispatches a <code>mtg-consent-accepted</code> custom event on Accept so analytics starts loading immediately without a page reload.</span>
   </li>
   <li class="pending">Consider privacy-friendly analytics (Plausible, Fathom) to reduce consent burden</li>
 </ul>
@@ -332,7 +332,7 @@
 <div class="callout">
   <strong>Status summary, June 2026 (updated).</strong> The platform now has all Priority-1 in-app safety landed in code: point-of-use disclaimers and 18+ confirmation on both intake forms, AI-generated labelling, crisis support signposting at the moment of submission, and a report-this-output mechanism on every plan email. Cookie consent banner is live site-wide. Citation rule, red-flag detection, and source-checked content were already in place.<br/><br/>
   <strong>Priority-2 documents drafted:</strong> Privacy Policy live at /privacy and Terms of Service live at /terms. Both linked from the footer of every page. Each carries a clear "Draft pending solicitor review" notice at the top. The Privacy Policy covers all processors, lawful bases, international transfers, retention, and user rights. The Terms of Service covers eligibility, refunds with the 14-day cooling-off and digital-services waiver, acceptable use, IP, limitation of liability, and governing law (England and Wales, with Irish consumer rights preserved).<br/><br/>
-  <strong>What remains for paid launch (Q4 2026):</strong> wire the cookie banner to actually gate Vercel Analytics until consent; ICO data protection fee registration (~£40/year); trademark check on the Mind the Gael name; professional indemnity and public liability insurance; and solicitor review of the whole legal stack before any paid traffic.
+  <strong>What remains for paid launch (Q4 2026):</strong> ICO data protection fee registration (~£40/year); trademark check on the Mind the Gael name; professional indemnity and public liability insurance; and solicitor review of the whole legal stack before any paid traffic. All code-side legal work is complete.
 </div>
 
 <footer class="doc-footer">

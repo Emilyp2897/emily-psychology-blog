@@ -76,132 +76,148 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ error: 'Missing token or sessionId.' }, 400);
     }
 
-    // 1. Fetch the intake session from the database.
-    const intakeResult = await sql<{
-      intake_data: ConsultationWithPlanRequest;
-      programme_track: ProgramTrackId | null;
-      finalized_at: string | null;
-      red_flag_id: string | null;
-      plan_type: 'physical' | 'mental' | null;
-    }>`
-      SELECT intake_data, programme_track, finalized_at, red_flag_id, plan_type
-      FROM intake_sessions
-      WHERE id = ${token}::uuid
-      LIMIT 1
-    `;
-
-    const row = intakeResult.rows[0];
-    if (!row) {
-      return json({ error: 'Intake session not found.' }, 404);
+    const result = await finalizeIntake({ token, sessionId });
+    if (!result.ok) {
+      return json({ error: result.error }, result.status);
     }
-    if (row.red_flag_id) {
-      return json({ error: 'This intake was flagged for direct review by Emily. Plan generation is blocked.' }, 403);
-    }
-    if (row.finalized_at) {
-      return json({ error: 'This plan has already been generated and emailed.' }, 409);
-    }
-
-    // 2. Verify the Stripe session is paid.
-    const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
-    if (!stripeSecretKey) {
-      throw new Error('Missing STRIPE_SECRET_KEY.');
-    }
-    const stripe = new Stripe(stripeSecretKey);
-    const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
-
-    if (stripeSession.payment_status !== 'paid') {
-      return json(
-        {
-          error: `Stripe session payment status is "${stripeSession.payment_status}". Plan will only be generated once payment is confirmed.`,
-        },
-        402
-      );
-    }
-
-    // 3. Generate the FULL plan. Branch on plan type.
-    const intake = row.intake_data;
-    const planType = row.plan_type || 'physical';
-    const track = (row.programme_track || 'standard') as ProgramTrackId;
-    const sportProfile = findSportProfile(intake.sport || '');
-
-    let fullPlan: string;
-    if (planType === 'mental') {
-      fullPlan = await generateMentalFullPlan({ intake });
-    } else {
-      const level = normaliseLevel(intake.exerciseLevel);
-      const equipmentTags = expandEquipmentTags(intake.equipment);
-      const avoidIfTags = detectAvoidIfTags({
-        injuries: intake.injuries,
-        medicalConditions: intake.medicalConditions,
-        issuesWorries: intake.issuesWorries,
-        cycleStatus: intake.cycleStatus,
-        programTrack: intake.programTrack,
-      });
-      const exercisePool = filterExercises({
-        equipment: equipmentTags,
-        level,
-        avoidIfTags,
-      });
-      fullPlan = await generateFullPlan({
-        intake,
-        track,
-        sportProfile,
-        exercisePool,
-        avoidIfTags,
-      });
-    }
-
-    // 4. Decide where the plan goes.
-    //
-    // Default (v1, currently active): plans go to Emily only for review. The
-    // customer receives a short holding confirmation so they know payment
-    // landed and the plan is being reviewed.
-    //
-    // To flip to v2 (autonomous), set PLAN_DESTINATION_STANDARD=client in
-    // Vercel environment variables. Specialised physical tracks (pregnancy,
-    // postpartum, endometriosis, return-to-play) always route to Emily
-    // regardless, per the long-standing routing rule.
-    const standardDestination = readStandardDestination();
-    const isSpecialisedPhysicalTrack = planType === 'physical' && track !== 'standard';
-    const sendFullPlanToClient = standardDestination === 'client' && !isSpecialisedPhysicalTrack;
-
-    // 5. Email Emily a notification copy (always).
-    await sendEmilyNotification({
-      intake,
-      fullPlan,
-      sportProfile,
-      track,
-      sessionId,
-      token,
-      planType,
-      reviewRequired: !sendFullPlanToClient,
-    });
-
-    // 6. Email the client.
-    if (sendFullPlanToClient) {
-      await sendClientPlanEmail({ intake, fullPlan, sportProfile });
-    } else {
-      await sendClientHoldingEmail({ intake, planType });
-    }
-
-    // 7. Mark intake session finalized.
-    await sql`
-      UPDATE intake_sessions
-      SET finalized_at = NOW(), stripe_session_id = ${sessionId}
-      WHERE id = ${token}::uuid
-    `;
-
-    return json({
-      success: true,
-      message: sendFullPlanToClient
-        ? 'Your plan has been generated and emailed to you. Check your inbox.'
-        : 'Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.',
-    });
+    return json({ success: true, message: result.message });
   } catch (error: any) {
     console.error('Programme finalize error:', error);
     return json({ error: getErrorMessage(error) }, 500);
   }
 };
+
+// Core finalize logic, extracted so both the success-page POST handler and
+// the Stripe webhook can call it. Looks up the intake, verifies Stripe
+// payment, generates the full plan, routes the emails (Emily vs client
+// based on PLAN_DESTINATION_STANDARD), and marks the intake finalized.
+// Idempotent: a second call after the intake is already finalized returns
+// ok=true with a short "already done" message so the webhook can safely
+// retry without double-generating.
+export type FinalizeResult =
+  | { ok: true; alreadyFinalized?: boolean; sentFullPlanToClient?: boolean; message: string }
+  | { ok: false; status: number; error: string };
+
+export async function finalizeIntake(opts: {
+  token: string;
+  sessionId: string;
+}): Promise<FinalizeResult> {
+  const { token, sessionId } = opts;
+
+  // 1. Fetch the intake session from the database.
+  const intakeResult = await sql<{
+    intake_data: ConsultationWithPlanRequest;
+    programme_track: ProgramTrackId | null;
+    finalized_at: string | null;
+    red_flag_id: string | null;
+    plan_type: 'physical' | 'mental' | null;
+  }>`
+    SELECT intake_data, programme_track, finalized_at, red_flag_id, plan_type
+    FROM intake_sessions
+    WHERE id = ${token}::uuid
+    LIMIT 1
+  `;
+
+  const row = intakeResult.rows[0];
+  if (!row) {
+    return { ok: false, status: 404, error: 'Intake session not found.' };
+  }
+  if (row.red_flag_id) {
+    return { ok: false, status: 403, error: 'This intake was flagged for direct review by Emily. Plan generation is blocked.' };
+  }
+  if (row.finalized_at) {
+    // Already done. Idempotent success so the webhook can retry safely.
+    return { ok: true, alreadyFinalized: true, message: 'Plan already finalized.' };
+  }
+
+  // 2. Verify the Stripe session is paid.
+  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
+  if (!stripeSecretKey) {
+    throw new Error('Missing STRIPE_SECRET_KEY.');
+  }
+  const stripe = new Stripe(stripeSecretKey);
+  const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (stripeSession.payment_status !== 'paid') {
+    return {
+      ok: false,
+      status: 402,
+      error: `Stripe session payment status is "${stripeSession.payment_status}". Plan will only be generated once payment is confirmed.`,
+    };
+  }
+
+  // 3. Generate the FULL plan. Branch on plan type.
+  const intake = row.intake_data;
+  const planType = row.plan_type || 'physical';
+  const track = (row.programme_track || 'standard') as ProgramTrackId;
+  const sportProfile = findSportProfile(intake.sport || '');
+
+  let fullPlan: string;
+  if (planType === 'mental') {
+    fullPlan = await generateMentalFullPlan({ intake });
+  } else {
+    const level = normaliseLevel(intake.exerciseLevel);
+    const equipmentTags = expandEquipmentTags(intake.equipment);
+    const avoidIfTags = detectAvoidIfTags({
+      injuries: intake.injuries,
+      medicalConditions: intake.medicalConditions,
+      issuesWorries: intake.issuesWorries,
+      cycleStatus: intake.cycleStatus,
+      programTrack: intake.programTrack,
+    });
+    const exercisePool = filterExercises({
+      equipment: equipmentTags,
+      level,
+      avoidIfTags,
+    });
+    fullPlan = await generateFullPlan({
+      intake,
+      track,
+      sportProfile,
+      exercisePool,
+      avoidIfTags,
+    });
+  }
+
+  // 4. Decide where the plan goes.
+  const standardDestination = readStandardDestination();
+  const isSpecialisedPhysicalTrack = planType === 'physical' && track !== 'standard';
+  const sendFullPlanToClient = standardDestination === 'client' && !isSpecialisedPhysicalTrack;
+
+  // 5. Email Emily a notification copy (always).
+  await sendEmilyNotification({
+    intake,
+    fullPlan,
+    sportProfile,
+    track,
+    sessionId,
+    token,
+    planType,
+    reviewRequired: !sendFullPlanToClient,
+  });
+
+  // 6. Email the client.
+  if (sendFullPlanToClient) {
+    await sendClientPlanEmail({ intake, fullPlan, sportProfile });
+  } else {
+    await sendClientHoldingEmail({ intake, planType });
+  }
+
+  // 7. Mark intake session finalized.
+  await sql`
+    UPDATE intake_sessions
+    SET finalized_at = NOW(), stripe_session_id = ${sessionId}
+    WHERE id = ${token}::uuid
+  `;
+
+  return {
+    ok: true,
+    sentFullPlanToClient: sendFullPlanToClient,
+    message: sendFullPlanToClient
+      ? 'Your plan has been generated and emailed to you. Check your inbox.'
+      : 'Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.',
+  };
+}
 
 // ─── Plan generation ────────────────────────────────────────────────
 

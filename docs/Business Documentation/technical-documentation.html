@@ -788,6 +788,39 @@ Stripe is the payment processor. Every "buy" button on the site routes through S
 <h3>8.3 Programme-specific success URL</h3>
 <p>Standard checkouts redirect to <code>/success</code>. Programme purchases redirect to <code>/programme-success?session_id={CHECKOUT_SESSION_ID}&plan=...&token=...</code>. This lets the success page call <code>/api/programme-finalize</code> with the right session ID and intake token.</p>
 
+<h3>8.4 Stripe webhook (resilience)</h3>
+
+<div class="plain-english">
+The success page calling <code>/api/programme-finalize</code> from the browser is the happy path. If the customer closes their tab before the page loads, or if a network error breaks the request, the plan would not be generated and the customer would be charged with nothing to show for it. The Stripe webhook closes that gap: Stripe calls our server when a payment completes, regardless of what the browser is doing.
+</div>
+
+<p>Endpoint: <code>/api/stripe-webhook</code>. Stripe POSTs <code>checkout.session.completed</code> events here. The handler:</p>
+
+<ol>
+  <li>Reads the raw request body (required for Stripe signature verification).</li>
+  <li>Verifies the <code>stripe-signature</code> header against <code>STRIPE_WEBHOOK_SECRET</code>.</li>
+  <li>Extracts <code>intake_token</code> from <code>session.metadata</code> (set by <code>create-checkout-session.ts</code> when the checkout was created).</li>
+  <li>Calls <code>finalizeIntake({ token, sessionId })</code> &mdash; the exact same function the browser success-page path uses.</li>
+</ol>
+
+<h4>Idempotency</h4>
+
+<p><code>finalizeIntake()</code> is now idempotent: if the intake row already has a <code>finalized_at</code> timestamp, it returns <code>{ ok: true, alreadyFinalized: true }</code> without re-generating the plan or re-sending emails. This means both the browser success-page path and the webhook path can fire safely &mdash; whichever wins runs the work, and the loser is a no-op.</p>
+
+<h4>Setup steps (one-off, before production)</h4>
+
+<ol>
+  <li>Stripe Dashboard &rarr; <strong>Developers &rarr; Webhooks &rarr; Add endpoint</strong>.</li>
+  <li>URL: <code>https://mindthegael.co.uk/api/stripe-webhook</code></li>
+  <li>Events to send: <code>checkout.session.completed</code> (and optionally <code>checkout.session.async_payment_succeeded</code> if any payment methods that settle asynchronously are enabled).</li>
+  <li>Copy the signing secret (starts with <code>whsec_</code>) into the Vercel environment variable <code>STRIPE_WEBHOOK_SECRET</code>.</li>
+  <li>Redeploy. Stripe's Dashboard has a "Send test webhook" button to confirm the handler returns 200.</li>
+</ol>
+
+<div class="under-hood">
+Subscription purchases (the £5/£8 blog) also fire <code>checkout.session.completed</code> but carry no <code>intake_token</code> in metadata; the webhook detects this and returns 200 without doing any finalize work. So the same endpoint safely handles both subscription and plan checkouts.
+</div>
+
 <h2 id="database">9. Database (Postgres / Neon)</h2>
 
 <div class="plain-english">
@@ -903,7 +936,8 @@ Image URLs are absolute, pointing to the production domain. Local-development te
   <tbody>
     <tr><td><code>ANTHROPIC_API_KEY</code></td><td>Chatbot and training plan generators</td><td>.env (local), Vercel env vars (production)</td></tr>
     <tr><td><code>ANTHROPIC_MODEL</code></td><td>Override default model</td><td>Optional</td></tr>
-    <tr><td><code>STRIPE_SECRET_KEY</code></td><td>create-checkout-session, programme-finalize</td><td>.env / Vercel. Use sk_test_... for testing.</td></tr>
+    <tr><td><code>STRIPE_SECRET_KEY</code></td><td>create-checkout-session, programme-finalize, stripe-webhook</td><td>.env / Vercel. Use sk_test_... for testing.</td></tr>
+    <tr><td><code>STRIPE_WEBHOOK_SECRET</code></td><td>stripe-webhook signature verification</td><td>Vercel env vars. Copy from Stripe Dashboard &rarr; Developers &rarr; Webhooks. Starts with <code>whsec_</code>.</td></tr>
     <tr><td><code>RESEND_API_KEY</code></td><td>All transactional email</td><td>.env / Vercel</td></tr>
     <tr><td><code>CONSULTATION_FROM_EMAIL</code></td><td>"From" address on outbound emails</td><td>.env / Vercel</td></tr>
     <tr><td><code>POSTGRES_URL</code></td><td>Database access</td><td>Auto-injected by Vercel when Postgres is provisioned. Locally pulled via <code>vercel env pull</code>.</td></tr>

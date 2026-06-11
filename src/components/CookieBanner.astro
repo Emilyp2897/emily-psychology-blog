@@ -38,6 +38,10 @@
     const acceptBtn = document.getElementById('cookie-accept');
     acceptBtn?.addEventListener('click', () => {
       localStorage.setItem(KEY, JSON.stringify({ accepted: true, at: new Date().toISOString() }));
+      // Notify any consent-gated scripts (e.g. the analytics loader in
+      // Footer.astro) so they can start loading immediately without a
+      // page reload.
+      window.dispatchEvent(new CustomEvent('mtg-consent-accepted'));
       banner.classList.remove('visible');
       banner.setAttribute('aria-hidden', 'true');
       window.setTimeout(() => banner.remove(), 250);
