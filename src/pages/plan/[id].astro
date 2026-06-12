@@ -1,0 +1,257 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`My Plan | ${SITE_TITLE}`} description="Your Mind the Gael performance plan." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="plan-wrap">
+        <div class="plan-nav">
+          <a href="/dashboard" class="plan-back">← Back to Dashboard</a>
+        </div>
+        <div id="plan-loading" class="plan-loading">
+          <p>Loading your plan...</p>
+        </div>
+        <div id="plan-error" class="plan-error" style="display: none;">
+          <p>Could not load your plan. <a href="/dashboard">Go back to dashboard.</a></p>
+        </div>
+        <article id="plan-content" class="plan-content" style="display: none;">
+          <div class="plan-meta">
+            <span id="plan-type-badge" class="plan-type-badge"></span>
+            <span id="plan-date" class="plan-date"></span>
+          </div>
+          <div id="plan-body" class="plan-body"></div>
+        </article>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      import { supabase } from '../../lib/supabase.js';
+      import { marked } from 'marked';
+
+      const planId = window.location.pathname.split('/').pop();
+      const loadingEl = document.getElementById('plan-loading');
+      const errorEl = document.getElementById('plan-error');
+      const contentEl = document.getElementById('plan-content');
+      const planBody = document.getElementById('plan-body');
+      const planTypeBadge = document.getElementById('plan-type-badge');
+      const planDate = document.getElementById('plan-date');
+
+      // Check user is logged in.
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = '/login';
+      }
+
+      // Fetch the plan.
+      const { data: plan, error } = await supabase
+        .from('plans')
+        .select('*')
+        .eq('id', planId)
+        .eq('user_id', user?.id)
+        .single();
+
+if (error || !plan) {
+  if (loadingEl) loadingEl.style.display = 'none';
+  if (errorEl) errorEl.style.display = 'block';
+} else {
+  if (loadingEl) loadingEl.style.display = 'none';
+  if (contentEl) contentEl.style.display = 'block';
+
+  if (planTypeBadge) {
+    planTypeBadge.textContent = plan.plan_type === 'mental'
+      ? '🧠 Mental Performance Plan'
+      : '💪 Physical Performance Plan';
+  }
+
+  if (planDate) {
+    planDate.textContent = new Date(plan.created_at).toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  if (planBody) {
+    planBody.innerHTML = await marked.parse(plan.plan_content || '');
+  }
+}
+</script>
+
+    <style>
+      .plan-wrap {
+        max-width: 800px;
+        margin: 2rem auto;
+      }
+
+      .plan-nav {
+        margin-bottom: 1.5rem;
+      }
+
+      .plan-back {
+        color: var(--green-lime) !important;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .plan-back:hover {
+        color: var(--purple-light) !important;
+      }
+
+      .plan-loading p,
+      .plan-error p {
+        color: var(--green-light);
+      }
+
+      .plan-error a {
+        color: var(--green-lime) !important;
+      }
+
+      .plan-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .plan-type-badge {
+        background: var(--green-lime);
+        color: var(--green-dark);
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 0.4rem 1rem;
+        border-radius: 999px;
+      }
+
+      .plan-date {
+        color: rgba(244, 255, 232, 0.6);
+        font-size: 0.9rem;
+      }
+
+      .plan-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        color: var(--green-dark);
+      }
+
+      /* Markdown rendered content styles */
+      .plan-body h1 {
+        color: var(--purple);
+        font-size: 1.5rem;
+        margin: 2rem 0 0.75rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 2px solid rgba(105, 0, 90, 0.15);
+      }
+
+      .plan-body h1:first-child {
+        margin-top: 0;
+      }
+
+      .plan-body h2 {
+        color: var(--purple);
+        font-size: 1.2rem;
+        margin: 1.75rem 0 0.5rem;
+      }
+
+      .plan-body h3 {
+        color: var(--green-dark);
+        font-size: 1rem;
+        margin: 1.25rem 0 0.4rem;
+      }
+
+      .plan-body p {
+        color: var(--green-dark);
+        line-height: 1.7;
+        margin-bottom: 0.85rem;
+      }
+
+      .plan-body strong {
+        color: var(--green-dark);
+        font-weight: 700;
+      }
+
+      .plan-body ul,
+      .plan-body ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--green-dark);
+      }
+
+      .plan-body li {
+        margin-bottom: 0.4rem;
+        line-height: 1.6;
+      }
+
+      .plan-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .plan-body th {
+        background: var(--green-dark);
+        color: var(--green-lime);
+        padding: 0.6rem 0.75rem;
+        text-align: left;
+        font-weight: 700;
+      }
+
+      .plan-body td {
+        padding: 0.55rem 0.75rem;
+        border-bottom: 1px solid rgba(3, 10, 6, 0.1);
+        color: var(--green-dark);
+        vertical-align: top;
+      }
+
+      .plan-body tr:nth-child(even) td {
+        background: rgba(192, 254, 113, 0.08);
+      }
+
+      .plan-body blockquote {
+        border-left: 3px solid var(--green-lime);
+        padding: 0.5rem 1rem;
+        margin: 0.75rem 0 1rem;
+        background: rgba(192, 254, 113, 0.06);
+        border-radius: 0 8px 8px 0;
+        font-size: 0.9rem;
+      }
+
+      .plan-body blockquote p {
+        margin: 0.25rem 0;
+        color: #333;
+      }
+
+      .plan-body hr {
+        border: none;
+        border-top: 1px solid rgba(3, 10, 6, 0.12);
+        margin: 2rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .plan-content {
+          padding: 1.25rem 1rem;
+        }
+
+        .plan-body table {
+          font-size: 0.8rem;
+        }
+
+        .plan-body th,
+        .plan-body td {
+          padding: 0.45rem 0.5rem;
+        }
+      }
+    </style>
+  </body>
+</html>

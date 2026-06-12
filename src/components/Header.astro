@@ -2,11 +2,8 @@
 import { Image } from 'astro:assets';
 import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
-
-// Hide the back button on the homepage (nothing to go back to).
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 ---
-
 <header>
   <div class="header-inner">
     <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
@@ -18,9 +15,9 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
       <HeaderLink href="/pricing">Pricing</HeaderLink>
       <HeaderLink href="/resources">Support Resources</HeaderLink>
       <HeaderLink href="/contact-us">Contact Us</HeaderLink>
+      <a href="/login" id="nav-auth-link" class="nav-auth-link">Log In</a>
     </nav>
   </div>
-
   {!isHome && (
     <button
       type="button"
@@ -33,14 +30,38 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   )}
 </header>
 
+<script>
+  import { supabase } from '../lib/supabase.js';
+
+  const authLink = document.getElementById('nav-auth-link');
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user && authLink) {
+    authLink.textContent = 'Dashboard';
+    authLink.setAttribute('href', '/dashboard');
+  }
+</script>
+
 <style>
+  .nav-auth-link {
+    color: var(--green-lime) !important;
+    text-decoration: none;
+    font-size: 0.93rem;
+    font-weight: 700;
+    padding: 0.5em 0;
+    border-bottom: 4px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s ease;
+  }
+
+  .nav-auth-link:hover {
+    color: var(--purple-light) !important;
+  }
+
   .header-inner {
     position: relative;
   }
 
-  /* Floating circular back button. Sits in the top-left of the viewport,
-     above the page content but below the chat panel. Visible on every
-     page except the homepage. */
   .back-bubble {
     position: fixed;
     top: 96px;
