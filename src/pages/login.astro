@@ -1,0 +1,122 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Login | ${SITE_TITLE}`} description="Log in to your Mind the Gael account." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="auth-wrap">
+        <h1>Log In</h1>
+        <p class="auth-intro">Welcome back. Log in to access your performance plan.</p>
+
+        <form id="login-form" class="auth-form">
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" required />
+          </label>
+          <p class="auth-error" id="login-error"></p>
+          <button type="submit" class="auth-btn">Log In</button>
+        </form>
+
+        <p class="auth-switch">Don't have an account? <a href="/signup">Sign up</a></p>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      import { supabase } from '../lib/supabase.js';
+
+      const form = document.getElementById('login-form');
+      const errorEl = document.getElementById('login-error');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form as HTMLFormElement);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          errorEl!.textContent = error.message;
+        } else {
+          window.location.href = '/dashboard';
+        }
+      });
+    </script>
+
+    <style>
+      .auth-wrap {
+        max-width: 440px;
+        margin: 4rem auto;
+      }
+
+      .auth-intro {
+        color: var(--green-light);
+        margin-bottom: 2rem;
+      }
+
+      .auth-form {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .auth-form label {
+        display: grid;
+        gap: 0.4rem;
+        color: var(--green-light);
+        font-weight: 600;
+      }
+
+      .auth-form input {
+        padding: 0.7rem;
+        border-radius: 8px;
+        border: 1px solid rgba(192, 254, 113, 0.3);
+        background: rgba(255, 255, 255, 0.92);
+        color: #121212;
+        font: inherit;
+      }
+
+      .auth-btn {
+        padding: 0.75rem 1.25rem;
+        background: var(--green-lime);
+        color: var(--green-dark);
+        font-weight: 700;
+        font: inherit;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 0.5rem;
+      }
+
+      .auth-error {
+        color: #ff6b6b;
+        font-size: 0.9rem;
+        min-height: 1.2em;
+        margin: 0;
+      }
+
+      .auth-switch {
+        margin-top: 1.5rem;
+        color: var(--green-light);
+        font-size: 0.95rem;
+      }
+
+      .auth-switch a {
+        color: var(--green-lime) !important;
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`My Dashboard | ${SITE_TITLE}`} description="Your Mind the Gael performance plans." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="dashboard-wrap">
+        <div class="dashboard-header">
+          <h1>My Dashboard</h1>
+          <button id="logout-btn" class="logout-btn">Log Out</button>
+        </div>
+
+        <p class="dashboard-intro" id="dashboard-greeting">Welcome back.</p>
+
+        <section class="plans-section">
+          <h2>Your Plans</h2>
+          <div id="plans-list" class="plans-list">
+            <p class="plans-empty">Loading your plans...</p>
+          </div>
+        </section>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      import { supabase } from '../lib/supabase.js';
+
+      // Check user is logged in
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        window.location.href = '/login';
+      }
+
+      // Greet the user
+      const greeting = document.getElementById('dashboard-greeting');
+      const name = user?.user_metadata?.full_name || user?.email;
+      if (greeting) greeting.textContent = `Welcome back, ${name}.`;
+
+      // Logout
+      const logoutBtn = document.getElementById('logout-btn');
+      logoutBtn?.addEventListener('click', async () => {
+        await supabase.auth.signOut();
+        window.location.href = '/login';
+      });
+
+      // Load plans
+      const plansList = document.getElementById('plans-list');
+
+      const { data: plans, error } = await supabase
+        .from('plans')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false });
+
+      if (error || !plans || plans.length === 0) {
+        if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training">Get started here.</a></p>';
+      } else {
+        if (plansList) {
+          plansList.innerHTML = plans.map(plan => `
+            <div class="plan-card">
+              <div class="plan-card-header">
+                <span class="plan-type">${plan.plan_type === 'mental' ? '🧠 Mental Performance Plan' : '💪 Physical Performance Plan'}</span>
+                <span class="plan-status ${plan.status}">${plan.status}</span>
+              </div>
+              <p class="plan-date">Created ${new Date(plan.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+              <a href="/plan/${plan.id}" class="plan-view-btn">View Plan</a>
+            </div>
+          `).join('');
+        }
+      }
+    </script>
+
+    <style>
+      .dashboard-wrap {
+        max-width: 800px;
+        margin: 3rem auto;
+      }
+
+      .dashboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .dashboard-intro {
+        color: var(--green-light);
+        margin-bottom: 2rem;
+      }
+
+      .logout-btn {
+        padding: 0.5rem 1rem;
+        background: transparent;
+        border: 2px solid var(--green-lime);
+        color: var(--green-lime);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .logout-btn:hover {
+        background: var(--green-lime);
+        color: var(--green-dark);
+      }
+
+      .plans-section h2 {
+        margin-bottom: 1.25rem;
+      }
+
+      .plans-list {
+        display: grid;
+        gap: 1rem;
+      }
+
+     .plans-list .plans-empty a, 
+     .plans-list p a {
+        color: var(--green-lime) !important;
+        text-decoration: underline;
+    }
+
+      .plan-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .plan-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .plan-type {
+        font-weight: 700;
+        color: var(--green-dark);
+        font-size: 1rem;
+      }
+
+      .plan-status {
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 0.2rem 0.65rem;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: rgba(192, 254, 113, 0.2);
+        color: var(--green-dark);
+      }
+
+      .plan-date {
+        color: #666;
+        font-size: 0.85rem;
+        margin: 0;
+      }
+
+      .plan-view-btn {
+        display: inline-block;
+        margin-top: 0.25rem;
+        padding: 0.55rem 1rem;
+        background: var(--green-lime);
+        color: var(--green-dark) !important;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border-radius: 8px;
+        text-decoration: none !important;
+        width: fit-content;
+      }
+
+      .plan-view-btn:hover {
+        background: var(--purple-light);
+        color: var(--purple) !important;
+      }
+      
+    </style>
+  </body>
+</html>
