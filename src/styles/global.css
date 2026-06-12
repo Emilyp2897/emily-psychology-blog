@@ -305,7 +305,7 @@ a:hover {
 
 main a,
 main a:visited {
-  color: #4f0044 !important;
+  color: #4f0044;
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-thickness: 2px;

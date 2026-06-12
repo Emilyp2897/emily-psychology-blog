@@ -63,7 +63,7 @@ import { SITE_TITLE } from '../consts';
         .order('created_at', { ascending: false });
 
       if (error || !plans || plans.length === 0) {
-        if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training">Get started here.</a></p>';
+     if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="/performance-plans" style="color: #c0fe71 !important; text-decoration: underline;">Get started here.</a></p>';
       } else {
         if (plansList) {
           plansList.innerHTML = plans.map(plan => `
