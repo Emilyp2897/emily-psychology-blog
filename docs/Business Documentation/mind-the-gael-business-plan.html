@@ -96,7 +96,7 @@
 
 <h2>3. The Solution and Product</h2>
 
-<p>Mind the Gael is a web platform with four connected layers. Mental performance is the primary differentiator; physical training plans are a complementary product. The two product lines are <strong>cross-linked</strong> through an optional companion field on both intake forms, so a player doing both can have her mental plan reference her training schedule and vice versa.</p>
+<p>Mind the Gael is a web platform with five connected layers. Mental performance is the primary differentiator; physical training plans are a complementary product. The two product lines are <strong>cross-linked</strong> through an optional companion field on both intake forms, so a player doing both can have her mental plan reference her training schedule and vice versa.</p>
 
 <table>
   <thead><tr><th>Layer</th><th>What it is</th><th>Status</th></tr></thead>
@@ -117,6 +117,11 @@
       <td><span class="status-live">Live (v1 review)</span></td>
     </tr>
     <tr>
+      <td><strong>Customer dashboard with progress tracking</strong></td>
+      <td>Once a plan is approved, the customer logs in to a dashboard, opens their plan, and ticks off each exercise or daily-practice item as they go. Sessions auto-complete when every item is ticked; weeks unlock in sequence as the previous week is completed. A live stats panel shows percent complete, sessions complete, weeks complete, and day streak. Saoirse the shamrock pops in to celebrate session and week completion (with different emotions per coach-tip type) and a pilot feedback popup captures a 1-5 rating + free-text comments at the end of every week.</td>
+      <td><span class="status-live">Live</span></td>
+    </tr>
+    <tr>
       <td><strong>Blog and content</strong></td>
       <td>Three series across the 12-month editorial calendar: <em>Training the Mind</em> (sports psychology in plain English), <em>Gael Performance Toolkit</em> (practical tools), and <em>Stronger Minds, Stronger Players</em> (always free; recognising mental health struggle and where to seek support). 36 articles total.</td>
       <td><span class="status-live">Live, first release 1 Aug 2026</span></td>
@@ -130,6 +135,7 @@
   <li><strong>AI economics.</strong> Personalised plans at near-zero marginal cost (~£0.08-£0.16 per buyer) make individualised support viable at a club player's price point for the first time.</li>
   <li><strong>Expert-reviewed, AI-delivered.</strong> Toolkit content is reviewed by qualified professionals; the AI personalises and sequences it. The platform never positions itself as therapy or medical advice. Crisis disclosure routes the conversation to support services and to the founder rather than continuing as performance coaching.</li>
   <li><strong>Cross-linked products.</strong> The mental and physical plans are not silos. A player doing both has her mental plan anchored to specific training sessions and her physical plan layered with refocus cues and pre-performance routines.</li>
+  <li><strong>Engagement built in.</strong> The customer dashboard turns a one-off PDF-style purchase into a guided 6 or 12 week journey. Per-exercise tick boxes, completion-gated week unlocks, day streaks, and Saoirse celebrations are designed to lift completion rates and create the basis for testimonials, repeat purchase, and word-of-mouth.</li>
   <li><strong>Community roots.</strong> Founder-led, built from inside the GAA community, launched through founding clubs rather than paid acquisition.</li>
 </ul>
 
@@ -219,7 +225,7 @@
 
 <h3>Unit economics</h3>
 <ul>
-  <li>Per-sale Anthropic API cost: <strong>~£0.002 per teaser</strong> (Haiku) and <strong>~£0.08-£0.16 per full plan</strong> (Sonnet, cached system prompt). Gross margin above 94% on plan sales.</li>
+  <li>Per-sale Anthropic API cost: <strong>~£0.01 per teaser</strong> (Haiku) and <strong>~£0.15-£0.30 per full plan</strong> at the upper cap (Sonnet, cached system prompt). Costs sit toward the upper end because the plan prompt now enforces an explicit structure (HOW TO READ THIS PLAN block, full per-week warm-up + main session + cues + cycle considerations) to remove the variance and dropped sections seen in earlier outputs. Gross margin still above 94% on plan sales.</li>
   <li>A player buying one mental and one physical 12-week block spends £40 per season; an engaged blog subscriber adds £60-£96 per year.</li>
   <li>The blog subscription is the recurring base and the conversion path: subscribers are the warmest buyers of plans at season milestones (pre-season, championship, return from injury).</li>
   <li>One-off pricing removes churn risk on plans entirely; revenue seasonality is managed with January pre-season and May championship campaigns.</li>
@@ -239,6 +245,8 @@
 <ul>
   <li>Eight-week pilot: 15 players, 4 clubs, expert panel of a sports psychologist and an S&amp;C coach, coordinated by 2-3 personal trainers including the founder.</li>
   <li>Outputs: named expert endorsements, 8 or more named testimonials, 2-3 case studies, and a public pilot results page.</li>
+  <li><strong>Built-in pilot feedback loop.</strong> A weekly feedback popup fires when each player completes a week on their plan: 1-5 rating + "what worked" + "what was hard" + an optional note for Emily. Submissions land in a dedicated <code>plan_week_feedback</code> table and surface in an admin dashboard (<code>/admin/feedback</code>). Default ON for pilot players via a <code>PUBLIC_FEEDBACK_ENABLED</code> env flag; flipped OFF after pilot. Gives Emily structured signal on plan quality before public launch.</li>
+  <li><strong>Admin operating tools live for pilot:</strong> approve plan, regenerate plan (re-runs the generator with updated prompts), delete plan, recover orphaned intake, and a 2-minute duplicate-write guard so back-to-back regenerate clicks cannot produce duplicate plan rows for the same customer.</li>
   <li>Public launch of paid plans following the pilot: £10/£20 one-off plans across both lines, carried by the pilot's credibility assets, with the 4 pilot clubs positioned as founding clubs.</li>
   <li>Content engine: weekly blog and social content (the carousel and email cadence already planned in the Content Tracker) answering real player questions, distributed where players already are (Instagram, TikTok, club WhatsApp groups).</li>
 </ul>
@@ -299,7 +307,9 @@
     <tr><td>Frontend &amp; framework</td><td>Astro 5, TypeScript</td><td>Fast, content-friendly, low-cost static-first architecture. Server-side rendering for API routes.</td></tr>
     <tr><td>Hosting</td><td>Vercel</td><td>Zero-ops deployment, scales with traffic. Free tier covers launch volume.</td></tr>
     <tr><td>AI</td><td>Anthropic Claude API (Sonnet 4.5 for full plans, Haiku 4.5 for teasers)</td><td>Plan generation and personalisation. Haiku on teasers is ~3x faster and ~5x cheaper than Sonnet for the short structured output. System prompts cached via Anthropic's ephemeral cache for ~10% input-token cost on subsequent calls within 5 minutes.</td></tr>
-    <tr><td>Database</td><td>Vercel Postgres (Neon)</td><td>Stores intake sessions, teaser content, plan_type for branching mental/physical, and chat feedback. Free tier covers launch volume.</td></tr>
+    <tr><td>Database</td><td>Vercel Postgres (Neon) + Supabase</td><td>Vercel Postgres holds the intake-session pipeline (intake data, teaser content, plan_type, finalize state). Supabase holds the customer-facing surface: Auth, the Plans table with progress JSONB column for per-exercise ticks, and the plan_week_feedback table for pilot feedback. Free tier covers launch volume.</td></tr>
+    <tr><td>Customer dashboard</td><td>Astro pages + Supabase Auth</td><td>Customer login (<code>/dashboard</code>), per-plan view (<code>/plan/[id]</code>) with per-exercise tick boxes, completion-gated week unlock, day streak, and a Saoirse celebration modal on session and week completion. AI-generated disclaimer surfaced on both dashboard and plan view.</td></tr>
+    <tr><td>Admin tools</td><td>Astro pages at <code>/admin/plans</code> and <code>/admin/feedback</code></td><td>Approve / regenerate / delete plan, recover orphaned intakes, view pilot feedback by customer. 2-minute duplicate-write guard on regenerate + recover endpoints stops parallel clicks producing duplicate plan rows.</td></tr>
     <tr><td>Payments</td><td>Stripe Checkout</td><td>Hosted payment page handles cards, fraud, receipts, refunds. The site never sees card numbers.</td></tr>
     <tr><td>Email</td><td>Resend</td><td>Transactional email for plan delivery, the v1 holding email, the founder notification copy, and crisis-flag alerts.</td></tr>
     <tr><td>Source control</td><td>GitHub</td><td>Version control and deployment pipeline (auto-deploys to Vercel on push to main).</td></tr>
@@ -312,7 +322,8 @@
   <li>Expert reviewers engaged on agreed terms per review cycle rather than employed.</li>
   <li>AI guardrails: system prompts keep generators within performance coaching, with hard-stop crisis detection routing the user to support services and directly to the founder.</li>
   <li>v1 (current) review mode: every generated plan goes to Emily for review before reaching the customer. Customer receives a "your plan is being reviewed" holding email and the plan within 48 hours. Single env-var change flips to v2 autonomous mode once Emily is confident in quality.</li>
-  <li>Quality loop: every reported output reviewed within 48 hours, with fixes shipped or logged.</li>
+  <li><strong>Explicit plan structure.</strong> Both physical and mental plan prompts enforce a fixed section structure (HOW TO READ THIS PLAN, CLIENT SNAPSHOT with named fields, PLAN OVERVIEW with named subsections including a standard warm-up table, WEEK-BY-WEEK PLAN with per-session warm-up + main session + cues + cycle consideration, COACH NOTES, CONTRAINDICATED EXERCISES AND SUBSTITUTES, THINGS TO TRACK). Removes the variance and dropped sections seen in early plans.</li>
+  <li>Quality loop: every reported output reviewed within 48 hours, with fixes shipped or logged. Pilot feedback (<code>/admin/feedback</code>) reviewed weekly during the pilot window.</li>
 </ul>
 
 <h2>9. Legal and Compliance</h2>
@@ -325,7 +336,7 @@
   <li><strong>Crisis hard stop.</strong> Already implemented in code: both chatbot and the training plan flow halt on any mental-health-crisis indicator, route the user to Samaritans / Pieta House, and notify Emily directly.</li>
   <li><strong>Citation rule.</strong> Hard-coded into every system prompt: any non-MTG content claim must be backed by a real named source (author + year). Hallucinated citations are explicitly forbidden.</li>
   <li><strong>GDPR (UK and EU).</strong> Privacy policy (pending) covering generator inputs, Anthropic API processing and international transfer, explicit consent for health-related inputs, retention, and user rights.</li>
-  <li><strong>AI transparency.</strong> Clear labelling of AI-generated output, aligned with EU AI Act transparency obligations phasing in through 2026.</li>
+  <li><strong>AI transparency.</strong> Live customer-facing disclaimer on the dashboard and on every plan view stating that plans are AI-generated and reviewed by Emily before publication, with a link to message her directly if anything feels off. Aligned with EU AI Act transparency obligations phasing in through 2026.</li>
   <li><strong>Anthropic compliance.</strong> Usage within Anthropic's Usage Policy and Commercial Terms for health-adjacent consumer products.</li>
   <li><strong>Solicitor review</strong> of terms, privacy policy, and disclaimers before paid launch.</li>
 </ul>

@@ -10,8 +10,11 @@
   <div class="cookie-inner">
     <div class="cookie-copy">
       <p class="cookie-title">Cookies on Mind the Gael</p>
-      <p class="cookie-body">
+      <p class="cookie-body cookie-body-long">
         Mind the Gael uses only essential cookies needed to run the site (signin sessions, secure form submission, Stripe checkout). No tracking or analytics cookies are set without your consent. Read the <a href="/privacy" class="cookie-link">privacy policy</a>.
+      </p>
+      <p class="cookie-body cookie-body-short">
+        Essential cookies only. <a href="/privacy" class="cookie-link">Privacy policy</a>.
       </p>
     </div>
     <div class="cookie-actions">
@@ -106,6 +109,12 @@
     font-weight: 700;
   }
 
+  /* Show the full copy on desktop, the compact one-liner on mobile.
+     Both live in the DOM so screen readers still get the full context
+     once one is hidden via display:none on screen. */
+  .cookie-body-long { display: block; }
+  .cookie-body-short { display: none; }
+
   .cookie-actions {
     flex: 0 0 auto;
     display: flex;
@@ -136,18 +145,51 @@
 
   @media (max-width: 720px) {
     .cookie-inner {
-      margin: 0 0.5rem 0.5rem;
-      padding: 0.9rem 1rem;
-      flex-direction: column;
-      align-items: stretch;
+      margin: 0 0.4rem 0.4rem;
+      padding: 0.6rem 0.8rem;
+      gap: 0.6rem;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
     }
 
+    .cookie-copy {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .cookie-title {
+      font-size: 0.82rem;
+      margin: 0 0 0.15rem;
+    }
+
+    .cookie-body {
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .cookie-body-long { display: none; }
+    .cookie-body-short { display: block; }
+
     .cookie-actions {
-      width: 100%;
+      flex: 0 0 auto;
+      width: auto;
     }
 
     .cookie-btn {
-      width: 100%;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      width: auto;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .cookie-title {
+      display: none;
+    }
+
+    .cookie-body {
+      font-size: 0.75rem;
     }
   }
 </style>

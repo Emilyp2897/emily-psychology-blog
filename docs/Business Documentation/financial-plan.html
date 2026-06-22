@@ -277,18 +277,24 @@
 
 <h3>3.1 AI generation cost (Anthropic Claude Sonnet 4.5)</h3>
 
-<p>Pricing: $3 per 1M input tokens, $15 per 1M output tokens (approximate). Each programme purchase triggers two calls: a cheap teaser at intake, then a full plan after payment.</p>
+<p>Pricing: $3 per 1M input tokens, $15 per 1M output tokens (approximate). Each programme purchase triggers two calls: a cheap teaser at intake, then a full plan after payment. The full-plan output token figures below reflect the current explicit-structure prompt (HOW TO READ THIS PLAN block, named CLIENT SNAPSHOT fields, standard warm-up table, per-week warm-up + main session + cues + cycle considerations + coach notes + contraindications + things to track). Costs are shown at the upper cap (worst case); typical outputs land 20-30% lower.</p>
 
 <table>
   <thead>
-    <tr><th>Step</th><th class="num">Input tokens</th><th class="num">Output tokens</th><th class="num">Cost (USD)</th><th class="num">Cost (GBP)</th></tr>
+    <tr><th>Step</th><th class="num">Input tokens</th><th class="num">Output tokens (cap)</th><th class="num">Cost (USD)</th><th class="num">Cost (GBP)</th></tr>
   </thead>
   <tbody>
-    <tr><td>Teaser (every intake submission)</td><td class="num">~1,500</td><td class="num">~600</td><td class="num">$0.014</td><td class="num">£0.011</td></tr>
-    <tr><td>Full 6-week plan (after purchase)</td><td class="num">~2,500</td><td class="num">~5,000</td><td class="num">$0.082</td><td class="num">£0.065</td></tr>
-    <tr><td>Full 12-week plan (after purchase)</td><td class="num">~2,500</td><td class="num">~10,000</td><td class="num">$0.158</td><td class="num">£0.125</td></tr>
+    <tr><td>Teaser (every intake submission, Haiku)</td><td class="num">~1,500</td><td class="num">~600</td><td class="num">$0.014</td><td class="num">£0.011</td></tr>
+    <tr><td>Full 6-week physical plan</td><td class="num">~3,000</td><td class="num">~14,000</td><td class="num">$0.219</td><td class="num">£0.173</td></tr>
+    <tr><td>Full 6-week physical plan with specialised track (pregnancy / postpartum / endo / RTP)</td><td class="num">~3,000</td><td class="num">~16,000</td><td class="num">$0.249</td><td class="num">£0.197</td></tr>
+    <tr><td>Full 12-week physical plan</td><td class="num">~3,000</td><td class="num">~24,000</td><td class="num">$0.369</td><td class="num">£0.292</td></tr>
+    <tr><td>Full 12-week physical plan with specialised track</td><td class="num">~3,000</td><td class="num">~26,000</td><td class="num">$0.399</td><td class="num">£0.316</td></tr>
+    <tr><td>Full 6-week mental performance plan</td><td class="num">~3,000</td><td class="num">~12,000</td><td class="num">$0.189</td><td class="num">£0.149</td></tr>
+    <tr><td>Full 12-week mental performance plan</td><td class="num">~3,000</td><td class="num">~20,000</td><td class="num">$0.309</td><td class="num">£0.244</td></tr>
   </tbody>
 </table>
+
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">Output token caps were bumped (from 5k/10k pre-tightening to 14k/24k physical and 12k/20k mental) so the model can fit the full enforced structure without truncating. Typical real-world generations stop short of the cap once content is complete; the figures above are the ceiling and the worst case.</p>
 
 <h3>3.2 Stripe payment processing</h3>
 <table>
@@ -304,20 +310,22 @@
 
 <h2>4. Per-Product Margin</h2>
 
-<p>Assuming UK-card processing rate, full-cap token usage, and one teaser per buyer:</p>
+<p>Assuming UK-card processing rate, upper-cap token usage (worst case), one teaser per buyer, and the explicit-structure prompt currently in production:</p>
 
 <table>
   <thead>
     <tr><th>Product</th><th class="num">Price</th><th class="num">API cost</th><th class="num">Stripe fee</th><th class="num">Net per sale</th><th class="num">Margin</th></tr>
   </thead>
   <tbody>
-    <tr><td>6-Week Personal Training Plan</td><td class="num">£10.00</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
-    <tr><td>12-Week Personal Training Plan</td><td class="num">£20.00</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
-    <tr><td>6-Week Mental Performance Plan</td><td class="num">£10.00</td><td class="num">£0.08</td><td class="num">£0.35</td><td class="num">£9.57</td><td class="num">95.7 %</td></tr>
-    <tr><td>12-Week Mental Performance Plan</td><td class="num">£20.00</td><td class="num">£0.14</td><td class="num">£0.50</td><td class="num">£19.36</td><td class="num">96.8 %</td></tr>
+    <tr><td>6-Week Personal Training Plan</td><td class="num">£10.00</td><td class="num">£0.18</td><td class="num">£0.35</td><td class="num">£9.47</td><td class="num">94.7 %</td></tr>
+    <tr><td>12-Week Personal Training Plan</td><td class="num">£20.00</td><td class="num">£0.30</td><td class="num">£0.50</td><td class="num">£19.20</td><td class="num">96.0 %</td></tr>
+    <tr><td>6-Week Mental Performance Plan</td><td class="num">£10.00</td><td class="num">£0.16</td><td class="num">£0.35</td><td class="num">£9.49</td><td class="num">94.9 %</td></tr>
+    <tr><td>12-Week Mental Performance Plan</td><td class="num">£20.00</td><td class="num">£0.25</td><td class="num">£0.50</td><td class="num">£19.25</td><td class="num">96.3 %</td></tr>
     <tr><td>Blog Subscription monthly (after trial)</td><td class="num">£5.00</td><td class="num">£0.00</td><td class="num">£0.28</td><td class="num">£4.72</td><td class="num">94.4 %</td></tr>
   </tbody>
 </table>
+
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">API cost is the upper-cap figure from §3.1. Specialised tracks (pregnancy, postpartum, endometriosis, RTP) add roughly £0.02-£0.03 per physical plan. Typical real-world generations land 20-30% below the cap, so day-to-day margin will exceed the figures above.</p>
 
 <h2>5. Fixed Costs</h2>
 
