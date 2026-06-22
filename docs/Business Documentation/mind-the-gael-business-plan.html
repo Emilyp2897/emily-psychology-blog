@@ -96,7 +96,7 @@
 
 <h2>3. The Solution and Product</h2>
 
-<p>Mind the Gael is a web platform with five connected layers. Mental performance is the primary differentiator; physical training plans are a complementary product. The two product lines are <strong>cross-linked</strong> through an optional companion field on both intake forms, so a player doing both can have her mental plan reference her training schedule and vice versa.</p>
+<p>Mind the Gael is a web platform with six connected layers. Mental performance is the primary differentiator; physical training plans are a complementary product. The two product lines are <strong>cross-linked</strong> through an optional companion field on both intake forms, so a player doing both can have her mental plan reference her training schedule and vice versa.</p>
 
 <table>
   <thead><tr><th>Layer</th><th>What it is</th><th>Status</th></tr></thead>
@@ -120,6 +120,11 @@
       <td><strong>Customer dashboard with progress tracking</strong></td>
       <td>Once a plan is approved, the customer logs in to a dashboard, opens their plan, and ticks off each exercise or daily-practice item as they go. Sessions auto-complete when every item is ticked; weeks unlock in sequence as the previous week is completed. A live stats panel shows percent complete, sessions complete, weeks complete, and day streak. Saoirse the shamrock pops in to celebrate session and week completion (with different emotions per coach-tip type) and a pilot feedback popup captures a 1-5 rating + free-text comments at the end of every week.</td>
       <td><span class="status-live">Live</span></td>
+    </tr>
+    <tr>
+      <td><strong>Team Plans for coaches and clubs</strong></td>
+      <td>Coaches apply via a public form, are reviewed and approved by Emily, then sign in to a coach dashboard. From there they fill a short team intake (sport, season phase, training days, equipment, average experience, squad size, primary goal) and the AI generates a squad-wide plan (physical or mental, 6 or 12 weeks). Plan goes through the same admin review queue. Approved team plans get a private shareable link the coach sends to their squad. No individual player data is collected on the team-plan path; players with specific medical needs are directed to generate their own individual plan separately.</td>
+      <td><span class="status-live">Live (v1)</span></td>
     </tr>
     <tr>
       <td><strong>Blog and content</strong></td>
@@ -253,9 +258,10 @@
 
 <h3>Phase 2: Club membership rollout</h3>
 <ul>
-  <li>Club membership product giving squad-wide access, sold to club committees, starting with the 4 founding clubs.</li>
-  <li>Pricing validated with founding clubs before wider rollout; positioned against what clubs already spend on equipment and external coaching.</li>
+  <li><strong>Team Plans engine is live as of June 2026.</strong> Coaches apply at <code>/coaches</code>, get approved manually, and generate squad-wide physical or mental plans from a dedicated coach dashboard. Each plan is reviewed by Emily and then handed back as a private shareable link the coach sends to their squad. Same trust loop as individual plans; same quality bar.</li>
+  <li>Club membership pricing positioned as a flat fee per season covering squad-wide access, sold to club committees, starting with the 4 founding clubs. Pricing validated with founding clubs before wider rollout; positioned against what clubs already spend on equipment and external coaching. For pilot phase Emily invoices coaches manually via Stripe outside the platform.</li>
   <li>Club-by-club expansion through county networks in Cork and London GAA communities, where the founder has roots.</li>
+  <li>Privacy by design: the team plan flow collects ZERO individual player data (no cycle, no medical, no mental health notes). Players who need individual personalisation generate a separate one-to-one plan, which Emily reviews privately.</li>
 </ul>
 
 <h3>Phase 3: Community scale</h3>

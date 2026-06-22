@@ -460,9 +460,16 @@ body.resources-page footer {
 }
 .comparison-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
   margin-top: 2rem;
+}
+
+@media (max-width: 980px) {
+  .comparison-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 .comparison-card {
@@ -504,6 +511,18 @@ body.resources-page footer {
 
 .comparison-card.physical::before {
   background: var(--green-lime);
+}
+
+.comparison-card.team::before {
+  background: linear-gradient(180deg, var(--green-lime) 0%, var(--purple) 100%);
+}
+
+/* The Team card's CTA is a real anchor, not a <button>, so it inherits
+   default link styling. Force it to match the other two CTAs. */
+.consultation-btn-link {
+  display: inline-block;
+  text-decoration: none !important;
+  text-align: center;
 }
 
 .comparison-header {

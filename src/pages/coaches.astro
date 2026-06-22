@@ -1,0 +1,80 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Coaches & Clubs | ${SITE_TITLE}`} description="Generate evidence-based, sport-specific training and mental performance plans for your team." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="coaches-hero">
+        <h1>For Coaches and Clubs</h1>
+        <p class="coaches-lede">
+          Mind the Gael builds personalised performance plans for female athletes. Coaches and clubs can generate a single squad-wide plan for their team — physical training or mental performance, 6 or 12 weeks, built around your season, your training week, and your sport. Plans are reviewed by Emily before going live.
+        </p>
+        <div class="coaches-cta-row">
+          <a href="/coach-intake" class="coaches-cta">Generate a team plan</a>
+        </div>
+      </section>
+
+      <section class="coaches-pitch">
+        <div class="coaches-pitch-grid">
+          <div class="coaches-pitch-card">
+            <h3>What you get</h3>
+            <ul>
+              <li>One team plan, generated to your sport and season phase</li>
+              <li>Built around your training nights and match days</li>
+              <li>Evidence-based programming with cited sources</li>
+              <li>A private link you share with your squad</li>
+              <li>Reviewed by Emily before going live</li>
+            </ul>
+          </div>
+          <div class="coaches-pitch-card">
+            <h3>How it works</h3>
+            <ol>
+              <li>Fill the team intake form.</li>
+              <li>Plan is generated and reviewed by Emily.</li>
+              <li>You get an email with a private link to share with your squad.</li>
+            </ol>
+          </div>
+          <div class="coaches-pitch-card">
+            <h3>What we do NOT collect</h3>
+            <ul>
+              <li>Individual player medical notes</li>
+              <li>Individual cycle status</li>
+              <li>Individual mental health history</li>
+            </ul>
+            <p class="coaches-note">Team plans are squad-wide. Players who want individual plans can sign up separately and Emily reviews their personal intake one-to-one.</p>
+          </div>
+        </div>
+
+        <div class="coaches-cta-row coaches-cta-bottom">
+          <a href="/coach-intake" class="coaches-cta">Generate a team plan</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+
+    <style>
+      .coaches-hero { max-width: 780px; margin: 2.5rem auto 1.5rem; text-align: center; }
+      .coaches-lede { margin: 1rem auto 1.5rem; max-width: 60ch; color: var(--green-light); line-height: 1.6; }
+      .coaches-cta-row { margin: 1rem 0 2rem; }
+      .coaches-cta-bottom { text-align: center; }
+      .coaches-cta { display: inline-block; padding: 0.95rem 1.75rem; background: var(--green-lime); color: var(--green-dark) !important; font-weight: 800; font-size: 1.05rem; border-radius: 10px; text-decoration: none !important; transition: transform 0.15s ease, background 0.15s ease; }
+      .coaches-cta:hover { transform: translateY(-1px); background: var(--purple); color: #ffffff !important; }
+      .coaches-pitch { max-width: 1000px; margin: 0 auto 4rem; }
+      .coaches-pitch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+      .coaches-pitch-card { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(244, 255, 232, 0.18); border-left: 3px solid var(--green-lime); border-radius: 12px; padding: 1.1rem 1.2rem; }
+      .coaches-pitch-card h3 { margin-top: 0; color: var(--green-lime); font-size: 1rem; }
+      .coaches-pitch-card ul, .coaches-pitch-card ol { margin: 0.5rem 0 0; padding-left: 1.2rem; color: var(--green-light); line-height: 1.55; }
+      .coaches-pitch-card li { margin-bottom: 0.35rem; }
+      .coaches-note { margin-top: 0.8rem; font-size: 0.85rem; opacity: 0.78; font-style: italic; color: var(--green-light); }
+    </style>
+  </body>
+</html>

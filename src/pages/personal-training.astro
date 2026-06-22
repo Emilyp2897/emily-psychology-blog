@@ -70,25 +70,6 @@ import { SITE_TITLE } from '../consts';
 
 </section>
 
-<div class="quick-choice">
-  <div class="choice-pill">🧠 I struggle with confidence, focus or pressure</div>
-  <div class="choice-pill">💪 I want to get stronger, fitter and more resilient</div>
-</div>
-<div class="quick-choice-arrows">
-  <div class="choice-arrow-wrap">
-    <svg width="24" height="48" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="12" y1="0" x2="12" y2="36" stroke="#c0fe71" stroke-width="2.5"/>
-      <polyline points="4,30 12,44 20,30" fill="none" stroke="#c0fe71" stroke-width="2.5" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  <div class="choice-arrow-wrap">
-    <svg width="24" height="48" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="12" y1="0" x2="12" y2="36" stroke="#c0fe71" stroke-width="2.5"/>
-      <polyline points="4,30 12,44 20,30" fill="none" stroke="#c0fe71" stroke-width="2.5" stroke-linejoin="round"/>
-    </svg>
-  </div>
-</div>
-
 <div class="comparison-wrapper">
 
   <div class="comparison-card mental">
@@ -156,6 +137,36 @@ import { SITE_TITLE } from '../consts';
     >
       Start Physical Plan
     </button>
+
+  </div>
+
+  <div class="comparison-card team">
+
+    <div class="comparison-header">
+      <span class="comparison-icon">☘️</span>
+      <h3>Team Plan</h3>
+    </div>
+
+    <p class="comparison-tagline">
+      One squad-wide plan, generated for your team and shared with your players.
+    </p>
+
+    <ul class="comparison-list">
+      <li>✓ Physical or mental performance</li>
+      <li>✓ Built around your training nights and match days</li>
+      <li>✓ Reviewed by Emily before going live</li>
+      <li>✓ Private link to share with your squad</li>
+      <li>✓ No individual player data collected</li>
+      <li>✓ Evidence-based, cited sources</li>
+    </ul>
+
+    <div class="comparison-bestfor">
+      Best for coaches and clubs who want one plan they can run with their whole squad.
+    </div>
+
+    <a href="/coach-intake" class="consultation-btn consultation-btn-link">
+      Start Team Plan
+    </a>
 
   </div>
 
@@ -831,7 +842,7 @@ import { SITE_TITLE } from '../consts';
             seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
             clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
             matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
-            trainingDays: (formData.getAll('trainingDays') as string[]).filter(Boolean),
+            trainingDays: formData.getAll('trainingDays').map(String).filter(Boolean),
             activeTrainingStatus: String(formData.get('activeTrainingStatus') || '').trim() || undefined,
           });
 
@@ -952,7 +963,7 @@ import { SITE_TITLE } from '../consts';
             seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
             clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
             matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
-            trainingDays: (formData.getAll('trainingDays') as string[]).filter(Boolean),
+            trainingDays: formData.getAll('trainingDays').map(String).filter(Boolean),
             activeTrainingStatus: String(formData.get('activeTrainingStatus') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
           };

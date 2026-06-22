@@ -1,0 +1,422 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import saoirseImage from '../../assets/saoirse.png';
+import { createClient } from '@supabase/supabase-js';
+
+export const prerender = false;
+
+// Public read-only team plan view. URL token is the share_token
+// generated when the team plan was created. No auth required.
+// Layout matches /plan/[id] (white card, week pills, Saoirse coach
+// bubbles, AI disclaimer) but without the tracking / tick boxes /
+// stats ring / celebration modals — team plans are read-only for
+// the squad.
+
+const saoirseAssets = {
+  happy: saoirseImage.src,
+  oh: '/assets/Oh.svg',
+  shocked: '/assets/Shocked.svg',
+  annoyed: '/assets/Annoyed.svg',
+  angry: '/assets/Angry.svg',
+};
+
+const token = Astro.params.token;
+let plan: any = null;
+let coachInfo: { name?: string; club?: string; sport?: string } | null = null;
+let notReady = false;
+
+if (token) {
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const serviceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (supabaseUrl && serviceKey) {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    const { data: planRow } = await supabase
+      .from('Plans')
+      .select('id, plan_type, weeks_total, plan_content, status, share_token, team_intake_data, approved_at')
+      .eq('share_token', token)
+      .eq('is_team_plan', true)
+      .maybeSingle();
+
+    if (planRow) {
+      if (planRow.status !== 'active') {
+        notReady = true;
+      } else {
+        plan = planRow;
+        const intake = (planRow.team_intake_data || {}) as any;
+        coachInfo = {
+          name: intake?.coachName,
+          club: intake?.coachClub,
+          sport: intake?.sport,
+        };
+      }
+    }
+  }
+}
+
+const planTitle = plan
+  ? (plan.plan_type === 'mental' ? 'Team Mental Performance Plan' : 'Team Training Plan')
+  : 'Team plan';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`${planTitle} | ${SITE_TITLE}`} description="A shared team plan from Mind the Gael." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="tp-wrap">
+        {!plan && !notReady && (
+          <p class="tp-error">This team plan link is not valid. Check that you copied the full URL from your coach.</p>
+        )}
+        {notReady && (
+          <p class="tp-notready">This team plan is still being reviewed by Emily. Your coach will get the live link as soon as it's approved.</p>
+        )}
+        {plan && (
+          <div id="plan-container">
+            <p class="tp-loading">Loading plan...</p>
+          </div>
+        )}
+      </div>
+    </main>
+    <Footer />
+
+    {plan && (
+      <script is:inline define:vars={{ saoirseAssets, planContent: plan.plan_content, planMeta: { planType: plan.plan_type, weeksTotal: plan.weeks_total, approvedAt: plan.approved_at, coachInfo, planTitle } }}>
+        window.SAOIRSE_ASSETS = saoirseAssets;
+        window.__TEAM_PLAN__ = { content: planContent, meta: planMeta };
+      </script>
+    )}
+
+    {plan && (
+      <script>
+        import { marked } from 'marked';
+
+        const data = (window as any).__TEAM_PLAN__;
+        const container = document.getElementById('plan-container');
+        if (!data || !container) {
+          if (container) container.innerHTML = '<p class="tp-error">Could not load plan data.</p>';
+        } else {
+          const planType: 'physical' | 'mental' = data.meta?.planType === 'mental' ? 'mental' : 'physical';
+          const weeksTotal: number = data.meta?.weeksTotal || 0;
+          const approvedAt: string | null = data.meta?.approvedAt || null;
+          const coach = data.meta?.coachInfo || {};
+          const titleText: string = data.meta?.planTitle || 'Team plan';
+
+          const weeks = parsePlanIntoWeeks(data.content || '', weeksTotal);
+
+          const approvedDate = approvedAt
+            ? new Date(approvedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+            : '';
+
+          const initialWeek = 1;
+          const week1Html = await renderWeek(weeks[initialWeek - 1] || '', initialWeek, planType);
+
+          const coachHeading = coach?.name
+            ? `For ${escapeHtml(coach.name)}${coach.club ? ' · ' + escapeHtml(coach.club) : ''}`
+            : titleText;
+
+          container.innerHTML = `
+            <div class="tp-header">
+              <p class="tp-eyebrow">${escapeHtml(titleText)}</p>
+              <h1>${coachHeading}</h1>
+              <p class="tp-meta">${weeksTotal} weeks${coach?.sport ? ' · ' + escapeHtml(coach.sport) : ''}${approvedDate ? ' · Approved ' + approvedDate : ''}</p>
+            </div>
+
+            <div class="ai-disclaimer" role="note">
+              <strong>Heads up.</strong> This plan was AI-generated and personally reviewed by Emily before going live. If anything feels off, unclear, or unsafe for a player, the coach should <a href="/contact-us">message Emily</a> before pushing through it. Individual players with specific medical needs should generate their own personal plan.
+            </div>
+
+            <div id="week-nav" class="week-nav">
+              ${renderWeekNav(weeksTotal, initialWeek)}
+            </div>
+
+            <article id="week-content" class="plan-content" data-week="${initialWeek}">
+              ${week1Html}
+            </article>
+          `;
+
+          bindWeekNavHandlers(weeks, planType);
+        }
+
+        // ────────────────────────────────────────────────────────────────
+        // Rendering helpers — mirror /plan/[id].astro's pipeline minus the
+        // tick boxes, stats ring, and celebration modals. Team plans are
+        // read-only so we skip everything tracking-related.
+        // ────────────────────────────────────────────────────────────────
+
+        function parsePlanIntoWeeks(content: string, weeksTotal: number): string[] {
+          const out: string[] = [];
+          for (let i = 1; i <= weeksTotal; i++) {
+            const pattern = new RegExp(
+              `#{1,2}\\s+Week\\s+${i}[\\s\\S]*?(?=#{1,2}\\s+Week\\s+${i + 1}|#{1,2}\\s+COACH NOTES|#{1,2}\\s+THINGS|#{1,2}\\s+ROUTINES|#{1,2}\\s+CONTRAINDICATED|$)`,
+              'gi',
+            );
+            const match = content.match(pattern);
+            out.push(match ? match[0].trim() : `Week ${i} content is not available.`);
+          }
+          return out;
+        }
+
+        function renderWeekNav(weeksTotal: number, activeWeek: number): string {
+          if (!weeksTotal) return '';
+          return Array.from({ length: weeksTotal }, (_, i) => {
+            const weekNum = i + 1;
+            const isActive = weekNum === activeWeek;
+            return `<button class="week-pill unlocked ${isActive ? 'active' : ''}" data-week="${weekNum}">Week ${weekNum}</button>`;
+          }).join('');
+        }
+
+        function bindWeekNavHandlers(weeks: string[], planType: 'physical' | 'mental') {
+          document.querySelectorAll('#week-nav .week-pill').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const weekNum = parseInt(btn.getAttribute('data-week') || '1');
+              document.querySelectorAll('#week-nav .week-pill').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              const wc = document.getElementById('week-content');
+              if (wc) {
+                wc.setAttribute('data-week', String(weekNum));
+                wc.innerHTML = '<p class="tp-loading">Loading...</p>';
+                wc.innerHTML = await renderWeek(weeks[weekNum - 1] || '', weekNum, planType);
+              }
+            });
+          });
+        }
+
+        async function renderWeek(content: string, _weekNum: number, _planType: 'physical' | 'mental'): Promise<string> {
+          if (!content) return '<p>This week is not available.</p>';
+          const processed = content.replace(/(\s)(\*\*[A-Z][^*]+:\*\*)/g, '\n\n$2');
+          const rendered = await marked.parse(processed);
+          const cleaned = stripEmptyBlocks(rendered);
+          const coached = transformCoachTips(cleaned);
+          return `<div class="week-block">${coached}</div>`;
+        }
+
+        function stripEmptyBlocks(html: string): string {
+          const tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          tmp.querySelectorAll('blockquote, p').forEach(el => {
+            if (!el.textContent || !el.textContent.trim()) el.remove();
+          });
+          return tmp.innerHTML;
+        }
+
+        function transformCoachTips(html: string): string {
+          const assets = (window as any).SAOIRSE_ASSETS || {};
+          const labelMap: Record<string, { display: string; avatar: string }> = {
+            'cues': { display: 'Cues from Saoirse', avatar: assets.happy },
+            'cycle consideration': { display: 'Cycle consideration', avatar: assets.oh },
+            'how to know you are ready to progress': { display: 'Ready to progress?', avatar: assets.happy },
+            'how to know you are ready to progress?': { display: 'Ready to progress?', avatar: assets.happy },
+            'how to know the squad is ready to progress': { display: 'Squad ready to progress?', avatar: assets.happy },
+            'how to know the squad is ready to progress?': { display: 'Squad ready to progress?', avatar: assets.happy },
+            'concept of the week': { display: 'Concept of the week', avatar: assets.happy },
+            'reflection prompt': { display: 'Reflection prompt', avatar: assets.happy },
+            'coach adaptation': { display: 'Coach adaptation', avatar: assets.oh },
+            'coach prompt for the squad': { display: 'Coach prompt for the squad', avatar: assets.happy },
+          };
+
+          const tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          const paragraphs = Array.from(tmp.querySelectorAll('p'));
+
+          for (const p of paragraphs) {
+            if (!p.parentElement) continue;
+            const strong = p.querySelector('strong');
+            if (!strong) continue;
+            const rawLabel = (strong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+            const config = labelMap[rawLabel];
+            if (!config) continue;
+
+            const fullText = (p.textContent || '').trim().toLowerCase();
+            const labelOnly = fullText === rawLabel || fullText === rawLabel + ':';
+
+            let bodyHtml = '';
+            const toRemove: Element[] = [];
+
+            if (!labelOnly) {
+              bodyHtml = p.innerHTML
+                .replace(/^\s*<strong[^>]*>[^<]*<\/strong>\s*:?\s*/i, '')
+                .trim();
+            } else {
+              let sib = p.nextElementSibling;
+              while (sib) {
+                const tag = sib.tagName;
+                if (['TABLE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'HR', 'UL', 'OL'].includes(tag)) break;
+                if (tag === 'P') {
+                  const sibStrong = sib.querySelector('strong');
+                  if (sibStrong) {
+                    const sibLabel = (sibStrong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+                    const sibText = (sib.textContent || '').trim().toLowerCase();
+                    if (sibLabel && (sibText === sibLabel || sibText === sibLabel + ':' || labelMap[sibLabel])) break;
+                  }
+                }
+                bodyHtml += sib.outerHTML;
+                toRemove.push(sib);
+                sib = sib.nextElementSibling;
+              }
+            }
+
+            if (!bodyHtml) continue;
+
+            const wrap = document.createElement('div');
+            wrap.className = 'coach-tip';
+            wrap.innerHTML =
+              `<img src="${config.avatar || ''}" alt="Saoirse" class="coach-tip-avatar">` +
+              `<div class="coach-tip-bubble">` +
+                `<span class="coach-tip-label">${config.display}</span>` +
+                `<div class="coach-tip-text">${bodyHtml}</div>` +
+              `</div>`;
+            p.replaceWith(wrap);
+            toRemove.forEach(el => el.remove());
+          }
+
+          return tmp.innerHTML;
+        }
+
+        function escapeHtml(s: string | null | undefined): string {
+          if (!s) return '';
+          return s.replace(/[&<>"']/g, c =>
+            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c]);
+        }
+      </script>
+    )}
+
+    <style is:global>
+      .tp-wrap { max-width: 900px; margin: 2rem auto; }
+
+      .tp-header { margin-bottom: 1.25rem; }
+      .tp-eyebrow {
+        margin: 0 0 0.4rem;
+        color: var(--green-lime);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .tp-header h1 { margin: 0 0 0.4rem; }
+      .tp-meta { margin: 0; color: rgba(244, 255, 232, 0.7); font-size: 0.9rem; }
+
+      .ai-disclaimer {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(244, 255, 232, 0.18);
+        border-left: 3px solid var(--green-lime);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: var(--green-light);
+      }
+      .ai-disclaimer strong { color: var(--green-lime); font-weight: 700; margin-right: 0.3rem; }
+      .ai-disclaimer a { color: var(--green-lime) !important; text-decoration: underline !important; font-weight: 600; }
+
+      .week-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+      .week-pill {
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid var(--green-lime);
+        background: transparent;
+        color: var(--green-lime);
+        transition: all 0.15s;
+      }
+      .week-pill.active { background: var(--green-lime); color: var(--green-dark); }
+      .week-pill:hover { transform: translateY(-1px); }
+
+      .plan-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 15px;
+        line-height: 1.6;
+        color: #1a1a1a;
+      }
+
+      /* Saoirse coach-tip bubbles (same as /plan/[id]). */
+      .week-block .coach-tip {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 0.85rem;
+        align-items: flex-start;
+        margin: 1rem 0 1.25rem;
+      }
+      .week-block .coach-tip-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(192, 254, 113, 0.22);
+        padding: 6px;
+        box-sizing: border-box;
+        object-fit: contain;
+        border: 2px solid var(--green-lime);
+      }
+      .week-block .coach-tip-bubble {
+        position: relative;
+        background: #fff8fd;
+        border: 1px solid rgba(105, 0, 90, 0.25);
+        border-radius: 4px 14px 14px 14px;
+        padding: 0.75rem 1rem;
+        box-shadow: 0 2px 8px rgba(105, 0, 90, 0.08);
+      }
+      .week-block .coach-tip-bubble::before {
+        content: '';
+        position: absolute;
+        left: -7px;
+        top: 16px;
+        width: 12px;
+        height: 12px;
+        background: #fff8fd;
+        border-left: 1px solid rgba(105, 0, 90, 0.25);
+        border-bottom: 1px solid rgba(105, 0, 90, 0.25);
+        transform: rotate(45deg);
+      }
+      .week-block .coach-tip-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: var(--purple);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 0.3rem;
+      }
+      .week-block .coach-tip-text {
+        display: block;
+        margin: 0;
+        color: #1a1a1a;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-family: Georgia, 'Times New Roman', serif;
+      }
+      .week-block .coach-tip-bubble p {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .tp-loading { color: #aaa; padding: 1rem 0; }
+      .tp-error { padding: 1.5rem 0; color: #ff8a8a; }
+      .tp-notready {
+        padding: 1.5rem;
+        background: rgba(105, 0, 90, 0.15);
+        border: 1px solid rgba(178, 22, 158, 0.4);
+        border-radius: 12px;
+        color: var(--green-light);
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .plan-content { padding: 1.25rem 1rem; }
+      }
+    </style>
+  </body>
+</html>

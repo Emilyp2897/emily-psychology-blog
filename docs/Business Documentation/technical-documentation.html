@@ -233,6 +233,9 @@
   <li><a href="#chatbot">The Chatbot (Saoirse)</a></li>
   <li><a href="#training">Personal Training Plans (Preview-then-Buy)</a></li>
   <li><a href="#mental">Mental Performance Plans (Live)</a></li>
+  <li><a href="#dashboard">Customer Dashboard &amp; Progress Tracking</a></li>
+  <li><a href="#admin">Admin Tools &amp; Pilot Feedback</a></li>
+  <li><a href="#team-plans">Team Plans (Coaches &amp; Clubs)</a></li>
   <li><a href="#schedule">Scheduled-Release Lock on Content Hub Listings</a></li>
   <li><a href="#payments">Payments (Stripe)</a></li>
   <li><a href="#database">Database (Postgres / Neon)</a></li>
@@ -279,19 +282,22 @@ The site is a digital storefront and content library combined. Visitors can read
                               │ (HTML)   │ (API)    │ (API)
                               │          │          │
                               ▼          ▼          ▼
-              ┌────────────────────┐ ┌─────────────────────┐
-              │  Static pages:     │ │  /api/chat          │
-              │  home, about,      │ │  /api/programme-... │
-              │  pricing, content  │ │  /api/create-       │
-              │  hub, blog posts   │ │     checkout-session│
-              └────────────────────┘ └──────┬───────┬──────┘
-                                            │       │
-                                            ▼       ▼
-                                    ┌──────────┐ ┌──────────┐
-                                    │Anthropic │ │  Stripe  │
-                                    │Claude API│ │  Checkout│
-                                    └──────────┘ └──────────┘
-                                            │
+              ┌────────────────────┐ ┌─────────────────────────────┐
+              │  Static pages:     │ │  /api/chat                  │
+              │  home, about,      │ │  /api/programme-intake      │
+              │  pricing, content  │ │  /api/programme-finalize    │
+              │  hub, blog posts,  │ │  /api/create-checkout-...   │
+              │  dashboard,        │ │  /api/plan/toggle-session   │
+              │  /plan/[id]        │ │  /api/plan/week-feedback    │
+              └────────────────────┘ │  /api/admin/...             │
+                                     └──────┬───────┬───────┬──────┘
+                                            │       │       │
+                                            ▼       ▼       ▼
+                                    ┌──────────┐ ┌──────┐ ┌────────┐
+                                    │Anthropic │ │Stripe│ │Supabase│
+                                    │Claude API│ │      │ │ Auth + │
+                                    └──────────┘ └──────┘ │  Plans │
+                                            │             └────────┘
                                             ▼
                                     ┌──────────┐
                                     │  Resend  │ (transactional email)
@@ -303,18 +309,20 @@ The site is a digital storefront and content library combined. Visitors can read
                                 └──────────────────────┘
 </div>
 
-<p>Three external services do the heavy lifting:</p>
+<p>Four external services do the heavy lifting:</p>
 
 <ul>
-  <li><strong>Anthropic Claude API</strong> generates chatbot replies, training plan teasers, and full training plans.</li>
+  <li><strong>Anthropic Claude API</strong> generates chatbot replies, training plan teasers, and full training plans (Sonnet 4.5 for full plans, Haiku 4.5 for teasers).</li>
   <li><strong>Stripe</strong> handles every payment (founding-offer subscription, programme purchases, workshops).</li>
+  <li><strong>Supabase</strong> provides customer Auth, the Plans table (with the <code>progress</code> JSONB column for per-exercise ticks), and the <code>plan_week_feedback</code> table for pilot feedback. Service-role key is used on the server to bypass RLS for admin operations.</li>
   <li><strong>Resend</strong> sends every transactional email (plan delivery, notifications to Emily, crisis-flag alerts).</li>
 </ul>
 
 <p>Two internal stores hold state:</p>
 
 <ul>
-  <li><strong>Vercel Postgres</strong> (Neon-hosted) stores intake sessions and chat feedback.</li>
+  <li><strong>Vercel Postgres</strong> (Neon-hosted) stores intake sessions and chat feedback. This is the "pipeline" store: every intake submission, teaser content, finalize state, and Stripe session lives here.</li>
+  <li><strong>Supabase Postgres</strong> stores the customer-facing surface: <code>auth.users</code>, <code>Plans</code> rows with their generated content + <code>progress</code> JSONB, and <code>plan_week_feedback</code> rows. Two databases is deliberate: the pipeline (Vercel Postgres) is treated as transient pre-purchase state, while Supabase is the durable customer record once a plan is approved.</li>
   <li><strong>Static markdown files</strong> in <code>src/content/blog/</code> hold every blog post and toolkit article.</li>
 </ul>
 
@@ -705,7 +713,133 @@ Mental Performance Plans are a parallel product to the physical training plans. 
 
 <p>The same helper is duplicated in both <code>programme-intake.ts</code> and <code>programme-finalize.ts</code> so the teaser and the full plan agree on what each phase means.</p>
 
-<h2 id="schedule">7B. Scheduled-Release Lock on Content Hub Listings</h2>
+<h3>7.8 Training days and active training status</h3>
+
+<p>Both intake forms also capture two newer fields that drive intensity calibration:</p>
+
+<ul>
+  <li><code>trainingDays</code> &mdash; a checkbox group of which weekdays the athlete trains with their sport (e.g. <code>['mon', 'wed']</code> for a midweek footballer). Stored as a string array on the intake, read by both prompts via <code>describeTrainingDays()</code>. The plan generator uses this to place S&amp;C sessions off club nights and schedule mental-performance routines around match days.</li>
+  <li><code>activeTrainingStatus</code> &mdash; a single select capturing whether the athlete is <em>actively competing</em>, <em>training but not yet competing</em>, <em>building back up</em>, or <em>not currently training</em>. Independent of <code>seasonPhase</code> (which is calendar-based). Read via <code>describeActiveTrainingStatus()</code>, which returns explicit calibration guidance for the model (e.g. "Currently training AND competing regularly. Plan at a level that complements an athlete already at full sport load; do NOT default to beginner work."). Designed to stop the model giving a mid-season competing athlete a beginner-style plan.</li>
+</ul>
+
+<h3>7.9 Explicit OUTPUT STRUCTURE in the plan prompts</h3>
+
+<p>Both physical and mental full-plan prompts now enforce a fixed section structure to remove variance and dropped sections seen in earlier outputs. Each <code># HEADER</code> and each bolded subsection label below must appear verbatim:</p>
+
+<p><strong>Physical plan:</strong></p>
+<ul>
+  <li><code># HOW TO READ THIS PLAN</code> &mdash; orientation block defining RPE, Sets &times; Reps, Rest, Warm-up note, Cues, Cycle consideration, Ready to progress, Maith th&uacute; celebrations.</li>
+  <li><code># CLIENT SNAPSHOT</code> &mdash; 16 named bolded fields (Age, Height, Weight, Experience, Sport, Season phase, Active training status, Current weekly sport load, Sport training days, S&amp;C sessions available, Equipment, Plan duration, Primary goals, Medical notes, Cycle status, Mental performance work), followed by a 2-3 sentence <strong>Key context</strong> paragraph.</li>
+  <li><code># PLAN OVERVIEW</code> &mdash; nine required subsections: Structure, Phases, Session split, Standard warm-up (a markdown table prescribed once for use before every session), Scheduling guidance (must use the athlete's reported training days), Programming priorities (numbered 1-5), Injury-prevention emphasis (with cited source), Conditioning rationale, optional Body composition note, optional Mental performance integration.</li>
+  <li><code># WEEK-BY-WEEK PLAN</code> &mdash; per week: <code>## Week N: [theme]</code>, <strong>Focus:</strong> line. Per session: <strong>Warm-up:</strong> line (references the standard table plus 1-2 session-specific primers) &rarr; <strong>Main session:</strong> markdown table (4-6 main lifts only) &rarr; blockquote per exercise &rarr; <strong>Cues:</strong>, <strong>Cycle consideration:</strong>, <strong>How to know you are ready to progress:</strong>.</li>
+  <li><code># COACH NOTES</code>, <code># CONTRAINDICATED EXERCISES AND SUBSTITUTES</code>, <code># THINGS TO TRACK</code> &mdash; all required at the end.</li>
+</ul>
+
+<p><strong>Mental plan:</strong> Same shape with <code># HOW TO READ THIS PLAN</code>, <code># ATHLETE SNAPSHOT</code> (12 named fields), <code># PLAN OVERVIEW</code> (six required subsections including Evidence base with named frameworks), <code># WEEK-BY-WEEK PLAN</code> (Concept of the week / Daily practice table / Performance moment / Reflection prompt), <code># ROUTINES TO BUILD</code> (Pre-performance, Refocus, Reset cue), <code># COACH NOTES (FOR THE CLIENT)</code>, <code># THINGS TO TRACK</code>.</p>
+
+<p><strong>Token caps</strong> were bumped to fit the explicit structure: physical 6-week 14k output tokens (was 10k), 12-week 24k (was 18k), with a +2k bonus for specialised tracks. Mental 6-week 12k, 12-week 20k. Configured in <code>programme-finalize.ts</code> at the model call sites; the generator logs a console warning if a plan still hits <code>stop_reason === 'max_tokens'</code>.</p>
+
+<h2 id="dashboard">7C. Customer Dashboard &amp; Progress Tracking</h2>
+
+<div class="plain-english">
+Once a plan is approved by Emily, the customer logs in to a dashboard and opens their plan as a guided 6 or 12 week journey. Each exercise has a tick box. Sessions auto-complete when every exercise is ticked. Weeks unlock in sequence as the previous week's items are ticked. A stats panel shows percent complete, sessions complete, weeks complete, and day streak. Saoirse the shamrock pops in to celebrate completion. A pilot feedback popup captures a 1-5 rating + free-text comments at the end of every week.
+</div>
+
+<h3>7C.1 Data model</h3>
+
+<p>One JSONB column on the Supabase <code>Plans</code> table:</p>
+
+<ul>
+  <li><code>Plans.progress</code> (JSONB, default <code>'{}'</code>) &mdash; keys are <code>&quot;week.session.exercise&quot;</code> strings (e.g. <code>&quot;1.2.3&quot;</code> = week 1, session 2, exercise 3); values are the ISO timestamp the exercise was ticked. For mental plans, the daily-practice table rows are treated as session 1 exercises 1-N (one row per day).</li>
+</ul>
+
+<p>Migration to add the column (one-time, run in Supabase SQL editor):</p>
+
+<pre><code>ALTER TABLE "Plans"
+  ADD COLUMN IF NOT EXISTS progress JSONB NOT NULL DEFAULT '{}'::jsonb;</code></pre>
+
+<h3>7C.2 Customer routes</h3>
+
+<ul>
+  <li><code>/dashboard</code> &mdash; lists every approved plan owned by the signed-in user. Includes the live AI-generated disclaimer banner.</li>
+  <li><code>/plan/[id]</code> &mdash; the single-plan view: stats ring (% complete, sessions complete, weeks complete, day streak), week pills (lock or unlock based on completion), week content (rendered from the plan's markdown), Saoirse coach bubbles on the cues / cycle / progress / concept / reflection labels, per-exercise tick boxes on every table row, celebration modals on session and week completion, pilot feedback popup at end of week.</li>
+</ul>
+
+<h3>7C.3 Tick flow</h3>
+
+<ol>
+  <li>Customer clicks a checkbox on an exercise row in <code>/plan/[id]</code>.</li>
+  <li>Page calls <code>POST /api/plan/toggle-session</code> with <code>{ planId, week, session, exercise, completed }</code> and the customer's Supabase access token in <code>Authorization: Bearer ...</code>.</li>
+  <li>Server verifies the token, fetches the Plans row, confirms <code>user_id</code> matches, merges the tick into <code>progress</code>, writes the row back. Returns the updated <code>progress</code> object.</li>
+  <li>Client updates local state, re-renders the stats ring + week-nav, decides whether to fire the day-complete or week-complete celebration modal.</li>
+</ol>
+
+<h3>7C.4 Saoirse celebrations</h3>
+
+<ul>
+  <li><strong>Coach tip bubbles</strong> &mdash; inside the plan content, paragraphs that start with <code>**Cues:**</code>, <code>**Cycle consideration:**</code>, <code>**How to know you are ready to progress:**</code>, <code>**Concept of the week**</code>, or <code>**Reflection prompt**</code> are post-processed (after <code>marked.parse</code>) into a speech-bubble card with a Saoirse avatar on the left. The emotion is chosen per label: happy (default), Oh (thoughtful, used on Cycle consideration), etc. Variants live in <code>/public/assets/</code> (saoirse.png, Oh.svg, Annoyed.svg, Shocked.svg, Angry.svg). The happy PNG is imported as an Astro asset; the SVGs are referenced as <code>/assets/...svg</code> via <code>define:vars</code>.</li>
+  <li><strong>Day / session celebration modal</strong> &mdash; fires when the last exercise of a session is ticked (physical) or every daily-practice row tick (mental). Centred modal with happy Saoirse popping in, "Maith thú" eyebrow, big purple heading. Auto-dismisses after 2.5 seconds; tap anywhere to dismiss early.</li>
+  <li><strong>Week-complete modal</strong> &mdash; fires when the last unchecked exercise in a week is ticked. Same shape but with Open Next Week / Stay buttons. Chains into the pilot feedback popup after the customer dismisses.</li>
+</ul>
+
+<h3>7C.5 Pilot feedback popup</h3>
+
+<p>After the week-complete modal closes, if <code>PUBLIC_FEEDBACK_ENABLED</code> is not set to <code>"false"</code>, a feedback modal appears asking for a 1-5 rating + "What worked well this week?" + "What was hard or unclear?" + an optional "Anything you want to flag to Emily?". Submits via <code>POST /api/plan/week-feedback</code> (verifies the customer's Supabase token, confirms plan ownership, inserts into <code>plan_week_feedback</code>). Skip is always available; either path then resumes the post-week action (open next week or stay).</p>
+
+<p>Migration to create the feedback table (one-time, Supabase SQL editor):</p>
+
+<pre><code>CREATE TABLE IF NOT EXISTS plan_week_feedback (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  plan_id UUID NOT NULL,
+  user_id UUID NOT NULL,
+  week_number INTEGER NOT NULL,
+  rating INTEGER,
+  worked_well TEXT,
+  was_hard TEXT,
+  notes_for_emily TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_plan_week_feedback_plan ON plan_week_feedback(plan_id);
+CREATE INDEX IF NOT EXISTS idx_plan_week_feedback_user ON plan_week_feedback(user_id);</code></pre>
+
+<h3>7C.6 AI-generated disclaimer</h3>
+
+<p>A standing customer-facing disclaimer surfaces on both <code>/dashboard</code> and <code>/plan/[id]</code>: <em>"This plan was AI-generated and personally reviewed by Emily before going live. If anything feels off, unclear, or unsafe for your body, <a href="/contact-us">message Emily</a> before pushing through it."</em> Implements the AI-transparency commitment in the business plan and aligns with EU AI Act transparency obligations phasing in through 2026.</p>
+
+<h2 id="admin">7D. Admin Tools &amp; Pilot Feedback Review</h2>
+
+<div class="plain-english">
+Once a plan is generated it sits as <code>pending_review</code> in the Plans table until Emily approves it. The admin pages let her approve, regenerate (with the current prompt), delete, or recover orphaned intakes (paid but no plan written). A separate admin page lists every pilot feedback submission for review.
+</div>
+
+<h3>7D.1 Admin routes</h3>
+
+<ul>
+  <li><code>/admin/plans</code> &mdash; Pending Review and Approved tabs. Each plan card shows the customer email, plan type, weeks, rendered plan content (via <code>marked</code>), and action buttons: <strong>Delete</strong>, <strong>Regenerate</strong>, <strong>Approve and publish to customer</strong>. A separate section at the bottom lists <strong>Paid intakes without a plan</strong> with a Generate-plan button per row.</li>
+  <li><code>/admin/feedback</code> &mdash; one card per submission, newest first. Customer email, week number, rating (lime dots), and any of the three text replies. Notes-for-Emily entries get highlighted in a lime block.</li>
+</ul>
+
+<p>Both pages gate on <code>user.email === 'emilyphelan@mindthegael.co.uk'</code>; non-admin users are bounced to <code>/login</code>.</p>
+
+<h3>7D.2 Admin API endpoints</h3>
+
+<table>
+  <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>GET /api/admin/plans?status=pending_review|active</code></td><td>List plans matching status, joined with customer emails via <code>supabase.auth.admin.listUsers()</code>.</td></tr>
+    <tr><td><code>POST /api/admin/approve-plan</code></td><td>Body: <code>{ planId }</code>. Sets <code>status = 'active'</code>, sets <code>approved_at</code>, sends the customer email via Resend with a dashboard link.</td></tr>
+    <tr><td><code>POST /api/admin/regenerate-plan</code></td><td>Body: <code>{ planId }</code>. Looks up plan + intake by email match, deletes the old Plans row, resets <code>finalized_at</code>, re-runs <code>finalizeIntake()</code>. Includes a 2-minute duplicate-write guard that refuses if another Plans row for the same user + plan_type was created in the last 2 minutes (stops back-to-back regenerate clicks producing duplicates).</td></tr>
+    <tr><td><code>POST /api/admin/delete-plan</code></td><td>Body: <code>{ planId }</code>. Hard-deletes one Plans row; leaves the intake_session untouched so a fresh plan can be generated later.</td></tr>
+    <tr><td><code>GET /api/admin/orphaned-intakes</code></td><td>Returns intakes that are paid (<code>stripe_session_id IS NOT NULL</code>) but have no Plans row written (<code>finalized_at IS NULL</code>) and aren't blocked by a red flag. Surfaces them in the Plans page bottom section.</td></tr>
+    <tr><td><code>POST /api/admin/recover-intake</code></td><td>Body: <code>{ intakeId }</code>. Re-runs <code>finalizeIntake()</code> for an orphaned intake. Has the same 2-minute duplicate-write guard as regenerate.</td></tr>
+    <tr><td><code>GET /api/admin/feedback</code></td><td>Returns every <code>plan_week_feedback</code> row joined with customer emails.</td></tr>
+  </tbody>
+</table>
+
+<h3>7D.3 The race-condition story</h3>
+
+<p>Earlier in the pilot, parallel Regenerate clicks (or Regenerate + Recover-intake clicks against the same customer) produced duplicate Plans rows because each call deleted the previous row, reset <code>finalized_at</code>, then independently generated and inserted. The 2-minute duplicate-write guard catches the common human-click race (<code>Plans.created_at &gt;= now - 2 min for the same user_id + plan_type</code> returns 409). A proper atomic lock (DB-level row lock or unique constraint) is on the roadmap for the post-pilot hardening pass.</p>
+
 
 <div class="plain-english">
 The 12-month editorial calendar releases content on a fixed schedule (1st August 2026 launch, then monthly). Posts are written and committed ahead of release date, but visitors should only be able to read the ones whose date has arrived. The Training the Mind and Gael Performance Toolkit listing pages render unreleased posts as locked cards: blurred preview, release date badge, no link.
@@ -752,6 +886,76 @@ The Stronger Minds, Stronger Players listing does not currently apply the lock; 
     <tr><td>Month 12</td><td>1, 8, 15 July 2027</td><td>15 July 2027</td></tr>
   </tbody>
 </table>
+
+<h2 id="team-plans">7E. Team Plans (Coaches &amp; Clubs)</h2>
+
+<div class="plain-english">
+Coaches apply at <code>/coaches</code>, Emily reviews them at <code>/admin/coach-applications</code> and approves, the coach signs in to <code>/coach-dashboard</code>, generates a squad-wide plan from <code>/coach-intake</code>, the plan goes through the same admin review queue, and once approved the coach gets a private link they share with their squad. No individual player data is collected on this path.
+</div>
+
+<h3>7E.1 Data model</h3>
+
+<ul>
+  <li><code>coach_applications</code> (Supabase) &mdash; one row per public application. <code>status</code> pending / approved / rejected.</li>
+  <li><code>coaches</code> (Supabase) &mdash; one row per approved coach. Email is the unique key; <code>user_id</code> is filled in the first time the coach signs in via Supabase Auth.</li>
+  <li><code>Plans</code> extension &mdash; three new columns: <code>is_team_plan</code> (boolean), <code>share_token</code> (string, unique when set, used as the slug in <code>/team-plan/[token]</code>), <code>coach_id</code> (FK to coaches), and <code>team_intake_data</code> (JSONB of the team intake submitted).</li>
+</ul>
+
+<p>Migration in <code>migrations/004-team-plans-supabase.sql</code>. Run once in the Supabase SQL editor.</p>
+
+<h3>7E.2 Flow</h3>
+
+<ol>
+  <li><strong>Apply.</strong> Coach hits <code>/coaches</code>, fills the application form, submits to <code>POST /api/coach-application</code>. Row written to <code>coach_applications</code> with <code>status='pending'</code>; Emily is notified by email.</li>
+  <li><strong>Approve.</strong> Emily reviews at <code>/admin/coach-applications</code>. Approve calls <code>POST /api/admin/approve-coach</code> which marks the application <code>approved</code>, upserts a row into <code>coaches</code> keyed on the lowercase email, and sends the coach a welcome email pointing them at <code>/login</code>.</li>
+  <li><strong>Sign in.</strong> Coach signs in with the same email via Supabase Auth on <code>/login</code>. First time they hit any coach endpoint, <code>getCoachForToken()</code> backfills <code>coaches.user_id</code> from <code>auth.users.id</code>.</li>
+  <li><strong>Generate.</strong> Coach opens <code>/coach-dashboard</code> &rarr; <code>/coach-intake</code>, fills the team intake (sport, plan type, duration, season phase, training days, equipment, group size, primary goal). <code>POST /api/coach-intake</code> validates that the caller is an approved coach (<code>lib/coach-auth.ts</code>), generates the plan via <code>generateTeamPlan()</code> in <code>lib/team-plan.ts</code>, and writes a Plans row with <code>is_team_plan=true</code>, a random 32-char <code>share_token</code>, <code>coach_id</code> set, and <code>team_intake_data</code> persisted so the plan can be regenerated later.</li>
+  <li><strong>Admin review.</strong> Team plans appear in the same <code>/admin/plans</code> queue with a lime "Team plan" badge and a green left-border. The share link is visible to Emily so she can preview it.</li>
+  <li><strong>Approve and share.</strong> Emily clicks Approve. Status flips to <code>active</code>; the share link now resolves publicly at <code>/team-plan/[share_token]</code>. The coach sees the live link on their dashboard with a Copy button.</li>
+  <li><strong>Squad reads.</strong> Anyone with the link can read the plan. No login required. The page is read-only (no tick boxes, no progress tracking).</li>
+</ol>
+
+<h3>7E.3 Team plan prompt</h3>
+
+<p>Lives in <code>src/lib/team-plan.ts</code>. Mirrors the explicit OUTPUT STRUCTURE of the individual prompts but pitched at the squad, not an individual player:</p>
+
+<ul>
+  <li><strong>Physical team plan:</strong> <code># HOW TO READ THIS PLAN (FOR COACHES)</code> &rarr; <code># TEAM SNAPSHOT</code> (Sport, Squad size, Average experience level, Plan duration, Season phase, Sport training days, Match days, Equipment, Primary team goal) &rarr; <code># PLAN OVERVIEW</code> (Structure, Phases, Session split, Standard warm-up table, Scheduling guidance, Programming priorities, Injury-prevention emphasis, Conditioning rationale, Coach adaptation principles) &rarr; <code># WEEK-BY-WEEK PLAN</code> per session: Warm-up line &rarr; Main session table &rarr; blockquote per exercise &rarr; Cues &rarr; <strong>Coach adaptation</strong> (how to scale up/down for individual players) &rarr; Ready-to-progress.</li>
+  <li><strong>Mental team plan:</strong> Same shape with <code># ROUTINES TO BUILD</code> at squad level (pre-match team routine, refocus, reset cue) and a <strong>Coach prompt for the squad</strong> per week so the coach has a one-line opener for the next training.</li>
+</ul>
+
+<p>Token caps (slightly leaner than individual plans because cycle / medical / mental health fields are absent): physical 6-week 13k, 12-week 22k. Mental 6-week 11k, 12-week 18k.</p>
+
+<h3>7E.4 Routes added</h3>
+
+<table>
+  <thead><tr><th>Route</th><th>Audience</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>/coaches</code></td><td>Public</td><td>Pitch + coach application form.</td></tr>
+    <tr><td><code>/coach-dashboard</code></td><td>Signed-in coach</td><td>Lists this coach's team plans + share link per approved plan.</td></tr>
+    <tr><td><code>/coach-intake</code></td><td>Signed-in coach</td><td>Team intake form. Submits to <code>/api/coach-intake</code>.</td></tr>
+    <tr><td><code>/team-plan/[token]</code></td><td>Public (no auth)</td><td>Read-only team plan rendered via marked. AI disclaimer at top. Returns "not available yet" if status is still pending_review, "not valid" if no row matches.</td></tr>
+    <tr><td><code>/admin/coach-applications</code></td><td>Admin only</td><td>Pending / Approved / Rejected tabs. Approve or Reject buttons on each pending row.</td></tr>
+    <tr><td><code>POST /api/coach-application</code></td><td>Public</td><td>Insert into coach_applications + notify Emily.</td></tr>
+    <tr><td><code>GET /api/admin/coach-applications</code></td><td>Admin only</td><td>List applications by status.</td></tr>
+    <tr><td><code>POST /api/admin/approve-coach</code></td><td>Admin only</td><td>Body: <code>{ applicationId, decision, notes? }</code>. On approve: upsert into <code>coaches</code> + welcome email.</td></tr>
+    <tr><td><code>GET /api/coach-plans</code></td><td>Coach</td><td>Returns the coach record + every team plan owned by this coach.</td></tr>
+    <tr><td><code>POST /api/coach-intake</code></td><td>Coach</td><td>Validates coach status, generates team plan, writes Plans row with <code>is_team_plan=true</code>, returns plan id + share token.</td></tr>
+  </tbody>
+</table>
+
+<h3>7E.5 Privacy invariants</h3>
+
+<ul>
+  <li>The team intake collects NO individual player data: no names, no cycle status, no medical notes, no mental health flags. The intake schema in <code>lib/team-plan.ts</code> (<code>TeamIntake</code>) is the source of truth.</li>
+  <li>The team plan output instructs the model to direct players with specific medical needs to generate an individual plan separately.</li>
+  <li>The share URL is unguessable (32-char random token) but does not require login. Treat the link itself as the access credential. Anyone with it can read; that is by design for the v1 squad-share use case.</li>
+  <li>Coach has NO visibility into individual one-to-one plans purchased by their players. Different table flag (<code>is_team_plan=false</code>); coach queries filter on <code>is_team_plan=true</code> only.</li>
+</ul>
+
+<h3>7E.6 Billing (v1)</h3>
+
+<p>Team plan billing is handled OUT-OF-BAND for the pilot. Emily invoices coaches via Stripe Invoicing manually after approving them, on the agreed club-membership flat fee. There is no Stripe Checkout integration on the coach intake flow. This is deliberate while pricing is being validated with the founding clubs.</p>
 
 <h2 id="payments">8. Payments (Stripe)</h2>
 
@@ -821,21 +1025,34 @@ The success page calling <code>/api/programme-finalize</code> from the browser i
 Subscription purchases (the £5/£8 blog) also fire <code>checkout.session.completed</code> but carry no <code>intake_token</code> in metadata; the webhook detects this and returns 200 without doing any finalize work. So the same endpoint safely handles both subscription and plan checkouts.
 </div>
 
-<h2 id="database">9. Database (Postgres / Neon)</h2>
+<h2 id="database">9. Databases (Vercel Postgres + Supabase)</h2>
 
 <div class="plain-english">
-A small database stores data the site can't generate on the fly. Most pages don't need it. It's used for two specific things: storing intake forms and their teasers (so the buyer can pay later and then get the full plan generated), and recording feedback on chatbot replies.
+Two databases are used deliberately. Vercel Postgres holds the pipeline state (intake forms, teasers, Stripe session IDs, finalize state, chat feedback). Supabase holds the customer-facing surface: Auth, the Plans table for approved plans, and pilot feedback. Splitting them keeps pre-purchase pipeline state separate from the durable customer record.
 </div>
 
-<h3>9.1 Tables</h3>
+<h3>9.1 Vercel Postgres tables (the pipeline store)</h3>
 
 <table>
   <thead><tr><th>Table</th><th>What's in it</th><th>Created by</th></tr></thead>
   <tbody>
     <tr><td><code>chat_feedback</code></td><td>User ratings and notes on individual chatbot replies.</td><td><code>migrations/001-create-chat-feedback.sql</code></td></tr>
-    <tr><td><code>intake_sessions</code></td><td>Intake form data, generated teaser, Stripe session ID, finalize state, and the <code>plan_type</code> column that branches physical vs mental.</td><td><code>migrations/002-create-intake-sessions.sql</code>, with <code>plan_type</code> added by <code>migrations/003-add-plan-type-to-intake-sessions.sql</code>.</td></tr>
+    <tr><td><code>intake_sessions</code></td><td>Intake form data (as JSONB <code>intake_data</code>), generated teaser, Stripe session ID, <code>finalized_at</code>, <code>red_flag_id</code>, <code>plan_type</code>, <code>client_email</code>, <code>client_name</code>, <code>programme_track</code>.</td><td><code>migrations/002-create-intake-sessions.sql</code> + <code>migrations/003-add-plan-type-to-intake-sessions.sql</code>.</td></tr>
   </tbody>
 </table>
+
+<h3>9.2 Supabase tables (the customer-facing store)</h3>
+
+<table>
+  <thead><tr><th>Table</th><th>What's in it</th><th>Created by</th></tr></thead>
+  <tbody>
+    <tr><td><code>auth.users</code></td><td>Supabase-managed authentication. Customer signs in here; <code>user.id</code> is the FK on the other tables.</td><td>Supabase Auth (no migration needed).</td></tr>
+    <tr><td><code>"Plans"</code></td><td>The plan a customer paid for. Columns: <code>id</code>, <code>user_id</code>, <code>plan_type</code>, <code>weeks_total</code>, <code>plan_content</code> (markdown), <code>status</code> (<code>pending_review</code> or <code>active</code>), <code>created_at</code>, <code>approved_at</code>, and <code>progress</code> (JSONB, default <code>'{}'</code>, holds per-exercise ticks keyed by <code>"week.session.exercise"</code>).</td><td>One-off SQL run in Supabase SQL editor. <code>progress</code> column added by:<br><code>ALTER TABLE "Plans" ADD COLUMN IF NOT EXISTS progress JSONB NOT NULL DEFAULT '{}'::jsonb;</code></td></tr>
+    <tr><td><code>plan_week_feedback</code></td><td>One row per pilot feedback submission. Columns: <code>id</code>, <code>plan_id</code>, <code>user_id</code>, <code>week_number</code>, <code>rating</code> (1-5), <code>worked_well</code>, <code>was_hard</code>, <code>notes_for_emily</code>, <code>created_at</code>.</td><td>One-off SQL (see §7C.5 above).</td></tr>
+  </tbody>
+</table>
+
+<p>Supabase service-role key is used on the server side to bypass RLS for admin operations (approve / regenerate / delete / read all feedback). Customer-facing endpoints (toggle-session, week-feedback) verify ownership by reading the customer's access token from <code>Authorization: Bearer ...</code>, looking up the user via <code>supabaseAuth.auth.getUser(accessToken)</code>, and confirming <code>plan.user_id === userData.user.id</code> before allowing writes.</p>
 
 <h3>9.2 Connection</h3>
 <p>The Postgres connection is initialised in <code>src/lib/db.ts</code>:</p>
@@ -940,9 +1157,13 @@ Image URLs are absolute, pointing to the production domain. Local-development te
     <tr><td><code>STRIPE_WEBHOOK_SECRET</code></td><td>stripe-webhook signature verification</td><td>Vercel env vars. Copy from Stripe Dashboard &rarr; Developers &rarr; Webhooks. Starts with <code>whsec_</code>.</td></tr>
     <tr><td><code>RESEND_API_KEY</code></td><td>All transactional email</td><td>.env / Vercel</td></tr>
     <tr><td><code>CONSULTATION_FROM_EMAIL</code></td><td>"From" address on outbound emails</td><td>.env / Vercel</td></tr>
-    <tr><td><code>POSTGRES_URL</code></td><td>Database access</td><td>Auto-injected by Vercel when Postgres is provisioned. Locally pulled via <code>vercel env pull</code>.</td></tr>
+    <tr><td><code>POSTGRES_URL</code></td><td>Vercel Postgres access (pipeline store)</td><td>Auto-injected by Vercel when Postgres is provisioned. Locally pulled via <code>vercel env pull</code>.</td></tr>
     <tr><td><code>PUBLIC_SITE</code></td><td>Stripe success URLs, email image URLs</td><td>.env (e.g. <code>http://localhost:4321</code>), Vercel (production URL)</td></tr>
     <tr><td><code>PLAN_DESTINATION_STANDARD</code></td><td>Flips standard plans from Emily review to autonomous client delivery</td><td>Vercel env var only. Default: <code>emily</code>. Set to <code>client</code> for v2.</td></tr>
+    <tr><td><code>PUBLIC_SUPABASE_URL</code></td><td>Customer-facing Supabase client + server-side Auth verification (token lookup)</td><td>.env / Vercel. Project URL from Supabase dashboard. <code>PUBLIC_</code> prefix means it's exposed to the browser.</td></tr>
+    <tr><td><code>PUBLIC_SUPABASE_ANON_KEY</code></td><td>Customer-facing Supabase client + server-side <code>auth.getUser(accessToken)</code> calls</td><td>.env / Vercel. Anon key from Supabase Settings &rarr; API.</td></tr>
+    <tr><td><code>SUPABASE_SERVICE_ROLE_KEY</code></td><td>Server-side admin operations on <code>Plans</code> and <code>plan_week_feedback</code> (bypasses RLS). Never exposed to the browser.</td><td>Vercel env var only. Service role key from Supabase Settings &rarr; API.</td></tr>
+    <tr><td><code>PUBLIC_FEEDBACK_ENABLED</code></td><td>Toggles the pilot feedback popup on <code>/plan/[id]</code>. Default ON if unset; set to <code>"false"</code> to silence after pilot.</td><td>.env / Vercel. <code>PUBLIC_</code> so the customer plan page can read it client-side.</td></tr>
   </tbody>
 </table>
 
@@ -989,7 +1210,17 @@ npm run dev
     <tr><td><code>training-plan.ts</code></td><td>POST</td><td>Legacy training-plan endpoint. Still in codebase for backwards compat; no UI uses it.</td></tr>
     <tr><td><code>programme-intake.ts</code></td><td>POST</td><td>Receives the intake form, detects red flags, generates teaser, stores in Postgres.</td></tr>
     <tr><td><code>programme-preview.ts</code></td><td>GET</td><td>Returns teaser content for a given preview token.</td></tr>
-    <tr><td><code>programme-finalize.ts</code></td><td>POST</td><td>Verifies Stripe payment, generates full plan, emails it.</td></tr>
+    <tr><td><code>programme-finalize.ts</code></td><td>POST</td><td>Verifies Stripe payment, generates full plan with the explicit-structure prompt, writes the Plans row to Supabase, emails the holding message to the customer + plan to Emily for review.</td></tr>
+    <tr><td><code>stripe-webhook.ts</code></td><td>POST</td><td>Handles <code>checkout.session.completed</code> as a safety net for finalize. Idempotent with the browser-side path.</td></tr>
+    <tr><td><code>plan/toggle-session.ts</code></td><td>POST</td><td>Customer ticks an exercise. Body: <code>{ planId, week, session, exercise, completed }</code>. Verifies Auth token + ownership; merges into <code>Plans.progress</code> JSONB.</td></tr>
+    <tr><td><code>plan/week-feedback.ts</code></td><td>POST</td><td>Customer submits pilot feedback after completing a week. Inserts a row into <code>plan_week_feedback</code>.</td></tr>
+    <tr><td><code>admin/plans.ts</code></td><td>GET</td><td>Lists Plans by status, joins customer emails via Supabase Auth.</td></tr>
+    <tr><td><code>admin/approve-plan.ts</code></td><td>POST</td><td>Flips a plan to <code>active</code>, sets <code>approved_at</code>, sends approval email via Resend.</td></tr>
+    <tr><td><code>admin/regenerate-plan.ts</code></td><td>POST</td><td>Deletes the old plan, resets <code>finalized_at</code>, re-runs <code>finalizeIntake()</code>. Has the 2-minute duplicate-write guard.</td></tr>
+    <tr><td><code>admin/delete-plan.ts</code></td><td>POST</td><td>Hard-deletes a Plans row; leaves the intake intact.</td></tr>
+    <tr><td><code>admin/orphaned-intakes.ts</code></td><td>GET</td><td>Lists paid intakes with no Plans row written.</td></tr>
+    <tr><td><code>admin/recover-intake.ts</code></td><td>POST</td><td>Re-runs <code>finalizeIntake()</code> for an orphaned intake. Same 2-minute guard.</td></tr>
+    <tr><td><code>admin/feedback.ts</code></td><td>GET</td><td>Returns every <code>plan_week_feedback</code> row joined with customer emails.</td></tr>
   </tbody>
 </table>
 
@@ -997,7 +1228,8 @@ npm run dev
 <table>
   <thead><tr><th>File</th><th>Purpose</th></tr></thead>
   <tbody>
-    <tr><td><code>db.ts</code></td><td>Postgres connection pool, exports the <code>sql</code> tagged template.</td></tr>
+    <tr><td><code>db.ts</code></td><td>Vercel Postgres connection pool, exports the <code>sql</code> tagged template.</td></tr>
+    <tr><td><code>supabase.js</code></td><td>Customer-facing Supabase client (browser side), using <code>PUBLIC_SUPABASE_URL</code> + <code>PUBLIC_SUPABASE_ANON_KEY</code>. Used by <code>/dashboard</code>, <code>/plan/[id]</code>, <code>/admin/*</code>.</td></tr>
     <tr><td><code>email-format.ts</code></td><td>Email HTML builders, signature, em-dash stripper, markdown-to-HTML converter.</td></tr>
     <tr><td><code>plan-routing.ts</code></td><td>Single function that decides plan destination (Emily vs client) based on red flags and track.</td></tr>
   </tbody>
@@ -1028,6 +1260,15 @@ npm run dev
   <li><code>programme-success.astro</code> &mdash; post-payment landing. Displays the v1 holding message ("Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.") when routing is to Emily.</li>
   <li><code>success.astro</code> &mdash; post-payment landing for subscription buyers</li>
   <li><code>cancel.astro</code> &mdash; if user cancels Stripe checkout</li>
+  <li><code>dashboard.astro</code> &mdash; signed-in customer dashboard. Lists every approved Plans row for the user; includes the AI-generated disclaimer banner.</li>
+  <li><code>plan/[id].astro</code> &mdash; the single-plan customer view: stats ring, week pills, week content with Saoirse coach bubbles + per-exercise tick boxes + Maith th&uacute; celebration modals + pilot feedback popup. Imports the happy Saoirse PNG from <code>src/assets/saoirse.png</code> and references SVG emotion variants under <code>/assets/</code>. Reads <code>PUBLIC_FEEDBACK_ENABLED</code> via <code>define:vars</code>.</li>
+  <li><code>login.astro</code> &mdash; Supabase Auth sign-in for customers and admin.</li>
+</ul>
+
+<p>Admin pages (gated on the admin email):</p>
+<ul>
+  <li><code>admin/plans.astro</code> &mdash; Pending Review and Approved tabs with action buttons (Delete, Regenerate, Approve), plus the "Paid intakes without a plan" recovery section.</li>
+  <li><code>admin/feedback.astro</code> &mdash; pilot feedback dashboard, one card per submission.</li>
 </ul>
 
 <p>Header and site-wide changes (June 2026):</p>

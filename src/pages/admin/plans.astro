@@ -18,7 +18,10 @@ export const prerender = false;
       <div class="admin-wrap">
         <div class="admin-header">
           <h1>Plan Review</h1>
-          <button id="logout-btn" class="logout-btn">Log Out</button>
+          <div class="admin-nav">
+            <a href="/admin/feedback" class="admin-nav-link">Customer feedback</a>
+            <button id="logout-btn" class="logout-btn">Log Out</button>
+          </div>
         </div>
         <div class="tabs">
           <button class="tab active" data-tab="pending">Pending Review</button>
@@ -119,15 +122,19 @@ export const prerender = false;
               const dateLabel = safeDate(plan.created_at);
               const approvedLabel = safeDate(plan.approved_at);
 
+              const isTeam = !!plan.is_team_plan;
+              const teamBadge = isTeam ? '<span class="team-badge">Team plan</span>' : '';
+              const shareUrl = isTeam && plan.share_token ? `${window.location.origin}/team-plan/${plan.share_token}` : null;
               return `
-                <article class="plan-card" id="plan-${plan.id}">
+                <article class="plan-card ${isTeam ? 'is-team' : ''}" id="plan-${plan.id}">
                   <header class="plan-card-header">
                     <div class="plan-card-meta">
                       <span class="plan-name">${plan.customer_email || 'Unknown customer'}</span>
-                      <span class="plan-meta">${planTypeLabel} &middot; ${plan.weeks_total ?? '?'} weeks</span>
+                      <span class="plan-meta">${planTypeLabel} &middot; ${plan.weeks_total ?? '?'} weeks${teamBadge ? ' ' + teamBadge : ''}</span>
                     </div>
                     <span class="plan-date">${dateLabel}</span>
                   </header>
+                  ${shareUrl ? `<div class="plan-share-row"><span class="plan-share-label">Share link:</span> <a href="${shareUrl}" target="_blank" rel="noopener" class="plan-share-link">${shareUrl}</a></div>` : ''}
                   <div class="plan-content">
                     ${renderedBody}
                   </div>
@@ -364,6 +371,30 @@ export const prerender = false;
         margin: 0;
         color: var(--green-lime);
         font-size: 1.8rem;
+      }
+
+      .admin-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .admin-nav-link {
+        padding: 0.5rem 0.9rem;
+        background: transparent;
+        border: 2px solid var(--green-lime);
+        color: var(--green-lime) !important;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+
+      .admin-nav-link:hover {
+        background: var(--green-lime);
+        color: var(--green-dark) !important;
       }
 
       .logout-btn {
@@ -763,6 +794,43 @@ export const prerender = false;
         border-radius: 999px;
         font-size: 0.85rem;
         font-weight: 700;
+      }
+
+      .team-badge {
+        display: inline-block;
+        margin-left: 0.4rem;
+        padding: 0.12rem 0.55rem;
+        background: var(--green-lime);
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-radius: 999px;
+      }
+
+      .plan-card.is-team {
+        border: 2px solid rgba(192, 254, 113, 0.55);
+      }
+
+      .plan-share-row {
+        padding: 0.55rem 1.5rem;
+        background: rgba(192, 254, 113, 0.15);
+        border-bottom: 1px solid rgba(105, 0, 90, 0.1);
+        font-size: 0.86rem;
+        color: #1a1a1a;
+      }
+
+      .plan-share-label {
+        font-weight: 700;
+        color: var(--purple);
+        margin-right: 0.3rem;
+      }
+
+      .plan-share-link {
+        color: var(--purple) !important;
+        text-decoration: underline !important;
+        word-break: break-all;
       }
 
       @media (max-width: 720px) {

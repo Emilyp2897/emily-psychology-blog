@@ -1,0 +1,271 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Generate Team Plan | ${SITE_TITLE}`} description="Generate an evidence-based, sport-specific plan for your squad." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="ci-wrap">
+        <a href="/coaches" class="back-link">← Back</a>
+        <h1>Generate a team plan</h1>
+        <p class="ci-lede">A short intake about your squad. The plan is generated and then reviewed by Emily before it goes live. Generation takes 1-3 minutes.</p>
+
+        <form id="ci-form" class="ci-form">
+          <h3 class="ci-section">About you</h3>
+          <div class="ci-grid">
+            <label>
+              Your full name
+              <input type="text" name="coachName" required maxlength="200" />
+            </label>
+            <label>
+              Your email
+              <input type="email" name="coachEmail" required maxlength="200" />
+            </label>
+            <label>
+              Club or team name
+              <input type="text" name="coachClub" maxlength="200" />
+            </label>
+            <label>
+              Your role
+              <select name="coachRole">
+                <option value="">Select role</option>
+                <option value="Head coach">Head coach</option>
+                <option value="Assistant coach">Assistant coach</option>
+                <option value="S&C coach">S&amp;C coach</option>
+                <option value="Manager">Manager</option>
+                <option value="Captain">Captain</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+          </div>
+
+          <h3 class="ci-section">About the plan</h3>
+          <div class="ci-grid">
+            <label>
+              Plan type
+              <select name="planType" required>
+                <option value="physical">Physical training plan</option>
+                <option value="mental">Mental performance plan</option>
+              </select>
+            </label>
+
+            <label>
+              Plan duration
+              <select name="planDuration" required>
+                <option value="6 weeks">6 weeks</option>
+                <option value="12 weeks">12 weeks</option>
+              </select>
+            </label>
+
+            <label>
+              Sport
+              <input type="text" name="sport" required placeholder="e.g. Ladies Gaelic Football" />
+            </label>
+
+            <label>
+              Squad size
+              <select name="groupSize" required>
+                <option value="">Select</option>
+                <option value="Under 15 players">Under 15 players</option>
+                <option value="15-25 players">15-25 players</option>
+                <option value="25-35 players">25-35 players</option>
+                <option value="35+ players">35+ players</option>
+              </select>
+            </label>
+
+            <label>
+              Average experience level across the squad
+              <select name="averageExperienceLevel" required>
+                <option value="Mixed">Mixed (typical club squad)</option>
+                <option value="Beginner">Beginner (most under 1 year of S&amp;C or sport experience)</option>
+                <option value="Intermediate">Intermediate (1-3 years)</option>
+                <option value="Advanced">Advanced (3+ years)</option>
+              </select>
+            </label>
+
+            <label>
+              Season phase
+              <select name="seasonPhase" required>
+                <option value="">Select</option>
+                <option value="pre_season">Pre-season (build a base)</option>
+                <option value="championship_leadup">Championship lead-up (peak and taper)</option>
+                <option value="in_season">In-season (maintenance during competition)</option>
+                <option value="off_season">Off-season (rest, recovery, lighter work)</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="ci-block">
+            Sport training days
+            <div class="ci-checkbox-group">
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="mon" /><span>Mon</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="tue" /><span>Tue</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="wed" /><span>Wed</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="thu" /><span>Thu</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="fri" /><span>Fri</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="sat" /><span>Sat</span></label>
+              <label class="checkbox"><input type="checkbox" name="trainingDays" value="sun" /><span>Sun</span></label>
+            </div>
+          </label>
+
+          <label class="ci-block">
+            Typical match days
+            <input type="text" name="matchDays" placeholder="e.g. Saturday afternoons, or championship weekends only" />
+          </label>
+
+          <label class="ci-block">
+            Equipment available (select all that apply)
+            <div class="ci-checkbox-group">
+              <label class="checkbox"><input type="checkbox" name="equipment" value="Full gym access" /><span>Full gym</span></label>
+              <label class="checkbox"><input type="checkbox" name="equipment" value="Home or club hall with some equipment" /><span>Some equipment</span></label>
+              <label class="checkbox"><input type="checkbox" name="equipment" value="Bodyweight only" /><span>Bodyweight only</span></label>
+              <label class="checkbox"><input type="checkbox" name="equipment" value="Resistance bands" /><span>Bands</span></label>
+              <label class="checkbox"><input type="checkbox" name="equipment" value="Field / pitch space" /><span>Pitch / field</span></label>
+            </div>
+          </label>
+
+          <label class="ci-block">
+            Primary team goal for this block
+            <input type="text" name="primaryGoal" required placeholder="e.g. Be physically ready for championship matches, improve squad confidence under pressure" maxlength="300" />
+          </label>
+
+          <label class="ci-block">
+            Anything else Emily should know (optional)
+            <textarea name="anythingElse" rows="3" maxlength="1500" placeholder="Common injuries on the squad, specific challenges, anything that would help shape the plan."></textarea>
+          </label>
+
+          <button type="submit" class="ci-submit">Generate team plan</button>
+          <p id="ci-status" class="ci-status" hidden></p>
+        </form>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      const form = document.getElementById('ci-form') as HTMLFormElement | null;
+      const statusEl = document.getElementById('ci-status');
+      const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+      form?.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        if (!form || !statusEl || !submitBtn) return;
+
+        const fd = new FormData(form);
+        const payload = {
+          coachName: String(fd.get('coachName') || '').trim(),
+          coachEmail: String(fd.get('coachEmail') || '').trim(),
+          coachClub: String(fd.get('coachClub') || '').trim(),
+          coachRole: String(fd.get('coachRole') || '').trim(),
+          planType: String(fd.get('planType') || 'physical'),
+          planDuration: String(fd.get('planDuration') || '6 weeks'),
+          sport: String(fd.get('sport') || '').trim(),
+          groupSize: String(fd.get('groupSize') || '').trim(),
+          averageExperienceLevel: String(fd.get('averageExperienceLevel') || 'Mixed'),
+          seasonPhase: String(fd.get('seasonPhase') || '').trim(),
+          trainingDays: (fd.getAll('trainingDays') as string[]).filter(Boolean),
+          matchDays: String(fd.get('matchDays') || '').trim(),
+          equipment: (fd.getAll('equipment') as string[]).filter(Boolean),
+          primaryGoal: String(fd.get('primaryGoal') || '').trim(),
+          anythingElse: String(fd.get('anythingElse') || '').trim(),
+        };
+
+        if (!payload.coachName || !payload.coachEmail) {
+          statusEl.textContent = 'Your name and email are required.';
+          statusEl.classList.remove('success');
+          statusEl.classList.add('error');
+          statusEl.hidden = false;
+          return;
+        }
+        if (!payload.sport || !payload.groupSize || !payload.primaryGoal) {
+          statusEl.textContent = 'Sport, squad size, and primary goal are all required.';
+          statusEl.classList.remove('success');
+          statusEl.classList.add('error');
+          statusEl.hidden = false;
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Generating... (up to 3 minutes)';
+        statusEl.textContent = 'Generation is running. Stay on this page until it finishes.';
+        statusEl.classList.remove('error');
+        statusEl.classList.add('success');
+        statusEl.hidden = false;
+
+        try {
+          const res = await fetch('/api/coach-intake', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data.success) throw new Error(data?.error || `HTTP ${res.status}`);
+
+          statusEl.textContent = 'Plan generated and sent to Emily for review. You will receive an email with the share link once she has approved it.';
+          form.reset();
+          submitBtn.textContent = 'Sent for review';
+        } catch (err: any) {
+          console.error('coach-intake submit failed', err);
+          statusEl.textContent = 'Generation failed: ' + (err?.message || 'unknown error');
+          statusEl.classList.remove('success');
+          statusEl.classList.add('error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Generate team plan';
+        }
+      });
+    </script>
+
+    <style>
+      .ci-wrap { max-width: 760px; margin: 2.5rem auto; }
+      .back-link { display: inline-block; color: var(--green-lime) !important; text-decoration: none !important; font-weight: 600; font-size: 0.95rem; margin-bottom: 1.5rem; }
+      .ci-lede { color: var(--green-light); opacity: 0.88; margin-bottom: 2rem; }
+
+      .ci-form { display: grid; gap: 1rem; background: rgba(178, 22, 158, 0.1); border: 1px solid rgba(178, 22, 158, 0.4); border-radius: 16px; padding: 1.75rem 1.6rem; box-sizing: border-box; }
+      .ci-section { margin: 0.4rem 0 0.2rem; color: var(--green-lime); font-size: 1.05rem; }
+      .ci-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.9rem; }
+      .ci-grid > label, .ci-block { min-width: 0; }
+      .ci-block { display: flex; flex-direction: column; gap: 0.3rem; }
+      .ci-form label { font-weight: 600; color: var(--green-light); font-size: 0.9rem; min-width: 0; }
+      .ci-form input[type="text"],
+      .ci-form input[type="email"],
+      .ci-form select,
+      .ci-form textarea {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        font: inherit;
+        font-size: 0.95rem;
+        padding: 0.55rem 0.7rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 1px solid rgba(105, 0, 90, 0.3);
+        border-radius: 8px;
+        margin-top: 0.3rem;
+      }
+      .ci-form textarea { resize: vertical; min-height: 70px; }
+      .ci-form input:focus, .ci-form select:focus, .ci-form textarea:focus { outline: none; border-color: var(--green-lime); box-shadow: 0 0 0 3px rgba(192, 254, 113, 0.25); }
+
+      .ci-checkbox-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.35rem; }
+      .ci-checkbox-group .checkbox { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.7rem; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(244, 255, 232, 0.25); border-radius: 999px; cursor: pointer; font-weight: 600; font-size: 0.85rem; color: var(--green-light); }
+      .ci-checkbox-group input[type="checkbox"] { accent-color: var(--green-lime); }
+
+      .ci-submit { margin-top: 0.6rem; padding: 0.85rem 1.5rem; background: var(--green-lime); color: var(--green-dark); border: 2px solid var(--green-lime); border-radius: 10px; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.15s ease, background 0.15s ease; }
+      .ci-submit:hover:not(:disabled) { transform: translateY(-1px); background: var(--purple); border-color: var(--purple); color: #ffffff; }
+      .ci-submit:disabled { opacity: 0.7; cursor: wait; }
+
+      .ci-status { margin: 0; padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.92rem; }
+      .ci-status.success { background: rgba(192, 254, 113, 0.15); color: var(--green-lime); border: 1px solid rgba(192, 254, 113, 0.4); }
+      .ci-status.error { background: rgba(229, 85, 85, 0.18); color: #ffb3b3; border: 1px solid rgba(229, 85, 85, 0.5); }
+    </style>
+  </body>
+</html>
