@@ -82,6 +82,23 @@ export interface ConsultationWithPlanRequest {
   // plan too (pre-match routines apply differently when matches > 0).
   clubTrainingsPerWeek?: '0' | '1' | '2' | '3' | '4+' | '';
   matchesPerWeek?: '0' | '1' | '2' | 'variable' | '';
+
+  // Which days of the week the athlete trains with their sport (e.g.
+  // ['mon', 'wed']). Lets the plan generator schedule physical sessions
+  // around club nights and place mental routines on match days.
+  trainingDays?: string[];
+
+  // Whether the athlete is currently training with their sport right
+  // now (independent of seasonPhase, which is about the calendar).
+  // Critical for intensity calibration: someone "actively competing"
+  // needs a different plan to someone "not currently training", even
+  // if both ticked the same seasonPhase.
+  activeTrainingStatus?:
+    | 'actively_competing'
+    | 'training_not_competing'
+    | 'building_back_up'
+    | 'not_training'
+    | '';
 }
 
 export type ProgramTrackId =

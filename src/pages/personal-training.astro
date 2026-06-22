@@ -239,6 +239,16 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
+                  Are you actively training in your sport right now?
+                  <select name="activeTrainingStatus">
+                    <option value="">Select status</option>
+                    <option value="actively_competing">Currently training and competing regularly</option>
+                    <option value="training_not_competing">Training, but not yet competing</option>
+                    <option value="building_back_up">Building back up (returning from break or injury, light training)</option>
+                    <option value="not_training">Not currently training with my sport</option>
+                  </select>
+                </label>
+                <label>
                   Current activity level
                   <select name="planActivityLevel">
                     <option value="">Select option</option>
@@ -263,6 +273,18 @@ import { SITE_TITLE } from '../consts';
                     <option value="3">3 per week</option>
                     <option value="4+">4 or more per week</option>
                   </select>
+                </label>
+                <label class="plan-equipment-label">
+                  Which days do you train with your sport?
+                  <div class="plan-checkbox-group training-days-group">
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="mon" /><span>Mon</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="tue" /><span>Tue</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="wed" /><span>Wed</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="thu" /><span>Thu</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="fri" /><span>Fri</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="sat" /><span>Sat</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="sun" /><span>Sun</span></label>
+                  </div>
                 </label>
                 <label>
                   How many matches do you typically play per week?
@@ -494,6 +516,16 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
+                  Are you actively training in your sport right now?
+                  <select name="activeTrainingStatus">
+                    <option value="">Select status</option>
+                    <option value="actively_competing">Currently training and competing regularly</option>
+                    <option value="training_not_competing">Training, but not yet competing</option>
+                    <option value="building_back_up">Building back up (returning from break or injury, light training)</option>
+                    <option value="not_training">Not currently training with my sport</option>
+                  </select>
+                </label>
+                <label>
                   How many club or sport trainings do you do per week?
                   <select name="clubTrainingsPerWeek">
                     <option value="">Select</option>
@@ -503,6 +535,18 @@ import { SITE_TITLE } from '../consts';
                     <option value="3">3 per week</option>
                     <option value="4+">4 or more per week</option>
                   </select>
+                </label>
+                <label class="plan-equipment-label">
+                  Which days do you train with your sport?
+                  <div class="plan-checkbox-group training-days-group">
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="mon" /><span>Mon</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="tue" /><span>Tue</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="wed" /><span>Wed</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="thu" /><span>Thu</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="fri" /><span>Fri</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="sat" /><span>Sat</span></label>
+                    <label class="checkbox"><input type="checkbox" name="trainingDays" value="sun" /><span>Sun</span></label>
+                  </div>
                 </label>
                 <label>
                   How many matches do you typically play per week?
@@ -787,6 +831,8 @@ import { SITE_TITLE } from '../consts';
             seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
             clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
             matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
+            trainingDays: (formData.getAll('trainingDays') as string[]).filter(Boolean),
+            activeTrainingStatus: String(formData.get('activeTrainingStatus') || '').trim() || undefined,
           });
 
           // Submit to the new preview-then-buy endpoint. On success we redirect
@@ -906,6 +952,8 @@ import { SITE_TITLE } from '../consts';
             seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
             clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
             matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
+            trainingDays: (formData.getAll('trainingDays') as string[]).filter(Boolean),
+            activeTrainingStatus: String(formData.get('activeTrainingStatus') || '').trim() || undefined,
             anythingElse: String(formData.get('anythingElse') || '').trim() || undefined,
           };
 

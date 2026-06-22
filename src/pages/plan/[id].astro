@@ -1,9 +1,25 @@
 ---
-export const prerender = false;
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE } from '../../consts';
+import saoirseImage from '../../assets/saoirse.png';
+
+export const prerender = false;
+
+const saoirseAssets = {
+  happy: saoirseImage.src,
+  oh: '/assets/Oh.svg',
+  shocked: '/assets/Shocked.svg',
+  annoyed: '/assets/Annoyed.svg',
+  angry: '/assets/Angry.svg',
+};
+
+// PUBLIC_FEEDBACK_ENABLED controls whether the pilot feedback popup
+// appears after a customer completes a week. Default ON; set to
+// 'false' in the env to silence it after the pilot is done.
+const feedbackEnabled =
+  String(import.meta.env.PUBLIC_FEEDBACK_ENABLED ?? 'true').toLowerCase() !== 'false';
 ---
 
 <!doctype html>
@@ -15,112 +31,962 @@ import { SITE_TITLE } from '../../consts';
     <Header />
     <main class="container">
       <div class="plan-wrap">
-        <div class="plan-nav">
-          <a href="/dashboard" class="plan-back">← Back to Dashboard</a>
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+        <div id="plan-container">
+          <p class="loading">Loading your plan...</p>
         </div>
-        <div id="plan-loading" class="plan-loading">
-          <p>Loading your plan...</p>
-        </div>
-        <div id="plan-error" class="plan-error" style="display: none;">
-          <p>Could not load your plan. <a href="/dashboard">Go back to dashboard.</a></p>
-        </div>
-        <article id="plan-content" class="plan-content" style="display: none;">
-          <div class="plan-meta">
-            <span id="plan-type-badge" class="plan-type-badge"></span>
-            <span id="plan-date" class="plan-date"></span>
-          </div>
-          <div id="plan-body" class="plan-body"></div>
-        </article>
       </div>
     </main>
     <Footer />
+
+    <div id="celebration-modal" class="modal" hidden>
+      <div class="modal-card">
+        <img id="modal-saoirse" class="modal-saoirse" alt="Saoirse celebrating" />
+        <p class="modal-eyebrow">Maith thú</p>
+        <h2 id="modal-heading">Week complete</h2>
+        <p id="modal-message" class="modal-message"></p>
+        <div class="modal-actions">
+          <button id="modal-continue" type="button" class="modal-primary">Open next week</button>
+          <button id="modal-close" type="button" class="modal-secondary">Stay on this week</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="day-celebration" class="modal day-modal" hidden>
+      <div class="modal-card day-modal-card">
+        <img class="day-modal-saoirse" alt="Saoirse celebrating" />
+        <p class="modal-eyebrow">Maith thú</p>
+        <h2 class="day-modal-message"></h2>
+      </div>
+    </div>
+
+    <div id="feedback-modal" class="modal" hidden>
+      <form id="feedback-form" class="modal-card feedback-card">
+        <p class="modal-eyebrow">Pilot feedback</p>
+        <h2 id="feedback-heading">How did this week go?</h2>
+        <p class="feedback-intro">A minute of your time helps Emily make the next week better. Skip if you would rather not right now.</p>
+
+        <div class="feedback-rating">
+          <label class="feedback-rating-label">Rate this week</label>
+          <div class="rating-buttons" role="radiogroup" aria-label="Rate this week from 1 to 5">
+            <button type="button" class="rating-btn" data-rating="1" aria-label="1 out of 5"><span>1</span><small>Tough</small></button>
+            <button type="button" class="rating-btn" data-rating="2" aria-label="2 out of 5"><span>2</span></button>
+            <button type="button" class="rating-btn" data-rating="3" aria-label="3 out of 5"><span>3</span><small>OK</small></button>
+            <button type="button" class="rating-btn" data-rating="4" aria-label="4 out of 5"><span>4</span></button>
+            <button type="button" class="rating-btn" data-rating="5" aria-label="5 out of 5"><span>5</span><small>Loved it</small></button>
+          </div>
+          <input type="hidden" id="feedback-rating-value" />
+        </div>
+
+        <label class="feedback-text-label">
+          What worked well this week?
+          <input type="text" id="feedback-worked-well" maxlength="500" placeholder="e.g. The pre-game routine helped me settle." />
+        </label>
+
+        <label class="feedback-text-label">
+          What was hard or unclear?
+          <input type="text" id="feedback-was-hard" maxlength="500" placeholder="e.g. Tuesday session was a bit too heavy on legs." />
+        </label>
+
+        <label class="feedback-text-label">
+          Anything you want to flag to Emily? (optional)
+          <textarea id="feedback-notes" maxlength="1000" rows="2" placeholder="Optional"></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button type="submit" class="modal-primary" id="feedback-submit">Send feedback</button>
+          <button type="button" class="modal-secondary" id="feedback-skip">Skip for now</button>
+        </div>
+      </form>
+    </div>
+
+    <script is:inline define:vars={{ saoirseAssets, feedbackEnabled }}>
+      // Expose the resolved Saoirse emotion variants and the feedback
+      // gate to the main script. define:vars only works on is:inline
+      // scripts.
+      window.SAOIRSE_ASSETS = saoirseAssets;
+      window.FEEDBACK_ENABLED = !!feedbackEnabled;
+    </script>
 
     <script>
       import { supabase } from '../../lib/supabase.js';
       import { marked } from 'marked';
 
-      const planId = window.location.pathname.split('/').pop();
-      const loadingEl = document.getElementById('plan-loading');
-      const errorEl = document.getElementById('plan-error');
-      const contentEl = document.getElementById('plan-content');
-      const planBody = document.getElementById('plan-body');
-      const planTypeBadge = document.getElementById('plan-type-badge');
-      const planDate = document.getElementById('plan-date');
-
-      // Check user is logged in.
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         window.location.href = '/login';
       }
 
-      // Fetch the plan.
+      const planId = window.location.pathname.split('/').pop();
+      const container = document.getElementById('plan-container');
+
       const { data: plan, error } = await supabase
-        .from('plans')
+        .from('Plans')
         .select('*')
         .eq('id', planId)
         .eq('user_id', user?.id)
         .single();
 
-if (error || !plan) {
-  if (loadingEl) loadingEl.style.display = 'none';
-  if (errorEl) errorEl.style.display = 'block';
-} else {
-  if (loadingEl) loadingEl.style.display = 'none';
-  if (contentEl) contentEl.style.display = 'block';
+      // Module-level state. Declared before any function uses them so
+      // they're never accessed in TDZ.
+      type SessionStruct = { exerciseCount: number };
+      type WeekStruct = { sessions: SessionStruct[] };
 
-  if (planTypeBadge) {
-    planTypeBadge.textContent = plan.plan_type === 'mental'
-      ? '🧠 Mental Performance Plan'
-      : '💪 Physical Performance Plan';
-  }
+      let weeksStructure: WeekStruct[] = [];
+      let weeks: string[] = [];
+      let progress: Record<string, string> =
+        plan?.progress && typeof plan.progress === 'object' ? { ...plan.progress } : {};
+      let planType: 'physical' | 'mental' = plan?.plan_type === 'mental' ? 'mental' : 'physical';
+      let weeksTotal = 0;
 
-  if (planDate) {
-    planDate.textContent = new Date(plan.created_at).toLocaleDateString('en-GB', {
-      day: 'numeric', month: 'long', year: 'numeric'
-    });
-  }
+      if (error || !plan) {
+        console.error('plan fetch error:', error);
+        if (container) container.innerHTML = `<p class="error">Plan not found or not yet approved.${error?.message ? ' ' + error.message : ''}</p>`;
+      } else {
+        try {
+          await renderPlan(plan);
+        } catch (err: any) {
+          console.error('renderPlan failed:', err);
+          if (container) container.innerHTML = `<p class="error">Could not render your plan: ${err?.message || 'Unknown error'}. Check the browser console.</p>`;
+        }
+      }
 
-  if (planBody) {
-    planBody.innerHTML = await marked.parse(plan.plan_content || '');
-  }
-}
-</script>
+      async function renderPlan(plan: any) {
+        if (!container) return;
 
-    <style>
+        const approvedAt = plan.approved_at ? new Date(plan.approved_at) : new Date();
+        weeksTotal = plan.weeks_total || 0;
+        weeks = parsePlanIntoWeeks(plan.plan_content, weeksTotal);
+        weeksStructure = weeks.map(w => parseWeekStructure(w, planType));
+
+        const initialWeek = pickInitialWeek();
+        const week1Html = await renderWeek(weeks[initialWeek - 1], initialWeek);
+
+        container.innerHTML = `
+          <div class="plan-header">
+            <div class="plan-meta">
+              <span class="plan-type-badge">${planType === 'mental' ? 'Mental Performance Plan' : 'Physical Performance Plan'}</span>
+              <span class="plan-date">Started ${approvedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+          </div>
+
+          <div class="ai-disclaimer" role="note">
+            <strong>Heads up.</strong> This plan was AI-generated and personally reviewed by Emily before going live. If anything feels off, unclear, or unsafe for your body, <a href="/contact-us">message Emily</a> before pushing through it.
+          </div>
+
+          <section id="stats-panel" class="stats-panel">
+            ${renderStats()}
+          </section>
+
+          <div id="week-nav" class="week-nav">
+            ${renderWeekNav(initialWeek)}
+          </div>
+
+          <article id="week-content" class="plan-content" data-week="${initialWeek}">
+            ${week1Html}
+          </article>
+        `;
+
+        bindWeekNavHandlers();
+        bindCheckboxHandlers();
+      }
+
+      function pickInitialWeek(): number {
+        const unlocked = computeUnlockedWeeks();
+        return unlocked[unlocked.length - 1] || 1;
+      }
+
+      function computeUnlockedWeeks(): number[] {
+        const out: number[] = [1];
+        for (let w = 1; w < weeksTotal; w++) {
+          if (isWeekComplete(w)) out.push(w + 1);
+          else break;
+        }
+        return out;
+      }
+
+      function isWeekComplete(weekNum: number): boolean {
+        const struct = weeksStructure[weekNum - 1];
+        if (!struct || struct.sessions.length === 0) return false;
+        return struct.sessions.every((_s, idx) => isSessionComplete(weekNum, idx + 1));
+      }
+
+      function isSessionComplete(weekNum: number, sessionNum: number): boolean {
+        const struct = weeksStructure[weekNum - 1];
+        if (!struct) return false;
+        const session = struct.sessions[sessionNum - 1];
+        if (!session || session.exerciseCount === 0) return false;
+        for (let e = 1; e <= session.exerciseCount; e++) {
+          if (!progress[`${weekNum}.${sessionNum}.${e}`]) return false;
+        }
+        return true;
+      }
+
+      function countCompletedInWeek(weekNum: number): number {
+        const struct = weeksStructure[weekNum - 1];
+        if (!struct) return 0;
+        let n = 0;
+        struct.sessions.forEach((s, sIdx) => {
+          for (let e = 1; e <= s.exerciseCount; e++) {
+            if (progress[`${weekNum}.${sIdx + 1}.${e}`]) n++;
+          }
+        });
+        return n;
+      }
+
+      function totalExercisesInWeek(weekNum: number): number {
+        const struct = weeksStructure[weekNum - 1];
+        if (!struct) return 0;
+        return struct.sessions.reduce((acc, s) => acc + s.exerciseCount, 0);
+      }
+
+      function totalExercisesAll(): number {
+        return weeksStructure.reduce((acc, w) =>
+          acc + w.sessions.reduce((a, s) => a + s.exerciseCount, 0), 0);
+      }
+
+      function completedExercisesAll(): number {
+        let n = 0;
+        weeksStructure.forEach((w, wIdx) => {
+          w.sessions.forEach((s, sIdx) => {
+            for (let e = 1; e <= s.exerciseCount; e++) {
+              if (progress[`${wIdx + 1}.${sIdx + 1}.${e}`]) n++;
+            }
+          });
+        });
+        return n;
+      }
+
+      function sessionsCompleteAll(): number {
+        let n = 0;
+        weeksStructure.forEach((w, wIdx) => {
+          w.sessions.forEach((_s, sIdx) => {
+            if (isSessionComplete(wIdx + 1, sIdx + 1)) n++;
+          });
+        });
+        return n;
+      }
+
+      function totalSessions(): number {
+        return weeksStructure.reduce((acc, w) => acc + w.sessions.length, 0);
+      }
+
+      function weeksComplete(): number {
+        let n = 0;
+        for (let w = 1; w <= weeksTotal; w++) if (isWeekComplete(w)) n++;
+        return n;
+      }
+
+      function dayStreak(): number {
+        const dayKeys = Array.from(new Set(
+          Object.values(progress)
+            .filter((v): v is string => typeof v === 'string')
+            .map(v => v.slice(0, 10)),
+        )).sort();
+        if (dayKeys.length === 0) return 0;
+
+        const todayMs = new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00Z').getTime();
+        const yesterdayMs = todayMs - 86400000;
+        const todayStr = new Date(todayMs).toISOString().slice(0, 10);
+        const yesterdayStr = new Date(yesterdayMs).toISOString().slice(0, 10);
+
+        if (!dayKeys.includes(todayStr) && !dayKeys.includes(yesterdayStr)) return 0;
+
+        const startStr = dayKeys.includes(todayStr) ? todayStr : yesterdayStr;
+        let cursor = new Date(startStr + 'T00:00:00Z').getTime();
+        let streak = 0;
+        while (dayKeys.includes(new Date(cursor).toISOString().slice(0, 10))) {
+          streak++;
+          cursor -= 86400000;
+        }
+        return streak;
+      }
+
+      function renderWeekNav(activeWeek: number): string {
+        const unlocked = new Set(computeUnlockedWeeks());
+        return Array.from({ length: weeksTotal }, (_, i) => {
+          const weekNum = i + 1;
+          const isUnlocked = unlocked.has(weekNum);
+          const isComplete = isWeekComplete(weekNum);
+          const isActive = weekNum === activeWeek;
+          const label = `Week ${weekNum}${!isUnlocked ? ' 🔒' : isComplete ? ' ✓' : ''}`;
+          return `
+            <button class="week-pill ${isUnlocked ? 'unlocked' : 'locked'} ${isActive ? 'active' : ''} ${isComplete ? 'complete' : ''}"
+              data-week="${weekNum}"
+              ${!isUnlocked ? 'disabled' : ''}>
+              ${label}
+            </button>
+          `;
+        }).join('');
+      }
+
+      function bindWeekNavHandlers() {
+        document.querySelectorAll('#week-nav .week-pill.unlocked').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            await openWeek(parseInt(btn.getAttribute('data-week') || '1'));
+          });
+        });
+      }
+
+      async function openWeek(weekNum: number) {
+        document.querySelectorAll('#week-nav .week-pill').forEach(b => b.classList.remove('active'));
+        const newActive = document.querySelector(`#week-nav .week-pill[data-week="${weekNum}"]`);
+        if (newActive) newActive.classList.add('active');
+        const weekContent = document.getElementById('week-content');
+        if (weekContent) {
+          weekContent.setAttribute('data-week', String(weekNum));
+          weekContent.innerHTML = '<p class="loading">Loading...</p>';
+          weekContent.innerHTML = await renderWeek(weeks[weekNum - 1], weekNum);
+          bindCheckboxHandlers();
+        }
+      }
+
+      function parsePlanIntoWeeks(content: string, weeksTotal: number): string[] {
+        const out: string[] = [];
+        for (let i = 1; i <= weeksTotal; i++) {
+          const pattern = new RegExp(
+            `#{1,2}\\s+Week\\s+${i}[\\s\\S]*?(?=#{1,2}\\s+Week\\s+${i + 1}|#{1,2}\\s+COACH NOTES|#{1,2}\\s+THINGS TO TRACK|#{1,2}\\s+ROUTINES|$)`,
+            'gi',
+          );
+          const match = content.match(pattern);
+          out.push(match ? match[0].trim() : `Week ${i} content is not available.`);
+        }
+        return out;
+      }
+
+      // Parse one week's markdown into its session structure: how many
+      // sessions, and how many ticking rows in each. For physical
+      // plans, each `### Session N` heading owns the next table. For
+      // mental plans, the whole week has one "session" whose rows are
+      // the daily-practice table.
+      function parseWeekStructure(weekContent: string, planType: 'physical' | 'mental'): WeekStruct {
+        if (planType === 'mental') {
+          // One session per week, exercise count = number of daily rows.
+          const rows = countFirstTableRows(weekContent);
+          return { sessions: [{ exerciseCount: rows || 1 }] };
+        }
+        const chunks = splitOnSessionHeadings(weekContent);
+        const sessions = chunks.map(chunk => ({ exerciseCount: countFirstTableRows(chunk) || 1 }));
+        if (sessions.length === 0) sessions.push({ exerciseCount: 1 });
+        return { sessions };
+      }
+
+      // Split a week's content into per-session chunks (one chunk per
+      // `### Session N` heading). Drops anything before the first
+      // Session heading (the week intro lines).
+      function splitOnSessionHeadings(weekContent: string): string[] {
+        const parts = weekContent.split(/^#{3}\s+Session\s+\d+[^\n]*$/gim);
+        // First element is content before the first Session heading; drop it.
+        return parts.slice(1);
+      }
+
+      // Count data rows in the first markdown table found in a chunk.
+      // Markdown tables look like:
+      //   | header | header |
+      //   | --- | --- |
+      //   | data | data |
+      function countFirstTableRows(markdown: string): number {
+        const lines = markdown.split('\n');
+        let foundSeparator = false;
+        let count = 0;
+        for (const raw of lines) {
+          const line = raw.trim();
+          if (!foundSeparator) {
+            if (/^\|[\s\-:|]+\|$/.test(line)) foundSeparator = true;
+            continue;
+          }
+          if (line.startsWith('|') && line.endsWith('|')) count++;
+          else if (line === '') break;
+          else break;
+        }
+        return count;
+      }
+
+      async function renderWeek(content: string, weekNum: number): Promise<string> {
+        if (!content) return '<p>Content for this week is not available yet.</p>';
+        const total = totalExercisesInWeek(weekNum);
+        const done = countCompletedInWeek(weekNum);
+        const isComplete = isWeekComplete(weekNum);
+        const itemLabel = planType === 'mental' ? 'days of practice' : 'exercises';
+
+        const processed = content.replace(/(\s)(\*\*[A-Z][^*]+:\*\*)/g, '\n\n$2');
+        const rendered = await marked.parse(processed);
+        const cleaned = stripEmptyBlocks(rendered);
+        const coached = transformCoachTips(cleaned);
+        const withChecks = injectExerciseCheckboxes(coached, weekNum);
+
+        return `
+          <div class="week-block">
+            <div class="week-status-row">
+              ${isComplete
+                ? `<span class="week-status-badge complete">Week ${weekNum} complete</span>`
+                : `<span class="week-status-badge in-progress">In progress</span>`}
+              <span class="week-progress-text">${done} of ${total} ${itemLabel} ticked</span>
+            </div>
+            ${withChecks}
+          </div>
+        `;
+      }
+
+      // Strip empty <blockquote> and <p> elements from the rendered
+      // markdown. Marked sometimes produces empties when the model
+      // outputs blank `>` separator lines between exercise descriptions;
+      // global.css gives every blockquote a purple left border + padding
+      // so even empties showed up as short vertical bars between rows.
+      function stripEmptyBlocks(html: string): string {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        tmp.querySelectorAll('blockquote, p').forEach(el => {
+          if (!el.textContent || !el.textContent.trim()) el.remove();
+        });
+        return tmp.innerHTML;
+      }
+
+      // Replace specific labelled paragraphs with a speech-bubble card
+      // showing one of Saoirse's emotion variants on the left. Each
+      // entry maps a (case-insensitive, no trailing colon) label to the
+      // display copy and which avatar to use.
+      //
+      // Two markdown patterns are handled:
+      //
+      //   Pattern A — physical plans, label + content on same line:
+      //     **Cues:** Keep your chest up.
+      //   Renders as: <p><strong>Cues:</strong> Keep your chest up.</p>
+      //
+      //   Pattern B — mental plans, label is its own paragraph, then
+      //   the content paragraphs follow until the next labelled line
+      //   or a non-paragraph block (table, heading, list, hr):
+      //     **Concept of the week**
+      //     Three to five lines of explanation...
+      //
+      // Exercise description blockquotes (e.g. **Back squat:**) are NOT
+      // in this map and stay as their existing purple-banner style.
+      function transformCoachTips(html: string): string {
+        const assets = (window as any).SAOIRSE_ASSETS || {};
+        const labelMap: Record<string, { display: string; avatar: string }> = {
+          // Physical plan labels
+          'cues': { display: 'Cues from Saoirse', avatar: assets.happy },
+          'cycle consideration': { display: 'Cycle consideration', avatar: assets.oh },
+          'how to know you are ready to progress': { display: 'Ready to progress?', avatar: assets.happy },
+          'how to know you are ready to progress?': { display: 'Ready to progress?', avatar: assets.happy },
+          // Mental plan labels
+          'concept of the week': { display: 'Concept of the week', avatar: assets.happy },
+          'reflection prompt': { display: 'Reflection prompt', avatar: assets.happy },
+        };
+
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        // Snapshot the <p> list up-front because we'll mutate the DOM
+        // as we go.
+        const paragraphs = Array.from(tmp.querySelectorAll('p'));
+
+        for (const p of paragraphs) {
+          if (!p.parentElement) continue; // already removed via Strategy B
+          const strong = p.querySelector('strong');
+          if (!strong) continue;
+          const rawLabel = (strong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+          const config = labelMap[rawLabel];
+          if (!config) continue;
+
+          // Decide Pattern A vs Pattern B: if the only text in the
+          // paragraph is the label itself, the content is in following
+          // siblings (B); otherwise content sits after the strong (A).
+          const fullText = (p.textContent || '').trim().toLowerCase();
+          const labelOnly = fullText === rawLabel || fullText === rawLabel + ':';
+
+          let bodyHtml = '';
+          const toRemove: Element[] = [];
+
+          if (!labelOnly) {
+            // Pattern A: strip the leading <strong>...</strong> and any
+            // colon, keep the rest of the inline content as the body.
+            bodyHtml = p.innerHTML
+              .replace(/^\s*<strong[^>]*>[^<]*<\/strong>\s*:?\s*/i, '')
+              .trim();
+          } else {
+            // Pattern B: walk forward and collect content paragraphs
+            // until we hit another labelled paragraph or a different
+            // block-level element (table/heading/list/hr).
+            let sib = p.nextElementSibling;
+            while (sib) {
+              const tag = sib.tagName;
+              if (['TABLE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'HR', 'UL', 'OL'].includes(tag)) {
+                break;
+              }
+              if (tag === 'P') {
+                const sibStrong = sib.querySelector('strong');
+                if (sibStrong) {
+                  const sibLabel = (sibStrong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+                  // Stop on any labelled paragraph — strong-led lines
+                  // that aren't in labelMap (e.g. **Focus:**) still mean
+                  // a new section starts, so we don't swallow them.
+                  if (sibStrong.parentElement === sib && sibLabel) {
+                    const sibText = (sib.textContent || '').trim().toLowerCase();
+                    if (sibText === sibLabel || sibText === sibLabel + ':' || labelMap[sibLabel]) {
+                      break;
+                    }
+                  }
+                }
+              }
+              bodyHtml += sib.outerHTML;
+              toRemove.push(sib);
+              sib = sib.nextElementSibling;
+            }
+          }
+
+          if (!bodyHtml) continue;
+
+          const wrap = document.createElement('div');
+          wrap.className = 'coach-tip';
+          wrap.innerHTML =
+            `<img src="${config.avatar || ''}" alt="Saoirse" class="coach-tip-avatar">` +
+            `<div class="coach-tip-bubble">` +
+              `<span class="coach-tip-label">${config.display}</span>` +
+              `<div class="coach-tip-text">${bodyHtml}</div>` +
+            `</div>`;
+          p.replaceWith(wrap);
+          toRemove.forEach(el => el.remove());
+        }
+
+        return tmp.innerHTML;
+      }
+
+      // Inject a "Done" checkbox column into each session's table.
+      // Physical: each <h3>Session N: ...</h3> is followed by its
+      //   <table>; we rewrite the next table after each Session heading.
+      // Mental: there is no Session heading; we rewrite the first
+      //   <table> in the week (the daily practice table).
+      function injectExerciseCheckboxes(html: string, weekNum: number): string {
+        if (planType === 'mental') {
+          return transformFirstTable(html, weekNum, 1);
+        }
+
+        // Walk the HTML, splitting on each <h3>Session N...</h3>. For
+        // each segment after a Session heading, transform its first
+        // <table>.
+        const headingRegex = /(<h3[^>]*>\s*Session\s+(\d+)[^<]*<\/h3>)/gi;
+        const parts = html.split(headingRegex);
+        // parts is [pre, h3_match, session_num, post, h3_match, session_num, post, ...]
+        if (parts.length <= 1) return html;
+
+        let out = parts[0]; // before first Session heading
+        for (let i = 1; i < parts.length; i += 3) {
+          const heading = parts[i];
+          const sessionNum = parseInt(parts[i + 1], 10);
+          let segment = parts[i + 2] || '';
+          segment = transformFirstTable(segment, weekNum, sessionNum);
+          out += heading + segment;
+        }
+        return out;
+      }
+
+      function transformFirstTable(html: string, weekNum: number, sessionNum: number): string {
+        // Find first <table>...</table> block.
+        const tableMatch = html.match(/<table[\s\S]*?<\/table>/i);
+        if (!tableMatch) return html;
+        const tableHtml = tableMatch[0];
+
+        // Inject a leading "Done" header cell.
+        let newTable = tableHtml.replace(
+          /<thead>([\s\S]*?)<\/thead>/i,
+          (_m, head) => `<thead>${head.replace(/<tr>/i, '<tr><th class="tick-col">Done</th>')}</thead>`,
+        );
+        // If no <thead>, treat first <tr> as the header.
+        if (!/<thead>/i.test(tableHtml)) {
+          newTable = newTable.replace(/<tr>/i, '<tr><th class="tick-col">Done</th>');
+        }
+
+        // Inject a checkbox cell at the start of each <tbody> row.
+        let exerciseIndex = 0;
+        newTable = newTable.replace(/<tbody>([\s\S]*?)<\/tbody>/i, (_m, body) => {
+          const newBody = body.replace(/<tr>/gi, () => {
+            exerciseIndex++;
+            const key = `${weekNum}.${sessionNum}.${exerciseIndex}`;
+            const checked = !!progress[key];
+            return `<tr class="exercise-row${checked ? ' done' : ''}" data-week="${weekNum}" data-session="${sessionNum}" data-exercise="${exerciseIndex}">`
+              + `<td class="tick-col">`
+              + `<input type="checkbox" class="exercise-tick" data-week="${weekNum}" data-session="${sessionNum}" data-exercise="${exerciseIndex}" ${checked ? 'checked' : ''} aria-label="Mark item complete">`
+              + `</td>`;
+          });
+          return `<tbody>${newBody}</tbody>`;
+        });
+
+        return html.replace(tableMatch[0], newTable);
+      }
+
+      function bindCheckboxHandlers() {
+        document.querySelectorAll('#week-content input.exercise-tick').forEach(input => {
+          input.addEventListener('change', async (ev) => {
+            const el = ev.currentTarget as HTMLInputElement;
+            const week = parseInt(el.getAttribute('data-week') || '0');
+            const session = parseInt(el.getAttribute('data-session') || '0');
+            const exercise = parseInt(el.getAttribute('data-exercise') || '0');
+            if (!week || !session || !exercise) return;
+
+            const previouslyComplete = isWeekComplete(week);
+            const previouslySessionComplete = isSessionComplete(week, session);
+            const wantCompleted = el.checked;
+            el.disabled = true;
+
+            try {
+              const { data: sessionData } = await supabase.auth.getSession();
+              const accessToken = sessionData?.session?.access_token;
+              if (!accessToken) throw new Error('Not signed in.');
+
+              const res = await fetch('/api/plan/toggle-session', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ planId, week, session, exercise, completed: wantCompleted }),
+              });
+              const data = await res.json().catch(() => ({}));
+              if (!res.ok || !data.success) {
+                throw new Error(data?.error || `HTTP ${res.status}`);
+              }
+
+              progress = data.progress || progress;
+              el.disabled = false;
+
+              // Toggle the parent row's `.done` class for the strike-through styling.
+              const row = el.closest('tr');
+              if (row) row.classList.toggle('done', wantCompleted);
+
+              refreshStatsAndNav(week);
+
+              const nowComplete = isWeekComplete(week);
+              const nowSessionComplete = isSessionComplete(week, session);
+              if (!previouslyComplete && nowComplete) {
+                // Week just finished — big modal beats the toast.
+                showCelebration(week);
+              } else if (wantCompleted) {
+                if (planType === 'mental') {
+                  // Mental plans: each ticked row is one day of practice.
+                  showDayCelebration('Maith thú, day of practice done.');
+                } else if (!previouslySessionComplete && nowSessionComplete) {
+                  // Physical: only celebrate when the full session finishes,
+                  // not every individual exercise tick.
+                  showDayCelebration(`Maith thú, Session ${session} done.`);
+                }
+              }
+            } catch (err: any) {
+              console.error('toggle-session failed:', err);
+              el.checked = !wantCompleted;
+              el.disabled = false;
+              alert('Could not save that tick: ' + (err?.message || 'unknown error') + '. Please try again.');
+            }
+          });
+        });
+      }
+
+      function refreshStatsAndNav(activeWeek: number) {
+        const stats = document.getElementById('stats-panel');
+        const nav = document.getElementById('week-nav');
+        if (stats) stats.innerHTML = renderStats();
+        if (nav) {
+          nav.innerHTML = renderWeekNav(activeWeek);
+          bindWeekNavHandlers();
+        }
+        const weekContent = document.getElementById('week-content');
+        const text = weekContent?.querySelector('.week-progress-text');
+        const itemLabel = planType === 'mental' ? 'days of practice' : 'exercises';
+        if (text) {
+          text.textContent = `${countCompletedInWeek(activeWeek)} of ${totalExercisesInWeek(activeWeek)} ${itemLabel} ticked`;
+        }
+        const badge = weekContent?.querySelector('.week-status-badge');
+        if (badge) {
+          const done = isWeekComplete(activeWeek);
+          badge.textContent = done ? `Week ${activeWeek} complete` : 'In progress';
+          badge.classList.toggle('complete', done);
+          badge.classList.toggle('in-progress', !done);
+        }
+      }
+
+      function renderStats(): string {
+        const doneEx = completedExercisesAll();
+        const totalEx = totalExercisesAll();
+        const pct = totalEx > 0 ? Math.round((doneEx / totalEx) * 100) : 0;
+        const sessDone = sessionsCompleteAll();
+        const sessTotal = totalSessions();
+        const wkDone = weeksComplete();
+        const streak = dayStreak();
+        const itemLabel = planType === 'mental' ? 'practices' : 'exercises';
+
+        // SVG ring math: r=52 → circumference = 2πr ≈ 326.73
+        const radius = 52;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference * (1 - pct / 100);
+
+        return `
+          <div class="stat-ring-wrap">
+            <svg class="stat-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-track" cx="60" cy="60" r="${radius}" />
+              <circle class="ring-fill" cx="60" cy="60" r="${radius}"
+                stroke-dasharray="${circumference.toFixed(2)}"
+                stroke-dashoffset="${offset.toFixed(2)}" />
+            </svg>
+            <div class="ring-label">
+              <span class="ring-value">${pct}%</span>
+              <span class="ring-sublabel">${doneEx} / ${totalEx} ${itemLabel}</span>
+            </div>
+          </div>
+          <div class="stat-mini-grid">
+            <div class="stat-mini">
+              <span class="stat-mini-value">${sessDone}<span class="stat-mini-of">/${sessTotal}</span></span>
+              <span class="stat-mini-label">Sessions complete</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-value">${wkDone}<span class="stat-mini-of">/${weeksTotal}</span></span>
+              <span class="stat-mini-label">Weeks complete</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-value">${streak}</span>
+              <span class="stat-mini-label">Day streak</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // Centered modal celebration for completing a single "day" —
+      // a full session on a physical plan, or one daily-practice row
+      // on a mental plan. Same modal layout as the week-complete one
+      // but with no buttons; auto-dismisses after ~2.5s and closes
+      // immediately if the customer clicks the overlay. Suppressed by
+      // callers if the week-complete modal is going to fire instead.
+      let dayCelebrationTimeout: number | undefined;
+      function showDayCelebration(message: string) {
+        const el = document.getElementById('day-celebration') as HTMLElement | null;
+        if (!el) return;
+        const img = el.querySelector('.day-modal-saoirse') as HTMLImageElement | null;
+        const msg = el.querySelector('.day-modal-message') as HTMLElement | null;
+        const assets = (window as any).SAOIRSE_ASSETS || {};
+        if (img) img.src = assets.happy || '';
+        if (msg) msg.textContent = message;
+
+        el.hidden = false;
+
+        if (dayCelebrationTimeout) window.clearTimeout(dayCelebrationTimeout);
+        dayCelebrationTimeout = window.setTimeout(() => {
+          el.hidden = true;
+        }, 2500);
+
+        // Click anywhere on the overlay to dismiss early. Re-binding
+        // each call is fine because it's a one-shot per show.
+        const dismissOnClick = () => {
+          if (dayCelebrationTimeout) window.clearTimeout(dayCelebrationTimeout);
+          el.hidden = true;
+          el.removeEventListener('click', dismissOnClick);
+        };
+        el.addEventListener('click', dismissOnClick);
+      }
+
+      function showCelebration(weekNum: number) {
+        const modal = document.getElementById('celebration-modal');
+        const heading = document.getElementById('modal-heading');
+        const message = document.getElementById('modal-message');
+        const saoirseImg = document.getElementById('modal-saoirse') as HTMLImageElement | null;
+        const cont = document.getElementById('modal-continue') as HTMLButtonElement | null;
+        const close = document.getElementById('modal-close');
+        if (!modal || !heading || !message || !cont || !close) return;
+
+        const assets = (window as any).SAOIRSE_ASSETS || {};
+        if (saoirseImg) saoirseImg.src = assets.happy || '';
+
+        const hasNext = weekNum < weeksTotal;
+        heading.textContent = `Week ${weekNum} complete`;
+        message.textContent = hasNext
+          ? `Strong work. Week ${weekNum + 1} is now unlocked.`
+          : `That's the full plan done. Have a chat with Emily about what's next.`;
+        cont.hidden = !hasNext;
+        modal.hidden = false;
+
+        const proceedToNext = async () => {
+          if (hasNext) await openWeek(weekNum + 1);
+        };
+        const stayHere = async () => { /* noop */ };
+
+        const onClose = () => {
+          modal.hidden = true;
+          cont.removeEventListener('click', onContinue);
+          close.removeEventListener('click', onClose);
+          if ((window as any).FEEDBACK_ENABLED) showFeedbackModal(weekNum, stayHere);
+        };
+        const onContinue = () => {
+          modal.hidden = true;
+          cont.removeEventListener('click', onContinue);
+          close.removeEventListener('click', onClose);
+          if ((window as any).FEEDBACK_ENABLED) showFeedbackModal(weekNum, proceedToNext);
+          else proceedToNext();
+        };
+        cont.addEventListener('click', onContinue);
+        close.addEventListener('click', onClose);
+      }
+
+      // Pilot feedback popup that fires after the week-complete
+      // celebration. Asks for a 1-5 rating + two short text replies +
+      // an optional note for Emily. POSTs to /api/plan/week-feedback
+      // then runs `afterAction` (advance to next week or stay). Skip
+      // also runs `afterAction` so we never block navigation.
+      function showFeedbackModal(weekNum: number, afterAction: () => Promise<void> | void) {
+        const modal = document.getElementById('feedback-modal') as HTMLElement | null;
+        const form = document.getElementById('feedback-form') as HTMLFormElement | null;
+        const heading = document.getElementById('feedback-heading');
+        const ratingInput = document.getElementById('feedback-rating-value') as HTMLInputElement | null;
+        const workedWell = document.getElementById('feedback-worked-well') as HTMLInputElement | null;
+        const wasHard = document.getElementById('feedback-was-hard') as HTMLInputElement | null;
+        const notes = document.getElementById('feedback-notes') as HTMLTextAreaElement | null;
+        const submit = document.getElementById('feedback-submit') as HTMLButtonElement | null;
+        const skip = document.getElementById('feedback-skip');
+        if (!modal || !form || !ratingInput || !workedWell || !wasHard || !notes || !submit || !skip) return;
+
+        // Reset state.
+        if (heading) heading.textContent = `How did Week ${weekNum} go?`;
+        ratingInput.value = '';
+        workedWell.value = '';
+        wasHard.value = '';
+        notes.value = '';
+        submit.disabled = false;
+        submit.textContent = 'Send feedback';
+        modal.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+
+        modal.hidden = false;
+
+        const ratingButtons = Array.from(modal.querySelectorAll('.rating-btn')) as HTMLButtonElement[];
+        const ratingHandlers: Array<() => void> = [];
+        ratingButtons.forEach(btn => {
+          const handler = () => {
+            ratingButtons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            ratingInput.value = btn.getAttribute('data-rating') || '';
+          };
+          btn.addEventListener('click', handler);
+          ratingHandlers.push(handler);
+        });
+
+        const cleanup = () => {
+          modal.hidden = true;
+          ratingButtons.forEach((btn, i) => btn.removeEventListener('click', ratingHandlers[i]));
+          skip.removeEventListener('click', onSkip);
+          form.removeEventListener('submit', onSubmit);
+        };
+
+        const finishWith = async (action: () => Promise<void> | void) => {
+          cleanup();
+          await action();
+        };
+
+        const onSkip = () => { void finishWith(afterAction); };
+
+        const onSubmit = async (ev: Event) => {
+          ev.preventDefault();
+          const rating = ratingInput.value ? parseInt(ratingInput.value, 10) : null;
+          const wwText = workedWell.value.trim();
+          const wbText = wasHard.value.trim();
+          const noteText = notes.value.trim();
+
+          if (rating === null && !wwText && !wbText && !noteText) {
+            alert('Add a rating or one line of feedback, or hit Skip if you would rather not.');
+            return;
+          }
+
+          submit.disabled = true;
+          submit.textContent = 'Sending...';
+
+          try {
+            const { data: sessionData } = await supabase.auth.getSession();
+            const accessToken = sessionData?.session?.access_token;
+            if (!accessToken) throw new Error('Not signed in.');
+
+            const res = await fetch('/api/plan/week-feedback', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+              },
+              body: JSON.stringify({
+                planId,
+                weekNumber: weekNum,
+                rating,
+                workedWell: wwText || null,
+                wasHard: wbText || null,
+                notesForEmily: noteText || null,
+              }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data.success) {
+              throw new Error(data?.error || `HTTP ${res.status}`);
+            }
+            await finishWith(afterAction);
+          } catch (err: any) {
+            console.error('feedback submit failed:', err);
+            submit.disabled = false;
+            submit.textContent = 'Send feedback';
+            alert('Could not send feedback: ' + (err?.message || 'unknown error') + '. Hit Skip if you want to move on.');
+          }
+        };
+
+        skip.addEventListener('click', onSkip);
+        form.addEventListener('submit', onSubmit);
+      }
+    </script>
+
+    <style is:global>
       .plan-wrap {
-        max-width: 800px;
+        max-width: 900px;
         margin: 2rem auto;
       }
 
-      .plan-nav {
-        margin-bottom: 1.5rem;
-      }
-
-      .plan-back {
+      .back-link {
+        display: inline-block;
         color: var(--green-lime) !important;
         text-decoration: none !important;
         font-weight: 600;
         font-size: 0.95rem;
+        margin-bottom: 1.5rem;
       }
 
-      .plan-back:hover {
+      .back-link:hover {
         color: var(--purple-light) !important;
       }
 
-      .plan-loading p,
-      .plan-error p {
+      .plan-header {
+        margin-bottom: 1.25rem;
+      }
+
+      .ai-disclaimer {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(244, 255, 232, 0.18);
+        border-left: 3px solid var(--green-lime);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
         color: var(--green-light);
       }
 
-      .plan-error a {
+      .ai-disclaimer strong {
+        color: var(--green-lime);
+        font-weight: 700;
+        margin-right: 0.3rem;
+      }
+
+      .ai-disclaimer a {
         color: var(--green-lime) !important;
+        text-decoration: underline !important;
+        font-weight: 600;
+      }
+
+      .ai-disclaimer a:hover {
+        color: var(--purple-light) !important;
       }
 
       .plan-meta {
         display: flex;
         align-items: center;
         gap: 1rem;
-        margin-bottom: 2rem;
         flex-wrap: wrap;
       }
 
@@ -138,119 +1004,611 @@ if (error || !plan) {
         font-size: 0.9rem;
       }
 
+      /* Stats panel — circular ring on the left, three mini stats on the right. */
+      .stats-panel {
+        display: grid;
+        grid-template-columns: minmax(180px, 200px) 1fr;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 1.75rem;
+        padding: 1.4rem 1.5rem;
+        background: linear-gradient(135deg, rgba(178, 22, 158, 0.18), rgba(178, 22, 158, 0.06));
+        border: 1px solid rgba(178, 22, 158, 0.4);
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      }
+
+      .stat-ring-wrap {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        justify-self: center;
+      }
+
+      .stat-ring {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+
+      .ring-track {
+        fill: none;
+        stroke: rgba(244, 255, 232, 0.15);
+        stroke-width: 10;
+      }
+
+      .ring-fill {
+        fill: none;
+        stroke: var(--green-lime);
+        stroke-width: 10;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.4s ease;
+      }
+
+      .ring-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .ring-value {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--green-lime);
+        line-height: 1;
+      }
+
+      .ring-sublabel {
+        font-size: 0.72rem;
+        margin-top: 0.3rem;
+        color: rgba(244, 255, 232, 0.75);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .stat-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+
+      .stat-mini {
+        padding: 0.85rem 0.9rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(244, 255, 232, 0.1);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .stat-mini-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--green-lime);
+        line-height: 1.1;
+      }
+
+      .stat-mini-of {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: rgba(244, 255, 232, 0.55);
+        margin-left: 0.1rem;
+      }
+
+      .stat-mini-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: rgba(244, 255, 232, 0.7);
+      }
+
+      .week-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .week-pill {
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid var(--green-lime);
+        background: transparent;
+        color: var(--green-lime);
+        transition: all 0.15s;
+      }
+
+      .week-pill.complete {
+        background: rgba(178, 255, 89, 0.15);
+      }
+
+      .week-pill.locked {
+        opacity: 0.35;
+        cursor: not-allowed;
+        border-color: #aaa;
+        color: #aaa;
+      }
+
+      .week-pill.active {
+        background: var(--green-lime);
+        color: var(--green-dark);
+      }
+
       .plan-content {
         background: #ffffff;
         border-radius: 16px;
         padding: 2rem 2.5rem;
-        color: var(--green-dark);
-      }
-
-      /* Markdown rendered content styles */
-      .plan-body h1 {
-        color: var(--purple);
-        font-size: 1.5rem;
-        margin: 2rem 0 0.75rem;
-        padding-bottom: 0.4rem;
-        border-bottom: 2px solid rgba(105, 0, 90, 0.15);
-      }
-
-      .plan-body h1:first-child {
-        margin-top: 0;
-      }
-
-      .plan-body h2 {
-        color: var(--purple);
-        font-size: 1.2rem;
-        margin: 1.75rem 0 0.5rem;
-      }
-
-      .plan-body h3 {
-        color: var(--green-dark);
-        font-size: 1rem;
-        margin: 1.25rem 0 0.4rem;
-      }
-
-      .plan-body p {
-        color: var(--green-dark);
-        line-height: 1.7;
-        margin-bottom: 0.85rem;
-      }
-
-      .plan-body strong {
-        color: var(--green-dark);
-        font-weight: 700;
-      }
-
-      .plan-body ul,
-      .plan-body ol {
-        padding-left: 1.5rem;
-        margin-bottom: 1rem;
-        color: var(--green-dark);
-      }
-
-      .plan-body li {
-        margin-bottom: 0.4rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 15px;
         line-height: 1.6;
+        color: #1a1a1a;
       }
 
-      .plan-body table {
+      .week-status-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        font-family: sans-serif;
+      }
+
+      .week-status-badge {
+        display: inline-block;
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .week-status-badge.in-progress {
+        background: rgba(105, 0, 90, 0.12);
+        color: var(--purple);
+      }
+
+      .week-status-badge.complete {
+        background: var(--green-lime);
+        color: #0a1a0e;
+      }
+
+      .week-progress-text {
+        font-size: 0.85rem;
+        color: #444;
+      }
+
+      /* Table tick column. The "Done" column sits at the start of each
+         exercise/daily-practice table. Rows fade and strike through when
+         their checkbox is ticked. */
+      .plan-content table {
+        font-family: sans-serif;
+        font-size: 0.92rem;
+      }
+
+      .plan-content th.tick-col,
+      .plan-content td.tick-col {
+        width: 60px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .plan-content input.exercise-tick {
+        width: 1.2rem;
+        height: 1.2rem;
+        accent-color: var(--purple);
+        cursor: pointer;
+      }
+
+      .plan-content input.exercise-tick:disabled {
+        cursor: wait;
+      }
+
+      .plan-content tr.exercise-row td:not(.tick-col) {
+        transition: opacity 0.15s ease, color 0.15s ease, text-decoration-color 0.15s ease;
+      }
+
+      .plan-content tr.exercise-row.done td:not(.tick-col) {
+        opacity: 0.55;
+        text-decoration: line-through;
+        text-decoration-color: rgba(105, 0, 90, 0.6);
+      }
+
+      /* Saoirse coach-tip speech bubbles. Replaces the purple-banner
+         look for **Cues:**, **Cycle consideration:**, **How to know
+         you are ready to progress:** lines so they feel like Emily/
+         Saoirse is talking to the athlete, not just another block of
+         coloured copy. */
+      .week-block .coach-tip {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 0.85rem;
+        align-items: flex-start;
+        margin: 1rem 0 1.25rem;
+      }
+
+      .week-block .coach-tip-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(192, 254, 113, 0.22);
+        padding: 6px;
+        box-sizing: border-box;
+        object-fit: contain;
+        border: 2px solid var(--green-lime);
+      }
+
+      .week-block .coach-tip-bubble {
+        position: relative;
+        background: #fff8fd;
+        border: 1px solid rgba(105, 0, 90, 0.25);
+        border-radius: 4px 14px 14px 14px;
+        padding: 0.75rem 1rem;
+        box-shadow: 0 2px 8px rgba(105, 0, 90, 0.08);
+      }
+
+      .week-block .coach-tip-bubble::before {
+        content: '';
+        position: absolute;
+        left: -7px;
+        top: 16px;
+        width: 12px;
+        height: 12px;
+        background: #fff8fd;
+        border-left: 1px solid rgba(105, 0, 90, 0.25);
+        border-bottom: 1px solid rgba(105, 0, 90, 0.25);
+        transform: rotate(45deg);
+      }
+
+      .week-block .coach-tip-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: var(--purple);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 0.3rem;
+      }
+
+      .week-block .coach-tip-text {
+        display: block;
+        margin: 0;
+        color: #1a1a1a;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-family: Georgia, 'Times New Roman', serif;
+      }
+
+      /* Defensive override: the global `.week-block p:has(strong)` rule
+         puts a purple left border on every strong paragraph, which would
+         double up if any inner formatting ever rendered as a <p>. */
+      .week-block .coach-tip-bubble p {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+        padding: 1rem;
+      }
+
+      .modal[hidden] {
+        display: none;
+      }
+
+      .modal-card {
+        max-width: 460px;
         width: 100%;
-        border-collapse: collapse;
-        margin: 1rem 0 1.5rem;
-        font-size: 0.9rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 2px solid var(--green-lime);
+        border-radius: 16px;
+        padding: 2rem 1.75rem;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
       }
 
-      .plan-body th {
-        background: var(--green-dark);
-        color: var(--green-lime);
-        padding: 0.6rem 0.75rem;
+      .modal-saoirse {
+        display: block;
+        width: 110px;
+        height: 110px;
+        margin: -3rem auto 0.6rem;
+        border-radius: 50%;
+        background: var(--green-lime);
+        padding: 8px;
+        box-sizing: border-box;
+        border: 3px solid #fff;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+        animation: modal-saoirse-pop 0.4s ease;
+      }
+
+      @keyframes modal-saoirse-pop {
+        0%   { transform: scale(0.6); opacity: 0; }
+        70%  { transform: scale(1.08); opacity: 1; }
+        100% { transform: scale(1); }
+      }
+
+      /* Centered "day complete" modal — same overlay/card as the
+         week-complete one, no buttons, auto-dismisses. */
+      .day-modal-card {
+        max-width: 460px;
+        text-align: center;
+        cursor: pointer;
+        animation: day-modal-pop 0.35s ease;
+      }
+
+      @keyframes day-modal-pop {
+        0%   { transform: scale(0.85); opacity: 0; }
+        70%  { transform: scale(1.04); opacity: 1; }
+        100% { transform: scale(1); }
+      }
+
+      .day-modal-saoirse {
+        display: block;
+        width: 120px;
+        height: 120px;
+        margin: -3.2rem auto 0.7rem;
+        border-radius: 50%;
+        background: var(--green-lime);
+        padding: 8px;
+        box-sizing: border-box;
+        border: 3px solid #fff;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+        animation: modal-saoirse-pop 0.4s ease;
+      }
+
+      .day-modal-message {
+        margin: 0;
+        color: var(--purple) !important;
+        font-size: 1.4rem;
+      }
+
+      /* Pilot feedback modal — appears after the week-complete
+         celebration, asks for a 1-5 rating + two short text fields. */
+      .feedback-card {
+        max-width: 520px;
         text-align: left;
+        padding: 1.75rem 1.6rem;
+      }
+
+      .feedback-card h2 {
+        margin: 0 0 0.6rem;
+        color: var(--purple) !important;
+        font-size: 1.35rem;
+      }
+
+      .feedback-intro {
+        margin: 0 0 1.2rem;
+        color: #444;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      .feedback-rating {
+        margin-bottom: 1.1rem;
+      }
+
+      .feedback-rating-label {
+        display: block;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 700;
+        color: var(--purple);
+        margin-bottom: 0.5rem;
+      }
+
+      .rating-buttons {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.45rem;
+      }
+
+      .rating-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0.55rem 0.3rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 2px solid rgba(105, 0, 90, 0.25);
+        border-radius: 10px;
+        font: inherit;
+        cursor: pointer;
+        transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease;
+      }
+
+      .rating-btn span {
+        font-size: 1.15rem;
+        font-weight: 800;
+      }
+
+      .rating-btn small {
+        font-size: 0.7rem;
+        color: #666;
+        margin-top: 0.2rem;
+      }
+
+      .rating-btn:hover {
+        border-color: var(--purple);
+        transform: translateY(-1px);
+      }
+
+      .rating-btn.selected {
+        background: var(--green-lime);
+        border-color: var(--green-lime);
+        color: var(--green-dark);
+      }
+
+      .rating-btn.selected small {
+        color: var(--green-dark);
+      }
+
+      .feedback-text-label {
+        display: block;
+        margin-bottom: 0.9rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .feedback-text-label input[type="text"],
+      .feedback-text-label textarea {
+        display: block;
+        width: 100%;
+        margin-top: 0.35rem;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid rgba(105, 0, 90, 0.25);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 0.92rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        box-sizing: border-box;
+      }
+
+      .feedback-text-label input[type="text"]:focus,
+      .feedback-text-label textarea:focus {
+        outline: none;
+        border-color: var(--purple);
+        box-shadow: 0 0 0 3px rgba(105, 0, 90, 0.15);
+      }
+
+      .feedback-text-label textarea {
+        resize: vertical;
+        min-height: 56px;
+      }
+
+      .feedback-card .modal-actions {
+        margin-top: 0.25rem;
+        justify-content: flex-end;
+      }
+
+      @media (max-width: 600px) {
+        .rating-btn small {
+          display: none;
+        }
+      }
+
+      .modal-eyebrow {
+        margin: 0 0 0.4rem;
+        color: var(--purple);
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
         font-weight: 700;
       }
 
-      .plan-body td {
-        padding: 0.55rem 0.75rem;
-        border-bottom: 1px solid rgba(3, 10, 6, 0.1);
-        color: var(--green-dark);
-        vertical-align: top;
+      .modal-card h2 {
+        margin: 0 0 0.6rem;
+        color: var(--purple) !important;
+        font-size: 1.5rem;
       }
 
-      .plan-body tr:nth-child(even) td {
-        background: rgba(192, 254, 113, 0.08);
-      }
-
-      .plan-body blockquote {
-        border-left: 3px solid var(--green-lime);
-        padding: 0.5rem 1rem;
-        margin: 0.75rem 0 1rem;
-        background: rgba(192, 254, 113, 0.06);
-        border-radius: 0 8px 8px 0;
-        font-size: 0.9rem;
-      }
-
-      .plan-body blockquote p {
-        margin: 0.25rem 0;
+      .modal-message {
+        margin: 0 0 1.5rem;
         color: #333;
       }
 
-      .plan-body hr {
-        border: none;
-        border-top: 1px solid rgba(3, 10, 6, 0.12);
-        margin: 2rem 0;
+      .modal-actions {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .modal-primary,
+      .modal-secondary {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        border: 2px solid var(--purple);
+      }
+
+      .modal-primary {
+        background: var(--purple);
+        color: #ffffff;
+      }
+
+      .modal-primary:hover {
+        background: var(--purple-light);
+        border-color: var(--purple-light);
+      }
+
+      .modal-secondary {
+        background: transparent;
+        color: var(--purple);
+      }
+
+      .modal-secondary:hover {
+        background: rgba(105, 0, 90, 0.08);
+      }
+
+      .loading {
+        color: #aaa;
+        padding: 2rem 0;
+      }
+
+      .error {
+        color: #e55;
+        padding: 2rem 0;
       }
 
       @media (max-width: 768px) {
+        .stats-panel {
+          grid-template-columns: 1fr;
+          padding: 1.25rem 1.1rem;
+        }
+
+        .stat-ring-wrap {
+          width: 150px;
+          height: 150px;
+        }
+
+        .stat-mini-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+        }
+
+        .stat-mini-value {
+          font-size: 1.2rem;
+        }
+
         .plan-content {
           padding: 1.25rem 1rem;
         }
 
-        .plan-body table {
-          font-size: 0.8rem;
+        .plan-content th.tick-col,
+        .plan-content td.tick-col {
+          width: 44px;
         }
 
-        .plan-body th,
-        .plan-body td {
-          padding: 0.45rem 0.5rem;
+        .modal-card {
+          padding: 1.5rem 1.25rem;
         }
       }
     </style>

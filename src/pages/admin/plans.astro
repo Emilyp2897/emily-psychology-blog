@@ -1,0 +1,798 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Admin | Plans | ${SITE_TITLE}`} description="Review and approve plans." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="admin-wrap">
+        <div class="admin-header">
+          <h1>Plan Review</h1>
+          <button id="logout-btn" class="logout-btn">Log Out</button>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="pending">Pending Review</button>
+          <button class="tab" data-tab="active">Approved</button>
+        </div>
+        <div id="plans-container">
+          <p class="loading">Loading plans...</p>
+        </div>
+
+        <section id="orphan-section" hidden>
+          <h2 class="orphan-title">Paid intakes without a plan</h2>
+          <p class="orphan-help">These customers paid and submitted their intake but their plan was never written (likely a crashed regenerate). Click Generate to retry.</p>
+          <div id="orphan-container"></div>
+        </section>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      import { supabase } from '../../lib/supabase.js';
+      import { marked } from 'marked';
+
+      const ADMIN_EMAIL = 'emilyphelan@mindthegael.co.uk';
+
+      // Surface auth errors instead of letting the page hang at the
+      // initial "Loading plans..." state with no feedback.
+      let user: any = null;
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        user = data?.user || null;
+      } catch (err: any) {
+        const container = document.getElementById('plans-container');
+        if (container) {
+          container.innerHTML = `<p class="error">Authentication check failed: ${err?.message || 'Unknown error'}. Try refreshing or signing in again.</p>`;
+        }
+        console.error('admin/plans auth check failed:', err);
+        throw err;
+      }
+
+      if (!user || user.email !== ADMIN_EMAIL) {
+        window.location.href = '/login';
+      }
+
+      document.getElementById('logout-btn')?.addEventListener('click', async () => {
+        await supabase.auth.signOut();
+        window.location.href = '/login';
+      });
+
+      let currentTab = 'pending';
+      document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          btn.classList.add('active');
+          currentTab = btn.getAttribute('data-tab') || 'pending';
+          loadPlans();
+        });
+      });
+
+      function safeDate(value: string | null | undefined): string {
+        if (!value) return '';
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      async function loadPlans() {
+        const container = document.getElementById('plans-container');
+        if (!container) return;
+        container.innerHTML = '<p class="loading">Loading plans...</p>';
+
+        try {
+          const status = currentTab === 'pending' ? 'pending_review' : 'active';
+          const res = await fetch(`/api/admin/plans?status=${status}`);
+
+          if (!res.ok) {
+            const body = await res.text().catch(() => '');
+            container.innerHTML = `<p class="error">Failed to load plans (HTTP ${res.status}). ${body}</p>`;
+            return;
+          }
+
+          const payload = await res.json();
+          const plans = payload?.plans;
+
+          if (!Array.isArray(plans) || plans.length === 0) {
+            container.innerHTML = `<p class="empty">No ${status === 'pending_review' ? 'pending' : 'approved'} plans.</p>`;
+            return;
+          }
+
+          // Render each plan's markdown body through `marked` so headers,
+          // lists, tables, and blockquotes look like real prose rather than
+          // raw "## Week 1" / "**Focus:**" syntax. Each plan is wrapped in
+          // its own try so one bad row cannot block the rest.
+          const cards = await Promise.all(plans.map(async (plan: any) => {
+            try {
+              const renderedBody = await marked.parse(plan.plan_content || '');
+              const planTypeLabel = plan.plan_type === 'mental' ? 'Mental Performance' : 'Physical Performance';
+              const dateLabel = safeDate(plan.created_at);
+              const approvedLabel = safeDate(plan.approved_at);
+
+              return `
+                <article class="plan-card" id="plan-${plan.id}">
+                  <header class="plan-card-header">
+                    <div class="plan-card-meta">
+                      <span class="plan-name">${plan.customer_email || 'Unknown customer'}</span>
+                      <span class="plan-meta">${planTypeLabel} &middot; ${plan.weeks_total ?? '?'} weeks</span>
+                    </div>
+                    <span class="plan-date">${dateLabel}</span>
+                  </header>
+                  <div class="plan-content">
+                    ${renderedBody}
+                  </div>
+                  ${status === 'pending_review' ? `
+                    <div class="plan-actions">
+                      <button class="delete-btn" data-id="${plan.id}" data-email="${plan.customer_email || ''}">Delete</button>
+                      <button class="regenerate-btn" data-id="${plan.id}">Regenerate</button>
+                      <button class="approve-btn" data-id="${plan.id}">Approve and publish to customer</button>
+                    </div>
+                  ` : `
+                    <div class="plan-actions">
+                      <button class="delete-btn" data-id="${plan.id}" data-email="${plan.customer_email || ''}">Delete</button>
+                      <button class="regenerate-btn" data-id="${plan.id}">Regenerate</button>
+                      <span class="approved-badge">Approved${approvedLabel ? ` ${approvedLabel}` : ''}</span>
+                    </div>
+                  `}
+                </article>
+              `;
+            } catch (err: any) {
+              console.error('Failed to render plan', plan?.id, err);
+              return `
+                <article class="plan-card">
+                  <header class="plan-card-header">
+                    <div class="plan-card-meta">
+                      <span class="plan-name">${plan?.customer_email || 'Unknown customer'}</span>
+                      <span class="plan-meta">Render error</span>
+                    </div>
+                  </header>
+                  <div class="plan-content">
+                    <p><strong>Could not render this plan:</strong> ${err?.message || 'Unknown error'}</p>
+                    <pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85rem;">${(plan?.plan_content || '').replace(/</g, '&lt;')}</pre>
+                  </div>
+                </article>
+              `;
+            }
+          }));
+
+          container.innerHTML = cards.join('');
+        } catch (err: any) {
+          console.error('loadPlans failed:', err);
+          container.innerHTML = `<p class="error">Could not load plans: ${err?.message || 'Unknown error'}. Check the browser console for details.</p>`;
+          return;
+        }
+
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            if (!id) return;
+            btn.textContent = 'Approving...';
+            (btn as HTMLButtonElement).disabled = true;
+
+            const res = await fetch('/api/admin/approve-plan', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ planId: id }),
+            });
+
+            if (res.ok) {
+              const card = document.getElementById(`plan-${id}`);
+              if (card) {
+                const actions = card.querySelector('.plan-actions');
+                if (actions) actions.innerHTML = '<span class="approved-badge">Approved - visible to customer</span>';
+              }
+            } else {
+              btn.textContent = 'Failed - try again';
+              (btn as HTMLButtonElement).disabled = false;
+            }
+          });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            const email = btn.getAttribute('data-email') || 'this customer';
+            if (!id) return;
+            const confirmed = window.confirm(
+              `Delete this plan for ${email}? This cannot be undone. The customer's intake stays in the database, so you can regenerate a new plan later if needed.`,
+            );
+            if (!confirmed) return;
+
+            btn.textContent = 'Deleting...';
+            (btn as HTMLButtonElement).disabled = true;
+
+            try {
+              const res = await fetch('/api/admin/delete-plan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ planId: id }),
+              });
+              const data = await res.json().catch(() => ({}));
+              if (res.ok && data.success) {
+                const card = document.getElementById(`plan-${id}`);
+                if (card) card.remove();
+              } else {
+                alert('Delete failed: ' + (data?.error || res.status));
+                btn.textContent = 'Delete';
+                (btn as HTMLButtonElement).disabled = false;
+              }
+            } catch (err: any) {
+              alert('Delete error: ' + (err?.message || 'unknown'));
+              btn.textContent = 'Delete';
+              (btn as HTMLButtonElement).disabled = false;
+            }
+          });
+        });
+
+        document.querySelectorAll('.regenerate-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            if (!id) return;
+            const confirmed = window.confirm(
+              'Regenerate this plan? The current version will be deleted and a fresh plan will be generated. This can take up to a minute.',
+            );
+            if (!confirmed) return;
+
+            btn.textContent = 'Regenerating...';
+            (btn as HTMLButtonElement).disabled = true;
+
+            try {
+              const res = await fetch('/api/admin/regenerate-plan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ planId: id }),
+              });
+              const data = await res.json().catch(() => ({}));
+
+              if (res.ok && data.success) {
+                btn.textContent = 'Regenerated - reloading...';
+                setTimeout(() => window.location.reload(), 800);
+              } else {
+                console.error('Regenerate failed', data);
+                alert('Regenerate failed: ' + (data?.error || res.status));
+                btn.textContent = 'Regenerate';
+                (btn as HTMLButtonElement).disabled = false;
+              }
+            } catch (err: any) {
+              console.error('Regenerate error', err);
+              alert('Regenerate error: ' + (err?.message || 'unknown'));
+              btn.textContent = 'Regenerate';
+              (btn as HTMLButtonElement).disabled = false;
+            }
+          });
+        });
+      }
+
+      async function loadOrphans() {
+        const section = document.getElementById('orphan-section');
+        const container = document.getElementById('orphan-container');
+        if (!section || !container) return;
+
+        try {
+          const res = await fetch('/api/admin/orphaned-intakes');
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            section.hidden = false;
+            container.innerHTML = `<p class="error">Could not load orphaned intakes: ${data?.error || res.status}</p>`;
+            return;
+          }
+          const intakes = Array.isArray(data?.intakes) ? data.intakes : [];
+          if (intakes.length === 0) {
+            section.hidden = true;
+            return;
+          }
+          section.hidden = false;
+          container.innerHTML = intakes.map((i: any) => {
+            const created = safeDate(i.created_at);
+            const planTypeLabel = i.plan_type === 'mental' ? 'Mental performance' : 'Training plan';
+            return `
+              <article class="orphan-card" id="orphan-${i.id}">
+                <div class="orphan-info">
+                  <span class="orphan-name">${(i.client_name || i.client_email || 'Unknown customer').replace(/</g, '&lt;')}</span>
+                  <span class="orphan-meta">${(i.client_email || '').replace(/</g, '&lt;')} &middot; ${planTypeLabel}${created ? ` &middot; ${created}` : ''}</span>
+                </div>
+                <button class="recover-btn" data-id="${i.id}">Generate plan</button>
+              </article>
+            `;
+          }).join('');
+
+          document.querySelectorAll('.recover-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const id = btn.getAttribute('data-id');
+              if (!id) return;
+              btn.textContent = 'Generating...';
+              (btn as HTMLButtonElement).disabled = true;
+
+              try {
+                const res = await fetch('/api/admin/recover-intake', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ intakeId: id }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.success) {
+                  btn.textContent = 'Done - reloading...';
+                  setTimeout(() => window.location.reload(), 800);
+                } else {
+                  alert('Recover failed: ' + (data?.error || res.status));
+                  btn.textContent = 'Generate plan';
+                  (btn as HTMLButtonElement).disabled = false;
+                }
+              } catch (err: any) {
+                alert('Recover error: ' + (err?.message || 'unknown'));
+                btn.textContent = 'Generate plan';
+                (btn as HTMLButtonElement).disabled = false;
+              }
+            });
+          });
+        } catch (err: any) {
+          console.error('loadOrphans failed:', err);
+          section.hidden = false;
+          container.innerHTML = `<p class="error">Could not load orphaned intakes: ${err?.message || 'Unknown error'}</p>`;
+        }
+      }
+
+      loadPlans();
+      loadOrphans();
+    </script>
+
+    <style>
+      /* Scoped — these elements are in the static template. */
+      .admin-wrap {
+        max-width: 980px;
+        margin: 2.5rem auto;
+      }
+
+      .admin-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .admin-header h1 {
+        margin: 0;
+        color: var(--green-lime);
+        font-size: 1.8rem;
+      }
+
+      .logout-btn {
+        padding: 0.5rem 1rem;
+        background: transparent;
+        border: 2px solid var(--green-lime);
+        color: var(--green-lime);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+
+      .logout-btn:hover {
+        background: var(--green-lime);
+        color: var(--green-dark);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.6rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .tab {
+        padding: 0.55rem 1.25rem;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: #aaa;
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 0.15s ease, border-color 0.15s ease;
+        margin-bottom: -2px;
+      }
+
+      .tab:hover {
+        color: var(--green-light);
+      }
+
+      .tab.active {
+        color: var(--green-lime);
+        border-bottom-color: var(--green-lime);
+      }
+
+      #orphan-section {
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px dashed rgba(178, 22, 158, 0.35);
+      }
+
+      .orphan-title {
+        margin: 0 0 0.4rem;
+        font-size: 1.15rem;
+        color: var(--purple-light) !important;
+      }
+
+      .orphan-help {
+        margin: 0 0 1rem;
+        font-size: 0.92rem;
+        color: var(--green-light);
+        opacity: 0.85;
+      }
+    </style>
+
+    <!-- Everything below targets HTML that is injected at runtime via
+         innerHTML into #plans-container. Astro's scoped CSS adds a
+         [data-astro-cid-X] attribute selector to scoped rules and applies
+         the matching attribute to elements in the template; innerHTML
+         insertions never get that attribute, so a scoped block here would
+         silently fail to match. Hence `is:global`. Class names below
+         (.plan-card, .plan-content, .approve-btn etc.) are unique to this
+         admin page so there is no real collision risk. -->
+    <style is:global>
+      .admin-wrap #plans-container .loading,
+      .admin-wrap #plans-container .error,
+      .admin-wrap #plans-container .empty {
+        padding: 2rem 0;
+        text-align: center;
+      }
+
+      .admin-wrap #plans-container .loading { color: var(--green-light); opacity: 0.6; }
+      .admin-wrap #plans-container .error { color: #ff8a8a; }
+      .admin-wrap #plans-container .empty { color: var(--green-light); opacity: 0.7; }
+
+      .plan-card {
+        background: #ffffff;
+        border-radius: 14px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      .plan-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 1.6rem;
+        background: var(--green-dark);
+        color: #ffffff;
+      }
+
+      .plan-card-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .plan-name {
+        font-weight: 700;
+        font-size: 1.02rem;
+        color: #ffffff;
+      }
+
+      .plan-meta {
+        font-size: 0.85rem;
+        color: var(--green-lime);
+      }
+
+      .plan-date {
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.65);
+        white-space: nowrap;
+      }
+
+      /* Rendered plan body. Reset element-level styles so the page-level
+         dark-mode overrides from global.css do not leak in. */
+      .plan-content {
+        padding: 1.6rem 2rem 1.4rem;
+        max-height: 620px;
+        overflow-y: auto;
+        border-bottom: 1px solid #eee;
+        font-family: Georgia, 'Times New Roman', serif;
+        color: #1a2e1f;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .plan-content h1,
+      .plan-content h2,
+      .plan-content h3,
+      .plan-content h4 {
+        color: var(--purple) !important;
+        font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.25;
+        margin: 1.6rem 0 0.6rem;
+      }
+
+      .plan-content h1:first-child,
+      .plan-content h2:first-child {
+        margin-top: 0;
+      }
+
+      .plan-content h1 {
+        font-size: 1.45rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 2px solid rgba(105, 0, 90, 0.18);
+      }
+      .plan-content h2 { font-size: 1.2rem; }
+      .plan-content h3 { font-size: 1.05rem; }
+      .plan-content h4 { font-size: 0.95rem; }
+
+      .plan-content p {
+        margin: 0 0 0.85rem;
+        color: #1a2e1f !important;
+      }
+
+      .plan-content ul,
+      .plan-content ol {
+        margin: 0 0 1rem 0;
+        padding-left: 1.4rem;
+      }
+
+      .plan-content li {
+        margin-bottom: 0.35rem;
+        color: #1a2e1f !important;
+      }
+
+      .plan-content strong {
+        color: var(--purple);
+        font-weight: 700;
+      }
+
+      .plan-content em {
+        color: #1a2e1f;
+      }
+
+      .plan-content blockquote {
+        margin: 0.8rem 0;
+        padding: 0.7rem 1rem;
+        background: rgba(240, 205, 255, 0.35);
+        border-left: 4px solid var(--purple);
+        border-radius: 6px;
+        font-style: normal;
+        font-size: 0.95em;
+        color: #1a1a1a !important;
+      }
+
+      .plan-content blockquote p {
+        margin-bottom: 0.4rem;
+        color: #1a1a1a !important;
+      }
+
+      .plan-content blockquote p:last-child {
+        margin-bottom: 0;
+      }
+
+      .plan-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.6rem 0 1rem;
+        font-size: 0.92rem;
+      }
+
+      .plan-content th,
+      .plan-content td {
+        border: 1px solid rgba(105, 0, 90, 0.18);
+        padding: 0.5rem 0.7rem;
+        text-align: left;
+        vertical-align: top;
+        color: #1a2e1f;
+      }
+
+      .plan-content th {
+        background: var(--green-dark);
+        color: var(--green-lime) !important;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .plan-content tr:nth-child(even) td {
+        background: rgba(244, 255, 232, 0.45);
+      }
+
+      .plan-content code {
+        background: rgba(105, 0, 90, 0.1);
+        color: var(--purple);
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.88em;
+      }
+
+      .plan-content hr {
+        border: 0;
+        border-top: 1px solid rgba(105, 0, 90, 0.18);
+        margin: 1.6rem 0;
+      }
+
+      .plan-actions {
+        padding: 1rem 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+        background: #fafafa;
+      }
+
+      .approve-btn {
+        padding: 0.65rem 1.4rem;
+        background: var(--green-lime);
+        color: var(--green-dark);
+        border: 2px solid var(--green-lime);
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+      }
+
+      .approve-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: var(--purple);
+        border-color: var(--purple);
+        color: #ffffff;
+      }
+
+      .approve-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
+      .delete-btn {
+        padding: 0.65rem 1.4rem;
+        background: transparent;
+        color: #c92a2a;
+        border: 2px solid #c92a2a;
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        margin-right: auto;
+        transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+      }
+
+      .delete-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: #c92a2a;
+        color: #ffffff;
+      }
+
+      .delete-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
+      .regenerate-btn {
+        padding: 0.65rem 1.4rem;
+        background: transparent;
+        color: var(--purple);
+        border: 2px solid var(--purple);
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+      }
+
+      .regenerate-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: var(--purple);
+        color: #ffffff;
+      }
+
+      .regenerate-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
+      .orphan-card {
+        display: flex !important;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        margin-bottom: 0.75rem;
+        background: #ffffff;
+        color: #1a1a1a !important;
+        border: 1px solid rgba(178, 22, 158, 0.25);
+        border-radius: 10px;
+      }
+
+      .orphan-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .orphan-name {
+        font-weight: 700;
+        color: #1a1a1a !important;
+      }
+
+      .orphan-meta {
+        font-size: 0.88rem;
+        color: #555 !important;
+      }
+
+      .recover-btn {
+        padding: 0.55rem 1.1rem;
+        background: var(--purple);
+        color: #ffffff !important;
+        border: 2px solid var(--purple);
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: transform 0.12s ease, background 0.12s ease;
+      }
+
+      .recover-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: var(--purple-light);
+        border-color: var(--purple-light);
+      }
+
+      .recover-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
+      .approved-badge {
+        display: inline-block;
+        padding: 0.4rem 0.85rem;
+        background: rgba(105, 0, 90, 0.12);
+        color: var(--purple);
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 720px) {
+        .admin-wrap {
+          margin: 1.5rem auto;
+        }
+
+        .admin-header h1 {
+          font-size: 1.45rem;
+        }
+
+        .plan-card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 1rem 1.1rem;
+        }
+
+        .plan-content {
+          padding: 1.1rem 1.1rem;
+          max-height: 520px;
+        }
+
+        .plan-actions {
+          padding: 0.9rem 1.1rem;
+        }
+
+        .approve-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </body>
+</html>

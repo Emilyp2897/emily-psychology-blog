@@ -23,6 +23,9 @@ import { SITE_TITLE } from '../consts';
 
         <section class="plans-section">
           <h2>Your Plans</h2>
+          <p class="dashboard-ai-note">
+            <strong>About your plans:</strong> Each plan is AI-generated and personally reviewed by Emily before it is published to you. If anything in a plan feels off, unclear, or unsafe, <a href="/contact-us">message Emily</a> before pushing through it.
+          </p>
           <div id="plans-list" class="plans-list">
             <p class="plans-empty">Loading your plans...</p>
           </div>
@@ -57,7 +60,7 @@ import { SITE_TITLE } from '../consts';
       const plansList = document.getElementById('plans-list');
 
       const { data: plans, error } = await supabase
-        .from('plans')
+        .from('Plans')
         .select('*')
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false });
@@ -116,7 +119,31 @@ import { SITE_TITLE } from '../consts';
       }
 
       .plans-section h2 {
-        margin-bottom: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .dashboard-ai-note {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(244, 255, 232, 0.18);
+        border-left: 3px solid var(--green-lime);
+        border-radius: 10px;
+        padding: 0.7rem 0.95rem;
+        margin: 0 0 1.25rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        color: var(--green-light);
+      }
+
+      .dashboard-ai-note strong {
+        color: var(--green-lime);
+        font-weight: 700;
+        margin-right: 0.3rem;
+      }
+
+      .dashboard-ai-note a {
+        color: var(--green-lime) !important;
+        text-decoration: underline !important;
+        font-weight: 600;
       }
 
       .plans-list {

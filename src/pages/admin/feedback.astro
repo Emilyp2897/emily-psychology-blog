@@ -1,0 +1,235 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Admin | Feedback | ${SITE_TITLE}`} description="Read pilot feedback from customers on their weekly plan progress." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="admin-wrap">
+        <div class="admin-header">
+          <h1>Customer Feedback</h1>
+          <a href="/admin/plans" class="back-link">← Back to plans</a>
+        </div>
+        <p class="intro">Weekly feedback from pilot customers as they finish each week of their plan.</p>
+        <div id="feedback-container">
+          <p class="loading">Loading feedback...</p>
+        </div>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      import { supabase } from '../../lib/supabase.js';
+
+      const ADMIN_EMAIL = 'emilyphelan@mindthegael.co.uk';
+
+      let user: any = null;
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        user = data?.user || null;
+      } catch (err: any) {
+        const c = document.getElementById('feedback-container');
+        if (c) c.innerHTML = `<p class="error">Auth check failed: ${err?.message || 'Unknown error'}.</p>`;
+        throw err;
+      }
+      if (!user || user.email !== ADMIN_EMAIL) {
+        window.location.href = '/login';
+      }
+
+      function safeDate(value: string | null | undefined): string {
+        if (!value) return '';
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      function escapeHtml(s: string | null | undefined): string {
+        if (!s) return '';
+        return s.replace(/[&<>"']/g, c =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c]);
+      }
+
+      function renderRating(n: number | null): string {
+        if (n === null || n === undefined) return '<span class="rating-empty">No rating</span>';
+        const dots = [1, 2, 3, 4, 5].map(i => `<span class="rating-dot ${i <= n ? 'filled' : ''}"></span>`).join('');
+        return `<span class="rating">${dots}<span class="rating-num">${n}/5</span></span>`;
+      }
+
+      async function load() {
+        const container = document.getElementById('feedback-container');
+        if (!container) return;
+        try {
+          const res = await fetch('/api/admin/feedback');
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            container.innerHTML = `<p class="error">Failed to load: ${data?.error || res.status}</p>`;
+            return;
+          }
+          const rows = Array.isArray(data?.feedback) ? data.feedback : [];
+          if (rows.length === 0) {
+            container.innerHTML = `<p class="empty">No feedback yet. Once a customer completes a week, their reply will land here.</p>`;
+            return;
+          }
+          container.innerHTML = rows.map((r: any) => `
+            <article class="fb-card">
+              <header class="fb-card-header">
+                <div class="fb-card-meta">
+                  <span class="fb-customer">${escapeHtml(r.customer_email)}</span>
+                  <span class="fb-week">Week ${r.week_number ?? '?'}</span>
+                </div>
+                <span class="fb-date">${safeDate(r.created_at)}</span>
+              </header>
+              <div class="fb-card-rating">${renderRating(r.rating)}</div>
+              ${r.worked_well ? `<div class="fb-section"><span class="fb-label">What worked</span><p>${escapeHtml(r.worked_well)}</p></div>` : ''}
+              ${r.was_hard ? `<div class="fb-section"><span class="fb-label">What was hard</span><p>${escapeHtml(r.was_hard)}</p></div>` : ''}
+              ${r.notes_for_emily ? `<div class="fb-section fb-section-notes"><span class="fb-label">For Emily</span><p>${escapeHtml(r.notes_for_emily)}</p></div>` : ''}
+            </article>
+          `).join('');
+        } catch (err: any) {
+          console.error('Feedback load failed:', err);
+          container.innerHTML = `<p class="error">Could not load feedback: ${err?.message || 'Unknown error'}.</p>`;
+        }
+      }
+
+      load();
+    </script>
+
+    <style>
+      .admin-wrap {
+        max-width: 900px;
+        margin: 2.5rem auto;
+      }
+      .admin-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      .back-link {
+        color: var(--green-lime) !important;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .intro {
+        color: var(--green-light);
+        margin-bottom: 2rem;
+        opacity: 0.85;
+      }
+      .loading,
+      .empty,
+      .error {
+        padding: 1.5rem 0;
+        color: rgba(244, 255, 232, 0.8);
+      }
+      .error {
+        color: #ff8a8a;
+      }
+    </style>
+
+    <style is:global>
+      .fb-card {
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 1px solid rgba(178, 22, 158, 0.25);
+        border-radius: 14px;
+        padding: 1.1rem 1.3rem;
+        margin-bottom: 1rem;
+      }
+      .fb-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .fb-card-meta {
+        display: flex;
+        gap: 0.6rem;
+        align-items: baseline;
+        flex-wrap: wrap;
+      }
+      .fb-customer {
+        font-weight: 800;
+        color: #1a1a1a;
+      }
+      .fb-week {
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(105, 0, 90, 0.12);
+        color: var(--purple);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .fb-date {
+        font-size: 0.82rem;
+        color: #666;
+      }
+      .fb-card-rating {
+        margin-bottom: 0.6rem;
+      }
+      .rating {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .rating-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(105, 0, 90, 0.18);
+      }
+      .rating-dot.filled {
+        background: var(--green-lime);
+        box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+      }
+      .rating-num {
+        margin-left: 0.4rem;
+        font-size: 0.82rem;
+        color: #555;
+      }
+      .rating-empty {
+        font-size: 0.85rem;
+        color: #999;
+        font-style: italic;
+      }
+      .fb-section {
+        margin-top: 0.5rem;
+      }
+      .fb-section-notes {
+        background: rgba(192, 254, 113, 0.18);
+        padding: 0.55rem 0.7rem;
+        border-radius: 8px;
+        border-left: 3px solid var(--green-lime);
+      }
+      .fb-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #69005a;
+        margin-bottom: 0.2rem;
+      }
+      .fb-section p {
+        margin: 0;
+        color: #1a1a1a;
+        line-height: 1.45;
+      }
+    </style>
+  </body>
+</html>

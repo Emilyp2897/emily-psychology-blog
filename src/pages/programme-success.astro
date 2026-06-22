@@ -19,7 +19,7 @@ import { SITE_TITLE } from '../consts';
         <Image src={saoirseImage} alt="Shamrock" class="status-img" loading="eager" />
         <p class="eyebrow" id="status-eyebrow">Finalising your plan...</p>
         <h1 id="status-heading">Hold on a moment</h1>
-        <p class="message" id="status-message">Stripe confirmed your payment. I'm now generating your full plan and emailing it to you. This usually takes under a minute.</p>
+        <p class="message" id="status-message">Stripe confirmed your payment. I'm now generating your plan. This usually takes under a minute.</p>
         <p class="message" id="status-followup" hidden></p>
         <div class="actions" id="status-actions" hidden>
           <a href="/personal-training" class="action-primary">Back to Personal Training</a>
@@ -47,11 +47,13 @@ import { SITE_TITLE } from '../consts';
         const actions = document.getElementById('status-actions');
 
         const showSuccess = (text) => {
-          if (eyebrow) eyebrow.textContent = 'Plan sent';
-          if (heading) heading.textContent = 'Your plan is on its way';
-          if (message) message.textContent = text;
-          if (actions) actions.hidden = false;
-        };
+          if (eyebrow) eyebrow.textContent = 'Plan ready';
+          if (heading) heading.textContent = 'Your plan is ready';
+          if (message) message.textContent = 'Redirecting you to your dashboard...';
+              setTimeout(() => {
+              window.location.href = '/dashboard';
+      }, 2000);
+};
 
         const showError = (text, followupText) => {
           if (eyebrow) eyebrow.textContent = 'Something went wrong';
@@ -88,7 +90,7 @@ import { SITE_TITLE } from '../consts';
             return;
           }
 
-          showSuccess(data.message || 'Your plan has been generated and emailed to you. Check your inbox in the next few minutes. If you do not see it, check your spam folder.');
+          showSuccess(data.message || 'Your plan has been generated and is being reviewed by Emily. It will be available in your dashboard within 48 hours.');
         } catch (err) {
           console.error('Finalize error:', err);
           showError(

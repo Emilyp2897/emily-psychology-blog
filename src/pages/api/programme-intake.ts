@@ -52,6 +52,40 @@ function describeSeasonPhase(phase: string | undefined | null): string {
   }
 }
 
+// Summarise which days of the week the athlete trains with their sport.
+// Lets the generator schedule physical sessions OFF club nights and
+// place mental-performance routines on or before match days.
+function describeTrainingDays(days: unknown): string {
+  if (!Array.isArray(days) || days.length === 0) return 'not provided';
+  const labels: Record<string, string> = {
+    mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday',
+    fri: 'Friday', sat: 'Saturday', sun: 'Sunday',
+  };
+  return days
+    .filter((d): d is string => typeof d === 'string')
+    .map(d => labels[d.toLowerCase()] || d)
+    .join(', ');
+}
+
+// Critical for intensity calibration — separate from seasonPhase
+// because someone can be "in-season" but NOT training (injury) or
+// "off-season" but still training hard (gym-only block). Stop the
+// generator giving a mid-season competing athlete a beginner-style plan.
+function describeActiveTrainingStatus(status: string | undefined | null): string {
+  switch (status) {
+    case 'actively_competing':
+      return 'Currently training AND competing regularly. Plan at a level that complements an athlete already at full sport load; do NOT default to beginner work.';
+    case 'training_not_competing':
+      return 'Training in their sport but not yet competing. Plan can push moderate-to-high intensity, no competition recovery constraints.';
+    case 'building_back_up':
+      return 'Building back up after a break or injury. Start lighter, progress conservatively, watch for re-aggravation, no early high-intensity blocks.';
+    case 'not_training':
+      return 'Not currently training with their sport. Plan can be foundational; the gym/mental work is their main load right now.';
+    default:
+      return 'not provided. Ask Emily before assuming intensity level.';
+  }
+}
+
 type ProgrammeIntakeSuccess = {
   success: true;
   previewToken: string;
@@ -224,6 +258,8 @@ async function generateTeaser(
     `- Plan duration: ${body.planDuration || '6 weeks'}`,
     `- Season phase: ${describeSeasonPhase(body.seasonPhase)}`,
     `- Existing weekly sport load: ${describeSportLoad(body.clubTrainingsPerWeek, body.matchesPerWeek)}`,
+    `- Sport training days: ${describeTrainingDays((body as any).trainingDays)}`,
+    `- Active training status: ${describeActiveTrainingStatus((body as any).activeTrainingStatus)}`,
     `- Plan goals: ${(body.planGoals || []).join(', ')}`,
     `- Lifestyle: ${body.lifestyle || 'not provided'}`,
     `- Cycle status: ${body.cycleStatus || 'not provided'}`,
@@ -318,6 +354,8 @@ async function generateMentalTeaser(
     `- Plan duration: ${body.planDuration || '6 weeks'}`,
     `- Season phase: ${describeSeasonPhase(body.seasonPhase)}`,
     `- Existing weekly sport load: ${describeSportLoad(body.clubTrainingsPerWeek, body.matchesPerWeek)}`,
+    `- Sport training days: ${describeTrainingDays((body as any).trainingDays)}`,
+    `- Active training status: ${describeActiveTrainingStatus((body as any).activeTrainingStatus)}`,
     `- Performance moments they want to work on: ${(body.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
     `- Current pre-performance routines: ${body.currentRoutines || 'not provided'}`,
     `- A peak moment they remember: ${body.peakMoment || 'not provided'}`,

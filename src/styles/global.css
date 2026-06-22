@@ -677,3 +677,290 @@ body.resources-page footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   PLAN PAGE - WEEK CONTENT STYLES
+   ============================================ */
+
+.week-block h1,
+.week-block h2 {
+  margin: 32px 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #c0fe71;
+  color: #69005a;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-family: Georgia, serif;
+}
+
+.week-block h3 {
+  margin: 20px 0 6px;
+  color: #69005a;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: Georgia, serif;
+}
+
+.week-block h4 {
+  margin: 16px 0 6px;
+  color: #0a1a0e;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: Georgia, serif;
+}
+
+.week-block p {
+  margin: 6px 0 10px;
+  color: #1a1a1a;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.week-block strong {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.week-block ul,
+.week-block ol {
+  margin: 6px 0 10px;
+  padding-left: 20px;
+  color: #1a1a1a;
+}
+
+.week-block li {
+  margin-bottom: 4px;
+  line-height: 1.55;
+  font-size: 15px;
+}
+
+.week-block table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 16px;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+.week-block thead tr th {
+  padding: 10px 12px;
+  background: #0a1a0e;
+  color: #c0fe71;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid #0a1a0e;
+  text-align: left;
+}
+
+.week-block tbody tr td {
+  padding: 9px 12px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  vertical-align: top;
+  color: #1a1a1a;
+}
+
+.week-block tbody tr:nth-child(even) td {
+  background: #f9f9f9;
+}
+
+.week-block blockquote {
+  border-left: 3px solid #c0fe71;
+  padding: 8px 14px;
+  margin: 10px 0 14px;
+  background: rgba(192, 254, 113, 0.06);
+  border-radius: 0 6px 6px 0;
+}
+
+.week-block blockquote p {
+  margin: 4px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.week-block hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+/* Plan page white card and table cell background fixes */
+.plan-content {
+  background: #ffffff !important;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+}
+
+.week-block tbody tr td {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+.week-block tbody tr:nth-child(even) td {
+  background: #f9f9f9 !important;
+}
+
+.week-block p,
+.week-block li,
+.week-block blockquote p {
+  color: #1a1a1a !important;
+}
+
+/* Plan page - cue blockquotes in light purple */
+.week-block blockquote {
+  border-left: 3px solid #69005a !important;
+  background: rgba(105, 0, 90, 0.08) !important;
+  border-radius: 0 6px 6px 0;
+  padding: 8px 14px;
+  margin: 10px 0 14px;
+}
+
+.week-block blockquote p {
+  color: #69005a !important;
+  font-size: 14px;
+}
+
+/* Plan page - blockquote border back to lime green, cue boxes purple */
+.week-block blockquote {
+  border-left: 3px solid #c0fe71 !important;
+  background: rgba(105, 0, 90, 0.08) !important;
+}
+
+.week-block blockquote p {
+  color: #69005a !important;
+}
+
+/* Plan page - cue paragraphs (Cues, Cycle consideration, How to know) */
+.week-block p:has(strong) {
+  background: rgba(105, 0, 90, 0.08);
+  border-left: 3px solid #69005a;
+  border-radius: 0 6px 6px 0;
+  padding: 8px 14px;
+  margin: 6px 0 8px;
+  color: #1a1a1a !important;
+}
+
+/* Plan page - blockquote same style as cue paragraphs */
+.week-block blockquote {
+  background: rgba(105, 0, 90, 0.08) !important;
+  border-left: 3px solid #69005a !important;
+  border-radius: 0 6px 6px 0 !important;
+  padding: 8px 14px !important;
+  margin: 6px 0 8px !important;
+}
+
+.week-block blockquote p {
+  color: #1a1a1a !important;
+  font-size: 15px !important;
+}
+
+/* Plan page - week nav card grid */
+.week-nav {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.75rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.week-pill {
+  padding: 1rem !important;
+  border-radius: 12px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  border: 2px solid var(--green-lime) !important;
+  background: transparent !important;
+  color: var(--green-lime) !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+  line-height: 1.3 !important;
+}
+
+.week-pill.locked {
+  border-color: #444 !important;
+  color: #555 !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+.week-pill.active {
+  background: var(--green-lime) !important;
+  color: var(--green-dark) !important;
+}
+
+@media (max-width: 600px) {
+  .week-nav {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Dashboard plan cards */
+.plan-card {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 1.25rem 1.5rem !important;
+  display: grid !important;
+  gap: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.plan-card-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.plan-type {
+  font-weight: 700 !important;
+  color: var(--green-dark) !important;
+  font-size: 1rem !important;
+}
+
+.plan-status {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  padding: 0.2rem 0.65rem !important;
+  border-radius: 999px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  background: rgba(192, 254, 113, 0.2) !important;
+  color: var(--green-dark) !important;
+}
+
+.plan-date {
+  color: #666 !important;
+  font-size: 0.85rem !important;
+  margin: 0 !important;
+}
+
+.plan-view-btn {
+  display: inline-block !important;
+  margin-top: 0.25rem !important;
+  padding: 0.55rem 1rem !important;
+  background: #c0fe71 !important;
+  color: #1a2e1f !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  width: fit-content !important;
+}
+
+.plan-view-btn:hover {
+  background: #69005a !important;
+  color: #ffffff !important;
+}
+
+/* Admin plan review - raw text readable */
+.plan-text {
+  white-space: pre-wrap !important;
+  font-family: Georgia, serif !important;
+  font-size: 0.88rem !important;
+  line-height: 1.7 !important;
+  color: #1a1a1a !important;
+  word-wrap: break-word !important;
+}

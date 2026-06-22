@@ -11,8 +11,7 @@ import {
   detectAvoidIfTags,
 } from '../../data/exercises';
 import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
-import { EMILY_CALENDAR_BOOKING_URL } from '../../consts';
-import { buildClientPlanEmailHtml, buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
+import { buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
 
 function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
   const t = (trainings || '').trim();
@@ -44,6 +43,33 @@ function describeSeasonPhase(phase: string | undefined | null): string {
       return 'Off-season: rest, recovery, lighter work, deeper mental skill development.';
     default:
       return 'not provided. Treat as a general plan with no specific phase emphasis.';
+  }
+}
+
+function describeTrainingDays(days: unknown): string {
+  if (!Array.isArray(days) || days.length === 0) return 'not provided';
+  const labels: Record<string, string> = {
+    mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday',
+    fri: 'Friday', sat: 'Saturday', sun: 'Sunday',
+  };
+  return days
+    .filter((d): d is string => typeof d === 'string')
+    .map(d => labels[d.toLowerCase()] || d)
+    .join(', ');
+}
+
+function describeActiveTrainingStatus(status: string | undefined | null): string {
+  switch (status) {
+    case 'actively_competing':
+      return 'Currently training AND competing regularly. Plan at a level that complements an athlete already at full sport load; do NOT default to beginner work.';
+    case 'training_not_competing':
+      return 'Training in their sport but not yet competing. Plan can push moderate-to-high intensity, no competition recovery constraints.';
+    case 'building_back_up':
+      return 'Building back up after a break or injury. Start lighter, progress conservatively, watch for re-aggravation, no early high-intensity blocks.';
+    case 'not_training':
+      return 'Not currently training with their sport. Plan can be foundational; the gym/mental work is their main load right now.';
+    default:
+      return 'not provided. Ask Emily before assuming intensity level.';
   }
 }
 
@@ -156,71 +182,63 @@ export async function finalizeIntake(opts: {
     });
   }
 
-  // 3b. Save the full plan to Supabase.
-  try {
-    const { createClient } = await import('@supabase/supabase-js');
-    const supabase = createClient(
-      import.meta.env.PUBLIC_SUPABASE_URL,
-      import.meta.env.SUPABASE_SERVICE_ROLE_KEY
-    );
+ // 3b. Save the full plan to Supabase.
+try {
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.SUPABASE_SERVICE_ROLE_KEY
+  );
 
-    // Look up the Supabase user by email.
-    const { data: userData } = await supabase.auth.admin.listUsers();
-    const matchedUser = userData?.users?.find((u: { email?: string }) => u.email === intake.email);
+  const { data: userData } = await supabase.auth.admin.listUsers();
+  const matchedUser = userData?.users?.find((u: { email?: string }) => u.email === intake.email);
+  const weeks_total = (intake.planDuration || '').includes('12') ? 12 : 6;
 
-    if (matchedUser) {
-      await supabase.from('plans').insert({
-        user_id: matchedUser.id,
-        plan_type: planType,
-        plan_content: fullPlan,
-        status: 'active',
-        created_at: new Date().toISOString(),
-      });
-    } else {
-      console.warn(`Supabase: no user found for email ${intake.email}. Plan not saved to account.`);
+  if (matchedUser) {
+    const { error } = await supabase.from('Plans').insert({
+      user_id: matchedUser.id,
+      plan_type: planType,
+      plan_content: fullPlan,
+      status: 'pending_review',
+      weeks_total,
+      created_at: new Date().toISOString(),
+    });
+    if (error) {
+      console.error('Supabase insert error:', error);
     }
-  } catch (err) {
-    // Non-fatal: log but don't block the email flow.
-    console.error('Failed to save plan to Supabase:', err);
-  }
-
-  // 4. Decide where the plan goes.
-  const standardDestination = readStandardDestination();
-  const isSpecialisedPhysicalTrack = planType === 'physical' && track !== 'standard';
-  const sendFullPlanToClient = standardDestination === 'client' && !isSpecialisedPhysicalTrack;
-
-  // 5. Email Emily a notification copy (always).
-  await sendEmilyNotification({
-    intake,
-    fullPlan,
-    sportProfile,
-    track,
-    sessionId,
-    token,
-    planType,
-    reviewRequired: !sendFullPlanToClient,
-  });
-
-  // 6. Email the client.
-  if (sendFullPlanToClient) {
-    await sendClientPlanEmail({ intake, fullPlan, sportProfile });
   } else {
-    await sendClientHoldingEmail({ intake, planType });
+    console.warn(`Supabase: no user found for email ${intake.email}. Plan not saved to account.`);
   }
+} catch (err) {
+  console.error('Failed to save plan to Supabase:', err);
+}
 
-  // 7. Mark intake session finalized.
-  await sql`
-    UPDATE intake_sessions
-    SET finalized_at = NOW(), stripe_session_id = ${sessionId}
-    WHERE id = ${token}::uuid
-  `;
+ // 4. Email Emily a short notification (not the full plan - she reviews in dashboard).
+await sendEmilyNotification({
+  intake,
+  fullPlan,
+  sportProfile,
+  track,
+  sessionId,
+  token,
+  planType,
+  reviewRequired: true,
+});
+
+// 5. Email the client a holding message.
+await sendClientHoldingEmail({ intake, planType });
+
+// 6. Mark intake session finalized.
+await sql`
+  UPDATE intake_sessions
+  SET finalized_at = NOW(), stripe_session_id = ${sessionId}
+  WHERE id = ${token}::uuid
+`;
 
   return {
     ok: true,
-    sentFullPlanToClient: sendFullPlanToClient,
-    message: sendFullPlanToClient
-      ? 'Your plan has been generated and emailed to you. Check your inbox.'
-      : 'Thanks for your purchase. Emily is reviewing your plan and will email it to you within 48 hours.',
+    sentFullPlanToClient: false,
+    message: 'Thanks for your purchase. Your plan is being reviewed and will be available in your dashboard within 48 hours.',
   };
 }
 
@@ -245,9 +263,18 @@ async function generateFullPlan(input: {
 
   const client = new Anthropic({ apiKey });
 
+  // Sizing: each week with two sessions (table + exercise descriptions +
+  // cues + cycle note + progression note) lands around 900-1400 tokens.
+  // Plus snapshot + overview + coach notes per week + things-to-track +
+  // contraindicated section. Previous caps (6000 / 12000) were right at
+  // the edge and the model was hitting max_tokens before finishing.
+  // New caps give roughly 25-40% headroom.
   const is12Week = (input.intake.planDuration || '').includes('12');
-  const baseTokens = is12Week ? 12000 : 6000;
-  const trackBonus = input.track !== 'standard' ? 1500 : 0;
+  // Bumped to fit the explicit OUTPUT STRUCTURE: per-session warm-up
+  // additions + main session table + blockquote descriptions + the
+  // Plan Overview's standard warm-up table push token cost up.
+  const baseTokens = is12Week ? 24000 : 14000;
+  const trackBonus = input.track !== 'standard' ? 2000 : 0;
   const maxTokens = baseTokens + trackBonus;
 
   const response = await client.messages.create({
@@ -259,6 +286,14 @@ async function generateFullPlan(input: {
     ],
     messages: [{ role: 'user', content: buildPlanPrompt(input) }],
   });
+
+  // Flag the truncation case so it shows up in logs instead of silently
+  // landing in the customer's inbox missing the final weeks.
+  if (response.stop_reason === 'max_tokens') {
+    console.warn(
+      `[programme-finalize] physical plan hit max_tokens (cap=${maxTokens}, duration=${input.intake.planDuration}, track=${input.track}). Output truncated.`,
+    );
+  }
 
   const raw = response.content
     .filter((block) => block.type === 'text')
@@ -286,8 +321,12 @@ async function generateMentalFullPlan(input: {
 
   const client = new Anthropic({ apiKey });
 
+  // Mental plans: each week is concept explainer + daily practice table +
+  // performance moment + reflection prompt. Plus athlete snapshot + plan
+  // overview + routines-to-build + coach notes + things-to-track.
+  // Same headroom bump as the physical generator.
   const is12Week = (input.intake.planDuration || '').includes('12');
-  const maxTokens = is12Week ? 12000 : 6000;
+  const maxTokens = is12Week ? 20000 : 12000;
 
   const response = await client.messages.create({
     model,
@@ -298,6 +337,12 @@ async function generateMentalFullPlan(input: {
     ],
     messages: [{ role: 'user', content: buildMentalPlanPrompt(input) }],
   });
+
+  if (response.stop_reason === 'max_tokens') {
+    console.warn(
+      `[programme-finalize] mental plan hit max_tokens (cap=${maxTokens}, duration=${input.intake.planDuration}). Output truncated.`,
+    );
+  }
 
   const raw = response.content
     .filter((block) => block.type === 'text')
@@ -336,46 +381,86 @@ function buildMentalSystemPrompt(): string {
     'CRISIS RULE:',
     'If the intake responses indicate the client is in mental health crisis (panic, self-harm, severe distress), do NOT proceed with a plan. Output a short message directing them to emergency support (Samaritans 116 123 in UK/IE, Pieta House 1800 247 247 in IE) and tell them Emily will be in touch directly.',
     '',
-    'OUTPUT STRUCTURE. Use exactly these section headers, in this order:',
+    'OUTPUT STRUCTURE. You MUST use these exact section headers, in this exact order. You MUST fill every required subsection. Do NOT skip, rename, merge, reorder, or improvise. Each bolded subsection label below must appear verbatim.',
+    '',
+    '# HOW TO READ THIS PLAN',
+    'A short friendly orientation block. Cover, in this exact order, each item bolded:',
+    '  - **Weekly structure:** "Each week opens with a concept, then a daily practice table, then a moment to apply it, then a reflection prompt."',
+    '  - **Daily practice:** "5-10 minutes per day. Tick each row off on your dashboard as you go."',
+    '  - **Reflection prompt:** "One question at the end of each week. Write the answer in a notebook, your phone, or a journal app — what matters is that you write it."',
+    '  - **Routines to build:** "By the end of the plan you will have a pre-performance routine, a refocus routine, and a reset cue. Re-read these in match weeks."',
+    '  - **Maith thú celebrations:** "When you tick off a day or finish a week, Saoirse will pop in to celebrate. Tick consistently and your dashboard tracks your streak."',
+    'Keep this section warm, short, and in second person. Do NOT add anything beyond the items above.',
     '',
     '# ATHLETE SNAPSHOT',
-    '(2-3 lines summarising who they are, their sport, competitive level, and the headline mental performance areas they want to work on.)',
+    'Bolded fields, one per line, in this exact order. Fill each from the intake. Use "Not provided" if a field is missing.',
+    '  **Name (first only or alias):**',
+    '  **Sport:**',
+    '  **Competition level:**',
+    '  **Years competing:**',
+    '  **Season phase:**',
+    '  **Active training status:**',
+    '  **Current weekly sport load:**',
+    '  **Sport training days:**',
+    '  **Plan duration:**',
+    '  **Current confidence (1-10):**',
+    '  **Performance moments they want to work on:**',
+    '  **Companion physical plan:** (if a companion physical plan is being run; otherwise write "None at this time.")',
+    '',
+    'Then a paragraph headed **Key context:** that is 2-3 sentences summarising who they are and the headline mental performance areas the plan addresses.',
     '',
     '# PLAN OVERVIEW',
-    '(Goals for the plan, the weekly themes they will move through, and the through-line: what state you are trying to help them move toward by the end.)',
+    'Required subsections, in this exact order, each headed with the bolded label below. Do NOT skip any.',
+    '',
+    '  **Structure:** one line — total weeks and what the customer practices daily vs weekly.',
+    '',
+    '  **Weekly themes:** a bulleted list, one bullet per week (Week 1, Week 2, ...). Each bullet names the theme drawn from the 12 toolkit themes where relevant, plus one line on what state that week moves them toward.',
+    '',
+    '  **Through-line:** one short paragraph naming what state you are helping the athlete move toward by the end of the plan.',
+    '',
+    '  **Programming priorities:** a numbered list 1-5 of what this plan emphasises (e.g. attention control, self-talk, pre-performance routine, refocus, post-mistake reset) and one short line each on why for this athlete.',
+    '',
+    '  **Evidence base:** one short paragraph naming the frameworks or sources you draw on (e.g. Attention Control Theory, Self-Determination Theory, PETTLEP imagery, Hatzigeorgiadis et al. 2011 on self-talk).',
+    '',
+    '  **Companion plan integration:** include this subsection ONLY if a companion physical plan is being run. One short paragraph on how the mental work supports the physical training themes.',
     '',
     '# WEEK-BY-WEEK PLAN',
-    'For each week use this exact structure:',
+    'For each week, in this EXACT format and order:',
     '',
     '  ## Week N: [theme name, drawn from the 12 toolkit themes where relevant]',
     '  **Focus:** one short line on what this week is doing for them.',
     '',
-    '  **Concept of the week**',
-    '  (3-5 lines explaining the concept in plain English. Name the framework or author where relevant.)',
+    '  **Concept of the week:** 3-5 lines explaining the concept in plain English. Name the framework or author where relevant.',
     '',
-    '  **Daily practice (5-10 minutes)**',
-    '  A short markdown table listing what they do each day this week. Format:',
+    '  **Daily practice (5-10 minutes):** a markdown table the customer can tick row by row.',
     '  | Day | Practice | What it builds |',
     '  | --- | --- | --- |',
+    '  List 5-7 days. Use specific day names where the athlete has reported sport training days (so practice can be timed around them); otherwise use Mon-Sun.',
     '',
-    '  **Performance moment to apply it**',
-    '  One short paragraph: where in their training or competition week they should consciously apply the concept.',
+    '  **Performance moment to apply it:** one short paragraph naming where in their training or competition week they should consciously apply the concept.',
     '',
-    '  **Reflection prompt**',
-    '  One question they answer at the end of the week.',
+    '  **Reflection prompt:** one question they answer at the end of the week.',
     '',
     '# ROUTINES TO BUILD',
-    '(A short section assembling the pre-performance routine, refocus routine, and post-mistake reset cue the client has built up by the end of the plan.)',
+    'Required subsections, each with the bolded label below. By the end of the plan the athlete will have assembled these from the weekly work.',
+    '  **Pre-performance routine:** 3-5 lines describing the 2-3 minute script the athlete runs before competition.',
+    '  **Refocus routine:** 3-5 lines describing what they do mid-game when attention slips.',
+    '  **Post-mistake reset cue:** 1-2 lines describing the cue (word, breath, action) they use after an error.',
     '',
     '# COACH NOTES (FOR THE CLIENT)',
-    '(For each week, 2-3 lines:',
+    'For each week, in this exact format:',
     '  ## Week N',
-    '  Why this week comes here:',
-    '  What to watch for in yourself:',
-    '  Adjust if: )',
+    '  **Why this week comes here:** one sentence on its place in the arc.',
+    '  **What to watch for in yourself:** one sentence on signals to monitor.',
+    '  **Adjust if:** one sentence with a concrete fallback (e.g. "If you have a match this week, do the daily practice on the morning of the match, not the evening before").',
     '',
     '# THINGS TO TRACK',
-    '(A short list of what the athlete should journal or notice during the plan.)',
+    'A bulleted list of what to journal or notice during the plan. Cover at minimum:',
+    '  - When you applied the weekly concept and what happened',
+    '  - Confidence rating (1-10) at the end of each week',
+    '  - One thing you did well in your sport that week',
+    '  - One moment that tested the concept and how it went',
+    '  - Any anxiety, fatigue, or mood patterns worth flagging to Emily',
     '',
     'VOICE:',
     '- Warm, direct, grounded. Plain English. Match Emily\'s voice: no hype, no motivational filler, no emojis.',
@@ -399,6 +484,8 @@ function buildMentalPlanPrompt(input: {
     `- Plan duration: ${intake.planDuration || '6 weeks'}`,
     `- Season phase: ${describeSeasonPhase(intake.seasonPhase)}`,
     `- Existing weekly sport load: ${describeSportLoad(intake.clubTrainingsPerWeek, intake.matchesPerWeek)}`,
+    `- Sport training days: ${describeTrainingDays((intake as any).trainingDays)}`,
+    `- Active training status: ${describeActiveTrainingStatus((intake as any).activeTrainingStatus)}`,
     `- Performance moments they want to work on: ${(intake.performanceMomentsToWorkOn || []).join(', ') || 'not provided'}`,
     `- Current mental performance routines: ${intake.currentRoutines || 'not provided'}`,
     `- Past peak moment: ${intake.peakMoment || 'not provided'}`,
@@ -458,27 +545,111 @@ function buildSystemPrompt(): string {
     'CITATION RULE:',
     'Any specific claim that is NOT obvious general programming knowledge must come from a real named source. Never invent citations.',
     '',
-    'OUTPUT STRUCTURE. Use exactly these section headers, in this order:',
+    'OUTPUT STRUCTURE. You MUST use these exact section headers, in this exact order. You MUST fill every required subsection. Do NOT skip, rename, merge, reorder, or improvise. Each bolded subsection label below must appear verbatim.',
+    '',
+    '# HOW TO READ THIS PLAN',
+    'A short friendly orientation block. Cover, in this exact order, with each item on its own line and the label bolded:',
+    '  - **RPE (Rate of Perceived Exertion):** "RPE is how hard a set felt out of 10. RPE 7 = you could do 3 more reps if you had to. RPE 9 = only 1 rep left in the tank. Use it to scale weight day to day."',
+    '  - **Sets x Reps:** "Sets are the rounds, reps are the number of times you do the exercise per round. 4 x 6 means 4 rounds of 6 reps."',
+    '  - **Rest:** "How long to wait between sets so your strength recovers. Heavy lifts get longer rest."',
+    '  - **Warm-up:** "Every session uses the same standard warm-up listed in Plan Overview. Each session adds 1-2 focus movements specific to that day."',
+    '  - **Cues:** "One key thing to think about while doing the lift. Saoirse will pop in with these on your plan page."',
+    '  - **Cycle consideration:** "A line on how to adapt the session around your menstrual cycle if relevant."',
+    '  - **How to know you are ready to progress:** "What signs tell you it is time to add weight or move on to a harder variation."',
+    '  - **Maith thú celebrations:** "When you tick off a session on the dashboard, Saoirse will pop in to celebrate. Tick every exercise so the day is marked complete."',
+    'Keep this section warm, short, and in second person. Do NOT add anything beyond the items above.',
     '',
     '# CLIENT SNAPSHOT',
+    'Bolded fields, one per line, in this exact order. Fill each from the intake. Use "Not provided" if a field is missing.',
+    '  **Age:**',
+    '  **Height:**',
+    '  **Weight:**',
+    '  **Experience level:**',
+    '  **Sport:**',
+    '  **Season phase:**',
+    '  **Active training status:**',
+    '  **Current weekly sport load:**',
+    '  **Sport training days:**',
+    '  **S&C sessions available:**',
+    '  **Equipment:**',
+    '  **Plan duration:**',
+    '  **Primary goals:**',
+    '  **Medical notes:**',
+    '  **Cycle status:**',
+    '  **Mental performance work:** (if a companion mental plan is being run; otherwise write "None at this time.")',
+    '',
+    'Then a paragraph headed **Key context:** that is 2-3 sentences summarising who they are and how this plan is pitched (intensity level, why this approach, what to expect).',
+    '',
     '# PLAN OVERVIEW',
+    'Required subsections, in this exact order, each headed with the bolded label below. Do NOT skip any.',
+    '',
+    '  **Structure:** one line — total weeks x sessions per week = total sessions.',
+    '',
+    '  **Phases:** a bulleted list of the periodisation blocks across the weeks (e.g. Weeks 1-2 Accumulation, Weeks 3-4 Intensification, Week 5 Deload, Week 6 Taper). One line per block describing what that block does.',
+    '',
+    '  **Session split:** one short paragraph naming what Session 1 and Session 2 emphasise (e.g. Lower + Power vs Upper + Conditioning). State this is consistent across all weeks.',
+    '',
+    '  **Standard warm-up (used before every session, 10-12 minutes):** an actual markdown table the athlete can follow. Format:',
+    '  | Exercise | Sets | Reps / Duration | Purpose |',
+    '  | --- | --- | --- | --- |',
+    '  List 5-7 movements: light cardio (2-3 min), 2-3 mobility drills (hip/ankle/thoracic), 1-2 glute activation, 1-2 sport-specific movement primers. Choose exercises that exist in the AVAILABLE EXERCISE POOL or are obvious bodyweight/mobility movements (e.g. world\'s greatest stretch, 90/90 hip rotations, glute bridge, banded monster walks).',
+    '',
+    '  **Scheduling guidance:** use the athlete\'s reported club training days and matches to give concrete day suggestions (e.g. "Place Session 1 on Tuesday, 48 hours after Monday club training. Place Session 2 on Thursday — never lift heavy the day before or after a match"). Be specific, do not use generic placeholders.',
+    '',
+    '  **Programming priorities:** a numbered list 1-5 of what this plan emphasises (e.g. posterior chain strength for ACL/hamstring protection, single-leg stability, repeat-sprint ability) and one short line each on why for this athlete\'s sport.',
+    '',
+    '  **Injury-prevention emphasis:** one short paragraph on what protective work is woven through the plan, with at least one cited source (e.g. Petersen et al. 2011 on Nordic hamstring curls; Myer et al. 2013 on ACL prevention).',
+    '',
+    '  **Conditioning rationale:** one short paragraph on why the conditioning approach fits the energy demands of the sport.',
+    '',
+    '  **Body composition / nutrition note:** include this subsection ONLY if the client\'s primary goals mention fat loss, muscle gain, or body composition. One short paragraph on calorie balance and protein targets.',
+    '',
+    '  **Mental performance integration:** include this subsection ONLY if a companion mental plan is being run. One short paragraph on how the gym work supports the mental plan themes.',
+    '',
     '# WEEK-BY-WEEK PLAN',
-    'For each week:',
+    'For each week, in this EXACT format and order:',
+    '',
     '  ## Week N: [theme]',
-    '  **Focus:** one short line.',
-    '  ### Session 1: [day type]',
+    '  **Focus:** one short line on what this week is doing for them.',
+    '',
+    '  ### Session 1: [day type, e.g. "Lower Emphasis + Power"]',
+    '',
+    '  **Warm-up:** one short line referencing the standard warm-up and naming 1-2 session-specific primers to add today (e.g. "Standard warm-up. Add: 2 sets of 3 box jumps at low height to prime power output.").',
+    '',
+    '  **Main session:** a markdown table.',
     '  | Exercise | Sets | Reps | RPE | Rest |',
     '  | --- | --- | --- | --- | --- |',
-    '  Blockquote descriptions after each table.',
-    '  **Cues:** one short line.',
-    '  **Cycle consideration:** one short line.',
-    '  **How to know you are ready to progress:** one short line.',
+    '  4-6 main lifts/movements, selected from the AVAILABLE EXERCISE POOL. Do NOT include warm-up or mobility entries here — those belong in the warm-up line above.',
+    '',
+    '  Blockquote (`>`) descriptions immediately after the table, one per exercise. Each blockquote opens with the exercise name in **bold** then explains what it is, how to perform it, what it protects against, and why it is in this week.',
+    '',
+    '  **Cues:** one short line on form/intent for this session.',
+    '  **Cycle consideration:** one short line on cycle-aware adjustment.',
+    '  **How to know you are ready to progress:** one short line on the criteria for adding load or moving on next week.',
+    '',
+    '  ### Session 2: [day type, e.g. "Upper Emphasis + Conditioning"]',
+    '  Same exact structure as Session 1: **Warm-up:** line, then **Main session:** table, then blockquote descriptions, then **Cues:**, **Cycle consideration:**, **How to know you are ready to progress:**.',
     '',
     '# COACH NOTES',
-    '# CONTRAINDICATED EXERCISES AND SUBSTITUTES',
-    '# THINGS TO TRACK',
+    'For each week, in this exact format:',
+    '  ## Week N',
+    '  **Why this week sits here:** one sentence on its place in the periodisation.',
+    '  **What to watch for in yourself:** one sentence on physical or mental signals to monitor.',
+    '  **Adjust if:** one sentence with a concrete fallback (e.g. "If your match is rescheduled to a Sunday, swap Session 2 to Wednesday").',
     '',
-    'VOICE: warm, direct, plain English. No emojis. No em-dashes or en-dashes.',
+    '# CONTRAINDICATED EXERCISES AND SUBSTITUTES',
+    'A bulleted list of common exercises this client should NOT do given their medical notes, injuries, cycle status, or season phase. For each, name the safer substitute and one sentence on why.',
+    '',
+    '# THINGS TO TRACK',
+    'A bulleted list of metrics to log session by session. Cover at minimum:',
+    '  - Bar weight on key compound lifts',
+    '  - RPE actually felt vs RPE prescribed',
+    '  - Sleep quality and energy on training mornings',
+    '  - Cycle day and perceived energy',
+    '  - 24/48 hour soreness',
+    '  - Any body composition or performance marker tied to their primary goals',
+    '',
+    'VOICE: warm, direct, plain English. No emojis. No em-dashes or en-dashes. Second person ("you"). Avoid filler. Cite real sources where you make specific claims.',
   ].join('\n');
 }
 
@@ -539,6 +710,8 @@ function buildPlanPrompt(input: {
     `- Plan duration: ${intake.planDuration || '6 weeks'}`,
     `- Season phase: ${describeSeasonPhase(intake.seasonPhase)}`,
     `- Existing weekly sport load: ${describeSportLoad(intake.clubTrainingsPerWeek, intake.matchesPerWeek)}`,
+    `- Sport training days: ${describeTrainingDays((intake as any).trainingDays)}`,
+    `- Active training status: ${describeActiveTrainingStatus((intake as any).activeTrainingStatus)}`,
     `- Plan goals: ${(intake.planGoals || []).join(', ')}`,
     `- Issues/concerns: ${intake.issuesWorries || 'none provided'}`,
     `- Lifestyle: ${intake.lifestyle || 'not provided'}`,
@@ -584,74 +757,6 @@ function buildPlanPrompt(input: {
 }
 
 // ─── Emails ────────────────────────────────────────────────────────
-
-async function sendClientPlanEmail(input: {
-  intake: ConsultationWithPlanRequest;
-  fullPlan: string;
-  sportProfile: SportProfile;
-}): Promise<void> {
-  const resendApiKey = import.meta.env.RESEND_API_KEY;
-  const fromEmail =
-    import.meta.env.CONSULTATION_FROM_EMAIL || 'Mind the Gael <onboarding@resend.dev>';
-  if (!resendApiKey) throw new Error('Missing RESEND_API_KEY.');
-
-  const { intake, fullPlan, sportProfile } = input;
-  const firstName = (intake.name || '').split(' ')[0] || 'there';
-  const duration = intake.planDuration || '6-week';
-
-  const text = [
-    `Hi ${firstName},`,
-    '',
-    `Thanks for buying the ${duration} programme. Below is your full plan, built around your sport (${sportProfile.name}), your equipment, and your goals.`,
-    '',
-    'A few important notes before you start:',
-    '- This plan is educational guidance, not clinical or medical advice.',
-    '- If anything in the plan feels off, painful, or unclear, stop and email me at ' + EMILY_EMAIL + '.',
-    '- If you experience new pain, symptoms, or a change in how your body is responding, contact your doctor or physio.',
-    '',
-    '------------------------------------------',
-    '',
-    fullPlan,
-    '',
-    '------------------------------------------',
-    '',
-    'Once you\'ve had a read through, if you want to talk it through, book a 1:1 chat with me here: ' + EMILY_CALENDAR_BOOKING_URL,
-    '',
-    'You can also reach me any time at ' + EMILY_EMAIL + '. I want to know how you get on.',
-    '',
-    buildSignatureText(),
-  ].join('\n');
-
-  const html = buildClientPlanEmailHtml({
-    firstName,
-    duration,
-    sportProfileName: sportProfile.name,
-    planText: fullPlan,
-    calendarUrl: EMILY_CALENDAR_BOOKING_URL,
-    emilyEmail: EMILY_EMAIL,
-  });
-
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${resendApiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: [intake.email],
-      subject: `Your ${duration} plan from Mind the Gael`,
-      text,
-      html,
-      reply_to: EMILY_EMAIL,
-    }),
-  });
-
-  if (!response.ok) {
-    const details = await response.text().catch(() => 'No response body');
-    throw new Error(`Failed to send client plan email: ${response.status} ${details}`);
-  }
-}
 
 async function sendEmilyNotification(input: {
   intake: ConsultationWithPlanRequest;
@@ -797,11 +902,6 @@ async function sendClientHoldingEmail(input: {
     const details = await response.text().catch(() => 'No response body');
     throw new Error(`Failed to send client holding email: ${response.status} ${details}`);
   }
-}
-
-function readStandardDestination(): 'emily' | 'client' {
-  const raw = (import.meta.env.PLAN_DESTINATION_STANDARD as string | undefined) || 'emily';
-  return raw === 'client' ? 'client' : 'emily';
 }
 
 function json(payload: any, status: number = 200): Response {
