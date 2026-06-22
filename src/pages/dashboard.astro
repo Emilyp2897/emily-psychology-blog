@@ -57,29 +57,69 @@ import { SITE_TITLE } from '../consts';
         window.location.href = '/login';
       });
 
-      // Load plans
+      // Load plans via the server-side endpoint so we can include team
+      // plans (which have user_id = null and would otherwise be hidden
+      // by RLS on the client-facing supabase client).
       const plansList = document.getElementById('plans-list');
+      let allPlans: any[] = [];
+      try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        const accessToken = sessionData?.session?.access_token;
+        if (accessToken) {
+          const res = await fetch('/api/customer-plans', {
+            headers: { 'Authorization': `Bearer ${accessToken}` },
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && Array.isArray(data?.plans)) {
+            allPlans = data.plans;
+          } else {
+            console.error('customer-plans returned non-ok:', data);
+          }
+        }
+      } catch (err) {
+        console.error('customer-plans fetch failed', err);
+      }
 
-      const { data: plans, error } = await supabase
-        .from('Plans')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false });
+      function statusLabel(plan: any): string {
+        if (plan.is_team_plan && plan.status === 'pending_review') return 'pending review';
+        return plan.status;
+      }
 
-      if (error || !plans || plans.length === 0) {
-      if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training" style="color: #c0fe71 !important; text-decoration: underline;">Get started here.</a></p>';
+      function planLink(plan: any): string | null {
+        if (plan.is_team_plan) {
+          // Only link if approved + has a share token. Pending team
+          // plans have no public URL yet.
+          if (plan.status === 'active' && plan.share_token) return `/team-plan/${plan.share_token}`;
+          return null;
+        }
+        return `/plan/${plan.id}`;
+      }
+
+      function planTypeLabel(plan: any): string {
+        const base = plan.plan_type === 'mental' ? '🧠 Mental Performance Plan' : '💪 Physical Performance Plan';
+        return plan.is_team_plan ? `${base} <span class="team-badge">Team</span>` : base;
+      }
+
+      if (allPlans.length === 0) {
+        if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training" style="color: #c0fe71 !important; text-decoration: underline;">Get started here.</a></p>';
       } else {
         if (plansList) {
-          plansList.innerHTML = plans.map(plan => `
-            <div class="plan-card">
-              <div class="plan-card-header">
-                <span class="plan-type">${plan.plan_type === 'mental' ? '🧠 Mental Performance Plan' : '💪 Physical Performance Plan'}</span>
-                <span class="plan-status ${plan.status}">${plan.status}</span>
+          plansList.innerHTML = allPlans.map((plan: any) => {
+            const link = planLink(plan);
+            const ctaHtml = link
+              ? `<a href="${link}" class="plan-view-btn">${plan.is_team_plan ? 'Open team plan' : 'View Plan'}</a>`
+              : `<span class="plan-pending-note">Awaiting Emily's review. You'll get an email with the share link once it's live.</span>`;
+            return `
+              <div class="plan-card">
+                <div class="plan-card-header">
+                  <span class="plan-type">${planTypeLabel(plan)}</span>
+                  <span class="plan-status ${plan.status}">${statusLabel(plan)}</span>
+                </div>
+                <p class="plan-date">Created ${new Date(plan.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                ${ctaHtml}
               </div>
-              <p class="plan-date">Created ${new Date(plan.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-              <a href="/plan/${plan.id}" class="plan-view-btn">View Plan</a>
-            </div>
-          `).join('');
+            `;
+          }).join('');
         }
       }
     </script>
@@ -237,6 +277,32 @@ import { SITE_TITLE } from '../consts';
       .plan-view-btn:hover {
         background: var(--purple-light);
         color: var(--purple) !important;
+      }
+
+      .team-badge {
+        display: inline-block;
+        margin-left: 0.4rem;
+        padding: 0.1rem 0.5rem;
+        background: var(--green-lime);
+        color: var(--green-dark);
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-radius: 999px;
+        vertical-align: middle;
+      }
+
+      .plan-pending-note {
+        display: inline-block;
+        margin-top: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        background: rgba(105, 0, 90, 0.08);
+        border-left: 3px solid var(--purple);
+        border-radius: 6px;
+        color: #555;
+        font-size: 0.85rem;
+        max-width: 100%;
       }
       
     </style>
