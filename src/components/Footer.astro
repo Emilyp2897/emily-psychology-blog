@@ -678,7 +678,17 @@ const today = new Date();
       openChatBtn.setAttribute('aria-expanded', 'true');
     }
     document.body.style.overflow = 'hidden';
-    if (chatPanelInput instanceof HTMLInputElement) {
+    // Scroll the panel to the top so the user always lands on the
+    // header + suggested prompts, not on previous chat history.
+    chatPanel.scrollTop = 0;
+    if (chatPanelLog instanceof HTMLElement) {
+      chatPanelLog.scrollTop = 0;
+    }
+    // Auto-focus the input only on desktop. On mobile, focusing pops
+    // the keyboard up and scrolls the input into view, which hides
+    // the header / prompts behind the keyboard.
+    const isMobile = window.matchMedia('(max-width: 720px)').matches;
+    if (!isMobile && chatPanelInput instanceof HTMLInputElement) {
       chatPanelInput.focus();
     }
   }
