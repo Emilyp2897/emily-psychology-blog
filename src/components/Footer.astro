@@ -426,6 +426,47 @@ const today = new Date();
     body.content-hub-page .shamrock-chatbot-wrapper {
       bottom: 2.9rem;
     }
+
+    /* Mobile chat-panel: tighter padding, bigger touch targets, and
+       stacked input row so the send button has room without squeezing
+       the input. */
+    .chat-panel {
+      padding: 0.65rem;
+      gap: 0.5rem;
+    }
+
+    .chat-panel-head h2 {
+      font-size: 1rem;
+    }
+
+    .chat-panel-close {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.05rem;
+    }
+
+    .chat-panel-prompts {
+      gap: 0.3rem;
+    }
+
+    .chat-panel-prompt {
+      padding: 0.32rem 0.55rem;
+      font-size: 0.72rem;
+    }
+
+    .chat-panel-message {
+      font-size: 0.92rem;
+    }
+
+    .chat-panel-form input {
+      font-size: 16px; /* Prevent iOS auto-zoom on focus. */
+      padding: 0.6rem 0.7rem;
+    }
+
+    .chat-panel-form button {
+      padding: 0.6rem 0.85rem;
+      font-size: 0.92rem;
+    }
   }
 
   @media (max-width: 900px) {
@@ -462,21 +503,33 @@ const today = new Date();
     z-index: 1000;
     width: 180px;
     height: 180px;
-    background: none;
+    background: transparent !important;
     border: none;
     cursor: default;
     transition: transform 0.2s;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.22);
-    border-radius: 10px;
+    /* No box-shadow, no border-radius — the shamrock PNG is irregular
+       shape with transparent background, so any rectangular halo or
+       drop-shadow reads as a "white/grey box" behind her. */
+    box-shadow: none;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .shamrock-chatbot :global(img) {
+  .shamrock-chatbot :global(img),
+  .shamrock-chatbot :global(picture) {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .shamrock-chatbot-link {
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
   }
   @media (max-width: 900px) {
     .shamrock-chatbot {

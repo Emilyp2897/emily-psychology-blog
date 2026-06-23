@@ -4,10 +4,24 @@ import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 ---
-<header>
+<header id="site-header">
   <div class="header-inner">
-    <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
-    <nav class="nav-links">
+    <a href="/" class="header-logo-link" aria-label="Mind the Gael home">
+      <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
+    </a>
+    <button
+      type="button"
+      class="nav-toggle"
+      id="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+    >
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="nav-links" id="primary-nav">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
       <HeaderLink href="/content-hub">Content Hub</HeaderLink>
@@ -40,6 +54,35 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     authLink.textContent = 'Dashboard';
     authLink.setAttribute('href', '/dashboard');
   }
+
+  // Mobile hamburger toggle: flips the nav open/closed and updates
+  // aria-expanded for screen readers. Closes when a link inside the
+  // drawer is tapped so the page navigation feels seamless.
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  const primaryNav = document.getElementById('primary-nav');
+
+  function closeNav() {
+    if (!header || !toggle) return;
+    header.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+  }
+  function openNav() {
+    if (!header || !toggle) return;
+    header.classList.add('nav-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
+  }
+
+  toggle?.addEventListener('click', () => {
+    if (header?.classList.contains('nav-open')) closeNav();
+    else openNav();
+  });
+
+  primaryNav?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => closeNav());
+  });
 </script>
 
 <style>
@@ -61,6 +104,42 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   .header-inner {
     position: relative;
   }
+
+  .header-logo-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  /* Hamburger button — hidden on desktop, shown on mobile. */
+  .nav-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    background: transparent;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .nav-toggle-bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--green-lime);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* Animate to an X when open. */
+  header.nav-open .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  header.nav-open .nav-toggle-bar:nth-child(2) { opacity: 0; }
+  header.nav-open .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .back-bubble {
     position: fixed;
@@ -96,11 +175,15 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 
   @media (max-width: 720px) {
     .back-bubble {
-      top: 76px;
+      top: 64px;
       left: 12px;
-      width: 40px;
-      height: 40px;
-      font-size: 1.15rem;
+      width: 36px;
+      height: 36px;
+      font-size: 1.05rem;
+    }
+
+    .nav-toggle {
+      display: inline-flex;
     }
   }
 </style>

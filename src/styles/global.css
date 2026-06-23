@@ -385,9 +385,45 @@ img {
   :root { --page-bg-top-offset: 92px; }
   body { font-size: 18px; }
   main { padding: 2em 0; }
-  header .header-inner { flex-direction: column; gap: 0.5em; }
-  header .header-inner img { max-height: 70px; }
-  header nav.nav-links { flex-wrap: wrap; justify-content: center; }
+
+  /* Compact mobile header: single row with logo on the left and the
+     hamburger button on the right. The full nav becomes a collapsible
+     drawer that drops down only when the hamburger is tapped. */
+  header .header-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    padding: 0.4em 0.85em;
+  }
+  header .header-inner img { max-height: 44px; }
+
+  header nav.nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5em 0;
+    background: var(--green-dark);
+    border-top: 1px solid rgba(192, 254, 113, 0.2);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    z-index: 1500;
+  }
+  header.nav-open nav.nav-links { display: flex; }
+
+  header nav.nav-links a,
+  header nav.nav-links a:link,
+  header nav.nav-links a:visited {
+    padding: 0.85em 1.25em;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.08);
+    border-top: 0;
+    width: 100%;
+  }
+
   footer { padding: 2em 0; }
 }
 
@@ -443,6 +479,17 @@ body.resources-page main,
 body.resources-page footer {
   position: relative;
   z-index: 1;
+}
+
+/* On pages that scope their stacking context with z-index: 1, the
+   header needs a higher z-index so its mobile nav drawer (children
+   at z-index 1500) can paint above main content. Without this, the
+   hamburger menu opens but is drawn underneath the page bands. */
+body.meet-team-page header,
+body.personal-training-page header,
+body.about-page header,
+body.resources-page header {
+  z-index: 1500;
 }
 .popular {
   transform: scale(1.05);

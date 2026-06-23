@@ -32,7 +32,20 @@ const sectionRoutes: Record<string, { title: string; href: string }> = {
 const sectionSlug = postSlug?.split('/')[0];
 const sectionMeta = sectionSlug ? sectionRoutes[sectionSlug] : undefined;
 const isGaelToolkitPost = sectionSlug === 'gael-performance-toolkit';
+const isSmspPost = sectionSlug === 'strong-minds-stronger-players';
+
+// SMSP is always free — no subscription required — but the series
+// is not ready for public launch yet. Flip this to false once SMSP
+// content is finalised and ready to publish.
+const SMSP_COMING_SOON = true;
+
 const shouldBypassSubscriptionGate = import.meta.env.DEV;
+const showComingSoonGate = isSmspPost && SMSP_COMING_SOON && !shouldBypassSubscriptionGate;
+// Subscription gate now applies to NON-SMSP posts only. SMSP either
+// shows the coming-soon gate (if locked) or no gate at all once it's
+// open to readers.
+const showSubscriptionGate = !isSmspPost && !shouldBypassSubscriptionGate;
+const contentIsLocked = showSubscriptionGate || showComingSoonGate;
 
 const toolkitRelatedArticles = new Set([
   'training-the-mind/attention-control-theory',
@@ -71,7 +84,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
       </section>
 
       <article class="article-shell">
-        {!shouldBypassSubscriptionGate && (
+        {showSubscriptionGate && (
           <div id="subscription-gate" class="subscription-gate">
             <h2>Subscribe to Keep Reading</h2>
             <p>This article is for subscribers. Join now to unlock full access.</p>
@@ -79,7 +92,16 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
           </div>
         )}
 
-        <div id="paid-content" class:list={["paid-content prose", !shouldBypassSubscriptionGate && "is-locked"]}>
+        {showComingSoonGate && (
+          <div class="coming-soon-gate">
+            <p class="coming-soon-eyebrow">Coming soon</p>
+            <h2>Strong Minds, Stronger Players is launching soon</h2>
+            <p>This series is always free for every player and coach. We are finalising the content with our expert panel before opening it up. Check back closer to launch.</p>
+            <a href="/content-hub/strong-minds-stronger-players/" class="gate-cta gate-cta-back">Back to the series</a>
+          </div>
+        )}
+
+        <div id="paid-content" class:list={["paid-content prose", contentIsLocked && "is-locked"]}>
           <slot />
 
           {showToolkitToolsBox && (
@@ -244,6 +266,51 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
     border: 2px solid rgba(105, 0, 90, 0.5);
     border-radius: 10px;
     background: rgba(240, 205, 255, 0.2);
+  }
+
+  /* Coming-soon variant for SMSP posts. Uses the lime accent so it
+     reads as "in the works" rather than "you need to pay". */
+  .coming-soon-gate {
+    margin: 0 0 1.2rem;
+    padding: 1.25rem 1.1rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    background: rgba(192, 254, 113, 0.12);
+    text-align: center;
+  }
+
+  .coming-soon-gate .coming-soon-eyebrow {
+    margin: 0 0 0.4rem;
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .coming-soon-gate h2 {
+    margin: 0 0 0.6rem;
+    color: var(--purple);
+    font-size: 1.25rem;
+  }
+
+  .coming-soon-gate p {
+    margin: 0 auto 0.5rem;
+    max-width: 56ch;
+    color: var(--green-dark);
+  }
+
+  .coming-soon-gate .gate-cta-back {
+    margin-top: 0.85rem;
+    background: transparent;
+    border-color: var(--purple);
+    color: var(--purple) !important;
+  }
+
+  .coming-soon-gate .gate-cta-back:hover {
+    background: var(--purple);
+    color: #ffffff !important;
+    border-color: var(--purple);
   }
 
   .subscription-gate h2 {

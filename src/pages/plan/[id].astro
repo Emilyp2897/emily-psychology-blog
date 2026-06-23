@@ -414,6 +414,8 @@ const feedbackEnabled =
         const cleaned = stripEmptyBlocks(rendered);
         const coached = transformCoachTips(cleaned);
         const withChecks = injectExerciseCheckboxes(coached, weekNum);
+        const merged = mergeExerciseDescriptions(withChecks);
+        const withCues = attachCuesToRows(merged);
 
         return `
           <div class="week-block">
@@ -423,7 +425,7 @@ const feedbackEnabled =
                 : `<span class="week-status-badge in-progress">In progress</span>`}
               <span class="week-progress-text">${done} of ${total} ${itemLabel} ticked</span>
             </div>
-            ${withChecks}
+            ${withCues}
           </div>
         `;
       }
@@ -547,6 +549,282 @@ const feedbackEnabled =
             `</div>`;
           p.replaceWith(wrap);
           toRemove.forEach(el => el.remove());
+        }
+
+        return tmp.innerHTML;
+      }
+
+      // Pull each `**Exercise name:** description...` paragraph (which
+      // lives inside a single combined `<blockquote>` from the markdown
+      // output) into a new row right under the matching exercise inside
+      // the preceding <table>. The whole blockquote is then removed; any
+      // unmatched paragraphs (e.g. a leading "Mobility work" intro) get
+      // re-emitted as a standalone styled paragraph after the table so
+      // we don't lose copy.
+      //
+      // Match key: case-insensitive comparison of each paragraph's
+      // leading <strong> text against the exercise name in the first
+      // non-tick-col cell of each tbody <tr>. Fuzzy: either side may be
+      // a substring of the other (handles "Box jump (low)" vs
+      // "Box jump").
+      // Move each exercise description out of the trailing <blockquote>
+      // and INTO the Exercise-name cell of the matching <tr>, so the
+      // description renders directly under the exercise name on the
+      // SAME row as the tick box (instead of a separate row below).
+      //
+      // For a paragraph whose leading <strong> matches an exercise name
+      // ("Box jump" → "Box jump (low)" via fuzzy include), the whole
+      // body attaches to that row.
+      //
+      // For a paragraph whose strong label does NOT match a row (e.g.
+      // "Mobility work"), we split the body into sentences and attach
+      // each sentence to whichever exercise name it mentions inside the
+      // sentence text. Leftover sentences (or whole paragraphs with no
+      // match) re-emit as a styled intro div after the table so the
+      // copy is not lost.
+      function mergeExerciseDescriptions(html: string): string {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        const normalize = (s: string) => s.trim().toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+
+        // Diagnostic — verify the function finds tables and rows.
+        const debugTables = tmp.querySelectorAll('table');
+        const debugBlockquotes = tmp.querySelectorAll('blockquote');
+        console.log('[merge] tables found:', debugTables.length, 'blockquotes:', debugBlockquotes.length);
+        debugTables.forEach((t, i) => {
+          const rows = t.querySelectorAll('tbody tr');
+          const names = Array.from(rows).map(r => {
+            const cells = Array.from(r.querySelectorAll('td'));
+            const firstData = cells.find(c => !c.classList.contains('tick-col')) || cells[0];
+            return firstData ? (firstData.textContent || '').trim() : '(no cell)';
+          });
+          console.log(`[merge] table ${i}: ${rows.length} rows`, names);
+        });
+        debugBlockquotes.forEach((bq, i) => {
+          const ps = bq.querySelectorAll('p');
+          const labels = Array.from(ps).map(p => {
+            const s = p.querySelector('strong');
+            return s ? (s.textContent || '').trim() : '(no strong)';
+          });
+          console.log(`[merge] blockquote ${i}: ${ps.length} paragraphs`, labels);
+        });
+
+        const attachDescription = (targetRow: HTMLTableRowElement, bodyHtml: string) => {
+          if (!bodyHtml) return;
+          const cells = Array.from(targetRow.querySelectorAll('td')) as HTMLTableCellElement[];
+          const nameCell = cells.find(c => !c.classList.contains('tick-col')) || cells[0];
+          if (!nameCell) return;
+
+          // Wrap the original exercise name in a <strong> if it's not
+          // already wrapped, so the bold/regular hierarchy reads right.
+          if (!nameCell.querySelector('.exercise-name-text')) {
+            const name = nameCell.innerHTML;
+            nameCell.innerHTML = `<div class="exercise-name-text">${name}</div>`;
+          }
+
+          const existing = nameCell.querySelector('.exercise-description-inline');
+          if (existing) {
+            // Append to existing description (handles multi-sentence
+            // matches from a combined "Mobility work" paragraph).
+            existing.innerHTML = existing.innerHTML.trim() + ' ' + bodyHtml.trim();
+          } else {
+            const desc = document.createElement('div');
+            desc.className = 'exercise-description-inline';
+            desc.innerHTML = bodyHtml;
+            nameCell.appendChild(desc);
+          }
+        };
+
+        const tables = Array.from(tmp.querySelectorAll('table'));
+        for (const table of tables) {
+          const rows = Array.from(table.querySelectorAll('tbody tr')) as HTMLTableRowElement[];
+          if (rows.length === 0) continue;
+
+          const rowsByName: Array<{ name: string; row: HTMLTableRowElement }> = [];
+          for (const row of rows) {
+            const cells = Array.from(row.querySelectorAll('td')) as HTMLTableCellElement[];
+            const firstData = cells.find(c => !c.classList.contains('tick-col')) || cells[0];
+            if (!firstData) continue;
+            const name = normalize(firstData.textContent || '');
+            if (name) rowsByName.push({ name, row });
+          }
+          if (rowsByName.length === 0) continue;
+
+          // Pre-sort by name length DESCENDING so "single leg romanian
+          // deadlift" wins over "deadlift" when both could match.
+          const sortedByLength = [...rowsByName].sort((a, b) => b.name.length - a.name.length);
+
+          function findRow(label: string): HTMLTableRowElement | null {
+            const norm = normalize(label);
+            if (!norm) return null;
+            const exact = rowsByName.find(r => r.name === norm);
+            if (exact) return exact.row;
+            const fuzzy = sortedByLength.find(r => r.name.includes(norm) || norm.includes(r.name));
+            return fuzzy ? fuzzy.row : null;
+          }
+
+          // Find a row whose name appears inside a given snippet of
+          // text (used for sentence-level matching when the paragraph
+          // label is generic like "Mobility work").
+          function findRowInText(text: string): HTMLTableRowElement | null {
+            const norm = normalize(text);
+            if (!norm) return null;
+            for (const r of sortedByLength) {
+              if (norm.includes(r.name)) return r.row;
+            }
+            return null;
+          }
+
+          // Walk forward from the table; consume sibling <blockquote>s
+          // AND top-level <p>s with a leading <strong>...:</strong>
+          // (which is what marked outputs when the `> ` markdown gets
+          // flattened upstream). Stop at next H2/H3 or another table.
+          //
+          // Cues / Cycle / How-to-progress / Concept / Reflection
+          // paragraphs that transformCoachTips already wrapped into
+          // .coach-tip bubbles are <div>s now, so we don't re-process
+          // them.
+          const labelsToSkip = new Set([
+            'cues', 'cycle consideration',
+            'how to know you are ready to progress',
+            'how to know you are ready to progress?',
+            'concept of the week', 'reflection prompt',
+            'focus', 'warm-up', 'main session',
+          ]);
+
+          let sib = table.nextElementSibling;
+          while (sib) {
+            const tag = sib.tagName;
+            if (tag === 'TABLE' || tag === 'H2' || tag === 'H3') break;
+            const next = sib.nextElementSibling;
+
+            // Collect paragraphs to process for this sibling.
+            let paragraphs: HTMLParagraphElement[] = [];
+            if (tag === 'BLOCKQUOTE') {
+              paragraphs = Array.from(sib.querySelectorAll('p'));
+            } else if (tag === 'P') {
+              // Only treat as an exercise description if the strong
+              // label is NOT one of the section-meta labels above.
+              const strong = sib.querySelector('strong');
+              if (strong) {
+                const labelNorm = (strong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+                if (!labelsToSkip.has(labelNorm)) {
+                  paragraphs = [sib as HTMLParagraphElement];
+                }
+              }
+            }
+
+            if (paragraphs.length > 0) {
+              const unmatched: string[] = [];
+
+              for (const p of paragraphs) {
+                const strong = p.querySelector('strong');
+                const rawLabel = strong ? (strong.textContent || '').replace(/:$/, '') : '';
+                const bodyHtml = p.innerHTML
+                  .replace(/^\s*<strong[^>]*>[^<]+<\/strong>\s*:?\s*/i, '')
+                  .trim();
+                if (!bodyHtml) continue;
+
+                // 1. Try direct match via the strong label.
+                if (rawLabel) {
+                  const targetRow = findRow(rawLabel);
+                  if (targetRow) {
+                    attachDescription(targetRow, bodyHtml);
+                    continue;
+                  }
+                }
+
+                // 2. Sentence-level: split the body by sentence and
+                //    attach each sentence to the exercise it mentions.
+                const tmpBody = document.createElement('div');
+                tmpBody.innerHTML = bodyHtml;
+                const bodyText = tmpBody.textContent || '';
+                const sentences = bodyText.match(/[^.!?]+[.!?]+/g) || [bodyText];
+
+                const matchedSomething = { value: false };
+                const leftover: string[] = [];
+                for (const sentence of sentences) {
+                  const targetRow = findRowInText(sentence);
+                  if (targetRow) {
+                    attachDescription(targetRow, sentence.trim());
+                    matchedSomething.value = true;
+                  } else if (sentence.trim()) {
+                    leftover.push(sentence.trim());
+                  }
+                }
+
+                if (!matchedSomething.value) {
+                  // Whole paragraph unmatched — keep the original.
+                  unmatched.push(p.outerHTML);
+                }
+              }
+
+              if (unmatched.length > 0) {
+                const repl = document.createElement('div');
+                repl.className = 'exercise-intro';
+                repl.innerHTML = unmatched.join('');
+                sib.replaceWith(repl);
+              } else {
+                sib.remove();
+              }
+            }
+            sib = next;
+          }
+        }
+
+        return tmp.innerHTML;
+      }
+
+      // For each session's Cues coach-tip (which transformCoachTips
+      // wrapped as a lime/purple Saoirse bubble), copy the cue text
+      // into each exercise row of the preceding table as a small
+      // lime-green Saoirse banner. Hides the original session-level
+      // bubble afterwards since the cue is now repeated per exercise.
+      function attachCuesToRows(html: string): string {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const avatarSrc = (window as any).SAOIRSE_ASSETS?.happy || '';
+
+        const cueTips = Array.from(tmp.querySelectorAll('.coach-tip'));
+        for (const tip of cueTips) {
+          const labelEl = tip.querySelector('.coach-tip-label');
+          if (!labelEl) continue;
+          const labelText = (labelEl.textContent || '').toLowerCase();
+          if (!labelText.includes('cues')) continue;
+
+          const bodyEl = tip.querySelector('.coach-tip-text');
+          if (!bodyEl) continue;
+          const bodyHtml = bodyEl.innerHTML.trim();
+          if (!bodyHtml) continue;
+
+          // Find the previous TABLE sibling (the session's exercise
+          // table). Walk backwards.
+          let prev: Element | null = tip.previousElementSibling;
+          while (prev && prev.tagName !== 'TABLE') {
+            prev = prev.previousElementSibling;
+          }
+          if (!prev) continue;
+
+          // Attach the cue inside each exercise row's name cell.
+          const rows = Array.from(prev.querySelectorAll('tbody tr.exercise-row')) as HTMLTableRowElement[];
+          for (const row of rows) {
+            const cells = Array.from(row.querySelectorAll('td')) as HTMLTableCellElement[];
+            const nameCell = cells.find(c => !c.classList.contains('tick-col')) || cells[0];
+            if (!nameCell) continue;
+            if (nameCell.querySelector('.exercise-cue-inline')) continue; // already added
+
+            const cueDiv = document.createElement('div');
+            cueDiv.className = 'exercise-cue-inline';
+            cueDiv.innerHTML =
+              `<img src="${avatarSrc}" alt="Saoirse" class="exercise-cue-avatar">` +
+              `<span class="exercise-cue-text">${bodyHtml}</span>`;
+            nameCell.appendChild(cueDiv);
+          }
+
+          // Hide the session-level Cues bubble — the cue lives per row
+          // now, so the standalone bubble is duplicate noise.
+          (tip as HTMLElement).style.display = 'none';
         }
 
         return tmp.innerHTML;
@@ -1194,6 +1472,8 @@ const feedbackEnabled =
       .plan-content table {
         font-family: sans-serif;
         font-size: 0.92rem;
+        width: 100%;
+        border-collapse: collapse;
       }
 
       .plan-content th.tick-col,
@@ -1201,6 +1481,83 @@ const feedbackEnabled =
         width: 60px;
         text-align: center;
         vertical-align: middle;
+      }
+
+      /* Exercise name + inline description sit in the SAME cell as
+         the exercise name. Name reads bold, description underneath in
+         lighter regular weight. */
+      .plan-content .exercise-name-text {
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      .plan-content .exercise-description-inline {
+        margin-top: 0.4rem;
+        padding: 0.45rem 0.7rem;
+        background: rgba(105, 0, 90, 0.06);
+        border-left: 3px solid var(--purple);
+        border-radius: 0 6px 6px 0;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+        font-size: 0.86rem;
+        line-height: 1.5;
+        color: #1a1a1a;
+      }
+
+      .plan-content tr.exercise-row.done .exercise-description-inline {
+        opacity: 0.55;
+      }
+
+      /* Lime-green Saoirse cue banner — sits below the description in
+         each exercise row, repeats the session-level Cues line so the
+         athlete sees the form/intent reminder right next to the row. */
+      .plan-content .exercise-cue-inline {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin-top: 0.45rem;
+        padding: 0.5rem 0.7rem;
+        background: rgba(192, 254, 113, 0.22);
+        border-left: 3px solid var(--green-lime);
+        border-radius: 0 8px 8px 0;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+        font-size: 0.86rem;
+        line-height: 1.5;
+        color: #1a1a1a;
+      }
+
+      .plan-content .exercise-cue-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #ffffff;
+        padding: 3px;
+        box-sizing: border-box;
+        border: 2px solid var(--green-lime);
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+
+      .plan-content .exercise-cue-text {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .plan-content tr.exercise-row.done .exercise-cue-inline {
+        opacity: 0.55;
+      }
+
+      /* Top-align all cells in an exercise row so the description's
+         extra height doesn't vertically center the numeric columns. */
+      .plan-content tr.exercise-row td {
+        vertical-align: top;
+      }
+
+      /* Intro paragraphs that couldn't be matched to a specific
+         exercise get a softer purple banner under the table. */
+      .plan-content .exercise-intro {
+        margin-top: 0.5rem;
       }
 
       .plan-content input.exercise-tick {
@@ -1599,12 +1956,91 @@ const feedbackEnabled =
         }
 
         .plan-content {
-          padding: 1.25rem 1rem;
+          padding: 1.1rem 0.7rem;
+          font-size: 14px;
         }
 
-        .plan-content th.tick-col,
-        .plan-content td.tick-col {
-          width: 44px;
+        /* Mobile: tables reflow to a card layout per exercise.
+           Tick checkbox sits in a 36px gutter on the left (absolute-
+           positioned). Exercise name fills row 1. Sets / Reps / RPE /
+           Rest flow inline below as "Sets 4 · Reps 6 · RPE 7 · Rest
+           3min". Description row spans full width below the card. */
+        .plan-content table {
+          display: block;
+          width: 100%;
+        }
+        .plan-content thead { display: none; }
+        .plan-content tbody { display: block; width: 100%; }
+
+        .plan-content tr.exercise-row {
+          display: block;
+          position: relative;
+          padding: 0.7rem 0 0.7rem 40px;
+          border-bottom: 1px solid rgba(105, 0, 90, 0.12);
+        }
+
+        .plan-content tr.exercise-row td {
+          padding: 0;
+          border: none;
+          background: transparent !important;
+        }
+
+        /* Tick checkbox absolute-positioned in the left gutter, vertically
+           centered against the exercise name. */
+        .plan-content tr.exercise-row td.tick-col {
+          position: absolute;
+          left: 0;
+          top: 0.75rem;
+          width: auto;
+          padding: 0;
+        }
+
+        /* Exercise name = block, bold, on its own line above the meta. */
+        .plan-content tr.exercise-row td:nth-of-type(2) {
+          display: block;
+          font-weight: 700;
+          color: #1a1a1a;
+          font-size: 0.96rem;
+          margin-bottom: 0.25rem;
+          line-height: 1.3;
+        }
+
+        /* Sets / Reps / RPE / Rest = inline-blocks with a label prefix
+           via ::before, so the row reads "Sets 4 · Reps 6 · RPE 7 ·
+           Rest 3min" without the original column headers. */
+        .plan-content tr.exercise-row td:nth-of-type(3),
+        .plan-content tr.exercise-row td:nth-of-type(4),
+        .plan-content tr.exercise-row td:nth-of-type(5),
+        .plan-content tr.exercise-row td:nth-of-type(6) {
+          display: inline-block;
+          margin: 0 0.75rem 0 0;
+          font-size: 0.86rem;
+          color: #1a1a1a;
+        }
+        .plan-content tr.exercise-row td:nth-of-type(3)::before { content: 'Sets '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
+        .plan-content tr.exercise-row td:nth-of-type(4)::before { content: 'Reps '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
+        .plan-content tr.exercise-row td:nth-of-type(5)::before { content: 'RPE '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
+        .plan-content tr.exercise-row td:nth-of-type(6)::before { content: 'Rest '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
+
+        /* Description row sits directly under the exercise row, full
+           width, no left gutter. */
+        .plan-content tr.exercise-description-row {
+          display: block;
+          padding: 0.4rem 0 0.7rem 0;
+          border-bottom: 1px solid rgba(105, 0, 90, 0.12);
+        }
+        .plan-content tr.exercise-description-row td {
+          display: block;
+          padding: 0.5rem 0.7rem;
+          font-size: 0.86rem;
+          line-height: 1.45;
+        }
+        .plan-content tr.exercise-row + tr.exercise-description-row {
+          border-top: none;
+          margin-top: -1px;
+        }
+        .plan-content tr.exercise-row:has(+ tr.exercise-description-row) {
+          border-bottom: none;
         }
 
         .modal-card {

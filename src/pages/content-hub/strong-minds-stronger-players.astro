@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_TITLE } from '../../consts';
 
 const allPosts = await getCollection('blog');
 
@@ -30,16 +30,20 @@ const childPosts = allPosts.filter(
         <p>Each post helps you build awareness of mental health in sport, so you can recognise changes early, understand what they might mean, and know when to seek the right support.</p>
       </div>
 
+      <div class="smsp-coming-soon-banner" role="note">
+        <p class="smsp-cs-eyebrow">Coming soon</p>
+        <p class="smsp-cs-body"><strong>Strong Minds, Stronger Players is launching soon.</strong> Always free for every player and coach. We are finalising the content with our expert panel before opening it up.</p>
+      </div>
+
       <section class="latest-blog-box">
         <ul id="posts-list" class="latest-posts">
           {childPosts.length > 0 ? childPosts.map((post) => (
-            <li>
-              <a href={`/content-hub/${post.slug}/`}>
-                <h2 class="title">{post.data.title}</h2>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
-              </a>
+            <li class="smsp-card smsp-card-locked" aria-disabled="true">
+              <span class="smsp-lock-badge">🔒 Coming soon</span>
+              <h2 class="title">{post.data.title}</h2>
+              {post.data.description && (
+                <p class="description smsp-description-blur">{post.data.description}</p>
+              )}
             </li>
           )) : (
             <li class="coming-soon">
@@ -102,6 +106,30 @@ const childPosts = allPosts.filter(
     color: #000000;
   }
 
+  .smsp-coming-soon-banner {
+    margin-bottom: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: rgba(192, 254, 113, 0.12);
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .smsp-cs-eyebrow {
+    margin: 0 0 0.3rem;
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .smsp-cs-body {
+    margin: 0;
+    color: var(--green-light);
+    line-height: 1.5;
+  }
+
   .intro-card p,
   .content-feedback-cta p {
     color: #000000;
@@ -153,6 +181,55 @@ const childPosts = allPosts.filter(
     border-bottom: none !important;
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
+  }
+
+  /* Coming-soon lock cards (mirror the TTM lock-card pattern). Each
+     SMSP post renders as a non-clickable card with a lock badge,
+     blurred description teaser, and no link. When SMSP is ready to
+     launch, swap the rendering back to clickable <a>. */
+  .smsp-card-locked {
+    position: relative;
+    padding: 1.1rem 1.25rem;
+    background: rgba(192, 254, 113, 0.08);
+    border: 2px dashed rgba(192, 254, 113, 0.55);
+    border-radius: 10px;
+    margin-bottom: 0.9rem;
+    cursor: not-allowed;
+    color: #1a1a1a;
+  }
+
+  .smsp-card-locked:last-child {
+    margin-bottom: 0;
+  }
+
+  .smsp-lock-badge {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .smsp-card-locked .title {
+    margin: 0 0 0.3rem;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    opacity: 0.85;
+  }
+
+  .smsp-description-blur {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+    font-size: 0.94rem;
+    filter: blur(2.5px);
+    user-select: none;
+    pointer-events: none;
   }
 
   .content-feedback-cta {
