@@ -302,11 +302,18 @@ const today = new Date();
     top: 0;
     right: 0;
     width: min(420px, 100vw);
+    /* Use the dynamic viewport height so iOS Safari's URL bar doesn't
+       hide the bottom of the panel. Fall back to 100vh on browsers
+       that don't support dvh. */
     height: 100vh;
+    height: 100dvh;
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.98) 0%, rgba(3, 10, 6, 0.92) 100%);
     border-left: 2px solid rgba(192, 254, 113, 0.35);
     box-shadow: -8px 0 24px rgba(0, 0, 0, 0.32);
     padding: 0.9rem;
+    /* Reserve room for the iPhone home indicator + URL bar so the
+       input row isn't tucked under the system UI on mobile. */
+    padding-bottom: calc(0.9rem + env(safe-area-inset-bottom));
     z-index: 1400;
     display: grid;
     grid-template-rows: auto auto 1fr auto;
