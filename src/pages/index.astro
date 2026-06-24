@@ -365,40 +365,12 @@ const latestPosts = featuredSlugs
     padding: 0;
   }
 
-  .band-split-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    min-height: 480px;
-    align-items: stretch;
-    max-width: none;
-    padding: 0;
-  }
-
   .band-split-reverse {
     direction: rtl;
   }
 
   .band-split-reverse > * {
     direction: ltr;
-  }
-
-  .band-image {
-    /* No overflow: hidden — clips the PhotoCredit which sits below
-       the image. The image itself self-clips via object-fit: cover. */
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .band-photo {
-    width: 100%;
-    flex: 1 1 auto;
-    max-height: 460px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    border-radius: 4px;
   }
 
   .band-text {
@@ -712,6 +684,33 @@ const latestPosts = featuredSlugs
   .view-all-link:hover {
     border-bottom-color: var(--green-lime);
   }
+
+  .band-split-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 480px;
+  align-items: stretch;  /* already there, keep it */
+  max-width: none;
+  padding: 0;
+}
+
+.band-image {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;   /* add this */
+  min-height: 0;
+}
+
+.band-photo {
+  width: 100%;
+  flex: 1 1 0;           /* change from auto to 0 */
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 4px;
+}
 
   /* ── Responsive ── */
   @media (max-width: 900px) {

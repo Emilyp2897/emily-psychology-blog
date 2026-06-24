@@ -212,6 +212,15 @@
   <li class="done">Complaint routes: ICO (UK) and Data Protection Commission (Ireland)
     <span class="status-note">Section 12 of /privacy: both authorities listed with links and phone numbers.</span>
   </li>
+  <li class="partial">New data types added since first Privacy Policy draft (need to be reflected in /privacy Section 3 on next solicitor pass)
+    <span class="status-note">Three new data flows are now in the platform and should be added to the data-types list in the Privacy Policy before paid launch: (a) <strong>per-exercise progress</strong> &mdash; which session/exercise the customer ticked off and the timestamp, stored in <code>Plans.progress</code> JSONB on Supabase; (b) <strong>logged weights</strong> &mdash; per-exercise kg values the customer enters from a dropdown, stored in <code>Plans.weights</code> JSONB; (c) <strong>pilot feedback</strong> &mdash; a 1-5 rating plus free-text answers to "what worked", "what was hard", and an optional flag to Emily, stored in the <code>plan_week_feedback</code> table. All three are tied to the customer's Supabase Auth account and processed under the existing contract-basis purposes. The free-text feedback field can include health-related disclosure, which keeps it within the Article 9 explicit-consent scope already covered.</span>
+  </li>
+  <li class="partial">Coach intake data flow (Team Plans)
+    <span class="status-note">Coaches submit a team intake at <code>/coach-intake</code> without creating an account. The form captures coach name, email, club, role, plus team-level details (sport, season phase, training days, equipment, group size, primary goal). Stored in <code>Plans.team_intake_data</code> JSONB. Lawful basis: contract (delivering the requested team plan). No individual player data collected. Add this flow to the Privacy Policy data-types list at the next solicitor pass, with explicit note that team plans collect NO individual player data.</span>
+  </li>
+  <li class="done">Supabase added as a processor
+    <span class="status-note">Supabase (PostgreSQL + Auth, hosted in EU region) was added as a processor for customer dashboard, team plans, and pilot feedback. Should appear in /privacy Section 6 processors table at the next update. International transfer treatment same as other processors (EU region; SCCs where Supabase processes cross-border).</span>
+  </li>
   <li class="pending">Confirm whether ICO data protection fee is needed (most UK data controllers do; inexpensive)
     <span class="status-note">Action item for Emily: register with ICO and pay the data protection fee before paid launch. As a sole-trader processing personal data, this is almost certainly required.</span>
   </li>
@@ -242,10 +251,16 @@
     <span class="status-note">Intake disclaimer panels explicitly label the output as "AI-generated performance coaching". Plan emails repeat this in the report-link footer.</span>
   </li>
   <li class="done">Statement that AI output may be inaccurate and is not reviewed by a qualified professional before delivery
-    <span class="status-note">"Plans are AI-generated and can contain errors" is the explicit text in the plan-email report block. In v1 mode every plan IS reviewed by the founder before delivery, which materially reduces this risk; the statement is still visible regardless.</span>
+    <span class="status-note">"Plans are AI-generated and can contain errors" is the explicit text in the plan-email report block. In v1 mode every plan IS reviewed by the founder before delivery, which materially reduces this risk; the statement is still visible regardless. The customer dashboard at <code>/dashboard</code> and the per-plan view at <code>/plan/[id]</code> also carry a persistent disclaimer banner above the plan content.</span>
   </li>
   <li class="done">A way for users to report problematic or harmful output
-    <span class="status-note">"Was anything in this plan unclear, unsafe, or off? Report it here" link added to the bottom of every plan email. Routes to /content-feedback?source=plan_email so Emily sees plan reports flagged via URL param.</span>
+    <span class="status-note">"Was anything in this plan unclear, unsafe, or off? Report it here" link added to the bottom of every plan email. Routes to /content-feedback?source=plan_email so Emily sees plan reports flagged via URL param. Additionally, pilot feedback is captured weekly via an in-app modal that includes an "Anything you want to flag to Emily?" free-text field; submissions land in <code>/admin/feedback</code> for review.</span>
+  </li>
+  <li class="done">Disclaimer visible on the customer dashboard and per-plan view (EU AI Act Article 50 transparency)
+    <span class="status-note">A standing lime-bordered banner on both <code>/dashboard</code> and <code>/plan/[id]</code> reads: "This plan was AI-generated and personally reviewed by Emily before going live. If anything feels off, unclear, or unsafe for your body, message Emily before pushing through it." Linked directly to <code>/contact-us</code> for the customer to reach Emily.</span>
+  </li>
+  <li class="done">Coach-facing AI disclaimer on team plan share links
+    <span class="status-note">Team plans accessed via the public <code>/team-plan/[token]</code> URL also show the AI-generated disclaimer at the top, plus an extra line: "Individual players with specific medical needs should generate their own personal plan." Ensures the coach and every squad member sees the AI label.</span>
   </li>
 </ul>
 
@@ -280,7 +295,7 @@
 <h3>Blog and toolkit</h3>
 <ul class="checklist">
   <li class="partial">All images licensed, your own, or properly attributed (no copyrighted GAA imagery, player photos, or crests without permission)
-    <span class="status-note">Current site uses Emily's own photos and one licensed Vecteezy ball illustration. Confirm licence terms on the Vecteezy file before paid launch.</span>
+    <span class="status-note">PhotoCredit component now in place across the homepage and About page slideshow: each photo renders a "Photo: [Photographer]" caption below it, with names sourced from <code>src/data/photo-credits.ts</code>. Sideline Photography credited on three photos (About Ch 1, About Ch 4, homepage 3rd photo). Martha Jordan credited on two (About Ch 3, About Ch 5). Four remaining homepage photos and About Ch 2 still show "Photographer TBC" placeholders &mdash; replace with the real names before paid launch. Vecteezy ball illustration licence still to be confirmed.</span>
   </li>
   <li class="done">No reproduction of copyrighted training materials or research beyond fair quotation
     <span class="status-note">All blog and toolkit posts cite sources by name (author + year + journal); no verbatim reproduction.</span>
@@ -330,9 +345,17 @@
 </ol>
 
 <div class="callout">
-  <strong>Status summary, June 2026 (updated).</strong> The platform now has all Priority-1 in-app safety landed in code: point-of-use disclaimers and 18+ confirmation on both intake forms, AI-generated labelling, crisis support signposting at the moment of submission, and a report-this-output mechanism on every plan email. Cookie consent banner is live site-wide. Citation rule, red-flag detection, and source-checked content were already in place.<br/><br/>
-  <strong>Priority-2 documents drafted:</strong> Privacy Policy live at /privacy and Terms of Service live at /terms. Both linked from the footer of every page. Each carries a clear "Draft pending solicitor review" notice at the top. The Privacy Policy covers all processors, lawful bases, international transfers, retention, and user rights. The Terms of Service covers eligibility, refunds with the 14-day cooling-off and digital-services waiver, acceptable use, IP, limitation of liability, and governing law (England and Wales, with Irish consumer rights preserved).<br/><br/>
-  <strong>What remains for paid launch (Q4 2026):</strong> ICO data protection fee registration (~£40/year); trademark check on the Mind the Gael name; professional indemnity and public liability insurance; and solicitor review of the whole legal stack before any paid traffic. All code-side legal work is complete.
+  <strong>Status summary, June 2026 (updated for Team Plans, customer dashboard, weight + progress tracking, photo credits, EU AI Act transparency).</strong><br/><br/>
+
+  <strong>Priority 1 in-app safety:</strong> point-of-use disclaimers and 18+ confirmation on both intake forms, AI-generated labelling, crisis support signposting at the moment of submission, a report-this-output mechanism on every plan email, AND a persistent AI-generated disclaimer banner on the customer dashboard, the per-plan view, and the public team-plan share URL. Cookie consent banner is live site-wide. Citation rule, red-flag detection, and source-checked content already in place.<br/><br/>
+
+  <strong>Priority 2 documents drafted:</strong> Privacy Policy live at /privacy and Terms of Service live at /terms. Both linked from the footer of every page. Each carries a clear "Draft pending solicitor review" notice at the top. Three new data flows now in the platform (per-exercise progress, logged weights, pilot feedback) plus a new coach intake flow (Team Plans) and a new processor (Supabase). All four need to be added to the Privacy Policy data-types table at the next solicitor pass &mdash; no change of lawful basis required, contract-basis covers them all and Article 9 explicit consent on the intake form already covers any health-related disclosure in the feedback free-text field.<br/><br/>
+
+  <strong>Priority 3 AI compliance:</strong> EU AI Act Article 50 transparency landed via standing disclaimer banner on every customer-facing surface that shows AI output (dashboard, per-plan view, team-plan share URL). Red-flag detection covers four buckets (mental-health crisis, eating concerns, RED-S, active injury). End-to-end smoke test (<code>scripts/test-red-flag.mjs</code>) verifies the detection actually triggers + routes to support resources.<br/><br/>
+
+  <strong>Priority 4 content and IP:</strong> PhotoCredit component now in place across homepage and About slideshow with attribution to Sideline Photography and Martha Jordan; five photos still show "Photographer TBC" placeholders pending the photographer names from Emily. Vecteezy ball illustration licence still to be confirmed. Toolkits, blog, and SMSP all cite real sources by author + year.<br/><br/>
+
+  <strong>What remains for paid launch (Q4 2026):</strong> ICO data protection fee registration (~£40/year); trademark check on the Mind the Gael name; professional indemnity and public liability insurance; replace remaining "Photographer TBC" placeholders; update Privacy Policy Section 3 (data types) and Section 6 (processors) to reflect the new Supabase + Team Plans flows; and solicitor review of the whole legal stack before any paid traffic.
 </div>
 
 <footer class="doc-footer">
