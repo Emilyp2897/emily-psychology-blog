@@ -79,7 +79,7 @@
 <p>To give every female Gaelic footballer access to the mental performance and physical training support that has, until now, been reserved for county panels.</p>
 
 <div class="callout">
-  <strong>Build status (June 2026).</strong> The platform is fully built and operating in v1 (Emily-review) mode. Mental Performance Plan generator and physical training plan generator are both live and cross-linked. Content schedule loaded with 36 articles across three series; first batch unlocks on 1 August 2026. Pre-launch investment to date: ~£620 (~£435 of which is Anthropic API spend during build &mdash; see Financial Plan document).
+  <strong>Build status (June 2026).</strong> The platform is fully built and operating in v1 (Emily-review) mode. Mental Performance Plan generator, physical training plan generator, and squad-wide Team Plan generator are all live and cross-linked. The full customer dashboard is shipped &mdash; per-exercise progress tracking, weight logging, week-unlock gating, day and week celebration moments. Pilot feedback infrastructure is live and gated by env flag. Content schedule loaded with 36 articles across three series; first batch unlocks on 1 August 2026. Self-funded build, no external capital required &mdash; see the separate Financial Plan document for unit economics and projections.
 </div>
 
 <h2>2. The Problem</h2>
@@ -118,7 +118,7 @@
     </tr>
     <tr>
       <td><strong>Customer dashboard with progress tracking</strong></td>
-      <td>Once a plan is approved, the customer logs in to a dashboard, opens their plan, and ticks off each exercise or daily-practice item as they go. Sessions auto-complete when every item is ticked; weeks unlock in sequence as the previous week is completed. A live stats panel shows percent complete, sessions complete, weeks complete, and day streak. Saoirse the shamrock pops in to celebrate session and week completion (with different emotions per coach-tip type) and a pilot feedback popup captures a 1-5 rating + free-text comments at the end of every week.</td>
+      <td>Once a plan is approved, the customer logs in to a dashboard, opens their plan, and ticks off each exercise or daily-practice item as they go. Sessions auto-complete when every item is ticked; weeks unlock in sequence as the previous week is completed. A live stats panel shows percent complete, sessions complete, weeks complete, and day streak. Each exercise row has a clickable <strong>Weight (kg)</strong> dropdown so athletes log the load they used per session, persisted across logins. Per-exercise descriptions render as inline lime-green Saoirse banners directly under each exercise (no separate cue/description boxes). Saoirse the shamrock pops in to celebrate session and week completion. A pilot feedback popup captures a 1-5 rating + free-text comments at the end of every week.</td>
       <td><span class="status-live">Live</span></td>
     </tr>
     <tr>
@@ -381,45 +381,17 @@
   </tbody>
 </table>
 
-<h2>12. Financial Projections (Illustrative)</h2>
+<h2>12. Key Performance Indicators</h2>
 
-<p>All figures are founder assumptions for planning, not forecasts, in pounds sterling. The model assumes plan sales at an average £15 per plan (mix of £10 six-week and £20 twelve-week blocks across both product lines), blog subscriptions averaging £6.50 per month (mix of £5 founding and £8 standard), and club memberships from year two at an indicative £300 per club per year, to be validated with founding clubs. See the separate <strong>Financial Plan</strong> document for variable cost detail, break-even analysis, and 3-year scaling levers.</p>
+<p>What we track to know the business is healthy. Detailed unit economics, cost breakdowns, scaling levers, and 3-year projections live in the separate <strong>Financial Plan</strong> document.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th class="num">Year 1 (Aug 2026 – Jul 2027)</th>
-      <th class="num">Year 2 (Aug 2027 – Jul 2028)</th>
-      <th class="num">Year 3 (Aug 2028 – Jul 2029)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Plans sold (avg £15)</strong></td><td class="num">~120</td><td class="num">~360</td><td class="num">~720</td></tr>
-    <tr><td>Blog subscribers (avg active)</td><td class="num">~50</td><td class="num">~150</td><td class="num">~300</td></tr>
-    <tr><td>Club memberships</td><td class="num">0</td><td class="num">10</td><td class="num">30</td></tr>
-    <tr><td>Plan sales revenue</td><td class="num">£1,800</td><td class="num">£5,400</td><td class="num">£10,800</td></tr>
-    <tr><td>Blog subscription revenue</td><td class="num">£1,600</td><td class="num">£7,100</td><td class="num">£17,200</td></tr>
-    <tr><td>Club membership revenue</td><td class="num">£0</td><td class="num">£3,000</td><td class="num">£9,000</td></tr>
-    <tr><td><strong>Total revenue</strong></td><td class="num"><strong>£3,400</strong></td><td class="num"><strong>£15,500</strong></td><td class="num"><strong>£37,000</strong></td></tr>
-    <tr><td>API and hosting (production)</td><td class="num">£20</td><td class="num">£80</td><td class="num">£200</td></tr>
-    <tr><td>Stripe fees + variable costs</td><td class="num">£170</td><td class="num">£460</td><td class="num">£900</td></tr>
-    <tr><td>Fixed monthly costs (Canva, Claude Pro, domain)</td><td class="num">£420</td><td class="num">£540</td><td class="num">£660</td></tr>
-    <tr><td>Expert review fees</td><td class="num">£0</td><td class="num">£1,000</td><td class="num">£2,000</td></tr>
-    <tr><td>Legal, insurance, admin</td><td class="num">£800</td><td class="num">£1,500</td><td class="num">£2,000</td></tr>
-    <tr><td>Marketing and content</td><td class="num">£0</td><td class="num">£500</td><td class="num">£2,000</td></tr>
-    <tr><td><strong>Total costs</strong></td><td class="num"><strong>£1,410</strong></td><td class="num"><strong>£4,080</strong></td><td class="num"><strong>£7,760</strong></td></tr>
-    <tr><td><strong>Operating result</strong></td><td class="num"><strong>~£1,990</strong></td><td class="num"><strong>~£11,420</strong></td><td class="num"><strong>~£29,240</strong></td></tr>
-  </tbody>
-</table>
-
-<p style="font-size: 12px; color: var(--muted); font-style: italic;">Excludes founder salary: in Years 1 and 2 the business runs alongside the founder's employment, with founder compensation beginning as the operating result allows. Pre-launch investment of ~£620 (mostly Anthropic API during the build) is treated as sunk capital and is not in the table above; recoup happens within the first six months of moderate launch volume. No external investment required for this plan.</p>
-
-<h3>Key performance indicators</h3>
 <ul>
-  <li>Plans sold per month, and 6-week to 12-week mix (the £20 block is the margin driver)</li>
+  <li>Plans sold per month, and 6-week to 12-week mix (the higher-value block is the margin driver)</li>
   <li>Repeat purchase rate: share of buyers purchasing a second block within the same season (target 40%)</li>
   <li>Cross-sell rate between mental performance and physical training lines via the companion-plan field (target 30%)</li>
+  <li>Team Plan adoption: number of coaches generating squad plans, and conversion of those squads' players into individual plan buyers</li>
+  <li>Customer dashboard engagement: per-exercise tick-through rate, week-completion rate, day streaks</li>
+  <li>Pilot feedback: average weekly rating (target 4+/5), themes from the open-text replies</li>
   <li>Blog subscriber count, monthly churn (target under 5%), and subscriber to plan buyer conversion (target 25% per season)</li>
   <li>Report rate on AI outputs (target under 1%)</li>
 </ul>
@@ -439,7 +411,7 @@
   </tbody>
 </table>
 
-<h2>14. The Ask and Next Steps</h2>
+<h2>14. Next Steps</h2>
 
 <p>This plan requires no external funding. The immediate priorities are:</p>
 

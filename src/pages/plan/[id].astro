@@ -136,6 +136,35 @@ const feedbackEnabled =
       let weeks: string[] = [];
       let progress: Record<string, string> =
         plan?.progress && typeof plan.progress === 'object' ? { ...plan.progress } : {};
+      let weights: Record<string, string> =
+        plan?.weights && typeof plan.weights === 'object' ? { ...plan.weights } : {};
+
+      // Build the dropdown options for the Weight column.
+      // BW = bodyweight, then 2.5kg steps 2.5–50, 5kg steps 55–100, 10kg steps 110–200.
+      const WEIGHT_OPTIONS: Array<{ value: string; label: string }> = (() => {
+        const out: Array<{ value: string; label: string }> = [
+          { value: '', label: '—' },
+          { value: 'BW', label: 'BW' },
+        ];
+        for (let w = 2.5; w <= 50; w = +(w + 2.5).toFixed(1)) out.push({ value: String(w), label: `${w} kg` });
+        for (let w = 55; w <= 100; w += 5) out.push({ value: String(w), label: `${w} kg` });
+        for (let w = 110; w <= 200; w += 10) out.push({ value: String(w), label: `${w} kg` });
+        return out;
+      })();
+
+      function escapeAttr(s: string): string {
+        return s.replace(/"/g, '&quot;');
+      }
+
+      function buildWeightSelectHtml(weekNum: number, sessionNum: number, exerciseIndex: number): string {
+        const key = `${weekNum}.${sessionNum}.${exerciseIndex}`;
+        const current = weights[key] || '';
+        const opts = WEIGHT_OPTIONS.map(o => {
+          const sel = o.value === current ? ' selected' : '';
+          return `<option value="${escapeAttr(o.value)}"${sel}>${o.label}</option>`;
+        }).join('');
+        return `<select class="exercise-weight" data-week="${weekNum}" data-session="${sessionNum}" data-exercise="${exerciseIndex}" aria-label="Weight used">${opts}</select>`;
+      }
       let planType: 'physical' | 'mental' = plan?.plan_type === 'mental' ? 'mental' : 'physical';
       let weeksTotal = 0;
 
@@ -413,9 +442,9 @@ const feedbackEnabled =
         const rendered = await marked.parse(processed);
         const cleaned = stripEmptyBlocks(rendered);
         const coached = transformCoachTips(cleaned);
-        const withChecks = injectExerciseCheckboxes(coached, weekNum);
+        const deduped = dedupePerWeekCoachTips(coached);
+        const withChecks = injectExerciseCheckboxes(deduped, weekNum);
         const merged = mergeExerciseDescriptions(withChecks);
-        const withCues = attachCuesToRows(merged);
 
         return `
           <div class="week-block">
@@ -425,9 +454,40 @@ const feedbackEnabled =
                 : `<span class="week-status-badge in-progress">In progress</span>`}
               <span class="week-progress-text">${done} of ${total} ${itemLabel} ticked</span>
             </div>
-            ${withCues}
+            ${merged}
           </div>
         `;
+      }
+
+      // Each renderWeek call processes ONE week's content. If the
+      // plan generator emitted "Cycle consideration" or "Ready to
+      // progress?" per session (which it did under the old prompt),
+      // the same coach-tip can appear 2-3 times within a single
+      // week. This collapses each labelled coach-tip to its LAST
+      // occurrence so only one renders per week, at the bottom.
+      function dedupePerWeekCoachTips(html: string): string {
+        const dedupeLabels = new Set([
+          'cycle consideration',
+          'ready to progress?',
+          'ready to progress',
+        ]);
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const tips = Array.from(tmp.querySelectorAll('.coach-tip'));
+        const lastSeen = new Map<string, Element>();
+        for (const tip of tips) {
+          const labelEl = tip.querySelector('.coach-tip-label');
+          if (!labelEl) continue;
+          const label = (labelEl.textContent || '').trim().toLowerCase();
+          if (!dedupeLabels.has(label)) continue;
+          if (lastSeen.has(label)) {
+            // Drop the earlier instance — we keep the most recent one
+            // so the bubble ends up at the bottom of the week.
+            lastSeen.get(label)?.remove();
+          }
+          lastSeen.set(label, tip);
+        }
+        return tmp.innerHTML;
       }
 
       // Strip empty <blockquote> and <p> elements from the rendered
@@ -466,8 +526,11 @@ const feedbackEnabled =
       function transformCoachTips(html: string): string {
         const assets = (window as any).SAOIRSE_ASSETS || {};
         const labelMap: Record<string, { display: string; avatar: string }> = {
-          // Physical plan labels
-          'cues': { display: 'Cues from Saoirse', avatar: assets.happy },
+          // Physical plan labels — cues are intentionally NOT in this
+          // map because the per-exercise description (rendered as a
+          // green Saoirse banner inside each exercise row) already
+          // covers form/intent for every lift, making the session-
+          // level cue line duplicate noise.
           'cycle consideration': { display: 'Cycle consideration', avatar: assets.oh },
           'how to know you are ready to progress': { display: 'Ready to progress?', avatar: assets.happy },
           'how to know you are ready to progress?': { display: 'Ready to progress?', avatar: assets.happy },
@@ -475,6 +538,12 @@ const feedbackEnabled =
           'concept of the week': { display: 'Concept of the week', avatar: assets.happy },
           'reflection prompt': { display: 'Reflection prompt', avatar: assets.happy },
         };
+
+        // Labels we want to strip entirely (no bubble, no plain
+        // paragraph). The cues line is covered by the per-row
+        // description and would otherwise still render as a global-
+        // styled paragraph below the table.
+        const labelsToDrop = new Set(['cues']);
 
         const tmp = document.createElement('div');
         tmp.innerHTML = html;
@@ -488,6 +557,13 @@ const feedbackEnabled =
           const strong = p.querySelector('strong');
           if (!strong) continue;
           const rawLabel = (strong.textContent || '').trim().replace(/:$/, '').toLowerCase();
+          if (labelsToDrop.has(rawLabel)) {
+            // Remove paragraphs whose label is in the drop list (e.g.
+            // session-level Cues, since per-exercise descriptions
+            // already cover form/intent).
+            p.remove();
+            continue;
+          }
           const config = labelMap[rawLabel];
           if (!config) continue;
 
@@ -623,7 +699,9 @@ const feedbackEnabled =
             nameCell.innerHTML = `<div class="exercise-name-text">${name}</div>`;
           }
 
-          const existing = nameCell.querySelector('.exercise-description-inline');
+          const avatarSrc = (window as any).SAOIRSE_ASSETS?.happy || '';
+
+          const existing = nameCell.querySelector('.exercise-description-inline .exercise-description-text');
           if (existing) {
             // Append to existing description (handles multi-sentence
             // matches from a combined "Mobility work" paragraph).
@@ -631,7 +709,9 @@ const feedbackEnabled =
           } else {
             const desc = document.createElement('div');
             desc.className = 'exercise-description-inline';
-            desc.innerHTML = bodyHtml;
+            desc.innerHTML =
+              `<img src="${avatarSrc}" alt="Saoirse" class="exercise-description-avatar">` +
+              `<span class="exercise-description-text">${bodyHtml}</span>`;
             nameCell.appendChild(desc);
           }
         };
@@ -776,60 +856,6 @@ const feedbackEnabled =
         return tmp.innerHTML;
       }
 
-      // For each session's Cues coach-tip (which transformCoachTips
-      // wrapped as a lime/purple Saoirse bubble), copy the cue text
-      // into each exercise row of the preceding table as a small
-      // lime-green Saoirse banner. Hides the original session-level
-      // bubble afterwards since the cue is now repeated per exercise.
-      function attachCuesToRows(html: string): string {
-        const tmp = document.createElement('div');
-        tmp.innerHTML = html;
-        const avatarSrc = (window as any).SAOIRSE_ASSETS?.happy || '';
-
-        const cueTips = Array.from(tmp.querySelectorAll('.coach-tip'));
-        for (const tip of cueTips) {
-          const labelEl = tip.querySelector('.coach-tip-label');
-          if (!labelEl) continue;
-          const labelText = (labelEl.textContent || '').toLowerCase();
-          if (!labelText.includes('cues')) continue;
-
-          const bodyEl = tip.querySelector('.coach-tip-text');
-          if (!bodyEl) continue;
-          const bodyHtml = bodyEl.innerHTML.trim();
-          if (!bodyHtml) continue;
-
-          // Find the previous TABLE sibling (the session's exercise
-          // table). Walk backwards.
-          let prev: Element | null = tip.previousElementSibling;
-          while (prev && prev.tagName !== 'TABLE') {
-            prev = prev.previousElementSibling;
-          }
-          if (!prev) continue;
-
-          // Attach the cue inside each exercise row's name cell.
-          const rows = Array.from(prev.querySelectorAll('tbody tr.exercise-row')) as HTMLTableRowElement[];
-          for (const row of rows) {
-            const cells = Array.from(row.querySelectorAll('td')) as HTMLTableCellElement[];
-            const nameCell = cells.find(c => !c.classList.contains('tick-col')) || cells[0];
-            if (!nameCell) continue;
-            if (nameCell.querySelector('.exercise-cue-inline')) continue; // already added
-
-            const cueDiv = document.createElement('div');
-            cueDiv.className = 'exercise-cue-inline';
-            cueDiv.innerHTML =
-              `<img src="${avatarSrc}" alt="Saoirse" class="exercise-cue-avatar">` +
-              `<span class="exercise-cue-text">${bodyHtml}</span>`;
-            nameCell.appendChild(cueDiv);
-          }
-
-          // Hide the session-level Cues bubble — the cue lives per row
-          // now, so the standalone bubble is duplicate noise.
-          (tip as HTMLElement).style.display = 'none';
-        }
-
-        return tmp.innerHTML;
-      }
-
       // Inject a "Done" checkbox column into each session's table.
       // Physical: each <h3>Session N: ...</h3> is followed by its
       //   <table>; we rewrite the next table after each Session heading.
@@ -865,27 +891,46 @@ const feedbackEnabled =
         if (!tableMatch) return html;
         const tableHtml = tableMatch[0];
 
-        // Inject a leading "Done" header cell.
+        // For physical plans only: also append a Weight column where
+        // the customer logs the kg they used. Mental plans use the
+        // daily-practice table — no weight needed there.
+        const addWeightCol = planType === 'physical';
+
+        // Inject leading Done header + trailing Weight header.
+        const headTransform = (head: string) => head
+          .replace(/<tr>/i, '<tr><th class="tick-col">Done</th>')
+          .replace(/<\/tr>/i, (addWeightCol ? '<th class="weight-col">Weight</th>' : '') + '</tr>');
+
         let newTable = tableHtml.replace(
           /<thead>([\s\S]*?)<\/thead>/i,
-          (_m, head) => `<thead>${head.replace(/<tr>/i, '<tr><th class="tick-col">Done</th>')}</thead>`,
+          (_m, head) => `<thead>${headTransform(head)}</thead>`,
         );
-        // If no <thead>, treat first <tr> as the header.
+        // If no <thead>, treat first <tr> as the header (rare but possible).
         if (!/<thead>/i.test(tableHtml)) {
-          newTable = newTable.replace(/<tr>/i, '<tr><th class="tick-col">Done</th>');
+          newTable = newTable
+            .replace(/<tr>/i, '<tr><th class="tick-col">Done</th>')
+            .replace(/<\/tr>/i, (addWeightCol ? '<th class="weight-col">Weight</th>' : '') + '</tr>');
         }
 
-        // Inject a checkbox cell at the start of each <tbody> row.
+        // Inject a checkbox cell at the start of each tbody row + a
+        // weight-select cell at the end. Capture the whole row so we
+        // can rewrite both ends in one pass.
         let exerciseIndex = 0;
         newTable = newTable.replace(/<tbody>([\s\S]*?)<\/tbody>/i, (_m, body) => {
-          const newBody = body.replace(/<tr>/gi, () => {
+          const newBody = body.replace(/<tr>([\s\S]*?)<\/tr>/gi, (_full: string, rowInner: string) => {
             exerciseIndex++;
             const key = `${weekNum}.${sessionNum}.${exerciseIndex}`;
             const checked = !!progress[key];
+            const weightCell = addWeightCol
+              ? `<td class="weight-col">${buildWeightSelectHtml(weekNum, sessionNum, exerciseIndex)}</td>`
+              : '';
             return `<tr class="exercise-row${checked ? ' done' : ''}" data-week="${weekNum}" data-session="${sessionNum}" data-exercise="${exerciseIndex}">`
               + `<td class="tick-col">`
               + `<input type="checkbox" class="exercise-tick" data-week="${weekNum}" data-session="${sessionNum}" data-exercise="${exerciseIndex}" ${checked ? 'checked' : ''} aria-label="Mark item complete">`
-              + `</td>`;
+              + `</td>`
+              + rowInner
+              + weightCell
+              + `</tr>`;
           });
           return `<tbody>${newBody}</tbody>`;
         });
@@ -893,7 +938,44 @@ const feedbackEnabled =
         return html.replace(tableMatch[0], newTable);
       }
 
+      function bindWeightHandlers() {
+        document.querySelectorAll('#week-content select.exercise-weight').forEach(sel => {
+          sel.addEventListener('change', async (ev) => {
+            const el = ev.currentTarget as HTMLSelectElement;
+            const week = parseInt(el.getAttribute('data-week') || '0');
+            const session = parseInt(el.getAttribute('data-session') || '0');
+            const exercise = parseInt(el.getAttribute('data-exercise') || '0');
+            if (!week || !session || !exercise) return;
+            const value = el.value;
+            const previous = weights[`${week}.${session}.${exercise}`] || '';
+
+            try {
+              const { data: sessionData } = await supabase.auth.getSession();
+              const accessToken = sessionData?.session?.access_token;
+              if (!accessToken) throw new Error('Not signed in.');
+
+              const res = await fetch('/api/plan/save-weight', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ planId, week, session, exercise, weight: value }),
+              });
+              const data = await res.json().catch(() => ({}));
+              if (!res.ok || !data.success) throw new Error(data?.error || `HTTP ${res.status}`);
+              weights = data.weights || weights;
+            } catch (err: any) {
+              console.error('save-weight failed:', err);
+              el.value = previous;
+              alert('Could not save that weight: ' + (err?.message || 'unknown error') + '. Please try again.');
+            }
+          });
+        });
+      }
+
       function bindCheckboxHandlers() {
+        bindWeightHandlers();
         document.querySelectorAll('#week-content input.exercise-tick').forEach(input => {
           input.addEventListener('change', async (ev) => {
             const el = ev.currentTarget as HTMLInputElement;
@@ -1483,53 +1565,63 @@ const feedbackEnabled =
         vertical-align: middle;
       }
 
+      /* Weight column — clickable dropdown of preset weights. */
+      .plan-content th.weight-col,
+      .plan-content td.weight-col {
+        width: 110px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .plan-content select.exercise-weight {
+        width: 100%;
+        max-width: 100px;
+        padding: 0.35rem 0.4rem;
+        font: inherit;
+        font-size: 0.85rem;
+        border: 2px solid var(--green-lime);
+        border-radius: 6px;
+        background: #ffffff;
+        color: #1a1a1a;
+        cursor: pointer;
+      }
+
+      .plan-content select.exercise-weight:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(192, 254, 113, 0.35);
+      }
+
+      .plan-content tr.exercise-row.done select.exercise-weight {
+        opacity: 0.55;
+      }
+
       /* Exercise name + inline description sit in the SAME cell as
-         the exercise name. Name reads bold, description underneath in
-         lighter regular weight. */
+         the exercise name. Name reads bold; description underneath
+         as a lime-green Saoirse banner. */
       .plan-content .exercise-name-text {
         font-weight: 700;
         color: #1a1a1a;
       }
 
       .plan-content .exercise-description-inline {
-        margin-top: 0.4rem;
-        padding: 0.45rem 0.7rem;
-        background: rgba(105, 0, 90, 0.06);
-        border-left: 3px solid var(--purple);
-        border-radius: 0 6px 6px 0;
-        font-family: Georgia, 'Times New Roman', serif;
-        font-weight: 400;
-        font-size: 0.86rem;
-        line-height: 1.5;
-        color: #1a1a1a;
-      }
-
-      .plan-content tr.exercise-row.done .exercise-description-inline {
-        opacity: 0.55;
-      }
-
-      /* Lime-green Saoirse cue banner — sits below the description in
-         each exercise row, repeats the session-level Cues line so the
-         athlete sees the form/intent reminder right next to the row. */
-      .plan-content .exercise-cue-inline {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 0.55rem;
         margin-top: 0.45rem;
-        padding: 0.5rem 0.7rem;
+        padding: 0.5rem 0.75rem;
         background: rgba(192, 254, 113, 0.22);
         border-left: 3px solid var(--green-lime);
         border-radius: 0 8px 8px 0;
         font-family: Georgia, 'Times New Roman', serif;
         font-weight: 400;
-        font-size: 0.86rem;
+        font-size: 0.88rem;
         line-height: 1.5;
         color: #1a1a1a;
       }
 
-      .plan-content .exercise-cue-avatar {
-        width: 28px;
-        height: 28px;
+      .plan-content .exercise-description-avatar {
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         background: #ffffff;
         padding: 3px;
@@ -1539,12 +1631,12 @@ const feedbackEnabled =
         object-fit: contain;
       }
 
-      .plan-content .exercise-cue-text {
+      .plan-content .exercise-description-text {
         flex: 1;
         min-width: 0;
       }
 
-      .plan-content tr.exercise-row.done .exercise-cue-inline {
+      .plan-content tr.exercise-row.done .exercise-description-inline {
         opacity: 0.55;
       }
 
@@ -2021,6 +2113,27 @@ const feedbackEnabled =
         .plan-content tr.exercise-row td:nth-of-type(4)::before { content: 'Reps '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
         .plan-content tr.exercise-row td:nth-of-type(5)::before { content: 'RPE '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
         .plan-content tr.exercise-row td:nth-of-type(6)::before { content: 'Rest '; color: #777; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.15rem; }
+
+        /* Weight column on mobile — full-width line below the meta. */
+        .plan-content tr.exercise-row td.weight-col {
+          display: block;
+          margin-top: 0.4rem;
+          width: 100%;
+          text-align: left;
+        }
+        .plan-content tr.exercise-row td.weight-col::before {
+          content: 'Weight ';
+          color: #777;
+          font-weight: 700;
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-right: 0.35rem;
+        }
+        .plan-content tr.exercise-row td.weight-col select.exercise-weight {
+          max-width: 130px;
+          display: inline-block;
+        }
 
         /* Description row sits directly under the exercise row, full
            width, no left gutter. */

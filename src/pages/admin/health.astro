@@ -1,0 +1,155 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Admin | Health Check | ${SITE_TITLE}`} description="Verify all API keys and external services." />
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <div class="admin-wrap">
+        <div class="admin-header">
+          <h1>Pilot launch health check</h1>
+          <a href="/admin/plans" class="back-link">← Back to plans</a>
+        </div>
+        <p class="intro">Each row tests one env var or pings one external service. All rows green means the platform is configured correctly. Re-run with the Refresh button after changing any environment variable.</p>
+        <div class="actions">
+          <button id="refresh-btn" type="button">Refresh checks</button>
+          <span id="overall-status" class="overall-status"></span>
+        </div>
+        <div id="checks-container">
+          <p class="loading">Running checks...</p>
+        </div>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      function escapeHtml(s: string | null | undefined): string {
+        if (!s) return '';
+        return s.replace(/[&<>"']/g, c =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c]);
+      }
+
+      async function load() {
+        const container = document.getElementById('checks-container');
+        const overall = document.getElementById('overall-status');
+        if (!container || !overall) return;
+        container.innerHTML = '<p class="loading">Running checks...</p>';
+        overall.textContent = '';
+
+        try {
+          const res = await fetch('/api/admin/health-check');
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !Array.isArray(data?.checks)) {
+            container.innerHTML = `<p class="error">Failed to load: ${data?.error || res.status}</p>`;
+            return;
+          }
+          const checks = data.checks;
+          const allOk = data.allOk;
+          overall.textContent = allOk ? 'All checks passed' : 'One or more checks failed';
+          overall.className = 'overall-status ' + (allOk ? 'ok' : 'fail');
+
+          container.innerHTML = `
+            <table class="health-table">
+              <thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead>
+              <tbody>
+                ${checks.map((c: any) => `
+                  <tr class="row-${c.status}">
+                    <td>${escapeHtml(c.name)}</td>
+                    <td><span class="badge badge-${c.status}">${c.status.toUpperCase()}</span></td>
+                    <td><code>${escapeHtml(c.detail)}</code></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        } catch (err: any) {
+          container.innerHTML = `<p class="error">Could not load: ${err?.message || 'Unknown error'}</p>`;
+        }
+      }
+
+      document.getElementById('refresh-btn')?.addEventListener('click', load);
+      load();
+    </script>
+
+    <style>
+      .admin-wrap { max-width: 900px; margin: 2.5rem auto; }
+      .admin-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+      .back-link { color: var(--green-lime) !important; text-decoration: none !important; font-weight: 600; }
+      .intro { color: var(--green-light); opacity: 0.85; margin-bottom: 1rem; }
+      .actions { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+      #refresh-btn {
+        padding: 0.55rem 1rem;
+        background: var(--green-lime);
+        color: var(--green-dark);
+        border: 2px solid var(--green-lime);
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      #refresh-btn:hover { background: var(--purple); border-color: var(--purple); color: #fff; }
+      .overall-status { font-weight: 700; font-size: 0.95rem; }
+      .overall-status.ok { color: var(--green-lime); }
+      .overall-status.fail { color: #ff8a8a; }
+      .loading, .error { padding: 1rem 0; color: rgba(244, 255, 232, 0.85); }
+      .error { color: #ff8a8a; }
+    </style>
+
+    <style is:global>
+      .health-table {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 10px;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+        font-size: 0.92rem;
+      }
+      .health-table thead th {
+        background: var(--green-dark);
+        color: var(--green-lime);
+        padding: 0.65rem 0.9rem;
+        text-align: left;
+        font-weight: 700;
+      }
+      .health-table tbody td {
+        padding: 0.55rem 0.9rem;
+        border-top: 1px solid rgba(0,0,0,0.08);
+        color: #1a1a1a;
+      }
+      .health-table tbody tr.row-fail td { background: rgba(229, 85, 85, 0.08); }
+      .health-table tbody tr.row-warn td { background: rgba(255, 200, 0, 0.08); }
+      .badge {
+        display: inline-block;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+      .badge-ok { background: rgba(192, 254, 113, 0.45); color: #0a1a0e; }
+      .badge-warn { background: rgba(255, 200, 0, 0.35); color: #604700; }
+      .badge-fail { background: rgba(229, 85, 85, 0.35); color: #7a0010; }
+      .health-table code {
+        font-family: 'SFMono-Regular', Menlo, monospace;
+        font-size: 0.82rem;
+        color: #444;
+        background: rgba(0,0,0,0.04);
+        padding: 0.15rem 0.45rem;
+        border-radius: 4px;
+        word-break: break-all;
+      }
+    </style>
+  </body>
+</html>

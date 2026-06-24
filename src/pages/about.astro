@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import PhotoCredit from '../components/PhotoCredit.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
 import storyImage from '../assets/EmilyPhelan-London-YellowCard.jpg';
 import feltLikeImage from '../assets/IMG_7228.jpg';
@@ -98,6 +99,7 @@ const slides = [
                   widths={[600, 900, 1200, 1600]}
                   sizes="(max-width: 900px) 100vw, 50vw"
                 />
+                <PhotoCredit src={slide.image.src} class="on-white" />
               </div>
               <div class="slide-copy">
                 <p class="slide-kicker">{slide.kicker}</p>
@@ -251,6 +253,7 @@ const slides = [
     width: 100%;
     background: #ffffff;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1.5rem 1rem 0.5rem;

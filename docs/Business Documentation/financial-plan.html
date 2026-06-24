@@ -168,7 +168,7 @@
 <p>The platform is engineered to scale: both plan generators run autonomously after Stripe verification, content is served from a CDN-backed static site, and the live human intervention layer (Emily) is only invoked for clinical-pause cases and the four specialised training tracks (pregnancy, postpartum, endometriosis, return-to-play).</p>
 
 <div class="callout">
-  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>94 % and 97 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£35/month</strong> (dominated by Canva and Claude Pro subscriptions). The business breaks even on ongoing costs at <strong>4 plan sales per month</strong>. Total <strong>pre-launch investment to recoup is approximately £620</strong> (see Section 1B below) &mdash; dominated by Anthropic API spend during the build.
+  <strong>Headline numbers.</strong> Per-sale gross margin sits between <strong>94 % and 97 %</strong>. Fixed monthly running costs at v1 scale are approximately <strong>£19/month</strong> (Canva Pro and the annual domain &mdash; Claude is on the free tier, hosting and Postgres are free, Resend is free). The business breaks even on ongoing costs at <strong>2 plan sales per month</strong>. Total <strong>pre-launch investment to recoup</strong> is dominated by Anthropic API spend during the build &mdash; see Section 1B below for the up-to-date invoice total.
 </div>
 
 <h2>1B. Pre-Launch Investment (What's Been Spent)</h2>
@@ -205,18 +205,19 @@
     <tr><th>Item</th><th>Cost / month</th><th>Months active</th><th class="num">Total spent (GBP)</th></tr>
   </thead>
   <tbody>
-    <tr><td><strong>Anthropic API</strong> (build, iteration, dev testing &mdash; see 1B.1)</td><td>—</td><td>Pay-per-use</td><td class="num"><strong>~£435</strong></td></tr>
+    <tr><td><strong>Anthropic API</strong> (build, iteration, dev testing &mdash; see 1B.1)</td><td>—</td><td>Pay-per-use</td><td class="num"><strong>Update from latest invoice</strong></td></tr>
     <tr><td>Canva Pro subscription</td><td>£18</td><td>5</td><td class="num">£90</td></tr>
-    <tr><td>Claude AI Pro subscription (Emily's personal account)</td><td>~£16</td><td>5</td><td class="num">~£80</td></tr>
+    <tr><td>Claude AI (personal account)</td><td>£0</td><td>5</td><td class="num">£0</td></tr>
     <tr><td>Domain (mindthegael.co.uk, annual)</td><td>—</td><td>One-off</td><td class="num">~£15</td></tr>
     <tr><td>Vercel hosting</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
     <tr><td>Vercel Postgres (Neon)</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
+    <tr><td>Supabase</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
     <tr><td>Resend (transactional email)</td><td>Free tier</td><td>5</td><td class="num">£0</td></tr>
-    <tr><th colspan="3">Estimated total pre-launch investment</th><th class="num">~£620</th></tr>
+    <tr><th colspan="3">Estimated total pre-launch investment</th><th class="num">Anthropic + £105</th></tr>
   </tbody>
 </table>
 
-<p style="font-size: 13px; color: var(--muted); font-style: italic;">Anthropic API figure is exact (pulled directly from invoice history). Canva, Claude Pro, and domain figures are estimates based on the quoted monthly rates in Section 5 &mdash; replace with exact figures from receipts where available.</p>
+<p style="font-size: 13px; color: var(--muted); font-style: italic;">Anthropic API figure pending the latest invoice download (Section 1B.1 above lists invoices through 11 June 2026 totalling $552 / ~£435). Add any subsequent invoices to get the current total. All other subscriptions are at zero ongoing cost except Canva and the domain.</p>
 
 <div class="callout">
   <strong>To break even on the build, the platform needs to net ~£620 above ongoing fixed costs.</strong> At an average net margin of £9.57 per plan sale, that is <strong>~65 additional plan sales</strong> on top of whatever is needed to cover monthly fixed costs. Roughly six months of moderate launch volume (or three to four months at the higher end).
@@ -269,7 +270,27 @@
   </tbody>
 </table>
 
-<p style="color: var(--muted); font-style: italic;">Team programmes (£75/month, £405/£720 upfront, Pre-Season £850-£1,250) were previously offered but are paused as of 2026-05-25. Emily may revisit at a later date.</p>
+<h3>2.4 Team Plans (live)</h3>
+<p>Squad-wide plans built around a coach's team (not individual players). Coach submits a team intake (sport, season phase, training days, equipment, group size, primary goal), the AI generates one squad plan reviewed by Emily, and the coach receives a private shareable link to send to their players. No individual player medical, cycle, or mental-health data is collected.</p>
+
+<p><strong>Pricing: £8 per head per block.</strong> A coach with a 20-player squad pays £160 for a single team plan; a 30-player squad pays £240. The per-head model keeps it accessible for small clubs and scales naturally for large squads. Invoiced via Stripe Invoicing per block while the volume is small; can flip to checkout once volume justifies the integration work.</p>
+
+<table>
+  <thead>
+    <tr><th>Squad size</th><th class="num">6-Week Team Plan</th><th class="num">12-Week Team Plan</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>15 players</td><td class="num">£120</td><td class="num">£120</td></tr>
+    <tr><td>20 players</td><td class="num">£160</td><td class="num">£160</td></tr>
+    <tr><td>25 players</td><td class="num">£200</td><td class="num">£200</td></tr>
+    <tr><td>30 players</td><td class="num">£240</td><td class="num">£240</td></tr>
+    <tr><td>35+ players</td><td class="num">£280+</td><td class="num">£280+</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">£8/head applies the same regardless of plan duration in v1 (the variable cost difference between a 6-week and 12-week generation is small; pricing kept flat for simplicity). Club Membership (Phase 2 in the business plan) is the natural next step &mdash; a flat seasonal fee per club covering squad-wide access. Pricing for that to be validated with founding clubs.</p>
+
+<p style="color: var(--muted); font-style: italic;">Earlier team programme pricing (£75/month, £405/£720 upfront, Pre-Season £850-£1,250) was archived in 2026-05.</p>
 
 <h2>3. Variable Cost Per Sale</h2>
 
@@ -321,11 +342,13 @@
     <tr><td>12-Week Personal Training Plan</td><td class="num">£20.00</td><td class="num">£0.30</td><td class="num">£0.50</td><td class="num">£19.20</td><td class="num">96.0 %</td></tr>
     <tr><td>6-Week Mental Performance Plan</td><td class="num">£10.00</td><td class="num">£0.16</td><td class="num">£0.35</td><td class="num">£9.49</td><td class="num">94.9 %</td></tr>
     <tr><td>12-Week Mental Performance Plan</td><td class="num">£20.00</td><td class="num">£0.25</td><td class="num">£0.50</td><td class="num">£19.25</td><td class="num">96.3 %</td></tr>
+    <tr><td>Team Plan, 20-player squad (£8/head)</td><td class="num">£160.00</td><td class="num">£0.30</td><td class="num">£2.60</td><td class="num">£157.10</td><td class="num">98.2 %</td></tr>
+    <tr><td>Team Plan, 30-player squad (£8/head)</td><td class="num">£240.00</td><td class="num">£0.30</td><td class="num">£3.80</td><td class="num">£235.90</td><td class="num">98.3 %</td></tr>
     <tr><td>Blog Subscription monthly (after trial)</td><td class="num">£5.00</td><td class="num">£0.00</td><td class="num">£0.28</td><td class="num">£4.72</td><td class="num">94.4 %</td></tr>
   </tbody>
 </table>
 
-<p style="font-size: 12px; color: var(--muted); font-style: italic;">API cost is the upper-cap figure from §3.1. Specialised tracks (pregnancy, postpartum, endometriosis, RTP) add roughly £0.02-£0.03 per physical plan. Typical real-world generations land 20-30% below the cap, so day-to-day margin will exceed the figures above.</p>
+<p style="font-size: 12px; color: var(--muted); font-style: italic;">API cost is the upper-cap figure from §3.1. Specialised tracks (pregnancy, postpartum, endometriosis, RTP) add roughly £0.02-£0.03 per physical plan. Team Plans generate one squad plan at a similar token cost to a 12-week individual plan but split across many paying players, which is why per-sale margin is even higher. Typical real-world generations land 20-30% below the cap, so day-to-day margin will exceed the figures above.</p>
 
 <h2>5. Fixed Costs</h2>
 
@@ -336,18 +359,18 @@
   <tbody>
     <tr><td>Domain (mindthegael.co.uk)</td><td>Annual</td><td class="num">~£1.25 (£15/yr)</td></tr>
     <tr><td>Canva subscription</td><td>Pro</td><td class="num">£18.00</td></tr>
-    <tr><td>Claude AI Pro account</td><td>Personal subscription</td><td class="num">~£16.00*</td></tr>
+    <tr><td>Claude AI (personal account)</td><td>Free tier</td><td class="num">£0</td></tr>
     <tr><td>Vercel hosting</td><td>Hobby tier</td><td class="num">£0 (Pro: $20 at scale)</td></tr>
     <tr><td>Vercel Postgres (Neon)</td><td>Free tier covers small DB</td><td class="num">£0 (paid tier from ~$20)</td></tr>
+    <tr><td>Supabase (Auth + Plans + feedback)</td><td>Free tier</td><td class="num">£0 (Pro $25 at scale)</td></tr>
     <tr><td>Resend (transactional email)</td><td>Free up to 3,000 emails/month</td><td class="num">£0 (paid $20 for 50,000)</td></tr>
     <tr><td>Stripe</td><td>No platform fee</td><td class="num">£0 fixed</td></tr>
-    <tr><td>Anthropic API (Mind the Gael platform)</td><td>Pay-as-you-go (separate from Claude Pro)</td><td class="num">£0 fixed (per-call only)</td></tr>
+    <tr><td>Anthropic API (Mind the Gael platform)</td><td>Pay-as-you-go</td><td class="num">£0 fixed (per-call only)</td></tr>
   </tbody>
 </table>
-<p style="font-size:12px;color:var(--muted);">*Claude AI Pro account is Emily's personal Anthropic subscription used for site/content work. Estimate based on US$20/month; please confirm exact GBP figure.</p>
 
 <div class="callout">
-  <strong>Total fixed cost at v1 scale: ~£35.25/month.</strong> Dominated by Canva (£18) and Claude Pro (~£16). Hosting, database, and email services have generous free tiers that cover low traffic. Moving to paid Vercel/Postgres/Resend tiers happens around <strong>50,000 monthly visits</strong> or <strong>3,000 emails/month</strong> &mdash; far above current needs.
+  <strong>Total fixed cost at v1 scale: ~£19.25/month.</strong> Just Canva Pro (£18) plus the domain. Claude is on the free tier; hosting, Postgres, Supabase, Resend all sit comfortably under their free tier caps. Moving to paid tiers happens around <strong>50,000 monthly visits</strong>, <strong>3,000 emails/month</strong>, or <strong>500MB Supabase</strong> &mdash; far above current launch needs.
 </div>
 
 <h2>6. Scaling Scenarios</h2>

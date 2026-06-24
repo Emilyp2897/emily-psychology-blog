@@ -751,12 +751,29 @@ Once a plan is approved by Emily, the customer logs in to a dashboard and opens 
 
 <ul>
   <li><code>Plans.progress</code> (JSONB, default <code>'{}'</code>) &mdash; keys are <code>&quot;week.session.exercise&quot;</code> strings (e.g. <code>&quot;1.2.3&quot;</code> = week 1, session 2, exercise 3); values are the ISO timestamp the exercise was ticked. For mental plans, the daily-practice table rows are treated as session 1 exercises 1-N (one row per day).</li>
+  <li><code>Plans.weights</code> (JSONB, default <code>'{}'</code>) &mdash; same key shape as <code>progress</code>; values are the weight the athlete logged for that exercise (e.g. <code>&quot;65&quot;</code>, <code>&quot;BW&quot;</code>). Physical plans only.</li>
 </ul>
 
-<p>Migration to add the column (one-time, run in Supabase SQL editor):</p>
+<p>Migrations (one-off, Supabase SQL editor):</p>
 
 <pre><code>ALTER TABLE "Plans"
-  ADD COLUMN IF NOT EXISTS progress JSONB NOT NULL DEFAULT '{}'::jsonb;</code></pre>
+  ADD COLUMN IF NOT EXISTS progress JSONB NOT NULL DEFAULT '{}'::jsonb;
+
+ALTER TABLE "Plans"
+  ADD COLUMN IF NOT EXISTS weights JSONB NOT NULL DEFAULT '{}'::jsonb;</code></pre>
+
+<h3>7C.1.1 Plan-page rendering pipeline</h3>
+
+<p>Each week's markdown content goes through this pipeline in <code>/plan/[id].astro</code> before being injected into the page:</p>
+
+<ol>
+  <li><code>marked.parse</code> &mdash; markdown to HTML.</li>
+  <li><code>stripEmptyBlocks</code> &mdash; drops empty <code>&lt;blockquote&gt;</code> and <code>&lt;p&gt;</code> elements that the markdown sometimes produces between sections.</li>
+  <li><code>transformCoachTips</code> &mdash; wraps labelled paragraphs (Cycle consideration, Ready to progress, Concept of the week, Reflection prompt) into <code>.coach-tip</code> cards with a Saoirse avatar. The <code>cues</code> label is dropped entirely (covered inline in each exercise description).</li>
+  <li><code>dedupePerWeekCoachTips</code> &mdash; if the plan generator emitted Cycle/Ready-to-progress per session (old prompt), collapses each to its last occurrence so only one shows per week.</li>
+  <li><code>injectExerciseCheckboxes</code> &mdash; adds a leading <strong>Done</strong> column (checkbox per row) and a trailing <strong>Weight</strong> column (preset-options dropdown) to the exercise table. Mental plans get the Done column only.</li>
+  <li><code>mergeExerciseDescriptions</code> &mdash; pulls each <code>&lt;blockquote&gt;</code> paragraph (or top-level <code>**Exercise:**</code> paragraph) describing an exercise INTO the matching row's name cell as a lime-green Saoirse banner. Falls back to sentence-level matching when a single paragraph covers multiple exercises (e.g. "Mobility work" describes both 90/90 hip mobility and World's greatest stretch).</li>
+</ol>
 
 <h3>7C.2 Customer routes</h3>
 
@@ -833,6 +850,8 @@ Once a plan is generated it sits as <code>pending_review</code> in the Plans tab
     <tr><td><code>GET /api/admin/orphaned-intakes</code></td><td>Returns intakes that are paid (<code>stripe_session_id IS NOT NULL</code>) but have no Plans row written (<code>finalized_at IS NULL</code>) and aren't blocked by a red flag. Surfaces them in the Plans page bottom section.</td></tr>
     <tr><td><code>POST /api/admin/recover-intake</code></td><td>Body: <code>{ intakeId }</code>. Re-runs <code>finalizeIntake()</code> for an orphaned intake. Has the same 2-minute duplicate-write guard as regenerate.</td></tr>
     <tr><td><code>GET /api/admin/feedback</code></td><td>Returns every <code>plan_week_feedback</code> row joined with customer emails.</td></tr>
+    <tr><td><code>GET /api/admin/health-check</code></td><td>Pilot-launch readiness diagnostic: env-var presence (masked) + live ping of Anthropic, Stripe, Resend, Supabase, Vercel Postgres. Surfaces on the <code>/admin/health</code> page.</td></tr>
+    <tr><td><code>POST /api/plan/save-weight</code></td><td>Customer logs the kg they used for one exercise. Body: <code>{ planId, week, session, exercise, weight }</code>. Verifies Auth token + ownership; merges into <code>Plans.weights</code> JSONB.</td></tr>
   </tbody>
 </table>
 
@@ -1047,7 +1066,7 @@ Two databases are used deliberately. Vercel Postgres holds the pipeline state (i
   <thead><tr><th>Table</th><th>What's in it</th><th>Created by</th></tr></thead>
   <tbody>
     <tr><td><code>auth.users</code></td><td>Supabase-managed authentication. Customer signs in here; <code>user.id</code> is the FK on the other tables.</td><td>Supabase Auth (no migration needed).</td></tr>
-    <tr><td><code>"Plans"</code></td><td>The plan a customer paid for. Columns: <code>id</code>, <code>user_id</code>, <code>plan_type</code>, <code>weeks_total</code>, <code>plan_content</code> (markdown), <code>status</code> (<code>pending_review</code> or <code>active</code>), <code>created_at</code>, <code>approved_at</code>, and <code>progress</code> (JSONB, default <code>'{}'</code>, holds per-exercise ticks keyed by <code>"week.session.exercise"</code>).</td><td>One-off SQL run in Supabase SQL editor. <code>progress</code> column added by:<br><code>ALTER TABLE "Plans" ADD COLUMN IF NOT EXISTS progress JSONB NOT NULL DEFAULT '{}'::jsonb;</code></td></tr>
+    <tr><td><code>"Plans"</code></td><td>The plan a customer paid for. Columns: <code>id</code>, <code>user_id</code>, <code>plan_type</code>, <code>weeks_total</code>, <code>plan_content</code> (markdown), <code>status</code> (<code>pending_review</code> or <code>active</code>), <code>created_at</code>, <code>approved_at</code>, <code>progress</code> (JSONB, per-exercise tick timestamps), <code>weights</code> (JSONB, per-exercise logged weights), plus team-plan columns <code>is_team_plan</code>, <code>share_token</code>, <code>coach_id</code>, <code>team_intake_data</code>.</td><td>Migrations in <code>migrations/004-team-plans-supabase.sql</code>, <code>006-plans-user-id-nullable.sql</code>, and <code>008-plans-weights-column.sql</code>. Plus the <code>progress</code> column add (inline in §7C.1).</td></tr>
     <tr><td><code>plan_week_feedback</code></td><td>One row per pilot feedback submission. Columns: <code>id</code>, <code>plan_id</code>, <code>user_id</code>, <code>week_number</code>, <code>rating</code> (1-5), <code>worked_well</code>, <code>was_hard</code>, <code>notes_for_emily</code>, <code>created_at</code>.</td><td>One-off SQL (see §7C.5 above).</td></tr>
   </tbody>
 </table>
@@ -1244,8 +1263,15 @@ npm run dev
     <tr><td><code>exercises.ts</code></td><td>Curated exercise library with category/equipment/level/contraindication tags. Provides <code>filterExercises()</code> helper.</td></tr>
     <tr><td><code>red-flags.ts</code></td><td>Four pause-for-clinical-review flag rules with detection patterns and client messages.</td></tr>
     <tr><td><code>program-tracks.ts</code></td><td>Pregnancy, postpartum, endometriosis, and return-to-play protocols with real-source citations.</td></tr>
+    <tr><td><code>photo-credits.ts</code></td><td>Maps image filename to photographer (name, optional Instagram handle, optional URL). Used by the <code>PhotoCredit</code> component to render a caption under each homepage / about-page photo.</td></tr>
   </tbody>
 </table>
+
+<p>Components and scripts of note:</p>
+<ul>
+  <li><code>src/components/PhotoCredit.astro</code> &mdash; renders a small italic "Photo: Name" caption under an image, using the lookup in <code>photo-credits.ts</code>. Pass <code>class="on-white"</code> for use on light backgrounds.</li>
+  <li><code>scripts/test-red-flag.mjs</code> &mdash; end-to-end smoke test that posts crisis-flagged intakes to <code>/api/programme-intake</code> and asserts the response routes to support resources instead of generating a plan. Run with <code>node scripts/test-red-flag.mjs</code> while the dev server is up.</li>
+</ul>
 
 <h3>14.4 Pages (<code>src/pages/</code>)</h3>
 <p>Top-level public pages:</p>
@@ -1269,6 +1295,7 @@ npm run dev
 <ul>
   <li><code>admin/plans.astro</code> &mdash; Pending Review and Approved tabs with action buttons (Delete, Regenerate, Approve), plus the "Paid intakes without a plan" recovery section.</li>
   <li><code>admin/feedback.astro</code> &mdash; pilot feedback dashboard, one card per submission.</li>
+  <li><code>admin/health.astro</code> &mdash; pilot launch readiness diagnostic. Renders the env-var presence + external-service ping table from <code>/api/admin/health-check</code>.</li>
 </ul>
 
 <p>Header and site-wide changes (June 2026):</p>
