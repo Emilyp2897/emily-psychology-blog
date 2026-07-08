@@ -9,16 +9,13 @@ const seriesCards = [
     title: 'Training the Mind Blog',
     description: 'Explore the mental side of performance with short, relatable posts built for female athletes.',
     href: '/content-hub/training-the-mind/',
-  },
-  {
-    title: 'Gael Performance Toolkit',
-    description: 'Practical, in-the-moment tools you can use before and during games when pressure rises.',
-    href: '/content-hub/gael-performance-toolkit/',
+    icon: '/assets/icon-head-books.png',
   },
   {
     title: 'Stronger Minds, Stronger Players',
     description: 'Understand mental health in sport, recognise warning signs, and know where to get support.',
     href: '/content-hub/strong-minds-stronger-players/',
+    icon: '/assets/icon-girl-sitting.png',
   },
 ];
 ---
@@ -37,11 +34,11 @@ const seriesCards = [
       <section class="hero fade-in">
         <h1>Mind the Gael Content Hub</h1>
         <p class="tagline">For the moments before the game, after the mistake, and everything in between</p>
-      </section>
 
       <section class="series-cards fade-in" aria-label="Content hub sections">
         {seriesCards.map((card) => (
           <a href={card.href} class="series-card">
+            <img src={card.icon} alt="" class="series-card-icon" aria-hidden="true" />
             <h2 class="title">{card.title}</h2>
             <p class="description">{card.description}</p>
           </a>
@@ -113,10 +110,17 @@ const seriesCards = [
     box-shadow: 0 15px 32px rgba(0, 0, 0, 0.16);
   }
 
+  .series-card-icon {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 1.1rem;
+  }
+
   .series-card .title {
     margin: 0 0 0.8rem;
     font-size: 1.25rem;
-    color: var(--purple);
+    color: var(--purple, #69005a);
     transition: color 0.2s ease;
   }
 
@@ -263,8 +267,6 @@ const seriesCards = [
     opacity: 1;
     transform: translateY(0);
   }
-
-  /* after .band-split-reverse > * { } */
 
   @media (max-width: 1024px) {
     .series-card {

@@ -16,7 +16,6 @@ import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
 
 const allPosts = await getCollection('blog');
 
-// Show the first post from each core series in the home page article section.
 const featuredSlugs = [
   'training-the-mind/attention-control-theory',
   'gael-performance-toolkit/reset-your-focus-toolkit',
@@ -26,6 +25,11 @@ const featuredSlugs = [
 const latestPosts = featuredSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
   .filter((post): post is (typeof allPosts)[number] => post !== undefined);
+
+const latestToolkit = allPosts
+  .filter((post) => post.slug.startsWith('gael-performance-toolkit/'))
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
+  .find((post) => post.data.pubDate >= new Date('2025-08-01'));
 ---
 
 <!doctype html>
@@ -36,37 +40,26 @@ const latestPosts = featuredSlugs
   <body class="home-page home-page-hero-first">
     <main class="home-layout">
 
-      <!-- ─────────────── HERO (animated) ─────────────── -->
-      <!-- The header bar sits BELOW this hero (qube-rt style): the
-           animation plays first, then the nav appears below. -->
+      <!-- HERO (animated) -->
       <section class="home-band home-hero">
         <div class="hero-stage-wrap">
           <div class="hero-stage">
-            <!-- Volleyball/Gaelic football illustration: spins in, scales up,
-                 fades out. Sits at the centre of the stage. -->
             <Image src={footballImage} alt="" class="hero-fb" loading="eager" widths={[220, 320, 440]} sizes="220px" />
-
-            <!-- Mind the Gael logo: springs in at the SAME centre point once
-                 the ball has faded. The image overflows the 220x220 stage
-                 box because the logo is wider; that's intentional. -->
             <Image src={mtgLogo} alt="Mind the Gael" class="hero-logo" loading="eager" widths={[400, 600, 800]} sizes="(max-width: 600px) 280px, 480px" />
           </div>
 
           <h1 class="hero-tagline">Mental Performance for Female Athletes</h1>
-          <p class="hero-sub">AI-built mental and physical performance plans, the Gael Performance Toolkit, and women's health at the centre. Train your mind like you train your body.</p>
+          <p class="hero-sub">AI-built mental performance plans, the Gael Performance Toolkit, and women's health at the centre. Train your mind like you train your body.</p>
 
           <div class="hero-ctas">
-            <a href="/personal-training" class="cta-primary">Get your performance plan</a>
-            <a href="/content-hub/gael-performance-toolkit/" class="cta-secondary">Explore the toolkit</a>
+            <a href="/personal-training" class="cta-primary">Get your Mental Performance Plan</a>
           </div>
         </div>
       </section>
 
-      <!-- Header banner sits below the hero animation on the homepage,
-           qube-rt style. It becomes sticky once it scrolls into view. -->
       <Header />
 
-      <!-- ─────────────── 1. WHY (image + text) ─────────────── -->
+      <!-- 1. WHY (image + text) -->
       <section class="home-band band-light band-split" aria-labelledby="why-heading">
         <div class="band-inner band-split-inner">
           <div class="band-image">
@@ -83,7 +76,7 @@ const latestPosts = featuredSlugs
         </div>
       </section>
 
-      <!-- ─────────────── 2. MENTAL PERFORMANCE PLANS (text + image right) ─────────────── -->
+      <!-- 2. MENTAL PERFORMANCE PLANS (text + image right) -->
       <section class="home-band band-dark band-split" aria-labelledby="mental-heading">
         <div class="band-inner band-split-inner">
           <div class="band-text">
@@ -91,7 +84,7 @@ const latestPosts = featuredSlugs
             <h2 id="mental-heading">A six or twelve week mental performance plan, built around your sport.</h2>
             <p>Fill in a short intake form sharing your sport, your competitive level, the performance moments you want to work on, your peak moments, your struggle moments. Receive a structured plan that pulls from the twelve themes of the Gael Performance Toolkit. Confidence, focus, pre-performance routines, mistake recovery, self-talk, visualisation.</p>
             <p>Delivered fully online. Self-paced. Built to apply in training and on match day.</p>
-            <a href="/personal-training#mental-performance-plans" class="band-link">Start your mental performance plan →</a>
+            <a href="/personal-training#mental-performance-plans" class="band-link">Start your mental performance plan -&gt;</a>
           </div>
           <div class="band-image">
             <Image src={mentalImage} alt="Two players embracing on the pitch" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
@@ -100,7 +93,7 @@ const latestPosts = featuredSlugs
         </div>
       </section>
 
-      <!-- ─────────────── 3. PHYSICAL PERFORMANCE PLANS (image + text) ─────────────── -->
+      <!-- 3. Training the Mind Series (image + text) -->
       <section class="home-band band-light band-split" aria-labelledby="physical-heading">
         <div class="band-inner band-split-inner">
           <div class="band-image">
@@ -108,27 +101,21 @@ const latestPosts = featuredSlugs
             <PhotoCredit src={physicalImage.src} class="on-white" />
           </div>
           <div class="band-text">
-            <p class="band-kicker">Physical Performance Plans</p>
-            <h2 id="physical-heading">Exercise-based training plans built around your sport and women's health.</h2>
-            <p>Strength, conditioning, recovery, sport-specific work. Cycle-aware programming. Specialised tracks where they apply: pregnancy, postpartum, endometriosis, return-to-play.</p>
-            <p>Same six and twelve week format as the mental performance plans. Same self-paced delivery. Both plans can run in parallel and reinforce each other.</p>
-            <a href="/personal-training" class="band-link">Start your physical training plan →</a>
+            <p class="band-kicker">Training the Mind Series</p>
+            <h2 id="physical-heading">Sports psychology in language that makes sense on the pitch.</h2>
+            <p>Twelve monthly topics, each a 10 minute read. Grounded in sports psychology and written from my own experience as an athlete, covering topics such as pressure and performance anxiety, confidence and self-talk, and team culture, belonging, and communication.</p>
+            <a href="/content-hub" class="band-link">Subscribe Today -&gt;</a>
           </div>
         </div>
       </section>
 
-      <!-- ─────────────── 4. CONTENT HUB (text + image right) ─────────────── -->
+      <!-- 4. Stronger Mind Stronger Player Series (text + image right) -->
       <section class="home-band band-dark band-split" aria-labelledby="hub-heading">
         <div class="band-inner band-split-inner">
           <div class="band-text">
-            <p class="band-kicker">The Content Hub</p>
-            <h2 id="hub-heading">Three series. Sports psychology in language that makes sense on the pitch.</h2>
-            <ul class="hub-list">
-              <li><strong>Training the Mind.</strong> Sports psychology explained for athletes. Twelve months, twenty four articles.</li>
-              <li><strong>Gael Performance Toolkit.</strong> Practical tools for focus, confidence, and match-day decision making. Twelve toolkits, one per theme.</li>
-              <li><strong>Stronger Minds, Stronger Players.</strong> Always free. Spotting struggle and signposting professional support.</li>
-            </ul>
-            <a href="/content-hub" class="band-link">Open the content hub →</a>
+            <p class="band-kicker">Stronger Mind, Stronger Players Series</p>
+              <p>Always free. A series focused on mental health in sport, helping you spot struggle in yourself or teammates and know where to find professional support.</p>
+            <a href="/content-hub/strong-minds-stronger-players/" class="band-link">Click Here to Open the Series -&gt;</a>
           </div>
           <div class="band-image">
             <Image src={hubImage} alt="Team huddle at Holloway" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
@@ -137,58 +124,50 @@ const latestPosts = featuredSlugs
         </div>
       </section>
 
-      <!-- ─────────────── BOTTOM CTA CARDS ─────────────── -->
-      <section class="home-band band-cta" aria-label="Get started">
-        <div class="cta-grid">
-          <a href="/personal-training" class="cta-card cta-card-plans">
-            <p class="cta-card-kicker">Performance Plans</p>
-            <h3>Get a plan built around your sport this week.</h3>
-            <span class="cta-card-arrow">→</span>
-          </a>
-          <a href="/content-hub" class="cta-card cta-card-hub">
-            <p class="cta-card-kicker">Content Hub</p>
-            <h3>Read the toolkit. Build your routine. Start today.</h3>
-            <span class="cta-card-arrow">→</span>
-          </a>
+      <!-- TOOLKIT BAND (green) -->
+      <section class="home-band cta-card cta-card-hub" aria-label="Latest toolkit">
+        <div class="toolkit-row">
+          <img src="/assets/toolkit-bag-original.png" alt="" class="toolkit-illustration" aria-hidden="true" />
+          <div class="toolkit-copy">
+            {latestToolkit && (
+              <a href={`/content-hub/${latestToolkit.slug}/`} class="toolkit-link">
+                <h3>{latestToolkit.data.title}</h3>
+                <p class="post-date">
+                  <FormattedDate date={latestToolkit.data.pubDate} />
+                </p>
+                {latestToolkit.data.description && (
+                  <p class="post-description">{latestToolkit.data.description}</p>
+                )}
+              </a>
+            )}
+          </div>
         </div>
+        <a href="/content-hub/gael-performance-toolkit/" class="cta-card-arrow">-&gt;</a>
       </section>
 
-      <!-- ─────────────── LATEST ARTICLES ─────────────── -->
-      <section class="home-band band-latest" aria-labelledby="latest-heading">
-        <div class="band-inner">
-          <h2 id="latest-heading" class="latest-heading">Latest articles and toolkits</h2>
-          <ul class="latest-posts">
-            {latestPosts.map((post) => (
-              <li>
-                <a href={`/content-hub/${post.slug}/`}>
-                  <h3>{post.data.title}</h3>
-                  <p class="post-date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </p>
-                  {post.data.description && <p class="post-description">{post.data.description}</p>}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a href="/content-hub" class="view-all-link">View all articles →</a>
-        </div>
+      <!-- LATEST ARTICLES BAND (purple) -->
+      <section class="home-band cta-card cta-card-plans" aria-label="Latest articles and toolkits">
+        <p class="cta-card-kicker">Latest articles</p>
+        <ul class="latest-posts">
+          {latestPosts.map((post) => (
+            <li>
+              <a href={`/content-hub/${post.slug}/`}>
+                <h3>{post.data.title}</h3>
+                <p class="post-date">
+                  <FormattedDate date={post.data.pubDate} />
+                </p>
+                {post.data.description && <p class="post-description">{post.data.description}</p>}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a href="/content-hub" class="cta-card-arrow">-&gt;</a>
       </section>
-
     </main>
     <Footer />
   </body>
-</html>
 
 <style>
-  /* ────────────────────────────────────────────────────────────
-     Mind the Gael homepage. Structured like qube-rt: animated
-     hero, then alternating light/dark full-bleed bands with one
-     half image, one half text. Bottom CTA cards. Latest posts.
-
-     All bands stretch full viewport width. .band-inner caps the
-     content at 1380px for readability.
-     ──────────────────────────────────────────────────────────── */
-
   .home-layout {
     padding: 0;
   }
@@ -203,7 +182,6 @@ const latestPosts = featuredSlugs
     padding: 0 1.5rem;
   }
 
-  /* ── Hero ── */
   .home-hero {
     background:
       radial-gradient(circle at 20% 30%, rgba(105, 0, 90, 0.35) 0%, transparent 55%),
@@ -233,11 +211,7 @@ const latestPosts = featuredSlugs
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Logo overflows the stage box; that's fine. */
     overflow: visible;
-    /* Reserve enough vertical space below the stage so the logo (which is
-       wider than the stage and centred absolutely on the same point as the
-       ball) doesn't overlap the tagline that follows. */
     margin-bottom: 1.4rem;
   }
 
@@ -246,9 +220,6 @@ const latestPosts = featuredSlugs
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* The Vecteezy ball illustration is on a solid black background.
-       mix-blend-mode: screen makes black pixels transparent against the
-       dark green hero, so only the white ball shows. */
     mix-blend-mode: screen;
     animation: heroFbSpin 1.5s cubic-bezier(.15, .8, .35, 1) forwards,
                heroFbFade 0.3s ease-in 1.75s forwards;
@@ -349,18 +320,11 @@ const latestPosts = featuredSlugs
     100% { opacity: 0; transform: scale(1.3); }
   }
 
-  @keyframes heroShIn {
-    0%   { opacity: 0; transform: scale(0.35) rotate(-20deg); }
-    62%  { transform: scale(1.12) rotate(6deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
-  }
-
   @keyframes heroFadeUp {
     0%   { opacity: 0; transform: translateY(14px); }
     100% { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Bands ── */
   .band-split {
     padding: 0;
   }
@@ -414,9 +378,6 @@ const latestPosts = featuredSlugs
     margin-top: 0.4rem !important;
   }
 
-  /* Global `main a !important` rule forces dark purple on every link.
-     The band link sits on a dark green band, so it needs lime green with
-     !important to stay readable. */
   .band-link {
     display: inline-block;
     margin-top: 1.4rem;
@@ -433,8 +394,6 @@ const latestPosts = featuredSlugs
     border-bottom-color: var(--green-lime);
   }
 
-  /* Light-band variant: same logic, but use purple text on the cream
-     background since lime would disappear on cream. */
   .band-light .band-link {
     color: var(--purple) !important;
   }
@@ -444,7 +403,6 @@ const latestPosts = featuredSlugs
     border-bottom-color: var(--purple);
   }
 
-  /* Light band: cream background, deep text, purple kicker, purple link */
   .band-light {
     background: var(--green-light);
     color: var(--green-dark);
@@ -466,7 +424,6 @@ const latestPosts = featuredSlugs
     border-bottom-color: var(--purple);
   }
 
-  /* Dark band: deep green background, light text, lime kicker + link */
   .band-dark {
     background:
       linear-gradient(180deg, rgba(3, 10, 6, 0.96) 0%, rgba(3, 10, 6, 0.88) 100%);
@@ -508,19 +465,6 @@ const latestPosts = featuredSlugs
     font-weight: 700;
   }
 
-  /* ── Bottom CTA cards ── */
-  .band-cta {
-    background: var(--green-dark);
-    padding: 0;
-  }
-
-  .cta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    min-height: 320px;
-  }
-
   .cta-card {
     position: relative;
     padding: 4rem 3rem;
@@ -532,9 +476,6 @@ const latestPosts = featuredSlugs
     transition: background 0.25s ease;
   }
 
-  /* Global rule `main a { color: !important }` forces every link in main
-     to dark purple. CTA cards are <a> tags, so explicit colors and
-     text-decoration overrides need !important to win. */
   .cta-card,
   .cta-card:visited,
   .cta-card:hover {
@@ -545,6 +486,7 @@ const latestPosts = featuredSlugs
   .cta-card-plans:visited {
     background: var(--purple);
     color: var(--green-light) !important;
+    justify-content: flex-start;
   }
 
   .cta-card-plans:hover {
@@ -554,13 +496,107 @@ const latestPosts = featuredSlugs
 
   .cta-card-hub,
   .cta-card-hub:visited {
-    background: var(--green-lime);
+    background: linear-gradient(135deg, var(--green-lime) 0%, #e8ffc2 100%);
     color: var(--green-dark) !important;
+    box-shadow: 0 0 0 1px rgba(3, 10, 6, 0.06);
+    transition: box-shadow 0.3s ease, background 0.3s ease;
   }
 
   .cta-card-hub:hover {
-    background: #cdff85;
+    background: linear-gradient(135deg, #cdff85 0%, var(--green-lime) 100%);
     color: var(--green-dark) !important;
+    box-shadow: 0 0 32px rgba(192, 254, 113, 0.55);
+  }
+
+  .cta-card-hub {
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    position: relative;
+    padding: 2.25rem 3rem;
+  }
+
+  .toolkit-badge {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.6rem;
+    background: var(--purple);
+    color: var(--green-light);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .toolkit-row {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    max-width: 100%;
+  }
+
+  .toolkit-illustration {
+    width: 84px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .toolkit-copy {
+    min-width: 0;
+  }
+
+  .cta-card-hub .cta-card-kicker {
+    margin: 0 0 0.4rem;
+  }
+
+  .cta-card-hub .toolkit-link {
+    text-decoration: none !important;
+    color: var(--green-dark) !important;
+    display: block;
+  }
+
+  .cta-card-hub .toolkit-link:hover h3 {
+    text-decoration: underline;
+  }
+
+  .cta-card-hub .toolkit-link h3 {
+    color: var(--green-dark);
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    line-height: 1.2;
+    margin: 0 0 0.3rem;
+    font-weight: 800;
+    max-width: 32ch;
+  }
+
+  .cta-card-hub .post-date {
+    font-size: 0.82rem;
+    color: var(--green-dark);
+    opacity: 0.65;
+    margin: 0 0 0.35rem;
+  }
+
+  .cta-card-hub .post-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--green-dark);
+    margin: 0;
+    max-width: 48ch;
+  }
+
+  .cta-card-hub .cta-card-arrow {
+    position: absolute;
+    top: 2.2rem;
+    right: 2.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 0.25s ease;
+  }
+
+  .cta-card-hub:hover .cta-card-arrow {
+    transform: translateX(8px);
   }
 
   .cta-card h3,
@@ -594,125 +630,93 @@ const latestPosts = featuredSlugs
     font-weight: 700;
     line-height: 1;
     transition: transform 0.25s ease;
+    text-decoration: none !important;
+    color: inherit !important;
   }
 
   .cta-card:hover .cta-card-arrow {
     transform: translateX(8px);
   }
 
-  /* ── Latest articles ── */
-  .band-latest {
-    background: var(--green-dark);
-    color: var(--green-light);
-    padding: 4rem 1.5rem;
-  }
-
-  .latest-heading {
-    color: var(--green-lime);
-    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-    margin: 0 0 2rem;
-    text-align: center;
-    font-weight: 800;
-  }
-
-  .latest-posts {
+  .cta-card-plans .latest-posts {
     list-style: none;
     padding: 0;
-    margin: 0 0 2rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .latest-posts li {
-    background: var(--green-light);
-    border-radius: 12px;
-    padding: 1.4rem 1.3rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid rgba(192, 254, 113, 0.2);
+  .cta-card-plans .latest-posts li {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 0.75rem;
   }
 
-  .latest-posts li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  .cta-card-plans .latest-posts li:first-child {
+    border-top: none;
+    padding-top: 0;
   }
 
-  .latest-posts li a {
-    text-decoration: none;
+  .cta-card-plans .latest-posts a {
+    text-decoration: none !important;
+    color: var(--green-light) !important;
     display: block;
-    color: var(--green-dark);
   }
 
-  .latest-posts li h3 {
-    color: var(--purple);
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem;
-    line-height: 1.3;
-  }
-
-  .latest-posts li a:hover h3 {
+  .cta-card-plans .latest-posts a:hover h3 {
     text-decoration: underline;
   }
 
-  .post-date {
-    font-size: 0.85rem;
-    color: var(--purple);
-    margin: 0 0 0.6rem;
-    opacity: 0.75;
-  }
-
-  .post-description {
-    font-size: 0.92rem;
-    line-height: 1.5;
-    margin: 0;
-    color: var(--green-dark);
-  }
-
-  .view-all-link {
-    display: block;
-    text-align: center;
-    color: var(--green-lime);
+  .cta-card-plans .latest-posts h3 {
+    font-size: 1rem;
     font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.2s ease;
-    padding-bottom: 2px;
-    max-width: max-content;
-    margin: 0 auto;
+    margin: 0 0 0.25rem;
+    line-height: 1.3;
+    color: var(--green-light);
   }
 
-  .view-all-link:hover {
-    border-bottom-color: var(--green-lime);
+  .cta-card-plans .post-date {
+    font-size: 0.8rem;
+    color: var(--green-light);
+    opacity: 0.65;
+    margin: 0 0 0.25rem;
+  }
+
+  .cta-card-plans .post-description {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--green-light);
+    opacity: 0.85;
+    margin: 0;
   }
 
   .band-split-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  min-height: 480px;
-  align-items: stretch;  /* already there, keep it */
-  max-width: none;
-  padding: 0;
-}
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 480px;
+    align-items: stretch;
+    max-width: none;
+    padding: 0;
+  }
 
-.band-image {
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;   /* add this */
-  min-height: 0;
-}
+  .band-image {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    min-height: 0;
+  }
 
-.band-photo {
-  width: 100%;
-  flex: 1 1 0;           /* change from auto to 0 */
-  min-height: 0;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  border-radius: 4px;
-}
+  .band-photo {
+    width: 100%;
+    flex: 1 1 0;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+    border-radius: 4px;
+  }
 
-  /* ── Responsive ── */
   @media (max-width: 900px) {
     .home-hero {
       min-height: auto;
@@ -728,7 +732,7 @@ const latestPosts = featuredSlugs
     }
 
     .band-image {
-      min-height: 240px;
+      min-height: 320px;
       order: -1;
     }
 
@@ -736,16 +740,24 @@ const latestPosts = featuredSlugs
       padding: 2.5rem 1.5rem;
     }
 
-    .cta-grid {
-      grid-template-columns: 1fr;
-    }
-
     .cta-card {
       padding: 2.5rem 1.5rem;
     }
 
-    .latest-posts {
-      grid-template-columns: 1fr;
+    .toolkit-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .cta-card-hub {
+      padding: 2rem 1.5rem;
+    }
+
+    .cta-card-hub .cta-card-arrow {
+      top: auto;
+      bottom: 1.5rem;
+      right: 1.5rem;
     }
   }
 
