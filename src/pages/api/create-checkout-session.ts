@@ -23,14 +23,16 @@ function getPlanDetails(plan: string): PlanDetails {
       amount: 2000, // £20.00
       mode: "payment",
     },
+    // Keep these in sync with the prices shown on /pricing and the
+    // homepage Mental Performance Plans band.
     "mental-6-week": {
       name: "6-Week Mental Performance Plan",
-      amount: 1000, // £10.00
+      amount: 200, // £2.00
       mode: "payment",
     },
     "mental-12-week": {
       name: "12-Week Mental Performance Plan",
-      amount: 2000, // £20.00
+      amount: 500, // £5.00
       mode: "payment",
     },
   };

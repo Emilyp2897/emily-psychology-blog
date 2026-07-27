@@ -21,7 +21,7 @@ const sectionRoutes: Record<string, { title: string; href: string }> = {
   },
   'gael-performance-toolkit': {
     title: 'Gael Performance Toolkit',
-    href: '/content-hub/gael-performance-toolkit/',
+    href: '/gael-performance-toolkit/',
   },
   'strong-minds-stronger-players': {
     title: 'Strong Minds, Stronger Players',
@@ -34,25 +34,26 @@ const sectionMeta = sectionSlug ? sectionRoutes[sectionSlug] : undefined;
 const isGaelToolkitPost = sectionSlug === 'gael-performance-toolkit';
 const isSmspPost = sectionSlug === 'strong-minds-stronger-players';
 
-// SMSP is always free — no subscription required — but the series
-// is not ready for public launch yet. Flip this to false once SMSP
-// content is finalised and ready to publish.
-const SMSP_COMING_SOON = true;
+// Every article is free to read. The only gate left is the SMSP release
+// schedule: an SMSP post whose pubDate has not arrived yet shows a
+// "releases on" notice instead of its content. This is a schedule, not a
+// paywall. Training the Mind and Gael Performance Toolkit articles have no
+// gate on the article page (their release schedule is enforced on the hub).
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
-const shouldBypassSubscriptionGate = import.meta.env.DEV;
-const showComingSoonGate = isSmspPost && SMSP_COMING_SOON && !shouldBypassSubscriptionGate;
-// Subscription gate now applies to NON-SMSP posts only. SMSP either
-// shows the coming-soon gate (if locked) or no gate at all once it's
-// open to readers.
-const showSubscriptionGate = !isSmspPost && !shouldBypassSubscriptionGate;
-const contentIsLocked = showSubscriptionGate || showComingSoonGate;
+const releaseDateLabel = pubDate.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
 
-const toolkitRelatedArticles = new Set([
-  'training-the-mind/attention-control-theory',
-  'training-the-mind/choking-under-pressure',
-]);
+const bypassGatesInDev = import.meta.env.DEV;
+const showComingSoonGate = isSmspPost && pubDate > today && !bypassGatesInDev;
+const contentIsLocked = showComingSoonGate;
 
-const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : false;
+const showToolkitToolsBox = sectionSlug === 'training-the-mind';
+
 ---
 
 <html lang="en">
@@ -84,19 +85,11 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
       </section>
 
       <article class="article-shell">
-        {showSubscriptionGate && (
-          <div id="subscription-gate" class="subscription-gate">
-            <h2>Subscribe to Keep Reading</h2>
-            <p>This article is for subscribers. Join now to unlock full access.</p>
-            <a href="/api/create-checkout-session?plan=individual" class="gate-cta">Subscribe Now</a>
-          </div>
-        )}
-
         {showComingSoonGate && (
           <div class="coming-soon-gate">
-            <p class="coming-soon-eyebrow">Coming soon</p>
-            <h2>Strong Minds, Stronger Players is launching soon</h2>
-            <p>This series is always free for every player and coach. We are finalising the content with our expert panel before opening it up. Check back closer to launch.</p>
+            <p class="coming-soon-eyebrow">Releases {releaseDateLabel}</p>
+            <h2>This one is not out yet</h2>
+            <p>Strong Minds, Stronger Players releases one post a month, and this one lands on {releaseDateLabel}. The whole series is always free for every player and coach, so there is nothing to buy. Check back on the day.</p>
             <a href="/content-hub/strong-minds-stronger-players/" class="gate-cta gate-cta-back">Back to the series</a>
           </div>
         )}
@@ -108,7 +101,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
             <section class="toolkit-tools-box" aria-label="Related practical tools">
               <p class="toolkit-tools-title">Looking for practical tools to use this in real matches?</p>
               <p class="toolkit-tools-copy">Go to the Gael Performance Toolkit for practical tools related to this article.</p>
-              <a href="/content-hub/gael-performance-toolkit/" class="toolkit-tools-link">Open Gael Performance Toolkit</a>
+              <a href="/gael-performance-toolkit/" class="toolkit-tools-link">Open Gael Performance Toolkit</a>
             </section>
           )}
 
@@ -122,7 +115,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
 
     <Footer />
 
-    <script is:inline define:vars={{ shouldBypassSubscriptionGate, isGaelToolkitPost }}>
+    <script is:inline define:vars={{ isGaelToolkitPost }}>
       window.addEventListener('DOMContentLoaded', () => {
         const paidContent = document.getElementById('paid-content');
         const toolkitToolsBox = paidContent?.querySelector('.toolkit-tools-box');
@@ -186,18 +179,6 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
           }
         }
 
-        if (shouldBypassSubscriptionGate) {
-          return;
-        }
-
-        const gate = document.getElementById('subscription-gate');
-
-        const isSubscribed = localStorage.getItem('mtg_subscribed') === 'true';
-
-        if (isSubscribed && gate && paidContent) {
-          gate.style.display = 'none';
-          paidContent.classList.remove('is-locked');
-        }
       });
     </script>
   </body>
@@ -260,16 +241,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
     padding: 1.1rem;
   }
 
-  .subscription-gate {
-    margin: 0 0 1.2rem;
-    padding: 1rem;
-    border: 2px solid rgba(105, 0, 90, 0.5);
-    border-radius: 10px;
-    background: rgba(240, 205, 255, 0.2);
-  }
-
-  /* Coming-soon variant for SMSP posts. Uses the lime accent so it
-     reads as "in the works" rather than "you need to pay". */
+  /* Release-date notice for SMSP posts whose pubDate has not arrived. */
   .coming-soon-gate {
     margin: 0 0 1.2rem;
     padding: 1.25rem 1.1rem;
@@ -313,18 +285,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
     border-color: var(--purple);
   }
 
-  .subscription-gate h2 {
-    margin: 0 0 0.5rem;
-    color: var(--purple);
-    font-size: 1.2rem;
-  }
-
-  .subscription-gate p {
-    margin: 0;
-    color: var(--green-dark);
-  }
-
-  .subscription-gate .gate-cta {
+  .gate-cta {
     display: inline-block;
     margin-top: 0.7rem;
     padding: 0.5rem 0.95rem;
@@ -337,7 +298,7 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .subscription-gate .gate-cta:hover {
+  .gate-cta:hover {
     transform: translateY(-1px);
     border-color: var(--purple-light);
   }
@@ -395,12 +356,13 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
 
   .gael-toolkit-post .prose :global(.toolkit-tool-card) {
     border: 2px solid var(--green-lime);
+    border-left: 6px solid var(--purple);
     border-radius: 12px;
-    padding: 1rem 1.1rem 1.1rem;
+    padding: 1.25rem 1.3rem 1.4rem;
     background: var(--green-light);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-    margin: 0.9rem 0 1rem;
-  }
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+    margin: 2rem 0;
+}
 
   .gael-toolkit-post .prose :global(.toolkit-tool-card h2) {
     margin-top: 0;
@@ -538,4 +500,84 @@ const showToolkitToolsBox = postSlug ? toolkitRelatedArticles.has(postSlug) : fa
       padding: 0.9rem;
     }
   }
+  .prose :global(.shamrock-banner) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: rgba(192, 254, 113, 0.18);
+  border-left: 4px solid var(--green-lime);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  margin: 1.4rem 0;
+}
+
+.prose :global(.shamrock-banner .shamrock-icon) {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: rgba(192, 254, 113, 0.35);
+  border: 2px solid var(--green-lime);
+  overflow: hidden;
+}
+
+.prose :global(.shamrock-banner .shamrock-icon img) {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+}
+
+.prose :global(.shamrock-banner-purple) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: var(--purple);
+  border-left: 4px solid var(--green-lime);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  margin: 1.4rem 0;
+}
+
+.prose :global(.shamrock-banner-purple .shamrock-icon) {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid var(--green-lime);
+  overflow: hidden;
+}
+
+.prose :global(.shamrock-banner-purple .shamrock-icon img) {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+}
+
+.prose :global(.shamrock-banner-purple p) {
+  margin: 0 0 0.4rem;
+  color: var(--green-light);
+}
+
+.prose :global(.shamrock-banner-purple p:last-child) {
+  margin-bottom: 0;
+}
+
+.prose :global(.shamrock-banner-purple strong) {
+  color: var(--green-lime);
+}
+.prose :global(.visually-hidden) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
 </style>

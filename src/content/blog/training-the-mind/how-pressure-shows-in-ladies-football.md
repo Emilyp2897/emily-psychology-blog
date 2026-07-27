@@ -5,68 +5,91 @@ pubDate: "2026-08-15"
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily.
+Today I want to talk about where pressure actually comes from. Not what it does to you in the moment, but the places it builds up long before you ever run out onto the pitch.
 
-A lot of the work I do is about what pressure does to your mind and your body. But before we get into mechanisms and frameworks, I want to talk about where the pressure actually comes from. Because if you only think of pressure as "big moment in a big game", you miss most of it.
+Have you ever gone into a game already exhausted, before a ball was even thrown in? Not physically tired. Something heavier than that. You've spent the week telling yourself ***"I just need to have a good session, I need to show them I'm worth starting"***, and by Saturday there's nothing left in the tank.
 
-Pressure in ladies Gaelic football builds up across the week, not just on match day. It shows up in selection. In training. In the WhatsApp group. In your own head. And it stacks with everything else you have going on outside the sport.
+Most people picture pressure as the free in the last minute, the crowd, the big moment in the big game. And that is pressure. But if that's the only place you look for it, you miss almost all of it.
+
+Because the pressure that wears players down is rarely the loud kind. It's the quiet kind, the kind that builds across a week in places nobody else sees. In selection. In training. In the WhatsApp group. In your own head at eleven at night when you should be asleep.
+
+This shows up differently for everyone. Some of it will land for you and some of it won't, and that's normal. But almost every player I work with is carrying at least two or three of these at once, usually without naming any of them.
+
+And that's the part I want to get at. A lot of what you're carrying isn't a flaw in you. It's structural. It comes with the position of being a female athlete in a sport that asks a great deal and gives back very little in the way of resources.
 
 Here is what I see most often.
 
-## Selection anxiety
+## Selection Week
 
-For a lot of players, the hardest pressure isn't the game itself. It's the days before, when you don't know if you'll start. The not-knowing eats at you. You might play it cool but you're checking the team announcement at half five on a Tuesday.
+For a lot of players, the hardest part of the week isn't the match. It's the days before it, when you don't know yet whether you're starting.
 
-If you've ever been dropped, even once, your brain remembers. It scans for signals from coaches, body language at training, who they paired you with in drills. That scanning takes mental energy. By the time the game comes, part of you is already tired.
+The not-knowing is what does the damage. You might play it cool in front of everyone, but you're checking your phone for the team announcement at half five on a Tuesday, and you're refreshing it again at six.
 
-> **[TO FILL IN — SELECTION ANXIETY]**
->
-> A specific moment you remember waiting for a team announcement, getting dropped, or feeling like you might be. The physical signs (couldn't eat, couldn't sleep, checked the phone constantly).
+And if you've ever been dropped, even once, your brain does not forget it. It starts scanning. Body language at training. Which group the coach put you in for drills. Who got a quiet word afterwards and who walked to the car on their own. None of that scanning is a decision you make. It runs in the background whether you want it to or not.
 
-## Fear of letting the team down
+That's the bit players underestimate. Scanning costs you something. It's mental energy spent on threat detection instead of on football, and it's spent days before the game. So you arrive at the weekend with part of your capacity already gone, and then you wonder why you feel flat in a game you were desperate to play well in.
 
-This is the one I hear most. Players will tell me they can handle pressure on themselves. What they can't handle is the thought of dragging the team down.
+## The Fear of Letting Everyone Down
 
-The research backs this up. Social Comparison Theory (Festinger, 1954) shows that in any group, we assess our value by comparing ourselves to others around us. In a team sport with shared performance outcomes, that comparison runs constantly. You're not just performing for yourself. You're performing in a context where your mistakes affect 14 other people.
+This is the one I hear more than anything else.
 
-That weight is real. It also makes mistakes feel disproportionately catastrophic in the moment.
+Players will tell me, almost word for word, that they can handle pressure on themselves. They'll take the free. They'll take the responsibility. What they cannot handle is the thought of being the reason the team lost.
 
-## Social comparison with teammates
+There's a reason that weight sits so heavily. Festinger (1954) described what he called Social Comparison Theory: in any group, we work out our own value by measuring ourselves against the people around us. It isn't vanity or insecurity, it's just what the human brain does when it's in a group.
 
-Even within a tight squad, comparison is constant. Who is fitter, who is sharper in drills, who scored more in the last challenge match, who got the captain's nod. None of it is malicious. It is just how the brain works in a group.
+Now put that in a team sport, where the result is shared and everyone's contribution is visible. That comparison isn't occasional, it's constant. You're not only performing for yourself, you're performing somewhere your mistakes are felt by fourteen other people who wanted this as badly as you did.
 
-The problem is when comparison becomes self-evaluation. "She's faster than me" becomes "I'm too slow for this team" becomes "I shouldn't be here". That spiral pulls your attention off the work and onto your own worth.
+That's real, and I'm not going to tell you it isn't. But it does something distorting to your sense of scale. It takes a single misplaced pass and makes it feel, in the moment, like evidence about who you are. It isn't. It's a misplaced pass.
 
-> **[TO FILL IN — COMPARISON MOMENT]**
->
-> A time you found yourself comparing to a teammate in a way that affected your confidence. Could be a moment in training, a stat, a comment from a coach, anything that shifted you from "I'm working on me" to "I'm not as good as her".
+## Comparison Inside Your Own Squad
 
-## Leadership pressure
+Even in a squad where everyone genuinely gets on, comparison never fully switches off.
 
-If you wear the captain's armband, or you're a senior player, or just one the younger players look up to, you carry something extra. You feel responsible for setting the tone, modelling composure, holding it together when it gets messy.
+Who's fitter. Who's sharper in the drills. Who scored more in the last challenge match. Who the coach looked at when they talked about leadership. None of it is malicious and most of it isn't even conscious.
 
-That role can be a source of meaning. It can also be a source of exhaustion if you don't have somewhere to bring your own pressure. Leaders often go quiet about their own struggles because they think showing it would let people down.
+The trouble starts when comparison quietly turns into self-evaluation. ***"She's faster than me"*** becomes ***"I'm too slow for this team"***, and then it becomes ***"I shouldn't be here"***. That's three different statements, and only the first one is about football. The other two are about your worth, and your brain slid from one to the other without asking your permission.
 
-## Work, study and family load
+And once you're assessing yourself rather than reading the game, your attention is in the wrong place entirely. You're not watching the play develop, you're watching yourself and marking your own performance as it happens.
 
-Most ladies Gaelic players are not full-time athletes. You have a job, or college, or kids, or a long commute, or all of it. The dual-career research (Wylleman and Lavallee, 2004) describes this. Female athletes consistently carry higher off-pitch load than the men's game, and the recovery time gets squeezed.
+Mosewich and colleagues (2013) worked with women athletes on exactly this, and found that self-criticism was common, and that learning to respond to yourself with more self-compassion actually improved things. I know how that sounds. Self-compassion is not a word that gets used much in a dressing room. But it isn't softness, and it isn't lowering your standards. It's the difference between "that was a poor ball, sort it out" and "you're useless, why are you even here". One of those keeps you in the game.
 
-When you arrive at training already tired, drained from a 12-hour shift or a stressful college week, the pressure of the session hits a depleted system. The capacity to deal with it is just lower. That's not weakness, that's biology.
+## The Weight of Being Looked To
 
-## Why this matters
+If you wear the armband, or you're one of the older players, or you're just someone the younger ones watch, you're carrying something extra whether anyone named it or not.
 
-When pressure feels overwhelming, the instinct is to blame yourself. To think you should be tougher, better, more focused. But a lot of what you are carrying is structural. It's the position of being a female athlete in a sport with high demands and limited resources, holding down a full life alongside it.
+You feel responsible for setting the tone. For staying composed when it's getting away from you. For being the one who says the right thing at the right moment when the heads start to drop.
 
-Recognising the actual sources of pressure is the first step to managing them. It moves the conversation away from "what's wrong with me" and toward "what is realistic, given everything I'm holding".
+That role can be one of the best things about playing. It can also quietly flatten you, because leaders often have nowhere to put their own pressure. You don't want to be the one wobbling in front of the group, so you say nothing, and it accumulates.
 
-## What you can do this week
+If that's you, know that going quiet about your own struggle isn't protecting anyone. It just means you're carrying the team's weight and your own at the same time.
 
-1. **Name the pressure.** Write down the specific pressure that has been heaviest this week. Selection? A particular teammate? Work load? Naming it makes it smaller.
-2. **Separate what's yours from what's the system.** Selection anxiety is not your fault, it's a feature of competing for a spot. Dual-career load is not laziness, it's load.
-3. **Talk to one person.** Not the whole team. One person who'll hear it without trying to fix you.
-4. **Use a reset tool before training.** The full set is in the [Gael Performance Toolkit](/gael-performance-toolkit).
+## The Load You Carry Off the Pitch
 
-You're not weak for feeling the weight. You're playing a sport that asks a lot, while doing a life that asks a lot. That's hard, and it's worth saying out loud.
+Most ladies Gaelic players are not full-time athletes. You have a job, or college, or children, or a long commute, and plenty of you have several of those at once.
+
+Wylleman and Lavallee (2004) describe this as the dual career. Your athletic life doesn't run on its own, it runs alongside your working life, your studies and your relationships, all developing at the same time and all making demands. When those demands rise together, the thing that gets squeezed is recovery, because recovery is the only part of the week with no one else depending on it.
+
+So you come to training already depleted after a twelve-hour shift or a brutal week of deadlines, and the pressure of the session lands on a system that has less left to give. Your capacity to absorb it genuinely is lower that evening than it would have been on a quiet week.
+
+That is not weakness and it is not a lack of commitment. It's load. And judging yourself for it is like being annoyed at yourself for being out of breath after a fitness test.
+
+## Why Naming It Changes Things
+
+When pressure builds up like this, the instinct is almost always to turn it inward. You should be tougher. You should be more focused. Other players seem to manage, so what's wrong with you.
+
+But look back at that list. Selection is competitive by design. Comparison is what brains do in groups. The dual career is a structural feature of an amateur sport. Almost none of that is a personal failing, and you can't fix a structural pressure by being harder on yourself.
+
+What naming it does is change the question you're asking. It moves you off "what's wrong with me" and onto "what's actually realistic, given everything I'm holding right now". That's a question you can do something with.
+
+## The Most Important Takeaway
+
+Pressure in ladies Gaelic football is not one big moment. It's an accumulation.
+
+It's selection week, and comparison, and responsibility, and a life that doesn't pause just because the championship started. It gathers quietly across the week, and then you bring all of it out onto the pitch with you.
+
+You're not weak for feeling the weight of that. You're playing a sport that asks a lot, while living a life that asks a lot.
+
+That's genuinely hard. And it's worth saying out loud.
 
 ## References
 

@@ -4,6 +4,11 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { gaelPerformanceToolkitSeries } from '../data/series';
+
+// Rendered on demand rather than at build time, so the release locks below
+// lift on their release date instead of waiting for the next deploy.
+export const prerender = false;
 
 // Get toolkit posts (excluding the intro page).
 const allPosts = await getCollection('blog');
@@ -16,6 +21,11 @@ today.setHours(0, 0, 0, 0);
 
 const isUnreleased = (date: Date) => date > today;
 
+// Locked cards keep their locked appearance when running locally, but gain a
+// preview link so unreleased drafts can be reviewed on the real page without
+// typing URLs by hand. Never rendered in production.
+const previewUnlocked = import.meta.env.DEV;
+
 const releaseDateLabel = (date: Date) =>
   date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -25,27 +35,7 @@ const toolkitPosts = allPosts.filter(
     post.slug !== 'gael-performance-toolkit/gael-performance-toolkit'
 );
 
-// Map each month of the Training the Mind series to its companion toolkit.
-type ToolkitMonth = {
-  month: string;
-  theme: string;
-  slug: string;
-};
-
-const monthlyToolkits: ToolkitMonth[] = [
-  { month: 'Month 1',  theme: 'Pressure & Performance Anxiety',         slug: 'gael-performance-toolkit/pre-performance-routines-toolkit' },
-  { month: 'Month 2',  theme: 'Confidence & Self-Talk',                  slug: 'gael-performance-toolkit/self-talk-and-confidence-toolkit' },
-  { month: 'Month 3',  theme: 'Mistakes, Perfectionism & Shame',          slug: 'gael-performance-toolkit/mistake-reset-toolkit' },
-  { month: 'Month 4',  theme: 'Team Culture, Belonging & Communication',  slug: 'gael-performance-toolkit/team-communication-toolkit' },
-  { month: 'Month 5',  theme: 'Motivation, Discipline & Burnout Risk',    slug: 'gael-performance-toolkit/goal-setting-toolkit' },
-  { month: 'Month 6',  theme: 'Injury Psychology & Comeback Confidence',  slug: 'gael-performance-toolkit/imagery-and-graded-exposure-toolkit' },
-  { month: 'Month 7',  theme: 'Flow, Focus & Playing Free',               slug: 'gael-performance-toolkit/focus-and-refocus-toolkit' },
-  { month: 'Month 8',  theme: 'Body Image, RED-S & Food Culture',         slug: 'gael-performance-toolkit/nutrition-and-language-toolkit' },
-  { month: 'Month 9',  theme: 'Boundaries, Coaches & People-Pleasing',    slug: 'gael-performance-toolkit/boundaries-and-assertiveness-toolkit' },
-  { month: 'Month 10', theme: 'Championship Pressure & Fear of Failure',  slug: 'gael-performance-toolkit/championship-routines-toolkit' },
-  { month: 'Month 11', theme: 'Identity Beyond Sport & Balance',          slug: 'gael-performance-toolkit/values-and-balance-toolkit' },
-  { month: 'Month 12', theme: 'Off-Season Mental Health & Reset',         slug: 'gael-performance-toolkit/off-season-recovery-toolkit' },
-];
+const monthlyToolkits = gaelPerformanceToolkitSeries;
 
 // Bonus toolkits = anything not in the monthly map (e.g. older standalone
 // toolkits like reset-your-focus-toolkit, stay-composed-under-pressure-toolkit).
@@ -55,6 +45,21 @@ const bonusToolkits = toolkitPosts.filter((p) => !monthlySlugSet.has(p.slug));
 function toolkitFor(slug: string) {
   return toolkitPosts.find((p) => p.slug === slug);
 }
+
+// Next toolkit still to be released, for the schedule box. Picks the earliest
+// unreleased pubDate rather than the first unreleased entry in series order,
+// so it stays correct if the two ever diverge.
+const monthlyOrder = new Map(
+  monthlyToolkits.map((entry, index) => [entry.slug, index] as const)
+);
+
+const nextRelease = toolkitPosts
+  .filter((post) => monthlyOrder.has(post.slug) && isUnreleased(post.data.pubDate))
+  .sort(
+    (a, b) =>
+      a.data.pubDate.valueOf() - b.data.pubDate.valueOf() ||
+      (monthlyOrder.get(a.slug) ?? 0) - (monthlyOrder.get(b.slug) ?? 0)
+  )[0];
 ---
 
 <!DOCTYPE html>
@@ -66,10 +71,20 @@ function toolkitFor(slug: string) {
     <Header />
     <main class="container toolkit-main">
       <section class="hero">
-        <p class="hero-kicker">Content Hub Series</p>
         <h1>Gael Performance Toolkit</h1>
-        <p class="hero-tagline">Practical tools for the mental side of sport. Use them before games, between plays, and after the moments that knock your confidence.Each toolkit pairs with the matching Training the Mind month. Use them on their own or alongside the blog posts.</p>
+        <p class="hero-tagline">Practical tools for the mental side of sport.</p>
       </section>
+
+      <div class="intro-card">
+        <p>Use these before games, between plays, and after the moments that knock your confidence. Each toolkit pairs with the matching Training the Mind month, so you can use them on their own or alongside the blog posts.</p>
+      </div>
+
+      <div class="release-schedule-banner" role="note">
+        <p class="release-eyebrow">Release schedule</p>
+        <p class="release-body"><strong>Free to read, no subscription.</strong> A new toolkit releases each month. {nextRelease
+          ? `The next one, ${nextRelease.data.title}, is out on ${releaseDateLabel(nextRelease.data.pubDate)}.`
+          : 'Every toolkit in the series is now available.'}</p>
+      </div>
 
       <section class="toolkit-series" aria-label="Monthly toolkits">
         <ul class="month-toolkit-list">
@@ -92,6 +107,9 @@ function toolkitFor(slug: string) {
                   <h3 class="toolkit-title">{post.data.title}</h3>
                   {post.data.description && (
                     <p class="toolkit-description toolkit-description-blur">{post.data.description}</p>
+                  )}
+                  {previewUnlocked && (
+                    <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
                   )}
                 </li>
               );
@@ -295,6 +313,47 @@ function toolkitFor(slug: string) {
     }
   }
 
+  /* White intro box and lime release-schedule box, matching the pattern on
+     the Strong Minds, Stronger Players page. */
+  .intro-card {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
+  }
+
+  .intro-card p {
+    color: #000000;
+    margin: 0;
+  }
+
+  .release-schedule-banner {
+    margin-bottom: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: rgba(192, 254, 113, 0.12);
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .release-eyebrow {
+    margin: 0 0 0.3rem;
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .release-body {
+    margin: 0;
+    color: var(--green-light);
+    line-height: 1.5;
+  }
+
   /* New: monthly toolkit series listing */
   .toolkit-series {
     margin-top: 0.4rem;
@@ -410,6 +469,24 @@ function toolkitFor(slug: string) {
   /* Scheduled-release lock: pubDate is in the future. Card stays visible
      with a release-date badge and a blurred description so the title and
      month are readable but the body content is teased, not revealed. */
+  /* Local-preview affordance on locked cards. Not rendered in production. */
+  .preview-link {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.6rem;
+    border: 2px dashed var(--purple);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--purple) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
   .toolkit-card-locked {
     position: relative;
     background: rgba(244, 255, 232, 0.55);

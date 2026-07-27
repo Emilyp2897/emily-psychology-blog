@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import PhotoCredit from '../components/PhotoCredit.astro';
 import whyImage from '../assets/DSC_1538.jpg';
@@ -13,23 +12,78 @@ import hubImage from '../assets/HollowayTeamHuddle.jpg';
 import mtgLogo from '../assets/MTG_colour.png';
 import footballImage from '../assets/football-illustration.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
+import { gaelPerformanceToolkitSlugs, trainingTheMindSlugs } from '../data/series';
+
+// Rendered on demand rather than at build time, like the content hub pages.
+// The "latest" and "next release" boxes below compare pubDate against "now",
+// so a prerendered homepage would freeze them until the next deploy.
+export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
-const featuredSlugs = [
-  'training-the-mind/attention-control-theory',
-  'gael-performance-toolkit/reset-your-focus-toolkit',
-  'strong-minds-stronger-players/strong-minds-stronger-players',
-];
+// Mirrors the monthly toolkit order used on the Gael Performance Toolkit
+// page itself, so "latest toolkit" here means the most recent released
+// month in that sequence, not just whichever post has the newest date
+// (which would wrongly pick up bonus/future toolkits outside the series).
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
-const latestPosts = featuredSlugs
+const orderedMonthlyToolkits = gaelPerformanceToolkitSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
   .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 
-const latestToolkit = allPosts
-  .filter((post) => post.slug.startsWith('gael-performance-toolkit/'))
-  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
-  .find((post) => post.data.pubDate >= new Date('2025-08-01'));
+const releasedToolkits = orderedMonthlyToolkits.filter((post) => post.data.pubDate <= today);
+const latestToolkit = releasedToolkits[releasedToolkits.length - 1];
+const nextToolkit = orderedMonthlyToolkits.find((post) => post.data.pubDate > today);
+
+// Latest released Training the Mind post, for the small box in that band.
+// Uses the same series list as the hub page, so unlisted standalone theory
+// posts under the same folder cannot be picked up as "latest".
+const orderedTtmPosts = trainingTheMindSlugs
+  .map((slug) => allPosts.find((post) => post.slug === slug))
+  .filter((post): post is (typeof allPosts)[number] => post !== undefined);
+
+const releasedTtmPosts = orderedTtmPosts.filter((post) => post.data.pubDate <= today);
+const latestTtmPost = releasedTtmPosts[releasedTtmPosts.length - 1];
+const nextTtmPost = orderedTtmPosts.find((post) => post.data.pubDate > today);
+
+// Latest released Strong Minds, Stronger Players post. This series has no
+// curated slug list, so it is derived from the collection by date, matching
+// how the SMSP hub page orders it. The series index page is excluded.
+const orderedSmspPosts = allPosts
+  .filter(
+    (post) =>
+      post.slug.startsWith('strong-minds-stronger-players/') &&
+      post.slug !== 'strong-minds-stronger-players/strong-minds-stronger-players'
+  )
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+
+const releasedSmspPosts = orderedSmspPosts.filter((post) => post.data.pubDate <= today);
+const latestSmspPost = releasedSmspPosts[releasedSmspPosts.length - 1];
+const nextSmspPost = orderedSmspPosts.find((post) => post.data.pubDate > today);
+
+const dateLabel = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// Each series band shows one post: the most recent released one, or the first
+// upcoming one if the series has not started yet. Either way the box links
+// straight to that article, so it is not a duplicate of the "read the series"
+// link sitting underneath it.
+type SeriesPost = (typeof allPosts)[number];
+
+function featuredPostFor(latest: SeriesPost | undefined, next: SeriesPost | undefined) {
+  if (latest) {
+    return { post: latest, label: 'Latest', meta: dateLabel(latest.data.pubDate), upcoming: false };
+  }
+  if (next) {
+    return { post: next, label: 'Up next', meta: `Out on ${dateLabel(next.data.pubDate)}`, upcoming: true };
+  }
+  return undefined;
+}
+
+const ttmFeatured = featuredPostFor(latestTtmPost, nextTtmPost);
+const smspFeatured = featuredPostFor(latestSmspPost, nextSmspPost);
+const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
 ---
 
 <!doctype html>
@@ -49,10 +103,13 @@ const latestToolkit = allPosts
           </div>
 
           <h1 class="hero-tagline">Mental Performance for Female Athletes</h1>
-          <p class="hero-sub">AI-built mental performance plans, the Gael Performance Toolkit, and women's health at the centre. Train your mind like you train your body.</p>
+          <p class="hero-sub">Three series on the mental side of sport: Training the Mind, the Gael Performance Toolkit, and Stronger Minds, Stronger Players. Women's health at the centre. Train your mind like you train your body.</p>
+
+          <p class="hero-free-note">Every article and toolkit is <strong>free to read</strong>. Your own mental performance plan is the one thing you pay for, from £2.</p>
 
           <div class="hero-ctas">
             <a href="/personal-training" class="cta-primary">Get your Mental Performance Plan</a>
+            <a href="/content-hub" class="cta-secondary">Read the free content</a>
           </div>
         </div>
       </section>
@@ -76,14 +133,103 @@ const latestToolkit = allPosts
         </div>
       </section>
 
-      <!-- 2. MENTAL PERFORMANCE PLANS (text + image right) -->
+      <!-- 2. Training the Mind Series (text + image right) -->
+      <section class="home-band band-dark band-split" aria-labelledby="ttm-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-text">
+            <p class="band-kicker">Training the Mind Series <span class="band-tag band-tag-free">Free</span></p>
+            <h2 id="ttm-heading">Sports psychology in language that makes sense on the pitch.</h2>
+            <p>Twelve monthly topics, each a 10 minute read. Grounded in sports psychology and written from my own experience as an athlete, covering topics such as pressure and performance anxiety, confidence and self-talk, and team culture, belonging, and communication.</p>
+            <p class="band-price">Free to read. No subscription, no sign-up. A new topic releases each month.</p>
+
+            {ttmFeatured && (
+              <a
+                class:list={["series-box", ttmFeatured.upcoming && "series-box-upcoming"]}
+                href={`/content-hub/${ttmFeatured.post.slug}/`}
+              >
+                <span class="series-box-label">{ttmFeatured.label}</span>
+                <span class="series-box-title">{ttmFeatured.post.data.title}</span>
+                <span class="series-box-meta">{ttmFeatured.meta}</span>
+                <span class="series-box-cta">Read post -&gt;</span>
+              </a>
+            )}
+
+            <a href="/content-hub/training-the-mind/" class="band-link">Read the series -&gt;</a>
+          </div>
+          <div class="band-image">
+            <Image src={physicalImage} alt="Ciara Flanagan training in London" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+            <PhotoCredit src={physicalImage.src} />
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. TOOLKIT BAND (green) -->
+      <section class="home-band cta-card cta-card-hub" aria-label="Latest toolkit">
+        <div class="toolkit-split">
+          <div class="toolkit-intro">
+            <img src="/assets/toolkit-bag-original.png" alt="" class="toolkit-illustration" aria-hidden="true" />
+            <p class="cta-card-kicker">Gael Performance Toolkit <span class="band-tag band-tag-free">Free</span></p>
+            <h3 class="toolkit-heading">Practical tools for confidence, focus, and match-day decisions.</h3>
+            <p class="toolkit-free-note">Every toolkit is free to read. A new one releases each month.</p>
+          </div>
+          <div class="toolkit-latest">
+            <p class="cta-card-kicker">{toolkitFeatured?.upcoming ? 'Up next' : 'Latest toolkit'}</p>
+            {toolkitFeatured && (
+              <a
+                class:list={["home-post-card", toolkitFeatured.upcoming && "home-post-card-upcoming"]}
+                href={`/content-hub/${toolkitFeatured.post.slug}/`}
+              >
+                <h3 class="home-post-title">{toolkitFeatured.post.data.title}</h3>
+                <p class="home-post-date">{toolkitFeatured.meta}</p>
+                {toolkitFeatured.post.data.description && (
+                  <p class="home-post-description">{toolkitFeatured.post.data.description}</p>
+                )}
+                <span class="home-post-cta">Open toolkit -&gt;</span>
+              </a>
+            )}
+          </div>
+        </div>
+        <a href="/gael-performance-toolkit/" class="cta-card-arrow">-&gt;</a>
+      </section>
+
+      <!-- 4. Stronger Minds, Stronger Players Series (image + text) -->
+      <section class="home-band band-light band-split" aria-labelledby="smsp-heading">
+        <div class="band-inner band-split-inner">
+          <div class="band-image">
+            <Image src={hubImage} alt="Team huddle at Holloway" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+            <PhotoCredit src={hubImage.src} class="on-white" />
+          </div>
+          <div class="band-text">
+            <p class="band-kicker">Stronger Minds, Stronger Players Series <span class="band-tag band-tag-free">Free</span></p>
+            <h2 id="smsp-heading">Mental health in sport, and where to turn when you need support.</h2>
+            <p>Always free. A series focused on mental health in sport, helping you spot struggle in yourself or teammates and know where to find professional support.</p>
+
+            {smspFeatured && (
+              <a
+                class:list={["series-box", smspFeatured.upcoming && "series-box-upcoming"]}
+                href={`/content-hub/${smspFeatured.post.slug}/`}
+              >
+                <span class="series-box-label">{smspFeatured.label}</span>
+                <span class="series-box-title">{smspFeatured.post.data.title}</span>
+                <span class="series-box-meta">{smspFeatured.meta}</span>
+                <span class="series-box-cta">Read post -&gt;</span>
+              </a>
+            )}
+
+            <a href="/content-hub/strong-minds-stronger-players/" class="band-link">Open the series -&gt;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. MENTAL PERFORMANCE PLANS (text + image right) -->
       <section class="home-band band-dark band-split" aria-labelledby="mental-heading">
         <div class="band-inner band-split-inner">
           <div class="band-text">
-            <p class="band-kicker">Mental Performance Plans</p>
+            <p class="band-kicker">Mental Performance Plans <span class="band-tag band-tag-paid">Paid</span> <span class="band-tag band-tag-ai">AI-generated</span></p>
             <h2 id="mental-heading">A six or twelve week mental performance plan, built around your sport.</h2>
             <p>Fill in a short intake form sharing your sport, your competitive level, the performance moments you want to work on, your peak moments, your struggle moments. Receive a structured plan that pulls from the twelve themes of the Gael Performance Toolkit. Confidence, focus, pre-performance routines, mistake recovery, self-talk, visualisation.</p>
             <p>Delivered fully online. Self-paced. Built to apply in training and on match day.</p>
+            <p class="band-price"><strong>£2</strong> for the 6-week plan, <strong>£5</strong> for the 12-week plan. A single payment, not a subscription.</p>
             <a href="/personal-training#mental-performance-plans" class="band-link">Start your mental performance plan -&gt;</a>
           </div>
           <div class="band-image">
@@ -93,76 +239,25 @@ const latestToolkit = allPosts
         </div>
       </section>
 
-      <!-- 3. Training the Mind Series (image + text) -->
-      <section class="home-band band-light band-split" aria-labelledby="physical-heading">
-        <div class="band-inner band-split-inner">
-          <div class="band-image">
-            <Image src={physicalImage} alt="Ciara Flanagan training in London" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
-            <PhotoCredit src={physicalImage.src} class="on-white" />
+      <!-- 6. IMPORTANT NOTICE (AI-generated plans + not clinical advice) -->
+      <section class="home-band home-notice" aria-labelledby="notice-heading">
+        <div class="band-inner">
+          <p class="home-notice-eyebrow">Please read this</p>
+          <h2 id="notice-heading">Plans are AI-generated, and nothing here is clinical advice.</h2>
+          <div class="home-notice-points">
+            <div class="home-notice-point">
+              <h3>Your plan is built by AI, and AI can make mistakes</h3>
+              <p>Mental performance plans are generated by AI from the intake form you fill in, drawing on the twelve themes of the Gael Performance Toolkit. AI can get things wrong, so read your plan with that in mind and use your own judgement. If something in it does not look right for you, or does not sit well, do not push through it. Get in touch and we will look at it.</p>
+            </div>
+            <div class="home-notice-point">
+              <h3>This is not clinical advice or therapy</h3>
+              <p>Everything on Mind the Gael is education and awareness, translating sports psychology research into language that makes sense in real sport. It does not replace your GP, your physio, or a qualified mental health professional. If you are struggling, please reach out for proper support.</p>
+            </div>
           </div>
-          <div class="band-text">
-            <p class="band-kicker">Training the Mind Series</p>
-            <h2 id="physical-heading">Sports psychology in language that makes sense on the pitch.</h2>
-            <p>Twelve monthly topics, each a 10 minute read. Grounded in sports psychology and written from my own experience as an athlete, covering topics such as pressure and performance anxiety, confidence and self-talk, and team culture, belonging, and communication.</p>
-            <a href="/content-hub" class="band-link">Subscribe Today -&gt;</a>
-          </div>
+          <a href="/resources" class="home-notice-link">Find support resources -&gt;</a>
         </div>
       </section>
 
-      <!-- 4. Stronger Mind Stronger Player Series (text + image right) -->
-      <section class="home-band band-dark band-split" aria-labelledby="hub-heading">
-        <div class="band-inner band-split-inner">
-          <div class="band-text">
-            <p class="band-kicker">Stronger Mind, Stronger Players Series</p>
-              <p>Always free. A series focused on mental health in sport, helping you spot struggle in yourself or teammates and know where to find professional support.</p>
-            <a href="/content-hub/strong-minds-stronger-players/" class="band-link">Click Here to Open the Series -&gt;</a>
-          </div>
-          <div class="band-image">
-            <Image src={hubImage} alt="Team huddle at Holloway" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
-            <PhotoCredit src={hubImage.src} />
-          </div>
-        </div>
-      </section>
-
-      <!-- TOOLKIT BAND (green) -->
-      <section class="home-band cta-card cta-card-hub" aria-label="Latest toolkit">
-        <div class="toolkit-row">
-          <img src="/assets/toolkit-bag-original.png" alt="" class="toolkit-illustration" aria-hidden="true" />
-          <div class="toolkit-copy">
-            {latestToolkit && (
-              <a href={`/content-hub/${latestToolkit.slug}/`} class="toolkit-link">
-                <h3>{latestToolkit.data.title}</h3>
-                <p class="post-date">
-                  <FormattedDate date={latestToolkit.data.pubDate} />
-                </p>
-                {latestToolkit.data.description && (
-                  <p class="post-description">{latestToolkit.data.description}</p>
-                )}
-              </a>
-            )}
-          </div>
-        </div>
-        <a href="/content-hub/gael-performance-toolkit/" class="cta-card-arrow">-&gt;</a>
-      </section>
-
-      <!-- LATEST ARTICLES BAND (purple) -->
-      <section class="home-band cta-card cta-card-plans" aria-label="Latest articles and toolkits">
-        <p class="cta-card-kicker">Latest articles</p>
-        <ul class="latest-posts">
-          {latestPosts.map((post) => (
-            <li>
-              <a href={`/content-hub/${post.slug}/`}>
-                <h3>{post.data.title}</h3>
-                <p class="post-date">
-                  <FormattedDate date={post.data.pubDate} />
-                </p>
-                {post.data.description && <p class="post-description">{post.data.description}</p>}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a href="/content-hub" class="cta-card-arrow">-&gt;</a>
-      </section>
     </main>
     <Footer />
   </body>
@@ -263,6 +358,20 @@ const latestToolkit = allPosts
     animation: heroFadeUp 0.6s ease-out 3.55s forwards;
   }
 
+  /* Sits between the hero sub and the CTAs, so it joins the same staggered
+     fade-in sequence (sub at 3.55s, this at 3.7s, CTAs at 3.85s). */
+  .hero-free-note {
+    opacity: 0;
+    margin: 0 auto 1.6rem;
+    max-width: 52ch;
+    color: var(--green-light);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    animation: heroFadeUp 0.6s ease-out 3.7s forwards;
+  }
+  .hero-free-note strong {
+    color: var(--green-lime);
+  }
   .hero-ctas {
     opacity: 0;
     display: flex;
@@ -377,6 +486,46 @@ const latestToolkit = allPosts
     opacity: 0.78;
     margin-top: 0.4rem !important;
   }
+  /* Free vs paid labelling. Articles and toolkits are free; the only paid
+     product is a personal mental performance plan. */
+  .band-tag {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.14rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    vertical-align: middle;
+  }
+  .band-tag-free {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+  .band-tag-paid {
+    background: var(--purple-light);
+    color: var(--green-dark);
+  }
+  /* The toolkit band is already lime, so a lime pill would disappear into it.
+     Purple gives the strongest contrast against that band. */
+  .cta-card-hub .band-tag-free {
+    background: var(--purple);
+    color: #ffffff;
+  }
+  .band-tag-ai {
+    background: #ffffff;
+    color: var(--purple);
+  }
+  .band-price {
+    margin-top: 0.9rem !important;
+    font-size: 0.95rem !important;
+  }
+  .band-price strong {
+    color: var(--green-lime);
+  }
+  .band-light .band-price strong {
+    color: var(--purple);
+  }
 
   .band-link {
     display: inline-block;
@@ -465,6 +614,79 @@ const latestToolkit = allPosts
     font-weight: 700;
   }
 
+  /* Standalone notice band. Deliberately loud: these two points (AI-generated
+     plans, not clinical advice) should not read as small print. */
+  .home-notice {
+    background: #ffffff;
+    border-top: 6px solid var(--purple);
+    border-bottom: 6px solid var(--purple);
+    padding: 2.75rem 0;
+    color: var(--green-dark);
+  }
+
+  .home-notice-eyebrow {
+    margin: 0 0 0.4rem;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .home-notice h2 {
+    margin: 0 0 1.4rem;
+    color: var(--green-dark);
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+    line-height: 1.25;
+    max-width: 30ch;
+  }
+
+  .home-notice-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .home-notice-point {
+    padding: 1.25rem 1.4rem;
+    background: rgba(105, 0, 90, 0.05);
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 12px;
+  }
+
+  .home-notice-point h3 {
+    margin: 0 0 0.5rem;
+    color: var(--purple);
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .home-notice-point p {
+    margin: 0;
+    color: var(--green-dark);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .home-notice-link {
+    display: inline-block;
+    margin-top: 1.3rem;
+    padding: 0.6rem 1.1rem;
+    border: 2px solid var(--purple);
+    border-radius: 8px;
+    background: var(--purple);
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .home-notice-link:hover {
+    background: transparent;
+    color: var(--purple) !important;
+  }
+
   .cta-card {
     position: relative;
     padding: 4rem 3rem;
@@ -480,18 +702,6 @@ const latestToolkit = allPosts
   .cta-card:visited,
   .cta-card:hover {
     text-decoration: none !important;
-  }
-
-  .cta-card-plans,
-  .cta-card-plans:visited {
-    background: var(--purple);
-    color: var(--green-light) !important;
-    justify-content: flex-start;
-  }
-
-  .cta-card-plans:hover {
-    background: #7a006c;
-    color: var(--green-light) !important;
   }
 
   .cta-card-hub,
@@ -513,76 +723,172 @@ const latestToolkit = allPosts
     align-items: center;
     text-align: left;
     position: relative;
-    padding: 2.25rem 3rem;
+    padding: 2.75rem 3rem;
   }
 
-  .toolkit-badge {
-    position: absolute;
-    top: 1.4rem;
-    right: 1.6rem;
-    background: var(--purple);
-    color: var(--green-light);
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
-  }
-
-  .toolkit-row {
-    display: flex;
+  .toolkit-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    width: 100%;
     align-items: center;
-    gap: 1.75rem;
-    max-width: 100%;
+  }
+
+  .toolkit-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .toolkit-illustration {
-    width: 84px;
+    width: 68px;
     height: auto;
-    flex-shrink: 0;
+    margin-bottom: 0.9rem;
   }
 
-  .toolkit-copy {
-    min-width: 0;
+  .toolkit-heading {
+    font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+    line-height: 1.25;
+    margin: 0;
+    font-weight: 800;
+    color: var(--green-dark);
+    max-width: 30ch;
+  }
+  .toolkit-free-note {
+    margin: 0.7rem 0 0;
+    max-width: 34ch;
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    opacity: 0.85;
   }
 
-  .cta-card-hub .cta-card-kicker {
-    margin: 0 0 0.4rem;
+  .toolkit-latest {
+    border-left: 1px solid rgba(3, 10, 6, 0.15);
+    padding-left: 2.5rem;
   }
 
-  .cta-card-hub .toolkit-link {
+  .toolkit-latest .cta-card-kicker {
+    margin: 0 0 0.6rem;
+  }
+
+  /* Shared white post card, used on both the lime toolkit band and the
+     purple latest-articles band. Matches the card language on the content
+     hub pages so the homepage reads as part of the same system. */
+  .home-post-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.15rem 1.25rem;
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-radius: 12px;
     text-decoration: none !important;
     color: var(--green-dark) !important;
-    display: block;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .cta-card-hub .toolkit-link:hover h3 {
-    text-decoration: underline;
+  .home-post-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
   }
 
-  .cta-card-hub .toolkit-link h3 {
-    color: var(--green-dark);
-    font-size: clamp(1.3rem, 2vw, 1.6rem);
-    line-height: 1.2;
+  .home-post-title {
     margin: 0 0 0.3rem;
+    font-size: 1.05rem;
     font-weight: 800;
-    max-width: 32ch;
+    line-height: 1.3;
+    color: var(--green-dark) !important;
   }
 
-  .cta-card-hub .post-date {
-    font-size: 0.82rem;
+  .home-post-date {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
     color: var(--green-dark);
     opacity: 0.65;
-    margin: 0 0 0.35rem;
   }
 
-  .cta-card-hub .post-description {
+  .home-post-description {
+    margin: 0 0 0.8rem;
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--green-dark);
-    margin: 0;
-    max-width: 48ch;
+    opacity: 0.85;
+  }
+
+  .home-post-cta {
+    margin-top: auto;
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* Not-yet-released stand-in, shown before the first post of a series goes
+     live. Still a link, but it points at the series hub rather than the
+     unreleased post. The dashed border marks it as not out yet. */
+  .home-post-card-upcoming {
+    border-style: dashed;
+  }
+
+  /* The toolkit band shows a single card, so give it a bigger title. */
+  .toolkit-latest .home-post-title {
+    font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+  }
+
+  /* Compact "latest article" box that sits inside a series band, replacing
+     the old full-width latest-articles band at the foot of the page. */
+  .series-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 1.2rem;
+    padding: 0.9rem 1.1rem;
+    max-width: 26rem;
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.2);
+    border-radius: 10px;
+    text-decoration: none !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  a.series-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple);
+  }
+
+  .series-box-label {
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .series-box-title {
+    color: var(--green-dark);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .series-box-meta {
+    color: var(--green-dark);
+    opacity: 0.65;
+    font-size: 0.8rem;
+  }
+
+  .series-box-cta {
+    margin-top: 0.35rem;
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .series-box-upcoming {
+    border-style: dashed;
   }
 
   .cta-card-hub .cta-card-arrow {
@@ -636,58 +942,6 @@ const latestToolkit = allPosts
 
   .cta-card:hover .cta-card-arrow {
     transform: translateX(8px);
-  }
-
-  .cta-card-plans .latest-posts {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .cta-card-plans .latest-posts li {
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    padding-top: 0.75rem;
-  }
-
-  .cta-card-plans .latest-posts li:first-child {
-    border-top: none;
-    padding-top: 0;
-  }
-
-  .cta-card-plans .latest-posts a {
-    text-decoration: none !important;
-    color: var(--green-light) !important;
-    display: block;
-  }
-
-  .cta-card-plans .latest-posts a:hover h3 {
-    text-decoration: underline;
-  }
-
-  .cta-card-plans .latest-posts h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem;
-    line-height: 1.3;
-    color: var(--green-light);
-  }
-
-  .cta-card-plans .post-date {
-    font-size: 0.8rem;
-    color: var(--green-light);
-    opacity: 0.65;
-    margin: 0 0 0.25rem;
-  }
-
-  .cta-card-plans .post-description {
-    font-size: 0.88rem;
-    line-height: 1.45;
-    color: var(--green-light);
-    opacity: 0.85;
-    margin: 0;
   }
 
   .band-split-inner {
@@ -744,14 +998,29 @@ const latestToolkit = allPosts
       padding: 2.5rem 1.5rem;
     }
 
-    .toolkit-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
+    /* Once the layout collapses to one column, mirror .band-text exactly:
+       same 640px column, same 1.5rem gutter. Without this the toolkit runs
+       the full width of the viewport while every other section is centred
+       in a 640px column, so it reads as left aligned against the rest. */
+    .toolkit-split {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
+    .toolkit-latest {
+      border-left: none;
+      border-top: 1px solid rgba(3, 10, 6, 0.15);
+      padding-left: 0;
+      padding-top: 1.5rem;
+    }
+
+    /* Horizontal gutter moves onto .toolkit-split above so the 640px column
+       lines up with .band-text. */
     .cta-card-hub {
-      padding: 2rem 1.5rem;
+      padding: 2rem 0;
     }
 
     .cta-card-hub .cta-card-arrow {

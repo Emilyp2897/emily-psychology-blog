@@ -5,9 +5,12 @@ pubDate: "2026-08-08"
 track: "gael-performance-toolkit"
 ---
 
-This is the practical companion to the Month 1 posts on pressure. If you've read [How to bring your focus back when your mind starts to drift](/content-hub/training-the-mind/attention-control-theory/) or [How Pressure Shows in Ladies Football](/content-hub/training-the-mind/how-pressure-shows-in-ladies-football/), this is where you actually do something about it.
+This is the practical companion to the Month 1 posts on pressure. If you've read [Attention Control Theory: What's Actually Happening When Your Focus Slips](/content-hub/training-the-mind/attention-control-theory/) or [How Pressure Shows in Ladies Football](/content-hub/training-the-mind/how-pressure-shows-in-ladies-football/), this is where you actually do something about it.
 
-Three tools. Use one. Use all three. Mix them with your own. The point is that something is in your back pocket for when the pressure starts to rise.
+<div class="shamrock-banner-purple">
+  <span class="shamrock-icon"><img src="/assets/saoirse.png" alt="" /></span>
+  <p>Three tools. Use one. Use all three. Mix them with your own methods. The point is to have something in your back pocket for when the pressure starts to rise.</p>
+</div>
 
 ## Tool 1: The 4-7-8 breath
 
@@ -46,9 +49,14 @@ Three tools. Use one. Use all three. Mix them with your own. The point is that s
 
 **Why it works:** a one-word cue gives your conscious mind a job that doesn't interfere with execution. It pulls you out of the over-analysis spiral that Choking Under Pressure research (Beilock & Carr, 2001) identifies as the main cause of skill breakdown.
 
-## A note on what cue words AREN'T
-
-They're not affirmations. Saying "I'm the best" when you don't believe it makes things worse. Cue words are for re-focusing your attention, not for talking yourself into a feeling. Keep them functional, not motivational.
+<h2 class="visually-hidden">Note</h2>
+<div class="shamrock-banner-purple">
+  <span class="shamrock-icon"><img src="/assets/saoirse.png" alt="" /></span>
+  <div>
+    <p><strong>A note on what cue words AREN'T</strong></p>
+    <p>They're not affirmations. Saying "I'm the best" when you don't believe it makes things worse. Cue words are for re-focusing your attention, not for talking yourself into a feeling. Keep them functional, not motivational.</p>
+  </div>
+</div>
 
 ## Putting it together
 

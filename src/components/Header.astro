@@ -4,7 +4,7 @@ import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 ---
-<header id="site-header">
+<header id="site-header" class:list={[!isHome && 'has-back-bubble']}>
   <div class="header-inner">
     <a href="/" class="header-logo-link" aria-label="Mind the Gael home">
       <Image src={mtgLogo} alt="Mind the Gael logo" loading="eager" fetchpriority="high" />
@@ -175,12 +175,25 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   }
 
   @media (max-width: 720px) {
+    /* On desktop the bubble floats over the tall header, clear of the page.
+       The mobile header is far shorter, so a fixed bubble lands on top of
+       the page heading instead. Give it its own strip at the bottom of the
+       header so it sits above the heading rather than over it. */
+    #site-header.has-back-bubble {
+      position: relative;
+      padding-bottom: 52px;
+    }
+
     .back-bubble {
-      top: 64px;
+      position: absolute;
+      top: auto;
+      bottom: 8px;
       left: 12px;
       width: 36px;
       height: 36px;
       font-size: 1.05rem;
+      /* Below the nav drawer (z-index 1500) so an open menu covers it. */
+      z-index: 1200;
     }
 
     .nav-toggle {

@@ -34,6 +34,7 @@ const seriesCards = [
       <section class="hero fade-in">
         <h1>Mind the Gael Content Hub</h1>
         <p class="tagline">For the moments before the game, after the mistake, and everything in between</p>
+      </section>
 
       <section class="series-cards fade-in" aria-label="Content hub sections">
         {seriesCards.map((card) => (
@@ -74,7 +75,7 @@ const seriesCards = [
 
   .hero {
     text-align: center;
-    margin: 0 calc(50% - 50vw) 1.4rem;
+    margin: 0 calc(50% - 50vw) 0;
     padding: 2rem max(1rem, calc(50vw - 600px));
     background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
   }
@@ -102,6 +103,8 @@ const seriesCards = [
     text-decoration: none;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .series-card:hover {
@@ -284,4 +287,23 @@ const seriesCards = [
       grid-template-columns: 1fr;
     }
   }
+
+/* Desktop: center the series images */
+@media (min-width: 901px) {
+  .series-card-icon {
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Mobile: left-align the series images */
+@media (max-width: 900px) {
+  .series-card-icon {
+    align-self: flex-start;
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
 </style>

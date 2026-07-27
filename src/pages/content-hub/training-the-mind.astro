@@ -4,6 +4,13 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
+import { trainingTheMindSeries } from '../../data/series';
+
+// Rendered on demand rather than at build time. The scheduled-release locks
+// below compare pubDate against "now", so a prerendered page would freeze
+// that comparison at build time and a post would stay locked until the next
+// deploy instead of unlocking on its release date.
+export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
@@ -16,118 +23,37 @@ today.setHours(0, 0, 0, 0);
 
 const isUnreleased = (date: Date) => date > today;
 
+// Locked cards keep their locked appearance when running locally, but gain a
+// preview link so unreleased drafts can be reviewed on the real page without
+// typing URLs by hand. Never rendered in production.
+const previewUnlocked = import.meta.env.DEV;
+
 const releaseDateLabel = (date: Date) =>
   date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-type MonthEntry = {
-  month: string;
-  theme: string;
-  slugs: string[];
-};
-
-const monthlySeries: MonthEntry[] = [
-  {
-    month: 'Month 1',
-    theme: 'Pressure & Performance Anxiety',
-    slugs: [
-      'training-the-mind/attention-control-theory',
-      'training-the-mind/how-pressure-shows-in-ladies-football',
-      'training-the-mind/choking-under-pressure',
-    ],
-  },
-  {
-    month: 'Month 2',
-    theme: 'Confidence & Self-Talk',
-    slugs: [
-      'training-the-mind/understanding-confidence',
-      'training-the-mind/applying-confidence-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 3',
-    theme: 'Mistakes, Perfectionism & Shame',
-    slugs: [
-      'training-the-mind/understanding-mistakes-and-perfectionism',
-      'training-the-mind/applying-mistake-resilience-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 4',
-    theme: 'Team Culture, Belonging & Communication',
-    slugs: [
-      'training-the-mind/understanding-team-culture-and-belonging',
-      'training-the-mind/applying-team-culture-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 5',
-    theme: 'Motivation, Discipline & Burnout Risk',
-    slugs: [
-      'training-the-mind/understanding-motivation',
-      'training-the-mind/applying-motivation-and-discipline-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 6',
-    theme: 'Injury Psychology & Comeback Confidence',
-    slugs: [
-      'training-the-mind/understanding-identity-and-fear-after-injury',
-      'training-the-mind/applying-comeback-confidence-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 7',
-    theme: 'Flow, Focus & Playing Free',
-    slugs: [
-      'training-the-mind/understanding-flow-and-focus',
-      'training-the-mind/applying-flow-and-focus-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 8',
-    theme: 'Body Image, RED-S & Food Culture',
-    slugs: [
-      'training-the-mind/understanding-body-image-in-sport',
-      'training-the-mind/applying-body-confidence-and-fuelling-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 9',
-    theme: 'Boundaries, Coaches & People-Pleasing',
-    slugs: [
-      'training-the-mind/understanding-why-women-athletes-over-accommodate',
-      'training-the-mind/applying-boundaries-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 10',
-    theme: 'Championship Pressure & Fear of Failure',
-    slugs: [
-      'training-the-mind/understanding-pressure-and-fear-of-failure',
-      'training-the-mind/applying-championship-pressure-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 11',
-    theme: 'Identity Beyond Sport & Balance',
-    slugs: [
-      'training-the-mind/understanding-athletic-identity',
-      'training-the-mind/applying-balanced-identity-in-lgfa',
-    ],
-  },
-  {
-    month: 'Month 12',
-    theme: 'Off-Season Mental Health & Reset',
-    slugs: [
-      'training-the-mind/understanding-off-season-mental-health',
-      'training-the-mind/applying-off-season-recovery-in-lgfa',
-    ],
-  },
-];
+const monthlySeries = trainingTheMindSeries;
 
 function postFor(slug: string) {
   return allPosts.find((post) => post.slug === slug);
 }
+
+// Next post still to be released, for the schedule box. Picks the earliest
+// unreleased pubDate rather than the first unreleased post in series order,
+// because the two are not always the same (Month 1 has two posts sharing a
+// date, and series order does not strictly follow date order).
+// Ties are real: Month 1 has two posts sharing 2026-08-01, so fall back to
+// the order they appear in on the page to keep the result deterministic.
+const seriesOrder = new Map(
+  monthlySeries.flatMap((entry) => entry.slugs).map((slug, index) => [slug, index] as const)
+);
+
+const nextRelease = allPosts
+  .filter((post) => seriesOrder.has(post.slug) && isUnreleased(post.data.pubDate))
+  .sort(
+    (a, b) =>
+      a.data.pubDate.valueOf() - b.data.pubDate.valueOf() ||
+      (seriesOrder.get(a.slug) ?? 0) - (seriesOrder.get(b.slug) ?? 0)
+  )[0];
 ---
 
 <!doctype html>
@@ -141,13 +67,21 @@ function postFor(slug: string) {
       <section class="hero">
         <p class="hero-kicker">Content Hub Series</p>
         <h1>Training the Mind</h1>
-        <p class="hero-tagline">A 12-month journey through the mental side of sport, built for female athletes. Two posts per month, with a companion toolkit over in the Gael Performance Toolkit.</p>
+        <p class="hero-tagline">Sports psychology in language that makes sense on the pitch.</p>
       </section>
 
-      <section class="ttm-series" aria-label="Monthly blog posts">
-        <h2>The 12-Month Series</h2>
-        <p class="series-intro">Each month focuses on a different theme. Understanding the theory, then applying it in real Gaelic football situations.</p>
+      <div class="intro-card">
+        <p>Each month takes one theme from the mental side of sport and covers it twice: once to understand the theory, once to apply it in real Gaelic football situations. Every post has a companion toolkit in the Gael Performance Toolkit.</p>
+      </div>
 
+      <div class="release-schedule-banner" role="note">
+        <p class="release-eyebrow">Release schedule</p>
+        <p class="release-body"><strong>Free to read, no subscription.</strong> Two posts release each month. {nextRelease
+          ? `The next one, ${nextRelease.data.title}, is out on ${releaseDateLabel(nextRelease.data.pubDate)}.`
+          : 'Every post in the series is now available.'}</p>
+      </div>
+
+      <section class="ttm-series" aria-label="Monthly blog posts">
         {monthlySeries.map((entry) => (
           <div class="month-group">
             <h3 class="month-heading">{entry.month}: {entry.theme}</h3>
@@ -169,6 +103,9 @@ function postFor(slug: string) {
                       <h4 class="ttm-title">{post.data.title}</h4>
                       {post.data.description && (
                         <p class="ttm-description ttm-description-blur">{post.data.description}</p>
+                      )}
+                      {previewUnlocked && (
+                        <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
                       )}
                     </li>
                   );
@@ -231,21 +168,50 @@ function postFor(slug: string) {
     max-width: 64ch;
   }
 
+  /* White intro box and lime release-schedule box, matching the pattern on
+     the Strong Minds, Stronger Players page. */
+  .intro-card {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
+  }
+
+  .intro-card p {
+    color: #000000;
+    margin: 0;
+  }
+
+  .release-schedule-banner {
+    margin-bottom: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: rgba(192, 254, 113, 0.12);
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .release-eyebrow {
+    margin: 0 0 0.3rem;
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .release-body {
+    margin: 0;
+    color: var(--green-light);
+    line-height: 1.5;
+  }
+
   .ttm-series {
     margin-top: 0.4rem;
     margin-bottom: 1.6rem;
-  }
-
-  .ttm-series h2 {
-    color: var(--purple-light);
-    margin: 0 0 0.25rem;
-  }
-
-  .series-intro {
-    margin: 0 0 0.4rem;
-    color: var(--green-light);
-    max-width: 60ch;
-    font-size: 0.95rem;
   }
 
   .month-group {
@@ -332,6 +298,24 @@ function postFor(slug: string) {
   /* Scheduled-release lock: post pubDate is in the future. Card is shown
      in muted form with a release-date badge; description is blurred so
      users can see something is there but cannot read it yet. */
+  /* Local-preview affordance on locked cards. Not rendered in production. */
+  .preview-link {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.6rem;
+    border: 2px dashed var(--purple);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--purple) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
   .ttm-card-locked {
     position: relative;
     background: rgba(244, 255, 232, 0.55);

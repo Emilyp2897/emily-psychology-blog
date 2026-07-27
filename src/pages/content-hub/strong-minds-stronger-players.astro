@@ -5,11 +5,38 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
 
+// Rendered on demand rather than at build time, so the release locks below
+// lift on their release date instead of waiting for the next deploy.
+export const prerender = false;
+
 const allPosts = await getCollection('blog');
 
-const childPosts = allPosts.filter(
-  (post) => post.slug.startsWith('strong-minds-stronger-players/') && post.slug !== 'strong-minds-stronger-players/strong-minds-stronger-players'
-);
+// Scheduled-release helper, matching Training the Mind and the Gael
+// Performance Toolkit. Posts with a pubDate in the future render as locked
+// cards (blurred preview, release date shown, no link) until the release
+// date passes. Computed at request time so the lock lifts automatically
+// without a redeploy. SMSP is always free — this is a release schedule,
+// not a paywall.
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const isUnreleased = (date: Date) => date > today;
+
+// Locked cards keep their locked appearance when running locally, but gain a
+// preview link so unreleased drafts can be reviewed on the real page without
+// typing URLs by hand. Never rendered in production.
+const previewUnlocked = import.meta.env.DEV;
+
+const releaseDateLabel = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const childPosts = allPosts
+  .filter(
+    (post) => post.slug.startsWith('strong-minds-stronger-players/') && post.slug !== 'strong-minds-stronger-players/strong-minds-stronger-players'
+  )
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+
+const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
 ---
 
 <!DOCTYPE html>
@@ -31,20 +58,37 @@ const childPosts = allPosts.filter(
       </div>
 
       <div class="smsp-coming-soon-banner" role="note">
-        <p class="smsp-cs-eyebrow">Coming soon</p>
-        <p class="smsp-cs-body"><strong>Strong Minds, Stronger Players is launching soon.</strong> Always free for every player and coach. We are finalising the content with our expert panel before opening it up.</p>
+        <p class="smsp-cs-eyebrow">Release schedule</p>
+        <p class="smsp-cs-body"><strong>Always free for every player and coach.</strong> This series releases one post a month. {nextRelease
+          ? `The next one, ${nextRelease.data.title}, is out on ${releaseDateLabel(nextRelease.data.pubDate)}.`
+          : 'Every post in the series is now available.'}</p>
       </div>
 
       <section class="latest-blog-box">
         <ul id="posts-list" class="latest-posts">
           {childPosts.length > 0 ? childPosts.map((post) => (
-            <li class="smsp-card smsp-card-locked" aria-disabled="true">
-              <span class="smsp-lock-badge">🔒 Coming soon</span>
-              <h2 class="title">{post.data.title}</h2>
-              {post.data.description && (
-                <p class="description smsp-description-blur">{post.data.description}</p>
-              )}
-            </li>
+            isUnreleased(post.data.pubDate) ? (
+              <li class="smsp-card smsp-card-locked" aria-disabled="true">
+                <span class="smsp-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                <h2 class="title">{post.data.title}</h2>
+                {post.data.description && (
+                  <p class="description smsp-description-blur">{post.data.description}</p>
+                )}
+                {previewUnlocked && (
+                  <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
+                )}
+              </li>
+            ) : (
+              <li class="smsp-card">
+                <a href={`/content-hub/${post.slug}/`}>
+                  <h2 class="title">{post.data.title}</h2>
+                  {post.data.description && (
+                    <p class="description">{post.data.description}</p>
+                  )}
+                  <span class="smsp-cta">Read post →</span>
+                </a>
+              </li>
+            )
           )) : (
             <li class="coming-soon">
               <p>Posts coming soon. Check back shortly.</p>
@@ -183,10 +227,36 @@ const childPosts = allPosts.filter(
     margin-bottom: 0 !important;
   }
 
-  /* Coming-soon lock cards (mirror the TTM lock-card pattern). Each
-     SMSP post renders as a non-clickable card with a lock badge,
-     blurred description teaser, and no link. When SMSP is ready to
-     launch, swap the rendering back to clickable <a>. */
+  .smsp-cta {
+    display: inline-block;
+    margin-top: 0.35rem;
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* Scheduled-release lock cards (mirror the TTM lock-card pattern). A post
+     whose pubDate is still in the future renders as a non-clickable card
+     with its release date, a blurred description teaser, and no link. The
+     lock lifts by itself on the release date. */
+  /* Local-preview affordance on locked cards. Not rendered in production. */
+  .preview-link {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.6rem;
+    border: 2px dashed var(--purple);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--purple) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
   .smsp-card-locked {
     position: relative;
     padding: 1.1rem 1.25rem;
