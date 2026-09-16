@@ -1,13 +1,10 @@
 ---
 title: "Understanding Identity and Fear After Injury"
 description: "What happens to your sense of self when you're injured, why coming back is mostly mental work, and how to manage fear of re-injury."
-pubDate: "2027-01-01"
+pubDate: "2027-02-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month is about injury. Specifically the part that doesn't show up on a scan. The identity shift. The fear. The way you're meant to come back as if nothing happened, when something definitely happened.
+The physio can tell you when the knee is ready. Nobody tells you when your head is. This one is about the part of injury that does not show up on a scan. The identity shift. The fear. The way you're meant to come back as if nothing happened, when something definitely happened.
 
 A lot of athletes go through injury with brilliant physical care and almost no support for the mental side. Then we wonder why so many people don't come back the same.
 
@@ -20,10 +17,6 @@ For most ladies Gaelic players, athletic identity is high. The sport is woven in
 When you get injured, the high athletic identity becomes a problem. Suddenly the thing that anchors your sense of self is taken away. You don't just have a sore knee. You have a sore knee AND no idea who you are without the sport.
 
 The research shows higher athletic identity is associated with worse mental health outcomes during injury. Not because high identity is bad, but because losing access to it without other supports is hard.
-
-> **[TO FILL IN — AN INJURY MOMENT]**
->
-> A specific injury (your worst, or your most recent). What was the first week like emotionally? Not the physical pain, but how you felt about yourself.
 
 ## The grief that nobody calls grief
 
@@ -44,10 +37,6 @@ This is the one that surprises athletes most. You did all the rehab. You're clea
 This is normal. The research has a name for it: **kinesiophobia** (fear of movement / re-injury). It affects up to 50% of athletes returning from significant injuries.
 
 It's a protective mechanism. Your body learned that movement caused damage. It's now reluctant to fully commit. The fix isn't to push through with willpower. It's a graded re-exposure to the moments you're afraid of, with success at each level building trust back.
-
-> **[TO FILL IN — RETURN-TO-PLAY MOMENT]**
->
-> A moment in a return-to-play where you noticed fear in your body (tightening, hesitating, not fully going for a ball you'd normally go for). What was running through your head?
 
 ## The pressure to come back too fast
 
@@ -74,6 +63,16 @@ The physical injury is half the work. The mental injury is the other half. Most 
 It's worth saying out loud: an injured athlete is allowed to grieve. To be angry. To be lost. To not have a positive attitude every day. The fact that you're an athlete doesn't take that away.
 
 Coming back well means coming back as a whole person, not just a healed joint.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

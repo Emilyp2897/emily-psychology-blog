@@ -11,91 +11,97 @@ export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
-// Scheduled-release helper, matching Training the Mind and the Gael
-// Performance Toolkit. Posts with a pubDate in the future render as locked
-// cards (blurred preview, release date shown, no link) until the release
-// date passes. Computed at request time so the lock lifts automatically
-// without a redeploy. SMSP is always free — this is a release schedule,
-// not a paywall.
+// Normalised in UTC, not local time. Frontmatter dates like "2026-09-16" parse
+// as UTC midnight, so normalising to LOCAL midnight puts "today" an hour behind
+// during BST and a post dated today stays locked until 01:00.
 const today = new Date();
 today.setUTCHours(0, 0, 0, 0);
 
 const isUnreleased = (date: Date) => date > today;
-
-// Locked cards keep their locked appearance when running locally, but gain a
-// preview link so unreleased drafts can be reviewed on the real page without
-// typing URLs by hand. Never rendered in production.
 const previewUnlocked = import.meta.env.DEV;
 
 const releaseDateLabel = (date: Date) =>
   date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const childPosts = allPosts
-  .filter(
-    (post) => post.slug.startsWith('strong-minds-stronger-players/') && post.slug !== 'strong-minds-stronger-players/strong-minds-stronger-players'
-  )
+const posts = allPosts
+  .filter((post) => post.slug.startsWith('mindfulness-and-affirmations/'))
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 
-const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
+// Planned pieces that have no draft yet. Shown as coming-soon cards so the
+// shape of the series is visible without pretending the content exists.
+const plannedTopics = [
+  'A pre-match body scan you can do on the bus',
+  'Affirmations for coming back from injury',
+  'Mindfulness for the week after a bad loss',
+  'Off-season reset: sitting still without the guilt',
+];
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={`Strong Minds, Stronger Players | ${SITE_TITLE}`} description="Understand mental health, recognising what to look out for, when pressure becomes something more serious, and how to seek the right support when you need it." />
+    <BaseHead
+      title={`Mindfulness & Affirmations | ${SITE_TITLE}`}
+      description="Short mindfulness practices and affirmations built for female athletes. For championship week, and for life outside the sport."
+    />
   </head>
-  <body class="strong-minds-page">
+  <body class="mindfulness-page">
     <Header />
-    <main class="container strong-minds-main">
+    <main class="container mindfulness-main">
       <section class="hero">
         <p class="hero-kicker">Content Hub Series</p>
-        <h1>Strong Minds, Stronger Players</h1>
-        <p class="hero-tagline">Understanding mental health in sport, spotting warning signs early, and knowing where to seek support.</p>
+        <h1>Mindfulness &amp; Affirmations</h1>
+        <p class="hero-tagline">Short practices you will actually do, and affirmations that do not make you cringe.</p>
       </section>
 
       <div class="series-lead">
         <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
         <div class="saoirse-bubble">
-        <p class="series-lead-copy">Recognising changes early, understanding what they might mean, and knowing when it is time to talk to someone. For yourself or for a teammate.</p>
+        <p class="series-lead-copy">Nothing here takes longer than five minutes. Short practices and affirmations, built on the research into attention and self-affirmation. Some are for match week, some are for the rest of your life.</p>
         <p class="series-lead-meta">
-          <span class="lead-pill lead-pill-free">Always free</span>
-          <span class="lead-pill">{nextRelease
-            ? `Next up: ${nextRelease.data.title}, ${releaseDateLabel(nextRelease.data.pubDate)}`
-            : 'Every post is out now'}</span>
+          <span class="lead-pill lead-pill-free">Free, no sign-up</span>
+          <span class="lead-pill">Read as slides you can swipe</span>
+          <span class="lead-pill">Championship pieces live now</span>
         </p>
         </div>
       </div>
 
-      <section class="latest-blog-box">
-        <ul id="posts-list" class="latest-posts">
-          {childPosts.length > 0 ? childPosts.map((post) => (
+      <section class="mindfulness-series" aria-label="Mindfulness and affirmations">
+        <ul class="mindfulness-list">
+          {posts.map((post) => (
             isUnreleased(post.data.pubDate) ? (
-              <li class="smsp-card smsp-card-locked" aria-disabled="true">
-                <span class="smsp-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
-                <h2 class="title">{post.data.title}</h2>
+              <li class="mindfulness-card mindfulness-card-locked" aria-disabled="true">
+                <span class="lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                <h2 class="card-title">{post.data.title}</h2>
                 {post.data.description && (
-                  <p class="description smsp-description-blur">{post.data.description}</p>
+                  <p class="card-description description-blur">{post.data.description}</p>
                 )}
                 {previewUnlocked && (
                   <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
                 )}
               </li>
             ) : (
-              <li class="smsp-card">
+              <li class="mindfulness-card">
                 <a href={`/content-hub/${post.slug}/`}>
-                  <h2 class="title">{post.data.title}</h2>
-                  {post.data.description && (
-                    <p class="description">{post.data.description}</p>
+                  {post.data.tags?.includes('championship') && (
+                    <span class="champo-badge">Champo week</span>
                   )}
-                  <span class="smsp-cta">Read post →</span>
+                  <h2 class="card-title">{post.data.title}</h2>
+                  {post.data.description && (
+                    <p class="card-description">{post.data.description}</p>
+                  )}
+                  <span class="card-cta">Read it →</span>
                 </a>
               </li>
             )
-          )) : (
-            <li class="coming-soon">
-              <p>Posts coming soon. Check back shortly.</p>
+          ))}
+
+          {plannedTopics.map((topic) => (
+            <li class="mindfulness-card mindfulness-card-planned" aria-disabled="true">
+              <span class="soon-badge">Coming soon</span>
+              <h2 class="card-title">{topic}</h2>
             </li>
-          )}
+          ))}
         </ul>
       </section>
 
@@ -207,7 +213,7 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     .series-lead-copy { font-size: 0.98rem; }
   }
 
-  .strong-minds-main {
+  .mindfulness-main {
     padding-top: 0;
     padding-bottom: 3rem;
   }
@@ -238,9 +244,7 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     max-width: 64ch;
   }
 
-  .intro-card,
-  .latest-blog-box,
-  .content-feedback-cta {
+  .intro-card {
     background: #ffffff;
     border: 2px solid rgba(105, 0, 90, 0.22);
     border-radius: 8px;
@@ -250,7 +254,12 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     color: #000000;
   }
 
-  .smsp-coming-soon-banner {
+  .intro-card p {
+    color: #000000;
+    margin: 0;
+  }
+
+  .release-schedule-banner {
     margin-bottom: 1rem;
     padding: 1.1rem 1.25rem;
     background: rgba(192, 254, 113, 0.12);
@@ -259,7 +268,7 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     text-align: center;
   }
 
-  .smsp-cs-eyebrow {
+  .release-eyebrow {
     margin: 0 0 0.3rem;
     color: var(--green-lime);
     text-transform: uppercase;
@@ -268,77 +277,107 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     font-weight: 800;
   }
 
-  .smsp-cs-body {
+  .release-body {
     margin: 0;
     color: var(--green-light);
     line-height: 1.5;
   }
 
-  .intro-card p,
-  .content-feedback-cta p {
-    color: #000000;
-    margin: 0;
-  }
-
-  .latest-posts {
+  .mindfulness-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
 
-  .latest-posts li {
-    margin-bottom: 0.9rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+  .mindfulness-card {
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    background: #ffffff;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .latest-posts li:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+  .mindfulness-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   }
 
-  .latest-posts li a {
+  .mindfulness-card a {
     display: block;
-    text-decoration: none;
-    color: #000000 !important;
+    text-decoration: none !important;
+    color: inherit !important;
   }
 
-  .latest-posts li a:hover .title {
-    color: var(--purple);
+  .card-title {
+    color: var(--green-dark) !important;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
+    font-weight: 700;
   }
 
-  .latest-posts .title {
-    margin: 0 0 0.25rem;
-    font-size: 1.15rem;
-    color: #000000;
-  }
-
-  .latest-posts .description {
-    margin: 0;
-    color: #000000;
+  .card-description {
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    margin: 0 0 0.7rem;
     line-height: 1.5;
-    font-size: 0.96rem;
+    opacity: 0.82;
   }
 
-  .coming-soon {
-    border-bottom: none !important;
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .smsp-cta {
-    display: inline-block;
-    margin-top: 0.35rem;
+  .card-cta {
     color: var(--purple);
     font-weight: 700;
     font-size: 0.85rem;
   }
 
-  /* Scheduled-release lock cards (mirror the TTM lock-card pattern). A post
-     whose pubDate is still in the future renders as a non-clickable card
-     with its release date, a blurred description teaser, and no link. The
-     lock lifts by itself on the release date. */
+  .champo-badge,
+  .soon-badge,
+  .lock-badge {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .champo-badge {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .soon-badge,
+  .lock-badge {
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .mindfulness-card-planned,
+  .mindfulness-card-locked {
+    background: rgba(244, 255, 232, 0.55);
+    border-style: dashed;
+    cursor: not-allowed;
+  }
+
+  .mindfulness-card-planned:hover,
+  .mindfulness-card-locked:hover {
+    transform: none;
+    border-color: rgba(105, 0, 90, 0.18);
+    box-shadow: none;
+  }
+
+  .description-blur {
+    filter: blur(2.5px);
+    user-select: none;
+    pointer-events: none;
+  }
+
   /* Local-preview affordance on locked cards. Not rendered in production. */
   .preview-link {
     position: relative;
@@ -353,57 +392,22 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     font-size: 0.78rem;
     font-weight: 700;
     text-decoration: none !important;
-    pointer-events: auto;
     cursor: pointer;
   }
 
-  .smsp-card-locked {
-    position: relative;
-    padding: 1.1rem 1.25rem;
-    background: rgba(192, 254, 113, 0.08);
-    border: 2px dashed rgba(192, 254, 113, 0.55);
-    border-radius: 10px;
-    margin-bottom: 0.9rem;
-    cursor: not-allowed;
-    color: #1a1a1a;
-  }
-
-  .smsp-card-locked:last-child {
-    margin-bottom: 0;
-  }
-
-  .smsp-lock-badge {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    padding: 0.2rem 0.6rem;
-    background: var(--green-lime);
-    color: var(--green-dark);
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .smsp-card-locked .title {
-    margin: 0 0 0.3rem;
-    color: #1a1a1a;
-    font-size: 1.1rem;
-    opacity: 0.85;
-  }
-
-  .smsp-description-blur {
-    margin: 0;
-    color: #555;
-    line-height: 1.5;
-    font-size: 0.94rem;
-    filter: blur(2.5px);
-    user-select: none;
-    pointer-events: none;
-  }
-
   .content-feedback-cta {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
     text-align: center;
+  }
+
+  .content-feedback-cta p {
+    color: #000000;
+    margin: 0;
   }
 
   .feedback-cta-link {
@@ -424,17 +428,12 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
   }
 
   @media (max-width: 720px) {
-    .strong-minds-main {
-      padding-bottom: 2rem;
-    }
-
     .hero {
       padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
       margin-bottom: 0.9rem;
     }
 
     .intro-card,
-    .latest-blog-box,
     .content-feedback-cta {
       padding: 1rem;
     }

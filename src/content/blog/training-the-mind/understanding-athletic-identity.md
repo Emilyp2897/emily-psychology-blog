@@ -4,10 +4,7 @@ description: "Why having a strong athletic identity is both a strength and a ris
 pubDate: "2027-06-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month is about identity. Specifically how much of you is "the athlete" and what happens when that's too much. Not because athletic identity is bad. It's brilliant. But because the athletes who go furthest in the long term tend to have something else too.
+Who are you when you are not playing? This one is about how much of you is "the athlete" and what happens when that's too much. Not because athletic identity is bad. It's brilliant. But because the athletes who go furthest in the long term tend to have something else too.
 
 ## What athletic identity is
 
@@ -108,6 +105,16 @@ Practical tools at [Values and Balance Toolkit](/content-hub/gael-performance-to
 Being a great athlete doesn't require giving up the rest of yourself. The athletes who go longest, strongest, and happiest are the ones who keep the rest of themselves alive too.
 
 You can be fully committed to the sport AND a whole person. The two aren't in conflict.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -1,11 +1,11 @@
 ---
 title: "Focus & Refocus Toolkit"
 description: "Tools to set up focus before a match and recover it mid-game. Pre-match routines, attention narrowing, and refocus cues."
-pubDate: "2027-02-08"
+pubDate: "2027-03-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 7 toolkit. Paired with [Understanding Flow and Focus](/content-hub/training-the-mind/understanding-flow-and-focus/) and [Applying Flow and Focus in LGFA](/content-hub/training-the-mind/applying-flow-and-focus-in-lgfa/).
+Focus goes. These are the ways back. Goes with [Understanding Flow and Focus](/content-hub/training-the-mind/understanding-flow-and-focus/) and [Applying Flow and Focus in LGFA](/content-hub/training-the-mind/applying-flow-and-focus-in-lgfa/).
 
 Four tools.
 

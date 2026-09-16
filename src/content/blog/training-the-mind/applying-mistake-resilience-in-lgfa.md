@@ -1,11 +1,9 @@
 ---
 title: "Applying Mistake Resilience in Ladies Gaelic Football"
 description: "How to actually reset after a mistake in a game. The specific in-LGF moments where mistakes hit hardest and how to handle them."
-pubDate: "2026-10-15"
+pubDate: "2026-11-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-mistakes-and-perfectionism/) was about the theory of mistakes. This post is about the specific moments in a Gaelic game where mistakes hit hard, and what to do in those exact moments.
 
@@ -28,10 +26,6 @@ What needs to happen:
 - Eyes back on the play
 
 The whole reset is under 10 seconds. Anyone can do it. The hard part is doing it instead of carrying the mistake.
-
-> **[TO FILL IN — A MISSED FREE]**
->
-> A specific free or shot you missed in a game. What did the next minute feel like? How long did it take to get back into the game?
 
 ## The misread pass
 
@@ -56,10 +50,6 @@ This one is hardest because there's an immediate consequence visible to everyone
 The temptation is to overcompensate. Go harder, tackle harder, push higher. That often leads to a second mistake.
 
 Better response: stay in your job. Same defensive shape, same positioning. The score is already on the board. Going chasing makes another one likely.
-
-> **[TO FILL IN — A DEFENSIVE MISTAKE]**
->
-> A specific moment you remember being beaten and conceding a score. What did you do in the 5 minutes after? Did you compose, or did you overcompensate?
 
 ## The training session where everything was off
 
@@ -95,6 +85,16 @@ This doesn't make the feeling go away. But it puts it in perspective.
 4. **Track wins as much as losses.** Your mental ledger is biased. Help it.
 
 Full toolkit at [Mistake Reset Toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

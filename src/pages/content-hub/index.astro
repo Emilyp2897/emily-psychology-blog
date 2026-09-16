@@ -4,7 +4,17 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
 
-const seriesCards = [
+type SeriesCard = {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  /** Paint the icon in brand purple. For monochrome line art that clashes
+      with the illustrated icons. */
+  tintIcon?: boolean;
+};
+
+const seriesCards: SeriesCard[] = [
   {
     title: 'Training the Mind Blog',
     description: 'Explore the mental side of performance with short, relatable posts built for female athletes.',
@@ -12,10 +22,23 @@ const seriesCards = [
     icon: '/assets/icon-head-books.png',
   },
   {
+    title: 'Gael Performance Toolkit',
+    description: 'Practical tools for confidence, focus and match-day decisions. Use them before games and between plays.',
+    href: '/content-hub/gael-performance-toolkit/',
+    icon: '/assets/toolkit-bag-original.png',
+    tintIcon: true,
+  },
+  {
     title: 'Stronger Minds, Stronger Players',
     description: 'Understand mental health in sport, recognise warning signs, and know where to get support.',
     href: '/content-hub/strong-minds-stronger-players/',
     icon: '/assets/icon-girl-sitting.png',
+  },
+  {
+    title: 'Mindfulness & Affirmations',
+    description: 'Five-minute practices and affirmations that do not make you cringe. For match week and for life outside it.',
+    href: '/content-hub/mindfulness-and-affirmations/',
+    icon: '/assets/icon-meditating.svg',
   },
 ];
 ---
@@ -23,7 +46,7 @@ const seriesCards = [
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={`Content Hub | ${SITE_TITLE}`} description="Mind the Gael content hub: Training the Mind, Gael Performance Toolkit, and Stronger Minds, Stronger Players resources." />
+    <BaseHead title={`Content Hub | ${SITE_TITLE}`} description="Mind the Gael content hub: Training the Mind, Gael Performance Toolkit, Stronger Minds Stronger Players, and Mindfulness & Affirmations." />
   </head>
 
   <body class="content-hub-page">
@@ -39,7 +62,18 @@ const seriesCards = [
       <section class="series-cards fade-in" aria-label="Content hub sections">
         {seriesCards.map((card) => (
           <a href={card.href} class="series-card">
-            <img src={card.icon} alt="" class="series-card-icon" aria-hidden="true" />
+            {card.tintIcon ? (
+              /* The toolkit bag is harsh black line art, unlike the soft
+                 illustrated icons. Painted in brand purple via a mask so it
+                 sits with the rest instead of shouting over them. */
+              <span
+                class="series-card-icon series-card-icon-tinted"
+                style={`--icon-src: url('${card.icon}')`}
+                aria-hidden="true"
+              />
+            ) : (
+              <img src={card.icon} alt="" class="series-card-icon" aria-hidden="true" />
+            )}
             <h2 class="title">{card.title}</h2>
             <p class="description">{card.description}</p>
           </a>
@@ -118,6 +152,13 @@ const seriesCards = [
     height: 150px;
     object-fit: contain;
     margin-bottom: 1.1rem;
+  }
+
+  .series-card-icon-tinted {
+    display: block;
+    background-color: var(--purple);
+    -webkit-mask: var(--icon-src) center / contain no-repeat;
+    mask: var(--icon-src) center / contain no-repeat;
   }
 
   .series-card .title {

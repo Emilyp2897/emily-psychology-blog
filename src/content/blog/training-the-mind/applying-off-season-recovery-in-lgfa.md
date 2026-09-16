@@ -5,8 +5,6 @@ pubDate: "2027-07-15"
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily.
-
 [Last post](/content-hub/training-the-mind/understanding-off-season-mental-health/) was about why the off-season is harder than people expect. This one is practical. How to actually structure the off-season as a Gaelic player.
 
 ## Week 1: rest, fully
@@ -125,6 +123,16 @@ You've been on a 12-month journey through the mental side of sport. We started w
 The most consistent athletes I know take recovery as seriously as they take training. The off-season is the biggest recovery window you'll have. Use it well.
 
 Be kind to yourself in this break. The work is done. This is the part where you put yourself back together.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

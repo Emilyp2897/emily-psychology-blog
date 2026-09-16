@@ -1,81 +1,76 @@
 ---
 title: "Attention Control Theory: What's Actually Happening When Your Focus Slips"
 description: "The psychology behind why pressure and overthinking pull your focus away from the game, and why it has nothing to do with a lack of skill."
-pubDate: "2026-08-01"
+pubDate: "2026-09-01"
 track: "training-the-mind"
 ---
 
-Today I want to talk about something a lot of players experience but rarely have language for. Why your focus slips during a game, and what's actually happening in your mind when it does.
+Have you ever felt physically ready for a game, but your mind was somewhere else entirely? One minute you're telling yourself  **"You've got this, you're fit, you're ready."** The next, you're thinking **"What if I miss? What if my marker is better than me?"**
 
-Have you ever felt physically ready for a game, but your mind was somewhere else entirely? One minute you're telling yourself ***"You've got this, you're fit, you're ready"***. The next, you're thinking ***"What if I miss? What if I'm not fit enough? What if my marker is better than me?"***
+Then the game starts and you're never fully in it. You're out of position when the ball comes down your side. You look like you're doing something, but really you're just running in circles. When the ball finally reaches you, there's a split second of hesitation, and by the time you decide what to do, you're blocked down and it's gone.
 
-Then the game starts, and you're never fully in it. You're out of position when the ball comes down your side. You look like you're doing something, but really you're just running in circles. When the ball finally reaches you, there's a split-second delay while you try to decide, and by the time you do, you're blocked down and it's gone.
+This isn't random. It's how your mind and attention work under pressure, and it's part of being human.
 
-This isn't random. It isn't just "one of those days." It's how your mind and your attention work under pressure.
+I can’t speak to what goes on in the mind of other players. I can only tell you how it felt in mine. If you've never felt anything like what I'm describing here, you are very, very lucky. Treasure it.
 
-This shows up differently for everyone. Your mind might drift at a lower level of pressure than someone else's, and that's completely normal, not a flaw. I often caught myself wondering why other players seem so consistent while I felt up and down. Every player experiences this, at every level.
+<h2>My Low Point</h2>
+For a couple of seasons I felt this on repeat, struggling mentally rather than performing well. I genuinely thought I might have to quit playing. I felt like a burden, like my team would be better off without me. But I loved the game too much to walk away, so I was stuck between anxiety on one side and not wanting to give it up on the other.
 
-What separates players isn't whether their mind drifts. It's how they deal with it when it does.
+My actual low point came at the 2025 league final in Ruislip Stadium. We'd just won. I'd come on at half time, still running in circles, still looking busy rather than being present. My mental health had been getting worse for a while, and in the tunnel afterwards it caught up with me. I had a panic attack, in a moment that should have felt like pure celebration.
 
-I'm not writing this as someone who always had it figured out. For a couple of seasons, I was consistent, but consistent in struggling mentally rather than performing well. I genuinely thought at one point I might have to quit playing football. I felt like a burden, like I was letting my team down, like they'd be better off without me.
+What I didn't know then was that I was dealing with undiagnosed anxiety and depression. I didn't have the language for it. I just knew something was wrong, and it was showing up on the pitch: overthinking that wouldn't switch off, replaying games and conversations on loop, a voice telling me I wasn't good enough, blaming coaches for decisions for why I wasn't performing.
 
-At the same time, I loved playing. The thought of stepping away made me genuinely sad. So I was stuck between anxiety and doubt on one side, and not wanting to give up the game on the other.
+Reflection, CBT therapy, medication, and learning about my own mind got me to the other side of it. Here's what I found.
 
-My actual low point came at the 2025 league final in Ruislip Stadium. We'd just won. I came on at half time, but I wasn't in a good place, still running in circles, still looking like I was doing something rather than actually being present in it. My mental health had been getting worse for a while by then, and in the tunnel afterwards, it caught up with me. I had a panic attack.
+<h2>What's Actually Happening</h2>
+When pressure increases, your brain prioritises what feels important over what actually is. Instead of focusing on the game, your attention shifts to "don't mess up," "people are watching," "what if I let my team down." Part of you has already left the pitch.
 
-What I didn't know at the time was that I was dealing with undiagnosed anxiety and depression. I didn't have the language for it. I just knew something was wrong, and it was showing up on the pitch, in how I played, how I saw myself, and how I reacted to pressure.
+This is exactly what anxiety and depression does, on or off the pitch. Your brain stays on alert for threat even when there isn't one, and keeps pulling your attention toward worry and worst case thinking. Football didn't cause that. It just gave it a stage, in front of people, in real time, where I couldn't hide it.
 
-It wasn't really about that one game. It was an accumulation of overthinking that didn't switch off, being constantly annoyed with my own performance, replaying games and conversations in my head over and over, a voice in my head telling me I wasn't good enough. I started comparing myself to other players in ways that weren't rational or healthy. I found myself blaming coaches for how I felt because they dropped me from the starting line up. I felt like there was no escape from my own head, even in a moment that should have felt like pure celebration.
+You don't need a diagnosis for this to apply to you. Everyone experiences some version of it, whether that's football, work, relationships. Same mechanism, just a matter of degree.
 
-It took a lot to get to the other side of that. Reflection, CBT therapy, anxiety medication and alongside all of that, learning about my own mind. Slowly, I started to understand what was actually going on. Here's what I found:
+Reading into Attention Control Theory helped me understand why: it suggests that when anxiety kicks in, attention gets pulled away from the task and toward anything that feels like a threat, external (the crowd, your opponent) or internal (your own thoughts). Instead of being locked into the play, your mind splits.
 
-When pressure increases, your brain starts prioritising what feels important, not what actually is important. So instead of focusing on the game, your attention shifts to things like: don't mess up, people are watching, what if I miss, what if I let my team down. Even though you're still playing, part of your attention has already left the moment you're in.
+Anxiety doesn't always make you play badly. It just makes everything less efficient. You still make good decisions, still do the right things, but it costs far more effort. That hesitation is your attention being pulled in two directions at once. It's draining and it makes you feel like you've run a marathon rather than 10 minutes. 
 
-This is exactly what anxiety and depression do, just not only on a pitch. When you're living with either, your brain is constantly on alert for threat, even when there isn't one, and constantly pulling your attention toward worry, self-criticism, and worst-case thinking. Football didn't cause that. It just gave it somewhere obvious to show up, in front of people, in real time, where I couldn't hide it the way I could off the pitch.
+<h2>When It Clicked</h2>
+We played Wandsworth at Barnet Lane and I came on for twenty minutes. The worst twenty minutes I've ever played. I couldn't find my way into the game, got stuck in my own head, missed a sitting goal, and came off shaking, close to tears.
 
-If you're dealing with diagnosed anxiety or depression, this pull on your attention is amplified. It's louder, harder to switch off. But you don't need a diagnosis for any of this to apply to you. Everyone experiences some version of it at some stage, whether that shows up in football, at work, in relationships, or just in your own head at three in the morning. The mechanism is the same. It's just a question of degree.
+That's when it clicked: the amount of pressure I was putting on myself wasn't making me happy. So I asked to join the junior team, where I'd get real game time without the weight I'd been carrying. No pressure to prove I belonged. Just a chance to enjoy playing again.
 
-## What Attention Control Theory says
+<h2>Your Body Feels It Too</h2>
+Anxiety doesn't just affect your thoughts, it affects your body. You get tense, your timing goes slightly off, your touch doesn't feel as clean. You mis-hit a pass or mistime a tackle and assume it's your ability, but it's your system under pressure.
 
-This is where Attention Control Theory comes in. Without getting too technical, when anxiety kicks in, your attention gets pulled away from what you're trying to do and toward anything that feels like a threat, external things like the crowd or your opponent, or internal things like your own thoughts and worries. Instead of being locked into the play, your mind splits. That's why performance starts to feel harder.
+This is why the big moments feel hardest: a free, a shot, that final pass. They demand precision and full presence, and any drift in attention shows up immediately.
 
-One of the most important things to understand is that anxiety doesn't always make you play badly. It just makes everything less efficient. You might still make the right decisions, still get on the ball, still do good things, but it takes far more effort. You're thinking more, reacting slower, and everything feels less natural.
+At training in Downhills, I was missing points I've scored a hundred times. Not a technique issue. I was either rushing the shot or hesitating over it, my mind split between doing it and thinking about doing it. That half second of doubt is the difference between the ball sailing over and getting blocked down.
 
-That hesitation you feel, that split-second delay, is your attention being pulled in two directions at once.
+Even after joining the juniors, in another game against Wandsworth, I had several shots drop short into the goalkeeper's hands. The external pressure was gone, I knew I'd get game time regardless, but the pattern in my head wasn't. I was still rushing, still trying to prove something instead of just playing. A few more steps before I struck the ball, and those shots go over.
 
-We recently played Wandsworth in Barnet Lane, and I came on for about twenty minutes. It was the worst twenty minutes I've ever played. I couldn't find my way into the game, couldn't get on the same wavelength as the players around me, and I got completely stuck in my own head. I missed a sitting goal. I came off the pitch shaking, close to tears, genuinely anxious.
+There's another pattern worth naming here: becoming so self-aware during a game that you start watching yourself play instead of just playing. That self-focus pulls you further from the game itself, and everything slows down, your decisions, your reactions, your movement.
 
-That's when it actually clicked. Putting this much pressure on myself wasn't making me happy. Something had to change. So I asked to join the junior team, where I'll get real game time in upcoming matches, without the weight I'd been putting on myself. No pressure to prove I belong. Just a chance to actually enjoy playing again.
+<h2>Mental Energy Matters</h2>
+One thing that came up again and again in what I read: your capacity to handle pressure isn't fixed, it depends on your mental energy. Tired, stressed, or drained, and you have less control over your attention, so anxiety hits harder and is slower to shake off.
 
-## Your Body Feels it too
 
-Something I didn't realise for a long time: anxiety doesn't just affect your thoughts, it affects your body too. You can become tense, your timing can be slightly off, your touch might not feel as clean. You might mis-hit a pass or mistime a tackle and assume it's your ability, but it isn't. It's your system under pressure.
+That helped explain a lot for me: why you can train well but struggle in matches, why you can know exactly what to do and still not do it, why some players look composed, maybe not because they feel no pressure, but because they've found a way to keep their attention on the right things.
 
-This is why the big moments feel hardest, taking a free, having a shot, making that final pass. They demand precision. They demand you be fully present. And when your attention drifts, even slightly, you feel it immediately.
+<h2>What I'm Taking From This</h2>
+I'm not writing this because I've got it figured out. I'm still working through it, still missing points I know I can score, still catching myself proving something instead of just playing. But reading into Attention Control Theory gave me language for what was happening, and that alone changed how I deal with it.
 
-This happened to me in training recently at Downhills. Points I know I can score, ones I've kicked a hundred times, and I'm not getting them over. Not because I don't have the technique. It's because I'm either rushing it, kicking too soon and getting blocked, or I hesitate over what I'm actually doing with it. Same skill I've had for years, but in that moment my mind isn't fully committed to the shot, it's split between doing it and thinking about doing it. And that half-second of doubt is the difference between the ball sailing over and it getting blocked down.
+I don't think you need to quit, and I don't think you need to remove the pressure to feel okay again. What I'm learning to do is notice where my attention has gone, and try to bring it back to something I can control.
 
-In another intermediate game against Wandsworth in Barnes, after I'd already asked to join the juniors, I had several shots drop short, straight into the goalkeeper's hands. Joining the juniors had taken a lot of the external pressure off, I knew I'd get game time there regardless, so I wasn't even expecting to play much in this one. I ended up playing forty-five minutes, and I was having a good game, reading the play well, making good decisions. But the pressure to score, to stand out, to prove I deserved the extra time, was still there. That's the part that surprised me. The external reason for the pressure was gone, but the pattern in my head wasn't. And that's exactly where the wrong decisions crept in. A few more steps before I struck the ball, and those shots don't drop short. It wasn't a technique problem. It was me rushing the moment because some part of me was still trying to prove something, instead of just playing.
+Losing focus under pressure is normal. There's no such thing as a perfect player, and I'm certainly not one. The part I'm working on is getting a little quicker at catching the drift, and having something to bring myself back to.
 
-Another pattern many players will recognise: becoming very self-aware during a game. You start thinking about how you're playing, what people think of you, whether you're doing enough. You're not just playing anymore, you're watching yourself play. That self-focus pulls you even further from the game. Instead of reading what's happening around you, you're stuck in your own head, and everything slows down: your decisions, your reactions, your movement.
-
-## Mental Energy Matters
-
-Your capacity to handle pressure isn't fixed, it depends on your mental energy. If you're tired, stressed, or mentally drained, you have less capacity to control your attention. So when anxiety kicks in, it hits harder, and it's harder to bring yourself back.
-
-Put all of this together, and it explains a lot. Why you can train well but struggle in matches. Why you can know exactly what to do and still not do it in the moment. Why some players look so composed, not because they don't feel pressure, but because they're better at keeping their attention on the right things.
-
-## The Most Important Takeaway
-
-You don't need to quit. You don't need to remove pressure to feel okay again.
-
-The goal is to become aware of where your attention is, and bring it back to something you can control.
-
-Losing focus under pressure is normal. It's part of being human, and part of competing. The difference is getting quicker at catching it, and having something to bring yourself back to.
-
-You're not aiming for perfect. There's no such thing as a perfect player. Your attention will drift, especially under pressure. The aim is to notice it and bring it back a little quicker each time.
-
-That's what separates players.
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

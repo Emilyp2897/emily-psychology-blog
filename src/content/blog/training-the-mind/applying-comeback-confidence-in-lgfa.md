@@ -1,11 +1,9 @@
 ---
 title: "Applying Comeback Confidence in Ladies Gaelic Football"
 description: "Real LGF situations during and after injury. Watching your spot get taken, the first session back, the first contact, the first game."
-pubDate: "2027-01-15"
+pubDate: "2027-02-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-identity-and-fear-after-injury/) was about what happens to identity and fear during injury. This post is about the specific Gaelic moments during the comeback. The ones that don't get talked about.
 
@@ -32,10 +30,6 @@ What's going to happen:
 None of this is true after one session. But your brain will offer the catastrophic interpretation as fact.
 
 Catch it. "This is a first session back. It's data, not destiny."
-
-> **[TO FILL IN — FIRST SESSION BACK]**
->
-> The first proper session back after a significant injury. How did your body feel? How did your head feel? What did you tell yourself afterwards?
 
 ## The first contact
 
@@ -64,10 +58,6 @@ Possible patterns:
 All of these are normal. The mistake is making the first game's pattern mean something permanent.
 
 What works: have a low-key goal for the game. Not "play well". Not "score". Something like "stay in my defensive shape for 60 minutes" or "make one assertive call in the first 10 minutes".
-
-> **[TO FILL IN — FIRST GAME BACK]**
->
-> Your first competitive match after a significant injury. What was running through your head before throw-in? What pattern did you fall into?
 
 ## When your spot is no longer yours
 
@@ -98,6 +88,16 @@ This is where SDT's autonomy matters. You can't control selection. You can contr
 5. **Have a process anchor for the first game.** Not "play well". Something specific.
 
 The toolkit is [Imagery & Graded Exposure Toolkit](/content-hub/gael-performance-toolkit/imagery-and-graded-exposure-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

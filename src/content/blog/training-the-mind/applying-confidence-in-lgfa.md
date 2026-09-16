@@ -1,11 +1,9 @@
 ---
 title: "Applying Confidence in Ladies Gaelic Football"
 description: "How confidence actually shows up in LGF, and where it gets ambushed. Selection, comparison with teammates, training week pressure, match day."
-pubDate: "2026-09-15"
+pubDate: "2026-10-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 Last post I wrote about [where confidence actually comes from](/content-hub/training-the-mind/understanding-confidence/). The short version: it's evidence-based and it's a skill, not a trait. This post is about what that looks like in the real world of ladies Gaelic football.
 
@@ -18,10 +16,6 @@ Mondays and Tuesdays in selection week are confidence killers. You don't know if
 Here's what's actually happening: your brain is running predictions, and most of them are negative. That's not a confidence problem. That's a stress problem masquerading as a confidence problem.
 
 What to do: pick a process measure to focus on. "This week I'm going to be the first to every ball in training." Not "I want to be selected". The first is in your control. The second isn't. Process beats outcome every time, especially when you can't control the outcome.
-
-> **[TO FILL IN — SELECTION WEEK MOMENT]**
->
-> A specific selection week you remember. What were you telling yourself? Did you find a way to handle it, or did it run away with you?
 
 ## Training drills with senior players
 
@@ -41,11 +35,7 @@ If you're using the warm-up to "check" if you've got it today, you'll find evide
 
 This is where the internal vs external confidence split really matters. After a misplaced pass or a missed shot, external-confidence players collapse. Internal-confidence players are annoyed for 30 seconds and then they're back.
 
-The difference isn't natural talent. It's a habit. They've trained themselves to use a cue to drop the mistake (we cover this in the [Mistake Reset toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/) for Month 3).
-
-> **[TO FILL IN — AFTER A MISTAKE]**
->
-> A specific mistake you remember in a game. How long did it stay with you? What got you back into the game, or what kept you out of it?
+The difference isn't natural talent. It's a habit. They've trained themselves to use a cue to drop the mistake (we cover this in the [Mistake Reset toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/)).
 
 ## When a teammate is in better form
 
@@ -57,7 +47,7 @@ The instinct is to compare and feel less-than. The response that actually helps:
 
 This is the one nobody talks about enough. Some coaches give criticism well. Others don't. When you get blunt critical feedback, especially in front of others, it can take days to recover from.
 
-The reframe: feedback is information about a moment, not about your value as a player. If a coach says "your shooting was off today", that's data. It's not "you are bad". The same skill gap can be addressed without a personal hit. If it's hitting you personally, that's a sign you've over-fused your identity to your performance (which is a separate problem we cover in [Month 11 on identity](/content-hub/training-the-mind/understanding-athletic-identity/)).
+The reframe: feedback is information about a moment, not about your value as a player. If a coach says "your shooting was off today", that's data. It's not "you are bad". The same skill gap can be addressed without a personal hit. If it's hitting you personally, that's a sign you've over-fused your identity to your performance (which is a separate problem we cover in [the post on athletic identity](/content-hub/training-the-mind/understanding-athletic-identity/)).
 
 ## What you can do this week
 
@@ -67,6 +57,16 @@ The reframe: feedback is information about a moment, not about your value as a p
 4. **Receive feedback as data, not verdict.** If a coach says something hard, write down the actual fact and separate it from your story about it.
 
 Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -1,13 +1,10 @@
 ---
 title: "Understanding Motivation: Why Some Days You Want to Play and Some You Don't"
 description: "What actually drives motivation in sport, why it fluctuates, and how to build the kind that lasts."
-pubDate: "2026-12-01"
+pubDate: "2027-01-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month is about motivation. Specifically, the kind of motivation that gets you to training in November when there's nothing on the line. Not the motivation that shows up in the week of a championship final.
+Anyone can train in June. This one is about the kind of motivation that gets you to training in November when there's nothing on the line. Not the motivation that shows up in the week of a championship final.
 
 If you've played sport long enough, you know the difference.
 
@@ -34,10 +31,6 @@ Athletes high in extrinsic motivation (with low intrinsic):
 
 This doesn't mean extrinsic motivation is bad. It's about balance.
 
-> **[TO FILL IN — A MOTIVATION HIGH]**
->
-> A specific period where you were genuinely loving training and matches. What was different about that time? What were you focused on?
-
 ## The three needs
 
 SDT also says we have three basic psychological needs that, when met, fuel intrinsic motivation:
@@ -60,10 +53,6 @@ It might mean:
 - You're approaching burnout (more on this in a moment).
 
 Most coaches react to low motivation by pushing harder. Push through. Show up anyway. Sometimes that's right. But sometimes the better response is to look at what need isn't being met.
-
-> **[TO FILL IN — A MOTIVATION LOW]**
->
-> A specific stretch where you really didn't want to train. Looking back, was it laziness, or was something else going on?
 
 ## The burnout curve
 
@@ -91,6 +80,16 @@ The practical toolkit is at [Goal Setting Toolkit](/content-hub/gael-performance
 Motivation isn't a moral failing when it dips. It's a signal. Something in the system is off. The job is to find what.
 
 The strongest athletes I know aren't the ones who never lose motivation. They're the ones who notice it early and adjust.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -1,11 +1,11 @@
 ---
 title: "Imagery & Graded Exposure Toolkit"
 description: "Tools for the mental side of injury recovery and return-to-play. Imagery rehearsal, graded fear exposure, and confidence-building drills."
-pubDate: "2027-01-08"
+pubDate: "2027-02-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 6 toolkit. Paired with [Understanding Identity and Fear After Injury](/content-hub/training-the-mind/understanding-identity-and-fear-after-injury/) and [Applying Comeback Confidence in LGFA](/content-hub/training-the-mind/applying-comeback-confidence-in-lgfa/).
+Getting back on the pitch, in your head first. Goes with [Understanding Identity and Fear After Injury](/content-hub/training-the-mind/understanding-identity-and-fear-after-injury/) and [Applying Comeback Confidence in LGFA](/content-hub/training-the-mind/applying-comeback-confidence-in-lgfa/).
 
 Four tools for the mental work of coming back.
 

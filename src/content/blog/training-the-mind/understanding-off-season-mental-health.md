@@ -4,10 +4,7 @@ description: "Why the off-season is harder than people expect, what's actually h
 pubDate: "2027-07-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month we land on something nobody talks about enough: the off-season. The weeks or months between championship ending and pre-season starting up. Athletes describe these as "a break" or "downtime". For a lot of players, they're actually one of the hardest parts of the year.
+The season ends and everyone assumes that is the easy bit. It often is not. The off-season. The weeks or months between championship ending and pre-season starting up. Athletes describe these as "a break" or "downtime". For a lot of players, they're actually one of the hardest parts of the year.
 
 I want to give you the research version of why, and what to actually do about it.
 
@@ -42,7 +39,7 @@ Neither is "wrong" or "right". Both are recognised post-season patterns. The ath
 
 ## Identity surfacing
 
-Month 11 was about athletic identity. The off-season is when identity issues surface.
+An earlier post in this series was about athletic identity. The off-season is when identity issues surface.
 
 During the season, you're a Gaelic player. That's a clear identity, reinforced by your week. In the off-season, you're... what? You don't train. You're not in the squad WhatsApp as much. People aren't asking about the next match.
 
@@ -56,7 +53,7 @@ A lot of female athletes describe the off-season as lonely. Not in an obvious wa
 
 You've been with the squad multiple times a week for months. Suddenly you're not. The casual contact, the shared challenges, the in-jokes, all of it drops sharply.
 
-If most of your social life is the squad (Month 11 territory), the off-season is when you feel the cost of that. The friendships outside the squad you haven't tended start feeling further away.
+If most of your social life is the squad (identity territory again), the off-season is when you feel the cost of that. The friendships outside the squad you haven't tended start feeling further away.
 
 > **[TO FILL IN — AN OFF-SEASON LONELINESS]**
 >
@@ -112,6 +109,16 @@ The off-season isn't just a break. It's its own season, with its own challenges 
 Athletes who treat it as "downtime" often come back to pre-season worse than they left. Athletes who treat it as recovery (real recovery, including mental and social recovery) come back better.
 
 Be gentle with yourself in the off-season. The hard work is done. This is the part where you put yourself back together so the next season is possible.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

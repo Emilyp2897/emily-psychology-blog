@@ -1,11 +1,11 @@
 ---
 title: "Self-Talk and Confidence Toolkit"
 description: "Practical tools to rebuild and protect confidence. Self-talk scripts, evidence ledgers, and a confidence-before-game routine."
-pubDate: "2026-09-08"
+pubDate: "2026-10-08"
 track: "gael-performance-toolkit"
 ---
 
-This is the Month 2 toolkit, paired with [Understanding Confidence](/content-hub/training-the-mind/understanding-confidence/) and [Applying Confidence in LGFA](/content-hub/training-the-mind/applying-confidence-in-lgfa/).
+What you say to yourself, and how to change it. Goes with [Understanding Confidence](/content-hub/training-the-mind/understanding-confidence/) and [Applying Confidence in LGFA](/content-hub/training-the-mind/applying-confidence-in-lgfa/).
 
 Four tools you can start using this week.
 

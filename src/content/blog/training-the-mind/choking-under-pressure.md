@@ -1,13 +1,11 @@
 ---
 title: "Choking Under Pressure: Why You Freeze in Big Moments Even When You Know What to Do"
 description: "What's actually happening when a skill you've done a hundred times in training falls apart in a match, and what the research says about why."
-pubDate: "2026-08-01"
+pubDate: "2026-09-12"
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily, your mental wellbeing and performance coach 👋
-
-Today we're talking about something every player has felt at some point… even if we don't always call it this.
+Every player has felt this at some point, even if we don't always call it this.
 
 That moment when you know you can do it… you've done it a hundred times in training… but in a match, under pressure, it just doesn't come out the same way.
 
@@ -131,6 +129,16 @@ Choking under pressure doesn't mean you can't perform.
 It means your brain has shifted from trusting the skill to trying to control the skill.
 
 And in sport, that shift is often the difference between playing freely and overthinking every action.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

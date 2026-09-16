@@ -1,11 +1,11 @@
 ---
 title: "Team Communication Toolkit"
 description: "Practical scripts and routines for hard conversations, conflict resolution, and contribution recognition in a Gaelic squad."
-pubDate: "2026-11-08"
+pubDate: "2026-12-08"
 track: "gael-performance-toolkit"
 ---
 
-This is the Month 4 toolkit, paired with [Understanding Team Culture and Belonging](/content-hub/training-the-mind/understanding-team-culture-and-belonging/) and [Applying Team Culture in LGFA](/content-hub/training-the-mind/applying-team-culture-in-lgfa/).
+Saying the hard thing without wrecking the dressing room. Goes with [Understanding Team Culture and Belonging](/content-hub/training-the-mind/understanding-team-culture-and-belonging/) and [Applying Team Culture in LGFA](/content-hub/training-the-mind/applying-team-culture-in-lgfa/).
 
 Four tools.
 

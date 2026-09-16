@@ -7,12 +7,12 @@ import Header from '../components/Header.astro';
 import PhotoCredit from '../components/PhotoCredit.astro';
 import whyImage from '../assets/DSC_1538.jpg';
 import mentalImage from '../assets/FLO_1671.jpg';
-import physicalImage from '../assets/CiaraFlan-London-1.jpg';
 import hubImage from '../assets/HollowayTeamHuddle.jpg';
+import physicalImage from '../assets/CiaraFlan-London-1.jpg';
 import mtgLogo from '../assets/MTG_colour.png';
 import footballImage from '../assets/football-illustration.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
-import { gaelPerformanceToolkitSlugs, trainingTheMindSlugs } from '../data/series';
+import { CHAMPO_TAG, gaelPerformanceToolkitSlugs, seriesHubHref, seriesLabels, trainingTheMindSlugs } from '../data/series';
 
 // Rendered on demand rather than at build time, like the content hub pages.
 // The "latest" and "next release" boxes below compare pubDate against "now",
@@ -26,7 +26,7 @@ const allPosts = await getCollection('blog');
 // month in that sequence, not just whichever post has the newest date
 // (which would wrongly pick up bonus/future toolkits outside the series).
 const today = new Date();
-today.setHours(0, 0, 0, 0);
+today.setUTCHours(0, 0, 0, 0);
 
 const orderedMonthlyToolkits = gaelPerformanceToolkitSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
@@ -84,6 +84,62 @@ function featuredPostFor(latest: SeriesPost | undefined, next: SeriesPost | unde
 const ttmFeatured = featuredPostFor(latestTtmPost, nextTtmPost);
 const smspFeatured = featuredPostFor(latestSmspPost, nextSmspPost);
 const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
+
+const orderedMindfulnessPosts = allPosts
+  .filter((post) => post.slug.startsWith('mindfulness-and-affirmations/'))
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+
+const releasedMindfulness = orderedMindfulnessPosts.filter((post) => post.data.pubDate <= today);
+const mindfulnessFeatured = featuredPostFor(
+  releasedMindfulness[releasedMindfulness.length - 1],
+  orderedMindfulnessPosts.find((post) => post.data.pubDate > today)
+);
+
+// One card per series, replacing the three full-width bands that used to
+// explain them one at a time. Keeps the explanation a first-time visitor
+// needs without three screens of scrolling, and means a new series only has
+// to be added here.
+const homeSeries = [
+  {
+    key: 'training-the-mind',
+    title: 'Training the Mind',
+    blurb: 'Sports psychology in language that makes sense on the pitch. Twelve topics, each a 10 minute read, from pressure and performance anxiety to confidence and team culture.',
+    href: '/content-hub/training-the-mind/',
+    featured: ttmFeatured,
+  },
+  {
+    key: 'gael-performance-toolkit',
+    title: 'Gael Performance Toolkit',
+    blurb: 'The practical half. Tools you can use before a game, between plays, and after the moments that knock your confidence. Each one pairs with a Training the Mind topic.',
+    href: '/content-hub/gael-performance-toolkit/',
+    featured: toolkitFeatured,
+  },
+  {
+    key: 'strong-minds-stronger-players',
+    title: 'Stronger Minds, Stronger Players',
+    blurb: 'Mental health in sport. How to spot when pressure has turned into something more serious, in yourself or a teammate, and where to go for real support.',
+    href: '/content-hub/strong-minds-stronger-players/',
+    featured: smspFeatured,
+  },
+  {
+    key: 'mindfulness-and-affirmations',
+    title: 'Mindfulness & Affirmations',
+    blurb: 'Five minute practices and affirmations that do not make you cringe. Built to read as slides you can swipe through. For match week, and for life outside it.',
+    href: '/content-hub/mindfulness-and-affirmations/',
+    featured: mindfulnessFeatured,
+  },
+];
+
+// Champo Week: every released post tagged "championship", pulled from all four
+// series. This is the headline theme while the championship is running, so it
+// sits directly under the hero. Tag a post and it appears here automatically.
+const champoPosts = allPosts
+  .filter(
+    (post) =>
+      post.data.tags?.includes(CHAMPO_TAG) &&
+      post.data.pubDate <= today
+  )
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 
 <!doctype html>
@@ -103,7 +159,7 @@ const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
           </div>
 
           <h1 class="hero-tagline">Mental Performance for Female Athletes</h1>
-          <p class="hero-sub">Three series on the mental side of sport: Training the Mind, the Gael Performance Toolkit, and Stronger Minds, Stronger Players. Women's health at the centre. Train your mind like you train your body.</p>
+          <p class="hero-sub">Four series on the mental side of sport: Training the Mind, the Gael Performance Toolkit, Stronger Minds, Stronger Players, and Mindfulness &amp; Affirmations. Women's health at the centre. Train your mind like you train your body.</p>
 
           <p class="hero-free-note">Every article and toolkit is <strong>free to read</strong>. Your own mental performance plan is the one thing you pay for, from £2.</p>
 
@@ -116,12 +172,54 @@ const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
 
       <Header />
 
+      <!-- CHAMPO WEEK: the headline theme while the championship is running.
+           Sits directly under the hero so it is the first thing after the
+           logo. Driven by the "championship" tag, so it can be retired by
+           untagging rather than by editing this page. -->
+      {champoPosts.length > 0 && (
+        <section class="home-band champo-band" aria-labelledby="champo-heading">
+          <div class="band-inner">
+            <div class="champo-photo">
+              <Image src={physicalImage} alt="Ciara Flanagan training in London" class="champo-img" loading="lazy" widths={[600, 900, 1400]} sizes="(max-width: 900px) 100vw, 1100px" />
+              <PhotoCredit src={physicalImage.src} />
+            </div>
+
+            <div class="champo-head">
+              <p class="champo-eyebrow">Champo week</p>
+              <h2 id="champo-heading">It's championship season. Here's everything for the week you're in.</h2>
+              <p class="champo-sub">Pulled from every series: the psychology, the practical tools, the mental health side, and the short practices. All free.</p>
+            </div>
+
+            <ul class="champo-grid">
+              {champoPosts.map((post) => (
+                <li class="champo-tile">
+                  <a href={`/content-hub/${post.slug}/`}>
+                    <span class:list={["champo-series", `champo-series-${post.slug.split("/")[0]}`]}>{seriesLabels[post.slug.split('/')[0]] ?? 'Mind the Gael'}</span>
+                    <h3 class="champo-title">{post.data.title}</h3>
+                    {post.data.description && (
+                      <p class="champo-desc">{post.data.description}</p>
+                    )}
+                    <span class="champo-cta">Open →</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div class="champo-links">
+              {Object.entries(seriesHubHref).map(([key, href]) => (
+                <a href={href} class="champo-series-link">{seriesLabels[key]}</a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <!-- 1. WHY (image + text) -->
       <section class="home-band band-light band-split" aria-labelledby="why-heading">
         <div class="band-inner band-split-inner">
           <div class="band-image">
             <Image src={whyImage} alt="Female athlete in training" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
-            <PhotoCredit src={whyImage.src} class="on-white" />
+            <PhotoCredit src={whyImage.src} />
           </div>
           <div class="band-text">
             <p class="band-kicker">Why Mind the Gael exists</p>
@@ -133,91 +231,39 @@ const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
         </div>
       </section>
 
-      <!-- 2. Training the Mind Series (text + image right) -->
-      <section class="home-band band-dark band-split" aria-labelledby="ttm-heading">
-        <div class="band-inner band-split-inner">
-          <div class="band-text">
-            <p class="band-kicker">Training the Mind Series <span class="band-tag band-tag-free">Free</span></p>
-            <h2 id="ttm-heading">Sports psychology in language that makes sense on the pitch.</h2>
-            <p>Twelve monthly topics, each a 10 minute read. Grounded in sports psychology and written from my own experience as an athlete, covering topics such as pressure and performance anxiety, confidence and self-talk, and team culture, belonging, and communication.</p>
-            <p class="band-price">Free to read. No subscription, no sign-up. A new topic releases each month.</p>
-
-            {ttmFeatured && (
-              <a
-                class:list={["series-box", ttmFeatured.upcoming && "series-box-upcoming"]}
-                href={`/content-hub/${ttmFeatured.post.slug}/`}
-              >
-                <span class="series-box-label">{ttmFeatured.label}</span>
-                <span class="series-box-title">{ttmFeatured.post.data.title}</span>
-                <span class="series-box-meta">{ttmFeatured.meta}</span>
-                <span class="series-box-cta">Read post -&gt;</span>
-              </a>
-            )}
-
-            <a href="/content-hub/training-the-mind/" class="band-link">Read the series -&gt;</a>
+      <!-- 2. THE SERIES: one card each, replacing the three full-width bands
+           that explained them one at a time. Mindfulness was missing entirely
+           from the old layout. -->
+      <section class="home-band band-light series-band" aria-labelledby="series-heading">
+        <div class="band-inner">
+          <div class="series-band-photo">
+            <Image src={hubImage} alt="Team huddle at Holloway" class="series-band-img" loading="lazy" widths={[600, 900, 1400]} sizes="(max-width: 900px) 100vw, 1100px" />
+            <PhotoCredit src={hubImage.src} />
           </div>
-          <div class="band-image">
-            <Image src={physicalImage} alt="Ciara Flanagan training in London" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
-            <PhotoCredit src={physicalImage.src} />
-          </div>
-        </div>
-      </section>
 
-      <!-- 3. TOOLKIT BAND (green) -->
-      <section class="home-band cta-card cta-card-hub" aria-label="Latest toolkit">
-        <div class="toolkit-split">
-          <div class="toolkit-intro">
-            <img src="/assets/toolkit-bag-original.png" alt="" class="toolkit-illustration" aria-hidden="true" />
-            <p class="cta-card-kicker">Gael Performance Toolkit <span class="band-tag band-tag-free">Free</span></p>
-            <h3 class="toolkit-heading">Practical tools for confidence, focus, and match-day decisions.</h3>
-            <p class="toolkit-free-note">Every toolkit is free to read. A new one releases each month.</p>
+          <div class="series-band-head">
+            <p class="band-kicker">The Content Hub <span class="band-tag band-tag-free">All free</span></p>
+            <h2 id="series-heading">Four series on the mental side of sport.</h2>
+            <p class="series-band-sub">No subscription and no sign-up. New pieces release on a schedule through the year.</p>
           </div>
-          <div class="toolkit-latest">
-            <p class="cta-card-kicker">{toolkitFeatured?.upcoming ? 'Up next' : 'Latest toolkit'}</p>
-            {toolkitFeatured && (
-              <a
-                class:list={["home-post-card", toolkitFeatured.upcoming && "home-post-card-upcoming"]}
-                href={`/content-hub/${toolkitFeatured.post.slug}/`}
-              >
-                <h3 class="home-post-title">{toolkitFeatured.post.data.title}</h3>
-                <p class="home-post-date">{toolkitFeatured.meta}</p>
-                {toolkitFeatured.post.data.description && (
-                  <p class="home-post-description">{toolkitFeatured.post.data.description}</p>
-                )}
-                <span class="home-post-cta">Open toolkit -&gt;</span>
-              </a>
-            )}
-          </div>
-        </div>
-        <a href="/gael-performance-toolkit/" class="cta-card-arrow">-&gt;</a>
-      </section>
 
-      <!-- 4. Stronger Minds, Stronger Players Series (image + text) -->
-      <section class="home-band band-light band-split" aria-labelledby="smsp-heading">
-        <div class="band-inner band-split-inner">
-          <div class="band-image">
-            <Image src={hubImage} alt="Team huddle at Holloway" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
-            <PhotoCredit src={hubImage.src} class="on-white" />
-          </div>
-          <div class="band-text">
-            <p class="band-kicker">Stronger Minds, Stronger Players Series <span class="band-tag band-tag-free">Free</span></p>
-            <h2 id="smsp-heading">Mental health in sport, and where to turn when you need support.</h2>
-            <p>Always free. A series focused on mental health in sport, helping you spot struggle in yourself or teammates and know where to find professional support.</p>
-
-            {smspFeatured && (
-              <a
-                class:list={["series-box", smspFeatured.upcoming && "series-box-upcoming"]}
-                href={`/content-hub/${smspFeatured.post.slug}/`}
-              >
-                <span class="series-box-label">{smspFeatured.label}</span>
-                <span class="series-box-title">{smspFeatured.post.data.title}</span>
-                <span class="series-box-meta">{smspFeatured.meta}</span>
-                <span class="series-box-cta">Read post -&gt;</span>
-              </a>
-            )}
-
-            <a href="/content-hub/strong-minds-stronger-players/" class="band-link">Open the series -&gt;</a>
-          </div>
+          <ul class="series-grid">
+            {homeSeries.map((s) => (
+              <li class:list={["series-tile", `series-tile-${s.key}`]}>
+                <a href={s.href}>
+                  <h3 class="series-tile-title">{s.title}</h3>
+                  <p class="series-tile-blurb">{s.blurb}</p>
+                  {s.featured && (
+                    <span class="series-tile-latest">
+                      <span class="series-tile-label">{s.featured.label}</span>
+                      <span class="series-tile-post">{s.featured.post.data.title}</span>
+                    </span>
+                  )}
+                  <span class="series-tile-cta">Open the series -&gt;</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -226,10 +272,10 @@ const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
         <div class="band-inner band-split-inner">
           <div class="band-text">
             <p class="band-kicker">Mental Performance Plans <span class="band-tag band-tag-paid">Paid</span> <span class="band-tag band-tag-ai">AI-generated</span></p>
-            <h2 id="mental-heading">A six or twelve week mental performance plan, built around your sport.</h2>
+            <h2 id="mental-heading">A six week mental performance plan, built around your sport.</h2>
             <p>Fill in a short intake form sharing your sport, your competitive level, the performance moments you want to work on, your peak moments, your struggle moments. Receive a structured plan that pulls from the twelve themes of the Gael Performance Toolkit. Confidence, focus, pre-performance routines, mistake recovery, self-talk, visualisation.</p>
             <p>Delivered fully online. Self-paced. Built to apply in training and on match day.</p>
-            <p class="band-price"><strong>£2</strong> for the 6-week plan, <strong>£5</strong> for the 12-week plan. A single payment, not a subscription.</p>
+            <p class="band-price"><strong>£2</strong> for the 6-week plan. A single payment, not a subscription.</p>
             <a href="/personal-training#mental-performance-plans" class="band-link">Start your mental performance plan -&gt;</a>
           </div>
           <div class="band-image">
@@ -269,6 +315,335 @@ const toolkitFeatured = featuredPostFor(latestToolkit, nextToolkit);
 
   .home-band {
     width: 100%;
+  }
+
+  /* Champo Week band: the headline theme during championship season. Dark
+     with lime accents so it reads as the loudest thing on the page. */
+  /* Four series, one card each. Replaced three full-width image bands, so it
+     carries the same explanation in roughly a third of the page height. */
+  .series-band {
+    padding: 3rem 0;
+  }
+
+  /* Light purple so the Content Hub band reads as its own zone, and the team
+     photo keeps the page feeling like a real club rather than a product page. */
+  .series-band {
+    background: #f3e8f5;
+    border-top: 3px solid rgba(105, 0, 90, 0.25);
+    border-bottom: 3px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .series-band .band-kicker,
+  .series-band h2,
+  .series-band .series-band-sub {
+    color: var(--purple);
+  }
+
+  /* Photographer signature sits on the photo itself, bottom right, on every
+     homepage image. Previously the credits sat underneath in different
+     places depending on the band, so they read inconsistently. */
+  .band-image,
+  .series-band-photo,
+  .champo-photo {
+    position: relative;
+  }
+
+  .band-image :global(.photo-credit),
+  .series-band-photo :global(.photo-credit),
+  .champo-photo :global(.photo-credit) {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.55rem;
+    margin: 0;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(3, 10, 6, 0.66);
+    color: rgba(244, 255, 232, 0.92) !important;
+    font-size: 0.72rem;
+    font-style: italic;
+  }
+
+  .series-band-photo {
+    position: relative;
+    margin: 0 auto 1.75rem;
+    max-width: 1100px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  }
+
+  .series-band-img {
+    display: block;
+    width: 100%;
+    height: clamp(180px, 28vw, 320px);
+    object-fit: cover;
+    object-position: center 35%;
+  }
+
+  .series-band-head {
+    text-align: center;
+    max-width: 60ch;
+    margin: 0 auto 1.75rem;
+  }
+
+  .series-band-head h2 {
+    margin: 0.4rem 0 0.5rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .series-band-sub {
+    margin: 0;
+  }
+
+  .series-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .series-tile {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-top: 6px solid var(--purple);
+    border-radius: 14px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .series-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  .series-tile a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.15rem 1.2rem 1.25rem;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .series-tile-training-the-mind { border-top-color: var(--purple); }
+  .series-tile-gael-performance-toolkit { border-top-color: var(--green-lime); }
+  .series-tile-strong-minds-stronger-players { border-top-color: #1d6fb8; }
+  .series-tile-mindfulness-and-affirmations { border-top-color: #e8721f; }
+
+  .series-tile-title {
+    margin: 0 0 0.45rem;
+    color: var(--green-dark);
+    font-size: 1.08rem;
+    line-height: 1.3;
+  }
+
+  .series-tile-blurb {
+    margin: 0 0 0.9rem;
+    color: var(--green-dark);
+    opacity: 0.85;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .series-tile-latest {
+    display: block;
+    margin-bottom: 0.8rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    background: rgba(192, 254, 113, 0.22);
+  }
+
+  .series-tile-label {
+    display: block;
+    color: var(--purple);
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .series-tile-post {
+    display: block;
+    color: var(--green-dark);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .series-tile-cta {
+    margin-top: auto;
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .champo-band {
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.97) 0%, rgba(20, 8, 24, 0.95) 100%);
+    border-top: 3px solid var(--green-lime);
+    border-bottom: 3px solid var(--green-lime);
+    padding: 3rem 0;
+  }
+
+  .champo-photo {
+    margin: 0 auto 1.6rem;
+    max-width: 1100px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(192, 254, 113, 0.5);
+  }
+
+  .champo-img {
+    display: block;
+    width: 100%;
+    height: clamp(150px, 22vw, 260px);
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .champo-head {
+    text-align: center;
+    max-width: 62ch;
+    margin: 0 auto 2rem;
+  }
+
+  .champo-eyebrow {
+    margin: 0 0 0.5rem;
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .champo-head h2 {
+    margin: 0.4rem 0 0.6rem;
+    color: var(--green-lime);
+    font-size: 1.9rem;
+    line-height: 1.2;
+  }
+
+  .champo-sub {
+    margin: 0;
+    color: var(--green-light);
+  }
+
+  .champo-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .champo-tile {
+    background: #ffffff;
+    border: 2px solid var(--green-lime);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .champo-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .champo-tile a {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .champo-series {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* One colour per series so the Champo Week grid reads at a glance as
+     "this came from four different places". Each pairing is checked for
+     contrast against its text colour. */
+  .champo-series-training-the-mind {
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .champo-series-gael-performance-toolkit {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .champo-series-strong-minds-stronger-players {
+    background: #1d6fb8;
+    color: #ffffff;
+  }
+
+  .champo-series-mindfulness-and-affirmations {
+    background: #e8721f;
+    color: #1b0d02;
+  }
+
+  .champo-title {
+    margin: 0 0 0.4rem;
+    color: var(--green-dark);
+    font-size: 1.02rem;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  .champo-desc {
+    margin: 0 0 0.7rem;
+    color: var(--green-dark);
+    opacity: 0.82;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .champo-cta {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .champo-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  .champo-series-link {
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem;
+    color: var(--green-lime) !important;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+
+  .champo-series-link:hover {
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+  }
+
+  @media (max-width: 720px) {
+    .champo-band { padding: 2rem 0; }
+    .champo-head h2 { font-size: 1.45rem; }
   }
 
   .band-inner {

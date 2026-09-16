@@ -1,11 +1,10 @@
 ---
 title: "How Pressure Shows Up in Ladies Gaelic Football"
 description: "The specific pressures female Gaelic players carry that aren't about ability. Selection anxiety, fear of letting the team down, social comparison, and the dual-career load."
-pubDate: "2026-08-15"
+pubDate: "2026-09-08"
 track: "training-the-mind"
 ---
-
-Today I want to talk about where pressure actually comes from. Not what it does to you in the moment, but the places it builds up long before you ever run out onto the pitch.
+Pressure does not start when the whistle goes. This one is about where it actually comes from. Not what it does to you in the moment, but the places it builds up long before you ever run out onto the pitch.
 
 Have you ever gone into a game already exhausted, before a ball was even thrown in? Not physically tired. Something heavier than that. You've spent the week telling yourself ***"I just need to have a good session, I need to show them I'm worth starting"***, and by Saturday there's nothing left in the tank.
 
@@ -90,6 +89,16 @@ It's selection week, and comparison, and responsibility, and a life that doesn't
 You're not weak for feeling the weight of that. You're playing a sport that asks a lot, while living a life that asks a lot.
 
 That's genuinely hard. And it's worth saying out loud.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

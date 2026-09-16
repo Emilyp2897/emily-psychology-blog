@@ -1,11 +1,11 @@
 ---
 title: "Goal Setting & Training Mindset Toolkit"
 description: "Practical goal-setting frameworks that actually work in a long season. Process goals, micro-goals, and a season planning template."
-pubDate: "2026-12-08"
+pubDate: "2027-01-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 5 toolkit. Paired with [Understanding Motivation](/content-hub/training-the-mind/understanding-motivation/) and [Applying Motivation and Discipline in LGFA](/content-hub/training-the-mind/applying-motivation-and-discipline-in-lgfa/).
+Goals that survive a bad week. Goes with [Understanding Motivation](/content-hub/training-the-mind/understanding-motivation/) and [Applying Motivation and Discipline in LGFA](/content-hub/training-the-mind/applying-motivation-and-discipline-in-lgfa/).
 
 Four tools.
 

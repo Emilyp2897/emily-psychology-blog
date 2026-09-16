@@ -1,13 +1,11 @@
 ---
 title: "Understanding Mistakes and Perfectionism"
 description: "Why mistakes feel personal, what perfectionism actually does to performance, and the difference between high standards and self-punishment."
-pubDate: "2026-10-01"
+pubDate: "2026-11-01"
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily.
-
-Today is about mistakes. The way we respond to them. And the line between caring about the game and using mistakes to beat ourselves up.
+Everyone drops a ball. What happens in the ninety seconds afterwards is the interesting part. And the line between caring about the game and using mistakes to beat ourselves up.
 
 A lot of players are praised for being "perfectionists". It gets framed as a virtue. As proof that you care, that you're committed. The research tells a different story.
 
@@ -20,10 +18,6 @@ The work of Flett and Hewitt (2005) and later research has shown there are two f
 **Maladaptive perfectionism** is high standards plus harsh self-criticism. You want to do well AND you punish yourself when you don't. This is the version that destroys performance.
 
 The standards aren't the problem. The self-criticism is.
-
-> **[TO FILL IN — A MISTAKE THAT STAYED WITH YOU]**
->
-> A specific mistake from a game or training that you couldn't let go of. Maybe one you still think about. What did you tell yourself? How long did it linger?
 
 ## Why mistakes feel personal
 
@@ -65,10 +59,6 @@ This is because the brain learns from error in two ways:
 
 The same mistake can produce either response, depending on how it's framed.
 
-> **[TO FILL IN — A MISTAKE THAT MADE YOU BETTER]**
->
-> A mistake that, in hindsight, helped you grow. Maybe one you got over quickly. What was different about how you processed it?
-
 ## How this shows up in your body
 
 Perfectionism is not just a mental thing. It shows up physically.
@@ -95,6 +85,16 @@ Players who play freely aren't the ones who never miss. They're the ones who sto
 If your standards stay high but your self-talk softens, performance goes up, not down. That's the research.
 
 Quick tools in the [Mistake Reset Toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

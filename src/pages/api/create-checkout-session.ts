@@ -18,21 +18,11 @@ function getPlanDetails(plan: string): PlanDetails {
       amount: 1000, // £10.00
       mode: "payment",
     },
-    "programme-12-week": {
-      name: "12-Week Physical Performance Plan",
-      amount: 2000, // £20.00
-      mode: "payment",
-    },
     // Keep these in sync with the prices shown on /pricing and the
     // homepage Mental Performance Plans band.
     "mental-6-week": {
       name: "6-Week Mental Performance Plan",
       amount: 200, // £2.00
-      mode: "payment",
-    },
-    "mental-12-week": {
-      name: "12-Week Mental Performance Plan",
-      amount: 500, // £5.00
       mode: "payment",
     },
   };
@@ -42,9 +32,7 @@ function getPlanDetails(plan: string): PlanDetails {
 
 const VALID_PLANS = [
   "programme-6-week",
-  "programme-12-week",
   "mental-6-week",
-  "mental-12-week",
 ];
 
 async function createCheckoutSession(

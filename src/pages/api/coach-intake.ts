@@ -39,7 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
     const intake: TeamIntake = {
       sport: String(body?.sport || '').trim(),
       planType: body?.planType === 'mental' ? 'mental' : 'physical',
-      planDuration: body?.planDuration === '12 weeks' ? '12 weeks' : '6 weeks',
+      planDuration: '6 weeks',
       seasonPhase: ['pre_season', 'championship_leadup', 'in_season', 'off_season'].includes(body?.seasonPhase)
         ? body.seasonPhase
         : '',
@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const weeksTotal = intake.planDuration === '12 weeks' ? 12 : 6;
+    const weeksTotal = 6;
     const shareToken = randomShareToken();
 
     // Coach contact lives in team_intake_data — admin/approve-plan

@@ -1,11 +1,12 @@
 ---
 title: "Championship Routines, Confidence & Sleep Toolkit"
 description: "Tools for big-game week. Sleep protection, threat-to-challenge reframes, and a championship-week structure that works."
-pubDate: "2027-05-08"
+pubDate: "2026-09-16"
+tags: ["championship"]
 track: "gael-performance-toolkit"
 ---
 
-Month 10 toolkit. Paired with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and [Applying Championship Pressure in LGFA](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
+Championship week, tool by tool. These are the five I'd actually reach for. Goes with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and [Applying Championship Pressure in LGFA](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
 
 Four tools for big-game weeks.
 
@@ -109,7 +110,7 @@ When pre-match nerves spike, return to the anchor. It's not the only thing you'l
 
 **Sunday morning:** normal breakfast. Light movement. Don't engage with the game mentally all morning.
 
-**Pre-match:** pre-match routine (from Month 1). Anchor in mind. Body and head as ready as you can.
+**Pre-match:** pre-match routine (from the pre-performance toolkit). Anchor in mind. Body and head as ready as you can.
 
 **During the match:** process anchor, refocus cues, mistake reset.
 

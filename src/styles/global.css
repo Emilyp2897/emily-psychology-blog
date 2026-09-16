@@ -1030,3 +1030,20 @@ body.resources-page header {
   color: #1a1a1a !important;
   word-wrap: break-word !important;
 }
+
+/* ============================================
+   MOBILE SAFETY NET FOR WIDE TABLES
+   The legal tables (terms, privacy) and the plan week tables have more
+   columns than fit a phone. Previously they only shrank their font, which
+   left them pushing the page wider than the viewport. Scrolling the table
+   itself keeps the rest of the page in place.
+   ============================================ */
+@media (max-width: 720px) {
+  .legal-table,
+  .week-block table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

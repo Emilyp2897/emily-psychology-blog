@@ -30,10 +30,9 @@ import { SITE_TITLE } from '../consts';
 
       <section class="preview-cta" id="preview-cta" hidden>
         <h2>Ready to unlock your full plan?</h2>
-        <p>Pick your duration. Your full plan will be emailed to you within minutes of payment.</p>
+        <p>Your full plan will be emailed to you within minutes of payment.</p>
         <div class="cta-buttons">
           <a id="buy-6-week" class="cta-button cta-primary" href="#">Buy 6-Week Programme</a>
-          <a id="buy-12-week" class="cta-button cta-secondary" href="#">Buy 12-Week Programme</a>
         </div>
         <p class="cta-footnote">Or email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> if you have any questions first.</p>
       </section>
@@ -50,7 +49,6 @@ import { SITE_TITLE } from '../consts';
         const watermarkEl = document.getElementById('preview-watermark');
         const ctaEl = document.getElementById('preview-cta');
         const buy6 = document.getElementById('buy-6-week');
-        const buy12 = document.getElementById('buy-12-week');
 
         if (!token) {
           if (statusEl) statusEl.innerHTML = '<p class="error-message">No preview token in the URL. Please fill in the intake form on <a href="/personal-training">the personal training page</a> to start.</p>';
@@ -86,25 +84,10 @@ import { SITE_TITLE } from '../consts';
           // Route to mental plan IDs if this intake is a mental performance plan.
           const planType = (data.planType === 'mental') ? 'mental' : 'physical';
           const plan6 = planType === 'mental' ? 'mental-6-week' : 'programme-6-week';
-          const plan12 = planType === 'mental' ? 'mental-12-week' : 'programme-12-week';
           const buy6Label = planType === 'mental' ? 'Buy 6-Week Mental Plan' : 'Buy 6-Week Programme';
-          const buy12Label = planType === 'mental' ? 'Buy 12-Week Mental Plan' : 'Buy 12-Week Programme';
           if (buy6 instanceof HTMLAnchorElement) {
             buy6.href = '/api/create-checkout-session?plan=' + plan6 + '&token=' + encodeURIComponent(token);
             buy6.textContent = buy6Label;
-          }
-          if (buy12 instanceof HTMLAnchorElement) {
-            buy12.href = '/api/create-checkout-session?plan=' + plan12 + '&token=' + encodeURIComponent(token);
-            buy12.textContent = buy12Label;
-          }
-
-          // Hide whichever Buy button doesn't match the duration the client
-          // chose on the intake form. If they didn't pick a duration, show both.
-          const duration = (data.planDuration || '').toLowerCase();
-          if (duration.includes('6') && !duration.includes('12') && buy12) {
-            buy12.hidden = true;
-          } else if (duration.includes('12') && buy6) {
-            buy6.hidden = true;
           }
         } catch (err) {
           console.error('Preview load error:', err);

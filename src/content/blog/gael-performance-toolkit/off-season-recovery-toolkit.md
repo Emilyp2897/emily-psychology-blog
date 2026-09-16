@@ -5,7 +5,7 @@ pubDate: "2027-07-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 12 toolkit. Final toolkit of the 12-month series. Paired with [Understanding Off-Season Mental Health](/content-hub/training-the-mind/understanding-off-season-mental-health/) and [Applying Off-Season Recovery in LGFA](/content-hub/training-the-mind/applying-off-season-recovery-in-lgfa/).
+The last toolkit in the series, for the quiet part of the year. Goes with [Understanding Off-Season Mental Health](/content-hub/training-the-mind/understanding-off-season-mental-health/) and [Applying Off-Season Recovery in LGFA](/content-hub/training-the-mind/applying-off-season-recovery-in-lgfa/).
 
 Four tools.
 
@@ -108,7 +108,7 @@ Treat the off-season as seriously as you treat championship week. Different inte
 
 This is the last toolkit in our 12-month journey through the mental side of sport.
 
-We started with pressure in Month 1. We ended with rest in Month 12. That's not an accident. The work isn't just the work. The recovery is the work too.
+We started this series with pressure. We end it with rest. That's not an accident. The work isn't just the work. The recovery is the work too.
 
 If you've followed any part of this series, thank you for spending the time with it. The mental side of sport is the part that gets least coaching, and it's the part that decides how long and how well you play.
 

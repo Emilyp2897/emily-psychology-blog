@@ -3,6 +3,28 @@ import { Image } from 'astro:assets';
 import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+// The back arrow used to call history.back(), which sent you to whatever you
+// happened to be on before, not to where the page sits in the site. On a
+// content hub page it now goes to the parent: an article returns to its own
+// series hub, a series hub returns to the content hub index.
+const path = Astro.url.pathname.replace(/\/+$/, '');
+const segments = path.split('/').filter(Boolean);
+
+let backHref = '/';
+let backLabel = 'Back to home';
+
+if (segments[0] === 'content-hub') {
+  if (segments.length > 2) {
+    // /content-hub/<series>/<article> -> the series hub
+    backHref = `/content-hub/${segments[1]}/`;
+    backLabel = 'Back to the series';
+  } else if (segments.length === 2) {
+    // /content-hub/<series> -> the content hub index
+    backHref = '/content-hub/';
+    backLabel = 'Back to the Content Hub';
+  }
+}
 ---
 <header id="site-header" class:list={[!isHome && 'has-back-bubble']}>
   <div class="header-inner">
@@ -23,9 +45,8 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     </button>
     <nav class="nav-links" id="primary-nav">
       <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink href="/about">Player Stories</HeaderLink>
       <HeaderLink href="/content-hub">Content Hub</HeaderLink>
-      <HeaderLink href="/gael-performance-toolkit">Toolkit</HeaderLink>
       <HeaderLink href="/personal-training">Performance Plans</HeaderLink>
       <HeaderLink href="/pricing">Pricing</HeaderLink>
       <HeaderLink href="/resources">Support Resources</HeaderLink>
@@ -34,14 +55,9 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     </nav>
   </div>
   {!isHome && (
-    <button
-      type="button"
-      class="back-bubble"
-      aria-label="Go back to previous page"
-      onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '/'; }"
-    >
+    <a href={backHref} class="back-bubble" aria-label={backLabel}>
       <span aria-hidden="true">←</span>
-    </button>
+    </a>
   )}
 </header>
 
@@ -143,6 +159,10 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   header.nav-open .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .back-bubble {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
     position: fixed;
     top: 96px;
     left: 18px;

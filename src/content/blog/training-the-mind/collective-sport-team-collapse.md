@@ -2,5 +2,6 @@
 title: "How teams can stay connected in high-pressure moments"
 description: "Understanding group dynamics to maintain performance when the game intensifies."
 pubDate: "2026-08-01"
+draft: true
 track: "training-the-mind"
 ---

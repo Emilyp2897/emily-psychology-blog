@@ -1,13 +1,11 @@
 ---
 title: "Understanding Championship Pressure and Fear of Failure"
 description: "Threat vs challenge appraisal, what your body does in big-game weeks, and why fear of failure is the most common pressure pattern in elite female athletes."
-pubDate: "2027-05-01"
+pubDate: "2026-09-14"
+tags: ["championship"]
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-Month 10 is championship territory. Bigger games. Higher stakes. More noise around the squad. And for most athletes, a particular pattern emerges: the fear of failure starts to weigh more than the love of the sport.
+This one is championship territory. Bigger games. Higher stakes. More noise around the squad. And for most athletes, a particular pattern emerges: the fear of failure starts to weigh more than the love of the sport.
 
 I want to give you the research-backed version of what's happening, because the more clearly you can see it, the better you can manage it.
 
@@ -24,10 +22,6 @@ When you face a high-stakes situation, your brain makes a rapid appraisal. Two p
 Same situation. Same heart rate. Completely different internal experience and external performance.
 
 The research is consistent: athletes who appraise big games as challenges outperform athletes who appraise them as threats, even when their skill levels are similar.
-
-> **[TO FILL IN — THREAT VS CHALLENGE]**
->
-> Two championship moments. One where you felt threat. One where you felt challenge. What was different? Not in the situation. In you.
 
 ## What pushes you into threat appraisal
 
@@ -63,10 +57,6 @@ Notice: none of these are about the game itself. They're all about what failing 
 
 This is why fear of failure isn't fixed by trying harder. It's fixed by changing what you think failure would mean.
 
-> **[TO FILL IN — A FEAR OF FAILURE MOMENT]**
->
-> A specific championship-week moment where fear of failure was running you. What were you actually afraid of? Not "I was afraid of losing", but underneath that.
-
 ## The week-of-game patterns
 
 In championship week, predictable patterns emerge:
@@ -97,6 +87,16 @@ Championship pressure isn't going away. It's part of caring about the sport.
 The athletes who handle it best aren't the ones who don't feel it. They're the ones who've trained themselves to appraise it as challenge rather than threat, and have the routines to back it up.
 
 This is a learned skill. It's available to you.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

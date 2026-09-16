@@ -1,11 +1,11 @@
 ---
 title: "Boundaries & Assertiveness Toolkit"
 description: "Practical scripts for setting boundaries with coaches, teammates, family, and yourself. Plus the language to make it stick."
-pubDate: "2027-04-08"
+pubDate: "2027-05-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 9 toolkit. Paired with [Understanding Why Women Athletes Over-Accommodate](/content-hub/training-the-mind/understanding-why-women-athletes-over-accommodate/) and [Applying Boundaries in LGFA](/content-hub/training-the-mind/applying-boundaries-in-lgfa/).
+Five tools for holding a line without falling out with anyone. Goes with [Understanding Why Women Athletes Over-Accommodate](/content-hub/training-the-mind/understanding-why-women-athletes-over-accommodate/) and [Applying Boundaries in LGFA](/content-hub/training-the-mind/applying-boundaries-in-lgfa/).
 
 Four tools.
 

@@ -13,7 +13,8 @@ export type TeamPlanType = 'physical' | 'mental';
 export interface TeamIntake {
   sport: string;
   planType: TeamPlanType;
-  planDuration: '6 weeks' | '12 weeks';
+  /** Six weeks only. The 12-week plan was retired. */
+  planDuration: '6 weeks';
   seasonPhase: 'pre_season' | 'championship_leadup' | 'in_season' | 'off_season' | '';
   averageExperienceLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Mixed';
   groupSize: string;
@@ -243,12 +244,11 @@ export async function generateTeamPlan(intake: TeamIntake): Promise<string> {
 
   const client = new Anthropic({ apiKey });
 
-  const is12Week = intake.planDuration === '12 weeks';
   // Team plans are slightly leaner than individual ones (no cycle
   // notes, no per-player medical), so we can run with a smaller cap.
   const maxTokens = intake.planType === 'mental'
-    ? (is12Week ? 18000 : 11000)
-    : (is12Week ? 22000 : 13000);
+    ? 11000
+    : 13000;
 
   const systemPrompt =
     intake.planType === 'mental'

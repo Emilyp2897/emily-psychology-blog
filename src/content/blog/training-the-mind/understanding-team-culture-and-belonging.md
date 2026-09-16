@@ -1,13 +1,10 @@
 ---
 title: "Understanding Team Culture and Belonging"
 description: "What team culture actually is, why belonging matters for performance, and what psychological safety means for a Gaelic squad."
-pubDate: "2026-11-01"
+pubDate: "2026-12-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-Today is about team culture. A phrase that gets used a lot and often means very little. I want to give it real shape.
+Team culture. A phrase that gets used constantly and usually means nothing at all. I want to give it real shape.
 
 Team culture isn't motivational posters in the dressing room. It isn't the post-match singing. It isn't even how much craic the team has on the bus. Those are byproducts.
 
@@ -30,10 +27,6 @@ In teams with low psychological safety:
 - Senior players hold all the social power
 
 These aren't soft outcomes. They directly affect how the team performs.
-
-> **[TO FILL IN — A MOMENT OF (UN)SAFETY]**
->
-> A specific moment in a squad where you either felt safe speaking up, or felt you couldn't. What was happening? How did it affect what you contributed after?
 
 ## The Tuckman model
 
@@ -59,10 +52,6 @@ In a sports team, belonging shows up in small ways:
 - Whether your contribution gets named, not just the captain's
 
 When belonging is low, you can be in the squad but feel outside it. That feeling drains energy. It also makes the small stresses (selection, mistakes, comparison) hit harder, because you don't have a sense of being held by the group when they happen.
-
-> **[TO FILL IN — BELONGING OR NOT]**
->
-> A team you played on where you felt deeply part of it. And maybe one where you didn't. What was the difference? Not in big ways. In the small everyday ways.
 
 ## What kills culture
 
@@ -94,6 +83,16 @@ You don't need to be captain to shape culture. Some of the most culture-shaping 
 4. **Recognise specific contributions out loud.** Not big speeches. Just specific.
 
 The full set of communication tools is in the [Team Communication Toolkit](/content-hub/gael-performance-toolkit/team-communication-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

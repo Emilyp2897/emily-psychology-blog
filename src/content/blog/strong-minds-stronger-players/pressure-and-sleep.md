@@ -1,13 +1,14 @@
 ---
 title: "Pressure, Sleep and When to Get Help"
 description: "Pre-championship sleep is rarely perfect. This post helps you spot when sleep disturbance has crossed into a clinical issue."
-pubDate: "2027-05-15"
+pubDate: "2026-09-16"
+tags: ["championship"]
 track: "stronger-minds-stronger-players"
 ---
 
 Sleep in the run-up to a championship is rarely the same as sleep in February. Most athletes wake up earlier, lie in bed longer running through scenarios, and feel less rested. That is the pressure showing up in your sleep, and for the most part it sorts itself out after the game.
 
-What is different is when sleep stays broken. When you are running on four hours a night for weeks. When the dread of not sleeping is making it harder to sleep. When the bedroom has become a place you go to fight with your own mind instead of rest. That kind of pattern is no longer pressure-related, it is insomnia, and there is a clear evidence base for how to treat it.
+What is different is when sleep stays broken. When you're running on four hours a night for weeks. When the dread of not sleeping is making it harder to sleep. When the bedroom has become a place you go to fight with your own mind instead of rest. That kind of pattern is no longer pressure-related, it's insomnia, and there is a clear evidence base for how to treat it.
 
 ## What this can look like
 
@@ -22,13 +23,13 @@ What is different is when sleep stays broken. When you are running on four hours
 
 The diagnostic criteria for **insomnia disorder** are difficulty falling asleep, staying asleep, or early-morning waking, present at least three nights a week, for at least three months, and causing distress or daytime impairment. If that matches, the condition has a name and it has effective treatments.
 
-Pre-event sleep loss alone (a few bad nights before a big game) is not insomnia disorder. Research by Erlacher et al. (2011) found that 65% of athletes report worse sleep before major competitions, and that performance often holds up despite one bad night. The issue is when the pattern continues weeks past the event, or when it shows up outside competition entirely.
+Pre-event sleep loss alone (a few bad nights before a big game) isn't insomnia disorder. Research by Erlacher et al. (2011) found that 65% of athletes report worse sleep before major competitions, and that performance often holds up despite one bad night. The issue is when the pattern continues weeks past the event, or when it shows up outside competition entirely.
 
 ## What helps
 
 - **Cognitive Behavioural Therapy for Insomnia (CBT-I)** is the gold-standard, first-line treatment (NICE NG222, 2022). More effective long-term than sleep medication.
 - Consistent wake time, every day, even after a bad night. The wake time anchors the system.
-- No phone in bed. Get out of bed if you cannot sleep within 20 minutes; do something dull in low light until you feel sleepy again.
+- No phone in bed. Get out of bed if you can't sleep within 20 minutes; do something dull in low light until you feel sleepy again.
 - Limit caffeine after midday. Half-life is around 5-6 hours, longer for some people.
 - Limit alcohol. It puts you to sleep faster but breaks the second half of the night.
 - Train earlier in the day when you can. Late-evening hard sessions delay sleep onset.
@@ -49,7 +50,17 @@ There was a stretch where I dreaded going to bed more than I dreaded the match. 
 
 - **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
 - **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
-- If you are in immediate danger: **999 (UK)** or **112 (IE)**.
+- If you're in immediate danger: **999 (UK)** or **112 (IE)**.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

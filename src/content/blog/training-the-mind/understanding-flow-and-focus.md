@@ -1,13 +1,10 @@
 ---
 title: "Understanding Flow and Focus: When Playing Feels Easy"
 description: "What flow is, why some matches feel effortless, and how to set the conditions for it more often."
-pubDate: "2027-02-01"
+pubDate: "2027-03-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month is about flow. The thing every athlete has felt at some point and most of us can't reliably reproduce. The state where time disappears and the right action just happens.
+You have had one of those games where everything just worked. That is flow, and most of us cannot reliably reproduce. The state where time disappears and the right action just happens.
 
 Mihaly Csikszentmihalyi (1990) is the researcher who named it. His work across athletes, musicians, surgeons, chess players found that flow has consistent features regardless of the activity. Knowing what those features are is the first step to getting more of it.
 
@@ -25,10 +22,6 @@ Csikszentmihalyi identified these as the signs that you're in flow:
 8. **The activity is intrinsically rewarding.** You're doing it because you want to be there.
 
 You'll recognise a few of these from your best games.
-
-> **[TO FILL IN — A FLOW MOMENT]**
->
-> A specific match (or part of a match) where you were in flow. What was it like? How were you breathing? What were you NOT thinking about?
 
 ## What creates flow
 
@@ -51,7 +44,7 @@ Most of what blocks flow you already know:
 - **Overwhelm.** Task is too hard, or too much is happening at once.
 - **Pre-match anxiety that didn't get resolved.** You walked into the match still tight.
 
-Notice: most flow-blockers are about attention being somewhere it shouldn't be. That's the connection to [Attention Control Theory](/content-hub/training-the-mind/attention-control-theory/) from Month 1.
+Notice: most flow-blockers are about attention being somewhere it shouldn't be. That's the connection to [Attention Control Theory](/content-hub/training-the-mind/attention-control-theory/) earlier in this series.
 
 ## The relationship between flow and pressure
 
@@ -63,7 +56,7 @@ In a threat appraisal: "this game is too big, I might fail, I'm at risk". Flow w
 
 In a challenge appraisal: "this game is big and I'm ready for it, let's see what I can do". Flow becomes possible.
 
-The challenge/threat distinction (Blascovich & Mendes, 2000) is what we'll dig into in Month 10. For now: pressure isn't the enemy of flow. The interpretation of pressure is.
+The challenge/threat distinction (Blascovich & Mendes, 2000) is what the championship posts dig into. For now: pressure isn't the enemy of flow. The interpretation of pressure is.
 
 ## How female athletes specifically can set up flow
 
@@ -74,10 +67,6 @@ A few things research and applied work suggests:
 - **The 30-60 minutes before throw-in matter.** That's when you set the conditions.
 - **Music helps for some, distracts for others.** Test it in training, not in a final.
 - **Cycle phase can affect flow capacity.** This is real research; not woo. Higher arousal phases (follicular) may make flow easier than late luteal for some players.
-
-> **[TO FILL IN — A NO-FLOW MATCH]**
->
-> A specific match where you really wanted to play well but couldn't get into it. What was different about that day? What were you carrying into throw-in?
 
 ## What you can do
 
@@ -95,6 +84,16 @@ Flow can't be forced. It can only be set up.
 You set the conditions: pre-match routine, sleep, arousal level, attention focus. Then you let go and let the flow either happen or not.
 
 Players who try to force flow ("I need to be in flow today") almost never get there. Players who set the conditions and trust the work tend to find it more often.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

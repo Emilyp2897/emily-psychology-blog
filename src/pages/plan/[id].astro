@@ -112,20 +112,41 @@ const feedbackEnabled =
       import { supabase } from '../../lib/supabase.js';
       import { marked } from 'marked';
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ?? null;
       if (!user) {
         window.location.href = '/login';
       }
 
-      const planId = window.location.pathname.split('/').pop();
+      // filter(Boolean) so a trailing slash cannot yield an empty id.
+      const planId = window.location.pathname.split('/').filter(Boolean).pop();
       const container = document.getElementById('plan-container');
 
-      const { data: plan, error } = await supabase
-        .from('Plans')
-        .select('*')
-        .eq('id', planId)
-        .eq('user_id', user?.id)
-        .single();
+      // Fetched through the server rather than straight from Supabase. The
+      // browser client uses the anon key and is subject to RLS, which does
+      // not return these rows, so a plan listed on the dashboard would fail
+      // to open here. /api/customer-plan verifies the token and checks
+      // ownership using the service role, exactly like the dashboard list.
+      // Guarded on `user` because a module script cannot return early: without
+      // this the fetch would still fire with no token while the browser was
+      // navigating to /login.
+      let plan: any = null;
+      let error: { message: string } | null = null;
+      if (user) {
+        try {
+          const res = await fetch(`/api/customer-plan?id=${encodeURIComponent(planId || '')}`, {
+            headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+          });
+          const payload = await res.json().catch(() => ({}));
+          if (res.ok && payload?.plan) {
+            plan = payload.plan;
+          } else {
+            error = { message: payload?.error || `Request failed (${res.status})` };
+          }
+        } catch (err: any) {
+          error = { message: err?.message || 'Network error' };
+        }
+      }
 
       // Module-level state. Declared before any function uses them so
       // they're never accessed in TDZ.

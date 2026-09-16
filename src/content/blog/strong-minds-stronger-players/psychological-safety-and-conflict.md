@@ -1,7 +1,7 @@
 ---
 title: "Psychological Safety, Conflict and Team Dynamics"
 description: "Healthy teams have disagreements. This post helps you recognise when team dynamics shift from challenging to harmful, and where to find support."
-pubDate: "2026-11-15"
+pubDate: "2026-10-15"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -47,6 +47,16 @@ A team can be the best thing in your life and a hard thing in your life at the s
 - **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
 - **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

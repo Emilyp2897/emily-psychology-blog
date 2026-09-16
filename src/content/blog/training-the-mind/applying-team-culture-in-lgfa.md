@@ -1,11 +1,9 @@
 ---
 title: "Applying Team Culture in Ladies Gaelic Football"
 description: "Real LGF moments where culture is built or broken. What you can do as a player, a senior, or a captain."
-pubDate: "2026-11-15"
+pubDate: "2026-12-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-team-culture-and-belonging/) was about what team culture actually is. This one is about the specific moments in a Gaelic squad where culture gets built or eroded.
 
@@ -27,10 +25,6 @@ You can read a lot about a squad by watching the team meal.
 - Is there one player who always sits alone, looking at her phone?
 
 These patterns aren't accidents. They're culture, made visible.
-
-> **[TO FILL IN — A TEAM MEAL MOMENT]**
->
-> A specific team meal where you noticed who was sitting where. Or one where you felt outside the group. Or one where someone went out of their way to include you.
 
 ## When a teammate makes a big mistake
 
@@ -74,10 +68,6 @@ The pattern that builds culture:
 
 If you're on a squad where analysis feels like a punishment, the culture issue is upstream of you. Not your fault. Worth naming to a senior or coach if you can.
 
-> **[TO FILL IN — A POST-MATCH MOMENT]**
->
-> A post-match review you remember (good or bad). What was the tone? How did people walk out of the room?
-
 ## When there's a clique
 
 Most squads have them. The senior group. The training-partners. The school-friends-who-came-up-together. Cliques aren't necessarily bad.
@@ -100,6 +90,16 @@ If you're outside, it's worth finding one person you can be a partner-of-two wit
 4. **If something feels off in the squad, name it to one person you trust.** Not the group chat.
 
 The communication tools are in the [Team Communication Toolkit](/content-hub/gael-performance-toolkit/team-communication-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -1,11 +1,11 @@
 ---
 title: "Mistake Reset Toolkit"
 description: "Practical tools to settle before a play, drop a mistake mid-game, and reset your focus when anxiety climbs. Resets that take under 10 seconds."
-pubDate: "2026-10-08"
+pubDate: "2026-11-08"
 track: "gael-performance-toolkit"
 ---
 
-This is the Month 3 toolkit, paired with [Understanding Mistakes and Perfectionism](/content-hub/training-the-mind/understanding-mistakes-and-perfectionism/) and [Applying Mistake Resilience in LGFA](/content-hub/training-the-mind/applying-mistake-resilience-in-lgfa/).
+Tools for the ninety seconds after you mess up. Goes with [Understanding Mistakes and Perfectionism](/content-hub/training-the-mind/understanding-mistakes-and-perfectionism/) and [Applying Mistake Resilience in LGFA](/content-hub/training-the-mind/applying-mistake-resilience-in-lgfa/).
 
 One tool to use before play, four to use in-game, and one to use post-game.
 

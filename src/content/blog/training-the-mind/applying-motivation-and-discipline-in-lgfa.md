@@ -1,11 +1,9 @@
 ---
 title: "Applying Motivation and Discipline in Ladies Gaelic Football"
 description: "How to stay engaged through a long season, the difference between discipline and self-punishment, and warning signs of burnout in LGF."
-pubDate: "2026-12-15"
+pubDate: "2027-01-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-motivation/) was about what motivation is. This one is about what it looks like in the rhythm of a Gaelic season.
 
@@ -28,10 +26,6 @@ This isn't a failure. It's a shift in motivation type. But it makes you vulnerab
 
 The fix isn't to stop caring about selection. It's to keep at least one intrinsic thread alive. The drill you love. The friend you train with. The way you feel after a hard session. Something that's yours, regardless of outcomes.
 
-> **[TO FILL IN — A MOTIVATION SHIFT]**
->
-> A period in your career where the reason you were playing changed. Did you notice it at the time? What did it cost you, or give you?
-
 ## Discipline vs self-punishment
 
 A lot of athletes confuse the two. They look similar from the outside. Internally, they're very different.
@@ -53,10 +47,6 @@ In a healthy system: you didn't hit the benchmark, the coaches identify what to 
 In an unhealthy system: not hitting the benchmark is treated as character failure. You stay in your own head about it for weeks. Selection feels at risk. You start training harder than your body can recover from.
 
 If the second pattern is happening, the motivation issue isn't yours. It's the system you're in. Worth thinking about.
-
-> **[TO FILL IN — A FITNESS / PERFORMANCE TEST]**
->
-> A specific test or benchmark where you didn't hit the standard. What did you do next? Did you treat it as information or as evidence against yourself?
 
 ## Recovery as motivation work
 
@@ -86,6 +76,16 @@ Any one of these on its own can be normal. Two or three together for several wee
 4. **Notice the warning signs.** Two or three for more than two weeks: pause and look.
 
 The toolkit is [Goal Setting Toolkit](/content-hub/gael-performance-toolkit/goal-setting-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

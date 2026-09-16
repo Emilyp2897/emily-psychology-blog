@@ -139,3 +139,30 @@ export const gaelPerformanceToolkitSeries: ToolkitMonth[] = [
 export const trainingTheMindSlugs = trainingTheMindSeries.flatMap((entry) => entry.slugs);
 
 export const gaelPerformanceToolkitSlugs = gaelPerformanceToolkitSeries.map((entry) => entry.slug);
+
+/**
+ * Champo Week: the championship-relevant content, pulled from every series at
+ * once. Driven by the "championship" tag in each post's frontmatter rather
+ * than a hardcoded list, so tagging a new post is all it takes to surface it
+ * on the homepage and in the content hub.
+ *
+ * London championship runs from the end of July, pauses through August, then
+ * runs September to December depending how far you go. Championship content
+ * should be scheduled to land at the end of July.
+ */
+export const CHAMPO_TAG = 'championship';
+
+/** Friendly series labels, for badging content that spans several series. */
+export const seriesLabels: Record<string, string> = {
+  'training-the-mind': 'Training the Mind',
+  'gael-performance-toolkit': 'Toolkit',
+  'strong-minds-stronger-players': 'Mental Health',
+  'mindfulness-and-affirmations': 'Mindfulness',
+};
+
+export const seriesHubHref: Record<string, string> = {
+  'training-the-mind': '/content-hub/training-the-mind/',
+  'gael-performance-toolkit': '/content-hub/gael-performance-toolkit/',
+  'strong-minds-stronger-players': '/content-hub/strong-minds-stronger-players/',
+  'mindfulness-and-affirmations': '/content-hub/mindfulness-and-affirmations/',
+};

@@ -1,13 +1,10 @@
 ---
 title: "Understanding Body Image in Sport"
 description: "Why female athletes carry a complicated relationship with their body, what RED-S is, and how to fuel performance properly."
-pubDate: "2027-03-01"
+pubDate: "2027-04-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month I want to talk about something that gets danced around in most teams. Body image. The way we relate to our bodies as female athletes. The food language we use. And a real condition called RED-S that affects more players than people realise.
+Nobody in the dressing room says it out loud, but it is there in every changing room in the country. Body image. The way we relate to our bodies as female athletes. The food language we use. And a real condition called RED-S that affects more players than people realise.
 
 This is a topic where I want to be careful. I'm not a clinical professional. What I'm sharing is the educational version of what the research and clinical guidelines say, and where to go if you need actual support.
 
@@ -22,10 +19,6 @@ Female athletes get two opposite messages, often at the same time.
 These two messages don't agree. Athletes get caught in the middle. The strong legs that drive your sprints are also the legs people make comments about. The visible musculature that lets you tackle is also "too much" in a dress.
 
 Most male athletes don't carry this dual pressure to the same degree. For female athletes it's everywhere: in changing rooms, on social media, in passing comments from family, in the way clothes fit.
-
-> **[TO FILL IN — A BODY IMAGE MOMENT]**
->
-> A specific moment where you felt the conflict between your athletic body and how it was perceived socially. A comment, an outfit, a photo. What did it cost you mentally?
 
 ## Social Comparison Theory in body image
 
@@ -54,10 +47,6 @@ The IOC consensus statement (Mountjoy et al., 2014, updated since) documents the
 RED-S affects athletes across body types. You don't have to be visibly underweight. Female athletes are particularly susceptible because of the dual cultural pressure to be lean.
 
 This is not a "be tougher" issue. It's a fuelling issue with serious medical consequences. If any of those signs ring true for you, talk to a sports doctor or a registered dietitian.
-
-> **[TO FILL IN — OPTIONAL: YOUR OWN STRUGGLE]**
->
-> Only include if it's true and you're comfortable sharing. A period where your relationship with food, fuel, or body image was affecting your performance or wellbeing. This is sensitive content; only share what feels safe.
 
 ## How fuelling actually works for female athletes
 
@@ -106,6 +95,16 @@ The practical fuelling and language toolkit is at [Nutrition and Language Toolki
 Your body is a performance tool. Treat it like one. The athletes who perform consistently across long seasons fuel well, sleep well, and have a stable enough relationship with their body to push hard without punishing it.
 
 If your relationship with food, body image, or fuelling is affecting your wellbeing, that's worth professional support. There's no shame in it. A lot of athletes are quietly carrying it.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

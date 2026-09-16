@@ -7,6 +7,9 @@ import PhotoCredit from '../components/PhotoCredit.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
 import storyImage from '../assets/EmilyPhelan-London-YellowCard.jpg';
 import feltLikeImage from '../assets/IMG_7228.jpg';
+// PLACEHOLDER: no Cork underage photo in the repo yet. Swap this import for
+// a real one from that era when you have it.
+import corkImage from '../assets/FLO_1548.jpg';
 import differentHeadspaceImage from '../assets/EmilyPhelan-London-Playing-1.jpg';
 import whyImage from '../assets/EmilyPhelan-Holloway-Playing.jpg';
 import { SITE_TITLE } from '../consts';
@@ -19,14 +22,28 @@ const slides = [
     title: 'My Story',
     paragraphs: [
       'My name is Emily Phelan. I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.',
+      'Before anything else, I want to be straight with you. I am not an expert. I am not a psychologist, and I am nowhere near having this figured out. I still struggle with my mental health regularly.',
       'Sport has always been a huge part of my life, but my journey with it has not been straightforward. I have struggled with anxiety and depression throughout my sporting career, and for a long time I did not have the language or the tools to understand what was happening in my own head.',
       'I did not understand why pressure felt like too much sometimes. I did not understand why my confidence could swing so much. I just knew I loved the sport, but I was also struggling in it.',
     ],
   },
   {
+    image: corkImage,
+    alt: 'Emily Phelan playing',
+    kicker: 'Chapter 2',
+    title: 'Walking Away at Sixteen',
+    paragraphs: [
+      'Long before any of the London stuff, I played underage with Cork. I captained the under 16s. I was on track for Minor, and realistically senior after that, and from the outside it probably looked like everything was going the right way.',
+      'Then I walked away from it completely. Not because of injury, and not because I stopped being good enough. The pressure had built to a point where none of it was fun anymore, and when the fun goes out of something you have loved since you were a child, you start looking for a way out.',
+      'What I did next I am not proud of, but it matters to the story. I spent years drinking and avoiding, running as fast as I could from what was actually going on with me rather than facing any of it. I stopped playing sport altogether. Not a different club, not a lower grade, nothing at all.',
+      'It was seven years before I went back to it.',
+      'That is the part I want any young player reading this to hear. The pressure that pushed me out at sixteen was never dealt with, so it just followed me around in other shapes. Walking away did not solve it. It only delayed it.',
+    ],
+  },
+  {
     image: depressedImage,
     alt: 'Emily Phelan on league final day',
-    kicker: 'Chapter 2',
+    kicker: 'Chapter 3',
     title: 'A Difficult Phase',
     paragraphs: [
       'Number 18 is me on league final day. I remember feeling happy for my team, but I could not fully feel it for myself because I was so caught up in my own performance. I was not in a good place mentally, and that showed on the pitch.',
@@ -36,7 +53,7 @@ const slides = [
   {
     image: feltLikeImage,
     alt: 'Emily Phelan during a game',
-    kicker: 'Chapter 3',
+    kicker: 'Chapter 4',
     title: 'What That Felt Like',
     paragraphs: [
       'Everything felt heavier than it should have. Not just games, but life in general. There were days I struggled to get out of bed, times I felt really low for no clear reason, and panic attacks I did not fully understand at the time.',
@@ -46,7 +63,7 @@ const slides = [
   {
     image: differentHeadspaceImage,
     alt: 'Emily Phelan playing in London',
-    kicker: 'Chapter 4',
+    kicker: 'Chapter 5',
     title: 'Hitting Rock Bottom',
     paragraphs: [
       'Eventually I hit rock bottom and went to my doctor. I was put on medication, and for the first time in years my head went quiet.',
@@ -57,7 +74,7 @@ const slides = [
   {
     image: whyImage,
     alt: 'Emily Phelan playing for Holloway',
-    kicker: 'Chapter 5',
+    kicker: 'Chapter 6',
     title: 'Why This Platform Exists',
     paragraphs: [
       'None of that happened overnight. It took a lot of work, a lot of learning, and a lot of uncomfortable reflection on how I was thinking, feeling, and showing up in life and in sport.',

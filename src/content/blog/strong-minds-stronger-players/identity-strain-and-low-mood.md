@@ -1,7 +1,7 @@
 ---
 title: "Identity Strain and Low Mood"
 description: "When your whole sense of self is wrapped up in being an athlete, transitions and setbacks hit harder. This post helps you recognise identity strain and find support."
-pubDate: "2027-06-15"
+pubDate: "2027-02-15"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -49,6 +49,16 @@ For years my identity was so tied up in being a player that any threat to playin
 - **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
 - **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

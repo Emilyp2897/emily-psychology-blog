@@ -1,13 +1,10 @@
 ---
 title: "Understanding Confidence: Where It Actually Comes From"
 description: "Confidence is a skill, not a personality trait. What the research says about how confidence is built, broken, and rebuilt."
-pubDate: "2026-09-01"
+pubDate: "2026-10-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-Today's topic is one I think a lot of players get wrong. Not because they're not smart, but because the way confidence is talked about in sport is mostly nonsense.
+Confidence is the thing most players get wrong, and not because they're not smart. Not because they're not smart, but because the way confidence is talked about in sport is mostly nonsense.
 
 You've heard the lines. "Just back yourself." "Be more confident." "Believe in yourself."
 
@@ -28,10 +25,6 @@ Self-efficacy is built up over time through four things:
 
 Confidence isn't a switch. It's a build-up of evidence.
 
-> **[TO FILL IN — A CONFIDENCE BUILD]**
->
-> A specific moment in your career where you felt your confidence grow. Could be a drill you nailed for the first time, a season where you found your form, a coach who said the right thing. What actually made you trust yourself?
-
 ## Why confidence drops
 
 When confidence drops, it's not because you suddenly became a worse player. It's because something disrupted the evidence pile.
@@ -48,10 +41,6 @@ A few common ones:
 If confidence is built from evidence, then losing confidence isn't a character flaw. It's a maths problem. The evidence has shifted. The job is to rebuild it.
 
 That sounds simple. It's not always easy. The hardest part is that when confidence is low, your brain stops noticing the wins. You only see the misses. The pile of evidence you actually have is still there. You just can't see it.
-
-> **[TO FILL IN — A CONFIDENCE DROP]**
->
-> A time you lost confidence. What triggered it? What did you tell yourself about why? Looking back, was it actually a loss of skill, or a loss of belief in the skill you already had?
 
 ## Internal vs external sources
 
@@ -71,6 +60,16 @@ The big-game players you admire? They aren't immune to losing form. They're bett
 4. **Build the internal side.** What process are you proud of, regardless of the outcome? That's the foundation.
 
 Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

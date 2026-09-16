@@ -50,6 +50,16 @@ Burnout taught me that effort is not the same as progress, and that more is not 
 - **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
 
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
+
 ## References
 
 - Raedeke, T. D., & Smith, A. L. (2001). Development and preliminary validation of an athlete burnout measure. *Journal of Sport and Exercise Psychology*, 23(4), 281-306.

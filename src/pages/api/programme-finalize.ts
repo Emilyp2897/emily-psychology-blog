@@ -269,11 +269,11 @@ async function generateFullPlan(input: {
   // contraindicated section. Previous caps (6000 / 12000) were right at
   // the edge and the model was hitting max_tokens before finishing.
   // New caps give roughly 25-40% headroom.
-  const is12Week = (input.intake.planDuration || '').includes('12');
+
   // Bumped to fit the explicit OUTPUT STRUCTURE: per-session warm-up
   // additions + main session table + blockquote descriptions + the
   // Plan Overview's standard warm-up table push token cost up.
-  const baseTokens = is12Week ? 24000 : 14000;
+  const baseTokens = 14000;
   const trackBonus = input.track !== 'standard' ? 2000 : 0;
   const maxTokens = baseTokens + trackBonus;
 
@@ -325,8 +325,8 @@ async function generateMentalFullPlan(input: {
   // performance moment + reflection prompt. Plus athlete snapshot + plan
   // overview + routines-to-build + coach notes + things-to-track.
   // Same headroom bump as the physical generator.
-  const is12Week = (input.intake.planDuration || '').includes('12');
-  const maxTokens = is12Week ? 20000 : 12000;
+
+  const maxTokens = 12000;
 
   const response = await client.messages.create({
     model,

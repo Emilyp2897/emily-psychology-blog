@@ -5,7 +5,7 @@ pubDate: "2027-06-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 11 toolkit. Paired with [Understanding Athletic Identity](/content-hub/training-the-mind/understanding-athletic-identity/) and [Applying Balanced Identity in LGFA](/content-hub/training-the-mind/applying-balanced-identity-in-lgfa/).
+Who you are when the season stops. Goes with [Understanding Athletic Identity](/content-hub/training-the-mind/understanding-athletic-identity/) and [Applying Balanced Identity in LGFA](/content-hub/training-the-mind/applying-balanced-identity-in-lgfa/).
 
 Three tools.
 
@@ -71,7 +71,7 @@ Block out non-negotiable time for at least:
 
 This isn't about adding more to a packed week. It's about making sure the non-sport stuff doesn't get dropped completely under pressure from sport stuff.
 
-If you can't fit even minimal versions of these in, your week is overloaded. That's a different problem (we covered it in Month 9: [Boundaries](/content-hub/training-the-mind/applying-boundaries-in-lgfa/)).
+If you can't fit even minimal versions of these in, your week is overloaded. That's a different problem (we covered it in [Boundaries](/content-hub/training-the-mind/applying-boundaries-in-lgfa/)).
 
 **Why it works:** without intentional blocking, the highest-priority domain (usually sport) crowds out everything else. The weekly anchor protects a minimum baseline in the other domains, which prevents the gradual narrowing of life that high-AIMS athletes experience.
 

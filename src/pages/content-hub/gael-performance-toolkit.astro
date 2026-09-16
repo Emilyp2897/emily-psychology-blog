@@ -1,0 +1,656 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { gaelPerformanceToolkitSeries } from '../../data/series';
+
+// Rendered on demand rather than at build time, so the release locks below
+// lift on their release date instead of waiting for the next deploy.
+export const prerender = false;
+
+// Get toolkit posts (excluding the intro page).
+const allPosts = await getCollection('blog');
+
+// Scheduled-release helper: posts with a pubDate in the future render as
+// locked cards (blurred preview, release date shown, not clickable) until
+// release date passes. Re-evaluated on every request.
+const today = new Date();
+today.setUTCHours(0, 0, 0, 0);
+
+const isUnreleased = (date: Date) => date > today;
+
+// Locked cards keep their locked appearance when running locally, but gain a
+// preview link so unreleased drafts can be reviewed on the real page without
+// typing URLs by hand. Never rendered in production.
+const previewUnlocked = import.meta.env.DEV;
+
+const releaseDateLabel = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const toolkitPosts = allPosts.filter(
+  (post) =>
+    post.slug.startsWith('gael-performance-toolkit/') &&
+    post.slug !== 'gael-performance-toolkit/gael-performance-toolkit'
+);
+
+const monthlyToolkits = gaelPerformanceToolkitSeries;
+
+// Bonus toolkits = anything not in the monthly map (e.g. older standalone
+// toolkits like reset-your-focus-toolkit, stay-composed-under-pressure-toolkit).
+const monthlySlugSet = new Set(monthlyToolkits.map((m) => m.slug));
+const bonusToolkits = toolkitPosts.filter((p) => !monthlySlugSet.has(p.slug));
+
+function toolkitFor(slug: string) {
+  return toolkitPosts.find((p) => p.slug === slug);
+}
+
+// Next toolkit still to be released, for the schedule box. Picks the earliest
+// unreleased pubDate rather than the first unreleased entry in series order,
+// so it stays correct if the two ever diverge.
+const toolkitIsReleased = (slug: string) => {
+  const post = toolkitFor(slug);
+  return post !== undefined && !isUnreleased(post.data.pubDate);
+};
+
+// Released toolkits first, scheduled ones after, so a live toolkit is never
+// stranded below a run of locked ones. Series order holds inside each half.
+const toolkitSections = [
+  { key: "now", title: "Available now", entries: monthlyToolkits.filter((e) => toolkitIsReleased(e.slug)) },
+  { key: "soon", title: "Coming up", entries: monthlyToolkits.filter((e) => !toolkitIsReleased(e.slug)) },
+].filter((s) => s.entries.length > 0);
+
+const monthlyOrder = new Map(
+  monthlyToolkits.map((entry, index) => [entry.slug, index] as const)
+);
+
+const nextRelease = toolkitPosts
+  .filter((post) => monthlyOrder.has(post.slug) && isUnreleased(post.data.pubDate))
+  .sort(
+    (a, b) =>
+      a.data.pubDate.valueOf() - b.data.pubDate.valueOf() ||
+      (monthlyOrder.get(a.slug) ?? 0) - (monthlyOrder.get(b.slug) ?? 0)
+  )[0];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Gael Performance Toolkit | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="toolkit-page">
+    <Header />
+    <main class="container toolkit-main">
+      <section class="hero">
+        <h1>Gael Performance Toolkit</h1>
+        <p class="hero-tagline">Practical tools for the mental side of sport.</p>
+      </section>
+
+      <div class="series-lead">
+        <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
+        <div class="saoirse-bubble">
+        <p class="series-lead-copy">Use these before games, between plays, and after the moments that knock your confidence. Each one pairs with a Training the Mind topic, or works on its own.</p>
+        <p class="series-lead-meta">
+          <span class="lead-pill lead-pill-free">Free, no sign-up</span>
+          <span class="lead-pill">{nextRelease
+            ? `Next up: ${nextRelease.data.title}, ${releaseDateLabel(nextRelease.data.pubDate)}`
+            : 'Every toolkit is out now'}</span>
+        </p>
+        </div>
+      </div>
+
+      <section class="toolkit-series" aria-label="Toolkits">
+        {toolkitSections.map((section) => (
+        <div class:list={["series-section", `series-section-${section.key}`]}>
+        <h2 class="series-section-heading">{section.title}</h2>
+        <ul class="month-toolkit-list">
+          {section.entries.map((entry) => {
+            const post = toolkitFor(entry.slug);
+            if (!post) {
+              return (
+                <li class="toolkit-card toolkit-card-missing">
+                  <span class="toolkit-status">Coming soon</span>
+                  <h3 class="toolkit-title">{entry.theme}</h3>
+                </li>
+              );
+            }
+            if (isUnreleased(post.data.pubDate)) {
+              return (
+                <li class="toolkit-card toolkit-card-locked" aria-disabled="true">
+                  <span class="toolkit-month">{entry.theme}</span>
+                  <span class="toolkit-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description toolkit-description-blur">{post.data.description}</p>
+                  )}
+                  {previewUnlocked && (
+                    <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
+                  )}
+                </li>
+              );
+            }
+            return (
+              <li class="toolkit-card">
+                <a href={`/content-hub/${post.slug}/`}>
+                  <span class="toolkit-month">{entry.theme}</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description">{post.data.description}</p>
+                  )}
+                  <span class="toolkit-cta">Open toolkit →</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+        </div>
+        ))}
+      </section>
+
+      {bonusToolkits.length > 0 && (
+        <section class="toolkit-bonus" aria-label="Bonus toolkits">
+          <h2>Bonus Toolkits</h2>
+          <p class="series-intro">Standalone tools outside the 12-month series.</p>
+          <ul class="month-toolkit-list">
+            {bonusToolkits.map((post) => (
+              <li class="toolkit-card">
+                <a href={`/content-hub/${post.slug}/`}>
+                  <span class="toolkit-month toolkit-month-bonus">Bonus</span>
+                  <h3 class="toolkit-title">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="toolkit-description">{post.data.description}</p>
+                  )}
+                  <span class="toolkit-cta">Open toolkit →</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section class="content-feedback-cta">
+        <p>Got feedback on this content?</p>
+        <a href="/content-feedback" class="feedback-cta-link">Share Feedback</a>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  /* Saoirse introduces each series. Replaces a white card stacked on a
+     bordered banner, which read as two grey boxes before you reached any
+     content. She "says" the intro, with the schedule as pills underneath. */
+  .series-lead {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin: 0 0 1.75rem;
+  }
+
+  .saoirse-avatar {
+    flex: 0 0 auto;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    margin-top: 0.4rem;
+    animation: saoirse-bob 3.2s ease-in-out infinite;
+  }
+
+  @keyframes saoirse-bob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .saoirse-avatar { animation: none; }
+  }
+
+  .saoirse-bubble {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1.1rem 1.25rem;
+    background: #ffffff;
+    border: 3px solid var(--purple);
+    border-radius: 18px;
+    box-shadow: 0 8px 0 rgba(105, 0, 90, 0.18);
+  }
+
+  /* Tail pointing back at Saoirse. Two triangles so it gets a border too. */
+  .saoirse-bubble::before,
+  .saoirse-bubble::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  .saoirse-bubble::before {
+    left: -16px;
+    border-width: 10px 16px 10px 0;
+    border-color: transparent var(--purple) transparent transparent;
+  }
+
+  .saoirse-bubble::after {
+    left: -11px;
+    border-width: 7px 12px 7px 0;
+    border-color: transparent #ffffff transparent transparent;
+  }
+
+  .series-lead-copy {
+    margin: 0 0 0.8rem;
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .series-lead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+  }
+
+  .lead-pill {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 2px solid var(--purple);
+    color: var(--purple);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .lead-pill-free {
+    background: var(--green-lime);
+    border-color: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 800;
+  }
+
+  @media (max-width: 720px) {
+    .saoirse-avatar { width: 54px; height: 54px; }
+    .saoirse-bubble { padding: 0.9rem 1rem; }
+    .series-lead-copy { font-size: 0.98rem; }
+  }
+
+  .toolkit-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.1rem;
+    padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0.2rem 0 0;
+    color: var(--green-lime);
+  }
+
+  .hero-tagline {
+    margin: 0.35rem 0 0;
+    color: var(--green-light);
+    max-width: 64ch;
+  }
+
+  .latest-blog-box {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
+  }
+
+  .latest-blog-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple-light);
+  }
+
+  .latest-blog-box h2 {
+    color: var(--purple);
+    margin-bottom: 0.7rem;
+  }
+
+  #search-posts {
+    width: 100%;
+    max-width: 420px;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(105, 0, 90, 0.45);
+    background: #fff;
+    color: #000000;
+    font-size: 0.95rem;
+  }
+
+  .latest-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .latest-posts li {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.2);
+  }
+
+  .latest-posts li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .latest-posts li a {
+    text-decoration: none;
+    color: #000000 !important;
+    display: block;
+  }
+
+  .latest-posts li a:hover .title {
+    color: var(--purple);
+  }
+
+  .latest-posts .title {
+    margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+    color: #000000;
+  }
+
+  .latest-posts .description {
+    margin: 0;
+    color: #000000;
+    line-height: 1.5;
+    font-size: 0.96rem;
+  }
+
+  .content-feedback-cta {
+    margin: 0;
+    text-align: center;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .content-feedback-cta p {
+    margin-bottom: 0.55rem;
+    color: #000000;
+  }
+
+  .feedback-cta-link {
+    display: inline-block;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    padding: 0.48rem 0.85rem;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+
+  .feedback-cta-link:hover {
+    border-color: var(--purple-light);
+    color: var(--purple) !important;
+  }
+
+  @media (max-width: 720px) {
+    .toolkit-main {
+      padding-bottom: 2rem;
+    }
+
+    .hero {
+      padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
+      margin-bottom: 0.9rem;
+    }
+
+    .latest-blog-box {
+      padding: 1rem;
+    }
+  }
+
+  /* White intro box and lime release-schedule box, matching the pattern on
+     the Strong Minds, Stronger Players page. */
+  .intro-card {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.22);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    color: #000000;
+  }
+
+  .intro-card p {
+    color: #000000;
+    margin: 0;
+  }
+
+  .release-schedule-banner {
+    margin-bottom: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: rgba(192, 254, 113, 0.12);
+    border: 2px solid var(--green-lime);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .release-eyebrow {
+    margin: 0 0 0.3rem;
+    color: var(--green-lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .release-body {
+    margin: 0;
+    color: var(--green-light);
+    line-height: 1.5;
+  }
+
+  /* New: monthly toolkit series listing */
+  .toolkit-series {
+    margin-top: 0.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .toolkit-bonus {
+    margin-top: 1.2rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .toolkit-series h2,
+  .toolkit-bonus h2 {
+    color: var(--purple-light);
+    margin: 0 0 0.25rem;
+  }
+
+  .series-intro {
+    margin: 0 0 0.6rem;
+    color: var(--green-light);
+    max-width: 60ch;
+    font-size: 0.95rem;
+  }
+
+  /* "Available now" / "Coming up" split. Keeps the live themes at the top so
+     championship is not stranded below the locked ones. */
+  .series-section {
+    margin-bottom: 2rem;
+  }
+
+  .series-section-heading {
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--green-lime);
+    color: var(--green-lime);
+    font-size: 1.3rem;
+  }
+
+  .series-section-soon .series-section-heading {
+    border-bottom-color: rgba(192, 254, 113, 0.35);
+    opacity: 0.85;
+  }
+
+  .month-toolkit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .toolkit-card {
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+    background: #ffffff;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .toolkit-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .toolkit-card a {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  /* Holds the theme name now rather than "Month 3", so it has to cope with
+     longer text. Sentence case and no letter-spacing keeps it readable. */
+  .toolkit-month {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+  }
+
+  .toolkit-month-bonus {
+    background: var(--green-lime);
+    color: var(--green-dark);
+  }
+
+  .toolkit-status {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(105, 0, 90, 0.55);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .toolkit-title {
+    color: var(--green-dark) !important;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  .toolkit-description {
+    color: var(--green-dark);
+    font-size: 0.92rem;
+    margin: 0 0 0.7rem;
+    line-height: 1.5;
+    opacity: 0.82;
+  }
+
+  .toolkit-cta {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .toolkit-card-missing {
+    opacity: 0.65;
+    background: #f7f5f8;
+  }
+
+  /* Scheduled-release lock: pubDate is in the future. Card stays visible
+     with a release-date badge and a blurred description so the title and
+     month are readable but the body content is teased, not revealed. */
+  /* Local-preview affordance on locked cards. Not rendered in production. */
+  .preview-link {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.6rem;
+    border: 2px dashed var(--purple);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--purple) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .toolkit-card-locked {
+    position: relative;
+    background: rgba(244, 255, 232, 0.55);
+    border-color: rgba(105, 0, 90, 0.18);
+    cursor: not-allowed;
+  }
+
+  .toolkit-card-locked .toolkit-title {
+    color: var(--purple);
+    opacity: 0.72;
+  }
+
+  .toolkit-description-blur {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .toolkit-lock-badge {
+    display: inline-block;
+    margin: 0.35rem 0 0.4rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: var(--green-light);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+</style>

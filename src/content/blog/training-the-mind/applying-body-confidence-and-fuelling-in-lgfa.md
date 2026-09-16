@@ -1,11 +1,9 @@
 ---
 title: "Applying Body Confidence and Fuelling in Ladies Gaelic Football"
 description: "Real LGF moments around food, body image, and fuelling. Changing rooms, training food, team meals, and the comments that stay with you."
-pubDate: "2027-03-15"
+pubDate: "2027-04-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-body-image-in-sport/) was about body image and RED-S. This one is about how the body and food stuff shows up in a Gaelic squad specifically.
 
@@ -59,10 +57,6 @@ If team meals are hard for you, you don't have to suffer through them silently. 
 - Have a plan: what will you eat, what will you leave, how will you handle comments.
 - If meals are triggering a deeper pattern, talk to a registered sports dietitian.
 
-> **[TO FILL IN — A TEAM MEAL MEMORY]**
->
-> A team meal that was hard, or a team meal that felt good. What made it that way?
-
 ## The comment from a coach or teammate
 
 These land hard. Probably harder than the person saying them realised.
@@ -79,10 +73,6 @@ What you can do:
 - If a comment hurts, say so. Not in the heat of the moment necessarily. Later. "When you said X, it affected me. I'd rather you commented on my play."
 - Build your own internal anchor. The senior players who don't get derailed by comments have built their own measure of who they are as athletes that doesn't depend on appearance feedback.
 - Find one trusted person to vent to. Don't carry comments alone.
-
-> **[TO FILL IN — A COMMENT THAT STAYED]**
->
-> A specific comment from a coach, teammate, or family member about your body. How did you respond? How long did it stay with you?
 
 ## The missed period
 
@@ -104,6 +94,16 @@ If your period has stopped or become irregular AND you're training hard, talk to
 6. **If you're struggling more than this, get professional support.** Sports dietitian, GP, or a clinician who specialises in eating concerns in athletes.
 
 Practical fuelling and language at [Nutrition and Language Toolkit](/content-hub/gael-performance-toolkit/nutrition-and-language-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

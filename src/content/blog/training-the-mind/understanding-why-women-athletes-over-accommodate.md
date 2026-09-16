@@ -1,13 +1,10 @@
 ---
 title: "Understanding Why Women Athletes Over-Accommodate"
 description: "The pattern of saying yes when you mean no, holding the team together silently, and where the over-accommodation actually comes from."
-pubDate: "2027-04-01"
+pubDate: "2027-05-01"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
-
-This month is about boundaries. Specifically the patterns I see in female athletes around saying yes when you mean no, holding the team together silently, and the long-term cost of being the one who never causes a fuss.
+You said yes again, didn't you. This one is about the patterns I see in female athletes around saying yes when you mean no, holding the team together silently, and the long-term cost of being the one who never causes a fuss.
 
 This is a topic the sport-psych world doesn't talk about enough. So I want to.
 
@@ -22,10 +19,6 @@ Many female athletes (most, in my experience) carry an over-accommodating patter
 - You're the one organising the team gear, the WhatsApp updates, the post-match logistics. Nobody asked, but you've made it your job.
 
 Over time, this adds up. The cumulative load is huge. And because it's silent, nobody sees it.
-
-> **[TO FILL IN — AN OVER-ACCOMMODATION MOMENT]**
->
-> A specific time you said yes when you meant no. Or a time you took on something you didn't need to. What did it cost you?
 
 ## Where this pattern comes from
 
@@ -45,10 +38,6 @@ When you arrive at training carrying everyone else's stress plus your own, your 
 Research on chronic stress and athletic performance is consistent: cumulative load (not just from training, but from life and emotional labour) reduces recovery, increases injury risk, and erodes flow and confidence.
 
 The athletes who perform best across long seasons usually have one underrated skill: the ability to say no.
-
-> **[TO FILL IN — A COST OF OVER-ACCOMMODATION]**
->
-> A time the cumulative load of accommodating others affected your training or play. Could be tired in a session, irritable in a match, or just slowly burning out.
 
 ## What boundaries actually are
 
@@ -91,6 +80,16 @@ Over-accommodating doesn't make you a better teammate. It makes you a less-recov
 The senior players who are still going strong at 28-30+ haven't gotten there by accommodating everyone. They've gotten there by knowing what they can hold and being honest about it.
 
 This is hard. It's worth doing.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

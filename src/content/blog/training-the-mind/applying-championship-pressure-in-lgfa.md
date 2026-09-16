@@ -1,19 +1,18 @@
 ---
 title: "Applying Championship Pressure in Ladies Gaelic Football"
 description: "Specific championship-week moments and how to handle them. The build-up, the morning of, the warm-up, the dressing room, the first 5 minutes."
-pubDate: "2027-05-15"
+pubDate: "2026-09-16"
+tags: ["championship"]
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily.
-
-[Last post](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) was about championship pressure and the fear of failure underneath it. This one walks through specific moments in the week leading up to a big match and what to do at each.
+[Last post](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) was about championship pressure and the fear of failure underneath it. This one is the practical version. I've laid it out the way the week actually runs, Monday through to the first whistle, because nobody struggles with championship week as a whole. You struggle at specific points in it, and they're the same points for almost everyone.
 
 ## Monday of championship week
 
-You wake up and the match is in your head before you've even opened your eyes. That's how you know it's championship week.
+You wake up and the match is in your head before you've even opened your eyes. That's how you know it's championship week. Monday is the day players underestimate, because nothing has happened yet, and that's exactly the problem. You've a full week to fill and nothing to fill it with except thinking.
 
-What to do this week:
+Here's what I'd do:
 - Treat it as a normal training week. Don't add extra work. The fitness is already in.
 - Eat properly. Hydrate. Sleep is the most important factor.
 - Off social media if you can. If not, mute the noisy accounts.
@@ -26,7 +25,7 @@ Don't:
 
 ## Wednesday or Thursday: a tough training session
 
-Most squads have one harder session midweek. In championship week it can feel loaded. Like you're being tested.
+Most squads have one harder session midweek. In championship week it lands differently. It stops being a session and starts feeling like a test, and if you're anything like me you'll have already decided what a bad one means before you've finished it.
 
 The trap: a bad session becomes evidence of impending failure. "My touch was off, I'm going to play badly Sunday."
 
@@ -45,10 +44,6 @@ What helps:
 - If you're awake at 2am ruminating, get up, drink water, sit in dim light for 10 minutes, go back. Don't lie there in the dark spinning.
 
 Even if sleep is shorter than ideal, you can perform on it. The catastrophic thoughts about how bad you'll play because you didn't sleep enough do more damage than the actual sleep deficit.
-
-> **[TO FILL IN — A NIGHT-BEFORE]**
->
-> A specific night before a big match. What was your head doing? How was the sleep? Did you have a routine, or were you just hoping?
 
 ## Match morning
 
@@ -79,13 +74,9 @@ In championship games, the first 5 minutes are usually chaotic. Both teams are l
 What to do:
 - Have a low-stakes opening action. Take an easy ball. Make a clean pass. Build a small win.
 - Don't try anything ambitious until you've settled.
-- If your first touch goes wrong, that's information about how nervous you are, not about how good you are. Reset.
+- If your first touch goes wrong, that's information about how nervous you're, not about how good you're. Reset.
 
 The teams that get into the first 10 minutes without major errors usually win the appraisal battle. Their bodies move from threat to challenge state. The teams that make early big mistakes often spiral.
-
-> **[TO FILL IN — A FIRST FIVE MINUTES]**
->
-> A specific championship match where the first 5 minutes went one way or the other. What did you do in those minutes? What was different about that game?
 
 ## At half-time
 
@@ -119,6 +110,16 @@ For both: the post-match conversation in the dressing room shapes how the season
 5. **Have a teammate ally** for both Saturday night and Sunday morning. Steadying.
 
 Practical setup at [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

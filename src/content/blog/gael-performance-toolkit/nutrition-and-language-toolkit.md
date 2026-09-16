@@ -1,11 +1,11 @@
 ---
 title: "Nutrition & Language Toolkit"
 description: "Practical fuelling guidance and language tools for healthier food culture in a Gaelic squad."
-pubDate: "2027-03-08"
+pubDate: "2027-04-08"
 track: "gael-performance-toolkit"
 ---
 
-Month 8 toolkit. Paired with [Understanding Body Image in Sport](/content-hub/training-the-mind/understanding-body-image-in-sport/) and [Applying Body Confidence and Fuelling in LGFA](/content-hub/training-the-mind/applying-body-confidence-and-fuelling-in-lgfa/).
+Fuelling, and the way we talk about it. Goes with [Understanding Body Image in Sport](/content-hub/training-the-mind/understanding-body-image-in-sport/) and [Applying Body Confidence and Fuelling in LGFA](/content-hub/training-the-mind/applying-body-confidence-and-fuelling-in-lgfa/).
 
 This toolkit deals with sensitive content. The fuelling guidance here is general. For tailored plans, work with a registered sports dietitian (not a wellness influencer).
 

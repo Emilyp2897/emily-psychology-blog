@@ -18,8 +18,11 @@ const allPosts = await getCollection('blog');
 // locked cards (blurred preview, release date shown, no link) until the
 // release date passes. Computed at request time so the lock lifts
 // automatically without a redeploy.
+// Normalised in UTC, not local time. Frontmatter dates like "2026-09-16" parse as
+// UTC midnight, so normalising to LOCAL midnight puts "today" an hour behind
+// during BST and a post dated today stays locked until 01:00.
 const today = new Date();
-today.setHours(0, 0, 0, 0);
+today.setUTCHours(0, 0, 0, 0);
 
 const isUnreleased = (date: Date) => date > today;
 
@@ -36,6 +39,21 @@ const monthlySeries = trainingTheMindSeries;
 function postFor(slug: string) {
   return allPosts.find((post) => post.slug === slug);
 }
+
+// Split the series into what you can read now and what is still scheduled.
+// Series order is preserved inside each half; only the two halves are
+// separated. Without this, a live theme can end up stranded below eight
+// locked ones (championship sat under every locked theme from 2 to 9).
+const groupHasReleased = (entry: (typeof monthlySeries)[number]) =>
+  entry.slugs.some((slug) => {
+    const post = postFor(slug);
+    return post !== undefined && !isUnreleased(post.data.pubDate);
+  });
+
+const seriesSections = [
+  { key: 'now', title: 'Available now', groups: monthlySeries.filter(groupHasReleased) },
+  { key: 'soon', title: 'Coming up', groups: monthlySeries.filter((e) => !groupHasReleased(e)) },
+].filter((section) => section.groups.length > 0);
 
 // Next post still to be released, for the schedule box. Picks the earliest
 // unreleased pubDate rather than the first unreleased post in series order,
@@ -70,21 +88,26 @@ const nextRelease = allPosts
         <p class="hero-tagline">Sports psychology in language that makes sense on the pitch.</p>
       </section>
 
-      <div class="intro-card">
-        <p>Each month takes one theme from the mental side of sport and covers it twice: once to understand the theory, once to apply it in real Gaelic football situations. Every post has a companion toolkit in the Gael Performance Toolkit.</p>
+      <div class="series-lead">
+        <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
+        <div class="saoirse-bubble">
+        <p class="series-lead-copy">Each theme gets covered twice: once to understand what is actually going on, once to apply it in real Gaelic football situations. Every post has a companion toolkit.</p>
+        <p class="series-lead-meta">
+          <span class="lead-pill lead-pill-free">Free, no sign-up</span>
+          <span class="lead-pill">{nextRelease
+            ? `Next up: ${nextRelease.data.title}, ${releaseDateLabel(nextRelease.data.pubDate)}`
+            : 'Every post is out now'}</span>
+        </p>
+        </div>
       </div>
 
-      <div class="release-schedule-banner" role="note">
-        <p class="release-eyebrow">Release schedule</p>
-        <p class="release-body"><strong>Free to read, no subscription.</strong> Two posts release each month. {nextRelease
-          ? `The next one, ${nextRelease.data.title}, is out on ${releaseDateLabel(nextRelease.data.pubDate)}.`
-          : 'Every post in the series is now available.'}</p>
-      </div>
-
-      <section class="ttm-series" aria-label="Monthly blog posts">
-        {monthlySeries.map((entry) => (
+      <section class="ttm-series" aria-label="Series posts">
+        {seriesSections.map((section) => (
+        <div class:list={["series-section", `series-section-${section.key}`]}>
+          <h2 class="series-section-heading">{section.title}</h2>
+          {section.groups.map((entry) => (
           <div class="month-group">
-            <h3 class="month-heading">{entry.month}: {entry.theme}</h3>
+            <h3 class="month-heading">{entry.theme}</h3>
             <ul class="month-list">
               {entry.slugs.map((slug) => {
                 const post = postFor(slug);
@@ -124,6 +147,8 @@ const nextRelease = allPosts
               })}
             </ul>
           </div>
+          ))}
+        </div>
         ))}
       </section>
 
@@ -137,6 +162,104 @@ const nextRelease = allPosts
 </html>
 
 <style>
+  /* Saoirse introduces each series. Replaces a white card stacked on a
+     bordered banner, which read as two grey boxes before you reached any
+     content. She "says" the intro, with the schedule as pills underneath. */
+  .series-lead {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin: 0 0 1.75rem;
+  }
+
+  .saoirse-avatar {
+    flex: 0 0 auto;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    margin-top: 0.4rem;
+    animation: saoirse-bob 3.2s ease-in-out infinite;
+  }
+
+  @keyframes saoirse-bob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .saoirse-avatar { animation: none; }
+  }
+
+  .saoirse-bubble {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1.1rem 1.25rem;
+    background: #ffffff;
+    border: 3px solid var(--purple);
+    border-radius: 18px;
+    box-shadow: 0 8px 0 rgba(105, 0, 90, 0.18);
+  }
+
+  /* Tail pointing back at Saoirse. Two triangles so it gets a border too. */
+  .saoirse-bubble::before,
+  .saoirse-bubble::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  .saoirse-bubble::before {
+    left: -16px;
+    border-width: 10px 16px 10px 0;
+    border-color: transparent var(--purple) transparent transparent;
+  }
+
+  .saoirse-bubble::after {
+    left: -11px;
+    border-width: 7px 12px 7px 0;
+    border-color: transparent #ffffff transparent transparent;
+  }
+
+  .series-lead-copy {
+    margin: 0 0 0.8rem;
+    color: var(--green-dark);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .series-lead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+  }
+
+  .lead-pill {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 2px solid var(--purple);
+    color: var(--purple);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .lead-pill-free {
+    background: var(--green-lime);
+    border-color: var(--green-lime);
+    color: var(--green-dark);
+    font-weight: 800;
+  }
+
+  @media (max-width: 720px) {
+    .saoirse-avatar { width: 54px; height: 54px; }
+    .saoirse-bubble { padding: 0.9rem 1rem; }
+    .series-lead-copy { font-size: 0.98rem; }
+  }
+
   .ttm-main {
     padding-top: 0;
     padding-bottom: 3rem;
@@ -212,6 +335,25 @@ const nextRelease = allPosts
   .ttm-series {
     margin-top: 0.4rem;
     margin-bottom: 1.6rem;
+  }
+
+  /* "Available now" / "Coming up" split. Keeps the live themes at the top so
+     championship is not stranded below the locked ones. */
+  .series-section {
+    margin-bottom: 2rem;
+  }
+
+  .series-section-heading {
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--green-lime);
+    color: var(--green-lime);
+    font-size: 1.3rem;
+  }
+
+  .series-section-soon .series-section-heading {
+    border-bottom-color: rgba(192, 254, 113, 0.35);
+    opacity: 0.85;
   }
 
   .month-group {

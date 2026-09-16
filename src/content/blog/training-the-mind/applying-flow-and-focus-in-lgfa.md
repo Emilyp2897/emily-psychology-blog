@@ -1,11 +1,9 @@
 ---
 title: "Applying Flow and Focus in Ladies Gaelic Football"
 description: "How to set up flow in a Gaelic match. Pre-match routines, refocus techniques mid-game, and what to do when overthinking takes over."
-pubDate: "2027-02-15"
+pubDate: "2027-03-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-flow-and-focus/) was about what flow is. This one is about how to set it up in a Gaelic match, where the conditions are quite different from individual sport.
 
@@ -22,10 +20,6 @@ What gets it wrong:
 - Underconnecting with teammates if you need their energy to find your level.
 
 The fix isn't a perfect routine. It's KNOWING your routine and protecting it.
-
-> **[TO FILL IN — YOUR PRE-MATCH MOMENT]**
->
-> What's your best pre-match preparation? Specific. Not "I get focused". What do you actually do in the 30 minutes before throw-in? And what derails you?
 
 ## The first 5 minutes
 
@@ -51,10 +45,6 @@ Flow disappears mid-match for reasons you can identify:
 The first response to flow loss is usually: try harder. That doesn't work.
 
 What works: do less, not more. One small refocus action. The breath. The cue word. Your job for the next 60 seconds, not the rest of the match.
-
-> **[TO FILL IN — FLOW LOSS]**
->
-> A match where you were in flow and lost it. What was the specific trigger? What did you try to do about it, and did it work?
 
 ## When the team is in flow and you're not
 
@@ -83,6 +73,16 @@ Train for it. Late-session work in training pays off here.
 5. **Train for the 50-minute zone.** Where the matches are won.
 
 The toolkit is at [Focus and Refocus Toolkit](/content-hub/gael-performance-toolkit/focus-and-refocus-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

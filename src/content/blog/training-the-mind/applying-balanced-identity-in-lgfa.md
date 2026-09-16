@@ -5,8 +5,6 @@ pubDate: "2027-06-15"
 track: "training-the-mind"
 ---
 
-Heeyyyyy gaels, this is Emily.
-
 [Last post](/content-hub/training-the-mind/understanding-athletic-identity/) was about athletic identity. This one is about what it actually looks like in practice for a Gaelic player who is also studying or working or parenting or all of the above.
 
 ## The dual-career reality
@@ -98,6 +96,16 @@ What helps:
 5. **If retirement / injury / non-selection feels existentially scary, that's a signal.** Not a reason to retire. A reason to broaden.
 
 Tools at [Values and Balance Toolkit](/content-hub/gael-performance-toolkit/values-and-balance-toolkit/).
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 

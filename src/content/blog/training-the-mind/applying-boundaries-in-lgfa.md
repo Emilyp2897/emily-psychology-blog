@@ -1,11 +1,9 @@
 ---
 title: "Applying Boundaries in Ladies Gaelic Football"
 description: "Specific LGF situations where boundaries matter most. With coaches, teammates, family, and yourself."
-pubDate: "2027-04-15"
+pubDate: "2027-05-15"
 track: "training-the-mind"
 ---
-
-Heeyyyyy gaels, this is Emily.
 
 [Last post](/content-hub/training-the-mind/understanding-why-women-athletes-over-accommodate/) was about the over-accommodation pattern many female athletes carry. This one is about specific LGF situations where boundaries matter most.
 
@@ -22,10 +20,6 @@ What works:
 - Specific language: "I'm at capacity this week. I won't be at the extra session." Not "I might be busy."
 - Don't over-justify. "I have a work deadline" is enough. "I have a work deadline and a thing on Thursday and my dog is sick and..." weakens it.
 - Be prepared for some discomfort in the response. That's part of it.
-
-> **[TO FILL IN — A COACH MOMENT]**
->
-> A specific time a coach pushed for something you couldn't sustainably give. What did you do? Looking back, what would you do differently?
 
 ## With a teammate who leans on you
 
@@ -70,10 +64,6 @@ Where boundaries help:
 - Be honest with college tutors about competition periods, especially around exams.
 - Recognise when you can't do everything at peak. You can be okay at work and great at sport, or great at work and okay at sport. Trying to be peak at both during championship is how burnout happens.
 
-> **[TO FILL IN — A DUAL-CAREER CRUNCH]**
->
-> A specific time when work / college and sport collided badly. What were you trying to hold? What gave?
-
 ## With yourself
 
 The hardest boundary is internal. The voice that says you should be doing more.
@@ -101,6 +91,16 @@ This is the boundary most athletes underestimate. It's also the most important.
 3. **Use the language tools** in the [Boundaries and Assertiveness Toolkit](/content-hub/gael-performance-toolkit/boundaries-and-assertiveness-toolkit/).
 4. **Notice the discomfort and what it tries to do.** It will push you to renege. Don't.
 5. **Notice what happens next.** Most consequences are smaller than you fear.
+
+<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
+     To use it, delete this whole comment and write a section like:
+     ## My Own Experience
+     ...then your story underneath.
+     A specific moment, not a general feeling. Where were you, what was going
+     through your head, what did you do next? The bits that make your other
+     posts land are the concrete ones: the venue, the scoreline, the thing you
+     said to yourself. Nothing here renders on the site until you delete the
+     comment markers, so it is safe to leave in place. -->
 
 ## References
 
