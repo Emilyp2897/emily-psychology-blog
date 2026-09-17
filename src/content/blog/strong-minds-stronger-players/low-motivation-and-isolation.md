@@ -20,6 +20,10 @@ That tip is worth knowing about, because the response is different from "I just 
 - A sense of flatness or "what is the point" that does not lift.
 - Avoiding the off-season gym work because you cannot find the motivation, then feeling worse for skipping it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 A few weeks of slower energy at the end of a long season is normal. The line into something more is when the slow energy stays, and starts coming with low mood, withdrawal from people, sleep disturbance, or a sense of pointlessness.
@@ -36,6 +40,10 @@ The general clinical line: low mood OR loss of interest, plus other symptoms, pr
 - Move daily. Walking counts. Movement is one of the strongest evidence-based protections against low mood (Schuck et al. 2016).
 - Plan one thing to look forward to. It does not have to be big.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** is the first stop if low mood or motivation has been around for more than two weeks.
@@ -49,21 +57,15 @@ The general clinical line: low mood OR loss of interest, plus other symptoms, pr
 
 The off-seasons that hit me hardest were the ones that looked the most like "rest". No structure, no people, no movement. The off-seasons that worked were the ones where I treated rest as a different rhythm, not no rhythm. The structure was lighter, but it was there, and the people were still in my week. That kept me from sliding.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

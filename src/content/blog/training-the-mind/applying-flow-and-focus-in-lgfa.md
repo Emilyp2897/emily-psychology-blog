@@ -21,6 +21,10 @@ What gets it wrong:
 
 The fix isn't a perfect routine. It's KNOWING your routine and protecting it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The first 5 minutes
 
 Flow rarely shows up in the first 5 minutes. Most matches start with both teams settling, finding their feet, making errors. Your touch will probably feel slightly off. Your timing will be slightly off.
@@ -46,6 +50,10 @@ The first response to flow loss is usually: try harder. That doesn't work.
 
 What works: do less, not more. One small refocus action. The breath. The cue word. Your job for the next 60 seconds, not the rest of the match.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When the team is in flow and you're not
 
 This is one of the harder Gaelic situations. The team is playing well. The other forwards are scoring. The kickout patterns are working. But you, individually, are off.
@@ -54,7 +62,7 @@ The temptation: chase. Force yourself into the play. Demand the ball. Take shots
 
 What usually works better: let the team's flow carry you. Make the simple pass. Be in the right position. Take the ball when it comes to you naturally. Trust that your flow will follow the team's once you stop fighting it.
 
-Flow research suggests that group flow has its own dynamics. Sometimes the individual gets pulled in by the group. Sometimes the individual has to wait for their moment within the group's rhythm.
+Flow research suggests that group flow has its own dynamics. Sometimes the individual is pulled in by the group. Sometimes the individual has to wait for their moment within the group's rhythm.
 
 ## The 50-minute zone
 
@@ -63,6 +71,10 @@ Most Gaelic matches have a moment around 50-55 minutes where the game opens up. 
 This is also where flow is easiest, paradoxically. The brain is tired enough that it's stopped overthinking. Skills become automatic again. If your fitness is there, the 50-minute zone is where good players can find their best play.
 
 Train for it. Late-session work in training pays off here.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What you can do
 
@@ -73,16 +85,6 @@ Train for it. Late-session work in training pays off here.
 5. **Train for the 50-minute zone.** Where the matches are won.
 
 The toolkit is at [Focus and Refocus Toolkit](/content-hub/gael-performance-toolkit/focus-and-refocus-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -23,9 +23,13 @@ Two failure modes:
 
 Neither works in the long run. What does work: be honest about which is in the foreground at any given period, and let the other be sustainably maintained rather than peak.
 
-> **[TO FILL IN — A DUAL-CAREER CRUNCH]**
+> **[TO FILL IN, A DUAL-CAREER CRUNCH]**
 >
 > A specific period where work/study and sport were both demanding peak. How did you handle it? What gave?
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The off-season identity test
 
@@ -41,7 +45,7 @@ Some signs:
 - You spiral into "am I even an athlete anymore" thinking.
 - You feel low for no obvious reason.
 
-The fix isn't to fill the off-season with more sport. It's to use the off-season to feed the rest of your life. Travel, friends outside the squad, hobbies, work investment, family time. Things that get squeezed out during the season.
+The fix isn't to fill the off-season with more sport. It's to use the off-season to feed the rest of your life. Travel, friends outside the squad, hobbies, work investment, family time. Things that are squeezed out during the season.
 
 ## Friendships outside the squad
 
@@ -59,9 +63,13 @@ What works:
 - These don't have to be deep daily contacts. Even monthly is enough.
 - They're the ones who'll see you as more than the player.
 
-> **[TO FILL IN — A FRIEND OUTSIDE THE SPORT]**
+> **[TO FILL IN, A FRIEND OUTSIDE THE SPORT]**
 >
 > A friend (or family member) who sees you as more than the sport. What's that relationship like? What does it give you that the squad doesn't?
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The career/work investment
 
@@ -87,6 +95,10 @@ What helps:
 - Don't try to fill the gap with EXTRA sport (e.g. obsessive rehab, watching every match). That feeds the identity over-attachment.
 - Talk to someone if the identity loss is hitting hard. Not "I'm fine". Actually talk.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 1. **Audit your identity ratio.** Estimate what % of how you think about yourself is "the Gaelic player". If it's over 70%, that's worth working on.
@@ -96,16 +108,6 @@ What helps:
 5. **If retirement / injury / non-selection feels existentially scary, that's a signal.** Not a reason to retire. A reason to broaden.
 
 Tools at [Values and Balance Toolkit](/content-hub/gael-performance-toolkit/values-and-balance-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

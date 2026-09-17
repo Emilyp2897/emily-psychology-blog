@@ -18,6 +18,10 @@ What works better:
 - **Build one micro-goal per session.** Not the season. Today's session.
 - **Find one player you train with.** Even one strong relationship in the squad makes the cold sessions easier.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When external motivation takes over
 
 A common pattern in LGF: in the first few seasons you played for the love of it. Then you got into a strong squad, selection became competitive, and now you're playing for the spot, the recognition, the validation.
@@ -38,6 +42,10 @@ Self-punishment looks like discipline in the short term. In the long term it lea
 
 The test: if you fall short of your standard, how do you treat yourself? If the answer is "I make a plan and try again", that's discipline. If the answer is "I tell myself I'm useless and double down to make up for it", that's punishment.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The fitness test you didn't pass
 
 Every team has fitness benchmarks. Sometimes you don't hit them. Depending on the squad culture, that lands differently.
@@ -55,6 +63,10 @@ One of the most underrated motivation tools is taking proper recovery. Not "lazy
 When recovery is treated as part of the work, motivation stays higher across the season. When recovery is treated as a guilty pleasure or laziness, you burn out.
 
 This is especially relevant for female athletes, where research consistently shows under-recovery is common and the menstrual cycle adds load that often isn't accounted for in training programming.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Burnout warning signs in LGF
 
@@ -76,16 +88,6 @@ Any one of these on its own can be normal. Two or three together for several wee
 4. **Notice the warning signs.** Two or three for more than two weeks: pause and look.
 
 The toolkit is [Goal Setting Toolkit](/content-hub/gael-performance-toolkit/goal-setting-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

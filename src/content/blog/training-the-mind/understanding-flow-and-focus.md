@@ -23,6 +23,10 @@ Csikszentmihalyi identified these as the signs that you're in flow:
 
 You'll recognise a few of these from your best games.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What creates flow
 
 Flow doesn't happen randomly. Csikszentmihalyi found it requires a specific balance.
@@ -46,6 +50,10 @@ Most of what blocks flow you already know:
 
 Notice: most flow-blockers are about attention being somewhere it shouldn't be. That's the connection to [Attention Control Theory](/content-hub/training-the-mind/attention-control-theory/) earlier in this series.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The relationship between flow and pressure
 
 This is the part most athletes get wrong.
@@ -68,6 +76,10 @@ A few things research and applied work suggests:
 - **Music helps for some, distracts for others.** Test it in training, not in a final.
 - **Cycle phase can affect flow capacity.** This is real research; not woo. Higher arousal phases (follicular) may make flow easier than late luteal for some players.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 1. **Audit your pre-match routine.** Are you arriving at throw-in in the right arousal state? Too hyped? Too flat?
@@ -84,16 +96,6 @@ Flow can't be forced. It can only be set up.
 You set the conditions: pre-match routine, sleep, arousal level, attention focus. Then you let go and let the flow either happen or not.
 
 Players who try to force flow ("I need to be in flow today") almost never get there. Players who set the conditions and trust the work tend to find it more often.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

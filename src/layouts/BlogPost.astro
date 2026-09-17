@@ -12,7 +12,7 @@ interface Props extends BlogPostData {
   postSlug?: string;
 }
 
-const { title, description, pubDate, updatedDate, postSlug } = Astro.props as Props;
+const { title, description, pubDate, updatedDate, postSlug, photo, photoAlt } = Astro.props as Props;
 
 const sectionRoutes: Record<string, { title: string; href: string }> = {
   'training-the-mind': {
@@ -65,10 +65,11 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body class:list={["blog-post-page", isGaelToolkitPost && "gael-toolkit-post"]}>
+  <body class:list={["blog-post-page", isGaelToolkitPost && "gael-toolkit-post", isMindfulnessPost && "mindfulness-post", (isGaelToolkitPost || isMindfulnessPost) && "interactive-post"]}>
     <Header />
 
-    <main class="container article-main">
+    <a href="#article-main" class="skip-link">Skip to content</a>
+    <main id="article-main" class="container article-main">
       <section class="article-hero">
         <p class="article-kicker">Content Hub Article</p>
         <h1>{title}</h1>
@@ -89,12 +90,18 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
         </div>
       </section>
 
+      {photo && (
+        <figure class="article-photo">
+          <img src={photo} alt={photoAlt ?? ""} loading="lazy" />
+        </figure>
+      )}
+
       <article class="article-shell">
         {showComingSoonGate && (
           <div class="coming-soon-gate">
             <p class="coming-soon-eyebrow">Releases {releaseDateLabel}</p>
             <h2>This one is not out yet</h2>
-            <p>Strong Minds, Stronger Players releases one post a month, and this one lands on {releaseDateLabel}. The whole series is always free for every player and coach, so there is nothing to buy. Check back on the day.</p>
+            <p>Strong Minds, Stronger Players releases one post a month, and this one lands on {releaseDateLabel}. The series is free for every player and coach. Check back on the day.</p>
             <a href="/content-hub/strong-minds-stronger-players/" class="gate-cta gate-cta-back">Back to the series</a>
           </div>
         )}
@@ -120,10 +127,63 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
     <Footer />
 
-    <script is:inline define:vars={{ isGaelToolkitPost, isMindfulnessPost }}>
+    <script is:inline define:vars={{ isGaelToolkitPost, isMindfulnessPost, isLocalPreview: bypassGatesInDev }}>
       window.addEventListener('DOMContentLoaded', () => {
         const paidContent = document.getElementById('paid-content');
         const toolkitToolsBox = paidContent?.querySelector('.toolkit-tools-box');
+
+        // References collapse into a dropdown. They are the least-read part
+        // of the page but still need to be there, so they are present and
+        // citable without taking up half the article.
+        if (paidContent) {
+          const refHeading = Array.from(paidContent.querySelectorAll('h2, h3')).find(
+            (h) => (h.textContent || '').trim().toLowerCase() === 'references'
+          );
+          if (refHeading) {
+            const details = document.createElement('details');
+            details.className = 'refs-details';
+            const summary = document.createElement('summary');
+            summary.className = 'refs-summary';
+            const body = document.createElement('div');
+            body.className = 'refs-body';
+
+            // Move everything after the heading into the dropdown body.
+            let node = refHeading.nextSibling;
+            const moved = [];
+            while (node) {
+              if (node.nodeType === Node.ELEMENT_NODE && /^H[123]$/.test(node.tagName)) break;
+              moved.push(node);
+              node = node.nextSibling;
+            }
+            refHeading.parentNode.insertBefore(details, refHeading);
+            moved.forEach((n) => body.appendChild(n));
+
+            const count = body.querySelectorAll('li').length;
+            summary.textContent = count ? `References (${count})` : 'References';
+            details.appendChild(summary);
+            details.appendChild(body);
+            refHeading.remove();
+          }
+        }
+
+
+        // The "ADD YOUR EXPERIENCE HERE" blockquotes are editing prompts for
+        // Emily. They render while running locally so she can see exactly
+        // where to write, and are stripped in production so readers never
+        // see them.
+        if (paidContent) {
+          const prompts = Array.from(paidContent.querySelectorAll('blockquote')).filter((bq) =>
+            (bq.textContent || '').includes('ADD YOUR EXPERIENCE HERE')
+          );
+          prompts.forEach((bq) => {
+            if (isLocalPreview) {
+              bq.classList.add('experience-prompt');
+            } else {
+              bq.remove();
+            }
+          });
+        }
+
 
         if (paidContent && isGaelToolkitPost) {
           const headings = Array.from(paidContent.querySelectorAll('h2'));
@@ -158,66 +218,106 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
           // still readable if this script never runs.
           const toolCards = Array.from(paidContent.querySelectorAll('.toolkit-tool-card'));
 
-          if (toolCards.length > 1) {
-            const grid = document.createElement('div');
-            grid.className = 'tool-tile-grid';
-            toolCards[0].parentNode?.insertBefore(grid, toolCards[0]);
+          // ── TOOLKIT: bubble cloud ──────────────────────────────────────
+          // Tools render as floating bubbles of varying size rather than a
+          // grid of boxes. Tapping one blows it up into a full card. Sizes
+          // and drift are seeded off the index so the cloud looks organic
+          // but stays identical between loads.
+          if (toolCards.length > 0) {
+            const cloud = document.createElement('div');
+            cloud.className = 'tool-cloud';
+            toolCards[0].parentNode.insertBefore(cloud, toolCards[0]);
 
-            const dialog = document.createElement('dialog');
-            dialog.className = 'tool-dialog';
-            const dialogInner = document.createElement('div');
-            dialogInner.className = 'tool-dialog-inner';
-            const closeBtn = document.createElement('button');
-            closeBtn.type = 'button';
-            closeBtn.className = 'tool-dialog-close';
-            closeBtn.setAttribute('aria-label', 'Close');
-            closeBtn.textContent = '×';
-            const dialogBody = document.createElement('div');
-            dialogBody.className = 'tool-dialog-body';
-            dialogInner.appendChild(closeBtn);
-            dialogInner.appendChild(dialogBody);
-            dialog.appendChild(dialogInner);
-            document.body.appendChild(dialog);
+            // A native <dialog> opened with showModal(), rather than a div
+            // with role="dialog". The browser then traps focus, handles
+            // Escape, and hides the rest of the page from assistive tech,
+            // none of which a div can do on its own.
+            const sheet = document.createElement('dialog');
+            sheet.className = 'tool-sheet';
+            sheet.innerHTML =
+              '<div class="tool-sheet-panel">' +
+                '<button type="button" class="tool-sheet-close" aria-label="Close">Done</button>' +
+                '<div class="tool-sheet-body"></div>' +
+                '<button type="button" class="tool-sheet-tried">Mark as tried</button>' +
+              '</div>';
+            document.body.appendChild(sheet);
+            const sheetBody = sheet.querySelector('.tool-sheet-body');
+            const triedBtn = sheet.querySelector('.tool-sheet-tried');
 
-            const closeDialog = () => {
-              if (dialog.open) dialog.close();
+            const storeKey = 'mtg_tools_tried_' + window.location.pathname;
+            const tried = new Set(JSON.parse(localStorage.getItem(storeKey) || '[]'));
+            let activeKey = null;
+
+            // Focus moves into the sheet when it opens and returns to the
+            // bubble that opened it when it closes, so keyboard and screen
+            // reader users are not stranded behind the overlay.
+            const closeSheet = () => {
+              if (sheet.open) sheet.close();
             };
-            closeBtn.addEventListener('click', closeDialog);
-            // Clicking the backdrop (outside the inner panel) closes it too.
-            dialog.addEventListener('click', (event) => {
-              if (event.target === dialog) closeDialog();
+            // Native dialog restores focus to the opener on close.
+            sheet.addEventListener("close", () => {
+              document.body.classList.remove("sheet-open");
+            });
+            sheet.querySelector('.tool-sheet-close').addEventListener('click', closeSheet);
+            sheet.addEventListener('click', (e) => { if (e.target === sheet) closeSheet(); });
+
+            const paintTried = () => {
+              cloud.querySelectorAll('.tool-bubble').forEach((b) => {
+                b.classList.toggle('is-tried', tried.has(b.dataset.key));
+              });
+            };
+
+            triedBtn.addEventListener('click', () => {
+              if (!activeKey) return;
+              if (tried.has(activeKey)) tried.delete(activeKey);
+              else tried.add(activeKey);
+              localStorage.setItem(storeKey, JSON.stringify([...tried]));
+              triedBtn.textContent = tried.has(activeKey) ? 'Tried it ✓' : 'Mark as tried';
+              paintTried();
             });
 
-            toolCards.forEach((card, index) => {
-              const cardHeading = card.querySelector('h2');
-              const rawTitle = (cardHeading?.textContent || `Tool ${index + 1}`).trim();
-              // "Tool 3: The Specific Visualisation" -> number + name, so the
-              // tile can show them on separate lines.
-              const match = rawTitle.match(/^Tool\s*(\d+)\s*[:.–-]?\s*(.*)$/i);
-              const number = match ? match[1] : String(index + 1);
-              const name = match && match[2] ? match[2] : rawTitle;
+            // Three bubble sizes, cycled, so the cloud has visual rhythm.
+            const sizes = ['is-lg', 'is-md', 'is-sm', 'is-md', 'is-lg', 'is-sm'];
 
-              const tile = document.createElement('button');
-              tile.type = 'button';
-              tile.className = 'tool-tile';
-              tile.innerHTML =
-                '<span class="tool-tile-num">Tool ' + number + '</span>' +
-                '<span class="tool-tile-name"></span>' +
-                '<span class="tool-tile-cta">Open →</span>';
-              const nameEl = tile.querySelector('.tool-tile-name');
-              if (nameEl) nameEl.textContent = name;
+            toolCards.forEach((card, i) => {
+              const heading = card.querySelector('h2');
+              const raw = (heading?.textContent || 'Tool ' + (i + 1)).trim();
+              const m = raw.match(/^Tool\s*(\d+)\s*[:.–-]?\s*(.*)$/i);
+              const num = m ? m[1] : String(i + 1);
+              const name = m && m[2] ? m[2] : raw;
+              const key = 'tool-' + num;
 
-              tile.addEventListener('click', () => {
-                dialogBody.innerHTML = '';
-                // Clone so the original stays in the document for SEO and
-                // for the no-JS reading order.
-                dialogBody.appendChild(card.cloneNode(true));
-                dialog.showModal();
+              const bubble = document.createElement('button');
+              bubble.type = 'button';
+              bubble.className = 'tool-bubble ' + sizes[i % sizes.length];
+              bubble.dataset.key = key;
+              bubble.style.setProperty('--i', String(i));
+              bubble.innerHTML =
+                '<span class="tool-bubble-num">' + num + '</span>' +
+                '<span class="tool-bubble-name"></span>' +
+                '<span class="tool-bubble-tick" aria-hidden="true">✓</span>';
+              bubble.querySelector('.tool-bubble-name').textContent = name;
+
+              bubble.addEventListener('click', () => {
+                activeKey = key;
+                sheetBody.innerHTML = '';
+                // The source card carries .tool-card-collapsed (display:none)
+                // to hide it on the page. The clone must not, or the sheet
+                // opens empty.
+                const clone = card.cloneNode(true);
+                clone.classList.remove('tool-card-collapsed');
+                sheetBody.appendChild(clone);
+                triedBtn.textContent = tried.has(key) ? 'Tried it ✓' : 'Mark as tried';
+                sheet.showModal();
+                document.body.classList.add("sheet-open");
+                sheet.querySelector(".tool-sheet-close").focus();
               });
 
-              grid.appendChild(tile);
+              cloud.appendChild(bubble);
               card.classList.add('tool-card-collapsed');
             });
+
+            paintTried();
           }
         }
 
@@ -229,79 +329,89 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
         // slide and the nodes are moved (not copied) into it, so the article
         // renders as the deck rather than offering a deck as an extra. The
         // content stays in the DOM, so it is still indexable and linkable.
+        // ── MINDFULNESS: story-style cards ───────────────────────────────
+        // Built to read like a social story rather than an article: one
+        // section per card, segmented progress bar along the top, tap the
+        // right or left half to move, swipe on touch, arrow keys on desktop.
+        // Nodes are moved (not cloned) so the page IS the story and the text
+        // stays indexable.
         if (paidContent && isMindfulnessPost) {
           const headings = Array.from(paidContent.querySelectorAll('h2'))
             .filter((h) => (h.textContent || '').trim().toLowerCase() !== 'references');
 
           if (headings.length > 1) {
-            const deck = document.createElement('div');
-            deck.className = 'deck-inline';
-            deck.innerHTML =
-              '<div class="deck-track"></div>' +
-              '<div class="deck-foot">' +
-                '<button type="button" class="deck-prev" aria-label="Previous slide">‹</button>' +
-                '<div class="deck-dots"></div>' +
-                '<button type="button" class="deck-next" aria-label="Next slide">›</button>' +
+            const story = document.createElement('div');
+            story.className = 'story';
+            story.innerHTML =
+              '<div class="story-bars" role="tablist"></div>' +
+              '<div class="story-stage"></div>' +
+              '<button type="button" class="story-zone story-zone-prev" aria-label="Previous"></button>' +
+              '<button type="button" class="story-zone story-zone-next" aria-label="Next"></button>' +
+              '<div class="story-foot">' +
+                '<span class="story-count"></span>' +
+                '<span class="story-hint">Tap either side, or swipe</span>' +
               '</div>';
-            headings[0].parentNode.insertBefore(deck, headings[0]);
+            headings[0].parentNode.insertBefore(story, headings[0]);
 
-            const track = deck.querySelector('.deck-track');
-            const dots = deck.querySelector('.deck-dots');
+            const stage = story.querySelector('.story-stage');
+            const bars = story.querySelector('.story-bars');
+            const countEl = story.querySelector('.story-count');
+            const total = headings.length;
 
             headings.forEach((heading, i) => {
-              const slide = document.createElement('section');
-              slide.className = 'deck-slide';
-              const count = document.createElement('span');
-              count.className = 'deck-count';
-              count.textContent = (i + 1) + ' / ' + headings.length;
-              slide.appendChild(count);
-
-              // Move the heading and everything up to the next h2 into the slide.
+              const card = document.createElement('section');
+              card.className = 'story-card';
               let node = heading.nextSibling;
-              slide.appendChild(heading);
+              card.appendChild(heading);
               while (node) {
                 if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'H2') break;
                 const next = node.nextSibling;
-                slide.appendChild(node);
+                card.appendChild(node);
                 node = next;
               }
-              track.appendChild(slide);
+              stage.appendChild(card);
 
-              const dot = document.createElement('button');
-              dot.type = 'button';
-              dot.className = 'deck-dot';
-              dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-              dot.addEventListener('click', () => go(i));
-              dots.appendChild(dot);
+              const bar = document.createElement('button');
+              bar.type = 'button';
+              bar.className = 'story-bar';
+              bar.setAttribute('aria-label', 'Card ' + (i + 1) + ' of ' + total);
+              bar.addEventListener('click', (e) => { e.stopPropagation(); go(i); });
+              bars.appendChild(bar);
             });
 
             let index = 0;
-            const go = (i) => {
-              index = Math.max(0, Math.min(headings.length - 1, i));
-              track.scrollTo({ left: track.clientWidth * index, behavior: 'smooth' });
-              sync();
-            };
-            const sync = () => {
-              Array.from(dots.children).forEach((d, i) =>
-                d.classList.toggle('is-active', i === index)
-              );
-              deck.querySelector('.deck-prev').disabled = index === 0;
-              deck.querySelector('.deck-next').disabled = index === headings.length - 1;
-            };
+            const cards = Array.from(stage.querySelectorAll('.story-card'));
 
-            deck.querySelector('.deck-prev').addEventListener('click', () => go(index - 1));
-            deck.querySelector('.deck-next').addEventListener('click', () => go(index + 1));
-
-            let raf = null;
-            track.addEventListener('scroll', () => {
-              if (raf) cancelAnimationFrame(raf);
-              raf = requestAnimationFrame(() => {
-                const i = Math.round(track.scrollLeft / track.clientWidth);
-                if (i !== index) { index = i; sync(); }
+            function go(i) {
+              index = (i + total) % total;
+              cards.forEach((c, n) => c.classList.toggle('is-active', n === index));
+              Array.from(bars.children).forEach((b, n) => {
+                b.classList.toggle('is-done', n < index);
+                b.classList.toggle('is-active', n === index);
               });
+              countEl.textContent = (index + 1) + ' of ' + total;
+            }
+
+            story.querySelector('.story-zone-next').addEventListener('click', () => go(index + 1));
+            story.querySelector('.story-zone-prev').addEventListener('click', () => go(index - 1));
+
+            story.addEventListener('keydown', (e) => {
+              if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+              if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+            });
+            story.tabIndex = 0;
+
+            // Touch swipe.
+            let startX = null;
+            story.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+            story.addEventListener('touchend', (e) => {
+              if (startX === null) return;
+              const dx = e.changedTouches[0].clientX - startX;
+              if (Math.abs(dx) > 45) go(index + (dx < 0 ? 1 : -1));
+              startX = null;
             });
 
-            sync();
+            go(0);
           }
         }
 
@@ -410,9 +520,11 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     text-align: center;
   }
 
+  /* Was lime on a pale lime panel inside the white article shell, about
+     1.3:1. Purple gives 11:1 on the same background. */
   .coming-soon-gate .coming-soon-eyebrow {
     margin: 0 0 0.4rem;
-    color: var(--green-lime);
+    color: var(--purple);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-size: 0.78rem;
@@ -531,24 +643,22 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     font-size: 1.25rem;
   }
 
+  /* Was a full-width solid purple block with a drop shadow, which dominated
+     the page. Now a quiet inline note. */
   .prose :global(.practical-tools-banner) {
-    background: var(--purple);
-    color: var(--green-light);
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
     margin: 1.4rem 0;
-    font-weight: 600;
-    box-shadow: 0 8px 20px rgba(105, 0, 90, 0.25);
+    padding: 0.55rem 0 0.55rem 0.9rem;
+    border-left: 3px solid var(--purple);
+    background: none;
+    box-shadow: none;
+    color: var(--green-dark);
+    font-size: 0.94rem;
+    font-weight: 500;
   }
 
   .prose :global(.practical-tools-banner a) {
-    color: var(--green-lime) !important;
-    text-decoration: underline;
+    color: var(--purple) !important;
     font-weight: 700;
-  }
-
-  .prose :global(.practical-tools-banner a:hover) {
-    color: #ffffff !important;
   }
 
   .gael-toolkit-post .prose :global(.toolkit-tool-card p:last-child),
@@ -690,15 +800,16 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   object-fit: contain;
 }
 
+/* Was a solid purple block. Now Saoirse just says the line, no panel. */
 .prose :global(.shamrock-banner-purple) {
   display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  background: var(--purple);
-  border-left: 4px solid var(--green-lime);
-  border-radius: 10px;
-  padding: 1.1rem 1.3rem;
-  margin: 1.4rem 0;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0.4rem 0;
+  margin: 1.2rem 0;
 }
 
 .prose :global(.shamrock-banner-purple .shamrock-icon) {
@@ -721,8 +832,9 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 }
 
 .prose :global(.shamrock-banner-purple p) {
-  margin: 0 0 0.4rem;
-  color: var(--green-light);
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.5;
 }
 
 .prose :global(.shamrock-banner-purple p:last-child) {
@@ -748,64 +860,6 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   /* Tool tiles + pop-out dialog. The underlying .toolkit-tool-card content
      stays in the DOM (hidden) so the page still works without JavaScript
      and search engines still see the full text. */
-  .tool-tile-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 0.85rem;
-    margin: 1.25rem 0 1.75rem;
-  }
-
-  .tool-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-    padding: 0.95rem 1rem 1rem;
-    border: 2px solid var(--purple);
-    border-radius: 14px;
-    background: #ffffff;
-    cursor: pointer;
-    text-align: left;
-    font: inherit;
-    transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
-  }
-
-  .tool-tile:hover,
-  .tool-tile:focus-visible {
-    transform: translateY(-3px);
-    background: rgba(192, 254, 113, 0.14);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
-  }
-
-  .tool-tile-num {
-    display: inline-block;
-    padding: 0.14rem 0.5rem;
-    border-radius: 999px;
-    background: var(--purple);
-    color: #ffffff;
-    font-size: 0.66rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-
-  .tool-tile-name {
-    color: var(--green-dark);
-    font-weight: 700;
-    font-size: 0.97rem;
-    line-height: 1.3;
-  }
-
-  .tool-tile-cta {
-    margin-top: auto;
-    color: var(--purple);
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-
-  .tool-card-collapsed {
-    display: none;
-  }
 
   .tool-dialog {
     border: none;
@@ -871,105 +925,584 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   /* Mindfulness slide deck. Horizontal scroll-snap track so it swipes like a
      social post on touch, with arrows and dots for desktop. */
   /* Rendered inline: the article IS the deck, no button to open it. */
-  .deck-inline {
-    margin: 0 0 1.5rem;
-    background: #ffffff;
-    border: 3px solid var(--green-lime);
-    border-radius: 18px;
+
+  /* Editing placeholder, local only, removed from the DOM in production.
+     Quiet grey so it reads as an empty slot waiting to be filled rather
+     than a coloured banner. */
+  .experience-prompt {
+    border: 1px dashed rgba(105, 0, 90, 0.35) !important;
+    border-left: 3px solid rgba(105, 0, 90, 0.45) !important;
+    background: rgba(105, 0, 90, 0.025) !important;
+    border-radius: 6px;
+    padding: 0.8rem 1rem !important;
+    color: rgba(26, 26, 26, 0.55) !important;
+    font-size: 0.9rem;
+  }
+
+  .experience-prompt strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: rgba(105, 0, 90, 0.75) !important;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  /* Collapsed references. */
+  .refs-details {
+    margin: 2rem 0 1rem;
+    border: 2px solid rgba(105, 0, 90, 0.2);
+    border-radius: 12px;
+    background: rgba(105, 0, 90, 0.03);
     overflow: hidden;
   }
 
-  .deck-track {
+  .refs-summary {
+    cursor: pointer;
+    padding: 0.7rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--purple);
+    list-style: none;
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .deck-track::-webkit-scrollbar { display: none; }
+  .refs-summary::-webkit-details-marker { display: none; }
 
-  .deck-slide {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    padding: 2.2rem 1.4rem 1.2rem;
-    min-height: 60vh;
-    max-height: 72vh;
-    overflow-y: auto;
-    color: var(--green-dark);
+  .refs-summary::before {
+    content: "▸";
+    font-size: 0.85rem;
+    transition: transform 0.15s ease;
   }
 
-  .deck-count {
-    display: inline-block;
-    margin-bottom: 0.6rem;
-    padding: 0.16rem 0.6rem;
-    border-radius: 999px;
+  .refs-details[open] .refs-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .refs-summary:hover {
+    background: rgba(105, 0, 90, 0.07);
+  }
+
+  .refs-body {
+    padding: 0 1rem 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  .refs-body ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .refs-body li {
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Toolkit + Mindfulness: not a white sheet ──────────────────────────
+     These are dip-in, do-it-now pages, not long reads. Dark gradient shell
+     with floating bubbles behind the content, and the tools pop out of it.
+     Articles keep the white sheet, which suits long-form reading. */
+  body.interactive-post .article-shell {
+    position: relative;
+    background: linear-gradient(162deg, #030a06 0%, #0a1f10 26%, #240a31 58%, #0a1f10 84%, #030a06 100%);
+    border: 2px solid rgba(192, 254, 113, 0.35);
+    border-radius: 20px;
+    padding: 1.6rem 1.3rem 1.4rem;
+    overflow: hidden;
+  }
+
+  /* Decorative bubbles. Pointer-events off so they never block a tap. */
+  body.interactive-post .article-shell::before,
+  body.interactive-post .article-shell::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.interactive-post .article-shell::before {
+    width: 260px;
+    height: 260px;
+    top: -90px;
+    right: -70px;
+    background: radial-gradient(circle at 30% 30%, rgba(192, 254, 113, 0.28), transparent 68%);
+    animation: bubbleDrift 14s ease-in-out infinite;
+  }
+
+  body.interactive-post .article-shell::after {
+    width: 200px;
+    height: 200px;
+    bottom: -70px;
+    left: -60px;
+    background: radial-gradient(circle at 60% 40%, rgba(240, 205, 255, 0.24), transparent 68%);
+    animation: bubbleDrift 18s ease-in-out infinite reverse;
+  }
+
+  @keyframes bubbleDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-18px, 22px) scale(1.12); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body.interactive-post .article-shell::before,
+    body.interactive-post .article-shell::after { animation: none; }
+  }
+
+  body.interactive-post .paid-content {
+    position: relative;
+    z-index: 1;
+    color: var(--green-light);
+  }
+
+  body.interactive-post .prose p,
+  body.interactive-post .prose li {
+    color: var(--green-light);
+  }
+
+  body.interactive-post .prose h2,
+  body.interactive-post .prose h3,
+  body.interactive-post .prose strong {
+    color: var(--green-lime);
+  }
+
+  /* Tool tiles read as bubbles on the dark shell. */
+
+  /* References dropdown on the dark shell. */
+  body.interactive-post .refs-details {
+    background: rgba(192, 254, 113, 0.07);
+    border-color: rgba(192, 254, 113, 0.3);
+  }
+
+  body.interactive-post .refs-summary {
+    color: var(--green-lime);
+  }
+
+  body.interactive-post .refs-body,
+  body.interactive-post .refs-body li,
+  body.interactive-post .refs-body p,
+  body.interactive-post .refs-body em {
+    color: #ffffff;
+    opacity: 1;
+  }
+  /* ── TOOLKIT: bubble cloud ────────────────────────────────────────────
+     Tools float as bubbles of mixed size rather than sitting in a grid of
+     boxes. Tapping one opens it as a sheet. */
+  .tool-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .tool-bubble {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-radius: 50%;
+    border: 3px solid var(--green-lime);
+    /* Darker core so white and lime text on top clear AA. */
+    background: radial-gradient(circle at 32% 28%, rgba(28, 74, 44, 0.92), rgba(12, 38, 24, 0.96) 70%);
+    color: var(--green-light);
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    padding: 0.6rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32), inset 0 0 22px rgba(192, 254, 113, 0.14);
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+    animation: bubbleFloat 6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.9s);
+  }
+
+  .tool-bubble.is-lg { width: 168px; height: 168px; }
+  .tool-bubble.is-md { width: 140px; height: 140px; }
+  .tool-bubble.is-sm { width: 122px; height: 122px; }
+
+  .tool-bubble:hover {
+    transform: scale(1.09) translateY(-4px);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.42), inset 0 0 30px rgba(192, 254, 113, 0.26);
+  }
+
+  /* Keyboard focus must be visible. The first version set outline: none. */
+  .tool-bubble:focus-visible {
+    transform: scale(1.09) translateY(-4px);
+    outline: 4px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  .tool-bubble:active { transform: scale(0.97); }
+
+  @keyframes bubbleFloat {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tool-bubble { animation: none; }
+  }
+
+  .tool-bubble-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--green-lime);
+  }
+
+  .tool-sheet-close:focus-visible,
+  .tool-sheet-tried:focus-visible,
+  .refs-summary:focus-visible {
+    outline: 3px solid var(--green-lime);
+    outline-offset: 2px;
+  }
+
+  .tool-bubble-name {
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.22;
+    color: #ffffff;
+    padding: 0 0.2rem;
+  }
+
+  .tool-bubble-tick {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
     background: var(--green-lime);
     color: var(--green-dark);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 800;
-    letter-spacing: 0.06em;
+    line-height: 22px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
-  .deck-slide h2 {
+  .tool-bubble.is-tried .tool-bubble-tick { opacity: 1; transform: scale(1); }
+  .tool-bubble.is-tried { border-color: #ffffff; }
+
+  .tool-card-collapsed { display: none; }
+
+  /* Tool sheet: slides up from the bottom, like a mobile app. */
+  /* Native dialog: the browser positions it and paints ::backdrop. */
+  .tool-sheet {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 620px;
+    width: 100%;
+    margin: auto auto 0;
+  }
+
+  .tool-sheet::backdrop {
+    background: rgba(3, 10, 6, 0.74);
+    backdrop-filter: blur(3px);
+  }
+
+  body.sheet-open { overflow: hidden; }
+
+  .tool-sheet-panel {
+    width: 100%;
+    max-width: 620px;
+    max-height: 86vh;
+    overflow-y: auto;
+    background: linear-gradient(170deg, #0d2417 0%, #1c0c26 100%);
+    border: 3px solid var(--green-lime);
+    border-bottom: none;
+    border-radius: 26px 26px 0 0;
+    padding: 1.1rem 1.3rem 1.5rem;
+    color: var(--green-light);
+    animation: sheetUp 0.26s cubic-bezier(.22,1,.36,1);
+  }
+
+  @keyframes sheetUp {
+    from { transform: translateY(14%); opacity: 0.6; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  .tool-sheet-close {
+    display: block;
+    margin: 0 0 0.6rem auto;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 2px solid rgba(192, 254, 113, 0.5);
+    background: transparent;
+    color: var(--green-lime);
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+
+  .tool-sheet-body h2 {
     margin: 0 0 0.7rem;
-    color: var(--purple);
+    color: var(--green-lime);
     font-size: 1.2rem;
-    padding-right: 2rem;
   }
 
-  .deck-slide p,
-  .deck-slide li {
-    font-size: 1rem;
+  .tool-sheet-body p,
+  .tool-sheet-body li {
+    color: var(--green-light);
     line-height: 1.6;
   }
 
-  .deck-foot {
+  .tool-sheet-tried {
+    display: block;
+    width: 100%;
+    margin-top: 1.1rem;
+    padding: 0.7rem;
+    border-radius: 14px;
+    border: none;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* ── MINDFULNESS: story cards ─────────────────────────────────────────── */
+
+  @media (max-width: 720px) {
+    .tool-bubble.is-lg { width: 132px; height: 132px; }
+    .tool-bubble.is-md { width: 116px; height: 116px; }
+    .tool-bubble.is-sm { width: 104px; height: 104px; }
+    .tool-bubble-num { font-size: 1.25rem; }
+    .tool-bubble-name { font-size: 0.7rem; }
+    .story-stage { min-height: 60vh; padding: 1rem 1rem 0.5rem; }
+    .story-card h2 { font-size: 1.25rem; }
+  }
+  /* Optional article hero photo, set via `photo:` in frontmatter. */
+  .article-photo {
+    margin: 0 0 1rem;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid rgba(105, 0, 90, 0.2);
+  }
+
+  .article-photo img {
+    display: block;
+    width: 100%;
+    max-height: clamp(200px, 38vh, 420px);
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  /* ── MINDFULNESS: story cards ──────────────────────────────────────────
+     Styled to match the mindfulness tile on the homepage: a light card with
+     a coloured top edge, fading in as it becomes active. Teal accent because
+     it passes AA on white (5.47:1); the orange it replaced was 3.06:1. */
+  /* ── MINDFULNESS: one card, not a box in a box ────────────────────────
+     The wrapper is invisible: no background, no border, no padding. The
+     card is the only surface, with the progress bars and controls sitting
+     on top of it, so it reads as a single object you flick through. */
+  .story {
+    position: relative;
+    margin: 0.5rem 0 1rem;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  .story-stage {
+    position: relative;
+    padding: 0;
+  }
+
+  .story-card {
+    display: none;
+    position: relative;
+    background:
+      linear-gradient(180deg, var(--mind-orange-tint) 0%, rgba(253, 240, 230, 0.6) 30%, #ffffff 68%);
+    border: none;
+    border-top: 7px solid var(--mind-orange);
+    border-radius: 20px;
+    padding: 2.9rem 1.6rem 1.7rem;
+    min-height: 52vh;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+  }
+
+  .story-card.is-active {
+    display: block;
+    animation: storyFade 0.45s ease both;
+  }
+
+  @keyframes storyFade {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-card.is-active { animation: none; }
+  }
+
+  /* Progress bars sit on the card, under its orange top edge. */
+  .story-bars {
+    position: absolute;
+    top: 1rem;
+    left: 1.6rem;
+    right: 1.6rem;
+    z-index: 3;
+    display: flex;
+    gap: 5px;
+  }
+
+  .story-bar {
+    flex: 1;
+    height: 5px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(168, 72, 10, 0.22);
+    cursor: pointer;
+  }
+
+  .story-bar.is-done { background: rgba(168, 72, 10, 0.55); }
+  .story-bar.is-active { background: var(--mind-orange-text); }
+
+  .story-bar:focus-visible {
+    outline: 3px solid var(--mind-orange-text);
+    outline-offset: 3px;
+  }
+
+  /* All text on the card is dark. Needs this specificity because the
+     dark-shell rule (body.interactive-post .prose p) would otherwise make
+     it light green on a white card. */
+  body.interactive-post .story-card h2 {
+    margin: 0 0 0.9rem;
+    color: var(--mind-orange-text);
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  body.interactive-post .story-card p,
+  body.interactive-post .story-card li,
+  body.interactive-post .story-card td,
+  body.interactive-post .story-card th {
+    color: #1a1a1a;
+    font-size: 1.04rem;
+    line-height: 1.62;
+  }
+
+  body.interactive-post .story-card strong {
+    color: var(--mind-orange-text);
+  }
+
+  /* Tap zones over the card, behind its text. */
+  .story-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 22%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .story-zone-prev { left: 0; }
+  .story-zone-next { right: 0; }
+
+  .story-zone:focus-visible {
+    outline: 3px solid var(--mind-orange);
+    outline-offset: -5px;
+  }
+
+  /* Footer sits inside the card, bottom right. */
+  .story-foot {
+    position: absolute;
+    bottom: 0.9rem;
+    left: 1.6rem;
+    right: 1.6rem;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.7rem 1rem;
-    border-top: 2px solid rgba(105, 0, 90, 0.15);
-    background: rgba(192, 254, 113, 0.14);
+    pointer-events: none;
   }
 
-  .deck-prev,
-  .deck-next {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 2px solid var(--purple);
-    background: #ffffff;
-    color: var(--purple);
-    font-size: 1.4rem;
-    line-height: 1;
-    cursor: pointer;
+  .story-count {
+    color: var(--mind-orange-text);
+    font-size: 0.82rem;
+    font-weight: 800;
   }
 
-  .deck-prev:disabled,
-  .deck-next:disabled {
-    opacity: 0.35;
-    cursor: default;
+  .story-hint {
+    color: rgba(26, 26, 26, 0.6);
+    font-size: 0.76rem;
   }
 
-  .deck-dots {
-    display: flex;
-    gap: 0.4rem;
+  /* Links on the dark toolkit and mindfulness shells.
+     .prose a is #4f0044 !important, which is 1.36:1 against the dark shell,
+     far below the 4.5:1 minimum. Lime gives 13.77:1. The !important here is
+     needed only to beat the !important on the base rule. */
+  body.interactive-post .prose a,
+  body.interactive-post .prose a:link,
+  body.interactive-post .prose a:visited {
+    color: var(--green-lime) !important;
+    text-decoration-color: rgba(192, 254, 113, 0.6);
   }
 
-  .deck-dot {
-    width: 9px;
-    height: 9px;
-    padding: 0;
-    border-radius: 50%;
+  body.interactive-post .prose a:hover,
+  body.interactive-post .prose a:focus-visible {
+    color: #ffffff !important;
+    text-decoration-color: #ffffff;
+  }
+
+  body.interactive-post .prose a:focus-visible {
+    outline: 3px solid var(--green-lime);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  /* Saoirse's inline note also carried purple text on the dark shell. */
+  body.interactive-post .prose .practical-tools-banner,
+  body.interactive-post .prose .shamrock-banner-purple {
+    color: var(--green-light);
+    border-left-color: var(--green-lime);
+  }
+
+  body.interactive-post .prose .practical-tools-banner a {
+    color: var(--green-lime) !important;
+  }
+
+  /* The story cards are light, so links inside them stay dark for contrast. */
+  body.interactive-post .story-card a,
+  body.interactive-post .story-card a:link,
+  body.interactive-post .story-card a:visited {
+    color: var(--mind-orange-text) !important;
+    text-decoration-color: rgba(168, 72, 10, 0.6);
+  }
+
+  /* Tool sheet sits on a dark panel, so lime again. */
+  body.interactive-post .tool-sheet-body a,
+  body.interactive-post .tool-sheet-body a:link,
+  body.interactive-post .tool-sheet-body a:visited {
+    color: var(--green-lime) !important;
+  }
+
+  /* Mindfulness pages: no lime frame around the card. The card is the only
+     surface, sitting straight on the dark background. */
+  body.mindfulness-post .article-shell {
     border: none;
-    background: rgba(105, 0, 90, 0.28);
-    cursor: pointer;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    overflow: visible;
   }
 
-  .deck-dot.is-active {
-    background: var(--purple);
-    transform: scale(1.3);
+  /* The drifting bubbles belonged to the framed shell, so they go too. */
+  body.mindfulness-post .article-shell::before,
+  body.mindfulness-post .article-shell::after {
+    display: none;
   }
 
 </style>

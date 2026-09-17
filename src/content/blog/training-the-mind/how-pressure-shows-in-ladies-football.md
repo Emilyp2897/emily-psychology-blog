@@ -2,6 +2,8 @@
 title: "How Pressure Shows Up in Ladies Gaelic Football"
 description: "The specific pressures female Gaelic players carry that aren't about ability. Selection anxiety, fear of letting the team down, social comparison, and the dual-career load."
 pubDate: "2026-09-08"
+photo: "/assets/articles/FLO_1548.jpg"
+photoAlt: "Squad photo after a championship win"
 track: "training-the-mind"
 ---
 Pressure does not start when the whistle goes. This one is about where it actually comes from. Not what it does to you in the moment, but the places it builds up long before you ever run out onto the pitch.
@@ -26,7 +28,11 @@ The not-knowing is what does the damage. You might play it cool in front of ever
 
 And if you've ever been dropped, even once, your brain does not forget it. It starts scanning. Body language at training. Which group the coach put you in for drills. Who got a quiet word afterwards and who walked to the car on their own. None of that scanning is a decision you make. It runs in the background whether you want it to or not.
 
-That's the bit players underestimate. Scanning costs you something. It's mental energy spent on threat detection instead of on football, and it's spent days before the game. So you arrive at the weekend with part of your capacity already gone, and then you wonder why you feel flat in a game you were desperate to play well in.
+That's the bit players underestimate. Scanning costs you something. It's mental energy spent on threat detection instead of on football, and it's spent days before the game. You arrive at the weekend with part of your capacity already gone, and then you wonder why you feel flat in a game you were desperate to play well in.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The Fear of Letting Everyone Down
 
@@ -52,6 +58,10 @@ And once you're assessing yourself rather than reading the game, your attention 
 
 Mosewich and colleagues (2013) worked with women athletes on exactly this, and found that self-criticism was common, and that learning to respond to yourself with more self-compassion actually improved things. I know how that sounds. Self-compassion is not a word that gets used much in a dressing room. But it isn't softness, and it isn't lowering your standards. It's the difference between "that was a poor ball, sort it out" and "you're useless, why are you even here". One of those keeps you in the game.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The Weight of Being Looked To
 
 If you wear the armband, or you're one of the older players, or you're just someone the younger ones watch, you're carrying something extra whether anyone named it or not.
@@ -68,9 +78,13 @@ Most ladies Gaelic players are not full-time athletes. You have a job, or colleg
 
 Wylleman and Lavallee (2004) describe this as the dual career. Your athletic life doesn't run on its own, it runs alongside your working life, your studies and your relationships, all developing at the same time and all making demands. When those demands rise together, the thing that gets squeezed is recovery, because recovery is the only part of the week with no one else depending on it.
 
-So you come to training already depleted after a twelve-hour shift or a brutal week of deadlines, and the pressure of the session lands on a system that has less left to give. Your capacity to absorb it genuinely is lower that evening than it would have been on a quiet week.
+You come to training already depleted after a twelve-hour shift or a brutal week of deadlines, and the pressure of the session lands on a system that has less left to give. Your capacity to absorb it genuinely is lower that evening than it would have been on a quiet week.
 
 That is not weakness and it is not a lack of commitment. It's load. And judging yourself for it is like being annoyed at yourself for being out of breath after a fitness test.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Why Naming It Changes Things
 
@@ -89,16 +103,6 @@ It's selection week, and comparison, and responsibility, and a life that doesn't
 You're not weak for feeling the weight of that. You're playing a sport that asks a lot, while living a life that asks a lot.
 
 That's genuinely hard. And it's worth saying out loud.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

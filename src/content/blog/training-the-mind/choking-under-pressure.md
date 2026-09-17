@@ -2,6 +2,8 @@
 title: "Choking Under Pressure: Why You Freeze in Big Moments Even When You Know What to Do"
 description: "What's actually happening when a skill you've done a hundred times in training falls apart in a match, and what the research says about why."
 pubDate: "2026-09-12"
+photo: "/assets/articles/IMG_4077.JPG"
+photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
 ---
 
@@ -25,13 +27,17 @@ What makes this different from general performance issues is that you can do the
 
 Researchers like Baumeister (1984) were some of the first to explain this, showing that pressure can create a kind of "paradox effect". The more important the moment feels, the more likely performance is to break down.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Why does this happen?
 
 One of the strongest explanations comes from Beilock and Carr (2001) and later DeCaro et al. (2011).
 
 They found that choking happens when performance shifts from being automatic to overly controlled.
 
-So instead of trusting your body to do what it already knows how to do, you start consciously trying to control it.
+Instead of trusting your body to do what it already knows how to do, you start consciously trying to control it.
 
 In sport terms, that looks like:
 
@@ -49,7 +55,7 @@ Another key explanation comes from Masters (1992), who introduced the idea of re
 
 This is when under pressure, athletes start to "reinvest" conscious thought into skills that should normally run automatically.
 
-So instead of: see ball → react
+Instead of: see ball → react
 
 It becomes: see ball → think about technique → doubt → act
 
@@ -57,13 +63,17 @@ And that extra layer of thinking slows everything down.
 
 This is where hesitation, tightness, and loss of fluency start to show up.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Why some players "freeze"
 
 Yu (2015) adds another layer by explaining that pressure doesn't just slow people down. It can overload the brain's control systems in high-stakes situations.
 
-When that happens, attention gets pulled toward the importance of the outcome rather than the task itself.
+When that happens, attention is pulled toward the importance of the outcome rather than the task itself.
 
-So instead of "What is my next action?"
+Instead of "What is my next action?"
 
 It becomes "I have to score this" / "I can't miss this"
 
@@ -82,6 +92,10 @@ It happens when:
 - outcome becomes more important than process
 
 And that combination disrupts automatic performance.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## How this is different from Attention Control Theory
 
@@ -122,6 +136,10 @@ And again, this is not lack of ability.
 
 It's pressure changing how the skill is controlled in the moment.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The most important takeaway
 
 Choking under pressure doesn't mean you can't perform.
@@ -129,16 +147,6 @@ Choking under pressure doesn't mean you can't perform.
 It means your brain has shifted from trusting the skill to trying to control the skill.
 
 And in sport, that shift is often the difference between playing freely and overthinking every action.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

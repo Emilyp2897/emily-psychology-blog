@@ -20,6 +20,10 @@ These two messages don't agree. Athletes get caught in the middle. The strong le
 
 Most male athletes don't carry this dual pressure to the same degree. For female athletes it's everywhere: in changing rooms, on social media, in passing comments from family, in the way clothes fit.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Social Comparison Theory in body image
 
 Festinger's Social Comparison Theory (1954) explains why we compare ourselves to others around us. In an athletic setting, that comparison is everywhere.
@@ -47,6 +51,10 @@ The IOC consensus statement (Mountjoy et al., 2014, updated since) documents the
 RED-S affects athletes across body types. You don't have to be visibly underweight. Female athletes are particularly susceptible because of the dual cultural pressure to be lean.
 
 This is not a "be tougher" issue. It's a fuelling issue with serious medical consequences. If any of those signs ring true for you, talk to a sports doctor or a registered dietitian.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## How fuelling actually works for female athletes
 
@@ -80,6 +88,10 @@ Good patterns:
 - Players openly carrying snacks to training without shame.
 - Eating with each other on team days.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 1. **Audit your social media.** If specific accounts make you feel worse about your body, mute or unfollow. This isn't weak; it's protective.
@@ -96,19 +108,9 @@ Your body is a performance tool. Treat it like one. The athletes who perform con
 
 If your relationship with food, body image, or fuelling is affecting your wellbeing, that's worth professional support. There's no shame in it. A lot of athletes are quietly carrying it.
 
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
-
 ## References
 
-- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad—Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
+- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad, Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
 - Festinger, L. (1954). A theory of social comparison processes. *Human Relations*, 7(2), 117-140.
 - Tiggemann, M., & Slater, A. (2013). NetGirls: The Internet, Facebook, and body image concern in adolescent girls. *International Journal of Eating Disorders*, 46(6), 630-633.
 - Sundgot-Borgen, J., & Torstveit, M. K. (2010). Aspects of disordered eating continuum in elite high-intensity sports. *Scandinavian Journal of Medicine & Science in Sports*, 20(s2), 112-121.

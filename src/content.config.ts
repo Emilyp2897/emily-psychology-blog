@@ -16,6 +16,9 @@ const blog = defineCollection({
       'mindfulness-and-affirmations',
     ]),
     tags: z.array(z.string()).optional(),
+    /** Optional hero photo, a path under /public (e.g. /assets/articles/x.jpg). */
+    photo: z.string().optional(),
+    photoAlt: z.string().optional(),
   }),
 });
 

@@ -19,6 +19,10 @@ This is one of the most under-discussed areas in women's sport, so it is worth b
 - Persistent fatigue, low mood, or irritability that does not lift.
 - Hidden eating or hidden compensating behaviours (laxatives, vomiting, hours of extra training).
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 The first medical line to know about is **RED-S (Relative Energy Deficiency in Sport)**. Defined by the IOC consensus statement (Mountjoy et al. 2018), RED-S is what happens when an athlete is not taking in enough energy to support both training and basic body functions. It causes loss of periods, weakened bones, reduced immunity, persistent injuries, and mood and cognitive effects. It is treatable, and the most important step is recognising it.
@@ -32,11 +36,15 @@ The second line is **disordered eating and eating disorders**. The line between 
 - Step away from comparison content on social media. Research is consistent that body-focused content increases body dissatisfaction.
 - Tell one person you trust. These conditions thrive in secrecy.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** is the first stop. Eating disorders and RED-S need medical assessment, not just psychology.
-- **Beat (UK)** at beateatingdisorders.org.uk — UK eating disorder charity with a helpline.
-- **BodyWhys (Ireland)** at bodywhys.ie — Irish eating disorder support service.
+- **Beat (UK)** at beateatingdisorders.org.uk, UK eating disorder charity with a helpline.
+- **BodyWhys (Ireland)** at bodywhys.ie, Irish eating disorder support service.
 - **NHS Talking Therapies (UK)** for the psychological side.
 - **HSE Mental Health Services (Ireland)** via GP referral for specialist eating disorder services.
 - **BASES Sport Psychologists (UK)** for athletes navigating body image in performance contexts.
@@ -45,23 +53,17 @@ The second line is **disordered eating and eating disorders**. The line between 
 
 It took me a long time to see that the way I was thinking about food and my body was not normal "athlete focus," it was something that needed help. Getting that help did not make me a worse athlete. It made me a healthier one, and the sport got better as I did.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - **Beat helpline (UK)**: 0808 801 0677
 - **BodyWhys helpline (IE)**: 01 210 7906
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

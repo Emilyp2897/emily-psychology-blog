@@ -11,7 +11,7 @@ track: "training-the-mind"
 
 You've nailed this kind of free in training a hundred times. You step up, you strike, it drifts wide. Or worse, it's blocked down.
 
-The mistake itself is two seconds. The damage gets done in the next 30 seconds.
+The mistake itself is two seconds. The damage is done in the next 30 seconds.
 
 What usually happens:
 - You walk back to your position, head down
@@ -26,6 +26,10 @@ What needs to happen:
 - Eyes back on the play
 
 The whole reset is under 10 seconds. Anyone can do it. The hard part is doing it instead of carrying the mistake.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The misread pass
 
@@ -50,6 +54,10 @@ This one is hardest because there's an immediate consequence visible to everyone
 The temptation is to overcompensate. Go harder, tackle harder, push higher. That often leads to a second mistake.
 
 Better response: stay in your job. Same defensive shape, same positioning. The score is already on the board. Going chasing makes another one likely.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The training session where everything was off
 
@@ -77,6 +85,10 @@ Some thoughts:
 
 This doesn't make the feeling go away. But it puts it in perspective.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do this week
 
 1. **Build a 10-second mistake reset.** Cue, breath, eyes up. Practice it in training when stakes are low.
@@ -85,16 +97,6 @@ This doesn't make the feeling go away. But it puts it in perspective.
 4. **Track wins as much as losses.** Your mental ledger is biased. Help it.
 
 Full toolkit at [Mistake Reset Toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -13,9 +13,13 @@ Because the theory only matters if it helps you in the moments where confidence 
 
 Mondays and Tuesdays in selection week are confidence killers. You don't know if you're in. You can't ask. You watch coaches' body language. You overthink the drills.
 
-Here's what's actually happening: your brain is running predictions, and most of them are negative. That's not a confidence problem. That's a stress problem masquerading as a confidence problem.
+Your brain is running predictions, and most of them are negative. That's not a confidence problem. That's a stress problem masquerading as a confidence problem.
 
 What to do: pick a process measure to focus on. "This week I'm going to be the first to every ball in training." Not "I want to be selected". The first is in your control. The second isn't. Process beats outcome every time, especially when you can't control the outcome.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Training drills with senior players
 
@@ -31,6 +35,10 @@ Warm-ups can be a confidence build OR a confidence wreck depending on how you tr
 
 If you're using the warm-up to "check" if you've got it today, you'll find evidence either way and obsess over it. If you're using the warm-up as just warm-up, you arrive at throw-in neutral instead of panicked.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## In-game after a mistake
 
 This is where the internal vs external confidence split really matters. After a misplaced pass or a missed shot, external-confidence players collapse. Internal-confidence players are annoyed for 30 seconds and then they're back.
@@ -42,6 +50,10 @@ The difference isn't natural talent. It's a habit. They've trained themselves to
 This is the silent confidence-killer in team sports. Someone you've always been ahead of is now ahead of you. Or someone new came in and is starting in your spot.
 
 The instinct is to compare and feel less-than. The response that actually helps: be a great teammate. Cheer the goal. Set the screen. Run the decoy. Players who do this well, even when they're losing minutes, tend to keep their confidence intact. Because they're building evidence of who they are as a player, even when the scoreboard isn't reflecting it.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Critical feedback from a coach
 
@@ -57,16 +69,6 @@ The reframe: feedback is information about a moment, not about your value as a p
 4. **Receive feedback as data, not verdict.** If a coach says something hard, write down the actual fact and separate it from your story about it.
 
 Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

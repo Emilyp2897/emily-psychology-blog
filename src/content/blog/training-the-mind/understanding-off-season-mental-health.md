@@ -23,9 +23,13 @@ What follows is a recognised pattern in sports research:
 
 This is normal. It's also temporary if you handle it well.
 
-> **[TO FILL IN — A POST-CHAMPIONSHIP CRASH]**
+> **[TO FILL IN, A POST-CHAMPIONSHIP CRASH]**
 >
 > A specific time after a season ended (championship win or loss) when you crashed harder than expected. What did the first 2 weeks look like emotionally?
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The win-loss paradox
 
@@ -47,6 +51,10 @@ Athletes with high athletic identity (most ladies Gaelic players) often feel an 
 
 This is uncomfortable. It's also useful information. The discomfort tells you something about how much of you is wrapped up in the sport.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Loneliness and isolation
 
 A lot of female athletes describe the off-season as lonely. Not in an obvious way, but in a way that creeps up.
@@ -55,7 +63,7 @@ You've been with the squad multiple times a week for months. Suddenly you're not
 
 If most of your social life is the squad (identity territory again), the off-season is when you feel the cost of that. The friendships outside the squad you haven't tended start feeling further away.
 
-> **[TO FILL IN — AN OFF-SEASON LONELINESS]**
+> **[TO FILL IN, AN OFF-SEASON LONELINESS]**
 >
 > A specific off-season period where you felt lonely or isolated, even if you wouldn't have called it that at the time. What was missing?
 
@@ -76,6 +84,10 @@ What an off-season should NOT be:
 - Total inactivity for the entire break.
 - Pure social and party time with no rest.
 - Filling every minute to avoid the come-down feeling.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The 2-week marker
 
@@ -102,6 +114,10 @@ The off-season can surface deeper patterns that the season's structure was holdi
 
 Tools at [Off-Season Recovery Toolkit](/content-hub/gael-performance-toolkit/off-season-recovery-toolkit/).
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The most important takeaway
 
 The off-season isn't just a break. It's its own season, with its own challenges and its own work.
@@ -109,16 +125,6 @@ The off-season isn't just a break. It's its own season, with its own challenges 
 Athletes who treat it as "downtime" often come back to pre-season worse than they left. Athletes who treat it as recovery (real recovery, including mental and social recovery) come back better.
 
 Be gentle with yourself in the off-season. The hard work is done. This is the part where you put yourself back together so the next season is possible.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

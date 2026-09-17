@@ -31,6 +31,10 @@ Athletes high in extrinsic motivation (with low intrinsic):
 
 This doesn't mean extrinsic motivation is bad. It's about balance.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The three needs
 
 SDT also says we have three basic psychological needs that, when met, fuel intrinsic motivation:
@@ -54,6 +58,10 @@ It might mean:
 
 Most coaches react to low motivation by pushing harder. Push through. Show up anyway. Sometimes that's right. But sometimes the better response is to look at what need isn't being met.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The burnout curve
 
 Burnout research in athletes (Gustafsson and others have done good work on this) describes three stages:
@@ -75,21 +83,15 @@ If any of the three stages above are describing you for more than 2-3 weeks, it'
 
 The practical toolkit is at [Goal Setting Toolkit](/content-hub/gael-performance-toolkit/goal-setting-toolkit/).
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The most important takeaway
 
 Motivation isn't a moral failing when it dips. It's a signal. Something in the system is off. The job is to find what.
 
 The strongest athletes I know aren't the ones who never lose motivation. They're the ones who notice it early and adjust.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

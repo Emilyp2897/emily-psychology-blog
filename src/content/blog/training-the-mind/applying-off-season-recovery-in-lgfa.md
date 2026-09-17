@@ -21,6 +21,10 @@ This is the only week of the year where you can fully switch off. Take it.
 
 The temptation: "I should keep moving so I don't lose conditioning." This is the voice we've been working on all year. Tell it to sit down.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Week 2: light movement
 
 Reintroduce easy movement. Not training.
@@ -46,9 +50,13 @@ Start building a non-sport-centred routine.
 
 This is where you're building the version of your week that doesn't depend on sport. It's hard if you don't have practice doing it.
 
-> **[TO FILL IN — AN OFF-SEASON MEMORY]**
+> **[TO FILL IN, AN OFF-SEASON MEMORY]**
 >
 > A specific off-season you remember well. What did you do with it? Did it leave you better or worse going into pre-season?
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Weeks 5-6: optional light conditioning
 
@@ -70,6 +78,10 @@ What helps:
 - One squad social event in the off-season. A meal. A trip. Just something to keep contact.
 - Reconnection with non-squad friends. Some of these have been quietly missing you all season.
 - Don't fill the social gap with party-mode every weekend. That's a different problem (and tends to leave you arriving at pre-season worse, not better).
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What to do with the identity surfacing
 
@@ -104,6 +116,10 @@ The athletes who come back worst:
 - Are anxious instead of excited. Already feeling pressure for the season ahead.
 - Try to make a statement in Week 1 of pre-season and pull something in Week 2.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do this off-season
 
 1. **Week 1: rest completely.** Sleep, eat, social.
@@ -123,16 +139,6 @@ You've been on a 12-month journey through the mental side of sport. We started w
 The most consistent athletes I know take recovery as seriously as they take training. The off-season is the biggest recovery window you'll have. Use it well.
 
 Be kind to yourself in this break. The work is done. This is the part where you put yourself back together.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

@@ -57,12 +57,7 @@ const plannedTopics = [
       <div class="series-lead">
         <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
         <div class="saoirse-bubble">
-        <p class="series-lead-copy">Nothing here takes longer than five minutes. Short practices and affirmations, built on the research into attention and self-affirmation. Some are for match week, some are for the rest of your life.</p>
-        <p class="series-lead-meta">
-          <span class="lead-pill lead-pill-free">Free, no sign-up</span>
-          <span class="lead-pill">Read as slides you can swipe</span>
-          <span class="lead-pill">Championship pieces live now</span>
-        </p>
+        <p class="series-lead-copy">Every practice takes five minutes or less, built on the research into attention and self-affirmation. Some are for match week, some are for the rest of your life.</p>
         </div>
       </div>
 
@@ -300,10 +295,9 @@ const plannedTopics = [
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  /* Static on hover: no lift, no border or colour shift. */
   .mindfulness-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--purple);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    transform: none;
   }
 
   .mindfulness-card a {
@@ -373,9 +367,6 @@ const plannedTopics = [
   }
 
   .description-blur {
-    filter: blur(2.5px);
-    user-select: none;
-    pointer-events: none;
   }
 
   /* Local-preview affordance on locked cards. Not rendered in production. */
@@ -438,4 +429,75 @@ const plannedTopics = [
       padding: 1rem;
     }
   }
+
+
+
+
+
+
+
+  /* Cards match the series tiles on the homepage: white, a coloured top
+     edge for the series, lifting on hover. Locked entries stay flat so the
+     page is not wall-to-wall boxes; only what you can read now is raised.
+     The intro and the feedback line lose their panels for the same reason. */
+  .mindfulness-card:not(.mindfulness-card-locked, .mindfulness-card-planned) {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-top: 6px solid var(--mind-orange-text);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  }
+
+
+  .mindfulness-card:not(.mindfulness-card-locked, .mindfulness-card-planned) .card-title {
+    color: var(--green-dark) !important;
+  }
+
+  /* Locked and coming-soon entries: no panel, just a divider. */
+  .mindfulness-card.mindfulness-card-locked, .mindfulness-card-planned {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.85rem 0 1rem;
+  }
+
+  .saoirse-bubble {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .saoirse-bubble::before,
+  .saoirse-bubble::after { display: none; }
+
+  .content-feedback-cta {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 1.2rem 0 0;
+    text-align: left;
+  }
+
+  /* Locked entries sit flat on the page background (#030a06), so their text
+     has to be light. It was still the dark colour from when every card had
+     a white panel behind it, which made it unreadable. */
+  .mindfulness-card.mindfulness-card-locked .card-title,
+  .mindfulness-card-missing .card-title,
+  .mindfulness-card-planned .card-title {
+    color: var(--green-light) !important;
+    opacity: 0.9;
+  }
+
+  .mindfulness-card.mindfulness-card-locked .card-description,
+  .mindfulness-card-missing .card-description,
+  .mindfulness-card-planned .card-description {
+    color: var(--green-light) !important;
+    opacity: 0.75;
+  }
+
 </style>

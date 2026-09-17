@@ -5,7 +5,7 @@ pubDate: "2026-12-15"
 track: "training-the-mind"
 ---
 
-[Last post](/content-hub/training-the-mind/understanding-team-culture-and-belonging/) was about what team culture actually is. This one is about the specific moments in a Gaelic squad where culture gets built or eroded.
+[Last post](/content-hub/training-the-mind/understanding-team-culture-and-belonging/) was about what team culture actually is. This one is about the specific moments in a Gaelic squad where culture is built or eroded.
 
 ## The new player's first training
 
@@ -15,12 +15,16 @@ The first 15 minutes of her first session shape how she sees her place in the sq
 
 You don't need to host her. You just need to make eye contact and say one thing. That's it. Everyone else builds on that.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The team meal
 
 You can read a lot about a squad by watching the team meal.
 
 - Does everyone sit randomly, or are there fixed cliques?
-- Do the new players sit beside other new players, or get pulled into existing groups?
+- Do the new players sit beside other new players, or are pulled into existing groups?
 - Do the coaches sit with players, separately, or skip the meal?
 - Is there one player who always sits alone, looking at her phone?
 
@@ -43,6 +47,10 @@ In a weak-culture squad:
 - It gets mentioned in the post-match conversation, indirectly.
 
 You don't need to be captain to do the right thing here. You just need to find the player.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The selection conversation
 
@@ -68,6 +76,10 @@ The pattern that builds culture:
 
 If you're on a squad where analysis feels like a punishment, the culture issue is upstream of you. Not your fault. Worth naming to a senior or coach if you can.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When there's a clique
 
 Most squads have them. The senior group. The training-partners. The school-friends-who-came-up-together. Cliques aren't necessarily bad.
@@ -90,16 +102,6 @@ If you're outside, it's worth finding one person you can be a partner-of-two wit
 4. **If something feels off in the squad, name it to one person you trust.** Not the group chat.
 
 The communication tools are in the [Team Communication Toolkit](/content-hub/gael-performance-toolkit/team-communication-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

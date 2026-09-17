@@ -3,6 +3,8 @@ title: "Applying Championship Pressure in Ladies Gaelic Football"
 description: "Specific championship-week moments and how to handle them. The build-up, the morning of, the warm-up, the dressing room, the first 5 minutes."
 pubDate: "2026-09-16"
 tags: ["championship"]
+photo: "/assets/articles/70257319-EA75-41CC-BBFC-1EDC112894FF.jpg"
+photoAlt: "Team with the cup"
 track: "training-the-mind"
 ---
 
@@ -12,7 +14,7 @@ track: "training-the-mind"
 
 You wake up and the match is in your head before you've even opened your eyes. That's how you know it's championship week. Monday is the day players underestimate, because nothing has happened yet, and that's exactly the problem. You've a full week to fill and nothing to fill it with except thinking.
 
-Here's what I'd do:
+What I'd do:
 - Treat it as a normal training week. Don't add extra work. The fitness is already in.
 - Eat properly. Hydrate. Sleep is the most important factor.
 - Off social media if you can. If not, mute the noisy accounts.
@@ -22,6 +24,10 @@ Don't:
 - Watch hours of opposition video unless your coach is leading it.
 - Start "extra" gym sessions.
 - Get drawn into the WhatsApp tactical discussion at midnight.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Wednesday or Thursday: a tough training session
 
@@ -45,6 +51,10 @@ What helps:
 
 Even if sleep is shorter than ideal, you can perform on it. The catastrophic thoughts about how bad you'll play because you didn't sleep enough do more damage than the actual sleep deficit.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Match morning
 
 Most players overthink the morning.
@@ -66,6 +76,10 @@ What to do:
 - Don't compare to the opposition. They're as nervous as you. Stay in your bubble.
 - Find your senior players. Make eye contact. Steady each other.
 - Don't try to make the speech of your career in the dressing room. The squad has been preparing for months. Now is execution.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The first 5 minutes of the game
 
@@ -93,6 +107,10 @@ Don't:
 - Inflate yourself if the first half went well. The game isn't over.
 - Add new tactical complexity in your head. Keep it simple.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## After the final whistle
 
 If you won: feel it. You earned it.
@@ -110,16 +128,6 @@ For both: the post-match conversation in the dressing room shapes how the season
 5. **Have a teammate ally** for both Saturday night and Sunday morning. Steadying.
 
 Practical setup at [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

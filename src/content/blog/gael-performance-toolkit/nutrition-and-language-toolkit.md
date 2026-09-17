@@ -108,6 +108,6 @@ You don't have to share it with anyone. It's yours.
 
 ## References
 
-- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad—Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
+- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad, Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
 - McNulty, K. L., Elliott-Sale, K. J., Dolan, E., et al. (2020). The effects of menstrual cycle phase on exercise performance in eumenorrheic women: A systematic review and meta-analysis. *Sports Medicine*, 50(10), 1813-1827.
 - Sundgot-Borgen, J., & Torstveit, M. K. (2010). Aspects of disordered eating continuum in elite high-intensity sports. *Scandinavian Journal of Medicine & Science in Sports*, 20(s2), 112-121.

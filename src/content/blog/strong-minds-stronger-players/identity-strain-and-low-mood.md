@@ -18,6 +18,10 @@ Injury, end of season, retirement, deselection, a long break for life reasons. A
 - Reduced motivation, low energy, low mood that does not lift with rest.
 - A sense that the future is unclear or pointless without the structure sport provided.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 Identity strain is a real and recognised phenomenon. Brewer, Van Raalte, and Linder's (1993) work on the Athletic Identity Measurement Scale shows that athletes with very high athletic identity are at higher risk for depression and adjustment difficulties when sport is disrupted.
@@ -30,6 +34,10 @@ The line into clinical territory is when low mood meets the criteria for depress
 - Build a "second pillar". One or two interests, relationships, or pursuits outside sport that you can pour into. They do not need to replace sport; they need to exist alongside it.
 - Stay connected to teammates even when you are not playing. Identity erodes faster in isolation.
 - Reach out to former players who have been through the same transition. The GPA player development team specifically supports this.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Where to get professional support
 
@@ -44,21 +52,15 @@ The line into clinical territory is when low mood meets the criteria for depress
 
 For years my identity was so tied up in being a player that any threat to playing felt like a threat to me. Slowly building things outside sport, and recognising the difference between "I am not playing this week" and "I am nothing this week," was some of the most important inner work I have done. The sport got better when I stopped needing it to be everything.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

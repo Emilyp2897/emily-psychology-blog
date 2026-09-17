@@ -7,9 +7,16 @@ import PhotoCredit from '../components/PhotoCredit.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
 import storyImage from '../assets/EmilyPhelan-London-YellowCard.jpg';
 import feltLikeImage from '../assets/IMG_7228.jpg';
-// PLACEHOLDER: no Cork underage photo in the repo yet. Swap this import for
-// a real one from that era when you have it.
-import corkImage from '../assets/FLO_1548.jpg';
+// The Cork jerseys photo, which fits this chapter. Swap if you have a
+// better one from that era.
+import corkImage from '../assets/IMG_7313.jpg';
+import nowImage from '../assets/IMG_4060.jpeg';
+// Placeholders for the new middle chapters. Swap these for whichever of the
+// photos you just added actually belong to each era.
+import eighteenImage from '../assets/IMG_3748.jpeg';
+import goodBitsImage from '../assets/695BB3EF-C6D5-4EAD-94F7-9DC225486BE8.jpg';
+import covidImage from '../assets/IMG_4376-lc.jpg';
+import londonImage from '../assets/1B8F435C-C301-4E03-BFC4-4837A3AE8E5B.jpg';
 import differentHeadspaceImage from '../assets/EmilyPhelan-London-Playing-1.jpg';
 import whyImage from '../assets/EmilyPhelan-Holloway-Playing.jpg';
 import { SITE_TITLE } from '../consts';
@@ -33,17 +40,62 @@ const slides = [
     kicker: 'Chapter 2',
     title: 'Walking Away at Sixteen',
     paragraphs: [
-      'Long before any of the London stuff, I played underage with Cork. I captained the under 16s. I was on track for Minor, and realistically senior after that, and from the outside it probably looked like everything was going the right way.',
-      'Then I walked away from it completely. Not because of injury, and not because I stopped being good enough. The pressure had built to a point where none of it was fun anymore, and when the fun goes out of something you have loved since you were a child, you start looking for a way out.',
-      'What I did next I am not proud of, but it matters to the story. I spent years drinking and avoiding, running as fast as I could from what was actually going on with me rather than facing any of it. I stopped playing sport altogether. Not a different club, not a lower grade, nothing at all.',
+      'Long before I played with Holloway and London, I played underage with Cork. I was captain at fourteen. I was on track for Minor, and realistically senior after that, and from the outside it probably looked like everything was going the right way.',
+      'Then I walked away from it completely. Not because of injury, and not because I stopped being good enough. The pressure had built to a point where it was not fun anymore, and when the fun goes out of something you have loved since you were a child, you start looking for a way out.',
+      'I spent years drinking and avoiding, running as fast as I could from what was actually going on with me rather than facing any of it. I stopped playing sport altogether. Not a different club, not a lower grade, nothing at all.',
       'It was seven years before I went back to it.',
-      'That is the part I want any young player reading this to hear. The pressure that pushed me out at sixteen was never dealt with, so it just followed me around in other shapes. Walking away did not solve it. It only delayed it.',
+      'That is the part I want any young player reading this to hear. The pressure that pushed me out was never dealt with, so it just followed me around in other shapes. Walking away did not solve it. It only delayed it.',
+    ],
+  },
+  {
+    image: eighteenImage,
+    alt: 'Emily Phelan in her late teens',
+    kicker: 'Chapter 3',
+    title: 'By Eighteen',
+    paragraphs: [
+      'By eighteen I was drinking heavily. I gained a lot of weight and my confidence got worse with it, which made me want to go out and drink more, which made all of it worse again.',
+      'I spent years battling anxiety and depression, but I would not have called it that at the time. I just used drink to cope. It worked, in the way that it works for a night and costs you the week.',
+    ],
+  },
+  {
+    image: goodBitsImage,
+    alt: 'Emily Phelan travelling in her twenties',
+    kicker: 'Chapter 4',
+    title: 'The Good Bits Were Real',
+    paragraphs: [
+      'I want to be clear that it was not all bad, because that would be a lie. I travelled. I made really good friends, ones I still have. I went to festivals and concerts. I eventually went back to football.',
+      'I was also a high achiever. I did well academically, and my career took off during Covid.',
+      'Looking back, though, the travelling and the whole business of enjoying my twenties put a blanket over the anxiety and the depression. It did not deal with any of it. It just covered it up well enough that I could keep going.',
+    ],
+  },
+  {
+    image: covidImage,
+    alt: 'Emily Phelan during the Covid years',
+    kicker: 'Chapter 5',
+    title: 'Covid Took the Blanket Off',
+    paragraphs: [
+      'Then the travelling stopped and I came back to the reality of working, playing football, and eventually being trapped by Covid. That is when I started to lose my mind.',
+      'I became very unhappy, and football made it worse. I lost the weight, but my mental health was not stable enough to cope with no longer being the best.',
+      'I struggled through years of being benched and blaming everyone else for it.',
+    ],
+  },
+  {
+    image: londonImage,
+    alt: 'Emily Phelan in London',
+    kicker: 'Chapter 6',
+    title: 'I Blamed Cork, Then Ran to London',
+    paragraphs: [
+      'I used to blame home for my troubles. I hated Cork. But the problem was not my home, or my family, or football. It was me, and my inability to face my anxiety and depression.',
+      'So I ran away to London hoping I would build a happy life for myself. At times I genuinely did. But I was a ticking timebomb.',
+      'The heightened pressure from football made things worse, and because I did not know football was a trigger, I just kept having panic attacks and long spells of depression without understanding why.',
+      'I skied. I partied. I enjoyed my life. There was always something underneath it.',
+      'Most people who knew me in my early twenties will remember the fun Irish party girl. Most people who knew me in my late twenties will remember the person who was suffering. I became obsessed with my weight and how I looked, deeply insecure about it, and rarely had the motivation to do anything about it.',
     ],
   },
   {
     image: depressedImage,
     alt: 'Emily Phelan on league final day',
-    kicker: 'Chapter 3',
+    kicker: 'Chapter 7',
     title: 'A Difficult Phase',
     paragraphs: [
       'Number 18 is me on league final day. I remember feeling happy for my team, but I could not fully feel it for myself because I was so caught up in my own performance. I was not in a good place mentally, and that showed on the pitch.',
@@ -53,7 +105,7 @@ const slides = [
   {
     image: feltLikeImage,
     alt: 'Emily Phelan during a game',
-    kicker: 'Chapter 4',
+    kicker: 'Chapter 8',
     title: 'What That Felt Like',
     paragraphs: [
       'Everything felt heavier than it should have. Not just games, but life in general. There were days I struggled to get out of bed, times I felt really low for no clear reason, and panic attacks I did not fully understand at the time.',
@@ -63,7 +115,7 @@ const slides = [
   {
     image: differentHeadspaceImage,
     alt: 'Emily Phelan playing in London',
-    kicker: 'Chapter 5',
+    kicker: 'Chapter 9',
     title: 'Hitting Rock Bottom',
     paragraphs: [
       'Eventually I hit rock bottom and went to my doctor. I was put on medication, and for the first time in years my head went quiet.',
@@ -74,11 +126,22 @@ const slides = [
   {
     image: whyImage,
     alt: 'Emily Phelan playing for Holloway',
-    kicker: 'Chapter 6',
+    kicker: 'Chapter 10',
     title: 'Why This Platform Exists',
     paragraphs: [
       'None of that happened overnight. It took a lot of work, a lot of learning, and a lot of uncomfortable reflection on how I was thinking, feeling, and showing up in life and in sport.',
       'Mind the Gael is the platform I wish I had when I was younger. The language, the tools, and the honest stories that would have helped me understand my own head much sooner.',
+    ],
+  },
+  {
+    image: nowImage,
+    alt: 'Emily Phelan with a cup',
+    kicker: 'Chapter 11',
+    title: 'Where I Am Now',
+    paragraphs: [
+      // Placeholder copy. Rewrite this in your own words.
+      'Still playing, and enjoying it again.',
+      'I am not writing any of this from the far side of it. I still have weeks where my head is hard work. The difference is that I know what it is now, and I know what helps.',
     ],
   },
 ];

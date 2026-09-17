@@ -18,6 +18,10 @@ Athlete burnout is not just tiredness. The research (Raedeke & Smith 2001) descr
 - Feeling resentful about commitments you used to look forward to.
 - Sleep disturbance, frequent illness, or persistent niggles that do not heal.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 The line is when rest no longer fixes it. If you have taken a week off, two weeks off, and you are still coming back flat, what you are dealing with is not normal fatigue. The Maslach Burnout Inventory (Maslach & Jackson 1981), adapted for athletes, gives a useful framework: exhaustion plus loss of meaning plus reduced performance.
@@ -32,6 +36,10 @@ Burnout is also a predictor of dropping out of sport. If you are seriously consi
 - Cut the load you can cut. Work, study, training, life: identify what can shift even temporarily.
 - Talk to someone outside the sport. A coach, GP, or therapist can see things you cannot from inside it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** can rule out physical contributors (iron, thyroid, vitamin D) and refer you on.
@@ -44,21 +52,15 @@ Burnout is also a predictor of dropping out of sport. If you are seriously consi
 
 Burnout taught me that effort is not the same as progress, and that more is not always better. Stepping back, properly, is sometimes the most ambitious thing you can do. The sport will still be there when you come back to it, and you will come back stronger when you do.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

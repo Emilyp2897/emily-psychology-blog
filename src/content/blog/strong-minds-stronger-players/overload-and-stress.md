@@ -19,6 +19,10 @@ What is different is when overload stops being a phase and becomes a state. When
 - A sense of dread about Monday, or the start of a training week.
 - Forgetting things, losing track, dropping commitments.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 Acute stress is short-term and the body recovers from it. Chronic stress means the stress response system stays activated for weeks or months at a time. Research by McEwen (1998) on allostatic load shows that long-term stress changes the body: cardiovascular system, immune function, sleep architecture, and mood regulation all suffer.
@@ -33,6 +37,10 @@ The clinical line is when stress meets the criteria for **adjustment disorder** 
 - Tell someone what you are carrying. Stress shared is stress reduced.
 - Say no to one thing this week. Even a small "no" gives the system a moment to settle.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** is the first stop if stress is affecting sleep, mood, or physical health.
@@ -46,21 +54,15 @@ The clinical line is when stress meets the criteria for **adjustment disorder** 
 
 I used to wear being stressed as a sign of being committed. It was not. It was a sign that I was carrying too much for too long, and that everything I was doing was suffering for it, including the sport. Cutting load was the most ambitious thing I did. The work that was left got better as a result.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

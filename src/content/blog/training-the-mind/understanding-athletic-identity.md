@@ -22,6 +22,10 @@ High athletic identity is generally good for performance. The athletes who do be
 
 The risk is when athletic identity becomes ALL of you. Because nothing in sport is permanent.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The benefits
 
 Athletes with strong identity:
@@ -32,7 +36,7 @@ Athletes with strong identity:
 
 This isn't something to apologise for. Most of what's good about elite sport comes from athletes who really care.
 
-> **[TO FILL IN — A MOMENT OF IDENTITY]**
+> **[TO FILL IN, A MOMENT OF IDENTITY]**
 >
 > A moment when being a Gaelic player felt central to who you are. Could be a match, a training, a conversation. What did that feel like?
 
@@ -47,9 +51,13 @@ When athletic identity becomes the whole story:
 
 The research on retired athletes is sobering. Athletes with very high AIMS scores who retire (especially involuntarily, through injury or non-selection) report significantly worse mental health outcomes than athletes who'd maintained identities outside the sport.
 
-> **[TO FILL IN — A MOMENT OF LOSS]**
+> **[TO FILL IN, A MOMENT OF LOSS]**
 >
 > A time when the sport was taken from you (injury, dropped, taking a season off). What did it feel like in terms of who you were?
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What "identity beyond sport" actually means
 
@@ -84,6 +92,10 @@ These are anchors. They give you a sense of self that doesn't depend on the next
 
 You don't have to do a lot more outside the sport. You just have to know what else you're working with.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The long-game perspective
 
 The athletes I see thriving at 30+ in club football aren't usually the ones who were obsessive about it in their early 20s. They're the ones who built something else alongside the sport. Friends outside the squad. A career or vocation they cared about. A partner who supports them but doesn't depend on them being "the Gaelic player".
@@ -100,21 +112,15 @@ This isn't compromise. It's actually what makes long careers possible. The singl
 
 Practical tools at [Values and Balance Toolkit](/content-hub/gael-performance-toolkit/values-and-balance-toolkit/).
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The most important takeaway
 
 Being a great athlete doesn't require giving up the rest of yourself. The athletes who go longest, strongest, and happiest are the ones who keep the rest of themselves alive too.
 
 You can be fully committed to the sport AND a whole person. The two aren't in conflict.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

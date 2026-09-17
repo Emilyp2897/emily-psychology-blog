@@ -25,6 +25,10 @@ If any of these are you, you're not weird. You're carrying something. Worth thin
 
 The most basic respect you can offer teammates: don't comment on bodies. Not even positively. "You've got really lean recently" can land badly even when it's meant well. Just leave bodies out of conversation.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Training food
 
 There's a lot of unsaid pressure around what you eat at training.
@@ -57,6 +61,10 @@ If team meals are hard for you, you don't have to suffer through them silently. 
 - Have a plan: what will you eat, what will you leave, how will you handle comments.
 - If meals are triggering a deeper pattern, talk to a registered sports dietitian.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The comment from a coach or teammate
 
 These land hard. Probably harder than the person saying them realised.
@@ -84,6 +92,10 @@ The medical response: a missed period is one of the strongest signs of RED-S or 
 
 If your period has stopped or become irregular AND you're training hard, talk to a sports doctor. Don't sit on it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do this season
 
 1. **Stop commenting on bodies.** Yours, your teammates', your opponents'. Just don't.
@@ -95,18 +107,8 @@ If your period has stopped or become irregular AND you're training hard, talk to
 
 Practical fuelling and language at [Nutrition and Language Toolkit](/content-hub/gael-performance-toolkit/nutrition-and-language-toolkit/).
 
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
-
 ## References
 
-- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad—Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
+- Mountjoy, M., Sundgot-Borgen, J., Burke, L., et al. (2014). The IOC consensus statement: beyond the Female Athlete Triad, Relative Energy Deficiency in Sport (RED-S). *British Journal of Sports Medicine*, 48(7), 491-497.
 - Sundgot-Borgen, J., & Torstveit, M. K. (2010). Aspects of disordered eating continuum in elite high-intensity sports. *Scandinavian Journal of Medicine & Science in Sports*, 20(s2), 112-121.
 - Tiggemann, M., & Slater, A. (2013). NetGirls: The Internet, Facebook, and body image concern in adolescent girls. *International Journal of Eating Disorders*, 46(6), 630-633.

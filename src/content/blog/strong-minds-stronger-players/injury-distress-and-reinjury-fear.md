@@ -17,6 +17,10 @@ Both can take longer to clear than the physical injury itself, and both deserve 
 - Avoiding the situation where the injury happened, even after you are cleared.
 - Loss of identity. "If I am not a footballer, who am I?"
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 A short period of grief after an injury is normal. The injury has taken something from you and your brain processes that loss. The signs that something more is happening: low mood that lasts more than a few weeks, sleep disturbance, withdrawal from the sport and the people in it, a persistent fear of reinjury that does not reduce as you train more, or intrusive memories of the moment of injury (a marker for traumatic stress).
@@ -31,6 +35,10 @@ Research by Brewer (1994) shows that athletes with strong athletic identity are 
 - Talk to your physio about the head side. Good physios understand that fear is part of rehab.
 - Build identity outside sport. Even one or two things gives you somewhere to stand when sport is taken away.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** is the first stop if injury distress is affecting mood or sleep.
@@ -43,21 +51,15 @@ Research by Brewer (1994) shows that athletes with strong athletic identity are 
 
 The hardest injury I had to recover from was not the physical one, it was the loss of who I thought I was while I could not play. Talking about that part, with someone who understood, was as important as the rehab itself.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

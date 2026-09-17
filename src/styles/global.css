@@ -25,6 +25,13 @@
   --green-dark: #030a06;
   --purple: #69005a;
   --purple-light: #f0cdff;
+  /* Mindfulness accent. Bright orange for decoration (borders, gradients,
+     which carry no contrast requirement) and a darker orange for text:
+     #a8480a is 5.84:1 on white and 5.22:1 on the tint. The bright #e8721f
+     is only 3.06:1, so it must never carry text. */
+  --mind-orange: #e8721f;
+  --mind-orange-tint: #fdf0e6;
+  --mind-orange-text: #a8480a;
   --page-bg-top-offset: 125px;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
@@ -1046,4 +1053,28 @@ body.resources-page header {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+}
+
+/* ============================================
+   SKIP LINK  (WCAG 2.4.1 Bypass Blocks)
+   Hidden until focused, so keyboard users can jump the header and nav
+   instead of tabbing through them on every page.
+   ============================================ */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 4000;
+  padding: 0.7rem 1.1rem;
+  background: var(--green-lime);
+  color: var(--green-dark) !important;
+  font-weight: 800;
+  text-decoration: none !important;
+  border-radius: 0 0 10px 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
 }

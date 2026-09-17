@@ -17,6 +17,10 @@ Both feelings are normal. Pretending you only feel the happy one makes the other
 
 Watching from the sideline takes mental energy. Make sure you're actually invested in the team's performance, not just monitoring your replacement.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The first session back
 
 You're cleared. You're in pre-training. The first proper session is tonight.
@@ -45,6 +49,10 @@ Don't try to power through with bravado. That's how second injuries happen. Inst
 
 The fear melts as you build evidence that the body is holding up. Not from one big test. From repeated small ones.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The first game
 
 Your first competitive match back will feel weird.
@@ -63,7 +71,7 @@ What works: have a low-key goal for the game. Not "play well". Not "score". Some
 
 Sometimes the player who replaced you keeps the spot. You come back fit, sharp, but you're on the bench.
 
-This is one of the hardest things in sport. It's also where character gets built.
+This is one of the hardest things in sport. It's also where character is built.
 
 Two failure modes:
 1. **Sulk.** Disengage. Train half-effort. Wait for her to fail.
@@ -79,6 +87,10 @@ What works:
 
 This is where SDT's autonomy matters. You can't control selection. You can control what you bring to every session. Anchor to what you control.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 1. **Honest emotional reckoning.** Don't pretend you're fine if you're not.
@@ -88,16 +100,6 @@ This is where SDT's autonomy matters. You can't control selection. You can contr
 5. **Have a process anchor for the first game.** Not "play well". Something specific.
 
 The toolkit is [Imagery & Graded Exposure Toolkit](/content-hub/gael-performance-toolkit/imagery-and-graded-exposure-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

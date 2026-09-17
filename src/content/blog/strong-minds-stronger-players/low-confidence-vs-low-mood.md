@@ -17,6 +17,10 @@ What is different is when low confidence stops being about sport and starts spre
 - Feeling worthless, hopeless, or like a burden to others.
 - Difficulty concentrating, remembering things, or making small decisions.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 A useful framing comes from the diagnostic criteria for depression: low mood OR loss of interest, plus other symptoms, present most of the day, most days, for at least two weeks. If that describes the last fortnight, the right step is not another confidence drill. It is to talk to someone.
@@ -30,6 +34,10 @@ The cleanest distinction: low confidence is usually situational and shifts with 
 - Limit alcohol. It tends to deepen low mood the day after.
 - Tell one person. Saying it out loud removes some of the weight.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** is the first port of call. They can assess your mood and offer treatment options.
@@ -42,21 +50,15 @@ The cleanest distinction: low confidence is usually situational and shifts with 
 
 For a long time I treated my low mood as a confidence problem. I tried to train harder out of it, talk myself out of it, push through. That did not work because it was not actually a confidence problem. The day I went to my doctor and described what I was actually feeling was the day things started to change. Medication, talk therapy, and the simple act of being honest about it were the turning points.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

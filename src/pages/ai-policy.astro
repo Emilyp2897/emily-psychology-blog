@@ -1,0 +1,223 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+// Last revised stamp. Update this whenever the policy changes.
+const lastRevised = '17 September 2026';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`AI Policy | ${SITE_TITLE}`}
+      description="How Mind the Gael uses AI: what it writes, what it does not, what a human checks, and what we will never do with your data."
+    />
+  </head>
+  <body class="privacy-page">
+    <Header />
+    <main class="container privacy-main">
+      <section class="hero">
+        <p class="hero-kicker">Legal</p>
+        <h1>AI Policy</h1>
+        <p class="hero-tagline">Where AI is used, where it is not, and what a person checks before it reaches you.</p>
+        <p class="last-revised">Last revised: {lastRevised}</p>
+      </section>
+
+      <div class="draft-notice">
+        <strong>Draft.</strong> This sits alongside the <a href="/privacy">Privacy Policy</a> and is pending solicitor review before paid launch. Questions in the meantime, email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.
+      </div>
+
+      <section class="policy-section">
+        <h2>1. The short version</h2>
+        <p>AI writes your performance plan. AI answers you in the chatbot. AI does not write the articles, the toolkits, or anything in the Stronger Minds, Stronger Players series, and it never makes a decision about your health.</p>
+        <p>Every plan is read by Emily before it reaches you while the platform is in its early phase.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>2. Where AI is used</h2>
+        <table class="legal-table">
+          <thead><tr><th>Feature</th><th>AI involved</th><th>Human review</th></tr></thead>
+          <tbody>
+            <tr><td>Mental performance plans</td><td>Yes, generated from your intake form</td><td>Yes, Emily reads every plan</td></tr>
+            <tr><td>Saoirse, the chatbot</td><td>Yes, responses generated live</td><td>No, but tightly constrained and it halts on crisis topics</td></tr>
+            <tr><td>Blog articles and toolkits</td><td>Drafting support only</td><td>Yes, written and edited by Emily</td></tr>
+            <tr><td>Stronger Minds, Stronger Players</td><td>Drafting support only</td><td>Yes, plus expert panel review</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="policy-section">
+        <h2>3. Which model, and who sees your data</h2>
+        <p>Plans and chatbot responses are generated using Anthropic's Claude. Your intake answers are sent to Anthropic to produce your plan. Anthropic acts as a processor and does not use your data to train its models.</p>
+        <p>The full list of processors, what each one receives, and how long data is kept is in the <a href="/privacy">Privacy Policy</a>.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>4. AI gets things wrong</h2>
+        <p>AI can produce content that is inaccurate, generic, or simply not right for you. Read your plan with that in mind and use your own judgement. If something looks wrong, or does not sit well, do not push through it. Use the report link on your plan email or contact Emily and it will be looked at.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>5. What AI is never used for</h2>
+        <ul>
+          <li>Diagnosing anything, or telling you whether you have a condition.</li>
+          <li>Deciding whether you should train, play, or rest through an injury.</li>
+          <li>Replacing your GP, physio, or a qualified mental health professional.</li>
+          <li>Handling a crisis. Both the chatbot and the plan generator are built to stop and direct you to support services if you disclose thoughts of self-harm or suicide.</li>
+          <li>Making automated decisions with legal or similar significant effects on you, within the meaning of UK and EU GDPR Article 22.</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>6. Citations</h2>
+        <p>Any claim drawn from research carries a real, checkable reference. Where a piece cites a study, that study exists and says what we say it says. Fabricated or invented citations are not acceptable here, and if you ever find one, report it and it will be corrected.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>7. Your choices</h2>
+        <ul>
+          <li>You do not have to use the AI features. Every article and toolkit on the site is free and involves no AI at the point you read it.</li>
+          <li>You can ask for a human response instead of a chatbot one by emailing Emily directly.</li>
+          <li>You can ask for your intake data and generated plan to be deleted. See the <a href="/privacy">Privacy Policy</a> for how.</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>8. When this changes</h2>
+        <p>The plan is to move to autonomous delivery, where plans are sent without a person reading each one. That change will be announced in advance and this page will be updated with the date it takes effect. Even then, the four specialist tracks and any case with a clinical flag will continue to route to Emily.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2>9. Contact</h2>
+        <p>Questions about how AI is used here, or about a specific plan, email <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.</p>
+        <p>If you need urgent support, the <a href="/resources">Support Resources page</a> lists professional services. In immediate danger, call 999 or 112.</p>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .privacy-main {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    margin: 0 calc(50% - 50vw) 1.1rem;
+    padding: 2rem max(1rem, calc(50vw - 600px + 1rem));
+    background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0.2rem 0 0;
+    color: var(--green-lime);
+  }
+
+  .hero-tagline {
+    margin: 0.35rem 0 0;
+    color: var(--green-light);
+    max-width: 64ch;
+  }
+
+  .last-revised {
+    margin: 0.5rem 0 0;
+    color: var(--green-light);
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .draft-notice {
+    margin-bottom: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    border-left: 4px solid var(--green-lime);
+    background: rgba(244, 255, 232, 0.08);
+    border-radius: 0 10px 10px 0;
+    color: var(--green-light);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .draft-notice a {
+    color: var(--green-lime);
+    font-weight: 700;
+  }
+
+  .policy-section {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.2);
+    border-radius: 10px;
+    padding: 1.3rem 1.4rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+  }
+
+  .policy-section h2 {
+    margin: 0 0 0.7rem;
+    color: var(--purple);
+    font-size: 1.15rem;
+  }
+
+  .policy-section p,
+  .policy-section li {
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  .policy-section p { margin: 0 0 0.7rem; }
+  .policy-section p:last-child { margin-bottom: 0; }
+
+  .policy-section ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .policy-section a {
+    color: var(--purple);
+    font-weight: 700;
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.4rem;
+  }
+
+  .legal-table th,
+  .legal-table td {
+    border: 1px solid rgba(105, 0, 90, 0.25);
+    padding: 0.55rem 0.6rem;
+    text-align: left;
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+
+  .legal-table th {
+    background: rgba(105, 0, 90, 0.07);
+    color: var(--purple);
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding: 1.4rem max(0.85rem, calc(50vw - 600px + 1rem));
+    }
+
+    .policy-section {
+      padding: 1rem;
+    }
+  }
+</style>

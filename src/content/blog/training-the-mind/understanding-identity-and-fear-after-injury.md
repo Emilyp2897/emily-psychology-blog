@@ -18,6 +18,10 @@ When you get injured, the high athletic identity becomes a problem. Suddenly the
 
 The research shows higher athletic identity is associated with worse mental health outcomes during injury. Not because high identity is bad, but because losing access to it without other supports is hard.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The grief that nobody calls grief
 
 There's a recognised pattern of psychological responses to athletic injury that maps closely to grief. Players go through:
@@ -38,6 +42,10 @@ This is normal. The research has a name for it: **kinesiophobia** (fear of movem
 
 It's a protective mechanism. Your body learned that movement caused damage. It's now reluctant to fully commit. The fix isn't to push through with willpower. It's a graded re-exposure to the moments you're afraid of, with success at each level building trust back.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The pressure to come back too fast
 
 Female athletes returning from injury often face pressure (from coaches, from themselves, from social media comparisons to other players) to come back faster than is wise.
@@ -56,6 +64,10 @@ Coming back too fast doesn't make you tougher. It makes you more likely to re-in
 
 The toolkit is at [Imagery & Graded Exposure Toolkit](/content-hub/gael-performance-toolkit/imagery-and-graded-exposure-toolkit/).
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## The most important takeaway
 
 The physical injury is half the work. The mental injury is the other half. Most athletes don't get coaching on the second part.
@@ -63,16 +75,6 @@ The physical injury is half the work. The mental injury is the other half. Most 
 It's worth saying out loud: an injured athlete is allowed to grieve. To be angry. To be lost. To not have a positive attitude every day. The fact that you're an athlete doesn't take that away.
 
 Coming back well means coming back as a whole person, not just a healed joint.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

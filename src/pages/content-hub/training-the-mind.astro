@@ -91,13 +91,7 @@ const nextRelease = allPosts
       <div class="series-lead">
         <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
         <div class="saoirse-bubble">
-        <p class="series-lead-copy">Each theme gets covered twice: once to understand what is actually going on, once to apply it in real Gaelic football situations. Every post has a companion toolkit.</p>
-        <p class="series-lead-meta">
-          <span class="lead-pill lead-pill-free">Free, no sign-up</span>
-          <span class="lead-pill">{nextRelease
-            ? `Next up: ${nextRelease.data.title}, ${releaseDateLabel(nextRelease.data.pubDate)}`
-            : 'Every post is out now'}</span>
-        </p>
+        <p class="series-lead-copy">Each theme is covered twice: once to understand what is actually going on, once to apply it in real Gaelic football situations. Every post has a companion toolkit.</p>
         </div>
       </div>
 
@@ -385,10 +379,9 @@ const nextRelease = allPosts
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  /* Static on hover: no lift, no border or colour shift. */
   .ttm-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--purple);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    transform: none;
   }
 
   .ttm-card a {
@@ -471,9 +464,6 @@ const nextRelease = allPosts
   }
 
   .ttm-description-blur {
-    filter: blur(4px);
-    user-select: none;
-    pointer-events: none;
     opacity: 0.7;
   }
 
@@ -514,4 +504,75 @@ const nextRelease = allPosts
     border-color: var(--purple-light);
     background: var(--purple-light);
   }
+
+
+
+
+
+
+
+  /* Cards match the series tiles on the homepage: white, a coloured top
+     edge for the series, lifting on hover. Locked entries stay flat so the
+     page is not wall-to-wall boxes; only what you can read now is raised.
+     The intro and the feedback line lose their panels for the same reason. */
+  .ttm-card:not(.ttm-card-locked, .ttm-card-missing) {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-top: 6px solid var(--purple);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  }
+
+
+  .ttm-card:not(.ttm-card-locked, .ttm-card-missing) .ttm-title {
+    color: var(--green-dark) !important;
+  }
+
+  /* Locked and coming-soon entries: no panel, just a divider. */
+  .ttm-card.ttm-card-locked, .ttm-card-missing {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.85rem 0 1rem;
+  }
+
+  .saoirse-bubble {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .saoirse-bubble::before,
+  .saoirse-bubble::after { display: none; }
+
+  .content-feedback-cta {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 1.2rem 0 0;
+    text-align: left;
+  }
+
+  /* Locked entries sit flat on the page background (#030a06), so their text
+     has to be light. It was still the dark colour from when every card had
+     a white panel behind it, which made it unreadable. */
+  .ttm-card.ttm-card-locked .ttm-title,
+  .ttm-card-missing .ttm-title,
+  .ttm-card-planned .ttm-title {
+    color: var(--green-light) !important;
+    opacity: 0.9;
+  }
+
+  .ttm-card.ttm-card-locked .ttm-description,
+  .ttm-card-missing .ttm-description,
+  .ttm-card-planned .ttm-description {
+    color: var(--green-light) !important;
+    opacity: 0.75;
+  }
+
 </style>

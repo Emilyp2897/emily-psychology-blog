@@ -17,6 +17,10 @@ What is different is when a team environment starts to feel unsafe. When you sto
 - A coach or senior player who uses fear, shame, or public humiliation as motivation.
 - Feeling more anxious, withdrawn, or tearful in the days around team commitments.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 A team that has conflict but addresses it openly is healthy. A team where conflict turns into exclusion, intimidation, or sustained bullying is not. Research by Edmondson (1999) defines psychological safety as the shared belief that the team is safe for interpersonal risk-taking. If that has broken down, performance and mental health both suffer.
@@ -30,6 +34,10 @@ If team dynamics are affecting your sleep, your mood, or your willingness to be 
 - Keep a brief written record of incidents (dates, what happened). It protects your memory and helps if you decide to escalate.
 - Reach out to your county or club Health and Wellbeing committee for support.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** if dynamics are affecting your mood or anxiety.
@@ -42,21 +50,15 @@ If team dynamics are affecting your sleep, your mood, or your willingness to be 
 
 A team can be the best thing in your life and a hard thing in your life at the same time. What I had to learn was that staying quiet about something that was hurting me was not loyalty, it was self-abandonment. The people who care about you and the sport will want to know.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

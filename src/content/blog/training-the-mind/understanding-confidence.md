@@ -25,6 +25,10 @@ Self-efficacy is built up over time through four things:
 
 Confidence isn't a switch. It's a build-up of evidence.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Why confidence drops
 
 When confidence drops, it's not because you suddenly became a worse player. It's because something disrupted the evidence pile.
@@ -41,6 +45,10 @@ A few common ones:
 If confidence is built from evidence, then losing confidence isn't a character flaw. It's a maths problem. The evidence has shifted. The job is to rebuild it.
 
 That sounds simple. It's not always easy. The hardest part is that when confidence is low, your brain stops noticing the wins. You only see the misses. The pile of evidence you actually have is still there. You just can't see it.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Internal vs external sources
 
@@ -60,16 +68,6 @@ The big-game players you admire? They aren't immune to losing form. They're bett
 4. **Build the internal side.** What process are you proud of, regardless of the outcome? That's the foundation.
 
 Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

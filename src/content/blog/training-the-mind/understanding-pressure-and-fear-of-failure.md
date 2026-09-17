@@ -3,11 +3,13 @@ title: "Understanding Championship Pressure and Fear of Failure"
 description: "Threat vs challenge appraisal, what your body does in big-game weeks, and why fear of failure is the most common pressure pattern in elite female athletes."
 pubDate: "2026-09-14"
 tags: ["championship"]
+photo: "/assets/articles/CiaraFlan-London-1.jpg"
+photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
 ---
-This one is championship territory. Bigger games. Higher stakes. More noise around the squad. And for most athletes, a particular pattern emerges: the fear of failure starts to weigh more than the love of the sport.
+Championship brings bigger games, higher stakes and a lot more noise around the squad. For most players a pattern starts to show up in that: the fear of failing begins to outweigh the reason you play in the first place.
 
-I want to give you the research-backed version of what's happening, because the more clearly you can see it, the better you can manage it.
+The research on this is worth knowing, because it is easier to manage once you can see it clearly.
 
 ## Threat vs Challenge
 
@@ -22,6 +24,10 @@ When you face a high-stakes situation, your brain makes a rapid appraisal. Two p
 Same situation. Same heart rate. Completely different internal experience and external performance.
 
 The research is consistent: athletes who appraise big games as challenges outperform athletes who appraise them as threats, even when their skill levels are similar.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What pushes you into threat appraisal
 
@@ -42,6 +48,10 @@ Several common ones for championship weeks:
 - **Process focus.** What's my role in the first 10 minutes. Not the scoreline.
 - **Simplify the tactics.** Two or three things, not twelve.
 - **Manage public stakes.** Off social media in championship week. Limit family chat about the game.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Fear of failure specifically
 
@@ -70,6 +80,10 @@ In championship week, predictable patterns emerge:
 
 These are normal. They're also signs that your nervous system is interpreting the week as threat. The fix isn't to suppress them, it's to address the appraisal.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do this week
 
 1. **Sleep is the foundation.** Protect it. Same time every night. No screens an hour before.
@@ -87,16 +101,6 @@ Championship pressure isn't going away. It's part of caring about the sport.
 The athletes who handle it best aren't the ones who don't feel it. They're the ones who've trained themselves to appraise it as challenge rather than threat, and have the routines to back it up.
 
 This is a learned skill. It's available to you.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

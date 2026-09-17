@@ -2,6 +2,8 @@
 title: "Rumination, Shame and Where to Turn"
 description: "Replaying mistakes for hours after a game is more common than people admit. This post helps you spot when it becomes something that needs support."
 pubDate: "2026-09-09"
+photo: "/assets/articles/DSC_1575.jpg"
+photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -17,6 +19,10 @@ What is not normal is when the replay does not stop. When you are still up at tw
 - A churning, sick feeling in your stomach when you think about the game.
 - Trouble sleeping because your mind will not stop replaying.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 Rumination becomes a clinical concern when it is persistent, hard to interrupt, and starts to affect your sleep, mood, or relationships. Research by Nolen-Hoeksema (2000) shows that rumination is one of the strongest predictors of who goes on to develop depression after a setback. Shame compounds it. If you find yourself believing "I am stupid" rather than "I made a mistake," that is the loop talking, not the truth.
@@ -27,6 +33,10 @@ Rumination becomes a clinical concern when it is persistent, hard to interrupt, 
 - Talk to one teammate. Shame loses power when said out loud to someone who will not judge it.
 - Write it down. Naming the thought on paper often makes it smaller.
 - Self-compassion practice. The research by Neff (2003) shows that treating yourself the way you would treat a friend reduces rumination.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Where to get professional support
 
@@ -39,21 +49,15 @@ Rumination becomes a clinical concern when it is persistent, hard to interrupt, 
 
 I used to replay games for days. The same shot, the same decision, the same moment over and over. What helped was learning that the replay was not a useful review, it was a loop, and the way to break a loop was not to think harder about it, it was to do something different. A walk, a conversation, a written note. Anything that interrupted the pattern.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

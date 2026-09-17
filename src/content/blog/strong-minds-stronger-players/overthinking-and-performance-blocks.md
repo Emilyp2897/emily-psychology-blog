@@ -2,6 +2,8 @@
 title: "Overthinking and Performance Blocks"
 description: "When the mind starts running too loud to play, the issue is not effort. This post helps you spot when overthinking needs more than a refocus drill."
 pubDate: "2026-09-13"
+photo: "/assets/articles/DSC_1498.jpg"
+photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -18,6 +20,10 @@ But there is a point where overthinking becomes more than a focus issue. When it
 - Dread before training because of what you might or might not be able to do.
 - A pattern that has lasted weeks or months, not just one bad game.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 A normal overthinking phase clears with rest and a routine reset. A performance block does not. Beilock & Carr's (2001) research on Choking Under Pressure shows that conscious attention to automated movements is what breaks them down, a pattern called "reinvestment" (Masters 1992). The longer the block runs, the more anxiety reinforces it, and the harder it gets to interrupt on your own.
@@ -31,6 +37,10 @@ If you have been stuck in the same block for more than a few months, if it is af
 - Reduce the pressure during practice. The block runs because pressure is high; building the move back in lower-stakes contexts first lets the body relearn.
 - Talk about it. Blocks often get worse in silence and better when said out loud to someone who understands.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **A sport psychologist** is the right professional for performance blocks specifically. BASES (UK) and PSI (Ireland) hold accredited practitioner registers.
@@ -42,21 +52,15 @@ If you have been stuck in the same block for more than a few months, if it is af
 
 A block is not a character flaw. It is a brain that has learned to over-engage with a movement that needs to be left alone. The path back is not through more effort, it is through less. That is counterintuitive, and it is why outside help often makes the difference.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

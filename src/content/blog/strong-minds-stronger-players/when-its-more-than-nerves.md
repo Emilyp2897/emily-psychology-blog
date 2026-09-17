@@ -2,6 +2,8 @@
 title: "When It's More Than Nerves"
 description: "Pre-game nerves are normal. This post helps you spot when nerves cross over into something that needs more than a pre-match routine."
 pubDate: "2026-09-02"
+photo: "/assets/articles/IMG_7223.JPG"
+photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -17,6 +19,10 @@ But sometimes nerves feel different. They stop being a pre-match buzz and start 
 - Trouble sleeping the night before a game, or the night after a mistake.
 - Panic that comes out of nowhere, sometimes in places that have nothing to do with sport.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 Nerves clear up after the whistle blows. Anxiety lingers. A useful test: if you would describe yourself as on edge most days of the week, for most of the day, and it has lasted more than a few weeks, that is a sign worth taking seriously. The same is true if you have had a panic attack, if you find yourself avoiding situations you used to enjoy, or if the worry is interfering with your work, your relationships, or your sleep.
@@ -26,6 +32,10 @@ Nerves clear up after the whistle blows. Anxiety lingers. A useful test: if you 
 - Slow your exhale. A longer breath out than in (try 4 seconds in, 8 seconds out) activates the parasympathetic nervous system and brings heart rate down within about a minute.
 - Name what you are feeling. Research on emotion labelling (Lieberman et al. 2007) shows that putting a name on a feeling reduces its intensity in the brain.
 - Tell someone you trust. Carrying anxiety on your own is the heaviest version of it.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## Where to get professional support
 
@@ -38,21 +48,15 @@ Nerves clear up after the whistle blows. Anxiety lingers. A useful test: if you 
 
 I spent years thinking my nerves were just part of being competitive. They were not. Once I named what I was actually dealing with, the work I did on it actually held. Getting help is not a weakness, it is what allows you to keep doing the thing you love.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

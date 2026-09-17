@@ -19,6 +19,10 @@ The work of Flett and Hewitt (2005) and later research has shown there are two f
 
 The standards aren't the problem. The self-criticism is.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Why mistakes feel personal
 
 When you make a mistake, your brain does two things at once.
@@ -49,6 +53,10 @@ Here's the loop that catches a lot of athletes:
 
 The cycle gets tighter. You play worse, not because you've gotten worse, but because the system is overloaded.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What error management research says
 
 Error management research (Frese & Keith, 2015) found something useful. Teams that explicitly TRAIN with mistakes (creating drills where errors are expected, then reset and try again) develop better resilience than teams that punish errors.
@@ -66,6 +74,10 @@ Perfectionism is not just a mental thing. It shows up physically.
 Muscle tension. Holding your breath in the lead-up to a free. The tight jaw before a match. The unsettled stomach driving to training. These are signs your nervous system is in a defensive posture, expecting failure.
 
 Athletes in this state burn more energy than necessary just maintaining the tension. By the time the game arrives, part of your tank is already gone.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What you can do
 
@@ -85,16 +97,6 @@ Players who play freely aren't the ones who never miss. They're the ones who sto
 If your standards stay high but your self-talk softens, performance goes up, not down. That's the research.
 
 Quick tools in the [Mistake Reset Toolkit](/content-hub/gael-performance-toolkit/mistake-reset-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

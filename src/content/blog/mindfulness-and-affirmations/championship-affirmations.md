@@ -6,17 +6,21 @@ track: "mindfulness-and-affirmations"
 tags: ["championship", "affirmations"]
 ---
 
-Most affirmations are rubbish, and I want to say that before I try to sell you on any.
+Most affirmations are rubbish.
 
-"I am unstoppable." "I am the best player on this pitch." If you don't already believe it, saying it does nothing. Worse, your brain argues back. You say you're the best player on the pitch, and a voice immediately lists three players who are better. Now you feel worse than before you started.
+## Why the usual ones fail
 
-So that isn't what this is.
+"I am unstoppable." "I am the best player on this pitch."
 
-## What the research actually says
+If you don't already believe it, your brain argues back. It lists three players who are better, and you feel worse than before you started.
 
-The useful version is narrower than the Instagram version.
+## What works instead
 
-Self-affirmation research, largely from Cohen and Sherman (2014), isn't about telling yourself you're great. It is about reminding yourself of what you value, which protects your sense of self when it's under threat. Creswell and colleagues (2005) showed that affirming personal values actually reduced stress hormone responses in people under pressure. Note what got affirmed there. Values, not ability.
+Cohen and Sherman (2014) found the useful version is narrower: not telling yourself you're great, but reminding yourself what you value.
+
+Creswell and colleagues (2005) showed that affirming personal values lowered stress hormone responses under pressure.
+
+Values, not ability. That's the difference.
 
 Separately, the self-talk research in sport is strong. Hatzigeorgiadis and colleagues (2011) pulled together the studies and found self-talk does improve performance, but the type matters. Instructional self-talk, the kind that tells you what to do, tends to work best for precise skills. Hardy (2006) makes a similar point about being specific.
 

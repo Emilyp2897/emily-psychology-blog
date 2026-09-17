@@ -57,12 +57,6 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
         <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
         <div class="saoirse-bubble">
         <p class="series-lead-copy">Recognising changes early, understanding what they might mean, and knowing when it is time to talk to someone. For yourself or for a teammate.</p>
-        <p class="series-lead-meta">
-          <span class="lead-pill lead-pill-free">Always free</span>
-          <span class="lead-pill">{nextRelease
-            ? `Next up: ${nextRelease.data.title}, ${releaseDateLabel(nextRelease.data.pubDate)}`
-            : 'Every post is out now'}</span>
-        </p>
         </div>
       </div>
 
@@ -394,12 +388,10 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
 
   .smsp-description-blur {
     margin: 0;
-    color: #555;
+    /* Light, because locked cards are now flat on the dark page. */
+    color: var(--green-light);
     line-height: 1.5;
     font-size: 0.94rem;
-    filter: blur(2.5px);
-    user-select: none;
-    pointer-events: none;
   }
 
   .content-feedback-cta {
@@ -439,4 +431,75 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
       padding: 1rem;
     }
   }
+
+
+
+
+
+
+
+  /* Cards match the series tiles on the homepage: white, a coloured top
+     edge for the series, lifting on hover. Locked entries stay flat so the
+     page is not wall-to-wall boxes; only what you can read now is raised.
+     The intro and the feedback line lose their panels for the same reason. */
+  .smsp-card:not(.smsp-card-locked) {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-top: 6px solid #1d6fb8;
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  }
+
+
+  .smsp-card:not(.smsp-card-locked) .title {
+    color: var(--green-dark) !important;
+  }
+
+  /* Locked and coming-soon entries: no panel, just a divider. */
+  .smsp-card.smsp-card-locked {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.85rem 0 1rem;
+  }
+
+  .saoirse-bubble {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .saoirse-bubble::before,
+  .saoirse-bubble::after { display: none; }
+
+  .content-feedback-cta {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 1.2rem 0 0;
+    text-align: left;
+  }
+
+  /* Locked entries sit flat on the page background (#030a06), so their text
+     has to be light. It was still the dark colour from when every card had
+     a white panel behind it, which made it unreadable. */
+  .smsp-card.smsp-card-locked .title,
+  .smsp-card-missing .title,
+  .smsp-card-planned .title {
+    color: var(--green-light) !important;
+    opacity: 0.9;
+  }
+
+  .smsp-card.smsp-card-locked .description,
+  .smsp-card-missing .description,
+  .smsp-card-planned .description {
+    color: var(--green-light) !important;
+    opacity: 0.75;
+  }
+
 </style>

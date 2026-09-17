@@ -3,6 +3,8 @@ title: "Pressure, Sleep and When to Get Help"
 description: "Pre-championship sleep is rarely perfect. This post helps you spot when sleep disturbance has crossed into a clinical issue."
 pubDate: "2026-09-16"
 tags: ["championship"]
+photo: "/assets/articles/DSC_1291-3.jpg"
+photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
 ---
 
@@ -19,6 +21,10 @@ What is different is when sleep stays broken. When you're running on four hours 
 - Daytime exhaustion, irritability, slow recovery from training.
 - Performance dropping despite training load not changing.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## When it crosses the line
 
 The diagnostic criteria for **insomnia disorder** are difficulty falling asleep, staying asleep, or early-morning waking, present at least three nights a week, for at least three months, and causing distress or daytime impairment. If that matches, the condition has a name and it has effective treatments.
@@ -34,6 +40,10 @@ Pre-event sleep loss alone (a few bad nights before a big game) isn't insomnia d
 - Limit alcohol. It puts you to sleep faster but breaks the second half of the night.
 - Train earlier in the day when you can. Late-evening hard sessions delay sleep onset.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where to get professional support
 
 - **Your GP** can refer you for CBT-I and rule out medical causes (sleep apnoea, thyroid, perimenopause for older athletes).
@@ -46,21 +56,15 @@ Pre-event sleep loss alone (a few bad nights before a big game) isn't insomnia d
 
 There was a stretch where I dreaded going to bed more than I dreaded the match. What helped was being honest with my GP about it, getting referred for proper sleep work, and learning that the harder I tried to sleep, the worse it got. The fix was counterintuitive, and it needed someone who knew the area.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Crisis resources
 
-- **Samaritans** (UK and IE): 116 123 — 24/7 free listening line.
-- **Pieta House** (IE): 1800 247 247 — suicide and self-harm support.
+- **Samaritans** (UK and IE): 116 123, 24/7 free listening line.
+- **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you're in immediate danger: **999 (UK)** or **112 (IE)**.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

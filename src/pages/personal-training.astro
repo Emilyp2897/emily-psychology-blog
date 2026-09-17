@@ -611,6 +611,16 @@ import { SITE_TITLE } from '../consts';
           <p class="intake-loading-footnote">This usually takes a few seconds.</p>
         </div>
       </div>
+
+      <!-- AI + clinical-advice disclosure. Deliberately compact: it has to be
+           present and readable, but it is small print, not a headline. -->
+      <section class="plan-disclosure" aria-labelledby="notice-heading">
+        <h2 id="notice-heading" class="plan-disclosure-title">Before you buy, two things</h2>
+        <ul class="plan-disclosure-list">
+          <li><strong>Your plan is built by AI, and AI can make mistakes.</strong> It is generated from your intake form using the twelve themes of the Gael Performance Toolkit. Read it with that in mind. If something does not look right for you, do not push through it, get in touch.</li>
+          <li><strong>This is not clinical advice or therapy.</strong> It does not replace your GP, your physio, or a qualified mental health professional. <a href="/resources">Support resources</a>.</li>
+        </ul>
+      </section>
     </main>
     <Footer />
 
@@ -935,6 +945,51 @@ import { SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  /* Compact disclosure. Small print by design: the previous version was a
+     full-width band with its own headings, which shouted louder than the
+     product it was disclaiming. */
+  /* This page has a dark background, so the disclosure needs light text.
+     The first version used --green-dark on a translucent purple, which was
+     dark-on-dark and effectively invisible. */
+  .plan-disclosure {
+    max-width: 780px;
+    margin: 2.5rem auto 1rem;
+    padding: 0.9rem 1.1rem;
+    border-left: 4px solid var(--green-lime);
+    background: rgba(244, 255, 232, 0.08);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .plan-disclosure-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--green-lime);
+  }
+
+  .plan-disclosure-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .plan-disclosure-list li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--green-light);
+  }
+
+  .plan-disclosure-list li strong {
+    color: #ffffff;
+  }
+
+  .plan-disclosure-list a {
+    color: var(--green-lime);
+    font-weight: 700;
+  }
+
   .personal-training-page main.container {
     padding-top: 0;
     padding-bottom: 0.75rem;

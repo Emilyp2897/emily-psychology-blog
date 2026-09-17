@@ -6,17 +6,27 @@ track: "mindfulness-and-affirmations"
 tags: ["championship", "mindfulness"]
 ---
 
-This one is short on purpose. Championship week isn't the time to take up a new hobby, so this is five minutes, twice a day, and that's the whole ask.
+Five minutes, twice a day. That's the whole thing.
 
-First, let me clear something up, because I had this wrong for years myself. Mindfulness isn't emptying your head. You can't empty your head, and trying to is what makes people decide they are bad at it. It is noticing where your attention has gone and bringing it back, over and over. That is the entire skill. If your mind wanders forty times in five minutes and you bring it back forty times, that was a good session. You did the rep forty times.
+## What mindfulness isn't
 
-The reason it matters in championship week is simple. Your head wants to play the match before the match. It runs the game, runs the mistakes, runs what people will say. All of that spends energy you will want on Sunday.
+Mindfulness isn't emptying your head. You can't empty your head, and trying to is why people decide they're bad at it.
+
+It's noticing where your attention went and bringing it back. That's the whole skill.
+
+Wanders forty times, brought back forty times? That was a good session. Forty reps.
+
+## Why it matters this week
+
+Your head wants to play the match before the match. It runs the game, the mistakes, what people will say.
+
+That's energy you'll want on Sunday.
 
 ## Why it's worth the five minutes
 
 This isn't a wellness nice-to-have. Bühlmayer and colleagues (2017) reviewed the mindfulness research in sport and found consistent improvements in performance-relevant measures, including attention and anxiety, across a range of athletes. Birrer, Röthlin and Morgan (2012) set out the mechanisms behind it, and attention control is the big one. That is exactly what goes first when championship pressure arrives.
 
-So this is the same skill from the attention work, just practised somewhere quiet instead of mid-game.
+It is the same skill from the attention work, practised somewhere quiet instead of mid-game.
 
 ## The practice
 

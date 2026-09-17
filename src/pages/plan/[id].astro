@@ -112,11 +112,16 @@ const feedbackEnabled =
       import { supabase } from '../../lib/supabase.js';
       import { marked } from 'marked';
 
-      const { data: { session } } = await supabase.auth.getSession();
-      const user = session?.user ?? null;
+      // getUser() first, then getSession() for the token — the same order the
+      // dashboard uses. getSession() alone can return null if it runs before
+      // the client has restored the session from storage, which sent this
+      // page to /login even when signed in.
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         window.location.href = '/login';
       }
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData?.session?.access_token ?? null;
 
       // filter(Boolean) so a trailing slash cannot yield an empty id.
       const planId = window.location.pathname.split('/').filter(Boolean).pop();
@@ -135,7 +140,7 @@ const feedbackEnabled =
       if (user) {
         try {
           const res = await fetch(`/api/customer-plan?id=${encodeURIComponent(planId || '')}`, {
-            headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+            headers: { Authorization: `Bearer ${accessToken ?? ''}` },
           });
           const payload = await res.json().catch(() => ({}));
           if (res.ok && payload?.plan) {

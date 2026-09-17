@@ -20,6 +20,10 @@ Many female athletes (most, in my experience) carry an over-accommodating patter
 
 Over time, this adds up. The cumulative load is huge. And because it's silent, nobody sees it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## Where this pattern comes from
 
 This isn't a personality flaw. It's a combination of:
@@ -38,6 +42,10 @@ When you arrive at training carrying everyone else's stress plus your own, your 
 Research on chronic stress and athletic performance is consistent: cumulative load (not just from training, but from life and emotional labour) reduces recovery, increases injury risk, and erodes flow and confidence.
 
 The athletes who perform best across long seasons usually have one underrated skill: the ability to say no.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What boundaries actually are
 
@@ -65,6 +73,10 @@ Sometimes these consequences happen. Mostly they don't. People who care about yo
 
 The cost of NOT setting boundaries is much higher than the discomfort of setting them. It's just that the cost of not setting them is spread over months and years, so you don't feel it acutely.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 1. **Notice your patterns.** Where do you over-accommodate? With which people? In which situations?
@@ -80,16 +92,6 @@ Over-accommodating doesn't make you a better teammate. It makes you a less-recov
 The senior players who are still going strong at 28-30+ haven't gotten there by accommodating everyone. They've gotten there by knowing what they can hold and being honest about it.
 
 This is hard. It's worth doing.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

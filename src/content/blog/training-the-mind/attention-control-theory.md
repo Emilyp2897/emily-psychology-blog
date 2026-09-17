@@ -2,6 +2,8 @@
 title: "Attention Control Theory: What's Actually Happening When Your Focus Slips"
 description: "The psychology behind why pressure and overthinking pull your focus away from the game, and why it has nothing to do with a lack of skill."
 pubDate: "2026-09-01"
+photo: "/assets/articles/IMG_5777.JPG"
+photoAlt: "Team line-up before a match"
 track: "training-the-mind"
 ---
 
@@ -22,6 +24,10 @@ What I didn't know then was that I was dealing with undiagnosed anxiety and depr
 
 Reflection, CBT therapy, medication, and learning about my own mind got me to the other side of it. Here's what I found.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 <h2>What's Actually Happening</h2>
 When pressure increases, your brain prioritises what feels important over what actually is. Instead of focusing on the game, your attention shifts to "don't mess up," "people are watching," "what if I let my team down." Part of you has already left the pitch.
 
@@ -37,6 +43,10 @@ Anxiety doesn't always make you play badly. It just makes everything less effici
 We played Wandsworth at Barnet Lane and I came on for twenty minutes. The worst twenty minutes I've ever played. I couldn't find my way into the game, got stuck in my own head, missed a sitting goal, and came off shaking, close to tears.
 
 That's when it clicked: the amount of pressure I was putting on myself wasn't making me happy. So I asked to join the junior team, where I'd get real game time without the weight I'd been carrying. No pressure to prove I belonged. Just a chance to enjoy playing again.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 <h2>Your Body Feels It Too</h2>
 Anxiety doesn't just affect your thoughts, it affects your body. You get tense, your timing goes slightly off, your touch doesn't feel as clean. You mis-hit a pass or mistime a tackle and assume it's your ability, but it's your system under pressure.
@@ -55,6 +65,10 @@ One thing that came up again and again in what I read: your capacity to handle p
 
 That helped explain a lot for me: why you can train well but struggle in matches, why you can know exactly what to do and still not do it, why some players look composed, maybe not because they feel no pressure, but because they've found a way to keep their attention on the right things.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 <h2>What I'm Taking From This</h2>
 I'm not writing this because I've got it figured out. I'm still working through it, still missing points I know I can score, still catching myself proving something instead of just playing. But reading into Attention Control Theory gave me language for what was happening, and that alone changed how I deal with it.
 
@@ -62,20 +76,10 @@ I don't think you need to quit, and I don't think you need to remove the pressur
 
 Losing focus under pressure is normal. There's no such thing as a perfect player, and I'm certainly not one. The part I'm working on is getting a little quicker at catching the drift, and having something to bring myself back to.
 
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
-
 ## References
 
 - Eysenck, M. W., Derakshan, N., Santos, R., & Calvo, M. G. (2007). Anxiety and Cognitive Performance: Attentional Control Theory.
-- Wong, I. (2013). The Impact of Anxiety on Processing Efficiency: Implications for Attentional Control Theory. *The Open Behavioral Science Journal*, 6, 7–15.
+- Wong, I. (2013). The Impact of Anxiety on Processing Efficiency: Implications for Attentional Control Theory. *The Open Behavioral Science Journal*, 6, 7-15.
 - Coombes, S. A., Higgins, T., Gamble, K. M., Cauraugh, J. H., & Janelle, C. M. Attentional Control Theory: Anxiety, Emotion, and Motor Planning.
 - Judah, M. R., Grant, D. M., Mills, A. C., & Lechner, W. V. (2013). The Neural Correlates of Impaired Attentional Control in Social Anxiety: An ERP Study of Inhibition and Shifting. *Journal of Abnormal Psychology*.
 - Englert, C., & Bertrams, A. (2015). Integrating Attentional Control Theory and the Strength Model of Self-Control. *Frontiers in Psychology*, 6:824.

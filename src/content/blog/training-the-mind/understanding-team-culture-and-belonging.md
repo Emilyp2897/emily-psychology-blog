@@ -4,7 +4,7 @@ description: "What team culture actually is, why belonging matters for performan
 pubDate: "2026-12-01"
 track: "training-the-mind"
 ---
-Team culture. A phrase that gets used constantly and usually means nothing at all. I want to give it real shape.
+Team culture. A phrase that is used constantly and usually means nothing at all. I want to give it real shape.
 
 Team culture isn't motivational posters in the dressing room. It isn't the post-match singing. It isn't even how much craic the team has on the bus. Those are byproducts.
 
@@ -16,7 +16,7 @@ The clearest research on this comes from Amy Edmondson (1999). She defined **psy
 
 In teams with high psychological safety:
 - People speak up about problems early
-- Mistakes get talked about and learned from
+- Mistakes are talked about and learned from
 - New players settle in faster
 - Information flows up to coaches as well as down
 
@@ -27,6 +27,10 @@ In teams with low psychological safety:
 - Senior players hold all the social power
 
 These aren't soft outcomes. They directly affect how the team performs.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## The Tuckman model
 
@@ -49,9 +53,13 @@ In a sports team, belonging shows up in small ways:
 - Who you sit with at the team meal
 - Whether anyone notices when you're late or absent
 - Who texts you the day after a bad performance
-- Whether your contribution gets named, not just the captain's
+- Whether your contribution is named, not just the captain's
 
 When belonging is low, you can be in the squad but feel outside it. That feeling drains energy. It also makes the small stresses (selection, mistakes, comparison) hit harder, because you don't have a sense of being held by the group when they happen.
+
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
 
 ## What kills culture
 
@@ -73,6 +81,10 @@ If you spot any of these in your squad, you're not imagining them. The research 
 - **Reset-after-conflict rituals.** Disagreements happen. The repair is what builds trust.
 - **Recognising specific contributions.** Not "great game everyone". "Sarah's three tackles in the second half changed the game".
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do
 
 You don't need to be captain to shape culture. Some of the most culture-shaping behaviours come from senior players who aren't in formal leadership.
@@ -83,16 +95,6 @@ You don't need to be captain to shape culture. Some of the most culture-shaping 
 4. **Recognise specific contributions out loud.** Not big speeches. Just specific.
 
 The full set of communication tools is in the [Team Communication Toolkit](/content-hub/gael-performance-toolkit/team-communication-toolkit/).
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 

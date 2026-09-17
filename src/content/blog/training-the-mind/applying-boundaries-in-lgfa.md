@@ -21,6 +21,10 @@ What works:
 - Don't over-justify. "I have a work deadline" is enough. "I have a work deadline and a thing on Thursday and my dog is sick and..." weakens it.
 - Be prepared for some discomfort in the response. That's part of it.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## With a teammate who leans on you
 
 Some teammates lean on you for emotional support. Some lean a lot. There's a difference between being there for someone and being their unpaid therapist.
@@ -54,6 +58,10 @@ What works:
 - Don't get into justifying why the sport matters. You don't need to win that argument.
 - Find the family member who DOES get it, even partially, and lean on them.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## With work or college
 
 The dual-career load is real. Wylleman and Lavallee (2004) documented how athletes who balance education or work alongside sport carry more cumulative load than full-time professionals.
@@ -84,6 +92,10 @@ The boundary with yourself sounds like:
 
 This is the boundary most athletes underestimate. It's also the most important.
 
+> **ADD YOUR EXPERIENCE HERE**
+>
+> A moment from your own playing that fits what is above. Local only.
+
 ## What you can do this week
 
 1. **Pick ONE relationship where you over-accommodate.** Coach, teammate, family, work. Just one.
@@ -91,16 +103,6 @@ This is the boundary most athletes underestimate. It's also the most important.
 3. **Use the language tools** in the [Boundaries and Assertiveness Toolkit](/content-hub/gael-performance-toolkit/boundaries-and-assertiveness-toolkit/).
 4. **Notice the discomfort and what it tries to do.** It will push you to renege. Don't.
 5. **Notice what happens next.** Most consequences are smaller than you fear.
-
-<!-- EMILY: YOUR OWN EXPERIENCE GOES HERE.
-     To use it, delete this whole comment and write a section like:
-     ## My Own Experience
-     ...then your story underneath.
-     A specific moment, not a general feeling. Where were you, what was going
-     through your head, what did you do next? The bits that make your other
-     posts land are the concrete ones: the venue, the scoreline, the thing you
-     said to yourself. Nothing here renders on the site until you delete the
-     comment markers, so it is safe to leave in place. -->
 
 ## References
 
