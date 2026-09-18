@@ -7,9 +7,6 @@ photo: "/assets/articles/70257319-EA75-41CC-BBFC-1EDC112894FF.jpg"
 photoAlt: "Team with the cup"
 track: "training-the-mind"
 ---
-
-[Last post](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) was about championship pressure and the fear of failure underneath it. This one is the practical version. I've laid it out the way the week actually runs, Monday through to the first whistle, because nobody struggles with championship week as a whole. You struggle at specific points in it, and they're the same points for almost everyone.
-
 ## Monday of championship week
 
 You wake up and the match is in your head before you've even opened your eyes. That's how you know it's championship week. Monday is the day players underestimate, because nothing has happened yet, and that's exactly the problem. You've a full week to fill and nothing to fill it with except thinking.
