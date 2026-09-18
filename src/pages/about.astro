@@ -6,16 +6,13 @@ import Header from '../components/Header.astro';
 import PhotoCredit from '../components/PhotoCredit.astro';
 import depressedImage from '../assets/EmilyPhelan-Depressed.jpg';
 import storyImage from '../assets/EmilyPhelan-London-YellowCard.jpg';
-import feltLikeImage from '../assets/IMG_7228.jpg';
 // The Cork jerseys photo, which fits this chapter. Swap if you have a
 // better one from that era.
-import corkImage from '../assets/IMG_7313.JPG';
+import corkImage from '../assets/801D4AC1-6CD8-453A-855F-0E1553ADB757.jpg';
 import nowImage from '../assets/IMG_4060.jpeg';
-// Placeholders for the new middle chapters. Swap these for whichever of the
-// photos you just added actually belong to each era.
-import eighteenImage from '../assets/IMG_3748.jpeg';
+import eighteenImage from '../assets/9d1c0198-216f-48a6-bd0f-178b9519da65.jpg';
 import goodBitsImage from '../assets/695BB3EF-C6D5-4EAD-94F7-9DC225486BE8.jpg';
-import covidImage from '../assets/IMG_4376-lc.jpg';
+import covidImage from '../assets/IMG_4414-lc.jpg';
 import londonImage from '../assets/1B8F435C-C301-4E03-BFC4-4837A3AE8E5B.jpg';
 import differentHeadspaceImage from '../assets/EmilyPhelan-London-Playing-1.jpg';
 import whyImage from '../assets/EmilyPhelan-Holloway-Playing.jpg';
@@ -23,125 +20,95 @@ import { SITE_TITLE } from '../consts';
 
 const slides = [
   {
-    image: storyImage,
-    alt: 'Emily Phelan playing in London',
-    kicker: 'Chapter 1',
+    images: [
+      { src: storyImage, alt: 'Emily Phelan playing in London' },
+    ],
+    kicker: 'Introduction',
     title: 'My Story',
     paragraphs: [
-      'My name is Emily Phelan. I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football.',
-      'To be straight, I am not an expert. I am not a psychologist, and I am nowhere near having this figured out. I still struggle with my mental health regularly.',
-      'Sport has always been a huge part of my life, but my journey with it has not been straightforward. I have struggled with anxiety and depression throughout my sporting career, and for a long time I did not have the language or the tools to understand what was happening in my own head.',
-      'I did not understand why pressure felt like too much sometimes. I did not understand why my confidence could swing so much. I just knew I loved the sport, but I was also struggling in it.',
+      `My name is Emily. I am a 32-year-old female athlete living in London, and I play Ladies Gaelic Football for Holloway Gaels.`,
+      `To be straight, I am not an expert or a psychologist, and I don't have this fully figured out. I still struggle with my mental health regularly.`,
+      `Sport has always been a huge part of my life, but my journey with it has not been straightforward. I have struggled with anxiety and depression throughout my sporting career, and for a long time I did not have the language or the tools to understand what was happening in my own head. I didn't understand why pressure felt like too much sometimes or why my confidence could swing so much. I just knew I loved football, but I was also struggling in it.`,
     ],
   },
   {
-    image: corkImage,
-    alt: 'Emily Phelan playing',
+    images: [
+      { src: corkImage, alt: 'Emily Phelan playing underage for Cork' },
+    ],
+    kicker: 'Chapter 1',
+    title: 'Walking Away',
+    paragraphs: [
+      `When I was a teenager, I played underage with Cork. I was captain of the under fourteens and played until I was 17, realistically on track for Cork senior. From the outside it probably looked like everything was going the right way.`,
+      `Football was not the only sport I played, I played soccer for Cork and Munster and camogie with my club too. I was also on trial for Ireland in soccer, however I was marking Denise O'Sullivan and didn't make it lol. Sport was who I was, not just something I did. My mum was heavily involved in all of it, she loved sport as much as I did, and some of my best memories are tied up in that.`,
+      `One day, I decided to walk away from sport entirely. Not because of injury, and not because I stopped being good enough. The pressure and the politics had built to a point where it was not fun anymore.`,
+      `Selection played a part, being picked or dropped based on who you knew rather than how well you were playing. So did pressure from the sidelines, parents shouting and arguing about their children's ability, gossip about players and families around the club. I was pushed too hard, too young. Training loads and expectations felt more like senior inter-county than underage, and I was told I was the team's hope at 14. Missing the winning penalty in a quarter final of the All-Ireland at 16 left me feeling like I had failed everyone around me for weeks and weeks.`,
+      `Some people might turn to another sport when they walk away from one. I didn't. It was seven years before I went back to sport at all. Burnout from football drove me towards alcohol and partying instead, towards the freedom of doing what I wanted, when I wanted. That pressure was never dealt with, it followed me around in other shapes. Walking away did not solve it. It only delayed it.`,
+    ],
+  },
+  {
+    images: [
+      { src: eighteenImage, alt: 'Emily Phelan in her late teens' },
+      { src: goodBitsImage, alt: 'Emily Phelan travelling in her twenties' },
+    ],
     kicker: 'Chapter 2',
-    title: 'Walking Away at Sixteen',
+    title: "Early 20's",
     paragraphs: [
-      'Long before I played with Holloway and London, I played underage with Cork. I was captain at fourteen. I was on track for Minor, and realistically senior after that, and from the outside it probably looked like everything was going the right way.',
-      'Then I walked away from it completely. Not because of injury, and not because I stopped being good enough. The pressure and the politics had built to a point where it was not fun anymore, and when the fun goes out of something you have loved since you were a child, you start looking for other things to fill that void.',
-      'Some people might turn to another sport. I turned to travelling and partying. I spent years drinking and avoiding my own mind, running as fast as I could from what was actually going on with me rather than facing any of it. I hadnt fully given up sport, I still played soccer but eventually gave that up too and stopped playing sport altogether. Not a different club, not a lower grade, nothing at all.',
-      'It was seven years before I went back to it.',
-      'That is the part I want any young player reading this to hear. The pressure that pushed me out was never dealt with, it followed me around in other shapes. Walking away did not solve it. It only delayed it.',
+      `From 18 to 25 I was drinking heavily. I gained a lot of weight and my confidence got worse with it, which made me want to go out and drink more, which made all of it worse again. I spent years battling anxiety and depression, but I would not have called it that at the time, I would have blamed the hangover, or stress from studying or work.`,
+      `I was rarely sober during university, and then I went to Whistler where I wasn't sober at all. Looking back, I can't think of many weeks where drinking wasn't part of most days, not just weekends.`,
+      `Some of that pressure eased during this time. The people I met along the way only knew that version of me, they didn't hold me to a higher standard. I was just Emily to them, not captain, not the girl who was supposed to make it, not anyone's hope for anything. I went to concerts, festivals, I skied, and for a few years life felt lighter. I am so grateful to those friends who were part of that journey, they are still some of my closest friends today.`,
+      `I was also a high achiever through all of this. I did well academically, and I have a very solid career today.`,
+      `Looking back though, the travelling and the whole business of enjoying my twenties put a blanket over the anxiety and the depression. It did not deal with any of it. It just covered it up well enough that I could keep going.`,
     ],
   },
   {
-    image: eighteenImage,
-    alt: 'Emily Phelan in her late teens',
+    images: [
+      { src: covidImage, alt: 'Emily Phelan during the Covid years' },
+    ],
     kicker: 'Chapter 3',
-    title: 'By Eighteen',
-    paragraphs: [
-      'From 18-25 I was drinking heavily. I gained a lot of weight and my confidence got worse with it, which made me want to go out and drink more, which made all of it worse again.',
-      'I spent years battling anxiety and depression, but I would not have called it that at the time. I just used drink to cope. It worked, in the way that it works for a night and costs you the week.',
-    ],
-  },
-  {
-    image: goodBitsImage,
-    alt: 'Emily Phelan travelling in her twenties',
-    kicker: 'Chapter 4',
-    title: 'The Good Bits Were Real',
-    paragraphs: [
-      'However, it was not all bad. I travelled, I skied, I made really good friends, ones I still have. I went to festivals and concerts.',
-      'I was also a high achiever. I did well academically, and my career took off during Covid.',
-      'Looking back, though, the travelling and the whole business of enjoying my twenties put a blanket over the anxiety and the depression. It did not deal with any of it. It just covered it up well enough that I could keep going.',
-    ],
-  },
-  {
-    image: covidImage,
-    alt: 'Emily Phelan during the Covid years',
-    kicker: 'Chapter 5',
     title: 'Covid Took the Blanket Off',
     paragraphs: [
-      'Then the travelling stopped, I came back to Cork and came back to the reality of working, playing football, and eventually being trapped by Covid. That is when I started to properly lose my mind.',
-      'I became very unhappy, I went back to football to start trying to shift some of the travel and drink weight. But playing football made it worse. I lost the weight, but my mental health was not stable enough to cope with no longer being the best.',
-      'I struggled through years of being benched and blaming everyone else for it.',
+      `Then the travelling stopped. I came home to Cork to do my masters, working part-time alongside it, with every intention of travelling again once I finished.`,
+      `I went back to football. I focused on losing weight and getting back into football as a distraction. I became obsessed with it, went vegetarian to lose weight. But everything was always just a distraction, I became obsessed with things because they gave me something else to focus on.`,
+      `Then Covid hit, and I was trapped.`,
+      `I became very unhappy. I was having panic attacks on the pitch. I was still drinking, and I spent a lot of time depressed in bed. I struggled through years of blaming everyone else for it, I blamed my family, I blamed football, I blamed Cork and my hometown for making me unhappy.`,
+      `I met my partner during this time, and naturally things didn't work out, because I put all my faith in him making my life better rather than doing that work myself.`,
+      `But the problem was never my home, or my family, or football. It was me, and my inability to face my anxiety and depression.`,
+      `So I ran away to London hoping I would build a happy life for myself. At times I genuinely did. I worked, I skied, I partied. I enjoyed my life. But I was a ticking timebomb.`,
+      `I joined Holloway Gaels and this brought the anxiety back. The heightened pressure from football made things worse for me, and because I did not know football was a trigger, I just kept having panic attacks and long spells of depression without understanding why.`,
+      `I became obsessed with my weight and how I looked, deeply insecure about it. I never used to be able to go to training without my makeup on, and then I would always be fidgeting with my football gear, wondering if someone was looking at my weight, or judging how I looked when I was playing, or judging if I was good enough.`,
     ],
   },
   {
-    image: londonImage,
-    alt: 'Emily Phelan in London',
-    kicker: 'Chapter 6',
-    title: 'I Blamed Cork, Then Ran to London',
-    paragraphs: [
-      'I used to blame home for my troubles. I hated Cork. But the problem was not my home, or my family, or football. It was me, and my inability to face my anxiety and depression.',
-      'So I ran away to London hoping I would build a happy life for myself. At times I genuinely did. I worked, I skied. I partied. I enjoyed my life, But I was a ticking timebomb.',
-      'I joined Holloway Gaels and this brought the anxiety back. The heightened pressure from football made things worse for me, and because I did not know football was a trigger, I just kept having panic attacks and long spells of depression without understanding why.',
-      'I became obsessed with my weight and how I looked, deeply insecure about it, I never used to be able to go to training without my makeup on and then I would always be figeting with my football gear, wondering if someoene was looking at my weight or if someone was judging how I looked when I was playing or judging if I was good enough'
+    images: [
+      { src: depressedImage, alt: 'Emily Phelan on league final day' },
     ],
-  },
-  {
-    image: depressedImage,
-    alt: 'Emily Phelan on league final day',
-    kicker: 'Chapter 7',
-    title: 'A Difficult Phase',
-    paragraphs: [
-      'Number 18 is me on league final day. I remember feeling happy for my team, but I could not fully feel it for myself because I was so caught up in my own performance. I was not in a good place mentally, and that showed on the pitch.',
-      'What I understand now, looking back, is that it was not just performance anxiety. I was dealing with undiagnosed anxiety and depression at the time, and that naturally spilled over into my sport.',
-    ],
-  },
-  {
-    image: feltLikeImage,
-    alt: 'Emily Phelan during a game',
-    kicker: 'Chapter 8',
-    title: 'What That Felt Like',
-    paragraphs: [
-      'Everything felt heavier than it should have. Not just games, but life in general. There were days I struggled to get out of bed, times I felt really low for no clear reason, and panic attacks I did not fully understand at the time.',
-      'My mind was constantly busy. I was overthinking, second-guessing myself, and never really fully present in the moment. Afterwards, I would replay everything in my head over and over, feeling disconnected from what had just happened.',
-    ],
-  },
-  {
-    image: differentHeadspaceImage,
-    alt: 'Emily Phelan playing in London',
-    kicker: 'Chapter 9',
+    kicker: 'Chapter 4',
     title: 'Hitting Rock Bottom',
     paragraphs: [
-      'Eventually I hit rock bottom, my thoughts started to get darker and darker to the point where I was worried for my own safety. I went to my doctor and was put on medication, and for the first time in 15 years my head went silent.',
-      'That was when I realised how loud it had been. The overthinking had started when I was a teenager, and I had carried it for so long that I thought it was normal. I just did not know.',
-      'Getting the right help was the turning point. It gave me space to think clearly, and from there I could finally start doing the work on the mental side of my sport and my life.',
+      `Number 18 is me on league final day. I remember feeling happy for my team, but I could not fully feel it for myself because I was so caught up in my own performance. I was not in a good place and that showed on the pitch.`,
+      `What I understand now, looking back, is that it was not just performance anxiety. I was dealing with undiagnosed anxiety and depression and it spilled over into everything, not just my sport.`,
+      `Everything felt heavier than it should have, and it kept getting worse. Not just games, but life in general. There were days that felt harder than the last, times I felt really low for no clear reason, and panic attacks I did not fully understand. My mind was constantly busy. I was overthinking, second-guessing myself, never fully present in the moment. Afterwards, I would replay everything in my head over and over, feeling disconnected from what had just happened.`,
+      `My thoughts became very negative, and I continued to blame others for how I was feeling.`,
+      `It didn't happen all at once. I was drinking heavily and having panic attacks constantly, not just before big games but out of nowhere, in the middle of ordinary days. I had a panic attack on the pitch, mid-match, in front of everyone, and had no idea how to explain what had just happened to me or why.`,
+      `There were stretches where I couldn't get out of bed for days on end. Not tired, not hungover in the normal sense, just unable to physically make myself move. My job was suffering because of it. I was missing things, underperforming, running on nothing, and too ashamed to tell anyone why.`,
+      `Eventually I hit rock bottom. My thoughts started to get darker and darker, to the point where I was worried for my own safety. I went to my doctor and was put on medication, and for the first time in 15 years my head went silent.`,
+      `That was when I realised how loud it had been. The overthinking had started when I was a teenager, and I had carried it for so long that I thought it was normal. I just did not know.`,
+      `Getting the right help was the turning point. It gave me space to think clearly, and from there I could finally start doing the work on the mental side of my sport and my life.`,
     ],
   },
   {
-    image: whyImage,
-    alt: 'Emily Phelan playing for Holloway',
-    kicker: 'Chapter 10',
-    title: 'Why This Platform Exists',
-    paragraphs: [
-      'It took a lot of work, a lot of learning, and a lot of uncomfortable reflection on how I was thinking, feeling, and showing up in life and in sport.',
-      'Mind the Gael is the platform I wish I had when I was younger. The language, the tools, and the honest stories that would have helped me understand my own head much sooner.',
+    images: [
+      { src: nowImage, alt: 'Emily Phelan with a cup' },
     ],
-  },
-  {
-    image: nowImage,
-    alt: 'Emily Phelan with a cup',
-    kicker: 'Chapter 11',
+    kicker: 'Chapter 5',
     title: 'Where I Am Now',
     paragraphs: [
-      '8 weeks before this photo was taken, I ended up seeking help for the driking. The medication helped me silence my mind enough to know I needed to stop drinking if I wanted the anxiety and depression to be manageable. I went through years of using alcohol as a crutch which led to blackouts and regrets and even more anxiety',
-      'I still overthink everything, whether I am good enough or fit enough or will I be dropped. But now I have the knowledge and tools to challenge this.',
-      'I still have weeks where my head is hard work. The difference is that I know what it is now, and I know what helps.',
-      'This website was created in the hope that my experience helps at least one person not go through the struggles I meant through'
+      `At the time of writing this, I am 47 days sober. I want to be honest about that because I know people might look at me and not think I had a problem. But I did.`,
+      `Once I started drinking, I did not have the ability to stop. My anxiety and depression eased in that moment, and I craved holding onto that feeling for as long as possible. But that led to blackouts nine times out of ten, and a lot of regrets.`,
+      `I ended up seeking help for the drinking. The medication helped me silence my mind enough to know I needed to stop drinking if I wanted the anxiety and depression to be manageable. I went through years of using alcohol as a crutch, and I am still working through it now, one day at a time.`,
+      `I still overthink everything, whether I am good enough or fit enough or will I be dropped. I still have weeks where my head is hard work. The difference is that I know what it is now, and I know what helps, even when I am still in the middle of figuring it out.`,
+      `It took a lot of work, a lot of learning, and a lot of uncomfortable reflection on how I was thinking, feeling, and showing up in life and in sport. Mind the Gael is the platform I wish I had when I was younger, the language, the tools, and the honest stories that would have helped me understand my own head much sooner.`,
+      `This website was created in the hope that my experience helps at least one person not go through the struggles I went through.`,
     ],
   },
 ];
@@ -171,15 +138,21 @@ const slides = [
               aria-hidden={index !== 0 ? "true" : "false"}
             >
               <div class="slide-image-wrap">
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  class="slide-image"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  widths={[600, 900, 1200, 1600]}
-                  sizes="(max-width: 900px) 100vw, 50vw"
-                />
-                <PhotoCredit src={slide.image.src} class="on-white" />
+                <div class="slide-images" data-count={slide.images.length}>
+                  {slide.images.map((img) => (
+                    <div class="slide-image-item">
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        class="slide-image"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        widths={[400, 600, 900, 1200]}
+                        sizes={slide.images.length > 1 ? "(max-width: 900px) 45vw, 25vw" : "(max-width: 900px) 100vw, 50vw"}
+                      />
+                      <PhotoCredit src={img.src.src} class="on-white" />
+                    </div>
+                  ))}
+                </div>
               </div>
               <div class="slide-copy">
                 <p class="slide-kicker">{slide.kicker}</p>
@@ -339,6 +312,20 @@ const slides = [
     padding: 1.5rem 1rem 0.5rem;
   }
 
+  .slide-images {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .slide-image-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .slide-image {
     width: auto;
     max-width: 360px;
@@ -347,6 +334,11 @@ const slides = [
     object-fit: contain;
     display: block;
     border-radius: 8px;
+  }
+
+  .slide-images[data-count="2"] .slide-image {
+    max-width: 220px;
+    max-height: 260px;
   }
 
   .slide-copy {
@@ -463,6 +455,11 @@ const slides = [
     .slide-image {
       max-width: 100%;
       max-height: 240px;
+    }
+
+    .slide-images[data-count="2"] .slide-image {
+      max-width: 140px;
+      max-height: 160px;
     }
 
     .slide-copy {

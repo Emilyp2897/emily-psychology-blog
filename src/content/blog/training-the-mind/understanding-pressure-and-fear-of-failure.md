@@ -7,19 +7,19 @@ photo: "/assets/articles/CiaraFlan-London-1.jpg"
 photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
 ---
-Championship brings bigger games, higher stakes and a lot more noise around the squad. For most players a pattern starts to show up in that: the fear of failing begins to outweigh the reason you play in the first place.
+Championship brings bigger games, higher stakes and a lot more noise around the squad. Sometimes the fear of failing begins to outweigh the reason you play in the first place.
 
 The research on this is worth knowing, because it is easier to manage once you can see it clearly.
 
 ## Threat vs Challenge
 
-The work of Blascovich and Mendes (2000) on **biopsychosocial appraisal** is one of the most useful frameworks for understanding big-game psychology.
+**biopsychosocial appraisal** is one of the most useful frameworks for understanding big-game psychology.
 
 When you face a high-stakes situation, your brain makes a rapid appraisal. Two possibilities:
 
 **Threat appraisal:** "The demands of this situation are greater than my resources to meet them." Your body responds with a stress response designed for danger. Vasoconstriction, heart pounding hard, attention narrows defensively, mouth dry.
 
-**Challenge appraisal:** "The demands are high AND I have the resources to meet them." Your body responds with a performance-ready state. Higher heart rate but with good circulation, attention focused outward, energised but not panicked.
+**Challenge appraisal:** "The demands are high **BUT** I have the resources to meet them." Your body responds with a performance-ready state. Higher heart rate but with good circulation, attention focused outward, energised but not panicked.
 
 Same situation. Same heart rate. Completely different internal experience and external performance.
 
@@ -43,9 +43,14 @@ Several common ones for championship weeks:
 ## What helps challenge appraisal
 
 - **Sleep, properly.** Non-negotiable in championship week.
-- **Visualise success specifically.** Imagery of HOW you'll play well, not just winning.
+- **Visualise success specifically.** Imagery of **HOW** you'll play well, not just winning.
+     
+    - I will take my shots when they are on
+    - I will work hard off the ball
+    - I will give and go quickly
+
 - **Compare to past success.** "We've won big games before. Here's what was different."
-- **Process focus.** What's my role in the first 10 minutes. Not the scoreline.
+- **Process focus.** What's my role in the first 10 minutes? Not the scoreline.
 - **Simplify the tactics.** Two or three things, not twelve.
 - **Manage public stakes.** Off social media in championship week. Limit family chat about the game.
 
@@ -57,11 +62,11 @@ Several common ones for championship weeks:
 
 Conroy and others have done useful research on fear of failure in athletes. It's broken down into five components:
 
-1. Fear of shame and embarrassment.
-2. Fear of devaluing your self-estimate.
-3. Fear of having an uncertain future.
-4. Fear of important others losing interest.
-5. Fear of upsetting important others.
+- Fear of shame and embarrassment.
+- Fear of devaluing your self-estimate.
+- Fear of having an uncertain future.
+- Fear of important others losing interest.
+- Fear of upsetting important others.
 
 Notice: none of these are about the game itself. They're all about what failing would MEAN, socially or to your sense of self.
 
@@ -86,11 +91,11 @@ These are normal. They're also signs that your nervous system is interpreting th
 
 ## What you can do this week
 
-1. **Sleep is the foundation.** Protect it. Same time every night. No screens an hour before.
-2. **Visualise specifically.** Not "I want to win". "I want to make 3 strong tackles in the first 10 minutes." Process-specific.
-3. **Limit input.** Less social media. Less tactical analysis. Less family chat about the game.
-4. **One process anchor for the game.** "First to every ball." "Stay in defensive shape." Something concrete.
-5. **Audit the fear of failure.** What are you ACTUALLY afraid of? Once you can name it, you can manage it.
+- **Sleep is the foundation.** Protect it. Same time every night. No screens an hour before.
+- **Visualise specifically.** Not "I want to win". "I want to make 3 strong tackles in the first 10 minutes." Process-specific.
+- **Limit input.** Less social media. Less tactical analysis. Less family chat about the game.
+- **One process anchor for the game.** "First to every ball." "Stay in defensive shape." Something concrete.
+- **Audit the fear of failure.** What are you ACTUALLY afraid of? Once you can name it, you can manage it.
 
 The practical setup is at [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
 

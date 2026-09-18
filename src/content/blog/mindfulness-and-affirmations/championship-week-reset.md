@@ -6,15 +6,19 @@ track: "mindfulness-and-affirmations"
 tags: ["championship", "mindfulness"]
 ---
 
-Five minutes, twice a day. That's the whole thing.
+Five minutes, twice a day.
 
-## What mindfulness isn't
+## The practice
 
-Mindfulness isn't emptying your head. You can't empty your head, and trying to is why people decide they're bad at it.
+Set a timer for five minutes. Sit somewhere you won't be interrupted.
 
-It's noticing where your attention went and bringing it back. That's the whole skill.
+**Minute one.** Feet on the floor. Notice the contact. Weight through your heels, your toes, the outside of your feet. Nothing to change, just notice it.
 
-Wanders forty times, brought back forty times? That was a good session. Forty reps.
+**Minutes two and three.** Move to your breath. Don't deepen it or slow it down, just follow it. In, out. When you notice you have drifted off into the game, or the team announcement, or what you should have said to someone, name it quietly to yourself. "Thinking." Then come back to the breath. You will do this many times. That is the practice, not a failure of it.
+
+**Minutes four and five.** Now widen your focus. Notice the other sounds in the room, the temperature on your skin. Keep some awareness on your breath underneath it all. Sit with everything at once.
+
+Then get up and go about your day.
 
 ## Why it matters this week
 
@@ -22,35 +26,23 @@ Your head wants to play the match before the match. It runs the game, the mistak
 
 That's energy you'll want on Sunday.
 
-## Why it's worth the five minutes
-
-This isn't a wellness nice-to-have. Bühlmayer and colleagues (2017) reviewed the mindfulness research in sport and found consistent improvements in performance-relevant measures, including attention and anxiety, across a range of athletes. Birrer, Röthlin and Morgan (2012) set out the mechanisms behind it, and attention control is the big one. That is exactly what goes first when championship pressure arrives.
-
-It is the same skill from the attention work, practised somewhere quiet instead of mid-game.
-
-## The practice
-
-Set a timer for five minutes. Sit somewhere you won't be interrupted. You don't need to be anywhere special.
-
-**Minute one.** Feet on the floor. Notice the contact. Weight through your heels, your toes, the outside of your feet. Nothing to change, just notice it.
-
-**Minutes two and three.** Move to your breath. Don't deepen it or slow it down, just follow it. In, out. When you notice you have drifted off into the game, or the team announcement, or what you should have said to someone, name it quietly to yourself. "Thinking." Then come back to the breath. You will do this many times. That is the practice, not a failure of it.
-
-**Minutes four and five.** Widen out. Sounds in the room. Temperature on your skin. Your breath still going underneath it. Sit with all of it at once.
-
-Then get up and go about your day.
+Attention Control is what goes first when championship pressure arrives.
 
 ## When to do it
 
 Twice: once in the morning, once in the evening. Championship week specifically, I would add a third at the point where your head is loudest, which for most players is the night before.
 
-If you only manage one, make it the evening one. That's the one I'd fight you on. That is the one that protects your sleep, and sleep is the thing that actually moves the needle on Sunday.
+If you only manage one, make it the evening one. That is the one that protects your sleep, and sleep is the thing that moves the needle on Saturday.
 
 ## What it isn't
 
-It won't make you calm. Some sessions you will feel more wound up afterwards than before, because you sat still long enough to notice how wound up you already were. That is information, not a problem.
+Mindfulness isn't emptying your head. You can't empty your head, and trying to is why people decide they're bad at it.
 
-It also won't fix anything on its own. If your head has been consistently bad for weeks, five minutes of breathing isn't the answer and I wouldn't pretend it's. Have a look at [Strong Minds, Stronger Players](/content-hub/strong-minds-stronger-players/) and talk to someone.
+It's noticing where your attention went and bringing it back.
+
+It may wander forty times and you have to bring it back forty times. That is a good session. Forty reps.
+
+It won't fix anything on its own. If your head has been consistently bad for weeks, five minutes of breathing isn't the answer and I wouldn't pretend it is. Have a look at [Strong Minds, Stronger Players](/content-hub/strong-minds-stronger-players/) and talk to someone.
 
 ## References
 

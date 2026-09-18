@@ -9,7 +9,7 @@ The practical companion to the posts on pressure. If you've read [Attention Cont
 
 <div class="shamrock-banner-purple">
   <span class="shamrock-icon"><img src="/assets/saoirse.png" alt="" /></span>
-  <p>Three tools. Use one. Use all three. Mix them with your own methods. The point is to have something in your back pocket for when the pressure starts to rise.</p>
+  <p>Three tools. Use one. Use all three. Mix them with your own methods. The point is to have something for when the pressure starts to rise.</p>
 </div>
 
 ## Tool 1: The 4-7-8 breath
@@ -53,16 +53,13 @@ The practical companion to the posts on pressure. If you've read [Attention Cont
 <div class="shamrock-banner-purple">
   <span class="shamrock-icon"><img src="/assets/saoirse.png" alt="" /></span>
   <div>
-    <p><strong>A note on what cue words AREN'T</strong></p>
-    <p>They're not affirmations. Saying "I'm the best" when you don't believe it makes things worse. Cue words are for re-focusing your attention, not for talking yourself into a feeling. Keep them functional, not motivational.</p>
+    <p>Cue words are for re-focusing your attention, not for talking yourself into a feeling. Keep them functional, not motivational.</p>
   </div>
 </div>
 
 ## Putting it together
 
 Build a 30-second pre-match routine this week. Three parts: anchor → breath → cue word. Use the same one in training. By the time it matters, it'll feel automatic.
-
-If you want the deeper context for why these tools work, read [How to bring your focus back](/content-hub/training-the-mind/attention-control-theory/) for the attention side, and [Choking Under Pressure](/content-hub/training-the-mind/choking-under-pressure/) for the skill-execution side.
 
 ## References
 

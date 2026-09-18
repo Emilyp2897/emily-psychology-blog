@@ -1,31 +1,10 @@
 ---
-title: "Championship Affirmations That Do Not Make You Cringe"
+title: "Championship Affirmations"
 description: "Affirmations for championship week and for life outside it, built the way the research says they actually work. Not I am the best player on this pitch."
 pubDate: "2026-09-15"
 track: "mindfulness-and-affirmations"
 tags: ["championship", "affirmations"]
 ---
-
-Most affirmations are rubbish.
-
-## Why the usual ones fail
-
-"I am unstoppable." "I am the best player on this pitch."
-
-If you don't already believe it, your brain argues back. It lists three players who are better, and you feel worse than before you started.
-
-## What works instead
-
-Cohen and Sherman (2014) found the useful version is narrower: not telling yourself you're great, but reminding yourself what you value.
-
-Creswell and colleagues (2005) showed that affirming personal values lowered stress hormone responses under pressure.
-
-Values, not ability. That's the difference.
-
-Separately, the self-talk research in sport is strong. Hatzigeorgiadis and colleagues (2011) pulled together the studies and found self-talk does improve performance, but the type matters. Instructional self-talk, the kind that tells you what to do, tends to work best for precise skills. Hardy (2006) makes a similar point about being specific.
-
-Put those together and you get the rule: **affirm your values, instruct your skills, and stop making claims about your ability that your own brain will dispute.**
-
 ## For championship week
 
 These are values and process, not predictions.
@@ -46,9 +25,50 @@ And the instructional ones, for the moments that need precision:
 
 Say the values ones in the days before. Say the instructional ones in the moment. Don't mix them up, because "I go home to the same people who love me" is no use to you when you're standing over a free.
 
+## How to actually use them
+
+Pick two affirmations that you believe
+
+Write them somewhere you will see them. Back of your phone case, top of your notes app, inside your gear bag.
+
+Say them out loud. Saying a thing out loud feels silly BUT works better than thinking it.
+
+Then leave it alone. It is a sentence you give yourself when your head starts making claims that aren't true.
+
+If you want the tools that go with this, the [Gael Performance Toolkit](/content-hub/gael-performance-toolkit/) has the self-talk and confidence work in more detail.
+
+## Why the usual ones fail
+
+"I am unstoppable." "I am the best player on this pitch."
+
+If you don't already believe it, your brain argues back. It lists three players who are better, and you feel worse than before you started.
+
+## What works instead
+
+Not telling yourself you're great, but reminding yourself what you value. 
+
+NOT "I am the best player on this pitch," 
+BUT **"I play because I love it"** or **"I show up for my teammates."** 
+
+One is a claim your brain can dispute. The other just isn't up for debate, it's true regardless of how the match goes.
+
+Affirming personal values lowers stress hormone responses under pressure.
+
+**Values, not ability. That's the difference**.
+
+Separately, the self-talk research in sport is strong. Self-talk does improve performance, but the type matters. Instructional self-talk tends to work best for precise skills. 
+
+Think **"head up, pick the pass"** right before you're on the ball, 
+
+NOT "I'm a brilliant passer" ten minutes earlier. 
+
+One gives your brain something to execute. The other gives it something to doubt.
+
+Put those together and you get the rule: **affirm your values, instruct your skills, and stop making claims about your ability that your own brain will dispute.**
+
 ## For life outside the sport
 
-Same rule, and honestly I use these more than the football ones.
+Same rule, you must believe them to be true.
 
 - I am allowed to find this hard.
 - I don't have to be at my best to be worth something.
@@ -57,17 +77,6 @@ Same rule, and honestly I use these more than the football ones.
 - Asking for help is a thing capable people do.
 - I can do the next small thing. That is enough for now.
 
-## How to actually use them
-
-Pick two. Not twelve. Two you can half believe today.
-
-Write them somewhere you will see them without looking for them. Back of your phone case, top of your notes app, inside your gear bag.
-
-Say them out loud if you can manage it. Saying a thing out loud feels stupid and works better than thinking it, which is annoying but there it's.
-
-Then leave it alone. This isn't something you grind at. It is a sentence you give yourself when your head starts making claims that aren't true.
-
-If you want the tools that go with this, the [Gael Performance Toolkit](/content-hub/gael-performance-toolkit/) has the self-talk and confidence work in more detail.
 
 ## References
 

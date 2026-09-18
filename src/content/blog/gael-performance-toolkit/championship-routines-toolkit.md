@@ -6,7 +6,7 @@ tags: ["championship"]
 track: "gael-performance-toolkit"
 ---
 
-Championship week, tool by tool. These are the five I'd actually reach for. Goes with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and [Applying Championship Pressure in LGFA](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
+Goes with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and [Applying Championship Pressure in LGFA](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
 
 Four tools for big-game weeks.
 
@@ -16,12 +16,14 @@ Four tools for big-game weeks.
 
 **How to do it:**
 
-- Set a fixed bedtime. Earlier than your usual if needed.
-- 60 minutes before bed: screens off. No phone, no laptop, no TV.
-- Light wind-down: shower, book, low light, quiet.
-- Bedroom cool and dark.
-- If you wake up at 2am ruminating: don't lie there spinning. Get up, dim light, sit for 10-15 minutes with a non-stimulating activity (book, herbal tea). Go back.
-- Don't worry about whether you'll be tired tomorrow. The worry makes it worse than the sleep loss does.
+<ul>
+    <li> Set a fixed bedtime. Earlier than your usual if needed. </li>
+    <li>60 minutes before bed: screens off. No phone, no laptop, no TV.</li>
+    <li>Light wind-down: shower, book, low light, quiet.</li>
+    <li>Bedroom cool and dark.</li>
+    <li>If you wake up at 2am ruminating: don't lie there spinning. Get up, dim light, sit for 10-15 minutes with a non-stimulating activity (book, herbal tea). Go back.</li>
+    <li>Don't worry about whether you'll be tired tomorrow. The worry makes it worse than the sleep loss does.</li>
+</ul>
 
 **Why it works:** sleep research is unequivocal. Sleep is the single biggest performance factor in big games. Athletes who protect sleep across championship week outperform peers with equivalent training but worse sleep (Fullagar et al., 2015).
 
