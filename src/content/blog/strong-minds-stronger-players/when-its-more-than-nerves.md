@@ -1,6 +1,6 @@
 ---
 title: "When It's More Than Nerves"
-description: "Pre-game nerves are normal. This post helps you spot when nerves cross over into something that needs more than a pre-match routine."
+description: "Pre-match nerves are normal. This post helps you spot when it's more than that."
 pubDate: "2026-09-02"
 tags: ["championship"]
 photo: "/assets/articles/IMG_7223.JPG"
@@ -8,9 +8,9 @@ photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
 ---
 
-Most athletes feel something before a big game. Sweaty palms, racing thoughts, the urge to use the bathroom one more time. That is the body getting ready, and it is normal.
+Most athletes feel something before a big game. Sweaty hands, racing thoughts, the urge to use the bathroom one more time. This is your body getting ready, and it's normal.
 
-But sometimes nerves feel different. They stop being a pre-match buzz and start to spill into the rest of your week. Sleep goes. Appetite goes. The dread before a match starts on Tuesday instead of Saturday. That is when nerves may have crossed into anxiety, and it deserves attention.
+But sometimes nerves feel different. They stop being a pre-match buzz and start to spill into the rest of your week. Sleep goes. Appetite goes. The dread before a match starts on Tuesday instead of Friday. That is when nerves may have crossed into anxiety, and it deserves attention.
 
 ## What this can look like
 

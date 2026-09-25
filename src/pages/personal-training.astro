@@ -127,7 +127,7 @@ import { SITE_TITLE } from '../consts';
 
             <div class="progression-plan-fields">
               <h3>Custom Progression Plan</h3>
-              <p class="plan-fields-intro">Optional. Fill in your training details so I can build your programme around them. The more I know, the better the plan.</p>
+              <p class="plan-fields-intro">Optional. Your training details, so the programme is built around them.</p>
 
               <label>
                 Does any of the following apply to you? (optional)
@@ -379,7 +379,7 @@ import { SITE_TITLE } from '../consts';
         <div class="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="mental-modal-title">
           <button type="button" class="consultation-close" id="close-mental-modal" aria-label="Close mental performance form">✕</button>
           <h2 id="mental-modal-title">Mental Performance Plan Intake</h2>
-          <p class="consultation-intro">Tell me about your sport, your competitive history, and the performance moments you want to work on. Your plan is built around what you share here.</p>
+          <p class="consultation-intro">Your sport, your competitive history, and the performance moments you want to work on.</p>
 
           <form id="mental-form" class="consultation-form">
             <div class="consultation-grid">
@@ -403,7 +403,7 @@ import { SITE_TITLE } from '../consts';
 
             <div class="progression-plan-fields">
               <h3>Your Competitive Background</h3>
-              <p class="plan-fields-intro">A bit of context on where you are competing and how long you have been at it. This shapes the level your plan is pitched at.</p>
+              <p class="plan-fields-intro">Where you compete and how long you have been at it. This sets the level your plan is pitched at.</p>
 
               <div class="plan-basic-fields">
                 <label>
@@ -951,12 +951,15 @@ import { SITE_TITLE } from '../consts';
   /* This page has a dark background, so the disclosure needs light text.
      The first version used --green-dark on a translucent purple, which was
      dark-on-dark and effectively invisible. */
+  /* Light lilac panel rather than lime text on a lime-tinted dark block.
+     Lime on green was the complaint; this reads as small print without
+     being another green-on-green surface. */
   .plan-disclosure {
     max-width: 780px;
     margin: 2.5rem auto 1rem;
-    padding: 0.9rem 1.1rem;
-    border-left: 4px solid var(--green-lime);
-    background: rgba(244, 255, 232, 0.08);
+    padding: 1rem 1.2rem;
+    border-left: 4px solid var(--purple);
+    background: #f9effd;
     border-radius: 0 10px 10px 0;
   }
 
@@ -965,7 +968,7 @@ import { SITE_TITLE } from '../consts';
     font-size: 0.86rem;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    color: var(--green-lime);
+    color: var(--purple);
   }
 
   .plan-disclosure-list {
@@ -978,15 +981,15 @@ import { SITE_TITLE } from '../consts';
   .plan-disclosure-list li {
     font-size: 0.85rem;
     line-height: 1.5;
-    color: var(--green-light);
+    color: #1a1a1a;
   }
 
   .plan-disclosure-list li strong {
-    color: #ffffff;
+    color: var(--purple);
   }
 
   .plan-disclosure-list a {
-    color: var(--green-lime);
+    color: var(--purple);
     font-weight: 700;
   }
 

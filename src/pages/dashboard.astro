@@ -35,13 +35,39 @@ import { SITE_TITLE } from '../consts';
     <Footer />
 
     <script>
-      import { supabase } from '../lib/supabase.js';
+      import { supabase, getUserOrThrow, getAccessTokenOrThrow } from '../lib/supabase.js';
 
-      // Check user is logged in
-      const { data: { user } } = await supabase.auth.getUser();
+      const plansList = document.getElementById('plans-list');
+
+      // Every failure path below has to reach the screen. This page used to
+      // sit on the "Loading your plans..." placeholder forever whenever the
+      // auth call hung, which made a stalled session indistinguishable from
+      // a slow one, with nothing in the console either way.
+      function showError(message: string) {
+        if (!plansList) return;
+        plansList.innerHTML =
+          `<p class="plans-empty">${message} Try refreshing, or ` +
+          `<a href="/login">sign in again</a>.</p>`;
+      }
+
+      // Check user is logged in. getUserOrThrow times out rather than
+      // hanging, so a stuck auth lock surfaces as an error instead of a
+      // permanently frozen page.
+      let user: any = null;
+      try {
+        user = await getUserOrThrow();
+      } catch (err: any) {
+        console.error('dashboard auth check failed:', err);
+        showError(`We could not confirm your sign-in: ${err?.message || 'Unknown error'}.`);
+        throw err;
+      }
 
       if (!user) {
         window.location.href = '/login';
+        // A module script cannot return at the top level, and without this
+        // the rest of the file kept running against a null user while the
+        // browser was still navigating.
+        throw new Error('Not signed in, redirecting to login.');
       }
 
       // Greet the user
@@ -60,24 +86,42 @@ import { SITE_TITLE } from '../consts';
       // Load plans via the server-side endpoint so we can include team
       // plans (which have user_id = null and would otherwise be hidden
       // by RLS on the client-facing supabase client).
-      const plansList = document.getElementById('plans-list');
-      let allPlans: any[] = [];
+      let accessToken: string | null = null;
       try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        const accessToken = sessionData?.session?.access_token;
-        if (accessToken) {
-          const res = await fetch('/api/customer-plans', {
-            headers: { 'Authorization': `Bearer ${accessToken}` },
-          });
-          const data = await res.json().catch(() => ({}));
-          if (res.ok && Array.isArray(data?.plans)) {
-            allPlans = data.plans;
-          } else {
-            console.error('customer-plans returned non-ok:', data);
-          }
+        accessToken = await getAccessTokenOrThrow();
+      } catch (err: any) {
+        console.error('dashboard session lookup failed:', err);
+        showError(`We could not read your session: ${err?.message || 'Unknown error'}.`);
+        throw err;
+      }
+
+      if (!accessToken) {
+        window.location.href = '/login';
+        throw new Error('No access token, redirecting to login.');
+      }
+
+      // loadFailed keeps a failed request from falling through to the
+      // "You have no active plans yet" branch below. An error and an empty
+      // account used to render identically, so a broken load looked like a
+      // customer with nothing bought.
+      let allPlans: any[] = [];
+      let loadFailed = false;
+      try {
+        const res = await fetch('/api/customer-plans', {
+          headers: { 'Authorization': `Bearer ${accessToken}` },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && Array.isArray(data?.plans)) {
+          allPlans = data.plans;
+        } else {
+          loadFailed = true;
+          console.error('customer-plans returned non-ok:', res.status, data);
+          showError(`We could not load your plans: ${data?.error || 'Request failed'} (HTTP ${res.status}).`);
         }
-      } catch (err) {
+      } catch (err: any) {
+        loadFailed = true;
         console.error('customer-plans fetch failed', err);
+        showError(`We could not load your plans: ${err?.message || 'Network error'}.`);
       }
 
       function statusLabel(plan: any): string {
@@ -100,7 +144,9 @@ import { SITE_TITLE } from '../consts';
         return plan.is_team_plan ? `${base} <span class="team-badge">Team</span>` : base;
       }
 
-      if (allPlans.length === 0) {
+      if (loadFailed) {
+        // showError already wrote the reason into plansList. Leave it.
+      } else if (allPlans.length === 0) {
         if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training" style="color: #c0fe71 !important; text-decoration: underline;">Get started here.</a></p>';
       } else {
         if (plansList) {
@@ -163,20 +209,27 @@ import { SITE_TITLE } from '../consts';
         margin-bottom: 0.5rem;
       }
 
+      /* Light lilac panel, matching the notices on pricing and personal
+         training. It was lime on a dark green tint. */
       .dashboard-ai-note {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(244, 255, 232, 0.18);
-        border-left: 3px solid var(--green-lime);
-        border-radius: 10px;
-        padding: 0.7rem 0.95rem;
+        background: #f9effd;
+        border: none;
+        border-left: 5px solid var(--purple);
+        border-radius: 0 10px 10px 0;
+        padding: 0.85rem 1.1rem;
         margin: 0 0 1.25rem;
         font-size: 0.88rem;
         line-height: 1.5;
-        color: var(--green-light);
+        color: #1a1a1a;
+      }
+
+      .dashboard-ai-note a {
+        color: var(--purple) !important;
+        font-weight: 700;
       }
 
       .dashboard-ai-note strong {
-        color: var(--green-lime);
+        color: var(--purple);
         font-weight: 700;
         margin-right: 0.3rem;
       }

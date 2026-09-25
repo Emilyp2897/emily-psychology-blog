@@ -42,9 +42,17 @@ const groupHasReleased = (entry: (typeof monthlySeries)[number]) =>
     return post !== undefined && !isLocked(post);
   });
 
+// Only the next couple of unreleased themes are listed. Eight locked month
+// groups pushed the readable ones off the screen and made the page hard to
+// scan; the rest are summarised as a count underneath.
+const COMING_SOON_SHOWN = 2;
+
+const soonGroups = monthlySeries.filter((e) => !groupHasReleased(e));
+const soonShown = soonGroups.slice(0, COMING_SOON_SHOWN);
+const soonRest = soonGroups.length - soonShown.length;
+
 const seriesSections = [
   { key: 'now', title: 'Available now', groups: monthlySeries.filter(groupHasReleased) },
-  { key: 'soon', title: 'Coming up', groups: monthlySeries.filter((e) => !groupHasReleased(e)) },
 ].filter((section) => section.groups.length > 0);
 
 // Next post still to be released, for the schedule box. Picks the earliest
@@ -77,15 +85,8 @@ const nextRelease = allPosts
       <section class="hero">
         <p class="hero-kicker">Content Hub Series</p>
         <h1>Training the Mind</h1>
-        <p class="hero-tagline">Sports psychology in language that makes sense on the pitch.</p>
+        <p class="hero-tagline">Twelve topics in sports psychology, one a month.</p>
       </section>
-
-      <div class="series-lead">
-        <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
-        <div class="saoirse-bubble">
-        <p class="series-lead-copy">Each theme is covered twice: once to understand what is actually going on, once to apply it in real Gaelic football situations. Every post has a companion toolkit.</p>
-        </div>
-      </div>
 
       <section class="ttm-series" aria-label="Series posts">
         {seriesSections.map((section) => (
@@ -137,6 +138,23 @@ const nextRelease = allPosts
         </div>
         ))}
       </section>
+
+      {soonGroups.length > 0 && (
+        <section class="coming-soon" aria-labelledby="ttm-coming-heading">
+          <h2 id="ttm-coming-heading" class="coming-soon-heading">Coming soon</h2>
+          <ul class="coming-soon-list">
+            {soonShown.map((entry) => (
+              <li class="coming-soon-item">
+                <span class="coming-soon-badge">{entry.month}</span>
+                <h3 class="coming-soon-title">{entry.theme}</h3>
+              </li>
+            ))}
+          </ul>
+          {soonRest > 0 && (
+            <p class="coming-soon-rest">{soonRest} more themes through the year.</p>
+          )}
+        </section>
+      )}
 
       <section class="content-feedback-cta" aria-label="Content feedback">
         <p>Got feedback on this content?</p>
@@ -211,7 +229,7 @@ const nextRelease = allPosts
 
   .series-lead-copy {
     margin: 0 0 0.8rem;
-    color: var(--green-dark);
+    color: var(--green-light);
     font-size: 1.05rem;
     line-height: 1.55;
   }
@@ -335,6 +353,66 @@ const nextRelease = allPosts
     border-bottom: 2px solid var(--green-lime);
     color: var(--green-lime);
     font-size: 1.3rem;
+  }
+
+
+  /* Coming soon, matching the Mindfulness hub: a couple of entries under a
+     line, with the rest as a count. Everything above the line is readable
+     today. */
+  .coming-soon {
+    margin-top: 2.4rem;
+    padding-top: 1.6rem;
+    border-top: 2px solid rgba(192, 254, 113, 0.22);
+  }
+
+  .coming-soon-heading {
+    margin: 0 0 1rem;
+    color: var(--green-light);
+    opacity: 0.7;
+    font-size: 1.1rem;
+  }
+
+  .coming-soon-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .coming-soon-item {
+    padding: 0.85rem 0 1rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+  }
+
+  .coming-soon-item .coming-soon-title {
+    margin: 0;
+    color: var(--green-light);
+    opacity: 0.9;
+    font-size: 1.02rem;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  .coming-soon-badge {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .coming-soon-rest {
+    margin: 1rem 0 0;
+    color: var(--green-light);
+    opacity: 0.6;
+    font-size: 0.88rem;
   }
 
   .series-section-soon .series-section-heading {

@@ -1,6 +1,6 @@
 ---
 title: "Overthinking and Performance Blocks"
-description: "When the mind starts running too loud to play, the issue is not effort. This post helps you spot when overthinking needs more than a refocus drill."
+description: "When your head is too loud to play, the problem is not effort."
 pubDate: "2026-09-13"
 hold: true
 photo: "/assets/articles/DSC_1498.jpg"
@@ -51,7 +51,7 @@ If you have been stuck in the same block for more than a few months, if it is af
 
 ## What I have learned
 
-A block is not a character flaw. It is a brain that has learned to over-engage with a movement that needs to be left alone. The path back is not through more effort, it is through less. That is counterintuitive, and it is why outside help often makes the difference.
+A block is not a character flaw. It is a brain that has learned to over-engage with a movement that should be automatic. The way back is less effort, not more, which is the opposite of what most players try on their own. That is why outside help often makes the difference.
 
 > **ADD YOUR EXPERIENCE HERE**
 >

@@ -1,6 +1,6 @@
 ---
 title: "Applying Mistake Resilience in Ladies Gaelic Football"
-description: "How to actually reset after a mistake in a game. The specific in-LGF moments where mistakes hit hardest and how to handle them."
+description: "How to reset after a mistake in a game."
 pubDate: "2026-11-15"
 track: "training-the-mind"
 ---

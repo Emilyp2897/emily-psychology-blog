@@ -1,6 +1,6 @@
 ---
 title: "Attention Control Theory: What's Actually Happening When Your Focus Slips"
-description: "The psychology behind why pressure and overthinking pull your focus away from the game, and why it has nothing to do with a lack of skill."
+description: "Why pressure pulls your focus off the game."
 pubDate: "2026-09-01"
 hold: true
 photo: "/assets/articles/IMG_5777.JPG"

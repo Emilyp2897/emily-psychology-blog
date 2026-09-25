@@ -109,8 +109,62 @@ type ProgrammeIntakeResponse =
   | ProgrammeIntakeBlocked
   | ProgrammeIntakeError;
 
+// Each intake submission generates a teaser through the Anthropic API
+// before any payment is taken, so an unthrottled form is a way for anyone to
+// run up the bill for free. The chat endpoint already caps per IP; this does
+// the same, with a much lower ceiling because nobody legitimately needs to
+// generate six plans in an hour.
+const RATE_LIMIT_WINDOW_MS = 60 * 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
+
+const intakeBuckets = new Map<string, number[]>();
+
+function getClientKey(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    const ip = forwarded.split(',')[0]?.trim();
+    if (ip) return `ip:${ip}`;
+  }
+
+  const realIp = request.headers.get('x-real-ip');
+  if (realIp) return `ip:${realIp.trim()}`;
+
+  return 'ip:unknown';
+}
+
+function isRateLimited(clientKey: string): boolean {
+  const now = Date.now();
+  const recent = (intakeBuckets.get(clientKey) || []).filter(
+    (timestamp) => now - timestamp <= RATE_LIMIT_WINDOW_MS
+  );
+
+  if (recent.length >= RATE_LIMIT_MAX_REQUESTS) {
+    intakeBuckets.set(clientKey, recent);
+    return true;
+  }
+
+  recent.push(now);
+  intakeBuckets.set(clientKey, recent);
+  return false;
+}
+
 export const POST: APIRoute = async (context) => {
   try {
+    // Checked before the body is parsed or the model is called.
+    const clientKey = getClientKey(context.request);
+    if (isRateLimited(clientKey)) {
+      console.warn(`[programme-intake] rate limited ${clientKey}`);
+      return json<ProgrammeIntakeError>(
+        {
+          success: false,
+          reason: 'error',
+          message:
+            'You have submitted this a few times in the last hour. Give it a little while and try again, or email emilyphelan@mindthegael.co.uk.',
+        },
+        429
+      );
+    }
+
     const body = (await context.request.json()) as ConsultationWithPlanRequest;
 
     if (!body.name || !body.email || !body.sport || !body.goals) {

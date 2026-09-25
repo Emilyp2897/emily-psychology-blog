@@ -31,7 +31,10 @@ const feedbackEnabled =
     <Header />
     <main class="container">
       <div class="plan-wrap">
-        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+        <div class="plan-toolbar">
+          <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+          <button type="button" id="print-plan" class="print-btn" hidden>Print or save as PDF</button>
+        </div>
         <div id="plan-container">
           <p class="loading">Loading your plan...</p>
         </div>
@@ -108,20 +111,85 @@ const feedbackEnabled =
       window.FEEDBACK_ENABLED = !!feedbackEnabled;
     </script>
 
+    <script is:inline>
+      // Last-resort reporter. The plan is rendered by a module script with a
+      // top-level await. If that await rejects, or the module fails to load
+      // at all, the browser reports it to the console and stops: no error is
+      // thrown into the page, so the placeholder below just sits there saying
+      // "Loading your plan..." forever. That is the exact failure this page
+      // had, and it gave nobody anything to report.
+      //
+      // These two handlers paint whatever went wrong into the container.
+      (function () {
+        function report(what, detail) {
+          var el = document.getElementById('plan-container');
+          if (!el || el.dataset.rendered === 'true') return;
+          el.innerHTML =
+            '<p class="error">Your plan could not be loaded.</p>' +
+            '<p class="error-detail"></p>';
+          el.querySelector('.error-detail').textContent = what + ': ' + detail;
+        }
+
+        window.addEventListener('error', function (e) {
+          report('Script error', (e.message || 'unknown') + (e.filename ? ' in ' + e.filename : ''));
+        });
+
+        window.addEventListener('unhandledrejection', function (e) {
+          var r = e.reason;
+          report('Load failed', (r && (r.message || r.error_description)) || String(r));
+        });
+
+        // Nothing failed loudly but nothing rendered either: catch the hang.
+        setTimeout(function () {
+          report('Timed out', 'the plan did not load within 15 seconds');
+        }, 15000);
+      })();
+    </script>
+
     <script>
-      import { supabase } from '../../lib/supabase.js';
+      import { supabase, getUserOrThrow, getAccessTokenOrThrow } from '../../lib/supabase.js';
       import { marked } from 'marked';
 
-      // getUser() first, then getSession() for the token — the same order the
+      // Auth failures have to reach the screen. An unguarded top-level await
+      // on these calls leaves the page stuck on its loading markup with
+      // nothing in the console when the auth lock stalls.
+      function showAuthError(message: string) {
+        const el = document.getElementById('plan-container');
+        if (!el) return;
+        el.innerHTML =
+          `<p class="error">${message} Try refreshing, or ` +
+          `<a href="/login">sign in again</a>.</p>`;
+      }
+
+      // getUser() first, then getSession() for the token, the same order the
       // dashboard uses. getSession() alone can return null if it runs before
       // the client has restored the session from storage, which sent this
-      // page to /login even when signed in.
-      const { data: { user } } = await supabase.auth.getUser();
+      // page to /login even when signed in. Both go through the timeout
+      // wrappers so a stuck lock fails loudly instead of hanging.
+      let user: any = null;
+      try {
+        user = await getUserOrThrow();
+      } catch (err: any) {
+        console.error('plan page auth check failed:', err);
+        showAuthError(`We could not confirm your sign-in: ${err?.message || 'Unknown error'}.`);
+        throw err;
+      }
+
       if (!user) {
         window.location.href = '/login';
+        // A module script cannot return at the top level, and without this
+        // the rest of the file kept running while the browser navigated.
+        throw new Error('Not signed in, redirecting to login.');
       }
-      const { data: sessionData } = await supabase.auth.getSession();
-      const accessToken = sessionData?.session?.access_token ?? null;
+
+      let accessToken: string | null = null;
+      try {
+        accessToken = await getAccessTokenOrThrow();
+      } catch (err: any) {
+        console.error('plan page session lookup failed:', err);
+        showAuthError(`We could not read your session: ${err?.message || 'Unknown error'}.`);
+        throw err;
+      }
 
       // filter(Boolean) so a trailing slash cannot yield an empty id.
       const planId = window.location.pathname.split('/').filter(Boolean).pop();
@@ -146,7 +214,13 @@ const feedbackEnabled =
           if (res.ok && payload?.plan) {
             plan = payload.plan;
           } else {
-            error = { message: payload?.error || `Request failed (${res.status})` };
+            // Status and plan id go in the message. Without them a failure
+            // here is unreportable: "not found" looks identical whether the
+            // token expired (401), the plan is not yet approved (404), or
+            // Supabase is misconfigured (500).
+            error = {
+              message: `${payload?.error || 'Request failed'} (HTTP ${res.status}, plan ${planId || 'missing'})`,
+            };
           }
         } catch (err: any) {
           error = { message: err?.message || 'Network error' };
@@ -196,7 +270,11 @@ const feedbackEnabled =
 
       if (error || !plan) {
         console.error('plan fetch error:', error);
-        if (container) container.innerHTML = `<p class="error">Plan not found or not yet approved.${error?.message ? ' ' + error.message : ''}</p>`;
+        if (container) {
+          container.innerHTML =
+            `<p class="error">Plan not found or not yet approved.</p>` +
+            `<p class="error-detail">${error?.message || 'No detail returned.'}</p>`;
+        }
       } else {
         try {
           await renderPlan(plan);
@@ -208,6 +286,14 @@ const feedbackEnabled =
 
       async function renderPlan(plan: any) {
         if (!container) return;
+        container.dataset.rendered = 'true';
+
+        // Only offered once there is a plan to print.
+        const printBtn = document.getElementById('print-plan');
+        if (printBtn) {
+          printBtn.hidden = false;
+          printBtn.addEventListener('click', () => window.print());
+        }
 
         const approvedAt = plan.approved_at ? new Date(plan.approved_at) : new Date();
         weeksTotal = plan.weeks_total || 0;
@@ -1319,6 +1405,151 @@ const feedbackEnabled =
     </script>
 
     <style is:global>
+  /* ── Toolbar ── */
+  .plan-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .print-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .print-btn:hover {
+    background: var(--purple-light);
+    border-color: var(--purple-light);
+  }
+
+  .print-btn:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  /* ── Print ────────────────────────────────────────────────────────────
+     The plan is built for a dark screen with tick boxes, dropdowns and
+     pop-up dialogs, none of which belong on paper. This strips it back to
+     black on white and leaves the tick and weight columns as empty boxes so
+     they can be filled in by hand at the pitch. */
+  @media print {
+    @page {
+      size: A4;
+      margin: 14mm 12mm;
+    }
+
+    html,
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      font-size: 11pt;
+    }
+
+    /* Screen furniture. */
+    header,
+    footer,
+    .cookie-banner,
+    .back-bubble,
+    .plan-toolbar,
+    .modal,
+    .loading,
+    .plan-wrap button,
+    .coach-tip-avatar,
+    .exercise-description-avatar {
+      display: none !important;
+    }
+
+    main.container {
+      width: auto;
+      max-width: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .plan-wrap,
+    .plan-wrap * {
+      color: #000000 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    .plan-wrap h1,
+    .plan-wrap h2,
+    .plan-wrap h3 {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* A week per page, so nobody gets half a session across a page break. */
+    .plan-wrap .week-section {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    .plan-wrap .week-section:first-of-type {
+      page-break-before: auto;
+      break-before: auto;
+    }
+
+    .plan-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .plan-wrap tr {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .plan-wrap th,
+    .plan-wrap td {
+      border: 0.4mm solid #000000 !important;
+      padding: 2mm 2.5mm;
+      font-size: 9.5pt;
+    }
+
+    /* Controls become empty boxes to write in. */
+    .plan-wrap .exercise-weight,
+    .plan-wrap select {
+      appearance: none;
+      width: 22mm;
+      height: 6mm;
+      border: 0.4mm solid #000000 !important;
+      font-size: 0 !important;
+    }
+
+    .plan-wrap .exercise-tick,
+    .plan-wrap input[type="checkbox"] {
+      appearance: none;
+      width: 5mm;
+      height: 5mm;
+      border: 0.4mm solid #000000 !important;
+    }
+
+    .plan-wrap a {
+      text-decoration: none;
+    }
+
+    /* The AI and clinical notice has to survive onto paper. */
+    .plan-wrap .ai-disclaimer {
+      border: 0.4mm solid #000000 !important;
+      padding: 3mm;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+  }
+
       .plan-wrap {
         max-width: 900px;
         margin: 2rem auto;

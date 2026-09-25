@@ -1,6 +1,6 @@
 ---
 title: "Goal Setting & Training Mindset Toolkit"
-description: "Practical goal-setting frameworks that actually work in a long season. Process goals, micro-goals, and a season planning template."
+description: "Goal setting that survives a long season."
 pubDate: "2027-01-08"
 track: "gael-performance-toolkit"
 ---
@@ -17,8 +17,8 @@ Four tools.
 
 For each week, write down ONE process goal. Not an outcome.
 
-- Outcome: "Score 2 points in Sunday's game."
-- Process: "Get into shooting position 4 times in Sunday's game."
+- Outcome: "Score 2 points in Saturday's game."
+- Process: "Get into shooting position 4 times in Saturday's game."
 
 - Outcome: "Be selected for the championship squad."
 - Process: "Be the first to every ball in training this week."

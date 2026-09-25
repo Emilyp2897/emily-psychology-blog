@@ -1,6 +1,6 @@
 ---
 title: "Training the Mind"
-description: 'Understand what’s happening in your mind before the game, after mistakes, and under pressure so you can respond with confidence instead of doubt'
+description: "What is happening in your head before a game, after a mistake, and under pressure."
 pubDate: "2026-06-01"
 track: "training-the-mind"
 seriesIndex: true

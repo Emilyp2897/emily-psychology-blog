@@ -1,6 +1,6 @@
 ---
 title: "Overload, Stress and Support Pathways"
-description: "Life stress and sport stress add up. This post helps you spot when overload has crossed into something that needs more than time management."
+description: "Life stress and sport stress add up."
 pubDate: "2026-11-15"
 track: "stronger-minds-stronger-players"
 ---

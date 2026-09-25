@@ -1,6 +1,6 @@
 ---
 title: "Understanding Championship Pressure and Fear of Failure"
-description: "Why two players can feel the exact same racing heart and only one of them plays well. And why fear of failure is almost never about the football."
+description: "Why fear of failure is almost never about football."
 pubDate: "2026-09-14"
 tags: ["championship"]
 photo: "/assets/articles/CiaraFlan-London-1.jpg"
@@ -22,11 +22,11 @@ If your mind decides you cannot, that is threat. Tight chest, dry mouth, and eve
 
 If your mind decides you can, that is challenge. Your heart still hammers. But you feel ready rather than swamped.
 
-players who read a big game as a challenge tend to play better than players of the same ability who read it as a threat.
+The research on challenge and threat states is consistent here. Players who read a big game as a challenge tend to play better than players of the same ability who read it as a threat.
 
 So the goal was never to calm down. I spent years trying to calm down. The goal is to shift which of the two your mind lands on.
 
-That's what challenge looks like. Here's threat, from the same season.
+That is what threat looks like. Here is challenge, from this season.
 
 This year, playing Wandsworth, I missed shot after shot. More wide than I care to count.
 
@@ -66,7 +66,7 @@ You will not get all of that. You might get none of it, and that is not a sign y
 - Protect your sleep if sleep is the thing that goes for you. For a lot of players it is the first thing to break.
 - Picture the job, not the result. "Three tackles in the first ten minutes" beats "win the game" every time, because one of them is yours to do.
 - Find the big game you did handle well and work out what was different. Your mind will offer you the disasters first. Make it produce the other list.
-- Turn the volume down for the week. Less scrolling, less analysis, fewer conversations about Sunday.
+- Turn the volume down for the week. Less scrolling, less analysis, fewer conversations about Saturday.
 - Pick one thing to hold when it gets loud. First to every ball. Stay in shape. Anything concrete.
 - Ask what you are genuinely afraid of. Not the match. The thing underneath it.
 

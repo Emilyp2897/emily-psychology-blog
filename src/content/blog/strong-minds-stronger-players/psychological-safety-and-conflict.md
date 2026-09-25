@@ -1,6 +1,6 @@
 ---
 title: "Psychological Safety, Conflict and Team Dynamics"
-description: "Healthy teams have disagreements. This post helps you recognise when team dynamics shift from challenging to harmful, and where to find support."
+description: "Healthy teams disagree. This post helps you spot when it has turned harmful."
 pubDate: "2026-10-15"
 track: "stronger-minds-stronger-players"
 ---

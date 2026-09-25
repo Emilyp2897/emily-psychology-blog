@@ -1,6 +1,6 @@
 ---
 title: "Low Motivation and Isolation in the Off-Season"
-description: "Off-season slumps are common. This post helps you spot when low motivation has tipped into something that needs support, not just rest."
+description: "Off-season slumps are common. This post helps you spot when rest is not the answer."
 pubDate: "2027-01-15"
 track: "stronger-minds-stronger-players"
 ---

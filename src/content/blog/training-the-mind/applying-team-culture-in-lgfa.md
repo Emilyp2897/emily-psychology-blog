@@ -1,6 +1,6 @@
 ---
 title: "Applying Team Culture in Ladies Gaelic Football"
-description: "Real LGF moments where culture is built or broken. What you can do as a player, a senior, or a captain."
+description: "Where culture is built or broken, and what you can do about it."
 pubDate: "2026-12-15"
 track: "training-the-mind"
 ---

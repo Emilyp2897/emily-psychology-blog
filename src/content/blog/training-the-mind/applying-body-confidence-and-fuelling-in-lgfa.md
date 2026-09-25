@@ -1,6 +1,6 @@
 ---
 title: "Applying Body Confidence and Fuelling in Ladies Gaelic Football"
-description: "Real LGF moments around food, body image, and fuelling. Changing rooms, training food, team meals, and the comments that stay with you."
+description: "Changing rooms, team meals, and the comments that stay with you."
 pubDate: "2027-04-15"
 track: "training-the-mind"
 ---

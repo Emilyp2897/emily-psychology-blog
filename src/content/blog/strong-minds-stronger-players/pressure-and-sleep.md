@@ -1,6 +1,6 @@
 ---
 title: "Pressure, Sleep and When to Get Help"
-description: "Pre-championship sleep is rarely perfect. This post helps you spot when sleep disturbance has crossed into a clinical issue."
+description: "Pre-championship sleep is rarely perfect. This post helps you spot when it is a clinical issue."
 pubDate: "2026-09-16"
 hold: true
 photo: "/assets/articles/DSC_1291-3.jpg"

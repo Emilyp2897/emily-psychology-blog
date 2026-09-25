@@ -112,6 +112,51 @@ const slides = [
     ],
   },
 ];
+
+// The page is a grid of players, not one long carousel. Emily's story is one
+// square tile among several; clicking it opens the chapters in a dialog.
+// That leaves room on the page for other players as their stories come in,
+// which a full-width six-chapter carousel did not.
+//
+// To add a player: give them a `chapters` array in the same shape as
+// `slides` above and drop `placeholder: true`.
+type Player = {
+  name: string;
+  blurb: string;
+  cover?: ImageMetadata;
+  coverAlt?: string;
+  chapters: typeof slides;
+  placeholder: boolean;
+};
+
+const players: Player[] = [
+  {
+    name: 'Emily Phelan',
+    blurb: 'Cork underage, seven years out of sport, then Holloway Gaels. Anxiety, depression, drinking, and what helped.',
+    cover: storyImage,
+    coverAlt: 'Emily Phelan playing in London',
+    chapters: slides,
+    placeholder: false,
+  },
+  {
+    name: 'Player story',
+    blurb: '',
+    chapters: [],
+    placeholder: true,
+  },
+  {
+    name: 'Player story',
+    blurb: '',
+    chapters: [],
+    placeholder: true,
+  },
+  {
+    name: 'Player story',
+    blurb: 'Want yours here? Email emilyphelan@mindthegael.co.uk',
+    chapters: [],
+    placeholder: true,
+  },
+];
 ---
 
 <!doctype html>
@@ -123,104 +168,120 @@ const slides = [
     <Header />
     <main class="about-layout">
       <section class="about-intro">
-        <h1>My Story</h1>
-        <p class="about-intro-sub">Use the arrows or dots below to move through.</p>
+        <h1>Player Stories</h1>
+        <p class="about-intro-sub">Tap a player to read her story.</p>
       </section>
 
-      <section class="slideshow" aria-roledescription="carousel" aria-label="Emily's story">
-        <div class="slideshow-stage">
-          {slides.map((slide, index) => (
-            <article
-              class:list={["slide", { active: index === 0 }]}
-              data-slide-index={index}
-              aria-roledescription="slide"
-              aria-label={`${index + 1} of ${slides.length}: ${slide.title}`}
-              aria-hidden={index !== 0 ? "true" : "false"}
-            >
-              <div class="slide-image-wrap">
-                <div class="slide-images" data-count={slide.images.length}>
-                  {slide.images.map((img) => (
-                    <div class="slide-image-item">
-                      <Image
-                        src={img.src}
-                        alt={img.alt}
-                        class="slide-image"
-                        loading={index === 0 ? "eager" : "lazy"}
-                        widths={[400, 600, 900, 1200]}
-                        sizes={slide.images.length > 1 ? "(max-width: 900px) 45vw, 25vw" : "(max-width: 900px) 100vw, 50vw"}
-                      />
-                      <PhotoCredit src={img.src.src} class="on-white" />
-                    </div>
-                  ))}
+      <section class="player-grid-wrap" aria-label="Player stories">
+        <ul class="player-grid">
+          {players.map((player, playerIndex) => (
+            <li class:list={["player-tile", { "player-tile-placeholder": player.placeholder }]}>
+              {player.placeholder ? (
+                <div class="player-tile-inner" aria-disabled="true">
+                  <div class="player-cover player-cover-empty" aria-hidden="true">
+                    <span class="player-cover-mark">TBC</span>
+                  </div>
+                  <h2 class="player-name">{player.name}</h2>
+                  {player.blurb && <p class="player-blurb">{player.blurb}</p>}
                 </div>
-              </div>
-              <div class="slide-copy">
-                <p class="slide-kicker">{slide.kicker}</p>
-                <h2>{slide.title}</h2>
-                {slide.paragraphs.map((p) => <p>{p}</p>)}
-              </div>
-            </article>
+              ) : (
+                <button
+                  type="button"
+                  class="player-tile-inner player-tile-button"
+                  data-player={playerIndex}
+                  aria-label={`Read ${player.name}'s story, ${player.chapters.length} chapters`}
+                >
+                  <span class="player-cover">
+                    {player.cover && (
+                      <Image
+                        src={player.cover}
+                        alt=""
+                        class="player-cover-img"
+                        loading="eager"
+                        widths={[300, 500, 700]}
+                        sizes="(max-width: 700px) 45vw, 260px"
+                      />
+                    )}
+                  </span>
+                  <span class="player-name">{player.name}</span>
+                  <span class="player-blurb">{player.blurb}</span>
+                  <span class="player-cta">Read her story ({player.chapters.length} chapters)</span>
+                </button>
+              )}
+            </li>
           ))}
-        </div>
-
-        <button type="button" class="slide-arrow slide-arrow-prev" id="slide-prev" aria-label="Previous chapter">
-          <span aria-hidden="true">‹</span>
-        </button>
-        <button type="button" class="slide-arrow slide-arrow-next" id="slide-next" aria-label="Next chapter">
-          <span aria-hidden="true">›</span>
-        </button>
-
-        <div class="slide-dots" role="tablist" aria-label="Choose a chapter">
-          {slides.map((slide, index) => (
-            <button
-              type="button"
-              class:list={["slide-dot", { active: index === 0 }]}
-              data-target={index}
-              role="tab"
-              aria-label={`Go to ${slide.title}`}
-              aria-selected={index === 0 ? "true" : "false"}
-            ></button>
-          ))}
-        </div>
+        </ul>
       </section>
+
+      {/* One dialog per player with a story, holding her chapters. Hidden
+          until the tile is clicked. A native <dialog> so the browser traps
+          focus, handles Escape and hides the page behind it. */}
+      {players.map((player, playerIndex) => (
+        !player.placeholder && (
+          <dialog class="story-dialog" data-player-dialog={playerIndex} aria-label={`${player.name}'s story`}>
+            <div class="story-dialog-panel">
+              <div class="story-dialog-bar">
+                <p class="story-dialog-title">{player.name}</p>
+                <button type="button" class="story-dialog-close" aria-label="Close">Done</button>
+              </div>
+
+              <div class="story-dialog-body">
+                {player.chapters.map((chapter) => (
+                  <article class="chapter">
+                    <div class="chapter-images" data-count={chapter.images.length}>
+                      {chapter.images.map((img) => (
+                        <div class="chapter-image-item">
+                          <Image
+                            src={img.src}
+                            alt={img.alt}
+                            class="chapter-image"
+                            loading="lazy"
+                            widths={[400, 600, 900]}
+                            sizes={chapter.images.length > 1 ? "45vw" : "(max-width: 900px) 100vw, 480px"}
+                          />
+                          <PhotoCredit src={img.src.src} class="on-white" />
+                        </div>
+                      ))}
+                    </div>
+                    <p class="chapter-kicker">{chapter.kicker}</p>
+                    <h3 class="chapter-title">{chapter.title}</h3>
+                    {chapter.paragraphs.map((p) => <p class="chapter-text">{p}</p>)}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </dialog>
+        )
+      ))}
     </main>
     <Footer />
 
     <script is:inline>
       (() => {
-        const stage = document.querySelector('.slideshow-stage');
-        if (!stage) return;
-        const slides = Array.from(stage.querySelectorAll('.slide'));
-        const dots = Array.from(document.querySelectorAll('.slide-dot'));
-        const prevBtn = document.getElementById('slide-prev');
-        const nextBtn = document.getElementById('slide-next');
-        let current = 0;
-        const total = slides.length;
+        // Tile opens the matching dialog. showModal() rather than a class
+        // toggle so focus is trapped, Escape closes, and the grid behind is
+        // hidden from screen readers while the story is open.
+        document.querySelectorAll('.player-tile-button').forEach((tile) => {
+          const index = tile.dataset.player;
+          const dialog = document.querySelector('[data-player-dialog="' + index + '"]');
+          if (!dialog) return;
 
-        const goTo = (next) => {
-          const target = ((next % total) + total) % total;
-          if (target === current) return;
-          slides[current].classList.remove('active');
-          slides[current].setAttribute('aria-hidden', 'true');
-          dots[current]?.classList.remove('active');
-          dots[current]?.setAttribute('aria-selected', 'false');
+          tile.addEventListener('click', () => {
+            dialog.showModal();
+            document.body.classList.add('story-open');
+            // Long stories open scrolled to wherever the last visit left
+            // them otherwise.
+            dialog.querySelector('.story-dialog-body').scrollTop = 0;
+            dialog.querySelector('.story-dialog-close').focus();
+          });
 
-          slides[target].classList.add('active');
-          slides[target].setAttribute('aria-hidden', 'false');
-          dots[target]?.classList.add('active');
-          dots[target]?.setAttribute('aria-selected', 'true');
-          current = target;
-        };
+          // Click on the backdrop, outside the panel, closes it.
+          dialog.addEventListener('click', (event) => {
+            if (event.target === dialog) dialog.close();
+          });
 
-        prevBtn?.addEventListener('click', () => goTo(current - 1));
-        nextBtn?.addEventListener('click', () => goTo(current + 1));
-        dots.forEach((dot, index) => {
-          dot.addEventListener('click', () => goTo(index));
-        });
-
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'ArrowLeft') goTo(current - 1);
-          else if (event.key === 'ArrowRight') goTo(current + 1);
+          dialog.querySelector('.story-dialog-close').addEventListener('click', () => dialog.close());
+          dialog.addEventListener('close', () => document.body.classList.remove('story-open'));
         });
       })();
     </script>
@@ -264,221 +325,276 @@ const slides = [
     font-size: 0.95rem;
   }
 
-  /* ── Slideshow shell ── */
-  .slideshow {
-    position: relative;
-    padding: 1.5rem 4.5rem 3.5rem;
-    max-width: 880px;
+  /* ── Player grid ──────────────────────────────────────────────────────
+     A square tile per player rather than one full-width carousel of my own
+     chapters. The carousel gave the whole page to one story and left
+     nowhere for anyone else; this scales as players come in. */
+  .player-grid-wrap {
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 0 1.5rem 4rem;
   }
 
-  .slideshow-stage {
-    position: relative;
-    width: 100%;
-    min-height: 620px;
+  .player-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.25rem;
   }
 
-  /* ── Individual slide card ── */
-  .slide {
-    position: absolute;
-    inset: 0;
+  .player-tile-inner {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    padding: 0.85rem 0.85rem 1rem;
+    border: 2px solid rgba(105, 0, 90, 0.35);
+    border-top: 6px solid var(--purple);
+    border-radius: 14px;
     background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.18);
-    border-radius: 16px;
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.45s ease;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+    font: inherit;
+    text-align: left;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
   }
 
-  .slide.active {
-    opacity: 1;
-    pointer-events: auto;
-    position: relative;
-    inset: auto;
+  .player-tile-button {
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
   }
 
-  .slide-image-wrap {
-    width: 100%;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1rem 0.5rem;
+  .player-tile-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4);
   }
 
-  .slide-images {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
+  .player-tile-button:focus-visible {
+    outline: 3px solid var(--green-lime);
+    outline-offset: 3px;
   }
 
-  .slide-image-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .slide-image {
-    width: auto;
-    max-width: 360px;
-    max-height: 320px;
-    height: auto;
-    object-fit: contain;
+  /* Square, so the grid reads as a set of equal players rather than
+     ranking them by however tall their photo happens to be. */
+  .player-cover {
     display: block;
-    border-radius: 8px;
-  }
-
-  .slide-images[data-count="2"] .slide-image {
-    max-width: 220px;
-    max-height: 260px;
-  }
-
-  .slide-copy {
-    padding: 1.6rem 2rem 2rem;
-    text-align: center;
-    color: #1a1a1a;
     width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f4ecf7;
   }
 
-  .slide-kicker {
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 0.78rem;
+  .player-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+
+  .player-cover-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(105, 0, 90, 0.3);
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(105, 0, 90, 0.05) 0 10px,
+      transparent 10px 20px
+    );
+  }
+
+  .player-cover-mark {
+    color: rgba(105, 0, 90, 0.5);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .player-name {
+    display: block;
+    margin: 0;
+    color: var(--purple);
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .player-blurb {
+    display: block;
+    margin: 0;
+    color: #1a1a1a;
+    opacity: 0.82;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    /* The invite blurb carries an email address, which is one long
+       unbreakable token and runs out past the tile edge without this. */
+    overflow-wrap: anywhere;
+  }
+
+  .player-cta {
+    display: block;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--purple);
+    font-size: 0.82rem;
     font-weight: 700;
-    color: var(--purple);
-    margin: 0 0 0.7rem;
   }
 
-  .slide-copy h2 {
-    margin: 0 0 1.1rem;
+  /* Empty slots sit flat and dashed on the dark page, so they read as
+     "nobody here yet" rather than as a card that failed to load. */
+  .player-tile-placeholder .player-tile-inner {
+    background: none;
+    border: 1px dashed rgba(192, 254, 113, 0.3);
+    box-shadow: none;
+  }
+
+  .player-tile-placeholder .player-name {
+    color: var(--green-light);
+  }
+
+  .player-tile-placeholder .player-blurb {
+    color: var(--green-light);
+    opacity: 0.7;
+  }
+
+  /* ── Story dialog ── */
+  .story-dialog {
+    width: min(760px, 94vw);
+    max-height: 90vh;
+    padding: 0;
+    border: none;
+    border-radius: 18px;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .story-dialog::backdrop {
+    background: rgba(3, 10, 6, 0.78);
+  }
+
+  .story-dialog-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    border-radius: 18px;
+    border-top: 7px solid var(--purple);
+    background: #ffffff;
+    overflow: hidden;
+  }
+
+  /* Sticky bar, because the stories run long and Done should not require
+     scrolling back to the top. */
+  .story-dialog-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid rgba(105, 0, 90, 0.2);
+    background: #ffffff;
+  }
+
+  .story-dialog-title {
+    margin: 0;
     color: var(--purple);
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
-    line-height: 1.2;
+    font-size: 1.05rem;
     font-weight: 800;
   }
 
-  .slide-copy p {
-    margin: 0 0 1rem;
-    line-height: 1.65;
-    font-size: 1.02rem;
+  .story-dialog-close {
+    padding: 0.45rem 0.9rem;
+    border: 2px solid var(--purple);
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .story-dialog-close:focus-visible {
+    outline: 3px solid var(--green-lime);
+    outline-offset: 2px;
+  }
+
+  .story-dialog-body {
+    padding: 1.4rem 1.5rem 2rem;
+    overflow-y: auto;
     color: #1a1a1a;
   }
 
-  .slide-copy p:last-child {
-    margin-bottom: 0;
+  .chapter + .chapter {
+    margin-top: 2.2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.15);
   }
 
-  /* ── Arrows: sit just outside the card on either side ── */
-  .slide-arrow {
-    position: absolute;
-    top: calc(50% - 30px);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--green-lime);
-    color: var(--green-dark);
-    border: none;
-    font-size: 1.7rem;
-    font-weight: 700;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 5;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-    transition: transform 0.18s ease, background 0.18s ease;
+  .chapter-images {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
   }
 
-  .slide-arrow:hover {
-    background: var(--purple-light);
-    transform: scale(1.08);
-  }
-
-  .slide-arrow-prev {
-    left: 0.25rem;
-  }
-
-  .slide-arrow-next {
-    right: 0.25rem;
-  }
-
-  /* ── Dots ── */
-  .slide-dots {
+  .chapter-image-item {
     display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    margin: 1.4rem 0 0;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .slide-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: transparent;
-    border: 2px solid var(--green-lime);
-    cursor: pointer;
-    padding: 0;
-    transition: background 0.18s ease, transform 0.18s ease;
+  /* Every chapter image is the same size, whether the chapter has one
+     photo or two. Two-up chapters used to shrink to 47% and 220px tall,
+     which made the skiing and festival photos far smaller than the ones
+     either side of them. Two photos stack instead. */
+  .chapter-image {
+    width: auto;
+    max-width: 100%;
+    max-height: 360px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
   }
 
-  .slide-dot:hover {
-    transform: scale(1.18);
+  .chapter-kicker {
+    margin: 0 0 0.3rem;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.74rem;
+    font-weight: 800;
   }
 
-  .slide-dot.active {
-    background: var(--green-lime);
+  .chapter-title {
+    margin: 0 0 0.9rem;
+    color: var(--purple);
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
 
-  /* ── Responsive ── */
+  .chapter-text {
+    margin: 0 0 1rem;
+    color: #1a1a1a;
+    font-size: 1.01rem;
+    line-height: 1.65;
+  }
+
+  /* Stop the page behind the dialog scrolling on iOS. */
+  :global(body.story-open) {
+    overflow: hidden;
+  }
+
   @media (max-width: 720px) {
-    .slideshow {
-      padding: 1rem 1rem 3rem;
-    }
-
-    .slideshow-stage {
-      min-height: 0;
-    }
-
-    .slide:not(.active) {
-      display: none;
-    }
-
-    .slide-image {
-      max-width: 100%;
-      max-height: 240px;
-    }
-
-    .slide-images[data-count="2"] .slide-image {
-      max-width: 140px;
-      max-height: 160px;
-    }
-
-    .slide-copy {
-      padding: 1.4rem 1.2rem 1.8rem;
-    }
-
-    .slide-arrow {
-      width: 40px;
-      height: 40px;
-      font-size: 1.4rem;
-      top: calc(50% - 20px);
-    }
-
-    .slide-arrow-prev {
-      left: -0.25rem;
-    }
-
-    .slide-arrow-next {
-      right: -0.25rem;
-    }
+    .player-grid-wrap { padding: 0 1rem 3rem; }
+    /* One per row on a phone. Two 150px tiles side by side left the name
+       and blurb about four words wide. */
+    .player-grid { grid-template-columns: 1fr; gap: 0.9rem; }
+    .player-cover { aspect-ratio: 16 / 10; }
+    .story-dialog-body { padding: 1.1rem 1.1rem 1.6rem; }
+    .chapter-title { font-size: 1.25rem; }
   }
+
 </style>

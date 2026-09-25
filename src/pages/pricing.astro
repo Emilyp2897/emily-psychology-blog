@@ -14,6 +14,7 @@ import { SITE_TITLE } from '../consts';
     <Header />
     <main class="container pricing-main">
       <h1>Pricing</h1>
+      <p class="pricing-note">The £2 covers running the website and building each plan. It is not profit.</p>
 
       <section class="pricing-section" aria-labelledby="mental-performance-pricing-heading">
         <h2 id="mental-performance-pricing-heading">Mental Performance Plans</h2>
@@ -66,6 +67,16 @@ import { SITE_TITLE } from '../consts';
 </html>
 
 <style>
+  /* Why the plans cost anything at all. Light lilac panel rather than
+     another lime-on-dark block. */
+  .pricing-note {
+    max-width: 62ch;
+    margin: 0 0 1.8rem;
+    color: var(--green-light);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
   .pricing-main {
     padding-top: 0;
     padding-bottom: 3rem;
@@ -121,4 +132,16 @@ import { SITE_TITLE } from '../consts';
     font-weight: 700;
   }
 
+
+  @media (max-width: 720px) {
+    .pricing-main > h1 {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-note {
+      margin-bottom: 1.2rem;
+    }
+  }
 </style>

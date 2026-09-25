@@ -1,6 +1,6 @@
 ---
 title: "Burnout Warning Signs"
-description: "Tiredness from training is one thing. Burnout is another. This post helps you tell them apart and know when to step back."
+description: "Tiredness from training is one thing. Burnout is another."
 pubDate: "2026-12-15"
 track: "stronger-minds-stronger-players"
 ---

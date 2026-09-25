@@ -1,6 +1,6 @@
 ---
 title: "Applying Confidence in Ladies Gaelic Football"
-description: "How confidence actually shows up in LGF, and where it gets ambushed. Selection, comparison with teammates, training week pressure, match day."
+description: "Where confidence gets ambushed in ladies football."
 pubDate: "2026-10-15"
 track: "training-the-mind"
 ---
@@ -15,7 +15,7 @@ Mondays and Tuesdays in selection week are confidence killers. You don't know if
 
 Your brain is running predictions, and most of them are negative. That's not a confidence problem. That's a stress problem masquerading as a confidence problem.
 
-What to do: pick a process measure to focus on. "This week I'm going to be the first to every ball in training." Not "I want to be selected". The first is in your control. The second isn't. Process beats outcome every time, especially when you can't control the outcome.
+What to do: pick a process measure to focus on. "This week I'm going to be the first to every ball in training." Not "I want to be selected". The first is in your control. The second isn't. Judge your week on the part you can control.
 
 > **ADD YOUR EXPERIENCE HERE**
 >

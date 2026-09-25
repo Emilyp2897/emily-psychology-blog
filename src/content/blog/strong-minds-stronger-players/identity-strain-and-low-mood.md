@@ -1,6 +1,6 @@
 ---
 title: "Identity Strain and Low Mood"
-description: "When your whole sense of self is wrapped up in being an athlete, transitions and setbacks hit harder. This post helps you recognise identity strain and find support."
+description: "When your whole sense of self is being an athlete, setbacks hit harder."
 pubDate: "2027-02-15"
 track: "stronger-minds-stronger-players"
 ---

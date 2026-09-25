@@ -1,6 +1,6 @@
 ---
 title: "How to perform confidently when others are watching"
-description: "Why the presence of an audience affects performance and how to use it to your advantage."
+description: "Why a crowd changes how you play."
 pubDate: "2026-08-01"
 hold: true
 draft: true

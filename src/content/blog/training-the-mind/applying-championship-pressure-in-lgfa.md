@@ -1,6 +1,6 @@
 ---
 title: "Applying Championship Pressure in Ladies Gaelic Football"
-description: "Specific championship-week moments and how to handle them. The build-up, the morning of, the warm-up, the dressing room, the first 5 minutes."
+description: "Specific championship-week moments and how to handle them."
 pubDate: "2026-09-16"
 tags: ["championship"]
 photo: "/assets/articles/70257319-EA75-41CC-BBFC-1EDC112894FF.jpg"
@@ -31,11 +31,11 @@ Don't:
 
 Most squads have one harder session midweek. In championship week it lands differently. It stops being a session and starts feeling like a test, and if you're anything like me you'll have already decided what a bad one means before you've finished it.
 
-The trap: a bad session becomes evidence of impending failure. "My touch was off, I'm going to play badly Sunday."
+The trap: a bad session becomes evidence of impending failure. "My touch was off, I'm going to play badly Saturday."
 
 Reality: one session is one session. Your brain is just primed to read everything as significant in championship week.
 
-The reframe: tough sessions are opportunities to build resilience, not previews of Sunday's performance.
+The reframe: tough sessions are opportunities to build resilience, not previews of Saturday's performance.
 
 ## Friday: the night before pre-match
 
@@ -123,7 +123,7 @@ For both: the post-match conversation in the dressing room shapes how the season
 2. **Off social media in championship week.** Test it.
 3. **One process anchor for the game.** Not "win". Something concrete.
 4. **Audit your appraisal.** Are you in threat or challenge? Adjust where you can.
-5. **Have a teammate ally** for both Saturday night and Sunday morning. Steadying.
+5. **Have a teammate ally** for both Friday night and Saturday morning. Steadying.
 
 Practical setup at [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
 

@@ -1,6 +1,6 @@
 ---
 title: "How to stay focused when everything demands your attention"
-description: "Understanding how distractions affect performance and how to manage them."
+description: "How distraction affects performance."
 pubDate: "2026-08-01"
 hold: true
 draft: true

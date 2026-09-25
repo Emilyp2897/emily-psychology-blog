@@ -50,9 +50,16 @@ const toolkitIsReleased = (slug: string) => {
 
 // Released toolkits first, scheduled ones after, so a live toolkit is never
 // stranded below a run of locked ones. Series order holds inside each half.
+// Only the next couple of unreleased toolkits are listed. See the same note
+// on the Training the Mind hub.
+const COMING_SOON_SHOWN = 2;
+
+const soonEntries = monthlyToolkits.filter((e) => !toolkitIsReleased(e.slug));
+const soonShown = soonEntries.slice(0, COMING_SOON_SHOWN);
+const soonRest = soonEntries.length - soonShown.length;
+
 const toolkitSections = [
   { key: "now", title: "Available now", entries: monthlyToolkits.filter((e) => toolkitIsReleased(e.slug)) },
-  { key: "soon", title: "Coming up", entries: monthlyToolkits.filter((e) => !toolkitIsReleased(e.slug)) },
 ].filter((s) => s.entries.length > 0);
 
 const monthlyOrder = new Map(
@@ -80,13 +87,6 @@ const nextRelease = toolkitPosts
         <h1>Gael Performance Toolkit</h1>
         <p class="hero-tagline">Practical tools for the mental side of sport.</p>
       </section>
-
-      <div class="series-lead">
-        <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
-        <div class="saoirse-bubble">
-        <p class="series-lead-copy">Use these before games, between plays, and after the moments that knock your confidence. Each one pairs with a Training the Mind topic, or works on its own.</p>
-        </div>
-      </div>
 
       <section class="toolkit-series" aria-label="Toolkits">
         {toolkitSections.map((section) => (
@@ -135,6 +135,23 @@ const nextRelease = toolkitPosts
         </div>
         ))}
       </section>
+
+      {soonEntries.length > 0 && (
+        <section class="coming-soon" aria-labelledby="toolkit-coming-heading">
+          <h2 id="toolkit-coming-heading" class="coming-soon-heading">Coming soon</h2>
+          <ul class="coming-soon-list">
+            {soonShown.map((entry) => (
+              <li class="coming-soon-item">
+                <span class="coming-soon-badge">{entry.month}</span>
+                <h3 class="coming-soon-title">{entry.theme}</h3>
+              </li>
+            ))}
+          </ul>
+          {soonRest > 0 && (
+            <p class="coming-soon-rest">{soonRest} more toolkits through the year.</p>
+          )}
+        </section>
+      )}
 
       {bonusToolkits.length > 0 && (
         <section class="toolkit-bonus" aria-label="Bonus toolkits">
@@ -230,7 +247,7 @@ const nextRelease = toolkitPosts
 
   .series-lead-copy {
     margin: 0 0 0.8rem;
-    color: var(--green-dark);
+    color: var(--green-light);
     font-size: 1.05rem;
     line-height: 1.55;
   }
@@ -496,6 +513,66 @@ const nextRelease = toolkitPosts
     font-size: 1.3rem;
   }
 
+
+  /* Coming soon, matching the Mindfulness hub: a couple of entries under a
+     line, with the rest as a count. Everything above the line is readable
+     today. */
+  .coming-soon {
+    margin-top: 2.4rem;
+    padding-top: 1.6rem;
+    border-top: 2px solid rgba(192, 254, 113, 0.22);
+  }
+
+  .coming-soon-heading {
+    margin: 0 0 1rem;
+    color: var(--green-light);
+    opacity: 0.7;
+    font-size: 1.1rem;
+  }
+
+  .coming-soon-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .coming-soon-item {
+    padding: 0.85rem 0 1rem;
+    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+  }
+
+  .coming-soon-item .coming-soon-title {
+    margin: 0;
+    color: var(--green-light);
+    opacity: 0.9;
+    font-size: 1.02rem;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+
+  .coming-soon-badge {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .coming-soon-rest {
+    margin: 1rem 0 0;
+    color: var(--green-light);
+    opacity: 0.6;
+    font-size: 0.88rem;
+  }
+
   .series-section-soon .series-section-heading {
     border-bottom-color: rgba(192, 254, 113, 0.35);
     opacity: 0.85;
@@ -683,12 +760,20 @@ const nextRelease = toolkitPosts
   .saoirse-bubble::before,
   .saoirse-bubble::after { display: none; }
 
+  /* Dropping the white panel leaves this sitting on the dark page
+     background, so the black text it inherited from the panelled version
+     has to go light with it. */
   .content-feedback-cta {
     background: none;
     border: none;
     box-shadow: none;
     padding: 1.2rem 0 0;
     text-align: left;
+    color: var(--green-light);
+  }
+
+  .content-feedback-cta p {
+    color: var(--green-light);
   }
 
   /* Locked entries sit flat on the page background (#030a06), so their text

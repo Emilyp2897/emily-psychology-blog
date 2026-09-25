@@ -1,6 +1,6 @@
 ---
 title: "Low Confidence vs Low Mood"
-description: "Everyone has dips in confidence. This post helps you tell the difference between a confidence wobble and something that needs more support."
+description: "The difference between a confidence wobble and something more."
 pubDate: "2026-10-15"
 track: "stronger-minds-stronger-players"
 ---

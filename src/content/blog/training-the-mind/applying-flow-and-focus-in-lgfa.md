@@ -1,6 +1,6 @@
 ---
 title: "Applying Flow and Focus in Ladies Gaelic Football"
-description: "How to set up flow in a Gaelic match. Pre-match routines, refocus techniques mid-game, and what to do when overthinking takes over."
+description: "How to set up flow in a Gaelic match."
 pubDate: "2027-03-15"
 track: "training-the-mind"
 ---

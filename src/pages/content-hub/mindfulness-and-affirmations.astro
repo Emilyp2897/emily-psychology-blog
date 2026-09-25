@@ -20,6 +20,9 @@ const posts = allPosts
   .filter((post) => post.slug.startsWith('mindfulness-and-affirmations/'))
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 
+const livePosts = posts.filter((post) => !isLocked(post));
+const lockedPosts = posts.filter((post) => isLocked(post));
+
 // Planned pieces that have no draft yet. Shown as coming-soon cards so the
 // shape of the series is visible without pretending the content exists.
 const plannedTopics = [
@@ -28,14 +31,52 @@ const plannedTopics = [
   'Mindfulness for the week after a bad loss',
   'Off-season reset: sitting still without the guilt',
 ];
+
+// Printable workbooks. Longer than a practice: something you sit down with
+// once and come back to, rather than read on the bus.
+//
+// To publish one, drop the PDF in /public/workbooks/ and set `file` to its
+// path. Until then the card renders as a coming-soon tile with no link, so
+// the section can go live before the first workbook is finished.
+const workbooks: { title: string; description?: string; pages?: string; file?: string }[] = [
+  {
+    title: 'Mental Health Workbook',
+    description: 'Breathing, grounding, thought logs, sleep and mood tracking, goals.',
+    pages: '43 pages, print at home',
+    file: '/workbooks/mental-health-workbook.html',
+  },
+  {
+    title: 'The Mindfulness Workbook for Athletes',
+  },
+];
+
+const liveWorkbooks = workbooks.filter((w) => w.file);
+const soonWorkbooks = workbooks.filter((w) => !w.file);
+
+// Only a couple of the unreleased pieces are listed. Showing all of them
+// buried the two you can actually read today under a screen of things you
+// cannot, which made the page hard to scan.
+const COMING_SOON_SHOWN = 2;
+
+const comingSoon = [
+  ...lockedPosts.map((post) => ({ kind: 'post' as const, title: post.data.title, post })),
+  ...soonWorkbooks.map((w) => ({ kind: 'workbook' as const, title: w.title, post: undefined })),
+  ...plannedTopics.map((title) => ({ kind: 'topic' as const, title, post: undefined })),
+];
+
+const comingSoonShown = comingSoon.slice(0, COMING_SOON_SHOWN);
+const comingSoonRest = comingSoon.length - comingSoonShown.length;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {/* `description` is required and is the snippet Google and link
+        previews show. It is not rendered on the page, so it stays even
+        though the card descriptions below are gone. */}
     <BaseHead
       title={`Mindfulness & Affirmations | ${SITE_TITLE}`}
-      description="Short mindfulness practices and affirmations built for female athletes. For championship week, and for life outside the sport."
+      description="Short mindfulness practices and affirmations for female athletes. For championship week, and for the rest of the year."
     />
   </head>
   <body class="mindfulness-page">
@@ -45,52 +86,62 @@ const plannedTopics = [
         <p class="hero-kicker">Content Hub Series</p>
         <h1>Mindfulness &amp; Affirmations</h1>
       </section>
+      {/* Available first, coming soon under a line. Nothing you can use
+          today should sit below something you cannot. */}
+      <section class="available" aria-labelledby="available-heading">
+        <h2 id="available-heading" class="section-heading">Available now</h2>
 
-      <div class="series-lead">
-        <img src="/assets/saoirse.png" alt="" class="saoirse-avatar" aria-hidden="true" />
-        <div class="saoirse-bubble">
-        <p class="series-lead-copy">Every practice takes five minutes or less, built on the research into attention and self-affirmation. Some are for match week, some are for the rest of your life.</p>
-        </div>
-      </div>
-
-      <section class="mindfulness-series" aria-label="Mindfulness and affirmations">
         <ul class="mindfulness-list">
-          {posts.map((post) => (
-            isLocked(post) ? (
-              <li class="mindfulness-card mindfulness-card-locked" aria-disabled="true">
-                <span class="lock-badge">🔒 {lockLabel(post)}</span>
-                <h2 class="card-title">{post.data.title}</h2>
-                {post.data.description && (
-                  <p class="card-description description-blur">{post.data.description}</p>
-                )}
-                {previewUnlocked && (
-                  <a class="preview-link" href={`/content-hub/${post.slug}/`}>Preview draft (local only) →</a>
-                )}
-              </li>
-            ) : (
-              <li class="mindfulness-card">
-                <a href={`/content-hub/${post.slug}/`}>
-                  {post.data.tags?.includes('championship') && (
-                    <span class="champo-badge">Champo week</span>
-                  )}
-                  <h2 class="card-title">{post.data.title}</h2>
-                  {post.data.description && (
-                    <p class="card-description">{post.data.description}</p>
-                  )}
-                  <span class="card-cta">Read it →</span>
-                </a>
-              </li>
-            )
+          {liveWorkbooks.map((workbook) => (
+            <li class="mindfulness-card workbook-card-live">
+              <a href={workbook.file} target="_blank" rel="noopener">
+                <span class="champo-badge">Free download</span>
+                <h3 class="card-title">{workbook.title}</h3>
+                {workbook.description && <p class="card-sub">{workbook.description}</p>}
+                {workbook.pages && <p class="card-meta">{workbook.pages}</p>}
+                <span class="card-cta">Open the workbook &rarr;</span>
+              </a>
+            </li>
           ))}
 
-          {plannedTopics.map((topic) => (
-            <li class="mindfulness-card mindfulness-card-planned" aria-disabled="true">
-              <span class="soon-badge">Coming soon</span>
-              <h2 class="card-title">{topic}</h2>
+          {livePosts.map((post) => (
+            <li class="mindfulness-card">
+              <a href={`/content-hub/${post.slug}/`}>
+                {post.data.tags?.includes('championship') && (
+                  <span class="champo-badge">Champo week</span>
+                )}
+                <h3 class="card-title">{post.data.title}</h3>
+                <span class="card-cta">Read it &rarr;</span>
+              </a>
             </li>
           ))}
         </ul>
       </section>
+
+      {comingSoon.length > 0 && (
+        <section class="coming-soon" aria-labelledby="coming-heading">
+          <h2 id="coming-heading" class="section-heading section-heading-soon">Coming soon</h2>
+
+          <ul class="mindfulness-list">
+            {comingSoonShown.map((entry) => (
+              <li class:list={["mindfulness-card", entry.kind === 'post' ? "mindfulness-card-locked" : "mindfulness-card-planned"]} aria-disabled="true">
+                {entry.kind === 'post' && entry.post && (
+                  <span class="lock-badge">{lockLabel(entry.post)}</span>
+                )}
+                {entry.kind === 'workbook' && <span class="soon-badge">Workbook</span>}
+                <h3 class="card-title">{entry.title}</h3>
+                {previewUnlocked && entry.post && (
+                  <a class="preview-link" href={`/content-hub/${entry.post.slug}/`}>Preview draft (local only) &rarr;</a>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {comingSoonRest > 0 && (
+            <p class="coming-soon-rest">{comingSoonRest} more through the year.</p>
+          )}
+        </section>
+      )}
 
       <section class="content-feedback-cta">
         <p>Got feedback on this content?</p>
@@ -165,7 +216,7 @@ const plannedTopics = [
 
   .series-lead-copy {
     margin: 0 0 0.8rem;
-    color: var(--green-dark);
+    color: var(--green-light);
     font-size: 1.05rem;
     line-height: 1.55;
   }
@@ -270,6 +321,54 @@ const plannedTopics = [
     line-height: 1.5;
   }
 
+
+  /* Available above the line, coming soon below it. */
+  .section-heading {
+    margin: 0 0 1rem;
+    color: var(--green-lime);
+    font-size: 1.35rem;
+  }
+
+  .coming-soon {
+    margin-top: 2.4rem;
+    padding-top: 1.6rem;
+    border-top: 2px solid rgba(192, 254, 113, 0.22);
+  }
+
+  .coming-soon-rest {
+    margin: 1rem 0 0;
+    color: var(--green-light);
+    opacity: 0.6;
+    font-size: 0.88rem;
+  }
+
+  .section-heading-soon {
+    color: var(--green-light);
+    opacity: 0.7;
+    font-size: 1.1rem;
+  }
+
+  .card-sub {
+    color: var(--green-dark);
+    opacity: 0.82;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 0.4rem;
+  }
+
+  .card-meta {
+    margin: 0 0 0.6rem;
+    color: var(--purple);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* The workbook is the one downloadable thing here, so it carries the
+     lime edge that nothing else on the page has. */
+  .workbook-card-live {
+    border-top-color: var(--green-lime) !important;
+  }
+
   .mindfulness-list {
     list-style: none;
     padding: 0;
@@ -304,14 +403,6 @@ const plannedTopics = [
     margin: 0 0 0.4rem;
     line-height: 1.35;
     font-weight: 700;
-  }
-
-  .card-description {
-    color: var(--green-dark);
-    font-size: 0.92rem;
-    margin: 0 0 0.7rem;
-    line-height: 1.5;
-    opacity: 0.82;
   }
 
   .card-cta {
@@ -358,9 +449,6 @@ const plannedTopics = [
     box-shadow: none;
   }
 
-  .description-blur {
-  }
-
   /* Local-preview affordance on locked cards. Not rendered in production. */
   .preview-link {
     position: relative;
@@ -376,6 +464,120 @@ const plannedTopics = [
     font-weight: 700;
     text-decoration: none !important;
     cursor: pointer;
+  }
+
+  /* Workbooks sit apart from the practices: same page, different kind of
+     thing, so they get their own heading rather than another card in the
+     grid above. */
+  /* Sits above the article list: it is the one thing on this page you can
+     download today, so it leads rather than trailing off the bottom. */
+  .workbooks {
+    margin: 0 0 2.2rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 2px solid rgba(192, 254, 113, 0.22);
+  }
+
+  .workbooks-heading {
+    margin: 0 0 0.3rem;
+    color: var(--green-lime);
+    font-size: 1.45rem;
+  }
+
+  .workbooks-intro {
+    margin: 0 0 1.2rem;
+    max-width: 58ch;
+    color: var(--green-light);
+    opacity: 0.85;
+    line-height: 1.55;
+  }
+
+  .workbook-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .workbook-card {
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.18);
+    border-top: 6px solid var(--purple);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  }
+
+  /* No file yet, so nothing raised and nothing to click. */
+  .workbook-card-soon {
+    background: none;
+    border: 1px dashed rgba(192, 254, 113, 0.3);
+    box-shadow: none;
+  }
+
+  .workbook-badge {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .workbook-card-soon .workbook-badge {
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .workbook-title {
+    margin: 0 0 0.4rem;
+    color: var(--green-dark);
+    font-size: 1.08rem;
+    line-height: 1.35;
+  }
+
+  .workbook-description {
+    margin: 0;
+    color: var(--green-dark);
+    opacity: 0.82;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .workbook-meta {
+    margin: 0.5rem 0 0;
+    color: var(--purple);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* On the flat coming-soon card the text sits on the dark page background,
+     so it has to invert. Same problem the locked cards above have. */
+  .workbook-card-soon .workbook-title,
+  .workbook-card-soon .workbook-description {
+    color: var(--green-light);
+  }
+
+  .workbook-link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    padding: 0.48rem 0.85rem;
+    border: 2px solid var(--green-lime);
+    border-radius: 8px;
+    background: var(--green-lime);
+    color: var(--green-dark) !important;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+
+  .workbook-link:hover {
+    border-color: var(--purple-light);
+    color: var(--purple) !important;
   }
 
   .content-feedback-cta {
@@ -432,10 +634,12 @@ const plannedTopics = [
      edge for the series, lifting on hover. Locked entries stay flat so the
      page is not wall-to-wall boxes; only what you can read now is raised.
      The intro and the feedback line lose their panels for the same reason. */
+  /* Purple top edge, matching the Mindfulness card template the articles
+     themselves now use. It was orange, which is nothing else on this page. */
   .mindfulness-card:not(.mindfulness-card-locked, .mindfulness-card-planned) {
     background: #ffffff;
     border: 2px solid rgba(105, 0, 90, 0.18);
-    border-top: 6px solid var(--mind-orange-text);
+    border-top: 6px solid var(--purple);
     border-radius: 14px;
     padding: 1.1rem 1.2rem 1.2rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
@@ -467,12 +671,20 @@ const plannedTopics = [
   .saoirse-bubble::before,
   .saoirse-bubble::after { display: none; }
 
+  /* Dropping the white panel leaves this sitting on the dark page
+     background, so the black text it inherited from the panelled version
+     has to go light with it. Same fix as the locked cards below. */
   .content-feedback-cta {
     background: none;
     border: none;
     box-shadow: none;
     padding: 1.2rem 0 0;
     text-align: left;
+    color: var(--green-light);
+  }
+
+  .content-feedback-cta p {
+    color: var(--green-light);
   }
 
   /* Locked entries sit flat on the page background (#030a06), so their text
@@ -483,13 +695,6 @@ const plannedTopics = [
   .mindfulness-card-planned .card-title {
     color: var(--green-light) !important;
     opacity: 0.9;
-  }
-
-  .mindfulness-card.mindfulness-card-locked .card-description,
-  .mindfulness-card-missing .card-description,
-  .mindfulness-card-planned .card-description {
-    color: var(--green-light) !important;
-    opacity: 0.75;
   }
 
 </style>

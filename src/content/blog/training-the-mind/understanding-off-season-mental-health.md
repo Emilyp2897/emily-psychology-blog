@@ -1,6 +1,6 @@
 ---
 title: "Understanding Off-Season Mental Health"
-description: "Why the off-season is harder than people expect, what's actually happening in your brain and body, and how to use the break well."
+description: "Why the off-season is harder than people expect."
 pubDate: "2027-07-01"
 track: "training-the-mind"
 ---

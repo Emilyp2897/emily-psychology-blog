@@ -63,19 +63,18 @@ if (segments[0] === 'content-hub') {
 </header>
 
 <script>
-  import { supabase } from '../lib/supabase.js';
-
-  const authLink = document.getElementById('nav-auth-link');
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user && authLink) {
-    authLink.textContent = 'Dashboard';
-    authLink.setAttribute('href', '/dashboard');
-  }
+  import { getUserOrThrow } from '../lib/supabase.js';
 
   // Mobile hamburger toggle: flips the nav open/closed and updates
   // aria-expanded for screen readers. Closes when a link inside the
   // drawer is tapped so the page navigation feels seamless.
+  //
+  // Wired up first, before anything async. This used to sit below an
+  // `await supabase.auth.getUser()`. A top-level await that never settles
+  // stops the whole module, so any stall in that auth call meant these
+  // listeners were never attached and the burger button rendered but did
+  // nothing, on every page of the site. Navigation must not depend on
+  // auth resolving.
   const header = document.getElementById('site-header');
   const toggle = document.getElementById('nav-toggle');
   const primaryNav = document.getElementById('primary-nav');
@@ -101,6 +100,21 @@ if (segments[0] === 'content-hub') {
   primaryNav?.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => closeNav());
   });
+
+  // Auth state last, and deliberately non-fatal. getUserOrThrow times out
+  // rather than hanging forever, and the catch keeps a failure contained:
+  // the worst case is the link still reads "Log In" while you are signed
+  // in, which is a cosmetic problem. The menu keeps working either way.
+  const authLink = document.getElementById('nav-auth-link');
+  try {
+    const user = await getUserOrThrow();
+    if (user && authLink) {
+      authLink.textContent = 'Dashboard';
+      authLink.setAttribute('href', '/dashboard');
+    }
+  } catch (err) {
+    console.error('header auth check failed:', err);
+  }
 </script>
 
 <style>

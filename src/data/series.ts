@@ -94,6 +94,7 @@ export const trainingTheMindSeries: MonthEntry[] = [
     slugs: [
       'training-the-mind/understanding-pressure-and-fear-of-failure',
       'training-the-mind/applying-championship-pressure-in-lgfa',
+      'training-the-mind/selection-dos-and-donts',
     ],
   },
   {

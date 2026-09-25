@@ -1,6 +1,6 @@
 ---
 title: "Applying Motivation and Discipline in Ladies Gaelic Football"
-description: "How to stay engaged through a long season, the difference between discipline and self-punishment, and warning signs of burnout in LGF."
+description: "The difference between discipline and self-punishment."
 pubDate: "2027-01-15"
 track: "training-the-mind"
 ---

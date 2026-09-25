@@ -1,6 +1,6 @@
 ---
 title: "Body Image, RED-S and Disordered Eating"
-description: "Body talk in women's sport is common. This post helps you spot when it crosses into something that needs clinical support."
+description: "Body talk in women’s sport is common. This post helps you spot when it needs clinical support."
 pubDate: "2027-04-15"
 track: "stronger-minds-stronger-players"
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Understanding Athletic Identity and Balance"
-description: "Why having a strong athletic identity is both a strength and a risk, and what 'identity beyond sport' actually means for a working female athlete."
+description: "Why a strong athletic identity is both a strength and a risk."
 pubDate: "2027-06-01"
 track: "training-the-mind"
 ---

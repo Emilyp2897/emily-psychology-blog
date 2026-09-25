@@ -9,10 +9,18 @@ import { SITE_TITLE } from '../consts';
 // so an entry earns its place by someone getting something out of it.
 // Add to `books` / `podcasts` / `articles` below; empty sections hide
 // themselves rather than showing "coming soon" placeholders.
+type Topic = 'sports-psychology' | 'mental-health';
+
 type Recommendation = {
   title: string;
   author: string;
   year?: string;
+  /**
+   * Which of the two shelves this belongs on. Someone arriving here wants
+   * either the sport side or the mental health side, so topic is the first
+   * split and format (book vs podcast) is the second.
+   */
+  topic: Topic;
   /**
    * ISBN-13, no hyphens. Used to pull the cover from Open Library, which
    * publishes covers as a free service specifically for linking to.
@@ -21,7 +29,10 @@ type Recommendation = {
   isbn?: string;
   /** Where to send people. Amazon for books, the show's own page for podcasts. */
   link?: string;
-  /** Emily's own note. First person. Why this one, and who it is for. */
+  /**
+   * What the book or podcast actually is. A description of the thing, not a
+   * review of it and not an interpretation of what you will get out of it.
+   */
   note: string;
 };
 
@@ -37,17 +48,19 @@ const books: Recommendation[] = [
     title: 'Reasons to Stay Alive',
     author: 'Matt Haig',
     year: '2015',
+    topic: 'mental-health',
     isbn: '9781782115083',
     link: 'https://www.amazon.co.uk/Reasons-Stay-Alive-Matt-Haig/dp/1782115080',
-    note: 'Haig writes about coming through depression and anxiety in his twenties. It is short, the chapters are short, and you can pick it up and put it down, which matters when your concentration is gone. Nothing in it is advice from on high. It is someone describing what it was actually like, which is the bit I needed to read first.',
+    note: 'A memoir about the breakdown Haig had at 24 and living with depression since. Written in short chapters and lists rather than continuous prose.',
   },
   {
     title: 'The Chimp Paradox',
     author: 'Prof Steve Peters',
     year: '2012',
+    topic: 'sports-psychology',
     isbn: '9780091935580',
     link: 'https://www.amazon.co.uk/dp/009193558X',
-    note: 'A model for the part of your head that reacts before you have decided anything. Peters has worked with elite sport, and it shows: it is practical rather than abstract. If you have ever come off a pitch wondering why you behaved like that, this gives you a way to talk about it.',
+    note: 'A mind management model splitting the brain into the Chimp, which reacts on emotion, and the Human, which reasons. Peters is a psychiatrist who worked with British Cycling.',
   },
 ];
 
@@ -55,18 +68,46 @@ const podcasts: Recommendation[] = [
   {
     title: 'Sports Psychology Coaching',
     author: 'Eli Straw',
+    topic: 'sports-psychology',
     link: 'https://www.successstartswithin.com/sports-psychology-podcast/',
-    note: 'Short, practical episodes on the mental side of competing. Confidence, performance anxiety, trusting your training, staying composed when it matters. Straw is a mental performance coach rather than an interviewer, so it is less celebrity chat and more here is the thing to actually do this week.',
+    note: 'A podcast on confidence, performance anxiety, focus and pressure in sport. Episodes run 15 to 30 minutes.',
   },
 ];
 
 const articles: Recommendation[] = [];
 
-const sections = [
-  { key: 'books', heading: 'Books', items: books },
-  { key: 'podcasts', heading: 'Podcasts', items: podcasts },
-  { key: 'articles', heading: 'Articles and essays', items: articles },
-].filter((section) => section.items.length > 0);
+// Topic first, format second. Both levels drop out when empty, so a shelf
+// with no podcasts yet shows only its books, and a topic with nothing on it
+// at all does not render a bare heading.
+const formats = [
+  { key: 'books', label: 'Book', items: books },
+  { key: 'podcasts', label: 'Podcast', items: podcasts },
+  { key: 'articles', label: 'Article', items: articles },
+];
+
+const topics = [
+  {
+    key: 'sports-psychology',
+    heading: 'Sports Psychology',
+    blurb: 'Confidence, pressure and focus.',
+  },
+  {
+    key: 'mental-health',
+    heading: 'Mental Health',
+    blurb: 'Anxiety, depression and recovery.',
+  },
+].map((topic) => ({
+  ...topic,
+  // One flat list per topic rather than a stack of format groups. With one
+  // or two entries per format, separate groups put each entry on its own
+  // row; a single grid keeps them side by side. The format is a tag on the
+  // card instead.
+  items: formats.flatMap((format) =>
+    format.items
+      .filter((item) => item.topic === topic.key)
+      .map((item) => ({ ...item, format: format.key, formatLabel: format.label }))
+  ),
+})).filter((topic) => topic.items.length > 0);
 ---
 
 <!doctype html>
@@ -74,7 +115,7 @@ const sections = [
   <head>
     <BaseHead
       title={`Books & Podcasts | ${SITE_TITLE}`}
-      description="Books, podcasts and articles on mental health, mental wellbeing and performance psychology. Only things that have actually been read or listened to."
+      description="Books, podcasts and articles on mental health, mental wellbeing and performance psychology. Everything here has been read or listened to by players."
     />
   </head>
   <body class="reading-page">
@@ -84,70 +125,80 @@ const sections = [
       <section class="reading-hero">
         <h1>Books &amp; Podcasts</h1>
         <p class="reading-intro">
-          Things worth reading and listening to on mental health, mental wellbeing and performance psychology.
-        </p>
-        <p class="reading-rule">
-          Everything here has actually been read or listened to. Nothing goes up because it turned up on a list somewhere. That means this page grows slowly, which is the point.
+          Books, podcasts and articles on mental health, mental wellbeing and performance psychology. Everything here has been read or listened to by players.
         </p>
       </section>
 
-      {sections.map((section) => (
-        <section class="reading-block" aria-labelledby={`heading-${section.key}`}>
-          <h2 id={`heading-${section.key}`}>{section.heading}</h2>
-          <ul class="reading-list">
-            {section.items.map((item) => (
-              <li class:list={["reading-card", `reading-card-${section.key}`]}>
-                {/* The typographic cover sits underneath as real content, not
-                    as a background image, so it is what you see if Open
-                    Library is down or has no cover for this edition. */}
-                <div class="cover-frame">
-                  <div class="cover-fallback" aria-hidden="true">
-                    <span class="cover-fallback-title">{item.title}</span>
-                    <span class="cover-fallback-author">{item.author}</span>
+      {/* Everything sits on one Book List card: lilac surface, purple top
+          edge, logo, eyebrow and title, with the topic and format splits as
+          headings inside it rather than as separate cards. */}
+      <section class="deck-card deck-card-reading" aria-labelledby="reading-card-heading">
+        <div class="deck-head">
+          <img class="deck-logo" src="/assets/MTG_colour.png" alt="" aria-hidden="true" />
+          <div class="deck-head-text">
+            <p class="deck-eyebrow">Reading list</p>
+            <h2 id="reading-card-heading" class="deck-series">Book List</h2>
+          </div>
+        </div>
+
+        {topics.map((topic) => (
+          <div class="reading-topic">
+            <h3 class="reading-topic-heading">{topic.heading}</h3>
+            <p class="reading-topic-blurb">{topic.blurb}</p>
+
+            <ul class="reading-list">
+                  {topic.items.map((item) => (
+                <li class:list={["reading-card", `reading-card-${item.format}`]}>
+                  {/* The typographic cover sits underneath as real content, not
+                      as a background image, so it is what you see if Open
+                      Library is down or has no cover for this edition. */}
+                  <div class="cover-frame">
+                    <div class="cover-fallback" aria-hidden="true">
+                      <span class="cover-fallback-title">{item.title}</span>
+                      <span class="cover-fallback-author">{item.author}</span>
+                    </div>
+                    {item.isbn && (
+                      <img
+                        class="cover-img"
+                        src={coverUrl(item.isbn)}
+                        alt={`Cover of ${item.title} by ${item.author}`}
+                        loading="lazy"
+                        onerror="this.remove()"
+                      />
+                    )}
                   </div>
-                  {item.isbn && (
-                    <img
-                      class="cover-img"
-                      src={coverUrl(item.isbn)}
-                      alt={`Cover of ${item.title} by ${item.author}`}
-                      loading="lazy"
-                      onerror="this.remove()"
-                    />
-                  )}
-                </div>
 
-                <div class="reading-body">
-                  <h3 class="reading-title">{item.title}</h3>
-                  <p class="reading-byline">
-                    {item.author}{item.year ? ` · ${item.year}` : ''}
-                  </p>
-                  <p class="reading-note">{item.note}</p>
-                  {item.link && (
-                    <a class="reading-link" href={item.link} target="_blank" rel="noopener noreferrer">
-                      {section.key === 'podcasts' ? 'Listen' : 'Buy on Amazon'}
-                      <span class="reading-link-ext" aria-hidden="true">↗</span>
-                      <span class="visually-hidden">(opens in a new tab)</span>
-                    </a>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-
-      <section class="reading-block reading-ask" aria-labelledby="heading-ask">
-        <h2 id="heading-ask">Got one that helped you?</h2>
-        <p>
-          This list is short on purpose, and it is far too short to be useful on its own yet. If a book, podcast or article genuinely helped you, whether it is about sport or has nothing to do with sport, send it on and say what it did for you.
-        </p>
-        <p>
-          Email <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> or use the <a href="/contact-us">contact page</a>.
-        </p>
-        <p class="reading-fineprint">
-          None of these are a substitute for professional support. If you need someone now, the <a href="/resources">support resources page</a> has who to call.
-        </p>
+                  <div class="reading-body">
+                    <span class="reading-format-tag">{item.formatLabel}</span>
+                    <h4 class="reading-title">{item.title}</h4>
+                    <p class="reading-byline">
+                      {item.author}{item.year ? ` · ${item.year}` : ''}
+                    </p>
+                    <p class="reading-note">{item.note}</p>
+                    {item.link && (
+                      <a class="reading-link" href={item.link} target="_blank" rel="noopener noreferrer">
+                        {item.format === 'podcasts' ? 'Listen' : 'Buy on Amazon'}
+                        <span class="reading-link-ext" aria-hidden="true">↗</span>
+                        <span class="visually-hidden">(opens in a new tab)</span>
+                      </a>
+                    )}
+                  </div>
+                </li>
+                  ))}
+            </ul>
+          </div>
+        ))}
       </section>
+
+      <section class="reading-ask" aria-labelledby="heading-ask">
+        <h2 id="heading-ask">Got one that helped you?</h2>
+        <p>Send it on and say what it did for you.</p>
+        <a class="reading-ask-link" href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
+      </section>
+
+      <p class="reading-fineprint">
+        None of these replace professional support. If you need someone now, the <a href="/resources">support resources page</a> has who to call.
+      </p>
     </main>
 
     <Footer />
@@ -182,14 +233,17 @@ const sections = [
 
   /* The honesty note about how the list is built. Quieter than the intro:
      it is context, not the headline. */
+  /* Lilac panel rather than a lime rule on the dark page, matching the
+     Book List card below it. */
   .reading-rule {
     margin: 0;
     max-width: 62ch;
-    padding-left: 0.9rem;
-    border-left: 3px solid rgba(192, 254, 113, 0.45);
-    color: var(--green-light);
-    opacity: 0.85;
-    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+    border-left: 4px solid var(--purple);
+    border-radius: 0 10px 10px 0;
+    background: #f9effd;
+    color: #1a1a1a;
+    font-size: 0.92rem;
     line-height: 1.55;
   }
 
@@ -203,47 +257,143 @@ const sections = [
     font-size: 1.35rem;
   }
 
+  /* Topic is the outer split, format the inner one, so the topic heading has
+     to win the size contest or the page reads as four equal sections. */
+  /* Topic and format headings now sit inside the lilac card, so they are
+     purple on light rather than lime on dark. */
+  .reading-topic + .reading-topic {
+    margin-top: 2rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.2);
+  }
+
+  .reading-topic-heading {
+    margin: 0 0 0.3rem;
+    color: var(--purple);
+    font-size: 1.3rem;
+  }
+
+  .reading-topic-blurb {
+    margin: 0 0 1.2rem;
+    max-width: 58ch;
+    color: #1a1a1a;
+    opacity: 0.8;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .reading-format-tag {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 0.4rem;
+    padding: 0.14rem 0.5rem;
+    border-radius: 999px;
+    background: var(--purple);
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  /* ── Book List card ───────────────────────────────────────────────────
+     Same card template as Mindfulness and Toolkit, in lilac: purple top
+     edge, logo, eyebrow and title, then the entries underneath. */
+  .deck-card-reading {
+    margin: 0 0 1.6rem;
+    padding: 1.5rem 1.5rem 1.6rem;
+    border: none;
+    border-top: 7px solid var(--purple);
+    border-radius: 18px;
+    background: #f9effd;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+  }
+
+  .deck-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    margin-bottom: 1.3rem;
+    border-bottom: 1px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .deck-logo {
+    width: 74px;
+    height: auto;
+    flex: 0 0 auto;
+  }
+
+  .deck-eyebrow {
+    margin: 0;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .deck-series {
+    margin: 0;
+    color: var(--purple);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  /* Two across, each entry laid out cover-left like the phone version.
+     Fixed at two rather than auto-fill: three across made each note about
+     four words wide, and auto-fit stretched a lone entry across the whole
+     card. */
   .reading-list {
     list-style: none;
     display: grid;
-    gap: 1.1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
     padding: 0;
     margin: 0;
   }
 
-  /* Cover on the left, text on the right. Flat dark card with a quiet edge,
-     matching the simplified toolkit surfaces. */
+  /* Cover on the left, text on the right, the same shape as the phone
+     layout. */
   .reading-card {
-    display: grid;
-    grid-template-columns: 132px 1fr;
-    gap: 1.4rem;
-    align-items: start;
-    padding: 1.3rem 1.4rem;
-    background: #071109;
-    border: 1px solid rgba(192, 254, 113, 0.18);
-    border-radius: 16px;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.2);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .reading-card:hover {
-    border-color: rgba(192, 254, 113, 0.45);
+    border-color: var(--purple);
     transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
   }
 
   /* 2:3 is the standard book cover ratio, so the frame is the right shape
      before any image arrives and the card does not jump when it loads. */
+  /* Fixed size rather than full-bleed. A 2:3 cover at the card's full
+     width turns every entry into a very tall column. */
   .cover-frame {
     position: relative;
-    aspect-ratio: 2 / 3;
-    border-radius: 6px;
+    flex: 0 0 auto;
+    width: 88px;
+    height: 132px;
+    align-self: flex-start;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
   }
 
   /* Podcast artwork is square, not 2:3, so the frame changes shape rather
      than letterboxing a book-shaped box around it. */
   .reading-card-podcasts .cover-frame {
-    aspect-ratio: 1 / 1;
+    width: 98px;
+    height: 98px;
     border-radius: 10px;
   }
 
@@ -263,22 +413,26 @@ const sections = [
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0.8rem 0.7rem;
+    padding: 0.5rem 0.45rem;
     background: linear-gradient(160deg, var(--purple) 0%, #3d0035 100%);
     text-align: left;
   }
 
+  /* Sized for the 88px cover box. It was set for a frame roughly a third
+     wider, so a long title ran outside the box. */
   .cover-fallback-title {
     color: #ffffff;
-    font-size: 0.86rem;
+    font-size: 0.62rem;
     font-weight: 800;
-    line-height: 1.22;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 
   .cover-fallback-author {
     color: var(--purple-light);
-    font-size: 0.7rem;
+    font-size: 0.55rem;
     font-weight: 700;
+    overflow-wrap: anywhere;
   }
 
   /* Sits over the fallback. If Open Library has no cover for this ISBN the
@@ -292,33 +446,44 @@ const sections = [
     display: block;
   }
 
+  /* The card is white now, so the text that used to be white or lime on a
+     dark card has to invert or it disappears. */
   .reading-title {
     margin: 0 0 0.2rem;
-    color: #ffffff;
-    font-size: 1.18rem;
+    color: var(--purple);
+    font-size: 1.02rem;
     line-height: 1.3;
   }
 
   .reading-byline {
-    margin: 0 0 0.7rem;
-    color: var(--green-lime);
-    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+    color: var(--purple);
+    opacity: 0.75;
+    font-size: 0.8rem;
     font-weight: 700;
   }
 
   .reading-note {
     margin: 0 0 0.9rem;
-    color: var(--green-light);
-    font-size: 0.98rem;
-    line-height: 1.6;
+    color: #1a1a1a;
+    opacity: 0.85;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .reading-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
   }
 
   .reading-link {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    color: var(--green-lime);
-    font-size: 0.9rem;
+    margin-top: auto;
+    color: var(--purple);
+    font-size: 0.86rem;
     font-weight: 700;
     text-decoration: none;
     border-bottom: 2px solid transparent;
@@ -326,49 +491,65 @@ const sections = [
 
   .reading-link:hover,
   .reading-link:focus-visible {
-    color: #ffffff;
-    border-bottom-color: #ffffff;
+    color: #2e0028;
+    border-bottom-color: #2e0028;
   }
 
   .reading-link-ext {
     font-size: 0.8rem;
   }
 
+  /* Lilac panel like the Book List card above it, not a white-outlined box
+     on the dark page. */
   .reading-ask {
-    padding: 1.4rem 1.5rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin: 0 0 1.2rem;
+    padding: 1.2rem 1.4rem;
+    background: #f9effd;
+    border-left: 5px solid var(--purple);
+    border-radius: 0 12px 12px 0;
   }
 
   .reading-ask h2 {
-    margin-bottom: 0.6rem;
+    margin: 0;
+    color: var(--purple);
+    font-size: 1.15rem;
   }
 
   .reading-ask p {
-    margin: 0 0 0.7rem;
+    margin: 0;
+    color: #1a1a1a;
+    opacity: 0.85;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .reading-ask-link {
+    margin-top: 0.3rem;
+    color: var(--purple) !important;
+    font-weight: 700;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+  }
+
+
+  /* Sits on the dark page now rather than inside a panel, so it needs its
+     own colour. */
+  .reading-fineprint {
+    margin: 0 0 2rem;
     max-width: 62ch;
     color: var(--green-light);
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    opacity: 0.7;
   }
 
-  .reading-ask p:last-child {
-    margin-bottom: 0;
-  }
-
-  .reading-ask a {
+  .reading-fineprint a {
     color: var(--green-lime);
     font-weight: 700;
-  }
-
-  .reading-ask a:hover,
-  .reading-ask a:focus-visible {
-    color: #ffffff;
-  }
-
-  .reading-fineprint {
-    font-size: 0.88rem;
-    opacity: 0.8;
   }
 
   .visually-hidden {
@@ -383,15 +564,33 @@ const sections = [
   @media (max-width: 620px) {
     .reading-main { padding-top: 1.25rem; }
 
-    /* Cover shrinks rather than stacking: a full-width book cover on a phone
-       pushes the note itself below the fold. */
+    /* One per row on a phone. Two would leave each note a few words wide. */
+    .reading-list { grid-template-columns: 1fr; }
+
     .reading-card {
-      grid-template-columns: 92px 1fr;
-      gap: 1rem;
-      padding: 1rem 1.05rem;
+      gap: 0.9rem;
+      padding: 0.9rem;
     }
 
-    .cover-fallback-title { font-size: 0.72rem; }
-    .cover-fallback-author { font-size: 0.62rem; }
+    .cover-frame {
+      width: 78px;
+      height: 117px;
+    }
+
+    .reading-card-podcasts .cover-frame {
+      width: 88px;
+      height: 88px;
+    }
+
+    .reading-note {
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .cover-fallback-title { font-size: 0.62rem; }
+    .cover-fallback-author { font-size: 0.55rem; }
+
+    .deck-card-reading { padding: 1.1rem 1rem 1.2rem; }
+    .deck-logo { width: 58px; }
   }
 </style>

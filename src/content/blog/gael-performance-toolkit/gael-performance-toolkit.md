@@ -1,6 +1,6 @@
 ---
 title: 'The Gael Performance ToolKit'
-description: 'Apply simple, practical tools in real performance moments before and during games'
+description: "Practical tools for before and during games."
 pubDate: '2026-08-01'
 heroImage: '/assets/blog-placeholder-4.jpg'
 track: 'gael-performance-toolkit'

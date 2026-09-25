@@ -1,6 +1,6 @@
 ---
 title: "Values & Balance Planning Toolkit"
-description: "Tools to clarify what matters to you beyond the sport. Values exercise, life-domain audit, and a sustainable weekly structure."
+description: "What matters to you beyond the sport."
 pubDate: "2027-06-08"
 track: "gael-performance-toolkit"
 ---

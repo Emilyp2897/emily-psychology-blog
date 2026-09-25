@@ -1,6 +1,6 @@
 ---
 title: "Boundaries & Assertiveness Toolkit"
-description: "Practical scripts for setting boundaries with coaches, teammates, family, and yourself. Plus the language to make it stick."
+description: "Scripts for setting boundaries with coaches, teammates and family."
 pubDate: "2027-05-08"
 track: "gael-performance-toolkit"
 ---

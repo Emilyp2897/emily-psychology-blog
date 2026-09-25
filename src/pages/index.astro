@@ -104,28 +104,28 @@ const homeSeries = [
   {
     key: 'training-the-mind',
     title: 'Training the Mind',
-    blurb: 'Sports psychology in language that makes sense on the pitch. Twelve topics, each a 10 minute read, from pressure and performance anxiety to confidence and team culture.',
+    blurb: 'Twelve topics in sports psychology, one a month. Pressure, confidence, mistakes, team culture, injury, identity. About a 10 minute read each.',
     href: '/content-hub/training-the-mind/',
     featured: ttmFeatured,
   },
   {
     key: 'gael-performance-toolkit',
     title: 'Gael Performance Toolkit',
-    blurb: 'The practical half. Tools you can use before a game, between plays, and after the moments that knock your confidence. Each one pairs with a Training the Mind topic.',
+    blurb: 'One toolkit for every Training the Mind topic. Short practical tools for before a game, during it, and after a bad one.',
     href: '/content-hub/gael-performance-toolkit/',
     featured: toolkitFeatured,
   },
   {
     key: 'strong-minds-stronger-players',
     title: 'Stronger Minds, Stronger Players',
-    blurb: 'Mental health in sport. How to spot when pressure has turned into something more serious, in yourself or a teammate, and where to go for real support.',
+    blurb: 'Mental health in sport. The warning signs, what they look like in a player or a teammate, and where support actually comes from.',
     href: '/content-hub/strong-minds-stronger-players/',
     featured: smspFeatured,
   },
   {
     key: 'mindfulness-and-affirmations',
     title: 'Mindfulness & Affirmations',
-    blurb: 'Five minute practices and affirmations that do not make you cringe. Built to read as slides you can swipe through. For match week, and for life outside it.',
+    blurb: 'Short practices and affirmations, five minutes or less. Match week, and everything outside it.',
     href: '/content-hub/mindfulness-and-affirmations/',
     featured: mindfulnessFeatured,
   },
@@ -134,13 +134,23 @@ const homeSeries = [
 // Champo Week: every released post tagged "championship", pulled from all four
 // series. This is the headline theme while the championship is running, so it
 // sits directly under the hero. Tag a post and it appears here automatically.
+// Mental health goes last. "When it's more than nerves" has the earliest
+// pubDate, so straight date order opened the championship band on the most
+// serious piece in it. Everything else keeps date order behind it.
+const champoTailSeries = 'strong-minds-stronger-players';
+
 const champoPosts = allPosts
   .filter(
     (post) =>
       post.data.tags?.includes(CHAMPO_TAG) &&
       isReleased(post, today)
   )
-  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  .sort((a, b) => {
+    const aTail = a.slug.startsWith(`${champoTailSeries}/`) ? 1 : 0;
+    const bTail = b.slug.startsWith(`${champoTailSeries}/`) ? 1 : 0;
+    if (aTail !== bTail) return aTail - bTail;
+    return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+  });
 ---
 
 <!doctype html>
@@ -160,7 +170,7 @@ const champoPosts = allPosts
           </div>
 
           <h1 class="hero-tagline">Mental Performance for Female Athletes</h1>
-          <p class="hero-sub">Four series on the mental side of sport: Training the Mind, the Gael Performance Toolkit, Stronger Minds, Stronger Players, and Mindfulness &amp; Affirmations. Women's health at the centre. Train your mind like you train your body.</p>
+          <p class="hero-sub">Four series on the mental side of sport, with women's health at the centre. Train your mind like you train your body.</p>
 
           <p class="hero-free-note">Every article and toolkit is <strong>free to read</strong>. Your own mental performance plan is the one thing you pay for, from £2.</p>
         </div>
@@ -177,8 +187,8 @@ const champoPosts = allPosts
           <div class="band-inner">
             <div class="champo-head">
               <p class="champo-eyebrow">Champo week</p>
-              <h2 id="champo-heading">It's championship season. Here's everything to help you mentally prepare</h2>
-              <p class="champo-sub">Pulled from every series: the psychology, the practical tools, the mental health side, and the short practices. All free.</p>
+              <h2 id="champo-heading">Championship season</h2>
+              <p class="champo-sub">The championship content from all four series, in one place. Free.</p>
             </div>
 
             <ul class="champo-grid">
@@ -215,8 +225,8 @@ const champoPosts = allPosts
           <div class="band-text">
             <p class="band-kicker">Why Mind the Gael exists</p>
             <h2 id="why-heading">Female athletes deserve consistent access to sports psychology.</h2>
-            <p>Most do not get it. That creates a gap. A gap in understanding confidence, pressure, focus, anxiety, and mental wellbeing in sport, right when athletes need that understanding the most.</p>
-            <p>Mind the Gael exists to help bridge that gap. The platform is built from my own experience as an athlete: struggling with anxiety, overthinking, confidence dips, and pressure, then realising I needed practical understanding, not generic motivation.</p>
+            <p>Most of us never get it. I played for years without understanding why pressure landed on me the way it did, or why my confidence could swing so far in one week.</p>
+            <p>I built Mind the Gael because I needed it and it was not there. I hope it helps other players who struggle the way I do.</p>
             <p class="band-fine">This platform is not clinical advice or therapy. The aim is education and awareness, translating research into language that makes sense in real sport.</p>
           </div>
         </div>
@@ -235,8 +245,20 @@ const champoPosts = allPosts
           <div class="series-band-head">
             <p class="band-kicker">The Content Hub <span class="band-tag band-tag-free">All free</span></p>
             <h2 id="series-heading">Four series on the mental side of sport.</h2>
-            <p class="series-band-sub">No subscription and no sign-up. New pieces release on a schedule through the year.</p>
+            <p class="series-band-sub">No subscription, no sign-up. New pieces through the year.</p>
           </div>
+
+          {/* The workbook is the only thing on the site you can print and
+              take away, so it gets its own line above the series tiles
+              rather than being buried on a hub page. */}
+          <a class="workbook-strip" href="/workbooks/mental-health-workbook.html" target="_blank" rel="noopener">
+            <span class="workbook-strip-tag">Free download</span>
+            <span class="workbook-strip-text">
+              <span class="workbook-strip-title">Mental Health Workbook</span>
+              <span class="workbook-strip-sub">43 pages of worksheets and trackers. Breathing, grounding, thought logs, sleep and mood.</span>
+            </span>
+            <span class="workbook-strip-cta" aria-hidden="true">&rarr;</span>
+          </a>
 
           <ul class="series-grid">
             {homeSeries.map((s) => (
@@ -366,6 +388,70 @@ const champoPosts = allPosts
 
   .series-band-sub {
     margin: 0;
+  }
+
+
+  /* Workbook strip on the Content Hub band. Purple on the lilac band so it
+     reads as a different kind of thing to the four series tiles. */
+  .workbook-strip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 1.25rem;
+    padding: 0.95rem 1.2rem;
+    background: #ffffff;
+    border: 2px solid rgba(105, 0, 90, 0.2);
+    border-left: 7px solid var(--purple);
+    border-radius: 12px;
+    text-decoration: none !important;
+    color: var(--green-dark) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .workbook-strip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .workbook-strip-tag {
+    flex: 0 0 auto;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--green-lime);
+    color: var(--green-dark);
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .workbook-strip-text { display: flex; flex-direction: column; gap: 0.15rem; }
+
+  .workbook-strip-title {
+    color: var(--purple);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .workbook-strip-sub {
+    color: var(--green-dark);
+    opacity: 0.8;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .workbook-strip-cta {
+    margin-left: auto;
+    color: var(--purple);
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 720px) {
+    .workbook-strip { flex-wrap: wrap; gap: 0.6rem; }
+    .workbook-strip-cta { display: none; }
   }
 
   .series-grid {

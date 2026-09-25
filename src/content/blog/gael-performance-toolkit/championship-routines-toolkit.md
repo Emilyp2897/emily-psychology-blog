@@ -1,14 +1,12 @@
 ---
 title: "Championship Routines, Confidence & Sleep Toolkit"
-description: "Tools for big-game week. Sleep protection, threat-to-challenge reframes, and a championship-week structure that works."
+description: "Practical tools for big games."
 pubDate: "2026-09-16"
 tags: ["championship"]
 track: "gael-performance-toolkit"
 ---
 
-Goes with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and [Applying Championship Pressure in LGFA](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
-
-Four tools for big-game weeks.
+Five tools for big-game weeks.
 
 ## Tool 1: The Championship-Week Sleep Protocol
 
@@ -21,11 +19,11 @@ Four tools for big-game weeks.
     <li>60 minutes before bed: screens off. No phone, no laptop, no TV.</li>
     <li>Light wind-down: shower, book, low light, quiet.</li>
     <li>Bedroom cool and dark.</li>
-    <li>If you wake up at 2am ruminating: don't lie there spinning. Get up, dim light, sit for 10-15 minutes with a non-stimulating activity (book, herbal tea). Go back.</li>
+    <li>If you wake up at 2am ruminating: don't lie there spinning. Get up, dim light, sit for 10-15 minutes with a non-stimulating activity (book, herbal tea). Go back to sleep .</li>
     <li>Don't worry about whether you'll be tired tomorrow. The worry makes it worse than the sleep loss does.</li>
 </ul>
 
-**Why it works:** sleep research is unequivocal. Sleep is the single biggest performance factor in big games. Athletes who protect sleep across championship week outperform peers with equivalent training but worse sleep.
+**Why it works:** Sleep is the single biggest performance factor in big games. Athletes who protect sleep across championship week can outperform peers with equivalent training but worse sleep.
 
 ## Tool 2: The Threat-to-Challenge Reframe
 
@@ -33,14 +31,22 @@ Four tools for big-game weeks.
 
 **How to do it:**
 
-Notice the threat signals: tight chest, racing heart, narrow focus, "I can't do this".
+Notice the **threat signals:**
+1. Tight chest
+2. Racing heart
+3. Narrow focus
+4. "I can't do this".
 
 Then run through:
 
-1. **Name it.** "My body is in threat mode."
-2. **Audit resources.** "What have I done to prepare for this? Months of training. A squad I trust. A specific plan."
-3. **Reframe the demand.** "This is the chance I trained for. It's not threat, it's the test I wanted."
-4. **One process anchor.** "My role in the first 10 minutes is X."
+1. **Name it:**: "My body is in threat mode."
+2. **Audit resources:** 
+    - "What have I done to prepare for this?
+    - Months of training.
+    - A squad I trust. 
+    - A specific plan."
+3. **Reframe the demand:** "This is the chance I trained for. It's not a threat, it's the challenge I wanted."
+4. **One process anchor:** "My role in the first 10 minutes is X"
 
 Repeat as needed. The body responds to the reframe over minutes.
 
@@ -48,39 +54,45 @@ Repeat as needed. The body responds to the reframe over minutes.
 
 ## Tool 3: The Specific Visualisation
 
-**When to use:** twice in the week before a championship match. Not on match morning.
+**When to use:** twice in the week before a championship game. 
+
+***NB: Not on game day***
 
 **How to do it:**
 
 1. Quiet space. Eyes closed.
 2. Picture yourself in the warm-up. Feel the kit. Hear the noise.
 3. Walk through the first 10 minutes of the game in your head. Specific plays. Your specific role.
-4. Imagine ONE difficult moment (a mistake, a tough opposing player, a setback) and how you respond. Not falling apart. Resetting and continuing.
+4. Imagine **ONE** difficult moment (a mistake, a tough opposing player, a setback) and how you respond. Not falling apart. Resetting and continuing.
 5. Imagine the final whistle and how you want to feel walking off, regardless of the result.
 
 Total: 5-10 minutes.
 
-**Why it works:** imagery rehearsal preps both the skill side (running patterns) and the emotional side (response to setbacks). Athletes who imagine difficulty AND recovery handle real difficulty better than athletes who only visualise success.
+**Why it works:** imagery rehearsal preps both the **skill side** (running patterns) and the **emotional side** (response to setbacks). 
 
-## Tool 4: The Championship-Week Information Diet
+Athletes who imagine **difficulty** AND **recovery** handle real difficulty better than athletes who only visualise success.
+
+## Tool 4: The Championship Week Information Diet
 
 **When to use:** for the full week.
 
 **How to do it:**
 
-Reduce:
+**Reduce:**
 - Social media (especially anything sport-related). Mute, unfollow, delete app temporarily.
 - Tactical analysis videos beyond what your coaches share.
 - Conversations about the match with people outside the squad.
 - News articles about the match.
 - Your own mental replays of the match.
 
-Keep:
+**Keep:**
 - Conversations with squad and coaches about the plan.
 - Necessary tactical input.
 - A trusted friend or family member for general life chat.
 
-**Why it works:** information overload in championship week pushes most athletes toward threat appraisal. The mental noise creates a sense of demands outpacing resources, which is exactly the threat state. Limiting input keeps your cognitive load manageable.
+**Why it works:** information overload in championship week pushes most athletes toward threat appraisal. The mental noise creates a sense of demand which is the threat state. 
+
+Limiting input keeps your cognitive load manageable.
 
 ## Tool 5: The Process Anchor
 
@@ -88,35 +100,33 @@ Keep:
 
 **How to do it:**
 
-Write down ONE process anchor for the match. Specific. Not "play well". Not "win".
+Write down **ONE** process anchor for the match. Specific. Not "play well" or "win".
 
 Examples:
-- "First to every ball in my zone for the full 60 minutes."
-- "Stay in defensive shape, no chasing."
-- "Three strong tackles in the first 15 minutes."
-- "Call my marker by name every play."
+- First to every ball
+- Stay in defensive shape
+- Three tackles in the first 15 minutes.
+- Head up, find the correct pass
 
 When pre-match nerves spike, return to the anchor. It's not the only thing you'll do, but it's the thing you'll do for sure.
 
-**Why it works:** the anchor focuses your attention on something specific and controllable, which interrupts the catastrophic outcome-focused thinking that threat appraisals produce.
+**Why it works:** the anchor focuses your attention on something specific and controllable, which interrupts the catastrophic outcome focused thinking that threat appraisals produce.
 
-## Putting it together: a championship-week structure
+## Putting it together: a championship week structure
 
-**Monday-Wednesday:** normal training week. Eat well. Sleep early. Off social.
+**Monday-Tuesday:** Sleep Protocol
 
-**Thursday:** specific visualisation. Final tactical input.
+**Wednesday:** Specific Visualisation.
 
-**Friday:** light. Sleep protocol fully in.
+**Thursday:** Sleep protocol fully in.
 
-**Saturday (match day if Sunday):** normal day. Hydrate. Eat well. One specific visualisation. Off social. Process anchor written down.
+**Friday (if match day Saturday):** normal day. Hydrate. Eat well. One specific visualisation. Off social. Process anchor written down.
 
-**Sunday morning:** normal breakfast. Light movement. Don't engage with the game mentally all morning.
-
-**Pre-match:** pre-match routine (from the pre-performance toolkit). Anchor in mind. Body and head as ready as you can.
+**Saturday morning:** normal breakfast. Light movement. Don't engage with the game mentally all morning.
 
 **During the match:** process anchor, refocus cues, mistake reset.
 
-**After:** feel what you feel. Recover.
+**After:** feel what you feel, good or bad. Recover.
 
 ## References
 

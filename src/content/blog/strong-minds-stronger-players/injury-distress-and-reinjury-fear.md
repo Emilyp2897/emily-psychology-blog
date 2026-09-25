@@ -1,6 +1,6 @@
 ---
 title: "Injury Distress and Reinjury Fear"
-description: "An injury is rarely just physical. This post helps you spot when injury distress or fear of reinjury needs more support than the physio can give."
+description: "An injury is rarely just physical."
 pubDate: "2027-03-15"
 track: "stronger-minds-stronger-players"
 ---

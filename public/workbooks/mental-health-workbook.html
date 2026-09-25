@@ -1,0 +1,1463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mind the Gael | Mental Health Workbook</title>
+<!--
+  MENTAL HEALTH WORKBOOK
+  ======================
+  A rebuild of the Canva "Mental Health Bundle" as one HTML file, because
+  Canva could not hold the same layout across all 43 pages: headings sat at
+  different sizes, table rows drifted, and some pages had a page title while
+  others did not.
+
+  Here every page is the same object. One .page rule sets the size, margins,
+  header and footer; one .sheet-title rule sets every heading; one .grid-table
+  rule sets every table. Change a value once and all 43 pages follow.
+
+  TO EXPORT A PDF
+    Open this file in Chrome, Cmd+P, Destination "Save as PDF",
+    Paper "A4", Margins "None", and tick "Background graphics".
+    The @page rule below handles the rest.
+
+  TO EDIT
+    Every page is a <section class="page">. Copy one, change the title and
+    the rows. Do not add inline styles: that is how the Canva version drifted.
+-->
+<style>
+  /* ── Page geometry ───────────────────────────────────────────────────
+     A4 with no printer margin, because the page paints its own lilac
+     background to the edge. All inner spacing is the .page padding. */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  :root {
+    --purple: #69005a;
+    --purple-deep: #4a0040;
+    --lilac: #f3e2fb;
+    --lilac-deep: #e7cdf7;
+    --lime: #c9f57e;
+    --ink: #3c2f46;
+    --rule: rgba(105, 0, 90, 0.85);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #6b6b6b;
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    padding: 16mm 15mm 18mm;
+    margin: 0 auto 8mm;
+    background: var(--lilac);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; page-break-after: always; box-shadow: none; }
+    .page:last-child { page-break-after: auto; }
+    .screen-only { display: none !important; }
+  }
+
+  @media screen {
+    .page { box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45); }
+  }
+
+  /* ── Shared page furniture ───────────────────────────────────────────
+     The shamrock sat at a different size on nearly every Canva page. It is
+     one rule here, so it cannot drift. */
+  .shamrock {
+    position: absolute;
+    top: 11mm;
+    right: 13mm;
+    width: 22mm;
+    height: auto;
+  }
+
+  .sheet-title {
+    display: inline-block;
+    margin: 0 0 7mm;
+    padding: 2mm 5mm;
+    background: var(--lime);
+    color: var(--purple-deep);
+    font-family: "Trebuchet MS", "Gill Sans", Verdana, sans-serif;
+    font-size: 19pt;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.15;
+    max-width: 138mm;
+  }
+
+  .sheet-intro {
+    margin: 0 0 6mm;
+    font-size: 11pt;
+    line-height: 1.5;
+    max-width: 150mm;
+  }
+
+  .page-foot {
+    position: absolute;
+    left: 15mm;
+    right: 15mm;
+    bottom: 8mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 7.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(105, 0, 90, 0.55);
+  }
+
+  .page-body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(160deg, #f6ebfd 0%, var(--lilac-deep) 100%);
+  }
+
+  .cover h1 {
+    margin: 0 0 6mm;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 46pt;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--purple-deep);
+    text-transform: uppercase;
+  }
+
+  .cover-logo { width: 96mm; height: auto; margin: 4mm 0 8mm; }
+
+  .cover-sub {
+    margin: 0 auto;
+    max-width: 130mm;
+    font-size: 13pt;
+    line-height: 1.5;
+    color: var(--purple);
+  }
+
+  .cover-foot {
+    position: absolute;
+    left: 0; right: 0; bottom: 16mm;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 9pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(105, 0, 90, 0.6);
+  }
+
+  /* ── Contents ── */
+  .contents-list {
+    columns: 2;
+    column-gap: 10mm;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 10.5pt;
+  }
+
+  .contents-list li {
+    break-inside: avoid;
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding: 1.6mm 0;
+    border-bottom: 0.3mm solid rgba(105, 0, 90, 0.22);
+  }
+
+  .contents-list .num { color: var(--purple); font-weight: 700; }
+
+  /* ── Tables ──────────────────────────────────────────────────────────
+     One rule for every grid in the book. In Canva these were drawn by hand
+     per page, which is why the row heights and border weights varied. */
+  .grid-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1.6mm;
+    font-size: 10pt;
+  }
+
+  .grid-table th {
+    padding: 2.4mm 3mm;
+    background: #ffffff;
+    border: 0.4mm solid var(--rule);
+    color: var(--purple-deep);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .grid-table th small {
+    display: block;
+    margin-top: 0.8mm;
+    font-weight: 400;
+    font-size: 7.5pt;
+    line-height: 1.3;
+    opacity: 0.8;
+  }
+
+  .grid-table td {
+    height: 11mm;
+    padding: 1.8mm 3mm;
+    background: #ffffff;
+    border: 0.35mm solid var(--rule);
+    vertical-align: top;
+  }
+
+  .grid-table td.num-cell {
+    width: 12mm;
+    text-align: center;
+    font-weight: 700;
+    color: var(--purple);
+    background: #faf3fd;
+  }
+
+  .grid-table td.tick { width: 13mm; }
+
+  /* ── Write-in boxes ── */
+  .box-stack { display: flex; flex-direction: column; gap: 5mm; height: 100%; }
+
+  .write-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 26mm;
+    border: 0.4mm solid var(--rule);
+    background: #ffffff;
+  }
+
+  .write-box > .label {
+    padding: 2.2mm 3mm;
+    background: #f7ecfd;
+    border-bottom: 0.35mm solid rgba(105, 0, 90, 0.35);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--purple-deep);
+  }
+
+  .write-box > .space { flex: 1 1 auto; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; height: 100%; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+
+  /* ── Technique pages (4-7-8, 5-4-3-2-1, STOP) ── */
+  .step-list { display: flex; flex-direction: column; gap: 4mm; margin: 0; padding: 0; list-style: none; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 16mm 1fr;
+    align-items: stretch;
+    border: 0.4mm solid var(--rule);
+    background: #ffffff;
+  }
+
+  .step .step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7ecfd;
+    border-right: 0.35mm solid var(--rule);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 20pt;
+    font-weight: 800;
+    color: var(--purple);
+  }
+
+  .step .step-text { padding: 3mm 4mm; font-size: 10.5pt; line-height: 1.45; }
+  .step .step-text strong { color: var(--purple-deep); }
+
+  .breath-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; margin: 4mm 0 6mm; }
+
+  .breath-card {
+    padding: 6mm 4mm;
+    border: 0.4mm solid var(--rule);
+    background: #ffffff;
+    text-align: center;
+  }
+
+  .breath-card .count {
+    display: block;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 34pt;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--purple);
+  }
+
+  .breath-card .unit {
+    display: block;
+    margin-top: 1.5mm;
+    font-size: 8pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(105, 0, 90, 0.7);
+  }
+
+  .breath-card .what { display: block; margin-bottom: 3mm; font-size: 10pt; font-weight: 700; }
+
+  .callout {
+    margin-top: 5mm;
+    padding: 4mm 5mm;
+    border-left: 1.4mm solid var(--purple);
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.5;
+  }
+
+  .callout strong { color: var(--purple-deep); }
+
+  .repeat-bar {
+    margin: 0 0 5mm;
+    padding: 2.6mm 4mm;
+    background: var(--lime);
+    color: var(--purple-deep);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 11pt;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  .lines { display: flex; flex-direction: column; gap: 0; }
+  .lines .line { height: 9mm; border-bottom: 0.35mm solid rgba(105, 0, 90, 0.5); }
+
+  .month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; height: 100%; }
+
+  .month-cell { display: flex; flex-direction: column; border: 0.4mm solid var(--rule); background: #ffffff; }
+  .month-cell .label {
+    padding: 2mm;
+    background: #f7ecfd;
+    border-bottom: 0.35mm solid rgba(105, 0, 90, 0.35);
+    text-align: center;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--purple-deep);
+  }
+  .month-cell .space { flex: 1 1 auto; }
+
+  .print-note {
+    max-width: 210mm;
+    margin: 6mm auto;
+    padding: 5mm 6mm;
+    background: #ffffff;
+    border-left: 4mm solid var(--purple);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="print-note screen-only">
+  <strong>To make the PDF:</strong> Cmd+P, Destination &ldquo;Save as PDF&rdquo;, Paper size A4,
+  Margins &ldquo;None&rdquo;, and tick &ldquo;Background graphics&rdquo;. Every page is built from the
+  same rules, so they will all come out identical.
+</div>
+
+<!-- ══ 1. COVER ══════════════════════════════════════════════════════ -->
+<section class="page cover">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h1>Mental Health<br />Workbook</h1>
+  <img class="cover-logo" src="/assets/MTG_colour.png" alt="Mind the Gael" />
+  <p class="cover-sub">Worksheets and trackers for the mental side of sport.</p>
+  <p class="cover-foot">Mind the Gael &middot; mindthegael.co.uk</p>
+</section>
+
+<!-- ══ 2. HOW TO USE ═════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">How to use this</h2>
+  <div class="page-body">
+    <p class="sheet-intro">
+      Nothing in here needs doing in order, and nothing needs finishing. Print the pages
+      you will use and leave the rest.
+    </p>
+
+    <ul class="step-list">
+      <li class="step">
+        <span class="step-num">1</span>
+        <span class="step-text"><strong>Start with one page.</strong> The Thought Log or the Anxiety Tracker
+        are the usual starting points. Printing ten pages and using none of them is no use to you.</span>
+      </li>
+      <li class="step">
+        <span class="step-num">2</span>
+        <span class="step-text"><strong>It does not have to be neat.</strong> Nobody else is reading it. Half
+        sentences are fine. You are getting it out of your head and onto paper.</span>
+      </li>
+      <li class="step">
+        <span class="step-num">3</span>
+        <span class="step-text"><strong>Give the trackers two weeks.</strong> One entry tells you nothing.
+        Ten start to show a pattern.</span>
+      </li>
+      <li class="step">
+        <span class="step-num">4</span>
+        <span class="step-text"><strong>Keep the breathing pages somewhere you can get at them.</strong>
+        Back of a folder, in your gear bag.</span>
+      </li>
+    </ul>
+
+    <div class="callout">
+      <strong>This is not therapy.</strong> It does not replace your GP or a qualified mental health
+      professional. If things are bad, tell someone and get proper support. There is a list of who to
+      contact at mindthegael.co.uk/resources. If you feel unsafe or at risk, contact emergency services.
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>How to use this</span></div>
+</section>
+
+<!-- ══ 3. CONTENTS ═══════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Contents</h2>
+  <div class="page-body">
+    <ul class="contents-list">
+      <li><span>4-7-8 Breathing</span><span class="num">04</span></li>
+      <li><span>5-4-3-2-1 Grounding</span><span class="num">05</span></li>
+      <li><span>The S.T.O.P. Technique</span><span class="num">06</span></li>
+      <li><span>Anxiety Tracker</span><span class="num">07</span></li>
+      <li><span>Anxiety Worksheet</span><span class="num">08</span></li>
+      <li><span>Managing Anxiety</span><span class="num">09</span></li>
+      <li><span>Worry Exploration</span><span class="num">10</span></li>
+      <li><span>Fighting Fear</span><span class="num">11</span></li>
+      <li><span>Thought Log</span><span class="num">12</span></li>
+      <li><span>Thought Reframing</span><span class="num">13</span></li>
+      <li><span>Thoughts Tracker</span><span class="num">14</span></li>
+      <li><span>Overcoming Limiting Beliefs</span><span class="num">15</span></li>
+      <li><span>Acceptance Worksheet</span><span class="num">16</span></li>
+      <li><span>Problem Behaviour Analysis</span><span class="num">17</span></li>
+      <li><span>Problem Solving</span><span class="num">18</span></li>
+      <li><span>Letter of Forgiveness</span><span class="num">19</span></li>
+      <li><span>Mindfulness Exercise</span><span class="num">20</span></li>
+      <li><span>Mindfulness Worksheet</span><span class="num">21</span></li>
+      <li><span>Daily Journal</span><span class="num">22</span></li>
+      <li><span>Daily Reflections</span><span class="num">23</span></li>
+      <li><span>Journal Prompts</span><span class="num">24</span></li>
+      <li><span>Gratitude List</span><span class="num">25</span></li>
+      <li><span>Favourite Affirmations</span><span class="num">26</span></li>
+      <li><span>Positive Experiences</span><span class="num">27</span></li>
+      <li><span>Reminder to Myself</span><span class="num">28</span></li>
+      <li><span>Self-Esteem Worksheet</span><span class="num">29</span></li>
+      <li><span>Sensation Record</span><span class="num">30</span></li>
+      <li><span>Symptom Record</span><span class="num">31</span></li>
+      <li><span>Deep Breathing Record</span><span class="num">32</span></li>
+      <li><span>Mood Tracker</span><span class="num">33</span></li>
+      <li><span>Sleep Tracker</span><span class="num">34</span></li>
+      <li><span>Habit Tracker</span><span class="num">35</span></li>
+      <li><span>Training Tracker</span><span class="num">36</span></li>
+      <li><span>Goal Setting</span><span class="num">37</span></li>
+      <li><span>Main Goals</span><span class="num">38</span></li>
+      <li><span>Season Goals</span><span class="num">39</span></li>
+      <li><span>Monthly Planner</span><span class="num">40</span></li>
+      <li><span>Monthly Reflections</span><span class="num">41</span></li>
+      <li><span>Reading Log</span><span class="num">42</span></li>
+      <li><span>To-Do List</span><span class="num">43</span></li>
+    </ul>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>Contents</span></div>
+</section>
+
+<!-- ══ 4. 4-7-8 BREATHING ════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">4-7-8 Breathing</h2>
+  <div class="page-body">
+    <p class="sheet-intro">
+      For the night before a game, or any night your head will not switch off. Sit or lie somewhere
+      you will not be interrupted.
+    </p>
+
+    <div class="breath-row">
+      <div class="breath-card">
+        <span class="what">Breathe in through your nose</span>
+        <span class="count">4</span><span class="unit">Seconds</span>
+      </div>
+      <div class="breath-card">
+        <span class="what">Hold your breath</span>
+        <span class="count">7</span><span class="unit">Seconds</span>
+      </div>
+      <div class="breath-card">
+        <span class="what">Breathe out through your mouth</span>
+        <span class="count">8</span><span class="unit">Seconds</span>
+      </div>
+    </div>
+
+    <p class="repeat-bar">Repeat four times</p>
+
+    <div class="callout">
+      <strong>First few goes may make you light-headed.</strong> Do not do it driving, and do not do it
+      standing in a warm-up. If you feel light-headed, shorten the counts and build up to 4-7-8.
+    </div>
+
+    <div class="callout">
+      <strong>When to use it.</strong> The night before, or on the bus. Not in the last minute
+      before throw-in. The long out-breath settles you down, and that is not what you want
+      two minutes before you play.
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>04</span></div>
+</section>
+
+<!-- ══ 5. 5-4-3-2-1 ══════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">5-4-3-2-1 Grounding</h2>
+  <div class="page-body">
+    <p class="sheet-intro">
+      For when your head has run off somewhere and you need to get back into the room. Works in a
+      dressing room, on a sideline, or at 2am.
+    </p>
+
+    <ul class="step-list">
+      <li class="step"><span class="step-num">5</span><span class="step-text">
+        <strong>Five things you can see.</strong> A cone, a boot, a mark on the wall. Anything.</span></li>
+      <li class="step"><span class="step-num">4</span><span class="step-text">
+        <strong>Four things you can touch.</strong> Your jersey, the bench, the ground under your feet.</span></li>
+      <li class="step"><span class="step-num">3</span><span class="step-text">
+        <strong>Three things you can hear.</strong> Outside your own head. Traffic, studs, someone talking.</span></li>
+      <li class="step"><span class="step-num">2</span><span class="step-text">
+        <strong>Two things you can smell.</strong> Grass, deep heat, your kit bag.</span></li>
+      <li class="step"><span class="step-num">1</span><span class="step-text">
+        <strong>One thing you can taste.</strong> Water, gum, whatever is there.</span></li>
+    </ul>
+
+    <div class="callout">
+      <strong>It is not supposed to feel like anything special.</strong> It gives your attention
+      something ordinary to do instead of feeding the panic. If you get to one and still feel bad,
+      go round again.
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>05</span></div>
+</section>
+
+<!-- ══ 6. S.T.O.P. ═══════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">The S.T.O.P. Technique</h2>
+  <div class="page-body">
+    <p class="sheet-intro">
+      For the moment you are about to react badly. Half time, a bad call, a message you are about to send.
+    </p>
+
+    <ul class="step-list">
+      <li class="step"><span class="step-num">S</span><span class="step-text">
+        <strong>Stop.</strong> Notice that something strong is happening. Just notice it.</span></li>
+      <li class="step"><span class="step-num">T</span><span class="step-text">
+        <strong>Take a breath.</strong> One is enough. Longer out than in.</span></li>
+      <li class="step"><span class="step-num">O</span><span class="step-text">
+        <strong>Observe.</strong> Body first: heart rate, hands, jaw. Then the feeling. Then the thought
+        underneath it.</span></li>
+      <li class="step"><span class="step-num">P</span><span class="step-text">
+        <strong>Proceed.</strong> Now decide. The same decision is fine, as long as you chose it.</span></li>
+    </ul>
+
+    <div class="callout">
+      <strong>Four seconds is enough.</strong> It puts a gap between what happened and how you respond.
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>06</span></div>
+</section>
+
+<!-- ══ 7. ANXIETY TRACKER ════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Anxiety Tracker</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Fill it in for two weeks before you read anything into it.</p>
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th style="width:22mm">Date</th>
+          <th>Trigger<small>What was happening first</small></th>
+          <th>Symptoms<small>Body, feelings, what you did</small></th>
+          <th>What helped</th>
+          <th style="width:20mm">1 to 10</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>07</span></div>
+</section>
+
+<!-- ══ 8. ANXIETY WORKSHEET ══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Anxiety Worksheet</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">What sets it off?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What makes it easier?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What gets in the way of what you want to do?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">A time you were proud of yourself</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>08</span></div>
+</section>
+
+<!-- ══ 9. MANAGING ANXIETY ═══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Managing Anxiety</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">What is stressing me out</span><span class="space"></span></div>
+      <div class="two-col" style="flex:2 1 0">
+        <div class="write-box"><span class="label">What I can do about it</span><span class="space"></span></div>
+        <div class="box-stack">
+          <div class="write-box"><span class="label">Good ways to distract myself</span><span class="space"></span></div>
+          <div class="write-box"><span class="label">People I can ask</span><span class="space"></span></div>
+        </div>
+      </div>
+      <div class="write-box"><span class="label">Things to remember</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>09</span></div>
+</section>
+
+<!-- ══ 10. WORRY EXPLORATION ═════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Worry Exploration</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">What are you worried about?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What suggests it will not happen?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">If it does not happen, what happens instead?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Worst case, and could you handle it?</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>10</span></div>
+</section>
+
+<!-- ══ 11. FIGHTING FEAR ═════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Fighting Fear</h2>
+  <div class="page-body">
+    <div class="two-col" style="height:auto">
+      <div class="write-box" style="min-height:70mm"><span class="label">What makes you nervous or scared?</span><span class="space"></span></div>
+      <div class="write-box" style="min-height:70mm">
+        <span class="label">What can be done?</span>
+        <div style="padding:2mm 3mm;font-size:9.5pt;line-height:1.9">
+          1. Go for a walk<br />
+          2. Breathe out longer than in<br />
+          3. Eat something proper<br />
+          4. Train<br />
+          5. See a friend<br />
+          6. Put the phone down<br />
+          7. ______________________<br />
+          8. ______________________<br />
+          9. ______________________<br />
+          10. _____________________
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:5mm">
+      <div class="write-box" style="min-height:52mm"><span class="label">What goes through your head when you are scared?</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>11</span></div>
+</section>
+
+<!-- ══ 12. THOUGHT LOG ═══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Thought Log</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">Date and how today felt</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What was on my mind</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Evidence the thought is true</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Evidence it is not</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I would tell a teammate who said this</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>12</span></div>
+</section>
+
+<!-- ══ 13. THOUGHT REFRAMING ═════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Thought Reframing</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box" style="flex:1 1 0"><span class="label">I am worried that...</span><span class="space"></span></div>
+      <div class="write-box" style="flex:1 1 0"><span class="label">The best it could go</span><span class="space"></span></div>
+      <div class="write-box" style="flex:1 1 0"><span class="label">The worst it could go</span><span class="space"></span></div>
+      <div class="write-box" style="flex:1 1 0"><span class="label">What will probably happen</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>13</span></div>
+</section>
+
+<!-- ══ 14. THOUGHTS TRACKER ══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Thoughts Tracker</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead>
+        <tr><th>What happened</th><th>The thought</th><th>Feeling and where you felt it</th><th>Another way to read it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>14</span></div>
+</section>
+
+<!-- ══ 15. LIMITING BELIEFS ══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Overcoming Limiting Beliefs</h2>
+  <div class="page-body">
+    <p class="sheet-intro">The third column matters most. Be specific.</p>
+    <table class="grid-table">
+      <thead>
+        <tr><th>The belief</th><th>Where it came from</th><th>A time it was not true</th></tr>
+      </thead>
+      <tbody>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>15</span></div>
+</section>
+
+<!-- ══ 16. ACCEPTANCE ════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Acceptance Worksheet</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>What I am refusing to accept</th><th>What accepting it would look like</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>16</span></div>
+</section>
+
+<!-- ══ 17. PROBLEM BEHAVIOUR ═════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Problem Behaviour Analysis</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="two-col" style="flex:1 1 0">
+        <div class="write-box"><span class="label">The behaviour</span><span class="space"></span></div>
+        <div class="write-box"><span class="label">What set it off</span><span class="space"></span></div>
+      </div>
+      <div class="write-box" style="flex:1 1 0"><span class="label">What made me more likely to do it</span><span class="space"></span></div>
+      <div class="two-col" style="flex:1 1 0">
+        <div class="write-box"><span class="label">When it stopped</span><span class="space"></span></div>
+        <div class="write-box"><span class="label">What I would do differently</span><span class="space"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>17</span></div>
+</section>
+
+<!-- ══ 18. PROBLEM SOLVING ═══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Problem Solving</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">The problem</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">A possible solution</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What is hard about it</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Likely outcome</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I am going to do</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>18</span></div>
+</section>
+
+<!-- ══ 19. FORGIVENESS ═══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Letter of Forgiveness</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>I forgive myself for...</th><th>Next time I will...</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>19</span></div>
+</section>
+
+<!-- ══ 20. MINDFULNESS EXERCISE ══════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Mindfulness Exercise</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">Do I go over the past or worry about what is coming?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Does either one help me with today?</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What gets me back into the present</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>20</span></div>
+</section>
+
+<!-- ══ 21. MINDFULNESS WORKSHEET ═════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Mindfulness Worksheet</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Left column is what you decided it meant. Right column is what happened.</p>
+    <table class="grid-table">
+      <thead><tr><th>Judgements and assumptions</th><th>Facts and sensations</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>21</span></div>
+</section>
+
+<!-- ══ 22. DAILY JOURNAL ═════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Daily Journal</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">Three moments worth keeping</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I enjoyed</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">How today felt</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I learned</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Tomorrow</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>22</span></div>
+</section>
+
+<!-- ══ 23. DAILY REFLECTIONS ═════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Daily Reflections</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box" style="flex:1.2 1 0"><span class="label">Date, and one thing I did well today</span><span class="space"></span></div>
+      <div class="two-col" style="flex:1.2 1 0">
+        <div class="write-box"><span class="label">Today's affirmation</span><span class="space"></span></div>
+        <div class="write-box"><span class="label">Something to remember</span><span class="space"></span></div>
+      </div>
+      <div class="write-box" style="flex:1.6 1 0">
+        <span class="label">Ten things I am grateful for</span>
+        <div class="lines" style="padding:2mm 4mm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>23</span></div>
+</section>
+
+<!-- ══ 24. JOURNAL PROMPTS ═══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Journal Prompts</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Thirty of them. One a day, or dip in.</p>
+    <ol style="margin:0;padding-left:6mm;font-size:9.6pt;line-height:1.75;columns:2;column-gap:8mm">
+      <li>What are you grateful for?</li>
+      <li>What are you most afraid of?</li>
+      <li>Where did that fear come from?</li>
+      <li>What do you actually value?</li>
+      <li>What matters most to you, and why?</li>
+      <li>If you could do anything, what would it be?</li>
+      <li>What would you go back and change?</li>
+      <li>Rewrite it the way you wanted it to go.</li>
+      <li>What would you change about sport if you could?</li>
+      <li>Where would you go if money was no object?</li>
+      <li>What would you try if you could not fail?</li>
+      <li>Why are you not doing that now?</li>
+      <li>Do you do things for you or to keep others happy?</li>
+      <li>What goal have you set and not reached?</li>
+      <li>Why did it not happen?</li>
+      <li>Was that a reason or an excuse?</li>
+      <li>Why these friends?</li>
+      <li>What would you tell yourself at seventeen?</li>
+      <li>Describe a good day, start to finish.</li>
+      <li>What do you want to feel on that day?</li>
+      <li>Ten things you like about yourself.</li>
+      <li>Three you want to work on, and why.</li>
+      <li>What makes you feel calm?</li>
+      <li>Where do you want to be in five years?</li>
+      <li>What are you still holding onto?</li>
+      <li>Last argument: were you upset or triggered?</li>
+      <li>Something you have never told anyone.</li>
+      <li>What does support look like to you?</li>
+      <li>What do you wish you did more of?</li>
+      <li>Best day of your life. What made it that?</li>
+    </ol>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>24</span></div>
+</section>
+
+<!-- ══ 25. GRATITUDE LIST ════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Gratitude List</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="two-col" style="flex:1.6 1 0">
+        <div class="write-box">
+          <span class="label">Today I am grateful for</span>
+          <div class="lines" style="padding:2mm 4mm">
+            <div class="line"></div><div class="line"></div><div class="line"></div>
+            <div class="line"></div><div class="line"></div><div class="line"></div>
+          </div>
+        </div>
+        <div class="write-box"><span class="label">My affirmation</span><span class="space"></span></div>
+      </div>
+      <div class="write-box" style="flex:1 1 0">
+        <span class="label">Notes</span>
+        <div class="lines" style="padding:2mm 4mm">
+          <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>25</span></div>
+</section>
+
+<!-- ══ 26. FAVOURITE AFFIRMATIONS ════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Favourite Affirmations</h2>
+  <div class="page-body">
+    <p class="sheet-intro">
+      Values, not claims about your ability. "I play because I love it" holds up on a bad day.
+      "I am the best player here" does not.
+    </p>
+    <table class="grid-table">
+      <tbody>
+        <tr><td class="num-cell">01</td><td></td></tr>
+        <tr><td class="num-cell">02</td><td></td></tr>
+        <tr><td class="num-cell">03</td><td></td></tr>
+        <tr><td class="num-cell">04</td><td></td></tr>
+        <tr><td class="num-cell">05</td><td></td></tr>
+        <tr><td class="num-cell">06</td><td></td></tr>
+        <tr><td class="num-cell">07</td><td></td></tr>
+        <tr><td class="num-cell">08</td><td></td></tr>
+        <tr><td class="num-cell">09</td><td></td></tr>
+        <tr><td class="num-cell">10</td><td></td></tr>
+        <tr><td class="num-cell">11</td><td></td></tr>
+        <tr><td class="num-cell">12</td><td></td></tr>
+        <tr><td class="num-cell">13</td><td></td></tr>
+        <tr><td class="num-cell">14</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>26</span></div>
+</section>
+
+<!-- ══ 27. POSITIVE EXPERIENCES ══════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Positive Experiences</h2>
+  <div class="page-body">
+    <p class="sheet-intro">A time you showed each of these. One line each.</p>
+    <div class="box-stack">
+      <div class="write-box"><span class="label">Courage</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Kindness</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Putting someone else first</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Excitement</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">Calm</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>27</span></div>
+</section>
+
+<!-- ══ 28. REMINDER TO MYSELF ════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Reminder to Myself</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">Something I like about myself</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I am good at, on and off the pitch</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">When I feel most like myself</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">A day I would live again</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>28</span></div>
+</section>
+
+<!-- ══ 29. SELF-ESTEEM ═══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Self-Esteem Worksheet</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box" style="flex:1.3 1 0"><span class="label">Date, and what I got done today</span><span class="space"></span></div>
+      <div class="two-col" style="flex:1.3 1 0">
+        <div class="write-box"><span class="label">Something good I saw someone else do</span><span class="space"></span></div>
+        <div class="write-box"><span class="label">I felt proud when...</span><span class="space"></span></div>
+      </div>
+      <div class="write-box" style="flex:1.3 1 0"><span class="label">Something that made me happy</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>29</span></div>
+</section>
+
+<!-- ══ 30. SENSATION RECORD ══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Sensation Record</h2>
+  <div class="page-body">
+    <p class="sheet-intro">For working out which parts of the week wind you up.</p>
+    <table class="grid-table">
+      <thead><tr><th>What I was doing</th><th>Thoughts and what my body did</th><th style="width:26mm">1 to 10</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>30</span></div>
+</section>
+
+<!-- ══ 31. SYMPTOM RECORD ════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Symptom Record</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>In my head</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+      <tbody>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+      </tbody>
+      <thead><tr><th>In my body</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+      <tbody>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>31</span></div>
+</section>
+
+<!-- ══ 32. DEEP BREATHING RECORD ═════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Deep Breathing Record</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Fill in your anxiety level before and after.</p>
+    <table class="grid-table">
+      <thead><tr><th>Date and time</th><th>Before (0 to 100)</th><th>After (0 to 100)</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>32</span></div>
+</section>
+
+<!-- ══ 33. MOOD TRACKER ══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Mood Tracker</h2>
+  <div class="page-body">
+    <div class="write-box" style="min-height:96mm;margin-bottom:6mm">
+      <span class="label">Month, and how it went</span>
+      <div class="lines" style="padding:3mm 4mm">
+        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <table class="grid-table">
+      <thead><tr><th>Daily basics</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+      <tbody>
+        <tr><td>Slept enough</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td>Ate breakfast</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td>Fuelled around training</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td>Drank enough water</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td>Got outside</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td>Talked to someone</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>33</span></div>
+</section>
+
+<!-- ══ 34. SLEEP TRACKER ═════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Sleep Tracker</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Circle the hours. Sleep is the biggest thing you control in championship week.</p>
+    <table class="grid-table" style="font-size:8.6pt">
+      <thead>
+        <tr><th style="width:12mm">Day</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th style="width:30mm">Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num-cell">01</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">02</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">03</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">04</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">05</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">06</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">07</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">08</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">09</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">10</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">11</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">12</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">13</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+        <tr><td class="num-cell">14</td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>34</span></div>
+</section>
+
+<!-- ══ 35. HABIT TRACKER ═════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Habit Tracker</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>Habit</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+      <tbody>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>35</span></div>
+</section>
+
+<!-- ══ 36. TRAINING TRACKER ══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Training Tracker</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>Session or exercise</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+      <tbody>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+        <tr><td></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td><td class="tick"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>36</span></div>
+</section>
+
+<!-- ══ 37. GOAL SETTING ══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Goal Setting</h2>
+  <div class="page-body">
+    <div class="two-col" style="height:auto;margin-bottom:5mm">
+      <div class="box-stack">
+        <div class="write-box" style="min-height:34mm"><span class="label">The goal</span><span class="space"></span></div>
+        <div class="write-box" style="min-height:34mm"><span class="label">What is in the way</span><span class="space"></span></div>
+      </div>
+      <div class="write-box" style="min-height:73mm">
+        <span class="label">Steps</span>
+        <div class="lines" style="padding:2mm 4mm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <table class="grid-table">
+      <thead><tr><th style="width:32mm">Date</th><th>Progress</th></tr></thead>
+      <tbody>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>37</span></div>
+</section>
+
+<!-- ══ 38. MAIN GOALS ════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Main Goals</h2>
+  <div class="page-body">
+    <div class="month-grid" style="grid-template-rows:repeat(3, 1fr)">
+      <div class="month-cell"><span class="label">Sport</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Mental health</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Physical health</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Work or study</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Money</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Family</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Friends</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Time off</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Giving back</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>38</span></div>
+</section>
+
+<!-- ══ 39. SEASON GOALS ══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Season Goals</h2>
+  <div class="page-body">
+    <p class="sheet-intro">Month by month, across a season rather than a calendar year.</p>
+    <div class="month-grid" style="grid-template-rows:repeat(4, 1fr)">
+      <div class="month-cell"><span class="label">Pre-season</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 2</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 3</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">League</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 5</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 6</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Championship</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 8</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 9</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Off-season</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 11</span><span class="space"></span></div>
+      <div class="month-cell"><span class="label">Month 12</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>39</span></div>
+</section>
+
+<!-- ══ 40. MONTHLY PLANNER ═══════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Monthly Planner</h2>
+  <div class="page-body">
+    <table class="grid-table" style="font-size:9pt">
+      <thead><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
+      <tbody>
+        <tr><td style="height:19mm"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:19mm"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:19mm"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:19mm"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:19mm"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="two-col" style="height:auto;margin-top:5mm">
+      <div class="write-box" style="min-height:38mm"><span class="label">To do</span><span class="space"></span></div>
+      <div class="write-box" style="min-height:38mm"><span class="label">Notes</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>40</span></div>
+</section>
+
+<!-- ══ 41. MONTHLY REFLECTIONS ═══════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Monthly Reflections</h2>
+  <div class="page-body">
+    <div class="box-stack">
+      <div class="write-box"><span class="label">What went well</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I want to stop doing</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">What I learned</span><span class="space"></span></div>
+      <div class="write-box"><span class="label">One thing for next month</span><span class="space"></span></div>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>41</span></div>
+</section>
+
+<!-- ══ 42. READING LOG ═══════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">Reading Log</h2>
+  <div class="page-body">
+    <table class="grid-table">
+      <thead><tr><th>Book</th><th style="width:30mm">Started</th><th style="width:30mm">Finished</th><th style="width:34mm">Worth it?</th></tr></thead>
+      <tbody>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:16mm"></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>42</span></div>
+</section>
+
+<!-- ══ 43. TO-DO LIST ════════════════════════════════════════════════ -->
+<section class="page">
+  <img class="shamrock" src="/assets/icon-meditating.svg" alt="" onerror="this.remove()" />
+  <h2 class="sheet-title">To-Do List</h2>
+  <div class="page-body">
+    <div class="two-col" style="height:auto">
+      <table class="grid-table">
+        <thead><tr><th>Today</th></tr></thead>
+        <tbody>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+        </tbody>
+      </table>
+      <table class="grid-table">
+        <thead><tr><th>This week</th></tr></thead>
+        <tbody>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+          <tr><td class="tick"></td></tr><tr><td class="tick"></td></tr><tr><td class="tick"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="page-foot"><span>Mind the Gael</span><span>43</span></div>
+</section>
+
+</body>
+</html>

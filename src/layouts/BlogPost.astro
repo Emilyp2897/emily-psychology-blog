@@ -141,10 +141,20 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
     <Footer />
 
-    <script is:inline define:vars={{ isGaelToolkitPost, isMindfulnessPost, isLocalPreview: bypassGatesInDev }}>
+    <script is:inline define:vars={{ isGaelToolkitPost, isMindfulnessPost, isLocalPreview: bypassGatesInDev, deckLede: description }}>
       window.addEventListener('DOMContentLoaded', () => {
         const paidContent = document.getElementById('paid-content');
         const toolkitToolsBox = paidContent?.querySelector('.toolkit-tools-box');
+
+        // Page furniture that must stay on the page, not get swept into a
+        // card by the "move everything up to the next h2" loops below. The
+        // references dropdown is built before those loops run, so it is no
+        // longer an h2 and nothing else stops them consuming it.
+        const isPageFurniture = (node) =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          (node.classList.contains('refs-details') ||
+            node.classList.contains('content-feedback-link-box') ||
+            node.classList.contains('toolkit-tools-box'));
 
         // References collapse into a dropdown. They are the least-read part
         // of the page but still need to be there, so they are present and
@@ -206,6 +216,16 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
             return text.startsWith('tool ');
           });
 
+          // Anything that is neither a tool nor the references list, which in
+          // practice is the "Putting it together" section every toolkit ends
+          // with. It moves onto the green card below the tiles, as writing
+          // rather than as another tile: it is the summary of the tools, so a
+          // tile of its own would read as a sixth tool.
+          const extraHeadings = headings.filter((heading) => {
+            const text = heading.textContent?.trim().toLowerCase() || '';
+            return !text.startsWith('tool ') && text !== 'references';
+          });
+
           toolHeadings.forEach((heading) => {
             const card = document.createElement('section');
             card.className = 'toolkit-tool-card';
@@ -216,7 +236,7 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
             while (node) {
               if (node.nodeType === Node.ELEMENT_NODE) {
                 const el = node;
-                if (el.tagName === 'H2') break;
+                if (el.tagName === 'H2' || isPageFurniture(el)) break;
               }
               const next = node.nextSibling;
               card.appendChild(node);
@@ -232,19 +252,36 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
           // still readable if this script never runs.
           const toolCards = Array.from(paidContent.querySelectorAll('.toolkit-tool-card'));
 
-          // ── TOOLKIT: bubble cloud ──────────────────────────────────────
-          // Tools render as floating bubbles of varying size rather than a
-          // grid of boxes. Tapping one blows it up into a full card. Sizes
-          // and drift are seeded off the index so the cloud looks organic
-          // but stays identical between loads.
+          // ── TOOLKIT: numbered tiles on a card ──────────────────────────
+          // Tools render as an index of numbered tiles on a single pale
+          // green card, matching the Toolkit template. Tapping a tile opens
+          // the full tool in a dialog. This replaced a cloud of floating
+          // bubbles, which looked good but gave no reliable reading order
+          // and sized tools differently for no reason a reader could see.
           if (toolCards.length > 0) {
-            const cloud = document.createElement('div');
-            cloud.className = 'tool-cloud';
-            // The CSS uses this to pick a width that balances the rows.
-            // Left to wrap on its own, five tools give four across and a
-            // single orphan underneath.
-            cloud.dataset.count = String(toolCards.length);
-            toolCards[0].parentNode.insertBefore(cloud, toolCards[0]);
+            const shell = document.createElement('section');
+            shell.className = 'deck-card deck-card-toolkit';
+            shell.innerHTML =
+              '<div class="deck-head deck-head-toolkit">' +
+                '<img class="deck-logo" src="/assets/MTG_colour.png" alt="" aria-hidden="true" />' +
+                '<div class="deck-head-centre">' +
+                  '<p class="deck-eyebrow">Practical resources</p>' +
+                  '<p class="deck-series">Toolkit</p>' +
+                '</div>' +
+              '</div>' +
+              '<div class="tool-tiles"></div>' +
+              '<div class="deck-foot"><span class="deck-count"></span></div>';
+            // Counts tools only. "Putting it together" is a tile too, but it
+            // is a summary of the tools rather than one of them, so counting
+            // it would overstate what the toolkit contains.
+            const toolCount = toolCards.filter((c) =>
+              /^tool\s/i.test((c.querySelector('h2')?.textContent || '').trim())
+            ).length;
+            shell.querySelector('.deck-count').textContent =
+              toolCount + (toolCount === 1 ? ' tool' : ' tools');
+
+            const cloud = shell.querySelector('.tool-tiles');
+            toolCards[0].parentNode.insertBefore(shell, toolCards[0]);
 
             // A native <dialog> opened with showModal(), rather than a div
             // with role="dialog". The browser then traps focus, handles
@@ -256,15 +293,9 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
               '<div class="tool-sheet-panel">' +
                 '<button type="button" class="tool-sheet-close" aria-label="Close">Done</button>' +
                 '<div class="tool-sheet-body"></div>' +
-                '<button type="button" class="tool-sheet-tried">Mark as tried</button>' +
               '</div>';
             document.body.appendChild(sheet);
             const sheetBody = sheet.querySelector('.tool-sheet-body');
-            const triedBtn = sheet.querySelector('.tool-sheet-tried');
-
-            const storeKey = 'mtg_tools_tried_' + window.location.pathname;
-            const tried = new Set(JSON.parse(localStorage.getItem(storeKey) || '[]'));
-            let activeKey = null;
 
             // Focus moves into the sheet when it opens and returns to the
             // bubble that opened it when it closes, so keyboard and screen
@@ -279,24 +310,6 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
             sheet.querySelector('.tool-sheet-close').addEventListener('click', closeSheet);
             sheet.addEventListener('click', (e) => { if (e.target === sheet) closeSheet(); });
 
-            const paintTried = () => {
-              cloud.querySelectorAll('.tool-bubble').forEach((b) => {
-                b.classList.toggle('is-tried', tried.has(b.dataset.key));
-              });
-            };
-
-            triedBtn.addEventListener('click', () => {
-              if (!activeKey) return;
-              if (tried.has(activeKey)) tried.delete(activeKey);
-              else tried.add(activeKey);
-              localStorage.setItem(storeKey, JSON.stringify([...tried]));
-              triedBtn.textContent = tried.has(activeKey) ? 'Tried it ✓' : 'Mark as tried';
-              paintTried();
-            });
-
-            // Three bubble sizes, cycled, so the cloud has visual rhythm.
-            const sizes = ['is-lg', 'is-md', 'is-sm', 'is-md', 'is-lg', 'is-sm'];
-
             toolCards.forEach((card, i) => {
               const heading = card.querySelector('h2');
               const raw = (heading?.textContent || 'Tool ' + (i + 1)).trim();
@@ -307,17 +320,16 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
               const bubble = document.createElement('button');
               bubble.type = 'button';
-              bubble.className = 'tool-bubble ' + sizes[i % sizes.length];
+              bubble.className = 'tool-tile';
               bubble.dataset.key = key;
-              bubble.style.setProperty('--i', String(i));
+              // Two digits, so 01 sits at the same width as 10 and the tile
+              // names all start on the same vertical line.
               bubble.innerHTML =
-                '<span class="tool-bubble-num">' + num + '</span>' +
-                '<span class="tool-bubble-name"></span>' +
-                '<span class="tool-bubble-tick" aria-hidden="true">✓</span>';
-              bubble.querySelector('.tool-bubble-name').textContent = name;
+                '<span class="tool-tile-num">' + String(num).padStart(2, '0') + '</span>' +
+                '<span class="tool-tile-name"></span>';
+              bubble.querySelector('.tool-tile-name').textContent = name;
 
               bubble.addEventListener('click', () => {
-                activeKey = key;
                 sheetBody.innerHTML = '';
                 // The source card carries .tool-card-collapsed (display:none)
                 // to hide it on the page. The clone must not, or the sheet
@@ -325,7 +337,6 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
                 const clone = card.cloneNode(true);
                 clone.classList.remove('tool-card-collapsed');
                 sheetBody.appendChild(clone);
-                triedBtn.textContent = tried.has(key) ? 'Tried it ✓' : 'Mark as tried';
                 sheet.showModal();
                 document.body.classList.add("sheet-open");
                 sheet.querySelector(".tool-sheet-close").focus();
@@ -335,7 +346,24 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
               card.classList.add('tool-card-collapsed');
             });
 
-            paintTried();
+            // "Putting it together" and anything like it: moved onto the
+            // card under the tiles, as plain writing. Nodes are moved rather
+            // than copied, so nothing is left behind on the page below.
+            if (extraHeadings.length > 0) {
+              const extra = document.createElement('div');
+              extra.className = 'deck-extra';
+              extraHeadings.forEach((heading) => {
+                let node = heading.nextSibling;
+                extra.appendChild(heading);
+                while (node) {
+                  if (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H2' || isPageFurniture(node))) break;
+                  const next = node.nextSibling;
+                  extra.appendChild(node);
+                  node = next;
+                }
+              });
+              shell.insertBefore(extra, shell.querySelector('.deck-foot'));
+            }
           }
         }
 
@@ -378,15 +406,61 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
             headings.forEach((heading, i) => {
               const card = document.createElement('section');
-              card.className = 'story-card';
+              card.className = 'story-card deck-card deck-card-mindfulness';
               let node = heading.nextSibling;
               card.appendChild(heading);
               while (node) {
-                if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'H2') break;
+                if (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H2' || isPageFurniture(node))) break;
                 const next = node.nextSibling;
                 card.appendChild(node);
                 node = next;
               }
+
+              // Logo and title above the card body, so every card is
+              // self-contained if it gets screenshotted and shared, which is
+              // how these actually travel. The card's own h2 becomes the
+              // title and "Mindfulness" drops to an eyebrow above it: a big
+              // "Mindfulness" repeated on all six cards told you nothing
+              // about which card you were looking at.
+              //
+              // A div, not a <header>. global.css styles the site header by
+              // element name, which paints any <header> on the page black.
+              const head = document.createElement('div');
+              head.className = 'deck-head deck-head-mindfulness';
+              head.innerHTML =
+                '<img class="deck-logo" src="/assets/MTG_colour.png" alt="" aria-hidden="true" />' +
+                '<p class="deck-eyebrow">Mindfulness</p>' +
+                '<h2 class="deck-series"></h2>';
+              head.querySelector('.deck-series').textContent = (heading.textContent || '').trim();
+              // The heading is now the card title in the head, so the
+              // original would render it a second time.
+              heading.remove();
+              card.insertBefore(head, card.firstChild);
+
+              // Two or more h3 subsections become side-by-side columns, the
+              // way the template lays out Values against In the moment. One
+              // subsection stays full width: a single narrow column next to
+              // an empty half is worse than no columns at all.
+              const subs = Array.from(card.querySelectorAll(':scope > h3'));
+              if (subs.length >= 2) {
+                const grid = document.createElement('div');
+                grid.className = 'deck-cols';
+                subs.forEach((sub) => {
+                  const col = document.createElement('div');
+                  col.className = 'deck-col';
+                  let n = sub.nextSibling;
+                  col.appendChild(sub);
+                  while (n) {
+                    if (n.nodeType === Node.ELEMENT_NODE && n.tagName === 'H3') break;
+                    const next = n.nextSibling;
+                    col.appendChild(n);
+                    n = next;
+                  }
+                  grid.appendChild(col);
+                });
+                card.appendChild(grid);
+              }
+
               stage.appendChild(card);
 
               const bar = document.createElement('button');
@@ -1100,100 +1174,188 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     color: #ffffff;
     opacity: 1;
   }
-  /* ── TOOLKIT: bubble cloud ────────────────────────────────────────────
-     Tools float as bubbles of mixed size rather than sitting in a grid of
-     boxes. Tapping one opens it as a sheet. */
-  /* The cloud is capped narrower than the card on purpose. Left to fill the
-     full width it fits four bubbles across and drops the fifth onto a row of
-     its own, which reads as a mistake rather than a layout.
-     Capping the width forces a balanced break instead, and because this is
-     flexbox the shorter last row centres itself:
-       3 tools -> one row      5 tools -> 3 + 2
-       4 tools -> 2 + 2        6 tools -> 3 + 3
-     Every toolkit in the series has between three and six tools. */
-  .tool-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1.6rem 1.9rem;
-    max-width: min(560px, 100%);
-    margin: 1.9rem auto 2.4rem;
+  /* ══ CARD TEMPLATES ═══════════════════════════════════════════════════
+     Two variants of one card: cream with a purple top edge for Mindfulness,
+     pale green for the Toolkit. Both carry the logo, so a card still says
+     where it came from when it is screenshotted and sent to a teammate,
+     which is how this content actually travels.
+     Shared chrome lives on .deck-card / .deck-head; only the surface colour
+     and the inner layout differ. */
+  .deck-card {
+    position: relative;
+    border: none;
+    border-top: 7px solid var(--purple);
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
   }
 
-  /* Four splits evenly only if the row cannot hold three. */
-  .tool-cloud[data-count="4"] {
-    max-width: min(400px, 100%);
+  .deck-card-toolkit {
+    background: #eefada;
+    padding: 1.6rem 1.6rem 1.3rem;
+    margin: 1.6rem 0 2.2rem;
   }
 
-  .tool-bubble {
+  .deck-logo {
+    width: 74px;
+    height: auto;
+    flex: 0 0 auto;
+  }
+
+  .deck-head {
+    margin-bottom: 1.1rem;
+  }
+
+  /* Toolkit head is a three-track row: logo left, title centred, lede right.
+     The two outer tracks are given equal width so the centre column is
+     genuinely centred rather than centred between two unequal neighbours. */
+  .deck-head-toolkit {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .deck-head-centre {
+    text-align: center;
+  }
+
+  /* These three are <p> elements inside .prose, which sets a light colour
+     for the dark page shell. They sit on a light card, so they have to win
+     that rule rather than inherit from it. */
+  body.interactive-post .prose .deck-eyebrow {
+    margin: 0;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  body.interactive-post .prose .deck-series {
+    margin: 0;
+    color: var(--purple);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  body.interactive-post .prose .deck-lede {
+    margin: 0;
+    text-align: right;
+    color: var(--purple);
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .tool-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .tool-tile {
     position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    border-radius: 50%;
-    /* Light purple bubbles with dark text, rather than dark green bubbles
-       with lime text. The cloud is the busiest thing on the page, so making
-       it the light element and the page the dark one puts the weight in the
-       right place. Purple-light is already the logo colour, so it reads as
-       brand rather than as a third scheme. */
-    border: 2px solid var(--purple);
-    background: var(--purple-light);
+    gap: 0.85rem;
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(105, 0, 90, 0.18);
+    border-left: 5px solid var(--purple);
+    border-radius: 10px;
+    background: #ffffff;
     color: var(--green-dark);
     font: inherit;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
-    padding: 0.6rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease, border-color 0.2s ease;
-    animation: bubbleFloat 6s ease-in-out infinite;
-    animation-delay: calc(var(--i) * -0.9s);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
 
-  .tool-bubble.is-lg { width: 168px; height: 168px; }
-  .tool-bubble.is-md { width: 140px; height: 140px; }
-  .tool-bubble.is-sm { width: 122px; height: 122px; }
-
-  /* Hover deepens the purple. It used to go white, which worked when the
-     card behind was dark but would now dissolve the bubble into the card. */
-  .tool-bubble:hover {
-    transform: scale(1.09) translateY(-4px);
-    background: #e3a9f9;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  .tool-tile:hover {
+    transform: translateY(-2px);
+    background: #fdf7ff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
   }
 
-  /* Keyboard focus must be visible. The first version set outline: none, and
-     the second used white, which is invisible on the white card. */
-  .tool-bubble:focus-visible {
-    transform: scale(1.09) translateY(-4px);
-    outline: 4px solid var(--purple);
-    outline-offset: 3px;
+  .tool-tile:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 2px;
   }
 
-  .tool-bubble:active { transform: scale(0.97); }
+  .tool-tile:active { transform: translateY(0); }
 
-  @keyframes bubbleFloat {
-    0%, 100% { translate: 0 0; }
-    50%      { translate: 0 -10px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .tool-bubble { animation: none; }
-  }
-
-  .tool-bubble-num {
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: 1;
+  .tool-tile-num {
+    flex: 0 0 auto;
     color: var(--purple);
+    font-size: 0.82rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tool-tile-name {
+    color: var(--green-dark);
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  /* The closing section on a toolkit card. Sits under the tiles, divided
+     from them, and reads as writing rather than as another tool. */
+  .deck-extra {
+    margin-top: 1.4rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .deck-extra h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+
+  .deck-extra p {
+    margin: 0 0 0.6rem;
+    font-size: 0.96rem;
+    line-height: 1.6;
+  }
+
+  .deck-extra p:last-child {
+    margin-bottom: 0;
+  }
+
+  .deck-foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .deck-count {
+    color: var(--purple);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  @media (max-width: 720px) {
+    /* Stack the head rather than squeezing three tracks into a phone width.
+       The lede goes back to the left edge once it is no longer opposite the
+       logo, or it reads as a stray caption. */
+    .deck-head-toolkit {
+      grid-template-columns: 1fr;
+      justify-items: start;
+    }
+
+    .deck-head-centre { text-align: left; }
+    .deck-lede { text-align: left; }
+    .deck-card-toolkit { padding: 1.2rem 1.1rem 1rem; }
   }
 
   /* The sheet is white now, so a lime focus ring would be 1.19:1 and
      invisible. Purple is 12:1 on it. */
-  .tool-sheet-close:focus-visible,
-  .tool-sheet-tried:focus-visible {
+  .tool-sheet-close:focus-visible {
     outline: 3px solid var(--purple);
     outline-offset: 2px;
   }
@@ -1205,43 +1367,6 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   body.interactive-post .refs-summary:focus-visible {
     outline-color: #ffffff;
-  }
-
-  .tool-bubble-name {
-    font-size: 0.76rem;
-    font-weight: 700;
-    line-height: 1.22;
-    color: var(--green-dark);
-    padding: 0 0.2rem;
-  }
-
-  .tool-bubble-tick {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    /* Was lime on a dark bubble. On the light purple bubble lime is 1.4:1,
-       so the tick becomes a solid purple disc with a white check instead. */
-    background: var(--purple);
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: 800;
-    line-height: 22px;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: opacity 0.18s ease, transform 0.18s ease;
-  }
-
-  .tool-bubble.is-tried .tool-bubble-tick { opacity: 1; transform: scale(1); }
-
-  /* The tick itself is the cue, and a tick is a shape rather than a colour,
-     so the state does not depend on colour vision. The ring just thickens.
-     A lime ring was tried here first and measured 1.19:1 against the purple
-     bubble, which is invisible. */
-  .tool-bubble.is-tried {
-    border-width: 4px;
   }
 
   .tool-card-collapsed { display: none; }
@@ -1342,31 +1467,15 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     margin: 0.4rem 0 0;
   }
 
-  .tool-sheet-tried {
-    display: block;
-    width: 100%;
-    margin-top: 1.1rem;
-    padding: 0.7rem;
-    border-radius: 14px;
-    border: none;
-    background: var(--purple);
-    color: #ffffff;
-    font: inherit;
-    font-weight: 800;
-    cursor: pointer;
-  }
 
   /* ── MINDFULNESS: story cards ─────────────────────────────────────────── */
 
   @media (max-width: 720px) {
-    .tool-bubble.is-lg { width: 132px; height: 132px; }
-    .tool-bubble.is-md { width: 116px; height: 116px; }
-    .tool-bubble.is-sm { width: 104px; height: 104px; }
-    .tool-bubble-num { font-size: 1.25rem; }
-    .tool-bubble-name { font-size: 0.7rem; }
     .story-stage { min-height: 60vh; padding: 1rem 1rem 0.5rem; }
-    .story-card h2 { font-size: 1.25rem; padding-right: 52px; }
-    .story-card::after { width: 46px; height: 46px; top: 1.45rem; right: 0.85rem; }
+    .story-card { padding: 2.3rem 1.1rem 3rem; }
+    .story-foot { left: 1.1rem; right: 1.1rem; }
+    .deck-head-mindfulness .deck-series { font-size: 1.6rem; }
+    .deck-logo { width: 62px; }
   }
   /* Optional article hero photo, set via `photo:` in frontmatter. */
   .article-photo {
@@ -1407,34 +1516,66 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     padding: 0;
   }
 
+  /* Cream surface with a purple top edge, per the Mindfulness template.
+     Replaced an orange gradient with a shamrock in the corner; the logo in
+     the card head does that job now and does it on the Toolkit card too. */
   .story-card {
     display: none;
     position: relative;
-    background:
-      linear-gradient(180deg, var(--mind-orange-tint) 0%, rgba(253, 240, 230, 0.6) 30%, #ffffff 68%);
+    background: #f9f4e9;
     border: none;
-    border-top: 7px solid var(--mind-orange);
-    border-radius: 20px;
-    padding: 2.9rem 1.6rem 1.7rem;
+    border-top: 7px solid var(--purple);
+    border-radius: 18px;
+    padding: 2.6rem 1.8rem 3.2rem;
     min-height: 52vh;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
   }
 
-  /* Shamrock in the top right corner of every card. Decorative only, so it
-     is a background on a pseudo-element rather than an <img>: nothing for a
-     screen reader to announce on all six cards, and no extra node for the
-     card-building script to trip over. Sits below the progress bars, and the
-     heading gets matching right padding so a long title wraps clear of it. */
-  .story-card::after {
-    content: "";
-    position: absolute;
-    top: 1.55rem;
-    right: 1.05rem;
-    width: 58px;
-    height: 58px;
-    background: url("/assets/saoirse.png") no-repeat center / contain;
-    pointer-events: none;
-    z-index: 1;
+  .deck-head-mindfulness {
+    margin-bottom: 0.9rem;
+  }
+
+  .deck-head-mindfulness .deck-logo {
+    display: block;
+    margin-bottom: 0.9rem;
+  }
+
+  /* Series name is the card's title; the h2 from the markdown becomes the
+     subtitle under it, which is the hierarchy the template shows. */
+  body.interactive-post .prose .deck-head-mindfulness .deck-series {
+    font-size: 2rem;
+  }
+
+  /* Values against In the moment. Falls to one column on a phone, where two
+     columns of bullets would be two words wide. */
+  .deck-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem 2rem;
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.25);
+  }
+
+  body.interactive-post .story-card .deck-cols h3 {
+    margin: 0 0 0.6rem;
+    color: var(--purple);
+    font-size: 1.05rem;
+  }
+
+  body.interactive-post .story-card .deck-cols ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  /* Purple markers on the first column, lime on the rest, so the two lists
+     stay distinguishable once they wrap onto one column on a phone. */
+  body.interactive-post .story-card .deck-col ::marker {
+    color: var(--purple);
+  }
+
+  body.interactive-post .story-card .deck-col:nth-child(even) ::marker {
+    color: #7ea52b;
   }
 
   .story-card.is-active {
@@ -1468,28 +1609,28 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     padding: 0;
     border: none;
     border-radius: 999px;
-    background: rgba(168, 72, 10, 0.22);
+    background: rgba(105, 0, 90, 0.22);
     cursor: pointer;
   }
 
-  .story-bar.is-done { background: rgba(168, 72, 10, 0.55); }
-  .story-bar.is-active { background: var(--mind-orange-text); }
+  .story-bar.is-done { background: rgba(105, 0, 90, 0.55); }
+  .story-bar.is-active { background: var(--purple); }
 
   .story-bar:focus-visible {
-    outline: 3px solid var(--mind-orange-text);
+    outline: 3px solid var(--purple);
     outline-offset: 3px;
   }
 
   /* All text on the card is dark. Needs this specificity because the
      dark-shell rule (body.interactive-post .prose p) would otherwise make
      it light green on a white card. */
+  /* Subtitle, not title. The series name above it is the title now. */
   body.interactive-post .story-card h2 {
     margin: 0 0 0.9rem;
-    /* Keeps a long title from running under the corner shamrock. */
-    padding-right: 66px;
-    color: var(--mind-orange-text);
-    font-size: 1.5rem;
-    line-height: 1.2;
+    color: var(--purple);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
   }
 
   body.interactive-post .story-card p,
@@ -1503,7 +1644,7 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   body.interactive-post .story-card strong,
   body.interactive-post .story-card h3 {
-    color: var(--mind-orange-text);
+    color: var(--purple);
   }
 
   /* Tap zones over the card, behind its text. */
@@ -1522,32 +1663,37 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   .story-zone-next { right: 0; }
 
   .story-zone:focus-visible {
-    outline: 3px solid var(--mind-orange);
+    outline: 3px solid var(--purple);
     outline-offset: -5px;
   }
 
-  /* Footer sits inside the card, bottom right. */
+  /* Footer sits inside the card under a divider, counter on the right, as
+     the template has it. row-reverse rather than reordering the markup, so
+     the count is still announced before the hint. */
   .story-foot {
     position: absolute;
-    bottom: 0.9rem;
-    left: 1.6rem;
-    right: 1.6rem;
+    bottom: 1rem;
+    left: 1.8rem;
+    right: 1.8rem;
     z-index: 3;
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(105, 0, 90, 0.25);
     pointer-events: none;
   }
 
   .story-count {
-    color: var(--mind-orange-text);
-    font-size: 0.82rem;
+    color: var(--purple);
+    font-size: 0.8rem;
     font-weight: 800;
   }
 
   .story-hint {
-    color: rgba(26, 26, 26, 0.6);
+    color: rgba(26, 26, 26, 0.55);
     font-size: 0.76rem;
   }
 
@@ -1574,6 +1720,25 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     border-radius: 3px;
   }
 
+  /* The two lime buttons are blocks of colour, not body copy, so the
+     dark-shell link rules above do not apply to them: those would paint the
+     labels purple-light, then white on hover, both around 1.2:1 against
+     lime and effectively invisible. Their own rules already say
+     green-dark !important, but at (0,1,0) they lose to the (0,2,2) of
+     `body.interactive-post .prose a`. Matching that reach wins it back. */
+  body.interactive-post .prose a.content-feedback-link,
+  body.interactive-post .prose a.content-feedback-link:link,
+  body.interactive-post .prose a.content-feedback-link:visited,
+  body.interactive-post .prose a.content-feedback-link:hover,
+  body.interactive-post .prose a.content-feedback-link:focus-visible,
+  body.interactive-post .prose a.toolkit-tools-link,
+  body.interactive-post .prose a.toolkit-tools-link:link,
+  body.interactive-post .prose a.toolkit-tools-link:visited,
+  body.interactive-post .prose a.toolkit-tools-link:hover,
+  body.interactive-post .prose a.toolkit-tools-link:focus-visible {
+    color: var(--green-dark) !important;
+  }
+
   /* Saoirse's inline note also carried purple text on the dark shell. */
   body.interactive-post .prose .practical-tools-banner,
   body.interactive-post .prose .shamrock-banner-purple {
@@ -1589,20 +1754,20 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   body.interactive-post .story-card a,
   body.interactive-post .story-card a:link,
   body.interactive-post .story-card a:visited {
-    color: var(--mind-orange-text) !important;
-    text-decoration-color: rgba(168, 72, 10, 0.6);
+    color: var(--purple) !important;
+    text-decoration-color: rgba(105, 0, 90, 0.6);
   }
 
   /* References, when nested inside a mindfulness story card (light
-   background), need dark/orange styling instead of the lime meant for
-   the dark shell — lime on that light card is close to invisible. */
+   background), need dark styling instead of the lime meant for the dark
+   shell. Lime on that cream card is close to invisible. */
 body.interactive-post .story-card .refs-details {
-  background: rgba(168, 72, 10, 0.07);
-  border-color: rgba(168, 72, 10, 0.25);
+  background: rgba(105, 0, 90, 0.07);
+  border-color: rgba(105, 0, 90, 0.25);
 }
 
 body.interactive-post .story-card .refs-summary {
-  color: var(--mind-orange-text);
+  color: var(--purple);
 }
 
 body.interactive-post .story-card .refs-body,
@@ -1655,82 +1820,54 @@ body.interactive-post .story-card .refs-body em {
     display: none;
   }
 
-  /* ── TOOLKIT PAGES: WHITE CARD ────────────────────────────────────────
-     The toolkit article is a white page with purple shamrocks on it, not a
-     dark one. Scoped to .gael-toolkit-post rather than .interactive-post on
-     purpose: mindfulness shares that class, and its story cards supply their
-     own light surface, so flipping both would leave mindfulness text dark on
-     a dark background.
+  /* ── TOOLKIT PAGES ────────────────────────────────────────────────────
+     The toolkit article used to be a white page with the tools sitting on
+     it. The green card now carries everything, so the page behind it is a
+     second surface doing nothing: the card goes straight onto the dark
+     background, the way the mindfulness card does.
 
      These rules match the specificity of the body.interactive-post ones
      above, so they have to sit after them in source order to win. Keep this
      block last. */
   body.gael-toolkit-post .article-shell {
-    background: #ffffff;
-    border: 1px solid rgba(105, 0, 90, 0.22);
+    border: none;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* Dark text belongs to the pale green card, not to the page. Anything
+     outside the card (the intro line, the references dropdown, the feedback
+     box) keeps the light-on-dark treatment from .interactive-post. */
+  body.gael-toolkit-post .deck-card p,
+  body.gael-toolkit-post .deck-card li,
+  body.gael-toolkit-post .deck-card td,
+  body.gael-toolkit-post .deck-card th {
     color: #1a1a1a;
   }
 
-  body.gael-toolkit-post .paid-content,
-  body.gael-toolkit-post .prose p,
-  body.gael-toolkit-post .prose li,
-  body.gael-toolkit-post .prose td,
-  body.gael-toolkit-post .prose th {
-    color: #1a1a1a;
-  }
-
-  body.gael-toolkit-post .prose h2,
-  body.gael-toolkit-post .prose h3,
-  body.gael-toolkit-post .prose strong {
+  body.gael-toolkit-post .deck-card h2,
+  body.gael-toolkit-post .deck-card h3,
+  body.gael-toolkit-post .deck-card strong {
     color: var(--purple);
   }
 
-  body.gael-toolkit-post .prose a,
-  body.gael-toolkit-post .prose a:link,
-  body.gael-toolkit-post .prose a:visited {
+  body.gael-toolkit-post .deck-card a,
+  body.gael-toolkit-post .deck-card a:link,
+  body.gael-toolkit-post .deck-card a:visited {
     color: var(--purple) !important;
     text-decoration-color: rgba(105, 0, 90, 0.5);
   }
 
-  body.gael-toolkit-post .prose a:hover,
-  body.gael-toolkit-post .prose a:focus-visible {
+  body.gael-toolkit-post .deck-card a:hover,
+  body.gael-toolkit-post .deck-card a:focus-visible {
     color: #2e0028 !important;
     text-decoration-color: #2e0028;
   }
 
-  body.gael-toolkit-post .prose a:focus-visible {
+  body.gael-toolkit-post .deck-card a:focus-visible {
     outline: 3px solid var(--purple);
-  }
-
-  /* References dropdown, back to dark-on-light. */
-  body.gael-toolkit-post .refs-details {
-    background: rgba(105, 0, 90, 0.04);
-    border-color: rgba(105, 0, 90, 0.3);
-  }
-
-  body.gael-toolkit-post .refs-summary {
-    color: var(--purple);
-  }
-
-  body.gael-toolkit-post .refs-summary:focus-visible {
-    outline-color: var(--purple);
-  }
-
-  body.gael-toolkit-post .refs-body,
-  body.gael-toolkit-post .refs-body li,
-  body.gael-toolkit-post .refs-body p,
-  body.gael-toolkit-post .refs-body em {
-    color: #1a1a1a;
-  }
-
-  body.gael-toolkit-post .prose .practical-tools-banner,
-  body.gael-toolkit-post .prose .shamrock-banner-purple {
-    color: #1a1a1a;
-    border-left-color: var(--purple);
-  }
-
-  body.gael-toolkit-post .prose .practical-tools-banner a {
-    color: var(--purple) !important;
   }
 
 </style>

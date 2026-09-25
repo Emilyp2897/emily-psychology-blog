@@ -1,6 +1,6 @@
 ---
 title: "Applying Comeback Confidence in Ladies Gaelic Football"
-description: "Real LGF situations during and after injury. Watching your spot get taken, the first session back, the first contact, the first game."
+description: "Watching your spot get taken, the first session back, the first contact."
 pubDate: "2027-02-15"
 track: "training-the-mind"
 ---

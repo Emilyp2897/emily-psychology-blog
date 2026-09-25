@@ -1,6 +1,6 @@
 ---
 title: "Mistake Reset Toolkit"
-description: "Practical tools to settle before a play, drop a mistake mid-game, and reset your focus when anxiety climbs. Resets that take under 10 seconds."
+description: "Resets that take under ten seconds."
 pubDate: "2026-11-08"
 track: "gael-performance-toolkit"
 ---

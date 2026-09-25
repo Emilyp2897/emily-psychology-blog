@@ -1,6 +1,6 @@
 ---
 title: "Imagery & Graded Exposure Toolkit"
-description: "Tools for the mental side of injury recovery and return-to-play. Imagery rehearsal, graded fear exposure, and confidence-building drills."
+description: "Tools for the mental side of injury recovery and return to play."
 pubDate: "2027-02-08"
 track: "gael-performance-toolkit"
 ---

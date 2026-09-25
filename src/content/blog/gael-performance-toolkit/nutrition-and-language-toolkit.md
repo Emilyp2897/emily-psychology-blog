@@ -1,6 +1,6 @@
 ---
 title: "Nutrition & Language Toolkit"
-description: "Practical fuelling guidance and language tools for healthier food culture in a Gaelic squad."
+description: "Fuelling guidance, and better language around food in a squad."
 pubDate: "2027-04-08"
 track: "gael-performance-toolkit"
 ---
@@ -55,7 +55,7 @@ The goal isn't to police anyone. It's to see clearly what culture you're swimmin
 You have options.
 
 - **Stay quiet, log it:** if it's not the moment, note it mentally. Pattern over time is what you respond to, not single comments.
-- **Deflect:** "Thanks. How about that game on Sunday?" Move the conversation.
+- **Deflect:** "Thanks. How about that game on Saturday?" Move the conversation.
 - **Address it later, privately:** "When you commented on my body last week, it affected me. I'd appreciate if you focused on how I'm playing instead."
 - **For repeat offenders:** "I'm not going to talk about my body. Let's talk about something else."
 

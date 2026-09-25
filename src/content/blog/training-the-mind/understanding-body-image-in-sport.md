@@ -1,6 +1,6 @@
 ---
 title: "Understanding Body Image in Sport"
-description: "Why female athletes carry a complicated relationship with their body, what RED-S is, and how to fuel performance properly."
+description: "Body image, RED-S, and fuelling properly."
 pubDate: "2027-04-01"
 track: "training-the-mind"
 ---

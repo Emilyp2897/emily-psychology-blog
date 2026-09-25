@@ -1,6 +1,6 @@
 ---
 title: "How belonging to a team can elevate your performance"
-description: "Why connection and identity influence how you show up in sport."
+description: "Why belonging changes how you play."
 pubDate: "2026-08-01"
 hold: true
 draft: true
