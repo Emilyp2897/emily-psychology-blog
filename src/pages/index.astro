@@ -12,6 +12,7 @@ import physicalImage from '../assets/CiaraFlan-London-1.jpg';
 import mtgLogo from '../assets/MTG_colour.png';
 import footballImage from '../assets/football-illustration.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
+import { isReleased, isScheduled } from '../data/release';
 import { CHAMPO_TAG, gaelPerformanceToolkitSlugs, seriesHubHref, seriesLabels, trainingTheMindSlugs } from '../data/series';
 
 // Rendered on demand rather than at build time, like the content hub pages.
@@ -32,9 +33,9 @@ const orderedMonthlyToolkits = gaelPerformanceToolkitSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
   .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 
-const releasedToolkits = orderedMonthlyToolkits.filter((post) => post.data.pubDate <= today);
+const releasedToolkits = orderedMonthlyToolkits.filter((post) => isReleased(post, today));
 const latestToolkit = releasedToolkits[releasedToolkits.length - 1];
-const nextToolkit = orderedMonthlyToolkits.find((post) => post.data.pubDate > today);
+const nextToolkit = orderedMonthlyToolkits.find((post) => isScheduled(post, today));
 
 // Latest released Training the Mind post, for the small box in that band.
 // Uses the same series list as the hub page, so unlisted standalone theory
@@ -43,9 +44,9 @@ const orderedTtmPosts = trainingTheMindSlugs
   .map((slug) => allPosts.find((post) => post.slug === slug))
   .filter((post): post is (typeof allPosts)[number] => post !== undefined);
 
-const releasedTtmPosts = orderedTtmPosts.filter((post) => post.data.pubDate <= today);
+const releasedTtmPosts = orderedTtmPosts.filter((post) => isReleased(post, today));
 const latestTtmPost = releasedTtmPosts[releasedTtmPosts.length - 1];
-const nextTtmPost = orderedTtmPosts.find((post) => post.data.pubDate > today);
+const nextTtmPost = orderedTtmPosts.find((post) => isScheduled(post, today));
 
 // Latest released Strong Minds, Stronger Players post. This series has no
 // curated slug list, so it is derived from the collection by date, matching
@@ -58,9 +59,9 @@ const orderedSmspPosts = allPosts
   )
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 
-const releasedSmspPosts = orderedSmspPosts.filter((post) => post.data.pubDate <= today);
+const releasedSmspPosts = orderedSmspPosts.filter((post) => isReleased(post, today));
 const latestSmspPost = releasedSmspPosts[releasedSmspPosts.length - 1];
-const nextSmspPost = orderedSmspPosts.find((post) => post.data.pubDate > today);
+const nextSmspPost = orderedSmspPosts.find((post) => isScheduled(post, today));
 
 const dateLabel = (date: Date) =>
   date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -89,10 +90,10 @@ const orderedMindfulnessPosts = allPosts
   .filter((post) => post.slug.startsWith('mindfulness-and-affirmations/'))
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 
-const releasedMindfulness = orderedMindfulnessPosts.filter((post) => post.data.pubDate <= today);
+const releasedMindfulness = orderedMindfulnessPosts.filter((post) => isReleased(post, today));
 const mindfulnessFeatured = featuredPostFor(
   releasedMindfulness[releasedMindfulness.length - 1],
-  orderedMindfulnessPosts.find((post) => post.data.pubDate > today)
+  orderedMindfulnessPosts.find((post) => isScheduled(post, today))
 );
 
 // One card per series, replacing the three full-width bands that used to
@@ -137,7 +138,7 @@ const champoPosts = allPosts
   .filter(
     (post) =>
       post.data.tags?.includes(CHAMPO_TAG) &&
-      post.data.pubDate <= today
+      isReleased(post, today)
   )
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---

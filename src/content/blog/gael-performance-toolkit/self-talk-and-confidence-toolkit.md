@@ -18,7 +18,7 @@ Four tools you can start using this week.
 2. Write down 10 specific things you do well in your position. Not "I'm a good player". Specific. "I read short kickouts." "I never give up on a 50-50." "I get back behind the ball after attacking."
 3. Add to it after every training and match. Even one new entry per session.
 
-**Why it works:** confidence is evidence-based (Bandura, 1997). When confidence drops, your brain stops noticing the wins. The ledger is the record of who you actually are as a player, available when your brain is lying to you.
+**Why it works:** confidence is evidence-based. When confidence drops, your brain stops noticing the wins. The ledger is the record of who you actually are as a player, available when your brain is lying to you.
 
 ## Tool 2: The "Fact, Not Verdict" Reframe
 
@@ -43,7 +43,7 @@ Four tools you can start using this week.
 3. **One physical anchor.** Boots, gum shield, hair, something the same every time.
 4. **One cue word.** "Trust." "Sharp." "Present." Same one always.
 
-**Why it works:** you're activating the evidence before your brain has a chance to ignore it. Pre-performance routine research (Cotterill, 2010) shows consistent routines reduce pre-match anxiety and improve focus.
+**Why it works:** you're activating the evidence before your brain has a chance to ignore it. Pre-performance routine research shows consistent routines reduce pre-match anxiety and improve focus.
 
 ## Tool 4: Process Goals (not Outcome Goals)
 
@@ -54,7 +54,7 @@ Four tools you can start using this week.
 2. Track it. After the session, tick it or write down what got in the way.
 3. Don't pick an outcome measure ("score 1-3", "win the game"). Outcomes depend on factors outside you. Process measures are 100% in your control.
 
-**Why it works:** Goal-Setting Theory (Locke & Latham, 2002) shows process goals build skill and confidence faster than outcome goals. You always achieve a process goal you commit to, which is where the confidence builds from.
+**Why it works:** Goal-Setting Theory shows process goals build skill and confidence faster than outcome goals. You always achieve a process goal you commit to, which is where the confidence builds from.
 
 ## Putting it together
 

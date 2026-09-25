@@ -25,7 +25,7 @@ This is one of the most under-discussed areas in women's sport, so it is worth b
 
 ## When it crosses the line
 
-The first medical line to know about is **RED-S (Relative Energy Deficiency in Sport)**. Defined by the IOC consensus statement (Mountjoy et al. 2018), RED-S is what happens when an athlete is not taking in enough energy to support both training and basic body functions. It causes loss of periods, weakened bones, reduced immunity, persistent injuries, and mood and cognitive effects. It is treatable, and the most important step is recognising it.
+The first medical line to know about is **RED-S (Relative Energy Deficiency in Sport)**. Defined by the IOC consensus statement, RED-S is what happens when an athlete is not taking in enough energy to support both training and basic body functions. It causes loss of periods, weakened bones, reduced immunity, persistent injuries, and mood and cognitive effects. It is treatable, and the most important step is recognising it.
 
 The second line is **disordered eating and eating disorders**. The line between "athletes train hard and watch what they eat" and "this is a clinical problem" is whether food, body, or exercise has become a source of distress, control, or compulsion. If thinking about food takes up a huge part of your day, if you feel out of control around food, if you compensate after eating, or if your weight has dropped quickly, this is a clinical issue and needs professional support.
 

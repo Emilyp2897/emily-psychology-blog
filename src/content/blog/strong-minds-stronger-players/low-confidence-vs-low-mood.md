@@ -29,7 +29,7 @@ The cleanest distinction: low confidence is usually situational and shifts with 
 
 ## What helps
 
-- Move your body, even gently. Exercise has consistent evidence for reducing depressive symptoms (Schuck et al. 2016).
+- Move your body, even gently. Exercise has consistent evidence for reducing depressive symptoms.
 - Keep one small daily anchor: a walk, a phone call, a journal line. Routine protects mood.
 - Limit alcohol. It tends to deepen low mood the day after.
 - Tell one person. Saying it out loud removes some of the weight.

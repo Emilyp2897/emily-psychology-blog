@@ -38,7 +38,7 @@ This isn't a moral failing. It's a documented psychological effect. The fix isn'
 
 **Relative Energy Deficiency in Sport** (RED-S) is a clinical condition that occurs when an athlete is in low energy availability for a sustained period. In plain English: you're burning more energy than you're taking in, and your body starts shutting down non-essential systems to cope.
 
-The IOC consensus statement (Mountjoy et al., 2014, updated since) documents the consequences:
+The IOC consensus statement documents the consequences:
 
 - Bone health declines. Stress fractures become more likely.
 - Menstrual cycle changes or stops. Amenorrhea.

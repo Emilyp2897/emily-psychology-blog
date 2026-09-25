@@ -4,6 +4,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
+import { isLocked, isScheduled, lockLabel } from '../../data/release';
 
 // Rendered on demand rather than at build time, so the release locks below
 // lift on their release date instead of waiting for the next deploy.
@@ -11,24 +12,15 @@ export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
-// Scheduled-release helper, matching Training the Mind and the Gael
-// Performance Toolkit. Posts with a pubDate in the future render as locked
-// cards (blurred preview, release date shown, no link) until the release
-// date passes. Computed at request time so the lock lifts automatically
-// without a redeploy. SMSP is always free — this is a release schedule,
-// not a paywall.
-const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
-
-const isUnreleased = (date: Date) => date > today;
+// Matching Training the Mind and the Gael Performance Toolkit: a post renders
+// as a locked card (blurred preview, no link) when its pubDate is still in
+// the future OR when it carries an editorial hold. See data/release.ts.
+// SMSP is always free, so this is a release schedule, not a paywall.
 
 // Locked cards keep their locked appearance when running locally, but gain a
 // preview link so unreleased drafts can be reviewed on the real page without
 // typing URLs by hand. Never rendered in production.
 const previewUnlocked = import.meta.env.DEV;
-
-const releaseDateLabel = (date: Date) =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const childPosts = allPosts
   .filter(
@@ -36,7 +28,7 @@ const childPosts = allPosts
   )
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 
-const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
+const nextRelease = childPosts.find((post) => isScheduled(post));
 ---
 
 <!DOCTYPE html>
@@ -63,9 +55,9 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
       <section class="latest-blog-box">
         <ul id="posts-list" class="latest-posts">
           {childPosts.length > 0 ? childPosts.map((post) => (
-            isUnreleased(post.data.pubDate) ? (
+            isLocked(post) ? (
               <li class="smsp-card smsp-card-locked" aria-disabled="true">
-                <span class="smsp-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                <span class="smsp-lock-badge">🔒 {lockLabel(post)}</span>
                 <h2 class="title">{post.data.title}</h2>
                 {post.data.description && (
                   <p class="description smsp-description-blur">{post.data.description}</p>
@@ -366,12 +358,15 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     margin-bottom: 0;
   }
 
+  /* Purple, not lime. This badge sits on the white .latest-blog-box, and a
+     lime pill on white is 1.19:1, so the badge shape vanished and only its
+     text showed. */
   .smsp-lock-badge {
     display: inline-block;
     margin-bottom: 0.5rem;
     padding: 0.2rem 0.6rem;
-    background: var(--green-lime);
-    color: var(--green-dark);
+    background: var(--purple);
+    color: #ffffff;
     border-radius: 999px;
     font-size: 0.72rem;
     font-weight: 800;
@@ -460,7 +455,9 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
   .smsp-card.smsp-card-locked {
     background: none;
     border: none;
-    border-bottom: 1px solid rgba(192, 254, 113, 0.16);
+    /* Divider against the white panel, so purple. The lime one was invisible
+       for the same reason the badge was. */
+    border-bottom: 1px solid rgba(105, 0, 90, 0.2);
     border-radius: 0;
     box-shadow: none;
     padding: 0.85rem 0 1rem;
@@ -485,21 +482,23 @@ const nextRelease = childPosts.find((post) => isUnreleased(post.data.pubDate));
     text-align: left;
   }
 
-  /* Locked entries sit flat on the page background (#030a06), so their text
-     has to be light. It was still the dark colour from when every card had
-     a white panel behind it, which made it unreadable. */
+  /* These were light green, on the assumption that a locked entry sits flat
+     on the dark page background. It does not: the whole list is inside
+     .latest-blog-box, which is white. Light green on white is 1.05:1, so the
+     coming-soon entries were effectively invisible. Dark text on the white
+     panel instead, at 17.4:1. */
   .smsp-card.smsp-card-locked .title,
   .smsp-card-missing .title,
   .smsp-card-planned .title {
-    color: var(--green-light) !important;
-    opacity: 0.9;
+    color: #1a1a1a !important;
+    opacity: 1;
   }
 
   .smsp-card.smsp-card-locked .description,
   .smsp-card-missing .description,
   .smsp-card-planned .description {
-    color: var(--green-light) !important;
-    opacity: 0.75;
+    color: #333333 !important;
+    opacity: 1;
   }
 
 </style>

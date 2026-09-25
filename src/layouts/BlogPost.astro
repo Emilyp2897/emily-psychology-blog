@@ -12,7 +12,7 @@ interface Props extends BlogPostData {
   postSlug?: string;
 }
 
-const { title, description, pubDate, updatedDate, postSlug, photo, photoAlt } = Astro.props as Props;
+const { title, description, pubDate, updatedDate, hold, postSlug, photo, photoAlt, photoPosition } = Astro.props as Props;
 
 const sectionRoutes: Record<string, { title: string; href: string }> = {
   'training-the-mind': {
@@ -37,13 +37,15 @@ const sectionSlug = postSlug?.split('/')[0];
 const sectionMeta = sectionSlug ? sectionRoutes[sectionSlug] : undefined;
 const isGaelToolkitPost = sectionSlug === 'gael-performance-toolkit';
 const isMindfulnessPost = sectionSlug === 'mindfulness-and-affirmations';
-const isSmspPost = sectionSlug === 'strong-minds-stronger-players';
 
-// Every article is free to read. The only gate left is the SMSP release
-// schedule: an SMSP post whose pubDate has not arrived yet shows a
-// "releases on" notice instead of its content. This is a schedule, not a
-// paywall. Training the Mind and Gael Performance Toolkit articles have no
-// gate on the article page (their release schedule is enforced on the hub).
+// Every article is free to read. The only gate left is the release schedule,
+// and it now applies to all four series, not just SMSP. It used to be SMSP
+// only, which meant a Training the Mind or Toolkit article that was locked on
+// its hub card still opened in full if you had the URL.
+//
+// Two things lock an article: a pubDate that has not arrived, or an editorial
+// hold. A held article has no date worth showing, so the gate says "coming
+// soon" rather than naming a day nobody intends to keep.
 const today = new Date();
 today.setUTCHours(0, 0, 0, 0);
 
@@ -54,7 +56,8 @@ const releaseDateLabel = pubDate.toLocaleDateString('en-GB', {
 });
 
 const bypassGatesInDev = import.meta.env.DEV;
-const showComingSoonGate = isSmspPost && pubDate > today && !bypassGatesInDev;
+const isHeldBack = hold === true;
+const showComingSoonGate = (isHeldBack || pubDate > today) && !bypassGatesInDev;
 const contentIsLocked = showComingSoonGate;
 
 const showToolkitToolsBox = sectionSlug === 'training-the-mind';
@@ -92,17 +95,28 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
       {photo && (
         <figure class="article-photo">
-          <img src={photo} alt={photoAlt ?? ""} loading="lazy" />
+          <img
+            src={photo}
+            alt={photoAlt ?? ""}
+            loading="lazy"
+            style={photoPosition ? `object-position: ${photoPosition};` : undefined}
+          />
         </figure>
       )}
 
       <article class="article-shell">
         {showComingSoonGate && (
           <div class="coming-soon-gate">
-            <p class="coming-soon-eyebrow">Releases {releaseDateLabel}</p>
+            <p class="coming-soon-eyebrow">{isHeldBack ? 'Coming soon' : `Releases ${releaseDateLabel}`}</p>
             <h2>This one is not out yet</h2>
-            <p>Strong Minds, Stronger Players releases one post a month, and this one lands on {releaseDateLabel}. The series is free for every player and coach. Check back on the day.</p>
-            <a href="/content-hub/strong-minds-stronger-players/" class="gate-cta gate-cta-back">Back to the series</a>
+            <p>
+              {isHeldBack
+                ? 'This piece is being reworked before it goes out. Every article on Mind the Gael is free, so nothing is behind a payment here. It will appear on the series page as soon as it is ready.'
+                : `This one lands on ${releaseDateLabel}. Every article on Mind the Gael is free, so nothing is behind a payment here. Check back on the day.`}
+            </p>
+            {sectionMeta && (
+              <a href={sectionMeta.href} class="gate-cta gate-cta-back">Back to {sectionMeta.title}</a>
+            )}
           </div>
         )}
 
@@ -226,6 +240,10 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
           if (toolCards.length > 0) {
             const cloud = document.createElement('div');
             cloud.className = 'tool-cloud';
+            // The CSS uses this to pick a width that balances the rows.
+            // Left to wrap on its own, five tools give four across and a
+            // single orphan underneath.
+            cloud.dataset.count = String(toolCards.length);
             toolCards[0].parentNode.insertBefore(cloud, toolCards[0]);
 
             // A native <dialog> opened with showModal(), rather than a div
@@ -626,9 +644,12 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     margin-bottom: 0.35rem;
   }
 
+  /* The lime border here was 1.15:1 against the green-light card, which is
+     effectively invisible, so the card read as a floating purple stripe.
+     Purple at low alpha gives an edge you can actually see. */
   .gael-toolkit-post .prose :global(.toolkit-tool-card) {
-    border: 2px solid var(--green-lime);
-    border-left: 6px solid var(--purple);
+    border: 1px solid rgba(105, 0, 90, 0.55);
+    border-left: 4px solid var(--purple);
     border-radius: 12px;
     padding: 1.25rem 1.3rem 1.4rem;
     background: var(--green-light);
@@ -641,6 +662,21 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     margin-bottom: 0.5rem;
     color: var(--green-dark);
     font-size: 1.25rem;
+  }
+
+  /* Match the indent used inside the tool sheet, so a tool's lists look the
+     same whether you are reading the card in the page (script did not run)
+     or in the pop-up sheet. */
+  .gael-toolkit-post .prose :global(.toolkit-tool-card ul),
+  .gael-toolkit-post .prose :global(.toolkit-tool-card ol) {
+    padding-left: 1.6rem;
+    margin-left: 0;
+    margin-bottom: 0.9rem;
+  }
+
+  .gael-toolkit-post .prose :global(.toolkit-tool-card li) {
+    margin-bottom: 0.4rem;
+    padding-left: 0.25rem;
   }
 
   /* Was a full-width solid purple block with a drop shadow, which dominated
@@ -1004,51 +1040,23 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
      These are dip-in, do-it-now pages, not long reads. Dark gradient shell
      with floating bubbles behind the content, and the tools pop out of it.
      Articles keep the white sheet, which suits long-form reading. */
+  /* ── TOOLKIT / MINDFULNESS SHELL ──────────────────────────────────────
+     Was a five-stop green-to-purple gradient behind two animated lime glow
+     blobs, inside a lime border. Every one of those competed with the tool
+     bubbles, which are the thing you are meant to look at. It is now one
+     flat dark surface with a quiet edge.
+
+     The lime was never a contrast problem: it is 16.8:1 on this background.
+     It was a quantity problem. Lime is now reserved for the things you act
+     on (links, tool numbers, buttons, focus rings) rather than applied to
+     headings, bold text, borders and glows all at once. */
   body.interactive-post .article-shell {
     position: relative;
-    background: linear-gradient(162deg, #030a06 0%, #0a1f10 26%, #240a31 58%, #0a1f10 84%, #030a06 100%);
-    border: 2px solid rgba(192, 254, 113, 0.35);
+    background: #071109;
+    border: 1px solid rgba(240, 205, 255, 0.18);
     border-radius: 20px;
     padding: 1.6rem 1.3rem 1.4rem;
     overflow: hidden;
-  }
-
-  /* Decorative bubbles. Pointer-events off so they never block a tap. */
-  body.interactive-post .article-shell::before,
-  body.interactive-post .article-shell::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body.interactive-post .article-shell::before {
-    width: 260px;
-    height: 260px;
-    top: -90px;
-    right: -70px;
-    background: radial-gradient(circle at 30% 30%, rgba(192, 254, 113, 0.28), transparent 68%);
-    animation: bubbleDrift 14s ease-in-out infinite;
-  }
-
-  body.interactive-post .article-shell::after {
-    width: 200px;
-    height: 200px;
-    bottom: -70px;
-    left: -60px;
-    background: radial-gradient(circle at 60% 40%, rgba(240, 205, 255, 0.24), transparent 68%);
-    animation: bubbleDrift 18s ease-in-out infinite reverse;
-  }
-
-  @keyframes bubbleDrift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-18px, 22px) scale(1.12); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    body.interactive-post .article-shell::before,
-    body.interactive-post .article-shell::after { animation: none; }
   }
 
   body.interactive-post .paid-content {
@@ -1062,22 +1070,27 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     color: var(--green-light);
   }
 
+  /* Lime is gone from the article body entirely. Headings and bold text are
+     white, which is 19:1 on this background and reads as calm rather than
+     highlighter. Links carry purple-light instead, so the one accent colour
+     on the page is the same one the tool bubbles use. */
   body.interactive-post .prose h2,
   body.interactive-post .prose h3,
   body.interactive-post .prose strong {
-    color: var(--green-lime);
+    color: #ffffff;
   }
 
   /* Tool tiles read as bubbles on the dark shell. */
 
-  /* References dropdown on the dark shell. */
+  /* References dropdown on the dark shell. Neutral rather than lime-tinted:
+     references are reference material, not something to draw the eye. */
   body.interactive-post .refs-details {
-    background: rgba(192, 254, 113, 0.07);
-    border-color: rgba(192, 254, 113, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   body.interactive-post .refs-summary {
-    color: var(--green-lime);
+    color: var(--green-light);
   }
 
   body.interactive-post .refs-body,
@@ -1090,13 +1103,27 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   /* ── TOOLKIT: bubble cloud ────────────────────────────────────────────
      Tools float as bubbles of mixed size rather than sitting in a grid of
      boxes. Tapping one opens it as a sheet. */
+  /* The cloud is capped narrower than the card on purpose. Left to fill the
+     full width it fits four bubbles across and drops the fifth onto a row of
+     its own, which reads as a mistake rather than a layout.
+     Capping the width forces a balanced break instead, and because this is
+     flexbox the shorter last row centres itself:
+       3 tools -> one row      5 tools -> 3 + 2
+       4 tools -> 2 + 2        6 tools -> 3 + 3
+     Every toolkit in the series has between three and six tools. */
   .tool-cloud {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 0.9rem;
-    margin: 1.5rem 0 2rem;
+    gap: 1.6rem 1.9rem;
+    max-width: min(560px, 100%);
+    margin: 1.9rem auto 2.4rem;
+  }
+
+  /* Four splits evenly only if the row cannot hold three. */
+  .tool-cloud[data-count="4"] {
+    max-width: min(400px, 100%);
   }
 
   .tool-bubble {
@@ -1107,16 +1134,20 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     justify-content: center;
     gap: 0.25rem;
     border-radius: 50%;
-    border: 3px solid var(--green-lime);
-    /* Darker core so white and lime text on top clear AA. */
-    background: radial-gradient(circle at 32% 28%, rgba(28, 74, 44, 0.92), rgba(12, 38, 24, 0.96) 70%);
-    color: var(--green-light);
+    /* Light purple bubbles with dark text, rather than dark green bubbles
+       with lime text. The cloud is the busiest thing on the page, so making
+       it the light element and the page the dark one puts the weight in the
+       right place. Purple-light is already the logo colour, so it reads as
+       brand rather than as a third scheme. */
+    border: 2px solid var(--purple);
+    background: var(--purple-light);
+    color: var(--green-dark);
     font: inherit;
     text-align: center;
     cursor: pointer;
     padding: 0.6rem;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32), inset 0 0 22px rgba(192, 254, 113, 0.14);
-    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease, border-color 0.2s ease;
     animation: bubbleFloat 6s ease-in-out infinite;
     animation-delay: calc(var(--i) * -0.9s);
   }
@@ -1125,15 +1156,19 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   .tool-bubble.is-md { width: 140px; height: 140px; }
   .tool-bubble.is-sm { width: 122px; height: 122px; }
 
+  /* Hover deepens the purple. It used to go white, which worked when the
+     card behind was dark but would now dissolve the bubble into the card. */
   .tool-bubble:hover {
     transform: scale(1.09) translateY(-4px);
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.42), inset 0 0 30px rgba(192, 254, 113, 0.26);
+    background: #e3a9f9;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
   }
 
-  /* Keyboard focus must be visible. The first version set outline: none. */
+  /* Keyboard focus must be visible. The first version set outline: none, and
+     the second used white, which is invisible on the white card. */
   .tool-bubble:focus-visible {
     transform: scale(1.09) translateY(-4px);
-    outline: 4px solid #ffffff;
+    outline: 4px solid var(--purple);
     outline-offset: 3px;
   }
 
@@ -1152,21 +1187,31 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 1;
-    color: var(--green-lime);
+    color: var(--purple);
   }
 
+  /* The sheet is white now, so a lime focus ring would be 1.19:1 and
+     invisible. Purple is 12:1 on it. */
   .tool-sheet-close:focus-visible,
-  .tool-sheet-tried:focus-visible,
-  .refs-summary:focus-visible {
-    outline: 3px solid var(--green-lime);
+  .tool-sheet-tried:focus-visible {
+    outline: 3px solid var(--purple);
     outline-offset: 2px;
+  }
+
+  .refs-summary:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 2px;
+  }
+
+  body.interactive-post .refs-summary:focus-visible {
+    outline-color: #ffffff;
   }
 
   .tool-bubble-name {
     font-size: 0.76rem;
     font-weight: 700;
     line-height: 1.22;
-    color: #ffffff;
+    color: var(--green-dark);
     padding: 0 0.2rem;
   }
 
@@ -1177,8 +1222,10 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: var(--green-lime);
-    color: var(--green-dark);
+    /* Was lime on a dark bubble. On the light purple bubble lime is 1.4:1,
+       so the tick becomes a solid purple disc with a white check instead. */
+    background: var(--purple);
+    color: #ffffff;
     font-size: 0.8rem;
     font-weight: 800;
     line-height: 22px;
@@ -1188,7 +1235,14 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   }
 
   .tool-bubble.is-tried .tool-bubble-tick { opacity: 1; transform: scale(1); }
-  .tool-bubble.is-tried { border-color: #ffffff; }
+
+  /* The tick itself is the cue, and a tick is a shape rather than a colour,
+     so the state does not depend on colour vision. The ring just thickens.
+     A lime ring was tried here first and measured 1.19:1 against the purple
+     bubble, which is invisible. */
+  .tool-bubble.is-tried {
+    border-width: 4px;
+  }
 
   .tool-card-collapsed { display: none; }
 
@@ -1215,12 +1269,15 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     max-width: 620px;
     max-height: 86vh;
     overflow-y: auto;
-    background: linear-gradient(170deg, #0d2417 0%, #1c0c26 100%);
-    border: 3px solid var(--green-lime);
+    /* White card with dark text. The tool sheet is the part you actually read
+       and work from, often with your phone in one hand at training, so it is
+       the one surface that should behave like a page rather than a mood. */
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.25);
     border-bottom: none;
     border-radius: 26px 26px 0 0;
     padding: 1.1rem 1.3rem 1.5rem;
-    color: var(--green-light);
+    color: #1a1a1a;
     animation: sheetUp 0.26s cubic-bezier(.22,1,.36,1);
   }
 
@@ -1234,9 +1291,9 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     margin: 0 0 0.6rem auto;
     padding: 0.35rem 0.9rem;
     border-radius: 999px;
-    border: 2px solid rgba(192, 254, 113, 0.5);
+    border: 2px solid var(--purple);
     background: transparent;
-    color: var(--green-lime);
+    color: var(--purple);
     font: inherit;
     font-weight: 700;
     font-size: 0.82rem;
@@ -1245,14 +1302,44 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   .tool-sheet-body h2 {
     margin: 0 0 0.7rem;
-    color: var(--green-lime);
+    color: var(--purple);
     font-size: 1.2rem;
   }
 
   .tool-sheet-body p,
   .tool-sheet-body li {
-    color: var(--green-light);
+    color: #1a1a1a;
     line-height: 1.6;
+  }
+
+  .tool-sheet-body strong {
+    color: var(--purple);
+  }
+
+  /* Lists inside a tool card need their indent restored by hand. The global
+     reset zeroes padding on everything, .prose puts it back, but the sheet is
+     appended to <body> and so sits outside .prose entirely. Without this the
+     bullets and numbers sat flush with the text and the markers hung off the
+     left edge of the panel. */
+  .tool-sheet-body ul,
+  .tool-sheet-body ol {
+    padding-left: 1.6rem;
+    margin: 0 0 0.9rem;
+  }
+
+  .tool-sheet-body li {
+    margin-bottom: 0.4rem;
+    padding-left: 0.25rem;
+  }
+
+  .tool-sheet-body li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Nested lists step in again rather than restarting at the same depth. */
+  .tool-sheet-body li > ul,
+  .tool-sheet-body li > ol {
+    margin: 0.4rem 0 0;
   }
 
   .tool-sheet-tried {
@@ -1262,8 +1349,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     padding: 0.7rem;
     border-radius: 14px;
     border: none;
-    background: var(--green-lime);
-    color: var(--green-dark);
+    background: var(--purple);
+    color: #ffffff;
     font: inherit;
     font-weight: 800;
     cursor: pointer;
@@ -1278,7 +1365,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     .tool-bubble-num { font-size: 1.25rem; }
     .tool-bubble-name { font-size: 0.7rem; }
     .story-stage { min-height: 60vh; padding: 1rem 1rem 0.5rem; }
-    .story-card h2 { font-size: 1.25rem; }
+    .story-card h2 { font-size: 1.25rem; padding-right: 52px; }
+    .story-card::after { width: 46px; height: 46px; top: 1.45rem; right: 0.85rem; }
   }
   /* Optional article hero photo, set via `photo:` in frontmatter. */
   .article-photo {
@@ -1288,6 +1376,9 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     border: 2px solid rgba(105, 0, 90, 0.2);
   }
 
+  /* Default focal point suits a portrait or action shot, where the subject
+     sits high in the frame. Override per article with `photoPosition` in
+     frontmatter when the subject sits lower (a team photo, for instance). */
   .article-photo img {
     display: block;
     width: 100%;
@@ -1327,6 +1418,23 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     padding: 2.9rem 1.6rem 1.7rem;
     min-height: 52vh;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+  }
+
+  /* Shamrock in the top right corner of every card. Decorative only, so it
+     is a background on a pseudo-element rather than an <img>: nothing for a
+     screen reader to announce on all six cards, and no extra node for the
+     card-building script to trip over. Sits below the progress bars, and the
+     heading gets matching right padding so a long title wraps clear of it. */
+  .story-card::after {
+    content: "";
+    position: absolute;
+    top: 1.55rem;
+    right: 1.05rem;
+    width: 58px;
+    height: 58px;
+    background: url("/assets/saoirse.png") no-repeat center / contain;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .story-card.is-active {
@@ -1377,6 +1485,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
      it light green on a white card. */
   body.interactive-post .story-card h2 {
     margin: 0 0 0.9rem;
+    /* Keeps a long title from running under the corner shamrock. */
+    padding-right: 66px;
     color: var(--mind-orange-text);
     font-size: 1.5rem;
     line-height: 1.2;
@@ -1391,7 +1501,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     line-height: 1.62;
   }
 
-  body.interactive-post .story-card strong {
+  body.interactive-post .story-card strong,
+  body.interactive-post .story-card h3 {
     color: var(--mind-orange-text);
   }
 
@@ -1447,8 +1558,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   body.interactive-post .prose a,
   body.interactive-post .prose a:link,
   body.interactive-post .prose a:visited {
-    color: var(--green-lime) !important;
-    text-decoration-color: rgba(192, 254, 113, 0.6);
+    color: var(--purple-light) !important;
+    text-decoration-color: rgba(240, 205, 255, 0.6);
   }
 
   body.interactive-post .prose a:hover,
@@ -1458,7 +1569,7 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   }
 
   body.interactive-post .prose a:focus-visible {
-    outline: 3px solid var(--green-lime);
+    outline: 3px solid #ffffff;
     outline-offset: 2px;
     border-radius: 3px;
   }
@@ -1467,11 +1578,11 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   body.interactive-post .prose .practical-tools-banner,
   body.interactive-post .prose .shamrock-banner-purple {
     color: var(--green-light);
-    border-left-color: var(--green-lime);
+    border-left-color: var(--purple-light);
   }
 
   body.interactive-post .prose .practical-tools-banner a {
-    color: var(--green-lime) !important;
+    color: var(--purple-light) !important;
   }
 
   /* The story cards are light, so links inside them stay dark for contrast. */
@@ -1502,11 +1613,30 @@ body.interactive-post .story-card .refs-body em {
   opacity: 1;
 }
 
-  /* Tool sheet sits on a dark panel, so lime again. */
+  /* The sheet is a white card now, so links go dark purple (12:1) rather
+     than lime, which was 1.19:1 on white and unreadable. */
   body.interactive-post .tool-sheet-body a,
   body.interactive-post .tool-sheet-body a:link,
   body.interactive-post .tool-sheet-body a:visited {
-    color: var(--green-lime) !important;
+    color: var(--purple) !important;
+  }
+
+  /* Same for a references block, if one ever ends up inside a tool card. */
+  body.interactive-post .tool-sheet-body .refs-details {
+    background: rgba(105, 0, 90, 0.05);
+    border-color: rgba(105, 0, 90, 0.35);
+  }
+
+  body.interactive-post .tool-sheet-body .refs-summary {
+    color: var(--purple);
+  }
+
+  body.interactive-post .tool-sheet-body .refs-body,
+  body.interactive-post .tool-sheet-body .refs-body li,
+  body.interactive-post .tool-sheet-body .refs-body p,
+  body.interactive-post .tool-sheet-body .refs-body em {
+    color: #1a1a1a;
+    opacity: 1;
   }
 
   /* Mindfulness pages: no lime frame around the card. The card is the only
@@ -1523,6 +1653,84 @@ body.interactive-post .story-card .refs-body em {
   body.mindfulness-post .article-shell::before,
   body.mindfulness-post .article-shell::after {
     display: none;
+  }
+
+  /* ── TOOLKIT PAGES: WHITE CARD ────────────────────────────────────────
+     The toolkit article is a white page with purple shamrocks on it, not a
+     dark one. Scoped to .gael-toolkit-post rather than .interactive-post on
+     purpose: mindfulness shares that class, and its story cards supply their
+     own light surface, so flipping both would leave mindfulness text dark on
+     a dark background.
+
+     These rules match the specificity of the body.interactive-post ones
+     above, so they have to sit after them in source order to win. Keep this
+     block last. */
+  body.gael-toolkit-post .article-shell {
+    background: #ffffff;
+    border: 1px solid rgba(105, 0, 90, 0.22);
+    color: #1a1a1a;
+  }
+
+  body.gael-toolkit-post .paid-content,
+  body.gael-toolkit-post .prose p,
+  body.gael-toolkit-post .prose li,
+  body.gael-toolkit-post .prose td,
+  body.gael-toolkit-post .prose th {
+    color: #1a1a1a;
+  }
+
+  body.gael-toolkit-post .prose h2,
+  body.gael-toolkit-post .prose h3,
+  body.gael-toolkit-post .prose strong {
+    color: var(--purple);
+  }
+
+  body.gael-toolkit-post .prose a,
+  body.gael-toolkit-post .prose a:link,
+  body.gael-toolkit-post .prose a:visited {
+    color: var(--purple) !important;
+    text-decoration-color: rgba(105, 0, 90, 0.5);
+  }
+
+  body.gael-toolkit-post .prose a:hover,
+  body.gael-toolkit-post .prose a:focus-visible {
+    color: #2e0028 !important;
+    text-decoration-color: #2e0028;
+  }
+
+  body.gael-toolkit-post .prose a:focus-visible {
+    outline: 3px solid var(--purple);
+  }
+
+  /* References dropdown, back to dark-on-light. */
+  body.gael-toolkit-post .refs-details {
+    background: rgba(105, 0, 90, 0.04);
+    border-color: rgba(105, 0, 90, 0.3);
+  }
+
+  body.gael-toolkit-post .refs-summary {
+    color: var(--purple);
+  }
+
+  body.gael-toolkit-post .refs-summary:focus-visible {
+    outline-color: var(--purple);
+  }
+
+  body.gael-toolkit-post .refs-body,
+  body.gael-toolkit-post .refs-body li,
+  body.gael-toolkit-post .refs-body p,
+  body.gael-toolkit-post .refs-body em {
+    color: #1a1a1a;
+  }
+
+  body.gael-toolkit-post .prose .practical-tools-banner,
+  body.gael-toolkit-post .prose .shamrock-banner-purple {
+    color: #1a1a1a;
+    border-left-color: var(--purple);
+  }
+
+  body.gael-toolkit-post .prose .practical-tools-banner a {
+    color: var(--purple) !important;
   }
 
 </style>

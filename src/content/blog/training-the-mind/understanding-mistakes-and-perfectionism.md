@@ -11,7 +11,7 @@ A lot of players are praised for being "perfectionists". It gets framed as a vir
 
 ## Two kinds of perfectionism
 
-The work of Flett and Hewitt (2005) and later research has shown there are two flavours of perfectionism, and they have very different effects.
+The research has shown there are two flavours of perfectionism, and they have very different effects.
 
 **Adaptive perfectionism** is high standards. You want to do well, you care about the detail, you put the work in. This is generally helpful for performance.
 
@@ -59,7 +59,7 @@ The cycle gets tighter. You play worse, not because you've gotten worse, but bec
 
 ## What error management research says
 
-Error management research (Frese & Keith, 2015) found something useful. Teams that explicitly TRAIN with mistakes (creating drills where errors are expected, then reset and try again) develop better resilience than teams that punish errors.
+Error management research found something useful. Teams that explicitly TRAIN with mistakes (creating drills where errors are expected, then reset and try again) develop better resilience than teams that punish errors.
 
 This is because the brain learns from error in two ways:
 - **Avoidance:** "Never do that again." Narrow, anxious, brittle.

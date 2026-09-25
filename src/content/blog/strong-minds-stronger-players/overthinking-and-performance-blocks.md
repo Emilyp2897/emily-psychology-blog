@@ -2,6 +2,7 @@
 title: "Overthinking and Performance Blocks"
 description: "When the mind starts running too loud to play, the issue is not effort. This post helps you spot when overthinking needs more than a refocus drill."
 pubDate: "2026-09-13"
+hold: true
 photo: "/assets/articles/DSC_1498.jpg"
 photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
@@ -26,7 +27,7 @@ But there is a point where overthinking becomes more than a focus issue. When it
 
 ## When it crosses the line
 
-A normal overthinking phase clears with rest and a routine reset. A performance block does not. Beilock & Carr's (2001) research on Choking Under Pressure shows that conscious attention to automated movements is what breaks them down, a pattern called "reinvestment" (Masters 1992). The longer the block runs, the more anxiety reinforces it, and the harder it gets to interrupt on your own.
+A normal overthinking phase clears with rest and a routine reset. A performance block does not. The research on choking under pressure shows that conscious attention to automated movements is what breaks them down, a pattern known as reinvestment. The longer the block runs, the more anxiety reinforces it, and the harder it gets to interrupt on your own.
 
 If you have been stuck in the same block for more than a few months, if it is affecting your sleep or your willingness to be at training, or if you find yourself avoiding specific scenarios (the free, the one-on-one, the start of a game), that is the point where a sport psychologist becomes the right call.
 

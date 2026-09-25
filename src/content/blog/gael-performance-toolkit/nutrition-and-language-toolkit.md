@@ -84,7 +84,7 @@ Why bother:
 
 You don't have to share it with anyone. It's yours.
 
-**Why it works:** menstrual cycle research (McNulty et al., 2020) is still emerging, but it's clear that cycle phase affects training response, recovery, mood, and injury risk for many (not all) athletes. Knowing where you are is information. Information is power.
+**Why it works:** menstrual cycle research is still emerging, but it's clear that cycle phase affects training response, recovery, mood, and injury risk for many (not all) athletes. Knowing where you are is information. Information is power.
 
 ## Tool 5: When to Seek Professional Help
 

@@ -37,7 +37,7 @@ The general clinical line: low mood OR loss of interest, plus other symptoms, pr
 - Keep one anchor. A morning walk, a coffee with someone, a weekly gym session. The anchor protects rhythm.
 - Schedule connection. Even one social commitment a week stops isolation from setting in.
 - Daylight in the morning. Particularly important in winter; 20 minutes of outdoor daylight in the first hour after waking helps the body clock.
-- Move daily. Walking counts. Movement is one of the strongest evidence-based protections against low mood (Schuck et al. 2016).
+- Move daily. Walking counts. Movement is one of the strongest evidence-based protections against low mood.
 - Plan one thing to look forward to. It does not have to be big.
 
 > **ADD YOUR EXPERIENCE HERE**

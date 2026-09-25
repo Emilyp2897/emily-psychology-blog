@@ -47,7 +47,7 @@ Knowing what stage your team is in helps you not take everything personally. Sto
 
 ## Belonging
 
-There's a separate but related piece of research on belonging. Baumeister and Leary (1995) called it a fundamental human need. We are wired to need to feel part of the group.
+There's a separate but related piece of research on belonging. It has been called a fundamental human need. We are wired to need to feel part of the group.
 
 In a sports team, belonging shows up in small ways:
 - Who you sit with at the team meal

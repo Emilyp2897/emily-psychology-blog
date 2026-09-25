@@ -2,6 +2,7 @@
 title: "How Pressure Shows Up in Ladies Gaelic Football"
 description: "The specific pressures female Gaelic players carry that aren't about ability. Selection anxiety, fear of letting the team down, social comparison, and the dual-career load."
 pubDate: "2026-09-08"
+hold: true
 photo: "/assets/articles/FLO_1548.jpg"
 photoAlt: "Squad photo after a championship win"
 track: "training-the-mind"
@@ -56,7 +57,7 @@ The trouble starts when comparison quietly turns into self-evaluation. ***"She's
 
 And once you're assessing yourself rather than reading the game, your attention is in the wrong place entirely. You're not watching the play develop, you're watching yourself and marking your own performance as it happens.
 
-Mosewich and colleagues (2013) worked with women athletes on exactly this, and found that self-criticism was common, and that learning to respond to yourself with more self-compassion actually improved things. I know how that sounds. Self-compassion is not a word that gets used much in a dressing room. But it isn't softness, and it isn't lowering your standards. It's the difference between "that was a poor ball, sort it out" and "you're useless, why are you even here". One of those keeps you in the game.
+Research with women athletes on exactly this found that self-criticism was common, and that learning to respond to yourself with more self-compassion actually improved things. I know how that sounds. Self-compassion is not a word that gets used much in a dressing room. But it isn't softness, and it isn't lowering your standards. It's the difference between "that was a poor ball, sort it out" and "you're useless, why are you even here". One of those keeps you in the game.
 
 > **ADD YOUR EXPERIENCE HERE**
 >
@@ -76,7 +77,7 @@ If that's you, know that going quiet about your own struggle isn't protecting an
 
 Most ladies Gaelic players are not full-time athletes. You have a job, or college, or children, or a long commute, and plenty of you have several of those at once.
 
-Wylleman and Lavallee (2004) describe this as the dual career. Your athletic life doesn't run on its own, it runs alongside your working life, your studies and your relationships, all developing at the same time and all making demands. When those demands rise together, the thing that gets squeezed is recovery, because recovery is the only part of the week with no one else depending on it.
+This is what gets called the dual career. Your athletic life doesn't run on its own, it runs alongside your working life, your studies and your relationships, all developing at the same time and all making demands. When those demands rise together, the thing that gets squeezed is recovery, because recovery is the only part of the week with no one else depending on it.
 
 You come to training already depleted after a twelve-hour shift or a brutal week of deadlines, and the pressure of the session lands on a system that has less left to give. Your capacity to absorb it genuinely is lower that evening than it would have been on a quiet week.
 

@@ -1,111 +1,80 @@
 ---
 title: "Understanding Championship Pressure and Fear of Failure"
-description: "Threat vs challenge appraisal, what your body does in big-game weeks, and why fear of failure is the most common pressure pattern in elite female athletes."
+description: "Why two players can feel the exact same racing heart and only one of them plays well. And why fear of failure is almost never about the football."
 pubDate: "2026-09-14"
 tags: ["championship"]
 photo: "/assets/articles/CiaraFlan-London-1.jpg"
 photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
 ---
-Championship brings bigger games, higher stakes and a lot more noise around the squad. Sometimes the fear of failing begins to outweigh the reason you play in the first place.
 
-The research on this is worth knowing, because it is easier to manage once you can see it clearly.
+When I was 16 I missed a penalty in an All-Ireland quarter final against Meath which led to us losing the game. I felt like I had failed everyone around me for weeks afterwards. Not because we lost a match, but because of what I decided that miss said about me.
 
-## Threat vs Challenge
+I decided it made me a failure, that I wasn't good enough to play for Cork, that somebody else should have taken the penalty.
 
-**biopsychosocial appraisal** is one of the most useful frameworks for understanding big-game psychology.
+That is what championship pressure usually is. It is very rarely about the football.
 
-When you face a high-stakes situation, your brain makes a rapid appraisal. Two possibilities:
+## Two players, same heart rate
 
-**Threat appraisal:** "The demands of this situation are greater than my resources to meet them." Your body responds with a stress response designed for danger. Vasoconstriction, heart pounding hard, attention narrows defensively, mouth dry.
+When you walk into a big game your mind makes a very fast judgement, before you have consciously thought about anything. Can I handle this, or can I not?
 
-**Challenge appraisal:** "The demands are high **BUT** I have the resources to meet them." Your body responds with a performance-ready state. Higher heart rate but with good circulation, attention focused outward, energised but not panicked.
+If your mind decides you cannot, that is threat. Tight chest, dry mouth, and everything closes in. You start playing not to lose.
 
-Same situation. Same heart rate. Completely different internal experience and external performance.
+If your mind decides you can, that is challenge. Your heart still hammers. But you feel ready rather than swamped.
 
-The research is consistent: athletes who appraise big games as challenges outperform athletes who appraise them as threats, even when their skill levels are similar.
+players who read a big game as a challenge tend to play better than players of the same ability who read it as a threat.
 
-> **ADD YOUR EXPERIENCE HERE**
->
-> A moment from your own playing that fits what is above. Local only.
+So the goal was never to calm down. I spent years trying to calm down. The goal is to shift which of the two your mind lands on.
 
-## What pushes you into threat appraisal
+That's what challenge looks like. Here's threat, from the same season.
 
-Several common ones for championship weeks:
+This year, playing Wandsworth, I missed shot after shot. More wide than I care to count.
 
-- **Sleep loss.** You're stressed, sleep gets worse, body is in deficit going into the game.
-- **Replaying the worst case.** Visualising losing, missing, embarrassment. The brain rehearses what you fear most.
-- **Comparing to past failures.** "Last year we lost in the same round." Brings the body into protective mode.
-- **Outcome focus.** Thinking about winning, losing, medals. Not about the play itself.
-- **Information overload.** Too much tactical analysis right before. Brain can't hold it all.
-- **Public stakes.** Newspapers, social media, family expectations. The audience grows.
+The old version of me would have taken that as evidence. Wide, wide, wide, three strikes and you're the problem. That's what happened with the penalty, one miss became a verdict.
 
-## What helps challenge appraisal
+This time it didn't. Every time I missed I just said to myself: next ball. Head down. That was it. Not "you're better than this," not "come on," just the two things I could actually do something about. Where my head was, and what I did next.
 
-- **Sleep, properly.** Non-negotiable in championship week.
-- **Visualise success specifically.** Imagery of **HOW** you'll play well, not just winning.
-     
-    - I will take my shots when they are on
-    - I will work hard off the ball
-    - I will give and go quickly
+It sounds too small to matter. That's the point. I wasn't managing how I felt about the misses. I wasn't trying to talk myself back into confidence. I was giving myself a job small enough to do immediately, and doing it again, and again, shot after shot.
 
-- **Compare to past success.** "We've won big games before. Here's what was different."
-- **Process focus.** What's my role in the first 10 minutes? Not the scoreline.
-- **Simplify the tactics.** Two or three things, not twelve.
-- **Manage public stakes.** Off social media in championship week. Limit family chat about the game.
+That's challenge. Not the absence of missing. Not even the absence of caring that I missed. It's just refusing to let the miss become a story about what I am.
 
-> **ADD YOUR EXPERIENCE HERE**
->
-> A moment from your own playing that fits what is above. Local only.
+## Fear of failure is a social fear
 
-## Fear of failure specifically
+Fear of failure splits five ways:
+1. Being ashamed or embarrassed. 
+2. Thinking less of yourself. 
+3. Not knowing what happens next. 
+4. Important people losing interest in you. 
+5. Letting important people down.
 
-Conroy and others have done useful research on fear of failure in athletes. It's broken down into five components:
+Read those again. Not one of them is about football.
 
-- Fear of shame and embarrassment.
-- Fear of devaluing your self-estimate.
-- Fear of having an uncertain future.
-- Fear of important others losing interest.
-- Fear of upsetting important others.
+That is why "just try harder" or "be more positive" does nothing for it, and why I couldn't think my way out of that penalty. I was not afraid of the ball. I was afraid of what missing it meant about me.
 
-Notice: none of these are about the game itself. They're all about what failing would MEAN, socially or to your sense of self.
+You cannot argue yourself out of that in a warm-up. But you can work out which of the five it actually is for you, and naming it takes a surprising amount of heat out of it.
 
-This is why fear of failure isn't fixed by trying harder. It's fixed by changing what you think failure would mean.
+## The week itself
 
-## The week-of-game patterns
+Championship week has a shape to it, and most players who feel it quietly think they are the only one.
 
-In championship week, predictable patterns emerge:
+For some it is sleep. For others it is the body, where every twinge turns into a question. Or the form, where every poor pass in training becomes evidence. Some go looking for the opposition on Instagram. Some read the coach's body language like it is a message. For plenty of people it goes straight to the stomach.
 
-- **Sleep gets worse.** Anticipatory anxiety messes with melatonin.
-- **You overcheck your body.** Every twinge becomes "am I injured."
-- **You overcheck your form.** Every poor pass in training becomes evidence.
-- **Comparison ramps up.** You watch the opposition's social media.
-- **You become hypervigilant.** Tactical conversations feel charged. Coach body language gets analysed.
-- **Stomach issues.** Stress hits the gut.
+You will not get all of that. You might get none of it, and that is not a sign you do not care. But if two or three of them sound familiar, that is your nervous system filing the week under threat, and it is worth knowing that is what is happening.
 
-These are normal. They're also signs that your nervous system is interpreting the week as threat. The fix isn't to suppress them, it's to address the appraisal.
+## What I would tell 16 year old me
 
-> **ADD YOUR EXPERIENCE HERE**
->
-> A moment from your own playing that fits what is above. Local only.
+- Protect your sleep if sleep is the thing that goes for you. For a lot of players it is the first thing to break.
+- Picture the job, not the result. "Three tackles in the first ten minutes" beats "win the game" every time, because one of them is yours to do.
+- Find the big game you did handle well and work out what was different. Your mind will offer you the disasters first. Make it produce the other list.
+- Turn the volume down for the week. Less scrolling, less analysis, fewer conversations about Sunday.
+- Pick one thing to hold when it gets loud. First to every ball. Stay in shape. Anything concrete.
+- Ask what you are genuinely afraid of. Not the match. The thing underneath it.
 
-## What you can do this week
+Championship pressure does not go anywhere, and it should not. It is there because you care. The players who handle it best are not the ones who stopped feeling it. They learned to read it differently, and they had something to do with their hands while they did.
 
-- **Sleep is the foundation.** Protect it. Same time every night. No screens an hour before.
-- **Visualise specifically.** Not "I want to win". "I want to make 3 strong tackles in the first 10 minutes." Process-specific.
-- **Limit input.** Less social media. Less tactical analysis. Less family chat about the game.
-- **One process anchor for the game.** "First to every ball." "Stay in defensive shape." Something concrete.
-- **Audit the fear of failure.** What are you ACTUALLY afraid of? Once you can name it, you can manage it.
+Nobody is born with that. I did not have it at 16.
 
-The practical setup is at [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
-
-## The most important takeaway
-
-Championship pressure isn't going away. It's part of caring about the sport.
-
-The athletes who handle it best aren't the ones who don't feel it. They're the ones who've trained themselves to appraise it as challenge rather than threat, and have the routines to back it up.
-
-This is a learned skill. It's available to you.
+The practical version is in the [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
 
 ## References
 

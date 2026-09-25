@@ -56,7 +56,7 @@ This works for coach conversations, captain conversations, teammate conversation
 
 You don't need to grovel. You don't need to win the argument. You just need to close the loop.
 
-**Why it works:** Psychological safety research (Edmondson, 1999) shows that teams that repair after conflict have stronger trust than teams that never conflict. The repair, not the absence of conflict, is what builds the culture.
+**Why it works:** Psychological safety research shows that teams that repair after conflict have stronger trust than teams that never conflict. The repair, not the absence of conflict, is what builds the culture.
 
 ## Tool 4: The Newcomer Welcome
 
@@ -71,7 +71,7 @@ You don't need to grovel. You don't need to win the argument. You just need to c
 
 That's it. You don't need to host her or take her under your wing. You just need to be the first person who treated her like a person.
 
-**Why it works:** belonging research (Baumeister & Leary, 1995) shows the first impression of a group sets the tone for the rest of the relationship. Five minutes of intentional welcome can shape months of fit.
+**Why it works:** belonging research shows the first impression of a group sets the tone for the rest of the relationship. Five minutes of intentional welcome can shape months of fit.
 
 ## Putting it together
 

@@ -64,7 +64,7 @@ Most coaches react to low motivation by pushing harder. Push through. Show up an
 
 ## The burnout curve
 
-Burnout research in athletes (Gustafsson and others have done good work on this) describes three stages:
+Burnout research in athletes describes three stages:
 
 1. **Reduced sense of accomplishment.** "I work hard but I'm not improving." Confidence dropping. Effort feeling pointless.
 2. **Emotional and physical exhaustion.** You're tired in a way that doesn't lift with rest. Training feels like a slog.

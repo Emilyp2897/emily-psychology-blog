@@ -2,6 +2,7 @@
 title: "Choking Under Pressure: Why You Freeze in Big Moments Even When You Know What to Do"
 description: "What's actually happening when a skill you've done a hundred times in training falls apart in a match, and what the research says about why."
 pubDate: "2026-09-12"
+hold: true
 photo: "/assets/articles/IMG_4077.JPG"
 photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
@@ -25,7 +26,7 @@ In sport psychology, choking under pressure refers to a noticeable drop in perfo
 
 What makes this different from general performance issues is that you can do the skill. You have done it before. But something changes in the moment it matters most.
 
-Researchers like Baumeister (1984) were some of the first to explain this, showing that pressure can create a kind of "paradox effect". The more important the moment feels, the more likely performance is to break down.
+Some of the earliest work on this showed that pressure can create a kind of "paradox effect". The more important the moment feels, the more likely performance is to break down.
 
 > **ADD YOUR EXPERIENCE HERE**
 >
@@ -33,7 +34,7 @@ Researchers like Baumeister (1984) were some of the first to explain this, showi
 
 ## Why does this happen?
 
-One of the strongest explanations comes from Beilock and Carr (2001) and later DeCaro et al. (2011).
+One of the strongest explanations comes from the research on self-focus and distraction.
 
 They found that choking happens when performance shifts from being automatic to overly controlled.
 
@@ -103,7 +104,7 @@ This is where I want to make something really clear, because it connects to what
 
 They are related, but they are not the same thing.
 
-Attention Control Theory (Eysenck et al., 2007) explains what anxiety does to your attention in general.
+Attention Control Theory explains what anxiety does to your attention in general.
 
 It says:
 

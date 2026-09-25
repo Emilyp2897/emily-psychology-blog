@@ -26,7 +26,7 @@ For each week, write down ONE process goal. Not an outcome.
 - Outcome: "Lose 2kg by championship."
 - Process: "Eat a protein-rich breakfast 5 days this week."
 
-**Why it works:** Goal-Setting Theory (Locke & Latham, 2002) shows process goals are within your control. Outcomes depend on factors outside you (the opposition, the referee, the conditions). When you train your brain to measure success by process, you build evidence of progress regardless of outcomes.
+**Why it works:** Goal-Setting Theory shows process goals are within your control. Outcomes depend on factors outside you (the opposition, the referee, the conditions). When you train your brain to measure success by process, you build evidence of progress regardless of outcomes.
 
 ## Tool 2: The 3 Bucket Goal Frame
 

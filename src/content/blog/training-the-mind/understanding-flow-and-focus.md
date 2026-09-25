@@ -64,7 +64,7 @@ In a threat appraisal: "this game is too big, I might fail, I'm at risk". Flow w
 
 In a challenge appraisal: "this game is big and I'm ready for it, let's see what I can do". Flow becomes possible.
 
-The challenge/threat distinction (Blascovich & Mendes, 2000) is what the championship posts dig into. For now: pressure isn't the enemy of flow. The interpretation of pressure is.
+The challenge/threat distinction is what the championship posts dig into. For now: pressure isn't the enemy of flow. The interpretation of pressure is.
 
 ## How female athletes specifically can set up flow
 

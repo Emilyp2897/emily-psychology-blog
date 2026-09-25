@@ -2,6 +2,7 @@
 title: "Rumination, Shame and Where to Turn"
 description: "Replaying mistakes for hours after a game is more common than people admit. This post helps you spot when it becomes something that needs support."
 pubDate: "2026-09-09"
+hold: true
 photo: "/assets/articles/DSC_1575.jpg"
 photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"

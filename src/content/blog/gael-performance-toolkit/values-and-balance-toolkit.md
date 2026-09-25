@@ -25,7 +25,7 @@ Step 3: narrow the 5 down to your top 3.
 
 Step 4: for each of your top 3, write one sentence about what living that value looks like in your life right now. NOT in sport specifically. In your life.
 
-**Why it works:** values clarification is the foundation of acceptance and commitment therapy work. Athletes who have a clear sense of what they value beyond performance are more resilient through setbacks, injury, and retirement (Brewer et al., 1993, and follow-up research).
+**Why it works:** values clarification is the foundation of acceptance and commitment therapy work. Athletes who have a clear sense of what they value beyond performance are more resilient through setbacks, injury, and retirement.
 
 ## Tool 2: The Life Domain Audit
 

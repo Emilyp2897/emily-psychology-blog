@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import Anthropic from '@anthropic-ai/sdk';
+import { CHAT_ENABLED } from '../../lib/chat-enabled';
 
 export const prerender = false;
 
@@ -272,6 +273,20 @@ function jsonResponse(payload: ChatApiResponse, init: ResponseInit = {}): Respon
 
 export const POST = async ({ request }: { request: Request }) => {
   const clientKey = getClientKey(request);
+
+  // Hard stop before anything else. Hiding the UI is not enough on its own:
+  // this endpoint is a public URL, and a hand-crafted POST would still reach
+  // Anthropic and cost money. Returning here means no knowledge base is
+  // built and no client is ever constructed. See lib/chat-enabled.ts.
+  if (!CHAT_ENABLED) {
+    return jsonResponse(
+      {
+        error: 'Saoirse is unavailable at the moment. The support resources page is still here if you need it.',
+        safety: safetyMeta(),
+      },
+      { status: 503 }
+    );
+  }
 
   try {
     if (isRateLimited(clientKey)) {

@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
-// Rendered on demand rather than prerendered. The SMSP release gate in
+// Rendered on demand rather than prerendered. The release gate in
 // BlogPost.astro compares pubDate against "now", and the hub pages are also
 // on-demand, so a prerendered article would still show "not out yet" after
 // its hub card had already unlocked.

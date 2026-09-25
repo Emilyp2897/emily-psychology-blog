@@ -5,6 +5,7 @@ pubDate: "2026-09-16"
 tags: ["championship"]
 photo: "/assets/articles/70257319-EA75-41CC-BBFC-1EDC112894FF.jpg"
 photoAlt: "Team with the cup"
+photoPosition: "center 85%"
 track: "training-the-mind"
 ---
 ## Monday of championship week

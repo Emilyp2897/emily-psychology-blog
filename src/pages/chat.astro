@@ -4,6 +4,17 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import saoirseImage from '../assets/saoirse.png';
+import { CHAT_ENABLED } from '../lib/chat-enabled';
+
+// Rendered on demand so the redirect below is decided per request rather
+// than frozen at build time.
+export const prerender = false;
+
+// Saoirse is off on the public site by default: every message is a paid
+// API call. The page itself is left intact below. See lib/chat-enabled.ts.
+if (!CHAT_ENABLED) {
+  return Astro.redirect('/resources', 302);
+}
 ---
 
 <!doctype html>

@@ -27,7 +27,7 @@ Within this, know:
 - What music (if any) works?
 - Who do you avoid in the dressing room (the energy-drain) and who do you stand near (the energy-lift)?
 
-**Why it works:** routines reduce cognitive load. Your brain doesn't have to decide what to do; it just runs the routine. This frees attention for what matters once the match starts. Pre-performance routine research (Cotterill, 2010) shows consistent routines reliably improve focus and reduce anxiety.
+**Why it works:** routines reduce cognitive load. Your brain doesn't have to decide what to do; it just runs the routine. This frees attention for what matters once the match starts. Pre-performance routine research shows consistent routines reliably improve focus and reduce anxiety.
 
 ## Tool 2: External Focus Cues
 
@@ -44,7 +44,7 @@ Have a short list of EXTERNAL focus cues. Things outside you.
 
 When you notice your attention pulling inward ("what do I do, what if I miss"), pivot to one external cue. Say it in your head if needed.
 
-**Why it works:** internal focus on technique disrupts automatic execution (Beilock & Carr, 2001). External focus on the task keeps you in the play. The shift takes one second once you've practised it.
+**Why it works:** internal focus on technique disrupts automatic execution. External focus on the task keeps you in the play. The shift takes one second once you've practised it.
 
 ## Tool 3: The 60-Second Re-Settle
 

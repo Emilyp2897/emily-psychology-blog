@@ -7,7 +7,7 @@ track: "stronger-minds-stronger-players"
 
 Being tired after a hard block is normal. Being unable to summon energy for the sport you love, week after week, with no recovery in sight, is not. That is burnout, and in athletes it has a specific shape that is worth knowing.
 
-Athlete burnout is not just tiredness. The research (Raedeke & Smith 2001) describes it as three things together: emotional and physical exhaustion, reduced sense of accomplishment, and devaluation of the sport. When all three are present, what you are dealing with is more than a need for a rest day.
+Athlete burnout is not just tiredness. The research describes it as three things together: emotional and physical exhaustion, reduced sense of accomplishment, and devaluation of the sport. When all three are present, what you are dealing with is more than a need for a rest day.
 
 ## What this can look like
 
@@ -24,7 +24,7 @@ Athlete burnout is not just tiredness. The research (Raedeke & Smith 2001) descr
 
 ## When it crosses the line
 
-The line is when rest no longer fixes it. If you have taken a week off, two weeks off, and you are still coming back flat, what you are dealing with is not normal fatigue. The Maslach Burnout Inventory (Maslach & Jackson 1981), adapted for athletes, gives a useful framework: exhaustion plus loss of meaning plus reduced performance.
+The line is when rest no longer fixes it. If you have taken a week off, two weeks off, and you are still coming back flat, what you are dealing with is not normal fatigue. The Maslach Burnout Inventory, adapted for athletes, gives a useful framework: exhaustion plus loss of meaning plus reduced performance.
 
 Burnout is also a predictor of dropping out of sport. If you are seriously considering walking away from the game you have loved for years, that is worth taking seriously, not as the right answer, but as a signal something needs to change.
 

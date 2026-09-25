@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import saoirseImage from '../assets/saoirse.png';
 import CookieBanner from './CookieBanner.astro';
+import { CHAT_ENABLED } from '../lib/chat-enabled';
 
 const today = new Date();
 ---
@@ -34,42 +35,49 @@ const today = new Date();
     </div>
   </div>
   
-  <div class="shamrock-chatbot-wrapper">
-    <div class="shamrock-chatbot">
-      <button type="button" class="shamrock-chatbot-link" id="open-chat-panel" aria-label="Open chat with Saoirse" aria-controls="chat-panel" aria-expanded="false">
-        <Image src={saoirseImage} alt="Shamrock Chatbot" loading="lazy" />
-      </button>
-    </div>
-    <div class="shamrock-bubbles">
-      <button type="button" class="shamrock-speech-bubble bubble-chat" id="open-chat-panel-bubble"><span class="chat-line-1">Chat with</span><span class="chat-line-2">Saoirse</span></button>
-    </div>
-  </div>
-
-  <aside id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-panel-title" aria-hidden="true">
-    <div class="chat-panel-head">
-      <h2 id="chat-panel-title">Chat with Saoirse</h2>
-      <button type="button" id="close-chat-panel" class="chat-panel-close" aria-label="Close chat">✕</button>
-    </div>
-
-    <div class="chat-panel-prompts" role="group" aria-label="Suggested prompts">
-      <button type="button" class="chat-panel-prompt" data-prompt="How do I reset my focus after a mistake?">Reset after a mistake</button>
-      <button type="button" class="chat-panel-prompt" data-prompt="How can I stop overthinking before a game?">Stop overthinking pre-game</button>
-      <button type="button" class="chat-panel-prompt" data-prompt="What should I do when pressure gets too high in key moments?">Handle pressure moments</button>
-      <a class="chat-panel-prompt chat-panel-link" href="/resources">Support resources</a>
-    </div>
-
-    <div id="chat-panel-log" class="chat-panel-log" aria-live="polite">
-      <div class="chat-panel-message bot">
-        <p><strong>Saoirse:</strong> Hi, I am Saoirse. I can help you steady your mind, reset your focus, and handle pressure one step at a time.</p>
+  {/* Saoirse is behind PUBLIC_CHAT_ENABLED. Off by default because every
+      message is a paid API call. The script below is written to find nothing
+      and do nothing when this block is not rendered. See lib/chat-enabled.ts. */}
+  {CHAT_ENABLED && (
+    <div class="shamrock-chatbot-wrapper">
+      <div class="shamrock-chatbot">
+        <button type="button" class="shamrock-chatbot-link" id="open-chat-panel" aria-label="Open chat with Saoirse" aria-controls="chat-panel" aria-expanded="false">
+          <Image src={saoirseImage} alt="Shamrock Chatbot" loading="lazy" />
+        </button>
+      </div>
+      <div class="shamrock-bubbles">
+        <button type="button" class="shamrock-speech-bubble bubble-chat" id="open-chat-panel-bubble"><span class="chat-line-1">Chat with</span><span class="chat-line-2">Saoirse</span></button>
       </div>
     </div>
+  )}
 
-    <form id="chat-panel-form" class="chat-panel-form">
-      <label for="chat-panel-input" class="sr-only">Ask Saoirse a question</label>
-      <input id="chat-panel-input" type="text" name="chat-panel-input" placeholder="Type your question..." required />
-      <button type="submit">Send</button>
-    </form>
-  </aside>
+  {CHAT_ENABLED && (
+    <aside id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-panel-title" aria-hidden="true">
+      <div class="chat-panel-head">
+        <h2 id="chat-panel-title">Chat with Saoirse</h2>
+        <button type="button" id="close-chat-panel" class="chat-panel-close" aria-label="Close chat">✕</button>
+      </div>
+
+      <div class="chat-panel-prompts" role="group" aria-label="Suggested prompts">
+        <button type="button" class="chat-panel-prompt" data-prompt="How do I reset my focus after a mistake?">Reset after a mistake</button>
+        <button type="button" class="chat-panel-prompt" data-prompt="How can I stop overthinking before a game?">Stop overthinking pre-game</button>
+        <button type="button" class="chat-panel-prompt" data-prompt="What should I do when pressure gets too high in key moments?">Handle pressure moments</button>
+        <a class="chat-panel-prompt chat-panel-link" href="/resources">Support resources</a>
+      </div>
+
+      <div id="chat-panel-log" class="chat-panel-log" aria-live="polite">
+        <div class="chat-panel-message bot">
+          <p><strong>Saoirse:</strong> Hi, I am Saoirse. I can help you steady your mind, reset your focus, and handle pressure one step at a time.</p>
+        </div>
+      </div>
+
+      <form id="chat-panel-form" class="chat-panel-form">
+        <label for="chat-panel-input" class="sr-only">Ask Saoirse a question</label>
+        <input id="chat-panel-input" type="text" name="chat-panel-input" placeholder="Type your question..." required />
+        <button type="submit">Send</button>
+      </form>
+    </aside>
+  )}
 <style>
   .support-wrapper {
     position: fixed;

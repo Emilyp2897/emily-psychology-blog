@@ -64,7 +64,7 @@ What works:
 
 ## With work or college
 
-The dual-career load is real. Wylleman and Lavallee (2004) documented how athletes who balance education or work alongside sport carry more cumulative load than full-time professionals.
+The dual-career load is real. The research has documented how athletes who balance education or work alongside sport carry more cumulative load than full-time professionals.
 
 Where boundaries help:
 - Don't take work calls in the 90 minutes before training.

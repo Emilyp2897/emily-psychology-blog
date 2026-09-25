@@ -4,6 +4,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
+import { isLocked, lockLabel } from '../../data/release';
 
 // Rendered on demand rather than at build time, so the release locks below
 // lift on their release date instead of waiting for the next deploy.
@@ -11,17 +12,9 @@ export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
-// Normalised in UTC, not local time. Frontmatter dates like "2026-09-16" parse
-// as UTC midnight, so normalising to LOCAL midnight puts "today" an hour behind
-// during BST and a post dated today stays locked until 01:00.
-const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
-
-const isUnreleased = (date: Date) => date > today;
+// A post is locked when its pubDate is still in the future OR when it carries
+// an editorial hold. See data/release.ts.
 const previewUnlocked = import.meta.env.DEV;
-
-const releaseDateLabel = (date: Date) =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const posts = allPosts
   .filter((post) => post.slug.startsWith('mindfulness-and-affirmations/'))
@@ -63,9 +56,9 @@ const plannedTopics = [
       <section class="mindfulness-series" aria-label="Mindfulness and affirmations">
         <ul class="mindfulness-list">
           {posts.map((post) => (
-            isUnreleased(post.data.pubDate) ? (
+            isLocked(post) ? (
               <li class="mindfulness-card mindfulness-card-locked" aria-disabled="true">
-                <span class="lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                <span class="lock-badge">🔒 {lockLabel(post)}</span>
                 <h2 class="card-title">{post.data.title}</h2>
                 {post.data.description && (
                   <p class="card-description description-blur">{post.data.description}</p>

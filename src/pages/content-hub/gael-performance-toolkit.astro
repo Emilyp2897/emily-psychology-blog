@@ -4,6 +4,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { isLocked, isScheduled, lockLabel } from '../../data/release';
 import { gaelPerformanceToolkitSeries } from '../../data/series';
 
 // Rendered on demand rather than at build time, so the release locks below
@@ -13,21 +14,14 @@ export const prerender = false;
 // Get toolkit posts (excluding the intro page).
 const allPosts = await getCollection('blog');
 
-// Scheduled-release helper: posts with a pubDate in the future render as
-// locked cards (blurred preview, release date shown, not clickable) until
-// release date passes. Re-evaluated on every request.
-const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
-
-const isUnreleased = (date: Date) => date > today;
+// A toolkit renders as a locked card (blurred preview, not clickable) when
+// its pubDate is still in the future OR when it carries an editorial hold.
+// See data/release.ts. Re-evaluated on every request.
 
 // Locked cards keep their locked appearance when running locally, but gain a
 // preview link so unreleased drafts can be reviewed on the real page without
 // typing URLs by hand. Never rendered in production.
 const previewUnlocked = import.meta.env.DEV;
-
-const releaseDateLabel = (date: Date) =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const toolkitPosts = allPosts.filter(
   (post) =>
@@ -51,7 +45,7 @@ function toolkitFor(slug: string) {
 // so it stays correct if the two ever diverge.
 const toolkitIsReleased = (slug: string) => {
   const post = toolkitFor(slug);
-  return post !== undefined && !isUnreleased(post.data.pubDate);
+  return post !== undefined && !isLocked(post);
 };
 
 // Released toolkits first, scheduled ones after, so a live toolkit is never
@@ -66,7 +60,7 @@ const monthlyOrder = new Map(
 );
 
 const nextRelease = toolkitPosts
-  .filter((post) => monthlyOrder.has(post.slug) && isUnreleased(post.data.pubDate))
+  .filter((post) => monthlyOrder.has(post.slug) && isScheduled(post))
   .sort(
     (a, b) =>
       a.data.pubDate.valueOf() - b.data.pubDate.valueOf() ||
@@ -109,11 +103,11 @@ const nextRelease = toolkitPosts
                 </li>
               );
             }
-            if (isUnreleased(post.data.pubDate)) {
+            if (isLocked(post)) {
               return (
                 <li class="toolkit-card toolkit-card-locked" aria-disabled="true">
                   <span class="toolkit-month">{entry.theme}</span>
-                  <span class="toolkit-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                  <span class="toolkit-lock-badge">🔒 {lockLabel(post)}</span>
                   <h3 class="toolkit-title">{post.data.title}</h3>
                   {post.data.description && (
                     <p class="toolkit-description toolkit-description-blur">{post.data.description}</p>

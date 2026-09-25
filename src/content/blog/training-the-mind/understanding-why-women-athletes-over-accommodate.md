@@ -29,7 +29,7 @@ Over time, this adds up. The cumulative load is huge. And because it's silent, n
 This isn't a personality flaw. It's a combination of:
 
 - **Socialisation.** Women are socialised from young to be helpful, to manage other people's feelings, to not "cause drama". Boys are socialised differently.
-- **Self-Determination Theory** (Deci & Ryan, 2000) describes how the need for relatedness (belonging, connection) can get out of balance with the need for autonomy. When relatedness dominates, you stop saying what you actually want in order to keep the connection.
+- **Self-Determination Theory** describes how the need for relatedness (belonging, connection) can get out of balance with the need for autonomy. When relatedness dominates, you stop saying what you actually want in order to keep the connection.
 - **Sport culture.** Team sport rewards people who do extra, show up, never complain. The very behaviours that make you a great teammate can also make you over-accommodate.
 - **Fear of being labelled.** "Difficult." "Selfish." "Not a team player." Once you've been on the receiving end of one of these labels, you avoid the behaviour that earned it. Sometimes for years.
 

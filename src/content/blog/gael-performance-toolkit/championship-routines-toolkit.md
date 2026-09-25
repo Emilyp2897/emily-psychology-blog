@@ -25,7 +25,7 @@ Four tools for big-game weeks.
     <li>Don't worry about whether you'll be tired tomorrow. The worry makes it worse than the sleep loss does.</li>
 </ul>
 
-**Why it works:** sleep research is unequivocal. Sleep is the single biggest performance factor in big games. Athletes who protect sleep across championship week outperform peers with equivalent training but worse sleep (Fullagar et al., 2015).
+**Why it works:** sleep research is unequivocal. Sleep is the single biggest performance factor in big games. Athletes who protect sleep across championship week outperform peers with equivalent training but worse sleep.
 
 ## Tool 2: The Threat-to-Challenge Reframe
 
@@ -44,7 +44,7 @@ Then run through:
 
 Repeat as needed. The body responds to the reframe over minutes.
 
-**Why it works:** challenge-vs-threat research (Blascovich & Mendes, 2000) shows that the same physiological arousal can be interpreted two ways. Reframing the appraisal shifts the bodily response.
+**Why it works:** challenge-vs-threat research shows that the same physiological arousal can be interpreted two ways. Reframing the appraisal shifts the bodily response.
 
 ## Tool 3: The Specific Visualisation
 

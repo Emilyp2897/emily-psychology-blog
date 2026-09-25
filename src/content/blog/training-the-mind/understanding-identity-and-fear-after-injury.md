@@ -10,7 +10,7 @@ A lot of athletes go through injury with brilliant physical care and almost no s
 
 ## The athletic identity problem
 
-Brewer, Van Raalte and Linder (1993) introduced **athletic identity**: how much of your self-concept is tied to being an athlete.
+**Athletic identity** is how much of your self-concept is tied to being an athlete.
 
 For most ladies Gaelic players, athletic identity is high. The sport is woven into your routine, your social life, who you are in your family, how you describe yourself. That's not a problem most of the time.
 

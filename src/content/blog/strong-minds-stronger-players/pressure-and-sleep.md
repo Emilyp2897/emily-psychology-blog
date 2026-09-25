@@ -2,7 +2,7 @@
 title: "Pressure, Sleep and When to Get Help"
 description: "Pre-championship sleep is rarely perfect. This post helps you spot when sleep disturbance has crossed into a clinical issue."
 pubDate: "2026-09-16"
-tags: ["championship"]
+hold: true
 photo: "/assets/articles/DSC_1291-3.jpg"
 photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
@@ -29,7 +29,7 @@ What is different is when sleep stays broken. When you're running on four hours 
 
 The diagnostic criteria for **insomnia disorder** are difficulty falling asleep, staying asleep, or early-morning waking, present at least three nights a week, for at least three months, and causing distress or daytime impairment. If that matches, the condition has a name and it has effective treatments.
 
-Pre-event sleep loss alone (a few bad nights before a big game) isn't insomnia disorder. Research by Erlacher et al. (2011) found that 65% of athletes report worse sleep before major competitions, and that performance often holds up despite one bad night. The issue is when the pattern continues weeks past the event, or when it shows up outside competition entirely.
+Pre-event sleep loss alone (a few bad nights before a big game) isn't insomnia disorder. Research has found that 65% of athletes report worse sleep before major competitions, and that performance often holds up despite one bad night. The issue is when the pattern continues weeks past the event, or when it shows up outside competition entirely.
 
 ## What helps
 

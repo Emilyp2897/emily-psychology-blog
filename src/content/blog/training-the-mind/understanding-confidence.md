@@ -36,7 +36,7 @@ When confidence drops, it's not because you suddenly became a worse player. It's
 A few common ones:
 
 - **One bad game lingers.** Your brain weights losses heavier than wins. One bad performance counts for about three good ones in your mental ledger.
-- **Comparison.** You see another player doing well and read it as "I'm not enough". Social Comparison Theory (Festinger, 1954) explains why this is automatic.
+- **Comparison.** You see another player doing well and read it as "I'm not enough". Social Comparison Theory explains why this is automatic.
 - **Critical feedback.** Especially if it comes from someone whose opinion you respect, and especially if it lands when you're already vulnerable.
 - **Body sending the wrong signals.** Tiredness, period, lack of sleep, illness. You feel off, your brain reads it as "I'm off", confidence drops.
 

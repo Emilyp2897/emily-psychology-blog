@@ -4,6 +4,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
+import { isLocked, isScheduled, lockLabel } from '../../data/release';
 import { trainingTheMindSeries } from '../../data/series';
 
 // Rendered on demand rather than at build time. The scheduled-release locks
@@ -14,25 +15,16 @@ export const prerender = false;
 
 const allPosts = await getCollection('blog');
 
-// Scheduled-release helper. Posts with a pubDate in the future render as
-// locked cards (blurred preview, release date shown, no link) until the
-// release date passes. Computed at request time so the lock lifts
-// automatically without a redeploy.
-// Normalised in UTC, not local time. Frontmatter dates like "2026-09-16" parse as
-// UTC midnight, so normalising to LOCAL midnight puts "today" an hour behind
-// during BST and a post dated today stays locked until 01:00.
-const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
-
-const isUnreleased = (date: Date) => date > today;
+// A post renders as a locked card (blurred preview, no link) when its
+// pubDate is still in the future OR when it carries an editorial hold.
+// isLocked/lockLabel live in data/release.ts so all four hubs, the homepage
+// and the article page agree on what counts as readable. Evaluated at
+// request time so a scheduled lock lifts without a redeploy.
 
 // Locked cards keep their locked appearance when running locally, but gain a
 // preview link so unreleased drafts can be reviewed on the real page without
 // typing URLs by hand. Never rendered in production.
 const previewUnlocked = import.meta.env.DEV;
-
-const releaseDateLabel = (date: Date) =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const monthlySeries = trainingTheMindSeries;
 
@@ -47,7 +39,7 @@ function postFor(slug: string) {
 const groupHasReleased = (entry: (typeof monthlySeries)[number]) =>
   entry.slugs.some((slug) => {
     const post = postFor(slug);
-    return post !== undefined && !isUnreleased(post.data.pubDate);
+    return post !== undefined && !isLocked(post);
   });
 
 const seriesSections = [
@@ -66,7 +58,7 @@ const seriesOrder = new Map(
 );
 
 const nextRelease = allPosts
-  .filter((post) => seriesOrder.has(post.slug) && isUnreleased(post.data.pubDate))
+  .filter((post) => seriesOrder.has(post.slug) && isScheduled(post))
   .sort(
     (a, b) =>
       a.data.pubDate.valueOf() - b.data.pubDate.valueOf() ||
@@ -113,10 +105,10 @@ const nextRelease = allPosts
                     </li>
                   );
                 }
-                if (isUnreleased(post.data.pubDate)) {
+                if (isLocked(post)) {
                   return (
                     <li class="ttm-card ttm-card-locked" aria-disabled="true">
-                      <span class="ttm-lock-badge">🔒 Releases {releaseDateLabel(post.data.pubDate)}</span>
+                      <span class="ttm-lock-badge">🔒 {lockLabel(post)}</span>
                       <h4 class="ttm-title">{post.data.title}</h4>
                       {post.data.description && (
                         <p class="ttm-description ttm-description-blur">{post.data.description}</p>

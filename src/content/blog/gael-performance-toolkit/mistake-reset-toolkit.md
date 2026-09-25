@@ -19,7 +19,7 @@ One tool to use before play, four to use in-game, and one to use post-game.
 3. Cue word. "Next ball." "Gone." "Reset." Same word every time.
 4. Eyes up. Find the ball. Find your player. Find your role.
 
-**Why it works:** the brain needs a clear "the moment is over" signal. The physical action plus the cue word together create that signal. Research on attentional control (Beilock & Carr, 2001) shows that external cues are more effective than self-talk alone.
+**Why it works:** the brain needs a clear "the moment is over" signal. The physical action plus the cue word together create that signal. Research on attentional control shows that external cues are more effective than self-talk alone.
 
 **Bonus, use the cue word as a mantra:** the same word you reach for after a mistake is also useful WHILE you play. Pick one ("Next," "Calm," "Sharp," "Trust") and repeat it quietly between plays. It keeps your attention on the immediate job and pulls it back when it drifts.
 
@@ -32,7 +32,7 @@ One tool to use before play, four to use in-game, and one to use post-game.
 2. **Lesson:** what's the one piece of useful information. "She doesn't make that diagonal."
 3. **Drop:** out loud or in your head. "Done."
 
-**Why it works:** this is the mastery framing from error management research (Frese & Keith, 2015). You take the data and you close the loop. Without the lesson step, your brain keeps reopening the mistake. With it, the brain feels resolved.
+**Why it works:** this is the mastery framing from error management research. You take the data and you close the loop. Without the lesson step, your brain keeps reopening the mistake. With it, the brain feels resolved.
 
 ## Tool 3: The "Verdict Catch"
 

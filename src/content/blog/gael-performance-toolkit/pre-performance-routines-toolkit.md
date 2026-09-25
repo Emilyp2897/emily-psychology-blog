@@ -2,6 +2,7 @@
 title: "Pre-Performance Routines, Breathing & Cue Words"
 description: "Simple, repeatable tools to settle yourself before a match. Routines, breathing patterns, and cue words you can use this week."
 pubDate: "2026-09-05"
+hold: true
 track: "gael-performance-toolkit"
 ---
 
@@ -47,7 +48,7 @@ The practical companion to the posts on pressure. If you've read [Attention Cont
 - For tightness: **"loose"** or **"breathe"**
 - For low energy: **"sharp"** or **"go"**
 
-**Why it works:** a one-word cue gives your conscious mind a job that doesn't interfere with execution. It pulls you out of the over-analysis spiral that Choking Under Pressure research (Beilock & Carr, 2001) identifies as the main cause of skill breakdown.
+**Why it works:** a one-word cue gives your conscious mind a job that doesn't interfere with execution. It pulls you out of the over-analysis spiral that the choking research identifies as the main cause of skill breakdown.
 
 <h2 class="visually-hidden">Note</h2>
 <div class="shamrock-banner-purple">

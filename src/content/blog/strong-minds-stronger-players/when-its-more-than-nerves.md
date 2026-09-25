@@ -2,6 +2,7 @@
 title: "When It's More Than Nerves"
 description: "Pre-game nerves are normal. This post helps you spot when nerves cross over into something that needs more than a pre-match routine."
 pubDate: "2026-09-02"
+tags: ["championship"]
 photo: "/assets/articles/IMG_7223.JPG"
 photoAlt: "Placeholder, swap for the right photo"
 track: "stronger-minds-stronger-players"
@@ -30,7 +31,7 @@ Nerves clear up after the whistle blows. Anxiety lingers. A useful test: if you 
 ## What helps
 
 - Slow your exhale. A longer breath out than in (try 4 seconds in, 8 seconds out) activates the parasympathetic nervous system and brings heart rate down within about a minute.
-- Name what you are feeling. Research on emotion labelling (Lieberman et al. 2007) shows that putting a name on a feeling reduces its intensity in the brain.
+- Name what you are feeling. Research on emotion labelling shows that putting a name on a feeling reduces its intensity in the brain.
 - Tell someone you trust. Carrying anxiety on your own is the heaviest version of it.
 
 > **ADD YOUR EXPERIENCE HERE**
