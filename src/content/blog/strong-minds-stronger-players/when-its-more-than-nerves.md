@@ -52,7 +52,7 @@ This could be a sign worth taking seriously.
 
 I spent years thinking my nerves were part of being competitive. They were not. Once I named what I was actually dealing with, the work I did on it held. 
 
-**Getting help is not a weakness, it is what allows you to keep doing the thing you love.**
+**Getting help is not a weakness, it's what allows you to keep doing the thing you love.**
 
 ## Crisis resources
 

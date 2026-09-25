@@ -31,7 +31,7 @@ What's going to happen:
 - You'll be more tired than you expect. Match fitness takes longer than rehab fitness.
 - Your brain will catastrophise: "I'm worse than I was. Maybe I'll never get back."
 
-None of this is true after one session. But your brain will offer the catastrophic interpretation as fact.
+This isn't true after one session. But your brain will offer the catastrophic interpretation as fact.
 
 Catch it. "This is a first session back. It's data, not destiny."
 

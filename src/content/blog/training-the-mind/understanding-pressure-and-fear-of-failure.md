@@ -8,73 +8,73 @@ photoAlt: "Placeholder, swap for the right photo"
 track: "training-the-mind"
 ---
 
-When I was 16 I missed a penalty in an All-Ireland quarter final against Meath which led to us losing the game. I felt like I had failed everyone around me for weeks afterwards. Not because we lost a match, but because of what I decided that miss said about me.
+When I was 16 I missed a penalty in an All-Ireland quarter final against Meath. There was two points in the game and we went on to lose. I felt like I had failed everyone around me. This feeling continued for weeks afterwards. Not because we lost the game, but because of what I decided that penalty miss said about me.
 
 I decided it made me a failure, that I wasn't good enough to play for Cork, that somebody else should have taken the penalty.
 
-That is what championship pressure usually is. It is very rarely about the football.
+That is what championship pressure usually is; convincing yourself of things that are not true. It is very rarely about the football.
 
-## Two players, same heart rate
+## Threat or challenge
 
-When you walk into a big game your mind makes a very fast judgement, before you have consciously thought about anything. Can I handle this, or can I not?
+When you walk into a big game your mind will make a very fast judgement before you've thought about anything.
 
-If your mind decides you cannot, that is threat. Tight chest, dry mouth, and everything closes in. You start playing not to lose.
+**"Can I handle this, or can I not?"**
 
-If your mind decides you can, that is challenge. Your heart still hammers. But you feel ready rather than swamped.
+If your mind decides you cannot, that is **threat**. Tight chest, dry mouth, and everything closes in. You start playing not to lose.
 
-The research on challenge and threat states is consistent here. Players who read a big game as a challenge tend to play better than players of the same ability who read it as a threat.
+If your mind decides you can, that is **challenge**. Your heart still hammers. But you feel ready rather than swamped.
 
-So the goal was never to calm down. I spent years trying to calm down. The goal is to shift which of the two your mind lands on.
+Players who read a big game as a challenge tend to play better than players of the same ability who read it as a threat.
 
-That is what threat looks like. Here is challenge, from this season.
+The goal is never to calm down. I spent years trying to calm down. The goal is to shift your mind from threat to challenge.
 
-This year, playing Wandsworth, I missed shot after shot. More wide than I care to count.
+## Same player, two different games
+
+This year, playing Wandsworth, I missed shot after shot. More wides than I care to count.
 
 The old version of me would have taken that as evidence. Wide, wide, wide, three strikes and you're the problem. That's what happened with the penalty, one miss became a verdict.
 
-This time it didn't. Every time I missed I just said to myself: next ball. Head down. That was it. Not "you're better than this," not "come on," just the two things I could actually do something about. Where my head was, and what I did next.
+This time it didn't. Every time I missed I said to myself "**next ball**, **head down when shooting**". That was it. Not "your a failure" or "you shouldnt be here", just two things I could actually control.
 
-It sounds too small to matter. That's the point. I wasn't managing how I felt about the misses. I wasn't trying to talk myself back into confidence. I was giving myself a job small enough to do immediately, and doing it again, and again, shot after shot.
+It sounds too small to matter but that's the point. I wasn't managing how I felt about the misses. I wasn't trying to talk myself back into confidence. I gave myself a job small to do immediately.
 
 That's challenge. Not the absence of missing. Not even the absence of caring that I missed. It's just refusing to let the miss become a story about what I am.
 
 ## Fear of failure is a social fear
 
-Fear of failure splits five ways:
-1. Being ashamed or embarrassed. 
-2. Thinking less of yourself. 
-3. Not knowing what happens next. 
-4. Important people losing interest in you. 
-5. Letting important people down.
+Fear of failure can be split five ways:
+1. Being ashamed or embarrassed
+2. Thinking less of yourself
+3. Not knowing what happens next
+4. Important people losing interest in you
+5. Letting important people down
 
-Read those again. Not one of them is about football.
+The penalty was two of them at once. Letting people down in the moment, and thinking less of myself for weeks after.
 
-That is why "just try harder" or "be more positive" does nothing for it, and why I couldn't think my way out of that penalty. I was not afraid of the ball. I was afraid of what missing it meant about me.
+**Not one of them is about football.**
 
-You cannot argue yourself out of that in a warm-up. But you can work out which of the five it actually is for you, and naming it takes a surprising amount of heat out of it.
+That is why **"just try harder"** or **"be more positive"** doesn't work.
+Figuring out which of the five above you're experiencing and naming it can take a surprising amount of heat out of the feeling itself.
 
-## The week itself
+## Championship week
 
 Championship week has a shape to it, and most players who feel it quietly think they are the only one.
 
-For some it is sleep. For others it is the body, where every twinge turns into a question. Or the form, where every poor pass in training becomes evidence. Some go looking for the opposition on Instagram. Some read the coach's body language like it is a message. For plenty of people it goes straight to the stomach.
+For some it's sleep. For others it's the body, where every twinge turns into a potential injury. Some focus on their form, where every poor pass in training becomes evidence. Some go looking for the opposition on Instagram. Some read the coach's body language like it's a message. For plenty of people it goes straight to the stomach.
 
-You will not get all of that. You might get none of it, and that is not a sign you do not care. But if two or three of them sound familiar, that is your nervous system filing the week under threat, and it is worth knowing that is what is happening.
+You won't get all of that. If you're lucky you might not get any of it. But if two or three of them sound familiar, this is your nervous system filing the week under threat.
 
-## What I would tell 16 year old me
+## What I would tell 16-year-old me
 
-- Protect your sleep if sleep is the thing that goes for you. For a lot of players it is the first thing to break.
-- Picture the job, not the result. "Three tackles in the first ten minutes" beats "win the game" every time, because one of them is yours to do.
-- Find the big game you did handle well and work out what was different. Your mind will offer you the disasters first. Make it produce the other list.
-- Turn the volume down for the week. Less scrolling, less analysis, fewer conversations about Saturday.
-- Pick one thing to hold when it gets loud. First to every ball. Stay in shape. Anything concrete.
 - Ask what you are genuinely afraid of. Not the match. The thing underneath it.
+- Name which of the five it is. Shame, your own judgement of yourself, not knowing what comes next, people losing interest, letting people down. Naming it takes the heat out of it.
+- Find the big game you handled well and work out what was different. Your mind will offer you the disasters first. Make it produce the positives.
 
-Championship pressure does not go anywhere, and it should not. It is there because you care. The players who handle it best are not the ones who stopped feeling it. They learned to read it differently, and they had something to do with their hands while they did.
+The practical side of the week, day by day, is in [Applying Championship Pressure in Ladies Gaelic Football](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/).
 
-Nobody is born with that. I did not have it at 16.
+Championship pressure is there because you care. The players who handle it best are not the ones who stopped feeling. They learned to identify it and acknowledge it for what it was; their body telling them it was a threat.
 
-The practical version is in the [Championship Routines Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
+This skil isn't something you're born with, it's a learned practice. I didnt have it at 16, I didnt have it last year. I have it now.
 
 ## References
 

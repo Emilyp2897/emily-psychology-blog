@@ -27,7 +27,7 @@ For a lot of players, the hardest part of the week isn't the match. It's the day
 
 The not-knowing is what does the damage. You might play it cool in front of everyone, but you're checking your phone for the team announcement at half five on a Tuesday, and you're refreshing it again at six.
 
-And if you've ever been dropped, even once, your brain does not forget it. It starts scanning. Body language at training. Which group the coach put you in for drills. Who got a quiet word afterwards and who walked to the car on their own. None of that scanning is a decision you make. It runs in the background whether you want it to or not.
+And if you've ever been dropped, even once, your brain does not forget it. It starts scanning. Body language at training. Which group the coach put you in for drills. Who got a quiet word afterwards and who walked to the car on their own. That scanning isn't a decision you make. It runs in the background whether you want it to or not.
 
 That's the bit players underestimate. Scanning costs you something. It's mental energy spent on threat detection instead of on football, and it's spent days before the game. You arrive at the weekend with part of your capacity already gone, and then you wonder why you feel flat in a game you were desperate to play well in.
 
@@ -51,7 +51,7 @@ That's real, and I'm not going to tell you it isn't. But it does something disto
 
 Even in a squad where everyone genuinely gets on, comparison never fully switches off.
 
-Who's fitter. Who's sharper in the drills. Who scored more in the last challenge match. Who the coach looked at when they talked about leadership. None of it is malicious and most of it isn't even conscious.
+Who's fitter. Who's sharper in the drills. Who scored more in the last challenge match. Who the coach looked at when they talked about leadership. It isn't malicious and most of it isn't even conscious.
 
 The trouble starts when comparison quietly turns into self-evaluation. ***"She's faster than me"*** becomes ***"I'm too slow for this team"***, and then it becomes ***"I shouldn't be here"***. That's three different statements, and only the first one is about football. The other two are about your worth, and your brain slid from one to the other without asking your permission.
 
