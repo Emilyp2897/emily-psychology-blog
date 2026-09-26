@@ -338,8 +338,16 @@ const seriesCards: SeriesCard[] = [
   }
 }
 
-/* Mobile: left-align the series images */
+/* Mobile: left-align the whole card, image and text together.
+   The image was already pulled left here, but .series-card sets
+   align-items/text-align to center, so the title and description stayed
+   centred and the card read as two different alignments stacked up. */
 @media (max-width: 900px) {
+  .series-card {
+    align-items: flex-start;
+    text-align: left;
+  }
+
   .series-card-icon {
     align-self: flex-start;
     margin-left: 0;

@@ -91,6 +91,21 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
             </p>
           )}
         </div>
+
+        {/* Read aloud. Hidden until the script confirms the browser can speak,
+            so it is never a button that does nothing, and not rendered at all
+            on a locked article since there is nothing to read yet. */}
+        {!contentIsLocked && (
+          <div class="listen-bar" id="listen-bar" hidden>
+            <button type="button" class="listen-btn" id="listen-toggle" aria-describedby="listen-note">
+              <span class="listen-icon" aria-hidden="true">&#9654;</span>
+              <span class="listen-label" id="listen-label">Listen to this article</span>
+            </button>
+            <button type="button" class="listen-stop" id="listen-stop" hidden>Stop</button>
+            <p class="listen-note" id="listen-note">Read aloud by your device. The voice and quality depend on your browser.</p>
+            <p class="listen-status" id="listen-status" role="status" aria-live="polite"></p>
+          </div>
+        )}
       </section>
 
       {photo && (
@@ -542,6 +557,177 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
       });
     </script>
+
+    <script is:inline>
+      // ── Read aloud ────────────────────────────────────────────────────
+      // Uses the browser's own speech engine (Web Speech API). No API key,
+      // no per-article cost, no build step, and it works offline on devices
+      // that ship voices locally. The trade-off is voice quality: it is
+      // whatever the reader's OS provides, which is decent on iOS and macOS
+      // and noticeably robotic on some Android and Windows setups. That is
+      // the reason for the note under the button.
+      window.addEventListener('DOMContentLoaded', () => {
+        const bar = document.getElementById('listen-bar');
+        if (!bar) return;
+
+        const synth = window.speechSynthesis;
+        // Feature-detect before revealing the control. Firefox on some
+        // platforms exposes speechSynthesis with no voices at all.
+        if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return;
+
+        const toggle = document.getElementById('listen-toggle');
+        const stopBtn = document.getElementById('listen-stop');
+        const label = document.getElementById('listen-label');
+        const icon = toggle.querySelector('.listen-icon');
+        const status = document.getElementById('listen-status');
+        const source = document.getElementById('paid-content');
+        if (!source) return;
+
+        // What gets read, in reading order. Headings are included so the
+        // structure survives being listened to rather than looked at, and
+        // the feedback box and references dropdown are skipped because they
+        // are page furniture, not the article.
+        //
+        // Toolkit tools are read even though their cards are visually
+        // collapsed into tiles: the text is the article, and someone
+        // listening cannot tap a tile open.
+        const SKIP = ['.content-feedback-link-box', '.toolkit-tools-box', '.refs-details', '.listen-bar'];
+        const collect = () => {
+          const parts = [];
+          source.querySelectorAll('h1, h2, h3, h4, p, li, blockquote').forEach((node) => {
+            if (SKIP.some((sel) => node.closest(sel))) return;
+            const text = (node.textContent || '').replace(/\s+/g, ' ').trim();
+            if (text) parts.push(text);
+          });
+          return parts;
+        };
+
+        // Chunked rather than one long utterance. Chrome truncates or stalls
+        // on very long strings, so each block is queued separately and the
+        // queue is what carries progress. Blocks are further split on
+        // sentence boundaries when they are long on their own.
+        const chunk = (parts) => {
+          const out = [];
+          parts.forEach((part) => {
+            if (part.length <= 220) { out.push(part); return; }
+            let buffer = '';
+            part.split(/(?<=[.!?])\s+/).forEach((sentence) => {
+              if ((buffer + ' ' + sentence).trim().length > 220) {
+                if (buffer) out.push(buffer.trim());
+                buffer = sentence;
+              } else {
+                buffer = (buffer + ' ' + sentence).trim();
+              }
+            });
+            if (buffer) out.push(buffer.trim());
+          });
+          return out;
+        };
+
+        // Prefer a British or Irish voice, since the writing is Irish. Voices
+        // load asynchronously in Chrome, hence the voiceschanged listener.
+        let voice = null;
+        const pickVoice = () => {
+          const voices = synth.getVoices();
+          if (!voices.length) return;
+          voice =
+            voices.find((v) => v.lang === 'en-IE') ||
+            voices.find((v) => v.lang === 'en-GB') ||
+            voices.find((v) => v.lang && v.lang.startsWith('en')) ||
+            voices[0];
+        };
+        pickVoice();
+        if (typeof synth.addEventListener === 'function') {
+          synth.addEventListener('voiceschanged', pickVoice);
+        }
+
+        let queue = [];
+        let index = 0;
+        let playing = false;
+
+        const setUI = (state) => {
+          if (state === 'playing') {
+            icon.innerHTML = '&#10074;&#10074;';
+            label.textContent = 'Pause';
+            stopBtn.hidden = false;
+          } else if (state === 'paused') {
+            icon.innerHTML = '&#9654;';
+            label.textContent = 'Resume';
+            stopBtn.hidden = false;
+          } else {
+            icon.innerHTML = '&#9654;';
+            label.textContent = 'Listen to this article';
+            stopBtn.hidden = true;
+            status.textContent = '';
+          }
+        };
+
+        const reset = () => {
+          synth.cancel();
+          queue = [];
+          index = 0;
+          playing = false;
+          setUI('idle');
+        };
+
+        const speakNext = () => {
+          if (index >= queue.length) {
+            reset();
+            return;
+          }
+          const utterance = new SpeechSynthesisUtterance(queue[index]);
+          if (voice) {
+            utterance.voice = voice;
+            utterance.lang = voice.lang;
+          }
+          utterance.rate = 1;
+          utterance.onend = () => {
+            if (!playing) return;
+            index += 1;
+            status.textContent = `Part ${Math.min(index + 1, queue.length)} of ${queue.length}`;
+            speakNext();
+          };
+          // A failed utterance must not stall the whole article, so it moves
+          // on rather than sitting there looking like it is still playing.
+          utterance.onerror = () => {
+            if (!playing) return;
+            index += 1;
+            speakNext();
+          };
+          synth.speak(utterance);
+        };
+
+        toggle.addEventListener('click', () => {
+          if (!playing) {
+            queue = chunk(collect());
+            if (!queue.length) return;
+            index = 0;
+            playing = true;
+            setUI('playing');
+            status.textContent = `Part 1 of ${queue.length}`;
+            // Cancel first: an utterance left over from a previous page in
+            // the same tab otherwise plays over the top of this one.
+            synth.cancel();
+            speakNext();
+          } else if (synth.paused) {
+            synth.resume();
+            setUI('playing');
+          } else {
+            synth.pause();
+            setUI('paused');
+          }
+        });
+
+        stopBtn.addEventListener('click', reset);
+
+        // Speech keeps going after navigation in several browsers, so it is
+        // cancelled on the way out. pagehide rather than beforeunload,
+        // because Safari does not reliably fire beforeunload on mobile.
+        window.addEventListener('pagehide', () => synth.cancel());
+
+        bar.hidden = false;
+      });
+    </script>
   </body>
 </html>
 
@@ -593,6 +779,89 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   .section-link:hover {
     color: var(--green-lime) !important;
+  }
+
+  /* ── Read aloud bar ──────────────────────────────────────────────────
+     Sits under the article meta, above the body. Purple on white, like the
+     other controls on the site. The note and the status line are given their
+     own row so the buttons stay on one line on a phone. */
+  .listen-bar {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 0.5rem 0.7rem;
+    margin-top: 0.9rem;
+  }
+
+  .listen-bar[hidden] { display: none; }
+
+  .listen-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border: 2px solid var(--purple);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--purple);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .listen-btn:hover {
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .listen-icon {
+    font-size: 0.72rem;
+    line-height: 1;
+  }
+
+  .listen-stop {
+    padding: 0.45rem 0.85rem;
+    border: 2px solid rgba(244, 255, 232, 0.5);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--green-light);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .listen-stop[hidden] { display: none; }
+
+  .listen-stop:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+
+  .listen-btn:focus-visible,
+  .listen-stop:focus-visible {
+    outline: 3px solid var(--green-lime);
+    outline-offset: 2px;
+  }
+
+  /* Both sit on the row below the buttons on every width, so the buttons are
+     never squeezed by a long sentence. */
+  .listen-note,
+  .listen-status {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--green-light);
+    opacity: 0.75;
+  }
+
+  .listen-status:empty { display: none; }
+
+  @media (max-width: 480px) {
+    .listen-bar { grid-template-columns: 1fr auto; }
   }
 
   .article-shell {
@@ -1215,6 +1484,10 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     gap: 1rem;
     padding-bottom: 0.9rem;
     border-bottom: 1px solid rgba(105, 0, 90, 0.25);
+    /* A little more air than the shared .deck-head gives, so the divider
+       reads as the end of the head rather than as a rule attached to the
+       first tool tile. */
+    margin-bottom: 1.6rem;
   }
 
   .deck-head-centre {
@@ -1371,15 +1644,25 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   .tool-card-collapsed { display: none; }
 
-  /* Tool sheet: slides up from the bottom, like a mobile app. */
-  /* Native dialog: the browser positions it and paints ::backdrop. */
+  /* Tool sheet: a centred card. It used to pin to the bottom of the screen
+     like a mobile app sheet, which read as misaligned on a phone rather
+     than as a deliberate pattern.
+
+     Position is set here rather than left to the browser. The UA stylesheet
+     for an open modal <dialog> differs between engines, which is the usual
+     reason a dialog centres in one browser and sits off to one edge in
+     another. Pinning all four insets and using auto margins takes the
+     question away from the browser. */
   .tool-sheet {
+    position: fixed;
+    inset: 0;
     border: none;
     padding: 0;
     background: transparent;
     max-width: 620px;
-    width: 100%;
-    margin: auto auto 0;
+    max-height: 90vh;
+    width: calc(100% - 2rem);
+    margin: auto;
   }
 
   .tool-sheet::backdrop {
@@ -1392,23 +1675,26 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   .tool-sheet-panel {
     width: 100%;
     max-width: 620px;
-    max-height: 86vh;
+    max-height: 90vh;
     overflow-y: auto;
     /* White card with dark text. The tool sheet is the part you actually read
        and work from, often with your phone in one hand at training, so it is
        the one surface that should behave like a page rather than a mood. */
     background: #ffffff;
+    /* Radius on all four corners now the sheet floats in the middle rather
+       than sitting flush against the bottom edge of the screen. */
     border: 1px solid rgba(105, 0, 90, 0.25);
-    border-bottom: none;
-    border-radius: 26px 26px 0 0;
+    border-radius: 22px;
     padding: 1.1rem 1.3rem 1.5rem;
     color: #1a1a1a;
-    animation: sheetUp 0.26s cubic-bezier(.22,1,.36,1);
+    animation: sheetIn 0.22s cubic-bezier(.22,1,.36,1);
   }
 
-  @keyframes sheetUp {
-    from { transform: translateY(14%); opacity: 0.6; }
-    to   { transform: translateY(0); opacity: 1; }
+  /* Rises and settles rather than sliding up from off-screen, which no
+     longer matches where the sheet actually sits. */
+  @keyframes sheetIn {
+    from { transform: translateY(8px) scale(0.98); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
   }
 
   .tool-sheet-close {
@@ -1590,6 +1876,7 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
 
   @media (prefers-reduced-motion: reduce) {
     .story-card.is-active { animation: none; }
+    .tool-sheet-panel { animation: none; }
   }
 
   /* Progress bars sit on the card, under its orange top edge. */

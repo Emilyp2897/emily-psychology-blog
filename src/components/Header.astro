@@ -4,10 +4,17 @@ import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 
-// The back arrow used to call history.back(), which sent you to whatever you
-// happened to be on before, not to where the page sits in the site. On a
-// content hub page it now goes to the parent: an article returns to its own
-// series hub, a series hub returns to the content hub index.
+// The back arrow originally called history.back(), which sent you to whatever
+// you happened to be on before, not to where the page sits in the site. It was
+// then changed to derive a parent from the URL, which is predictable but wrong
+// in the common case: an article reached from the homepage sent you to its
+// series hub, which is not where you came from.
+//
+// So there are two layers now. This one is the fallback, rendered into the
+// href: the structural parent of the current page, which is always a sensible
+// destination and is what someone arriving from a search result or a shared
+// link should get. The script below upgrades it to the actual page you came
+// from, but only when that page is one of the site's real entry points.
 const path = Astro.url.pathname.replace(/\/+$/, '');
 const segments = path.split('/').filter(Boolean);
 
@@ -24,6 +31,12 @@ if (segments[0] === 'content-hub') {
     backHref = '/content-hub/';
     backLabel = 'Back to the Content Hub';
   }
+} else if (segments[0] === 'plan') {
+  // /plan/<id> -> the dashboard it was opened from. The plan page used to
+  // carry its own "Back to Dashboard" link as well as this bubble, which put
+  // two back arrows on the page.
+  backHref = '/dashboard';
+  backLabel = 'Back to your dashboard';
 }
 ---
 <header id="site-header" class:list={[!isHome && 'has-back-bubble']}>
@@ -56,11 +69,52 @@ if (segments[0] === 'content-hub') {
     </nav>
   </div>
   {!isHome && (
-    <a href={backHref} class="back-bubble" aria-label={backLabel}>
+    <a href={backHref} id="back-bubble" class="back-bubble" aria-label={backLabel}>
       <span aria-hidden="true">←</span>
     </a>
   )}
 </header>
+
+<script is:inline>
+  // Point the back arrow at the page you actually arrived from, when that
+  // page is one of the site's entry points. Deliberately an allowlist rather
+  // than "just use the referrer": coming from an article, a checkout step or
+  // an external site, the structural parent already rendered into the href is
+  // the better destination, and following an arbitrary referrer is how you end
+  // up sending someone back into a form they already submitted.
+  //
+  // Inline and standalone, not part of the module below, so it cannot be held
+  // up behind that module's auth await.
+  (() => {
+    const bubble = document.getElementById('back-bubble');
+    if (!bubble || !document.referrer) return;
+
+    let from;
+    try {
+      from = new URL(document.referrer);
+    } catch {
+      return;
+    }
+    if (from.origin !== window.location.origin) return;
+
+    const trim = (p) => p.replace(/\/+$/, '') || '/';
+    const fromPath = trim(from.pathname);
+    if (fromPath === trim(window.location.pathname)) return;
+
+    const segments = fromPath.split('/').filter(Boolean);
+    let label = null;
+    if (fromPath === '/') label = 'Back to home';
+    else if (segments[0] === 'dashboard') label = 'Back to your dashboard';
+    else if (segments[0] === 'content-hub') {
+      if (segments.length === 1) label = 'Back to the Content Hub';
+      else if (segments.length === 2) label = 'Back to the series';
+    }
+    if (!label) return;
+
+    bubble.setAttribute('href', from.pathname);
+    bubble.setAttribute('aria-label', label);
+  })();
+</script>
 
 <script>
   import { getUserOrThrow } from '../lib/supabase.js';

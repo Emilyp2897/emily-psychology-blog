@@ -147,7 +147,11 @@ import { SITE_TITLE } from '../consts';
       if (loadFailed) {
         // showError already wrote the reason into plansList. Leave it.
       } else if (allPlans.length === 0) {
-        if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="https://mindthegael.co.uk/personal-training" style="color: #c0fe71 !important; text-decoration: underline;">Get started here.</a></p>';
+        // Relative href and no inline colour. The absolute URL broke the
+        // empty state on local and preview builds by sending you to
+        // production, and the inline lime was the last thing overriding the
+        // panel styling in the stylesheet below.
+        if (plansList) plansList.innerHTML = '<p class="plans-empty">You have no active plans yet. <a href="/personal-training">Get started here.</a></p>';
       } else {
         if (plansList) {
           plansList.innerHTML = allPlans.map((plan: any) => {
@@ -188,21 +192,30 @@ import { SITE_TITLE } from '../consts';
         margin-bottom: 2rem;
       }
 
+      /* Purple outline rather than lime. Log Out is a secondary action, so it
+         reads as an outline button and leaves the filled purple treatment to
+         "View Plan", which is what people are here to press. */
       .logout-btn {
         padding: 0.5rem 1rem;
-        background: transparent;
-        border: 2px solid var(--green-lime);
-        color: var(--green-lime);
+        background: #ffffff;
+        border: 2px solid var(--purple);
+        color: var(--purple);
         border-radius: 8px;
         font: inherit;
         font-size: 0.9rem;
+        font-weight: 700;
         cursor: pointer;
-        transition: background 0.15s ease;
+        transition: background 0.15s ease, color 0.15s ease;
       }
 
       .logout-btn:hover {
-        background: var(--green-lime);
-        color: var(--green-dark);
+        background: var(--purple);
+        color: #ffffff;
+      }
+
+      .logout-btn:focus-visible {
+        outline: 3px solid var(--purple-light);
+        outline-offset: 2px;
       }
 
       .plans-section h2 {
@@ -223,9 +236,19 @@ import { SITE_TITLE } from '../consts';
         color: #1a1a1a;
       }
 
+      /* One rule for the link, not two. There were two `.dashboard-ai-note a`
+         blocks: the panel had already been changed from a dark green tint to
+         light lilac and the link to purple, but the old lime rule was left
+         below it and won on source order. That put lime green text on a light
+         lilac panel, which is where "message Emily" went unreadable. */
       .dashboard-ai-note a {
         color: var(--purple) !important;
+        text-decoration: underline !important;
         font-weight: 700;
+      }
+
+      .dashboard-ai-note a:hover {
+        color: var(--purple-deep, #4a0040) !important;
       }
 
       .dashboard-ai-note strong {
@@ -234,52 +257,35 @@ import { SITE_TITLE } from '../consts';
         margin-right: 0.3rem;
       }
 
-      .dashboard-ai-note a {
-        color: var(--green-lime) !important;
-        text-decoration: underline !important;
-        font-weight: 600;
-      }
-
-      .coach-link {
-        display: block;
-        margin: 0 0 1.5rem;
-        padding: 0.75rem 1rem;
-        background: rgba(192, 254, 113, 0.15);
-        border: 1px solid rgba(192, 254, 113, 0.4);
-        border-radius: 10px;
-        color: var(--green-lime) !important;
-        text-decoration: none !important;
-        font-weight: 600;
-        font-size: 0.92rem;
-        transition: transform 0.15s ease, background 0.15s ease;
-      }
-
-      .coach-link strong {
-        color: var(--green-lime);
-        font-weight: 800;
-      }
-
-      .coach-link:hover {
-        transform: translateY(-1px);
-        background: rgba(192, 254, 113, 0.25);
-      }
-
-      .coach-link[hidden] { display: none; }
-
       .plans-list {
         display: grid;
         gap: 1rem;
       }
 
-     .plans-list .plans-empty a, 
-     .plans-list p a {
-        color: var(--green-lime) !important;
+      /* The empty and error states used to be bare text on the dark page with
+         a lime link. They are now the same lilac panel as the note above, so
+         the column reads as one set of cards whatever state it is in. */
+      .plans-list .plans-empty {
+        margin: 0;
+        padding: 1rem 1.2rem;
+        border-left: 4px solid var(--purple);
+        border-radius: 0 10px 10px 0;
+        background: #f9effd;
+        color: #1a1a1a;
+        font-size: 0.95rem;
+      }
+
+      .plans-list .plans-empty a {
+        color: var(--purple) !important;
         text-decoration: underline;
-    }
+        font-weight: 700;
+      }
 
       .plan-card {
         background: #ffffff;
+        border: 2px solid rgba(105, 0, 90, 0.22);
         border-radius: 12px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
         padding: 1.25rem 1.5rem;
         display: grid;
         gap: 0.5rem;
@@ -293,19 +299,22 @@ import { SITE_TITLE } from '../consts';
 
       .plan-type {
         font-weight: 700;
-        color: var(--green-dark);
+        color: var(--purple);
         font-size: 1rem;
       }
 
+      /* Purple tint rather than a lime one. Lime at 20% on white is barely a
+         colour, so the status pill read as a grey smudge. */
       .plan-status {
         font-size: 0.78rem;
-        font-weight: 700;
+        font-weight: 800;
         padding: 0.2rem 0.65rem;
         border-radius: 999px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        background: rgba(192, 254, 113, 0.2);
-        color: var(--green-dark);
+        background: rgba(105, 0, 90, 0.1);
+        color: var(--purple);
+        white-space: nowrap;
       }
 
       .plan-date {
@@ -314,30 +323,38 @@ import { SITE_TITLE } from '../consts';
         margin: 0;
       }
 
+      /* Filled purple: the one primary action on the card. */
       .plan-view-btn {
         display: inline-block;
         margin-top: 0.25rem;
         padding: 0.55rem 1rem;
-        background: var(--green-lime);
-        color: var(--green-dark) !important;
+        background: var(--purple);
+        border: 2px solid var(--purple);
+        color: #ffffff !important;
         font-weight: 700;
         font-size: 0.9rem;
         border-radius: 8px;
         text-decoration: none !important;
         width: fit-content;
+        transition: background 0.15s ease, color 0.15s ease;
       }
 
       .plan-view-btn:hover {
-        background: var(--purple-light);
+        background: #ffffff;
         color: var(--purple) !important;
+      }
+
+      .plan-view-btn:focus-visible {
+        outline: 3px solid var(--purple-light);
+        outline-offset: 2px;
       }
 
       .team-badge {
         display: inline-block;
         margin-left: 0.4rem;
         padding: 0.1rem 0.5rem;
-        background: var(--green-lime);
-        color: var(--green-dark);
+        background: var(--purple);
+        color: #ffffff;
         font-size: 0.65rem;
         font-weight: 800;
         text-transform: uppercase;

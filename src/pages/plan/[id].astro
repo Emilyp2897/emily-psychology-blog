@@ -31,8 +31,10 @@ const feedbackEnabled =
     <Header />
     <main class="container">
       <div class="plan-wrap">
+        {/* No back link here. The header's back arrow already goes to the
+            dashboard on this route, and having both put two back arrows on
+            the page pointing at the same place. */}
         <div class="plan-toolbar">
-          <a href="/dashboard" class="back-link">← Back to Dashboard</a>
           <button type="button" id="print-plan" class="print-btn" hidden>Print or save as PDF</button>
         </div>
         <div id="plan-container">
@@ -1406,10 +1408,12 @@ const feedbackEnabled =
 
     <style is:global>
   /* ── Toolbar ── */
+  /* Print button only, since the back link moved to the header arrow. Kept
+     right-aligned so the button stays where it has always been. */
   .plan-toolbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 1rem;
@@ -1417,23 +1421,24 @@ const feedbackEnabled =
 
   .print-btn {
     padding: 0.5rem 1rem;
-    border: 2px solid var(--green-lime);
+    border: 2px solid var(--purple);
     border-radius: 8px;
-    background: var(--green-lime);
-    color: var(--green-dark);
+    background: #ffffff;
+    color: var(--purple);
     font: inherit;
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
   }
 
   .print-btn:hover {
-    background: var(--purple-light);
-    border-color: var(--purple-light);
+    background: var(--purple);
+    color: #ffffff;
   }
 
   .print-btn:focus-visible {
-    outline: 3px solid #ffffff;
+    outline: 3px solid var(--purple-light);
     outline-offset: 2px;
   }
 
@@ -1555,49 +1560,40 @@ const feedbackEnabled =
         margin: 2rem auto;
       }
 
-      .back-link {
-        display: inline-block;
-        color: var(--green-lime) !important;
-        text-decoration: none !important;
-        font-weight: 600;
-        font-size: 0.95rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .back-link:hover {
-        color: var(--purple-light) !important;
-      }
-
       .plan-header {
         margin-bottom: 1.25rem;
       }
 
+      /* Light lilac panel with purple text, the same notice treatment used on
+         the dashboard, pricing and Books & Podcasts. It was lime text and a
+         lime rule on a barely-there white tint over the dark green page,
+         which is what made "message Emily" hard to read. */
       .ai-disclaimer {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(244, 255, 232, 0.18);
-        border-left: 3px solid var(--green-lime);
-        border-radius: 10px;
-        padding: 0.75rem 1rem;
+        background: #f9effd;
+        border: none;
+        border-left: 5px solid var(--purple);
+        border-radius: 0 10px 10px 0;
+        padding: 0.85rem 1.1rem;
         margin-bottom: 1.5rem;
         font-size: 0.88rem;
         line-height: 1.5;
-        color: var(--green-light);
+        color: #1a1a1a;
       }
 
       .ai-disclaimer strong {
-        color: var(--green-lime);
+        color: var(--purple);
         font-weight: 700;
         margin-right: 0.3rem;
       }
 
       .ai-disclaimer a {
-        color: var(--green-lime) !important;
+        color: var(--purple) !important;
         text-decoration: underline !important;
-        font-weight: 600;
+        font-weight: 700;
       }
 
       .ai-disclaimer a:hover {
-        color: var(--purple-light) !important;
+        color: #4a0040 !important;
       }
 
       .plan-meta {
@@ -1608,8 +1604,8 @@ const feedbackEnabled =
       }
 
       .plan-type-badge {
-        background: var(--green-lime);
-        color: var(--green-dark);
+        background: var(--purple);
+        color: #ffffff;
         font-weight: 700;
         font-size: 0.9rem;
         padding: 0.4rem 1rem;
@@ -1621,7 +1617,10 @@ const feedbackEnabled =
         font-size: 0.9rem;
       }
 
-      /* Stats panel — circular ring on the left, three mini stats on the right. */
+      /* Stats panel — circular ring on the left, three mini stats on the right.
+         Built as the site's card: lilac surface, purple top edge, dark text.
+         It used to be a magenta gradient on the dark page with lime numbers,
+         a palette that appeared nowhere else on the site. */
       .stats-panel {
         display: grid;
         grid-template-columns: minmax(180px, 200px) 1fr;
@@ -1629,10 +1628,11 @@ const feedbackEnabled =
         gap: 1.5rem;
         margin-bottom: 1.75rem;
         padding: 1.4rem 1.5rem;
-        background: linear-gradient(135deg, rgba(178, 22, 158, 0.18), rgba(178, 22, 158, 0.06));
-        border: 1px solid rgba(178, 22, 158, 0.4);
+        background: #f9effd;
+        border: none;
+        border-top: 7px solid var(--purple);
         border-radius: 18px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
       }
 
       .stat-ring-wrap {
@@ -1648,15 +1648,17 @@ const feedbackEnabled =
         transform: rotate(-90deg);
       }
 
+      /* Track and fill both sit on the lilac card now, so the track is a
+         purple wash rather than a pale one meant for a dark background. */
       .ring-track {
         fill: none;
-        stroke: rgba(244, 255, 232, 0.15);
+        stroke: rgba(105, 0, 90, 0.16);
         stroke-width: 10;
       }
 
       .ring-fill {
         fill: none;
-        stroke: var(--green-lime);
+        stroke: var(--purple);
         stroke-width: 10;
         stroke-linecap: round;
         transition: stroke-dashoffset 0.4s ease;
@@ -1676,14 +1678,14 @@ const feedbackEnabled =
       .ring-value {
         font-size: 2.4rem;
         font-weight: 800;
-        color: var(--green-lime);
+        color: var(--purple);
         line-height: 1;
       }
 
       .ring-sublabel {
         font-size: 0.72rem;
         margin-top: 0.3rem;
-        color: rgba(244, 255, 232, 0.75);
+        color: #4a3a50;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
@@ -1694,10 +1696,12 @@ const feedbackEnabled =
         gap: 0.75rem;
       }
 
+      /* White tiles on the lilac card, matching the plan cards on the
+         dashboard. Previously translucent white on a dark panel. */
       .stat-mini {
         padding: 0.85rem 0.9rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(244, 255, 232, 0.1);
+        background: #ffffff;
+        border: 1px solid rgba(105, 0, 90, 0.18);
         border-radius: 12px;
         display: flex;
         flex-direction: column;
@@ -1707,14 +1711,14 @@ const feedbackEnabled =
       .stat-mini-value {
         font-size: 1.5rem;
         font-weight: 800;
-        color: var(--green-lime);
+        color: var(--purple);
         line-height: 1.1;
       }
 
       .stat-mini-of {
         font-size: 0.95rem;
         font-weight: 600;
-        color: rgba(244, 255, 232, 0.55);
+        color: #6b5a70;
         margin-left: 0.1rem;
       }
 
@@ -1722,7 +1726,7 @@ const feedbackEnabled =
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: rgba(244, 255, 232, 0.7);
+        color: #4a3a50;
       }
 
       .week-nav {
@@ -1732,33 +1736,48 @@ const feedbackEnabled =
         margin-bottom: 1.5rem;
       }
 
+      /* Week pills sit directly on the dark page, so they are white chips with
+         purple text rather than lime outlines on dark green. The active week
+         fills purple, which is the same primary treatment as "View Plan" on
+         the dashboard. */
       .week-pill {
         padding: 0.4rem 0.9rem;
         border-radius: 999px;
         font: inherit;
         font-size: 0.85rem;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        border: 2px solid var(--green-lime);
-        background: transparent;
-        color: var(--green-lime);
-        transition: all 0.15s;
+        border: 2px solid var(--purple);
+        background: #ffffff;
+        color: var(--purple);
+        transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
       }
 
-      .week-pill.complete {
-        background: rgba(178, 255, 89, 0.15);
+      /* A finished week gets a tick, not a colour. Colour is already carrying
+         "which week am I on", and a second colour state made the row read as
+         three competing highlights. */
+      .week-pill.complete::after {
+        content: ' ✓';
+        font-weight: 800;
       }
 
       .week-pill.locked {
-        opacity: 0.35;
+        opacity: 0.4;
         cursor: not-allowed;
-        border-color: #aaa;
-        color: #aaa;
+        background: rgba(255, 255, 255, 0.55);
+        border-color: #9a8a9e;
+        color: #6b5a70;
       }
 
       .week-pill.active {
-        background: var(--green-lime);
-        color: var(--green-dark);
+        background: var(--purple);
+        border-color: var(--purple);
+        color: #ffffff;
+      }
+
+      .week-pill:focus-visible {
+        outline: 3px solid var(--purple-light);
+        outline-offset: 2px;
       }
 
       .plan-content {
@@ -1796,8 +1815,8 @@ const feedbackEnabled =
       }
 
       .week-status-badge.complete {
-        background: var(--green-lime);
-        color: #0a1a0e;
+        background: var(--purple);
+        color: #ffffff;
       }
 
       .week-progress-text {
@@ -1836,7 +1855,7 @@ const feedbackEnabled =
         padding: 0.35rem 0.4rem;
         font: inherit;
         font-size: 0.85rem;
-        border: 2px solid var(--green-lime);
+        border: 2px solid var(--purple);
         border-radius: 6px;
         background: #ffffff;
         color: #1a1a1a;
@@ -1845,7 +1864,7 @@ const feedbackEnabled =
 
       .plan-content select.exercise-weight:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(192, 254, 113, 0.35);
+        box-shadow: 0 0 0 3px rgba(105, 0, 90, 0.25);
       }
 
       .plan-content tr.exercise-row.done select.exercise-weight {
@@ -1854,7 +1873,7 @@ const feedbackEnabled =
 
       /* Exercise name + inline description sit in the SAME cell as
          the exercise name. Name reads bold; description underneath
-         as a lime-green Saoirse banner. */
+         as a lilac Saoirse banner. */
       .plan-content .exercise-name-text {
         font-weight: 700;
         color: #1a1a1a;
@@ -1866,8 +1885,8 @@ const feedbackEnabled =
         gap: 0.55rem;
         margin-top: 0.45rem;
         padding: 0.5rem 0.75rem;
-        background: rgba(192, 254, 113, 0.22);
-        border-left: 3px solid var(--green-lime);
+        background: #f9effd;
+        border-left: 3px solid var(--purple);
         border-radius: 0 8px 8px 0;
         font-family: Georgia, 'Times New Roman', serif;
         font-weight: 400;
@@ -1883,7 +1902,7 @@ const feedbackEnabled =
         background: #ffffff;
         padding: 3px;
         box-sizing: border-box;
-        border: 2px solid var(--green-lime);
+        border: 2px solid var(--purple);
         flex-shrink: 0;
         object-fit: contain;
       }
@@ -1947,11 +1966,11 @@ const feedbackEnabled =
         width: 64px;
         height: 64px;
         border-radius: 50%;
-        background: rgba(192, 254, 113, 0.22);
+        background: #f9effd;
         padding: 6px;
         box-sizing: border-box;
         object-fit: contain;
-        border: 2px solid var(--green-lime);
+        border: 2px solid var(--purple);
       }
 
       .week-block .coach-tip-bubble {
@@ -2025,7 +2044,8 @@ const feedbackEnabled =
         width: 100%;
         background: #ffffff;
         color: #1a1a1a;
-        border: 2px solid var(--green-lime);
+        border: none;
+        border-top: 7px solid var(--purple);
         border-radius: 16px;
         padding: 2rem 1.75rem;
         text-align: center;
@@ -2038,7 +2058,7 @@ const feedbackEnabled =
         height: 110px;
         margin: -3rem auto 0.6rem;
         border-radius: 50%;
-        background: var(--green-lime);
+        background: var(--purple);
         padding: 8px;
         box-sizing: border-box;
         border: 3px solid #fff;
@@ -2074,7 +2094,7 @@ const feedbackEnabled =
         height: 120px;
         margin: -3.2rem auto 0.7rem;
         border-radius: 50%;
-        background: var(--green-lime);
+        background: var(--purple);
         padding: 8px;
         box-sizing: border-box;
         border: 3px solid #fff;
@@ -2162,13 +2182,13 @@ const feedbackEnabled =
       }
 
       .rating-btn.selected {
-        background: var(--green-lime);
-        border-color: var(--green-lime);
-        color: var(--green-dark);
+        background: var(--purple);
+        border-color: var(--purple);
+        color: #ffffff;
       }
 
       .rating-btn.selected small {
-        color: var(--green-dark);
+        color: rgba(255, 255, 255, 0.85);
       }
 
       .feedback-text-label {

@@ -78,6 +78,28 @@
     .page { box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45); }
   }
 
+  /* ── Fitting A4 onto a phone ─────────────────────────────────────────
+     The viewport meta is width=device-width, so on a phone the layout
+     viewport is around 390px while .page is a hard 210mm (~794px). The
+     page therefore overflowed to the right and sat pinned against the
+     left edge, because `margin: 0 auto` has no free space to centre into.
+
+     `zoom` rather than `transform: scale()`, because zoom reflows: the
+     page box genuinely gets smaller, so auto margins centre it and no
+     leftover whitespace is left behind where the unscaled box used to be.
+     A transform would paint smaller while still reserving 297mm of height
+     per page, leaving a gap between every sheet.
+
+     Screen only. Print still gets true A4 at full size, so the PDF export
+     described at the top of this file is unaffected. Steps rather than a
+     calc, because calc() cannot divide one length by another. */
+  @media screen and (max-width: 820px) { .page { zoom: 0.82; } }
+  @media screen and (max-width: 700px) { .page { zoom: 0.70; } }
+  @media screen and (max-width: 600px) { .page { zoom: 0.60; } }
+  @media screen and (max-width: 500px) { .page { zoom: 0.50; } }
+  @media screen and (max-width: 420px) { .page { zoom: 0.42; } }
+  @media screen and (max-width: 360px) { .page { zoom: 0.36; } }
+
   /* ── Shared page furniture ───────────────────────────────────────────
      The shamrock sat at a different size on nearly every Canva page. It is
      one rule here, so it cannot drift. */

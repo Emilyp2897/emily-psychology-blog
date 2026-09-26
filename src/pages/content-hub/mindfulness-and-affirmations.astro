@@ -91,19 +91,11 @@ const comingSoonRest = comingSoon.length - comingSoonShown.length;
       <section class="available" aria-labelledby="available-heading">
         <h2 id="available-heading" class="section-heading">Available now</h2>
 
+        {/* Practices first, workbook last. The workbook is the biggest thing
+            here and used to lead the list, which pushed the short practices
+            (the reason most people open this page) below it. It closes the
+            list now, the same way it closes the homepage. */}
         <ul class="mindfulness-list">
-          {liveWorkbooks.map((workbook) => (
-            <li class="mindfulness-card workbook-card-live">
-              <a href={workbook.file} target="_blank" rel="noopener">
-                <span class="champo-badge">Free download</span>
-                <h3 class="card-title">{workbook.title}</h3>
-                {workbook.description && <p class="card-sub">{workbook.description}</p>}
-                {workbook.pages && <p class="card-meta">{workbook.pages}</p>}
-                <span class="card-cta">Open the workbook &rarr;</span>
-              </a>
-            </li>
-          ))}
-
           {livePosts.map((post) => (
             <li class="mindfulness-card">
               <a href={`/content-hub/${post.slug}/`}>
@@ -112,6 +104,18 @@ const comingSoonRest = comingSoon.length - comingSoonShown.length;
                 )}
                 <h3 class="card-title">{post.data.title}</h3>
                 <span class="card-cta">Read it &rarr;</span>
+              </a>
+            </li>
+          ))}
+
+          {liveWorkbooks.map((workbook) => (
+            <li class="mindfulness-card workbook-card-live">
+              <a href={workbook.file} target="_blank" rel="noopener">
+                <span class="champo-badge">Free download</span>
+                <h3 class="card-title">{workbook.title}</h3>
+                {workbook.description && <p class="card-sub">{workbook.description}</p>}
+                {workbook.pages && <p class="card-meta">{workbook.pages}</p>}
+                <span class="card-cta">Open the workbook &rarr;</span>
               </a>
             </li>
           ))}

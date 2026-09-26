@@ -1,12 +1,11 @@
 ---
 title: "Pre-Performance Routines, Breathing & Cue Words"
 description: "Routines, breathing and cue words to settle yourself before a match."
-pubDate: "2026-09-05"
-hold: true
+pubDate: "2026-09-27"
 track: "gael-performance-toolkit"
 ---
 
-The practical companion to the posts on pressure. If you've read [Attention Control Theory: What's Actually Happening When Your Focus Slips](/content-hub/training-the-mind/attention-control-theory/) or [How Pressure Shows in Ladies Football](/content-hub/training-the-mind/how-pressure-shows-in-ladies-football/), this is where you actually do something about it.
+The practical companion to the posts on pressure. If you've read [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) or [Applying Championship Pressure in Ladies Gaelic Football](/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/), this is where you actually do something about it.
 
 <div class="shamrock-banner-purple">
   <span class="shamrock-icon"><img src="/assets/saoirse.png" alt="" /></span>

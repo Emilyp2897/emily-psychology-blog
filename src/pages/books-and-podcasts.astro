@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import saoirseImage from '../assets/saoirse.png';
 import { SITE_TITLE } from '../consts';
 
 // Only things Emily has actually read or listened to go on this page.
@@ -136,8 +138,10 @@ const topics = [
         <div class="deck-head">
           <img class="deck-logo" src="/assets/MTG_colour.png" alt="" aria-hidden="true" />
           <div class="deck-head-text">
-            <p class="deck-eyebrow">Reading list</p>
-            <h2 id="reading-card-heading" class="deck-series">Book List</h2>
+            {/* One name for this, not two. The card carried the eyebrow
+                "Reading list" above the heading "Book List", which are the
+                same thing said twice. */}
+            <h2 id="reading-card-heading" class="deck-series">Reading List</h2>
           </div>
         </div>
 
@@ -190,14 +194,21 @@ const topics = [
         ))}
       </section>
 
+      {/* Saoirse asks for recommendations, rather than a bordered banner with
+          a heading in it. The ask is one short line, so it did not need a
+          section heading and a panel around it. Same speech-bubble pattern as
+          the series pages. */}
       <section class="reading-ask" aria-labelledby="heading-ask">
-        <h2 id="heading-ask">Got one that helped you?</h2>
-        <p>Send it on and say what it did for you.</p>
-        <a class="reading-ask-link" href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
+        <h2 id="heading-ask" class="visually-hidden">Got one that helped you?</h2>
+        <Image src={saoirseImage} alt="" class="saoirse-avatar" aria-hidden="true" loading="lazy" />
+        <div class="saoirse-bubble">
+          <p class="reading-ask-copy">Got one that helped you? Send it on and say what it did for you.</p>
+          <a class="reading-ask-link" href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>
+        </div>
       </section>
 
       <p class="reading-fineprint">
-        None of these replace professional support. If you need someone now, the <a href="/resources">support resources page</a> has who to call.
+        These don't replace professional support. If you need someone now, the <a href="/resources">support resources page</a> has who to call.
       </p>
     </main>
 
@@ -499,36 +510,82 @@ const topics = [
     font-size: 0.8rem;
   }
 
-  /* Lilac panel like the Book List card above it, not a white-outlined box
-     on the dark page. */
+  /* ── The ask, as Saoirse ──────────────────────────────────────────────
+     Was a lilac panel with a heading and two lines in it, for an ask that is
+     one sentence long. Saoirse says it instead, using the same speech-bubble
+     pattern as the series pages: white bubble, thick purple border, a solid
+     offset shadow instead of a soft blur, and a bordered tail pointing back
+     at her. */
   .reading-ask {
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    gap: 0.4rem;
-    margin: 0 0 1.2rem;
-    padding: 1.2rem 1.4rem;
-    background: #f9effd;
-    border-left: 5px solid var(--purple);
-    border-radius: 0 12px 12px 0;
+    gap: 0.9rem;
+    margin: 0 0 1.6rem;
   }
 
-  .reading-ask h2 {
-    margin: 0;
-    color: var(--purple);
-    font-size: 1.15rem;
+  .saoirse-avatar {
+    flex: 0 0 auto;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    margin-top: 0.4rem;
+    animation: saoirse-bob 3.2s ease-in-out infinite;
   }
 
-  .reading-ask p {
+  @keyframes saoirse-bob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .saoirse-avatar { animation: none; }
+  }
+
+  .saoirse-bubble {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1.1rem 1.25rem;
+    background: #ffffff;
+    border: 3px solid var(--purple);
+    border-radius: 18px;
+    box-shadow: 0 8px 0 rgba(105, 0, 90, 0.18);
+  }
+
+  /* Tail pointing back at Saoirse. Two triangles so it gets a border too:
+     the outer one paints the purple edge, the inner one covers it in white
+     and leaves the border showing as a 3px line. */
+  .saoirse-bubble::before,
+  .saoirse-bubble::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  .saoirse-bubble::before {
+    left: -16px;
+    border-width: 10px 16px 10px 0;
+    border-color: transparent var(--purple) transparent transparent;
+  }
+
+  .saoirse-bubble::after {
+    left: -11px;
+    border-width: 7px 12px 7px 0;
+    border-color: transparent #ffffff transparent transparent;
+  }
+
+  .reading-ask-copy {
     margin: 0;
     color: #1a1a1a;
-    opacity: 0.85;
-    font-size: 0.95rem;
+    font-size: 1.02rem;
     line-height: 1.5;
   }
 
   .reading-ask-link {
-    margin-top: 0.3rem;
+    display: inline-block;
+    margin-top: 0.5rem;
     color: var(--purple) !important;
     font-weight: 700;
     text-decoration: underline;
@@ -592,5 +649,11 @@ const topics = [
 
     .deck-card-reading { padding: 1.1rem 1rem 1.2rem; }
     .deck-logo { width: 58px; }
+
+    /* Matches the sizes the series pages drop Saoirse to on a phone. */
+    .reading-ask { gap: 0.6rem; }
+    .saoirse-avatar { width: 54px; height: 54px; }
+    .saoirse-bubble { padding: 0.9rem 1rem; }
+    .reading-ask-copy { font-size: 0.95rem; }
   }
 </style>

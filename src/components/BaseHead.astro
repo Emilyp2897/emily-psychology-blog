@@ -42,6 +42,38 @@ const imageUrl = typeof image === 'string' ? image : (image?.src || fallbackImag
 
 <meta name="generator" content={Astro.generator} />
 
+<script is:inline>
+  // The site could open part-way down the page, or at the very bottom, rather
+  // than at the hero. That is the browser restoring the scroll position it
+  // remembered for the URL, which it does on a reload and on a fresh visit to
+  // a page you have been to before.
+  //
+  // Three things are deliberately left alone:
+  //   - Back and forward. Restoring your place is the right behaviour there;
+  //     returning from an article to a long series page should land you where
+  //     you left, not at the top.
+  //   - A real #hash target, so the skip link and the homepage's in-page
+  //     links still jump where they are supposed to.
+  //   - A reader who has already started scrolling before the page finished
+  //     loading. Yanking them back to the top would be worse than the bug.
+  (() => {
+    const entry = performance.getEntriesByType('navigation')[0];
+    if ((entry ? entry.type : 'navigate') === 'back_forward') return;
+    if (window.location.hash) return;
+
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    // Again after load, because the restore can land after scripts have run.
+    let moved = false;
+    const mark = () => { moved = true; };
+    addEventListener('wheel', mark, { passive: true, once: true });
+    addEventListener('touchstart', mark, { passive: true, once: true });
+    addEventListener('keydown', mark, { once: true });
+    addEventListener('load', () => { if (!moved) window.scrollTo(0, 0); }, { once: true });
+  })();
+</script>
+
 <link rel="canonical" href={canonicalURL} />
 
 <title>{title}</title>

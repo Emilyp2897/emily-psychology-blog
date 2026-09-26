@@ -944,30 +944,39 @@ body.resources-page header {
   margin-bottom: 2rem !important;
 }
 
+/* White cards with purple text, matching the plan cards on the dashboard.
+   These were lime outlines on the dark page.
+
+   The !important flags are load-bearing and were already here: this block
+   deliberately overrides the scoped .week-pill rules in plan/[id].astro and
+   team-plan/[token].astro, so the colours have to be changed here as well as
+   there or the page keeps the old palette. */
 .week-pill {
   padding: 1rem !important;
   border-radius: 12px !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  border: 2px solid var(--green-lime) !important;
-  background: transparent !important;
-  color: var(--green-lime) !important;
+  border: 2px solid var(--purple) !important;
+  background: #ffffff !important;
+  color: var(--purple) !important;
   text-align: center !important;
   cursor: pointer !important;
-  transition: all 0.15s !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
   line-height: 1.3 !important;
 }
 
 .week-pill.locked {
-  border-color: #444 !important;
-  color: #555 !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  border-color: #9a8a9e !important;
+  color: #6b5a70 !important;
   opacity: 1 !important;
   cursor: not-allowed !important;
 }
 
 .week-pill.active {
-  background: var(--green-lime) !important;
-  color: var(--green-dark) !important;
+  background: var(--purple) !important;
+  border-color: var(--purple) !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 600px) {
@@ -976,10 +985,16 @@ body.resources-page header {
   }
 }
 
-/* Dashboard plan cards */
+/* Dashboard plan cards.
+
+   As with .week-pill above, these !important rules override the scoped
+   styles in dashboard.astro, so the palette has to be changed here too.
+   Purple accents on white, matching the series cards on the Content Hub. */
 .plan-card {
   background: #ffffff !important;
+  border: 2px solid rgba(105, 0, 90, 0.22) !important;
   border-radius: 12px !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
   padding: 1.25rem 1.5rem !important;
   display: grid !important;
   gap: 0.5rem !important;
@@ -990,23 +1005,25 @@ body.resources-page header {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
+  gap: 0.75rem !important;
 }
 
 .plan-type {
   font-weight: 700 !important;
-  color: var(--green-dark) !important;
+  color: var(--purple) !important;
   font-size: 1rem !important;
 }
 
 .plan-status {
   font-size: 0.78rem !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   padding: 0.2rem 0.65rem !important;
   border-radius: 999px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
-  background: rgba(192, 254, 113, 0.2) !important;
-  color: var(--green-dark) !important;
+  background: rgba(105, 0, 90, 0.1) !important;
+  color: var(--purple) !important;
+  white-space: nowrap !important;
 }
 
 .plan-date {
@@ -1019,8 +1036,9 @@ body.resources-page header {
   display: inline-block !important;
   margin-top: 0.25rem !important;
   padding: 0.55rem 1rem !important;
-  background: #c0fe71 !important;
-  color: #1a2e1f !important;
+  background: var(--purple) !important;
+  border: 2px solid var(--purple) !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
   font-size: 0.9rem !important;
   border-radius: 8px !important;
@@ -1029,8 +1047,8 @@ body.resources-page header {
 }
 
 .plan-view-btn:hover {
-  background: #69005a !important;
-  color: #ffffff !important;
+  background: #ffffff !important;
+  color: var(--purple) !important;
 }
 
 /* Admin plan review - raw text readable */

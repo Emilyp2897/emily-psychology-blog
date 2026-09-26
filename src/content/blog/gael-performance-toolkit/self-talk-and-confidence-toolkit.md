@@ -1,11 +1,11 @@
 ---
 title: "Self-Talk and Confidence Toolkit"
 description: "Tools to rebuild confidence and protect it."
-pubDate: "2026-10-08"
+pubDate: "2026-09-27"
 track: "gael-performance-toolkit"
 ---
 
-What you say to yourself, and how to change it. Goes with [Understanding Confidence](/content-hub/training-the-mind/understanding-confidence/) and [Applying Confidence in LGFA](/content-hub/training-the-mind/applying-confidence-in-lgfa/).
+What you say to yourself, and how to change it. Goes with [Understanding Championship Pressure and Fear of Failure](/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/) and the [Championship Routines, Confidence & Sleep Toolkit](/content-hub/gael-performance-toolkit/championship-routines-toolkit/).
 
 Four tools you can start using this week.
 

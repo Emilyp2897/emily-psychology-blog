@@ -248,18 +248,6 @@ const champoPosts = allPosts
             <p class="series-band-sub">No subscription, no sign-up. New pieces through the year.</p>
           </div>
 
-          {/* The workbook is the only thing on the site you can print and
-              take away, so it gets its own line above the series tiles
-              rather than being buried on a hub page. */}
-          <a class="workbook-strip" href="/workbooks/mental-health-workbook.html" target="_blank" rel="noopener">
-            <span class="workbook-strip-tag">Free download</span>
-            <span class="workbook-strip-text">
-              <span class="workbook-strip-title">Mental Health Workbook</span>
-              <span class="workbook-strip-sub">43 pages of worksheets and trackers. Breathing, grounding, thought logs, sleep and mood.</span>
-            </span>
-            <span class="workbook-strip-cta" aria-hidden="true">&rarr;</span>
-          </a>
-
           <ul class="series-grid">
             {homeSeries.map((s) => (
               <li class:list={["series-tile", `series-tile-${s.key}`]}>
@@ -295,6 +283,26 @@ const champoPosts = allPosts
             <Image src={mentalImage} alt="Two players embracing on the pitch" class="band-photo" loading="lazy" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
             <PhotoCredit src={mentalImage.src} />
           </div>
+        </div>
+      </section>
+
+      <!-- 6. WORKBOOK -->
+      {/* The workbook is the only thing on the site you can print and take
+          away, so it closes the page rather than sitting above the series
+          tiles, where it competed with the four series for the same
+          attention. It is now the last thing on the homepage and the last
+          thing on the Mindfulness page. */}
+      <section class="home-band workbook-band" aria-labelledby="workbook-heading">
+        <div class="band-inner">
+          <h2 id="workbook-heading" class="workbook-band-heading">Take something away with you.</h2>
+          <a class="workbook-strip" href="/workbooks/mental-health-workbook.html" target="_blank" rel="noopener">
+            <span class="workbook-strip-tag">Free download</span>
+            <span class="workbook-strip-text">
+              <span class="workbook-strip-title">Mental Health Workbook</span>
+              <span class="workbook-strip-sub">43 pages of worksheets and trackers. Breathing, grounding, thought logs, sleep and mood.</span>
+            </span>
+            <span class="workbook-strip-cta" aria-hidden="true">&rarr;</span>
+          </a>
         </div>
       </section>
 
@@ -391,13 +399,31 @@ const champoPosts = allPosts
   }
 
 
-  /* Workbook strip on the Content Hub band. Purple on the lilac band so it
-     reads as a different kind of thing to the four series tiles. */
+  /* Workbook band: the last thing on the page. Lilac, matching the Content
+     Hub band, so the page closes on the same light note it used mid-page
+     rather than ending on the dark Mental Performance Plans band. */
+  .workbook-band {
+    padding: 2.5rem 0 3rem;
+    background: #f3e8f5;
+    border-top: 3px solid rgba(105, 0, 90, 0.25);
+  }
+
+  .workbook-band-heading {
+    margin: 0 auto 1.1rem;
+    max-width: 60ch;
+    color: var(--purple);
+    font-size: 1.5rem;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  /* Purple on the lilac band so it reads as a different kind of thing to the
+     four series tiles. */
   .workbook-strip {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin: 0 0 1.25rem;
+    margin: 0;
     padding: 0.95rem 1.2rem;
     background: #ffffff;
     border: 2px solid rgba(105, 0, 90, 0.2);

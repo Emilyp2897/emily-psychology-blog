@@ -461,9 +461,17 @@ const players: Player[] = [
   }
 
   /* ── Story dialog ── */
+  /* Position is set here rather than left to the browser. The UA stylesheet
+     for an open modal <dialog> differs between engines, which is the usual
+     reason a dialog centres on desktop Chrome but sits off to one edge on a
+     phone. Pinning all four insets and using auto margins takes the question
+     away from the browser, so the panel is centred on every device. */
   .story-dialog {
-    width: min(760px, 94vw);
+    position: fixed;
+    inset: 0;
+    width: min(760px, calc(100% - 2rem));
     max-height: 90vh;
+    margin: auto;
     padding: 0;
     border: none;
     border-radius: 18px;

@@ -301,19 +301,23 @@ const planTitle = plan
       .tp-header h1 { margin: 0 0 0.4rem; }
       .tp-meta { margin: 0; color: rgba(244, 255, 232, 0.7); font-size: 0.9rem; }
 
+      /* Lilac notice panel with purple text, same as /plan/[id] and the
+         dashboard. The coach's "message Emily" link was lime on a dark
+         tint here too. */
       .ai-disclaimer {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(244, 255, 232, 0.18);
-        border-left: 3px solid var(--green-lime);
-        border-radius: 10px;
-        padding: 0.85rem 1rem;
+        background: #f9effd;
+        border: none;
+        border-left: 5px solid var(--purple);
+        border-radius: 0 10px 10px 0;
+        padding: 0.85rem 1.1rem;
         margin-bottom: 1.5rem;
         font-size: 0.9rem;
         line-height: 1.55;
-        color: var(--green-light);
+        color: #1a1a1a;
       }
-      .ai-disclaimer strong { color: var(--green-lime); font-weight: 700; margin-right: 0.3rem; }
-      .ai-disclaimer a { color: var(--green-lime) !important; text-decoration: underline !important; font-weight: 600; }
+      .ai-disclaimer strong { color: var(--purple); font-weight: 700; margin-right: 0.3rem; }
+      .ai-disclaimer a { color: var(--purple) !important; text-decoration: underline !important; font-weight: 700; }
+      .ai-disclaimer a:hover { color: #4a0040 !important; }
 
       .week-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
       .week-pill {
@@ -321,15 +325,16 @@ const planTitle = plan
         border-radius: 999px;
         font: inherit;
         font-size: 0.85rem;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        border: 2px solid var(--green-lime);
-        background: transparent;
-        color: var(--green-lime);
-        transition: all 0.15s;
+        border: 2px solid var(--purple);
+        background: #ffffff;
+        color: var(--purple);
+        transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
       }
-      .week-pill.active { background: var(--green-lime); color: var(--green-dark); }
+      .week-pill.active { background: var(--purple); border-color: var(--purple); color: #ffffff; }
       .week-pill:hover { transform: translateY(-1px); }
+      .week-pill:focus-visible { outline: 3px solid var(--purple-light); outline-offset: 2px; }
 
       .plan-content {
         background: #ffffff;
@@ -353,11 +358,11 @@ const planTitle = plan
         width: 64px;
         height: 64px;
         border-radius: 50%;
-        background: rgba(192, 254, 113, 0.22);
+        background: #f9effd;
         padding: 6px;
         box-sizing: border-box;
         object-fit: contain;
-        border: 2px solid var(--green-lime);
+        border: 2px solid var(--purple);
       }
       .week-block .coach-tip-bubble {
         position: relative;
@@ -405,12 +410,15 @@ const planTitle = plan
 
       .tp-loading { color: #aaa; padding: 1rem 0; }
       .tp-error { padding: 1.5rem 0; color: #ff8a8a; }
+      /* Lilac card rather than a magenta-bordered wash. The magenta was the
+         one-off palette that the stats panel on /plan/[id] also used. */
       .tp-notready {
         padding: 1.5rem;
-        background: rgba(105, 0, 90, 0.15);
-        border: 1px solid rgba(178, 22, 158, 0.4);
+        background: #f9effd;
+        border: none;
+        border-top: 7px solid var(--purple);
         border-radius: 12px;
-        color: var(--green-light);
+        color: #1a1a1a;
         text-align: center;
       }
 
