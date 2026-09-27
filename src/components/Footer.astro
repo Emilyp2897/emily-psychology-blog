@@ -14,7 +14,7 @@ const today = new Date();
     </p>
 
     <p class="disclaimer">
-      Mind the Gael is an educational platform for female athletes. It is not a therapy service or medical provider. Nothing shared here is medical advice, a diagnosis, or a substitute for professional support. If you're going through a difficult time, please reach out to your GP or a qualified mental health professional. A list of crisis resources is available on our <a href="/resources">resources page</a>. If you feel unsafe or at risk, contact emergency services immediately.
+      Mind the Gael is an educational platform for female athletes. It is not a therapy service or medical provider. This site doesn't give medical advice, make diagnoses, or replace professional support. If you're going through a difficult time, please reach out to your GP or a qualified mental health professional. A list of crisis resources is available on our <a href="/resources">resources page</a>. If you feel unsafe or at risk, contact emergency services immediately.
     </p>
 
     <p class="footer-legal">
@@ -24,17 +24,11 @@ const today = new Date();
     <!-- Social links removed -->
   </div>
   
-  <div class="support-wrapper">
-    <button id="support-tab" class="support-tab" aria-label="Show support resources" aria-controls="support-drawer" aria-expanded="false">Help</button>
-    <div id="support-drawer" class="support-drawer" role="dialog" aria-modal="true" aria-labelledby="support-drawer-title" aria-hidden="true" tabindex="-1">
-      <button id="close-drawer" class="close-drawer" aria-label="Close support resources">✕</button>
-      <h2 id="support-drawer-title">Support Resources</h2>
-      <p><strong>Stronger Minds, Stronger Players will always be free.</strong></p>
-      <p>If you need guidance on support resources, you can reach out to me directly at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.</p>
-      <p>See the <a href="/resources">Resources page</a> for professional help services.</p>
-    </div>
-  </div>
-  
+  {/* The floating "Help" tab and its drawer were removed. The drawer held
+      three lines that pointed at the Resources page, which is already in the
+      main nav and linked from the disclaimer above, so it was a fourth route
+      to the same place taking up permanent space on every screen. */}
+
   {/* Saoirse is behind PUBLIC_CHAT_ENABLED. Off by default because every
       message is a paid API call. The script below is written to find nothing
       and do nothing when this block is not rendered. See lib/chat-enabled.ts. */}
@@ -78,127 +72,6 @@ const today = new Date();
       </form>
     </aside>
   )}
-<style>
-  .support-wrapper {
-    position: fixed;
-    left: 0;
-    bottom: 2vw;
-    z-index: 1000;
-    display: flex;
-    align-items: flex-end;
-    gap: 0.5rem;
-    pointer-events: none;
-  }
-
-  .support-tab {
-    display: none;
-    position: relative;
-    left: 0;
-    width: 2.5rem;
-    height: 100px;
-    padding: 0.75rem 0.5rem;
-    border-radius: 0 8px 8px 0;
-    background: var(--purple);
-    color: var(--green-light);
-    border: none;
-    font-size: 0.75rem;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1002;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
-    white-space: normal;
-    word-wrap: break-word;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    pointer-events: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .support-tab:hover {
-    background: var(--purple-dark, #5a3d82);
-    transform: translateX(4px);
-  }
-
-  .support-tab:active {
-    transform: translateX(2px);
-  }
-
-  .support-drawer {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 280px;
-    height: 100vh;
-    background: white;
-    z-index: 1001;
-    padding: 2rem 1.5rem;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
-    overflow-y: auto;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    pointer-events: auto;
-  }
-
-  .support-drawer.active {
-    display: block;
-    transform: translateX(0);
-  }
-
-  .support-drawer h2 {
-    color: var(--purple);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-  }
-
-  .support-drawer p {
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .support-drawer a {
-    color: var(--purple);
-    text-decoration: underline;
-    font-weight: 600;
-  }
-
-  .support-drawer a:hover {
-    color: var(--green-dark);
-  }
-
-  .close-drawer {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-    padding: 0;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .close-drawer:hover {
-    color: #333;
-  }
-
-  @media (max-width: 720px) {
-    .support-tab {
-      display: flex;
-    }
-  }
-</style>
 <style>
   .shamrock-chatbot-wrapper {
     position: fixed;
@@ -485,10 +358,6 @@ const today = new Date();
   }
 
   @media (max-width: 900px) {
-    body.content-hub-page .support-wrapper {
-      bottom: 0.75rem;
-    }
-
     body.content-hub-page .shamrock-chatbot-wrapper {
       bottom: 3.1rem;
     }
@@ -588,61 +457,6 @@ const today = new Date();
 
 <script>
   // @ts-nocheck
-  const supportTab = document.getElementById('support-tab');
-  const supportDrawer = document.getElementById('support-drawer');
-  const closeDrawer = document.getElementById('close-drawer');
-  let lastFocusedElement: HTMLElement | null = null;
-
-  function openDrawer() {
-    lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    supportDrawer?.classList.add('active');
-    supportDrawer?.setAttribute('aria-hidden', 'false');
-    supportTab?.setAttribute('aria-expanded', 'true');
-    closeDrawer?.focus();
-  }
-
-  function toggleDrawer(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (supportDrawer?.classList.contains('active')) {
-      closeDrawerFunc();
-    } else {
-      openDrawer();
-    }
-  }
-
-  function closeDrawerFunc() {
-    supportDrawer?.classList.remove('active');
-    supportDrawer?.setAttribute('aria-hidden', 'true');
-    supportTab?.setAttribute('aria-expanded', 'false');
-    lastFocusedElement?.focus();
-  }
-
-  if (supportTab) {
-    supportTab.addEventListener('click', toggleDrawer);
-  }
-
-  if (closeDrawer) {
-    closeDrawer.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeDrawerFunc();
-    });
-  }
-
-  // Close drawer when clicking outside
-  document.addEventListener('click', (e) => {
-    if (supportDrawer?.classList.contains('active') && e.target !== supportTab && !supportDrawer.contains(e.target as Node)) {
-      closeDrawerFunc();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && supportDrawer?.classList.contains('active')) {
-      closeDrawerFunc();
-    }
-  });
-
   const openChatBtn = document.getElementById('open-chat-panel');
   const openChatBubbleBtn = document.getElementById('open-chat-panel-bubble');
   const closeChatBtn = document.getElementById('close-chat-panel');

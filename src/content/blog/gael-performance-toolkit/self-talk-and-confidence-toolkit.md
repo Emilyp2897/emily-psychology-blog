@@ -2,6 +2,7 @@
 title: "Self-Talk and Confidence Toolkit"
 description: "Tools to rebuild confidence and protect it."
 pubDate: "2026-09-27"
+tags: ["championship"]
 track: "gael-performance-toolkit"
 ---
 

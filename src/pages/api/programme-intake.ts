@@ -335,7 +335,11 @@ async function generateTeaser(
   const response = await client.messages.create({
     model,
     temperature: 0.4,
-    max_tokens: 550,
+    // 350 words of prose is roughly 470 tokens, and the teaser also spends
+    // tokens on four headings and a bullet list, so 550 left no headroom and
+    // teasers were being cut off mid-bullet. The word limit in the prompt is
+    // what keeps the length down; this is only a backstop.
+    max_tokens: 900,
     // Cache the teaser system prompt for 5 minutes; subsequent intake
     // submissions within that window pay ~10% of normal input-token cost.
     system: [
@@ -389,6 +393,19 @@ async function generateMentalTeaser(
     '- DO include a "What you unlock when you buy" section listing what the full plan contains (in bullets).',
     '- Mental performance plans NEVER have exercises, sets, or reps. They are about routines, attentional skills, self-talk, breathing patterns, reset cues, and mindset frames.',
     '',
+    // These exist because the model invented two benefits that Mind the Gael
+    // does not sell: ongoing personal support from Emily, and "access to" the
+    // Toolkit. Both are the kind of claim that reads naturally in a sales
+    // section and is a mis-sale in a contract. The teaser is pre-purchase
+    // copy, so anything it promises has to be something the plan delivers.
+    'WHAT THE £2 BUYS, AND WHAT IT DOES NOT:',
+    '- The ONLY thing the athlete is paying for is the written plan itself, delivered as a document. Every bullet in "What you unlock when you buy" must describe something contained in that document.',
+    '- Everything else on Mind the Gael is free: all four content series, the Gael Performance Toolkit, the Mental Health Workbook, the chatbot. NEVER list free content as something the purchase unlocks. Do not write "access to the Gael Performance Toolkit" or similar. The plan DRAWS ON the Toolkit themes; it does not grant access to them.',
+    '- There is NO ongoing support, NO check-ins, NO calls, NO 1:1 sessions and NO coaching contact included. Never promise contact with Emily, "direct support", "support throughout", or anything that implies a person is available during the weeks of the plan.',
+    '- Do NOT promise outcomes, results, guarantees, timeframes for improvement, or anything about selection, performance or placing.',
+    '- Do NOT invent bonuses, extras, community access, follow-up plans, discounts or future content.',
+    '- If you are unsure whether something is included, leave it out.',
+    '',
     'VOICE: warm, direct, plain English. Match Emily Phelan\'s voice. No hype. No emojis. No em-dashes or en-dashes (use periods, commas, or parentheses instead). Keep it under 350 words.',
     '',
     'Use exactly these section headers, in this order:',
@@ -431,7 +448,11 @@ async function generateMentalTeaser(
   const response = await client.messages.create({
     model,
     temperature: 0.4,
-    max_tokens: 550,
+    // 350 words of prose is roughly 470 tokens, and the teaser also spends
+    // tokens on four headings and a bullet list, so 550 left no headroom and
+    // teasers were being cut off mid-bullet. The word limit in the prompt is
+    // what keeps the length down; this is only a backstop.
+    max_tokens: 900,
     system: [
       { type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } },
     ],

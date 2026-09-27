@@ -134,23 +134,67 @@ const homeSeries = [
 // Champo Week: every released post tagged "championship", pulled from all four
 // series. This is the headline theme while the championship is running, so it
 // sits directly under the hero. Tag a post and it appears here automatically.
-// Mental health goes last. "When it's more than nerves" has the earliest
-// pubDate, so straight date order opened the championship band on the most
-// serious piece in it. Everything else keeps date order behind it.
+//
+// The band deals one card from each series in turn rather than sorting by
+// date. Straight date order clustered the series together, because pieces in
+// a series tend to be published together: releasing two toolkits on the same
+// day put both of them side by side at the end of the band, and the reader
+// got a run of the same kind of thing instead of a mix.
+//
+// Within a series the order is still by date, so a series still reads in the
+// order it was written. Only the interleaving is new.
+//
+// Mental health goes last, whatever the dealing produces. "When it's more
+// than nerves" has the earliest pubDate in the band, so any date-led order
+// opened the championship section on the most serious piece in it.
 const champoTailSeries = 'strong-minds-stronger-players';
 
-const champoPosts = allPosts
+// Which series leads, and the rotation the band cycles through. Explainer
+// first, then the practical tool, then the short mindfulness piece.
+const champoSeriesOrder = [
+  'training-the-mind',
+  'gael-performance-toolkit',
+  'mindfulness-and-affirmations',
+];
+
+const champoTagged = allPosts.filter(
+  (post) => post.data.tags?.includes(CHAMPO_TAG) && isReleased(post, today)
+);
+
+const seriesOf = (post: (typeof champoTagged)[number]) => post.slug.split('/')[0];
+const byDate = (a: (typeof champoTagged)[number], b: (typeof champoTagged)[number]) =>
+  a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+
+// One queue per series, each in date order.
+const champoQueues = champoSeriesOrder.map((series) =>
+  champoTagged.filter((post) => seriesOf(post) === series).sort(byDate)
+);
+
+// Any series not named in the rotation above still appears, on the end of the
+// rotation, so tagging a post in a new series never silently drops it.
+const champoUnlisted = champoTagged
   .filter(
     (post) =>
-      post.data.tags?.includes(CHAMPO_TAG) &&
-      isReleased(post, today)
+      !champoSeriesOrder.includes(seriesOf(post)) && seriesOf(post) !== champoTailSeries
   )
-  .sort((a, b) => {
-    const aTail = a.slug.startsWith(`${champoTailSeries}/`) ? 1 : 0;
-    const bTail = b.slug.startsWith(`${champoTailSeries}/`) ? 1 : 0;
-    if (aTail !== bTail) return aTail - bTail;
-    return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
-  });
+  .sort(byDate);
+if (champoUnlisted.length > 0) champoQueues.push(champoUnlisted);
+
+// Deal one from each queue until every queue is empty. Queues run dry at
+// different rates, so the tail of a long series ends up consecutive once the
+// shorter ones are exhausted. That is unavoidable and still beats grouping.
+const champoInterleaved: typeof champoTagged = [];
+const longestQueue = Math.max(0, ...champoQueues.map((queue) => queue.length));
+for (let round = 0; round < longestQueue; round += 1) {
+  for (const queue of champoQueues) {
+    if (queue[round]) champoInterleaved.push(queue[round]);
+  }
+}
+
+const champoPosts = [
+  ...champoInterleaved,
+  ...champoTagged.filter((post) => seriesOf(post) === champoTailSeries).sort(byDate),
+];
 ---
 
 <!doctype html>

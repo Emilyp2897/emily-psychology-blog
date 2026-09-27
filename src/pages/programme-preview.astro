@@ -80,14 +80,14 @@ import { SITE_TITLE } from '../consts';
           if (contentWrap) contentWrap.hidden = false;
           if (ctaEl) ctaEl.hidden = false;
 
-          // Wire the Buy buttons to carry the token through Stripe.
-          // Route to mental plan IDs if this intake is a mental performance plan.
-          const planType = (data.planType === 'mental') ? 'mental' : 'physical';
-          const plan6 = planType === 'mental' ? 'mental-6-week' : 'programme-6-week';
-          const buy6Label = planType === 'mental' ? 'Buy 6-Week Mental Plan' : 'Buy 6-Week Programme';
+          // Wire the Buy button to carry the token through Stripe. The mental
+          // performance plan is the only paid product now, so there is no
+          // longer a plan type to branch on. The £10 physical plan was retired
+          // in create-checkout-session.ts and pointing at it here would fail
+          // the VALID_PLANS check.
           if (buy6 instanceof HTMLAnchorElement) {
-            buy6.href = '/api/create-checkout-session?plan=' + plan6 + '&token=' + encodeURIComponent(token);
-            buy6.textContent = buy6Label;
+            buy6.href = '/api/create-checkout-session?plan=mental-6-week&token=' + encodeURIComponent(token);
+            buy6.textContent = 'Buy 6-Week Mental Plan';
           }
         } catch (err) {
           console.error('Preview load error:', err);

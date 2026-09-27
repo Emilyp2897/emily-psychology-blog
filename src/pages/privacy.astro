@@ -5,7 +5,13 @@ import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
 
 // Last revised stamp. Update this whenever the policy changes.
-const lastRevised = '11 June 2026';
+const lastRevised = '27 September 2026';
+
+// Which country the Supabase project (accounts and saved plans) runs in.
+// Set this from Supabase dashboard > Project Settings > General > Region.
+// It renders in the processor table in section 6 and is referenced by the
+// international-transfers wording in section 7, so both follow this value.
+const SUPABASE_REGION = 'REGION TO BE CONFIRMED';
 ---
 
 <!doctype html>
@@ -47,26 +53,32 @@ const lastRevised = '11 June 2026';
           <li><strong>Sport details:</strong> sport, competition level, years competing, equipment, schedule, training frequency, matches per week.</li>
           <li><strong>Plan inputs:</strong> goals, season phase, performance moments to work on, peak and struggle moments, current routines, anything else you choose to share.</li>
           <li><strong>Health-related information (special category data):</strong> medical conditions, injuries, menstrual cycle status (optional), mental wellbeing context you share through the plan goals or "anything else" fields.</li>
-          <li><strong>Consent confirmations:</strong> your confirmation that you are 18 or over, and that you consent to being contacted about your plan.</li>
+          <li><strong>Consent confirmations:</strong> your confirmation you are 18 or over, and your consent to being contacted about your plan.</li>
         </ul>
 
-        <h3>3.2 When you buy a plan or subscription</h3>
+        <h3>3.2 When you buy a plan</h3>
         <ul>
           <li><strong>Payment details:</strong> handled directly by Stripe. Mind the Gael never sees your card number, CVV, or full payment details. We receive only the email address you used at checkout and a Stripe session reference.</li>
         </ul>
 
-        <h3>3.3 When you use the chatbot (Saoirse)</h3>
+        <h3>3.3 When you create an account</h3>
+        <ul>
+          <li><strong>Account details:</strong> your email address and password, handled by Supabase. Passwords are stored by Supabase as salted hashes and are never visible to us.</li>
+          <li><strong>Your plans:</strong> the plans you have bought are stored against your account so you can open them from your dashboard.</li>
+        </ul>
+
+        <h3>3.4 When you use the chatbot (Saoirse)</h3>
         <ul>
           <li>The text of your messages to the chatbot, and any feedback you give on individual replies.</li>
           <li>No account information beyond a per-session anonymous ID. We do not link chatbot messages to other personal data unless you give us your name or email in the message itself.</li>
         </ul>
 
-        <h3>3.4 When you submit content feedback or a plan report</h3>
+        <h3>3.5 When you submit content feedback or a plan report</h3>
         <ul>
           <li>The feedback text you submit and an optional email address if you choose to leave one.</li>
         </ul>
 
-        <h3>3.5 Automatically collected</h3>
+        <h3>3.6 Automatically collected</h3>
         <ul>
           <li><strong>Usage data via Vercel Analytics:</strong> aggregated, anonymised page-view counts and basic device/region information. No individual user is identified.</li>
           <li><strong>Essential cookies:</strong> a small set of cookies needed to run the site (session security, Stripe checkout, your cookie-consent choice).</li>
@@ -130,6 +142,20 @@ const lastRevised = '11 June 2026';
               <td>Your intake submission and teaser content, until deleted per the retention schedule</td>
               <td>United States / European Union</td>
             </tr>
+            {/* TODO before publishing: set the Supabase region. It is shown in
+                the Supabase dashboard under Project Settings > General >
+                Region. It could not be determined from the API, because
+                Cloudflare fronts the project and returns the edge location of
+                whoever is asking rather than where the data actually lives.
+                Do not guess: this row states which country personal data sits
+                in, and a wrong answer here is the kind of thing a regulator
+                checks first. */}
+            <tr>
+              <td><strong>Supabase</strong></td>
+              <td>Runs account sign-in and stores the plans shown in your dashboard</td>
+              <td>Your email address, your hashed password, and the content of plans you have bought</td>
+              <td>{SUPABASE_REGION}</td>
+            </tr>
             <tr>
               <td><strong>Resend</strong></td>
               <td>Sends your plan email, holding email, and any safety-related emails</td>
@@ -152,7 +178,7 @@ const lastRevised = '11 June 2026';
         <p>Several of our processors are based in the United States. When we transfer your personal data outside the UK or EU, we rely on the following safeguards:</p>
         <ul>
           <li><strong>EU-US Data Privacy Framework (DPF) and UK Extension:</strong> Anthropic, Stripe, Vercel, Resend, and Google are certified under the DPF (or its UK Extension), which the European Commission and the UK Government have recognised as providing an adequate level of protection.</li>
-          <li><strong>Standard Contractual Clauses (SCCs):</strong> where a processor is not DPF-certified for a specific transfer, we rely on the UK / EU Standard Contractual Clauses incorporated into their data processing agreements.</li>
+          <li><strong>Standard Contractual Clauses (SCCs):</strong> where a processor is not DPF-certified for a specific transfer, we rely on the UK / EU Standard Contractual Clauses incorporated into their data processing agreements. This includes Supabase, which processes account data under the SCCs in its data processing addendum.</li>
         </ul>
       </section>
 
@@ -201,7 +227,9 @@ const lastRevised = '11 June 2026';
 
       <section class="policy-section">
         <h2>11. AI-generated content</h2>
-        <p>Performance plans on Mind the Gael are generated using Anthropic's Claude AI model from the details you submit. We label this clearly on the intake form. AI output can contain errors, and during the platform's early phase every plan is reviewed by Emily before it is sent to you. We provide a "report this plan" link on every plan email so you can flag anything that feels unclear, unsafe, or off.</p>
+        <p>Performance plans on Mind the Gael are generated using Anthropic's Claude AI model from the details you submit. We label this clearly on the intake form, on the plan itself, and in the email that delivers it. AI output can contain errors.</p>
+        <p>Standard plans are sent to you automatically without a human reading them first. Plans built for pregnancy, postpartum, endometriosis, or a return to play after injury are read by Emily before they reach you, because a generic plan in those situations can be wrong in a way that matters. If your intake indicates a mental health crisis, no plan is generated at all and you are shown support resources instead.</p>
+        <p>Every plan carries a way to report a problem, so you can flag anything that looks unclear, unsafe, or wrong.</p>
         <p>Mind the Gael does not use your data to train AI models. Anthropic's Commercial Terms confirm that API inputs are not used for model training.</p>
       </section>
 
@@ -217,7 +245,7 @@ const lastRevised = '11 June 2026';
 
       <section class="policy-section">
         <h2>13. Crisis disclosures</h2>
-        <p>If your intake submission or chatbot message contains an indication that you are in a mental health crisis (for example, self-harm or suicidal ideation), the platform will halt plan generation, show you a support message, and email Emily directly so she can reach out and signpost professional support. We may share what you have written with relevant emergency or support services if we believe it is necessary to protect your life or safety. This is rare and limited to those circumstances.</p>
+        <p>If your intake submission or chatbot message indicates you are in a mental health crisis (for example, self-harm or suicidal ideation), the platform will halt plan generation, show you a support message, and email Emily directly so she can reach out and signpost professional support. We may share what you have written with relevant emergency or support services if we believe it is necessary to protect your life or safety. This is rare and limited to those circumstances.</p>
       </section>
 
       <section class="policy-section">

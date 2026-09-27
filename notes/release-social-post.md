@@ -1,80 +1,80 @@
-# Release social post
+# Social post
 
-For the 27 September 2026 release: the Pre-Performance Routines toolkit and the
-Self-Talk and Confidence toolkit. Copy and paste, not published from the repo.
+For the 27 September release. Leads with what Mind the Gael is, because most
+people scrolling past still won't know, then gets to the two new toolkits.
 
-The launch announcement is a separate post, in `launch-social-post.md`. This one
-assumes people have already heard the site exists, so it leads with the tools
-rather than re-introducing the platform.
+Copy and paste. The older launch-announcement draft is in
+`launch-social-post.md`.
 
 ---
 
-## Instagram / Facebook (main post)
+## Instagram / Facebook
 
-**Caption:**
+Mind the Gael is a website about the mental side of sport for female athletes.
 
-Two new toolkits are up on Mind the Gael.
+Sports psychology, practical tools, mental health, and short mindfulness
+practices. Written for players, not for a lecture hall. All of it free, no sign
+up, no subscription.
 
-The first is pre-performance routines. Breathing, cue words, and what to
-actually do in the warm-up when you can feel your heart rate climbing past
-where it needs to be. Three tools. Use one, use all three, or mix them with
-whatever you already do.
+I built it because I spent about fifteen years in sport with anxiety and
+depression and nobody gave me the language for any of it. I'm not a
+psychologist. I'm a player who went looking for this stuff and had to piece it
+together the hard way.
 
-The second is self-talk and confidence. Four tools, including the one I'd
-start with if you only do a single thing: a confidence ledger. Ten specific
-things you do well in your position, written down. Not "I'm a good player."
-Specific. "I read short kickouts." "I never give up on a 50-50."
+Two new toolkits went up today.
 
-The reason that one matters is that confidence runs on evidence, and when your
-confidence drops your brain stops noticing the wins. The ledger is the record
-of who you actually are as a player, there for you when your head is telling
-you otherwise.
+**Pre-performance routines.** Breathing, cue words, and what to actually do in
+the warm-up when you can feel your heart rate climbing past where it needs to
+be. Three tools. Use one, use all three, or mix them with whatever you already
+do.
 
-Both are free, like everything else on the site. No sign up.
+**Self-talk and confidence.** Four tools. The one I'd start with is the
+confidence ledger: ten specific things you do well in your position, written
+down. Not "I'm a good player". Specific. "I read short kickouts." "I never give
+up on a 50-50." Because when your confidence drops, your brain stops noticing
+the wins, and the ledger is there to argue back.
 
 mindthegael.co.uk
 
-**Hashtags:**
 #MindTheGael #LGFA #LadiesGaelicFootball #GAA #CamogieLife #WomensSport
 #SportsPsychology #MentalHealthInSport #FemaleAthletes #HollowayGaels
 
 ---
 
-## Shorter version (Story / X / LinkedIn)
+## Short version (Story / X / LinkedIn)
 
-Two new toolkits on Mind the Gael.
+Mind the Gael is a free website about the mental side of sport for female
+athletes. Sports psychology, practical tools, mental health.
 
-Pre-performance routines: breathing and cue words for when the pressure starts
-to rise before a game.
+Two new toolkits up today: pre-performance routines, and self-talk and
+confidence.
 
-Self-talk and confidence: four tools for rebuilding confidence and protecting
-it once you have it.
-
-Free, no sign up. mindthegael.co.uk
+mindthegael.co.uk
 
 ---
 
-## Story sequence (3 slides)
+## Story slides
 
-1. **Two new toolkits are up.** Pre-performance routines, and self-talk and
+1. **What is Mind the Gael?** A free website about the mental side of sport for
+   female athletes.
+2. **Why.** Fifteen years of anxiety and depression in sport, and nobody gave
+   me the language for it.
+3. **Two new toolkits today.** Pre-performance routines. Self-talk and
    confidence.
-2. **Start with the confidence ledger.** Ten specific things you do well in
-   your position. Written down, added to after every session. Because when
-   confidence drops, your brain stops noticing the wins.
-3. **Free, no sign up.** mindthegael.co.uk (link sticker)
+4. **Start with the confidence ledger.** Ten specific things you do well in
+   your position, written down. Because when confidence drops, your brain stops
+   noticing the wins.
+5. **Free, no sign up.** mindthegael.co.uk
 
 ---
 
-## Notes
+## Worth knowing
 
-- The confidence ledger is the hook. It's concrete, it takes five minutes, and
-  someone can do it the evening they read the post. Lead with it over the
-  breathing work, which is harder to make sound like anything in a caption.
-- Post the evening before a match weekend rather than after. Both toolkits are
-  things you'd use in the build-up, so they land better on a Thursday or
-  Friday than on a Sunday.
-- If you'd rather run one toolkit per post instead of both together, split it:
-  self-talk first, since the ledger gives you the stronger hook, then
-  pre-performance routines the following week tied to a match day.
-- Hold the player-profile ask out of this post. Mixing a content release with
-  a request for personal stories weakens both.
+- The intro paragraph does the work. Most people seeing this have never heard
+  of the site, so leading with the toolkits assumes knowledge they don't have.
+- The confidence ledger is the strongest hook in the post. It's concrete and
+  someone can do it the same evening.
+- Post Thursday or Friday. Both toolkits are build-up tools, so they land
+  better before a match weekend than after one.
+- Keep the player-story ask out of this. Mixing a content post with a request
+  for personal stories weakens both.

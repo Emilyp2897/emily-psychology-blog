@@ -90,7 +90,11 @@ import { SITE_TITLE } from '../consts';
             return;
           }
 
-          showSuccess(data.message || 'Your plan has been generated and is being reviewed by Emily. It will be available in your dashboard within 48 hours.');
+          // The API sends the accurate message for this plan, which differs
+          // depending on whether it sent automatically or is waiting on Emily.
+          // This fallback only shows if that message is missing, so it states
+          // the common case: the plan is already in the dashboard.
+          showSuccess(data.message || 'Your plan has been generated and is waiting in your dashboard.');
         } catch (err) {
           console.error('Finalize error:', err);
           showError(

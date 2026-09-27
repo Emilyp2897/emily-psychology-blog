@@ -1,82 +1,59 @@
 # Group chat message
 
-Draft for the Holloway Gaels group chat. Copy and paste, not published from
-the repo. Written to be read on a phone between work and training, so it is
-short and the asks are numbered rather than buried in a paragraph.
-
-Four asks in one message is a lot, so there is also a split version below if
-the single message feels like too much at once.
+Draft for the Holloway Gaels WhatsApp. Copy, paste, edit so it sounds like you.
 
 ---
 
-## Single message
+## The message
 
-Hi all. Quick one about the Mind the Gael website, and four things I could use
-your help with.
+Hi all, bit of a long one, sorry.
 
-For anyone who hasn't seen it, it's mindthegael.co.uk. It's sports psychology,
-practical tools and mental health content for female athletes. Everything on
-it is free.
+As some of you are aware, I was diagnosed with anxiety and depression. I built
+Mind the Gael when I wasn't working, partly to help me understand what was
+happening to me, and partly because I kept thinking that if I'd had something
+like it at 16 or 22 I might not have lost as many years to it as I did.
 
-1. **Player stories.** The biggest thing missing is other people's stories.
-Mine is on there, but one person's experience isn't much use on its own. If
-you'd be up for sharing yours, I'll send you a few questions and you can
-answer as much or as little as you want. You can use your first name only, or
-stay anonymous.
+It's a website about the mental side of sport. Sports psychology, practical
+tools you can actually use before a game, mental health stuff, and short
+mindfulness bits. It's all free, there's no sign up.
 
-2. **Books and podcasts.** There's a reading list on the site, and it only has
-things I've actually read or listened to. If something helped you, send it on
-and say what it did for you. Sport or mental health, either is grand.
+mindthegael.co.uk
 
-3. **Feedback.** If you've had a look and something reads badly, doesn't make
-sense, or feels off, I'd rather hear it than not. Same for anything that was
-useful. There's a feedback link on every page, or just message me.
+There's four things I could use help with if anyone is willing.
 
-4. **Photos.** Some of the club and match photos are on the site already. If
-you'd rather your photo wasn't on there, tell me and I'll take it down. No
-explanation needed and no hard feelings, I just want to check rather than
-assume.
+**1. Your stories.** Mine's on there but one person's experience isn't much
+good on its own. If you'd be up for sharing yours I'll send you a few
+questions, you answer whatever you're comfortable with, and I'll write it up
+and send it back to you before anything goes near the website. First name only
+or completely anonymous is grand.
 
-Thanks a million.
+**2. Books or podcasts.** There's a reading list on the site and it's only
+things that have actually been read or listened to, not a list off the
+internet. If something helped you, send it on and tell me what it did for you.
 
----
+**3. Tell me what's rubbish.** If you have a look and something reads badly or
+doesn't make sense, I'd genuinely rather know. There's a feedback link on every
+page or just message me.
 
-## Split version
+**4. Photos.** There's a few club and match photos on the site already. If you
+don't want yours up there just tell me and I'll take it down, no explanation
+needed and honestly no bother at all.
 
-### Message 1 (stories and photos)
-
-Hi all. Two quick things about the Mind the Gael website (mindthegael.co.uk).
-
-First, I'm looking for player stories. Mine's on there, but one person's
-experience isn't much use on its own. If you'd share yours I'll send you a few
-questions, and you can answer as much or as little as you want. First name
-only or fully anonymous is fine.
-
-Second, some club and match photos are already on the site. If you'd rather
-yours wasn't on there, tell me and I'll take it down. No explanation needed, I
-just want to check rather than assume.
-
-### Message 2 (a few days later)
-
-One more Mind the Gael thing. Two small asks.
-
-If a book or a podcast has helped you, sport or mental health, send it on and
-say what it did for you. There's a reading list on the site and it only has
-things someone has actually read or listened to.
-
-And if you've had a look and something reads badly or doesn't make sense, I'd
-rather hear it. There's a feedback link on every page, or just message me.
+Thanks a million x
 
 ---
 
-## Notes
+## If that feels like too much at once
 
-- The photo ask is phrased as opt-out because opt-in would mean chasing
-  everyone individually. If you'd rather be stricter about consent, switch it
-  to "message me if you're happy for yours to stay" and pull anything you
-  don't hear back on.
-- Send this after training rather than during the work day. Better read rate
-  and people have the phone in their hand.
+Split it. Send the story and photo ask first, then the books and feedback ask a
+few days later.
+
+## Worth knowing
+
 - Ask the two players you already have in mind directly rather than waiting for
-  them to volunteer in the group. A group ask plus a direct follow-up gets a
-  far better response than either on its own.
+  them to put their hand up in the group. People rarely volunteer for this in
+  front of everyone, but they'll often say yes to a direct message.
+- The photo bit is opt out. If you'd rather be stricter, change it to "message
+  me if you're happy for yours to stay up" and pull anything you don't hear
+  back on.
+- Send it after training, not during the work day.

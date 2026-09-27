@@ -12,13 +12,19 @@ import type {
 //   1. Whether a training plan should be generated at all
 //   2. Where the plan/notification should be sent (Emily vs client)
 //
-// v1 -> v2 flip is a single env var change:
-//   PLAN_DESTINATION_STANDARD=emily   (v1, current default)
-//   PLAN_DESTINATION_STANDARD=client  (v2, autonomous)
+// Standard plans are autonomous. They generate and go straight to the
+// customer with no review step, and the plan itself carries the AI notice
+// telling the reader it was machine-generated and how to get in touch if
+// something in it looks wrong.
+//
+//   PLAN_DESTINATION_STANDARD=client  (autonomous, current default)
+//   PLAN_DESTINATION_STANDARD=emily   (puts every standard plan back in the
+//                                      review queue, if that is ever needed)
 //
 // Specialised tracks (pregnancy / postpartum / endometriosis /
 // return-to-play) and clinical-pause red flags ALWAYS route to Emily,
-// regardless of the env var. This is hard-coded per Emily's decision.
+// regardless of the env var. This is hard-coded per Emily's decision and the
+// env var cannot switch it off.
 // ────────────────────────────────────────────────────────────────────
 
 export function decideRouting(input: {
@@ -57,10 +63,12 @@ export function decideRouting(input: {
 }
 
 function readStandardDestination(): PlanDestination {
-  // Astro server-side reads from import.meta.env. Defaults to 'emily' if
-  // unset — v1 behaviour. To enable v2 autonomous mode for standard plans,
-  // set PLAN_DESTINATION_STANDARD=client in the Vercel environment.
-  const raw = (import.meta.env.PLAN_DESTINATION_STANDARD as string | undefined) || 'emily';
-  if (raw === 'client') return 'client';
-  return 'emily';
+  // Astro server-side reads from import.meta.env. Defaults to 'client':
+  // standard plans send themselves. The default lives here rather than in the
+  // Vercel environment so the behaviour is the same locally, in preview and in
+  // production, and so it cannot be changed by accident from a dashboard.
+  // Set PLAN_DESTINATION_STANDARD=emily to put standard plans back in review.
+  const raw = (import.meta.env.PLAN_DESTINATION_STANDARD as string | undefined) || 'client';
+  if (raw === 'emily') return 'emily';
+  return 'client';
 }

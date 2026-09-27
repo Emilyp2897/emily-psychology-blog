@@ -11,6 +11,7 @@ import {
   detectAvoidIfTags,
 } from '../../data/exercises';
 import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
+import { decideRouting } from '../../lib/plan-routing';
 import { buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
 
 function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
@@ -182,6 +183,21 @@ export async function finalizeIntake(opts: {
     });
   }
 
+  // 3a. Decide where this plan goes.
+  //
+  // This used to be hard-coded to "always wait for Emily", which meant the
+  // routing module below was never consulted and the documented env-var flip
+  // to autonomous mode did nothing.
+  //
+  // Standard plans now go straight to the customer. The four specialised
+  // tracks (pregnancy, postpartum, endometriosis, return-to-play) still stop
+  // for Emily, because those are the cases where a generic plan can be wrong
+  // in a way that matters physically. Red-flag cases never reach this
+  // function at all: they are caught at intake and no plan is generated, so
+  // redFlags is empty by construction here.
+  const routing = decideRouting({ redFlags: [], track });
+  const sendStraightToClient = routing.destination === 'client';
+
  // 3b. Save the full plan to Supabase.
 try {
   const { createClient } = await import('@supabase/supabase-js');
@@ -199,7 +215,9 @@ try {
       user_id: matchedUser.id,
       plan_type: planType,
       plan_content: fullPlan,
-      status: 'pending_review',
+      // 'active' means the customer can open it in the dashboard right away.
+      // A specialised-track plan stays 'pending_review' until Emily releases it.
+      status: sendStraightToClient ? 'active' : 'pending_review',
       weeks_total,
       created_at: new Date().toISOString(),
     });
@@ -213,7 +231,8 @@ try {
   console.error('Failed to save plan to Supabase:', err);
 }
 
- // 4. Email Emily a short notification (not the full plan - she reviews in dashboard).
+ // 4. Email Emily her notification copy either way, so she has a record of
+ //    every plan sold even when she is not the one releasing it.
 await sendEmilyNotification({
   intake,
   fullPlan,
@@ -222,11 +241,16 @@ await sendEmilyNotification({
   sessionId,
   token,
   planType,
-  reviewRequired: true,
+  reviewRequired: !sendStraightToClient,
 });
 
-// 5. Email the client a holding message.
-await sendClientHoldingEmail({ intake, planType });
+// 5. Email the client: the plan itself, or a holding message if it is waiting
+//    on Emily.
+if (sendStraightToClient) {
+  await sendClientPlanReadyEmail({ intake, planType });
+} else {
+  await sendClientHoldingEmail({ intake, planType });
+}
 
 // 6. Mark intake session finalized.
 await sql`
@@ -237,8 +261,10 @@ await sql`
 
   return {
     ok: true,
-    sentFullPlanToClient: false,
-    message: 'Thanks for your purchase. Your plan is being reviewed and will be available in your dashboard within 48 hours.',
+    sentFullPlanToClient: sendStraightToClient,
+    message: sendStraightToClient
+      ? 'Thanks for your purchase. Your plan is ready and waiting in your dashboard.'
+      : 'Thanks for your purchase. Your plan is being reviewed and will be available in your dashboard within 48 hours.',
   };
 }
 
@@ -834,6 +860,89 @@ async function sendEmilyNotification(input: {
   });
 }
 
+// Sent when a standard plan goes straight to the customer. The AI notice is
+// the thing carrying the weight here: there is no review step behind it, so
+// the email has to say plainly what made the plan and what to do if it reads
+// wrong, rather than burying that under the good news.
+async function sendClientPlanReadyEmail(input: {
+  intake: ConsultationWithPlanRequest;
+  planType: 'physical' | 'mental';
+}): Promise<void> {
+  const resendApiKey = import.meta.env.RESEND_API_KEY;
+  const fromEmail =
+    import.meta.env.CONSULTATION_FROM_EMAIL || 'Mind the Gael <onboarding@resend.dev>';
+  if (!resendApiKey) throw new Error('Missing RESEND_API_KEY.');
+
+  const { intake, planType } = input;
+  const firstName = (intake.name || '').split(' ')[0] || 'there';
+  const duration = intake.planDuration || '6-week';
+  const planLabel = planType === 'mental' ? 'mental performance plan' : 'training plan';
+  const dashboardUrl = 'https://mindthegael.co.uk/dashboard';
+
+  const text = [
+    `Hi ${firstName},`,
+    '',
+    `Your ${duration} ${planLabel} is ready. It's in your dashboard now: ${dashboardUrl}`,
+    '',
+    'Log in with the email address you used at checkout. The plan is laid out week by week, and you can tick sessions off as you go or print the whole thing.',
+    '',
+    'One thing worth knowing: your plan was written by AI from the answers you gave on the intake form. It has not been read by a person before reaching you. It draws on the same twelve themes as the Gael Performance Toolkit, but AI can get things wrong.',
+    '',
+    'So read it with that in mind. If something in it looks wrong for you, does not match what you asked for, or feels unsafe, stop and email me at ' + EMILY_EMAIL + ' rather than pushing through it. I will fix it or refund you, whichever you prefer.',
+    '',
+    'This is not clinical advice and it does not replace your GP, your physio, or a qualified mental health professional.',
+    '',
+    buildSignatureText(),
+  ].join('\n');
+
+  const html = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #1a2e1f; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://mindthegael.co.uk/assets/MTG_colour.png" alt="Mind the Gael" style="max-width: 180px; height: auto;" />
+      </div>
+      <p>Hi ${firstName},</p>
+      <p>Your <strong>${duration} ${planLabel}</strong> is ready.</p>
+      <p style="text-align: center; margin: 26px 0;">
+        <a href="${dashboardUrl}" style="display: inline-block; background: #69005a; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Open your plan</a>
+      </p>
+      <p>Log in with the email address you used at checkout. The plan is laid out week by week, and you can tick sessions off as you go or print the whole thing.</p>
+      <div style="background: #f9effd; border-left: 5px solid #69005a; padding: 14px 18px; margin: 20px 0; border-radius: 0 6px 6px 0;">
+        <p style="margin: 0 0 10px;"><strong>Your plan was written by AI.</strong> It was built from the answers you gave on the intake form and has not been read by a person before reaching you. It draws on the same twelve themes as the Gael Performance Toolkit, but AI can get things wrong.</p>
+        <p style="margin: 0;">If something in it looks wrong for you, does not match what you asked for, or feels unsafe, stop and email me at <a href="mailto:${EMILY_EMAIL}" style="color: #69005a;">${EMILY_EMAIL}</a> rather than pushing through it. I will fix it or refund you, whichever you prefer.</p>
+      </div>
+      <p style="font-size: 0.9em; color: #444;">This is not clinical advice and it does not replace your GP, your physio, or a qualified mental health professional.</p>
+      <p style="margin-top: 30px; color: #69005a; font-style: italic;">
+        Emily Phelan<br/>
+        Mind the Gael<br/>
+        <a href="https://mindthegael.co.uk" style="color: #69005a;">mindthegael.co.uk</a>
+      </p>
+    </div>
+  `;
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: fromEmail,
+      to: [intake.email],
+      subject: `Your ${duration} ${planLabel} is ready`,
+      text,
+      html,
+      reply_to: EMILY_EMAIL,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => 'No response body');
+    throw new Error(`Failed to send client plan-ready email: ${response.status} ${details}`);
+  }
+}
+
+// Sent when a plan is waiting on Emily. Only the four specialised tracks take
+// this path now.
 async function sendClientHoldingEmail(input: {
   intake: ConsultationWithPlanRequest;
   planType: 'physical' | 'mental';
@@ -853,9 +962,9 @@ async function sendClientHoldingEmail(input: {
     '',
     `Thanks for buying the ${duration} ${planLabel}. Your payment has landed.`,
     '',
-    'Your plan has been drafted and is now with Emily for a quick review. You will receive the full plan by email within 48 hours.',
+    'Your plan has been drafted and is now with Emily for a read-through. You will receive the full plan by email within 48 hours.',
     '',
-    'Why a review: while the platform is in its early phase, every plan gets a final read-through from Emily before it lands in your inbox.',
+    'Why this one waits: you told us something on the intake form (pregnancy, postpartum, endometriosis, or a return to play after injury) where a generic plan can be wrong in a way that matters. Plans in those situations get read by Emily before they reach you rather than sending automatically.',
     '',
     'If anything is urgent in the meantime, you can email Emily directly at ' + EMILY_EMAIL + '.',
     '',
@@ -869,9 +978,9 @@ async function sendClientHoldingEmail(input: {
       </div>
       <p>Hi ${firstName},</p>
       <p>Thanks for buying the <strong>${duration} ${planLabel}</strong>. Your payment has landed.</p>
-      <p>Your plan has been drafted and is now with Emily for a quick review. You will receive the full plan by email <strong>within 48 hours</strong>.</p>
-      <div style="background: #f4ffe8; border-left: 4px solid #c0fe71; padding: 14px 18px; margin: 20px 0; border-radius: 6px;">
-        <strong>Why the review:</strong> while the platform is in its early phase, every plan gets a final read-through from Emily before it lands in your inbox.
+      <p>Your plan has been drafted and is now with Emily for a read-through. You will receive the full plan by email <strong>within 48 hours</strong>.</p>
+      <div style="background: #f9effd; border-left: 5px solid #69005a; padding: 14px 18px; margin: 20px 0; border-radius: 0 6px 6px 0;">
+        <strong>Why this one waits:</strong> you told us something on the intake form (pregnancy, postpartum, endometriosis, or a return to play after injury) where a generic plan can be wrong in a way that matters. Plans in those situations get read by Emily before they reach you rather than sending automatically.
       </div>
       <p>If anything is urgent in the meantime, you can email Emily directly at <a href="mailto:${EMILY_EMAIL}" style="color: #69005a;">${EMILY_EMAIL}</a>.</p>
       <p style="margin-top: 30px; color: #69005a; font-style: italic;">
