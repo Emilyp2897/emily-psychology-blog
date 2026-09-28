@@ -7,7 +7,7 @@ tags: ["championship", "affirmations"]
 ---
 ## For championship week
 
-These are values and process, not predictions. 
+These are values and processes, not predictions. 
 1. Say the values in the days leading up to the game.
 2. The instructional affirmations should be saved for game day. 
 
@@ -36,7 +36,7 @@ Pick **two** affirmations. Make sure you believe them to be true.
 
 Write them somewhere where you can easily see them for example; Back of your phone case, top of your notes app, inside your gear bag.
 
-Say them out loud. This will feel silly **BUT** it works better than thinking it.
+Say them out loud. This will feel silly **BUT** It works better than thinking it.
 
 Then leave it alone. If your mind starts making claims that aren't true, go back to these affirmations. 
 

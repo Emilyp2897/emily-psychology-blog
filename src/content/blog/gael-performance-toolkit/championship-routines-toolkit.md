@@ -86,7 +86,7 @@ Athletes who imagine **difficulty** AND **recovery** handle real difficulty bett
 - Your own mental replays of the match.
 
 **Keep:**
-- Conversations with squad and coaches about the plan.
+- Conversations with the squad and coaches about the plan.
 - Necessary tactical input.
 - A trusted friend or family member for general life chat.
 
@@ -120,13 +120,13 @@ When pre-match nerves spike, return to the anchor. It's not the only thing you'l
 
 **Thursday:** Sleep protocol fully in.
 
-**Friday (if match day Saturday):** normal day. Hydrate. Eat well. One specific visualisation. Off social. Process anchor written down.
+**Friday (if match day Saturday):** Normal day. Hydrate. Eat well. One specific visualisation. Off social. Process anchor written down.
 
-**Saturday morning:** normal breakfast. Light movement. Don't engage with the game mentally all morning.
+**Saturday morning:** Normal breakfast. Light movement. Don't engage with the game mentally all morning.
 
-**During the match:** process anchor, refocus cues, mistake reset.
+**During the match:** Process anchor, refocus cues, mistake reset.
 
-**After:** feel what you feel, good or bad. Recover.
+**After:** Feel what you feel, good or bad. Recover.
 
 ## References
 

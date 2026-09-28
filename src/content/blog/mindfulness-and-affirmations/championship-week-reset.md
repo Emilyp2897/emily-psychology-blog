@@ -28,7 +28,7 @@ Then get up and go about your day.
 
 ## Why it matters this week
 
-If your anything like me, your mind wants to play the game before it starts. 
+If you're anything like me, your mind wants to play the game before it starts. 
 
 You'll imagine the outcome, how the game will play out, the mistakes, what people will say.
 
