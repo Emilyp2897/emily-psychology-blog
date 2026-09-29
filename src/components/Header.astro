@@ -2,19 +2,29 @@
 import { Image } from 'astro:assets';
 import HeaderLink from './HeaderLink.astro';
 import mtgLogo from '../assets/MTG_colour.png';
+import { seriesLabels } from '../data/series';
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 
-// The back arrow originally called history.back(), which sent you to whatever
-// you happened to be on before, not to where the page sits in the site. It was
-// then changed to derive a parent from the URL, which is predictable but wrong
-// in the common case: an article reached from the homepage sent you to its
-// series hub, which is not where you came from.
+// The arrow goes UP a level, never BACK through history, and it does that
+// the same way every time.
 //
-// So there are two layers now. This one is the fallback, rendered into the
-// href: the structural parent of the current page, which is always a sensible
-// destination and is what someone arriving from a search result or a shared
-// link should get. The script below upgrades it to the actual page you came
-// from, but only when that page is one of the site's real entry points.
+// This has been changed twice before. It started as history.back(), which
+// sent you wherever you happened to have been. It was then derived from the
+// URL, which was predictable. Then a script was added on top to redirect it
+// to the page you came from when that page was one of the site's entry
+// points, which made the same arrow do different things on the same article
+// depending on how you reached it: from the homepage it went home, from a
+// search result it went to the series hub.
+//
+// That is the thing worth avoiding. A control people use without looking has
+// to be predictable more than it has to be clever, and "clever" here meant
+// you could not learn what the button did. So the destination is now purely
+// structural: it depends only on the page you are on, never on how you got
+// there. The label names the destination, because an arrow on its own reads
+// as "back" and this is "up".
+//
+// The browser and the phone both still have a real back button for going
+// back through history. This one is not trying to be that.
 const path = Astro.url.pathname.replace(/\/+$/, '');
 const segments = path.split('/').filter(Boolean);
 
@@ -23,9 +33,13 @@ let backLabel = 'Back to home';
 
 if (segments[0] === 'content-hub') {
   if (segments.length > 2) {
-    // /content-hub/<series>/<article> -> the series hub
+    // /content-hub/<series>/<article> -> the series hub. The label names the
+    // series rather than saying "the series", so the destination is readable
+    // from the tooltip and the screen reader without having to guess.
     backHref = `/content-hub/${segments[1]}/`;
-    backLabel = 'Back to the series';
+    backLabel = seriesLabels[segments[1]]
+      ? `Back to ${seriesLabels[segments[1]]}`
+      : 'Back to the series';
   } else if (segments.length === 2) {
     // /content-hub/<series> -> the content hub index
     backHref = '/content-hub/';
@@ -74,47 +88,6 @@ if (segments[0] === 'content-hub') {
     </a>
   )}
 </header>
-
-<script is:inline>
-  // Point the back arrow at the page you actually arrived from, when that
-  // page is one of the site's entry points. Deliberately an allowlist rather
-  // than "just use the referrer": coming from an article, a checkout step or
-  // an external site, the structural parent already rendered into the href is
-  // the better destination, and following an arbitrary referrer is how you end
-  // up sending someone back into a form they already submitted.
-  //
-  // Inline and standalone, not part of the module below, so it cannot be held
-  // up behind that module's auth await.
-  (() => {
-    const bubble = document.getElementById('back-bubble');
-    if (!bubble || !document.referrer) return;
-
-    let from;
-    try {
-      from = new URL(document.referrer);
-    } catch {
-      return;
-    }
-    if (from.origin !== window.location.origin) return;
-
-    const trim = (p) => p.replace(/\/+$/, '') || '/';
-    const fromPath = trim(from.pathname);
-    if (fromPath === trim(window.location.pathname)) return;
-
-    const segments = fromPath.split('/').filter(Boolean);
-    let label = null;
-    if (fromPath === '/') label = 'Back to home';
-    else if (segments[0] === 'dashboard') label = 'Back to your dashboard';
-    else if (segments[0] === 'content-hub') {
-      if (segments.length === 1) label = 'Back to the Content Hub';
-      else if (segments.length === 2) label = 'Back to the series';
-    }
-    if (!label) return;
-
-    bubble.setAttribute('href', from.pathname);
-    bubble.setAttribute('aria-label', label);
-  })();
-</script>
 
 <script>
   import { getUserOrThrow } from '../lib/supabase.js';
