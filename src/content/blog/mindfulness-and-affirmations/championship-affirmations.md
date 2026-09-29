@@ -44,15 +44,13 @@ Then leave it alone. If your mind starts making claims that aren't true, go back
 
 If you don't already believe the affirmation, your brain will start to argue back. 
 
-By saying:
+For example:
 
 ***"I am unstoppable."***
 
 ***"I am the best player on this pitch."***
 
-You might end up listing three players who you believe to be better. 
-
-This might lead to feeling worse than before you started.
+You might end up listing three players who you believe to be better, which can lead to feeling worse than before you started.
 
 ## What works instead
 
@@ -96,9 +94,9 @@ Same rule, you must believe them to be true.
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
   <ul class="related-box-list">
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a>. The Confidence Ledger, which is where the evidence behind a believable affirmation comes from.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a>. Cue words by situation, for the in-the-moment lines.</li>
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/selection-dos-and-donts/">Selection: The Do's and Don'ts of Championship Week</a>. Where the values list earns its keep.</li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a></li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/selection-dos-and-donts/">Selection: The Do's and Don'ts of Championship Week</a></li>
   </ul>
 </section>
 

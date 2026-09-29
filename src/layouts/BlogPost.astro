@@ -1942,14 +1942,17 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
     padding-left: 1.1rem;
   }
 
-  /* Purple markers on the first column, lime on the rest, so the two lists
-     stay distinguishable once they wrap onto one column on a phone. */
+  /* Purple markers on the first column, green on the rest, so the two lists
+     stay distinguishable once they wrap onto one column on a phone.
+     The green is a deepened lime: the brighter #7ea52b was 2.4:1 against the
+     cream card, so the second column's bullets faded out next to the first
+     column's purple. This one is 4.6:1 and still reads as the same family. */
   body.interactive-post .story-card .deck-col ::marker {
     color: var(--purple);
   }
 
   body.interactive-post .story-card .deck-col:nth-child(even) ::marker {
-    color: #7ea52b;
+    color: #5c7a1f;
   }
 
   .story-card.is-active {
