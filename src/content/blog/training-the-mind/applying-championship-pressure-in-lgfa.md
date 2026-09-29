@@ -9,10 +9,7 @@ photoPosition: "center 85%"
 track: "training-the-mind"
 ---
 
-Championship week is seven days long and most of it happens in your head.
-
-The fitness is already completed. There is nothing you can do this week that will add to it. What's left is time, and time can cause quite a lot of damage. 
-
+Championship week lasts seven days, and most of it plays out in your head. The fitness is already built. Nothing you do this week will add to it. All that's left is time.
 
 ## Monday: the hard session
 
@@ -118,10 +115,10 @@ This doesn't stop you feeling it. Championship pressure is there because you car
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
   <ul class="related-box-list">
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a>. The reasoning behind the week set out above.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/championship-routines-toolkit/">Championship Routines, Confidence &amp; Sleep Toolkit</a>. The sleep protocol, the reframe and the process anchor, written out as tools.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a>. How to build the pre-match routine mentioned on arrival at the pitch.</li>
-    <li><span class="related-box-kind">Mindfulness</span> <a href="/content-hub/mindfulness-and-affirmations/championship-week-reset/">The Championship Week Reset</a>. Five minutes twice a day for the Tuesday to Thursday stretch.</li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/championship-routines-toolkit/">Championship Routines, Confidence &amp; Sleep Toolkit</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a></li>
+    <li><span class="related-box-kind">Mindfulness</span> <a href="/content-hub/mindfulness-and-affirmations/championship-week-reset/">The Championship Week Reset</a></li>
   </ul>
 </section>
 

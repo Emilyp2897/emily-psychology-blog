@@ -31,7 +31,10 @@ const imageUrl = typeof image === 'string' ? image : (image?.src || fallbackImag
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Rosario:wght@400;700;900&display=swap" rel="stylesheet" />
 
-<link rel="sitemap" href="/sitemap-index.xml" />
+<!-- Served by src/pages/sitemap.xml.ts. The old /sitemap-index.xml path was
+     a leftover from @astrojs/sitemap, which was never registered, so it 404'd
+     on every page on the site. -->
+<link rel="sitemap" href="/sitemap.xml" />
 
 <link
   rel="alternate"

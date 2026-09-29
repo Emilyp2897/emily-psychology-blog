@@ -196,7 +196,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     font-weight: 700;
   }
 
+  /* These are crisis links, so they get a full finger-sized tap target
+     rather than the height of a line of text. As plain inline links the
+     phone numbers measured 20px tall on a phone, under half the 44px both
+     Apple and Android recommend, which makes them easy to miss. This is the
+     one place on the site where a missed tap has a real cost: whoever is
+     reaching for Samaritans or Pieta is having a bad day and may not have
+     steady hands. The links look the same, they are just easier to hit. */
   .resources-table a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.25rem 0.35rem;
     color: var(--purple);
     text-decoration: underline;
   }

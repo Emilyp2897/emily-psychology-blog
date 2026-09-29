@@ -17,7 +17,7 @@ So if being dropped has ever ruined a week for you, it is a predictable response
 
 Last year I played the whole way through the championship to the London County Final. I felt I was playing well. I was fit, my passing and kicking were on target, and I had done a lot of work behind the scenes on my mental health. I really felt this was my year. My year to feel the thing other girls get to feel out on that pitch, where the win is yours as much as anyone else's when the whistle goes.
 
-That isn't what happened. I was dropped for the County Final, the All-Britain Final and the All-Ireland Quarter Final, and I was devastated. I couldn't hide my emotions or pretend I was ok. I wasn't ok. I was heartbroken, and whether I came on or not, my head was gone.
+That isn't what happened. I was benched for the County Final, the All-Britain Final and the All-Ireland Quarter Final, and I was devastated. I couldn't hide my emotions or pretend I was ok. I wasn't ok. I was heartbroken, and whether I came on or not, my head was gone.
 
 To this day neither of those wins feels like mine. By the time the quarter final came around I was shamefully happy we lost, because it meant I could stop pretending.
 
@@ -113,9 +113,9 @@ You are allowed to care about selection. Caring is why you are good. The problem
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
   <ul class="related-box-list">
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a>. Challenge and threat states, and the five kinds of fear of failure.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a>. The Confidence Ledger and the Fact, Not Verdict reframe, for the week a team sheet goes up.</li>
-    <li><span class="related-box-kind">Affirmations</span> <a href="/content-hub/mindfulness-and-affirmations/championship-affirmations/">Championship Affirmations</a>. Values rather than claims about ability, which is what holds when selection goes against you.</li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a></li>
+    <li><span class="related-box-kind">Affirmations</span> <a href="/content-hub/mindfulness-and-affirmations/championship-affirmations/">Championship Affirmations</a></li>
   </ul>
 </section>
 

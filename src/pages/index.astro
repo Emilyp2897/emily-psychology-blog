@@ -14,6 +14,7 @@ import footballImage from '../assets/football-illustration.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE_FULL } from '../consts';
 import { isReleased, isScheduled } from '../data/release';
 import { CHAMPO_TAG, gaelPerformanceToolkitSlugs, seriesHubHref, seriesLabels, trainingTheMindSlugs } from '../data/series';
+import { findWorkbook, workbookHref } from '../data/workbooks';
 
 // Rendered on demand rather than at build time, like the content hub pages.
 // The "latest" and "next release" boxes below compare pubDate against "now",
@@ -195,6 +196,13 @@ const champoPosts = [
   ...champoInterleaved,
   ...champoTagged.filter((post) => seriesOf(post) === champoTailSeries).sort(byDate),
 ];
+
+// The workbook band is dropped entirely while the workbook is locked, rather
+// than shown as a coming-soon tile. The Mindfulness hub already lists what is
+// on the way; the homepage band exists to hand over something you can read
+// now, and a band whose only item is unavailable does not do that.
+const mentalHealthWorkbook = findWorkbook('mental-health-workbook');
+const mentalHealthWorkbookHref = mentalHealthWorkbook && workbookHref(mentalHealthWorkbook);
 ---
 
 <!doctype html>
@@ -336,19 +344,21 @@ const champoPosts = [
           tiles, where it competed with the four series for the same
           attention. It is now the last thing on the homepage and the last
           thing on the Mindfulness page. */}
-      <section class="home-band workbook-band" aria-labelledby="workbook-heading">
-        <div class="band-inner">
-          <h2 id="workbook-heading" class="workbook-band-heading">Take something away with you.</h2>
-          <a class="workbook-strip" href="/workbooks/mental-health-workbook.html" target="_blank" rel="noopener">
-            <span class="workbook-strip-tag">Free download</span>
-            <span class="workbook-strip-text">
-              <span class="workbook-strip-title">Mental Health Workbook</span>
-              <span class="workbook-strip-sub">43 pages of worksheets and trackers. Breathing, grounding, thought logs, sleep and mood.</span>
-            </span>
-            <span class="workbook-strip-cta" aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
-      </section>
+      {mentalHealthWorkbookHref && (
+        <section class="home-band workbook-band" aria-labelledby="workbook-heading">
+          <div class="band-inner">
+            <h2 id="workbook-heading" class="workbook-band-heading">Take something away with you.</h2>
+            <a class="workbook-strip" href={mentalHealthWorkbookHref} target="_blank" rel="noopener">
+              <span class="workbook-strip-tag">Free download</span>
+              <span class="workbook-strip-text">
+                <span class="workbook-strip-title">Mental Health Workbook</span>
+                <span class="workbook-strip-sub">43 pages of worksheets and trackers. Breathing, grounding, thought logs, sleep and mood.</span>
+              </span>
+              <span class="workbook-strip-cta" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </section>
+      )}
 
     </main>
     <Footer />
@@ -972,6 +982,39 @@ const champoPosts = [
   @keyframes heroFadeUp {
     0%   { opacity: 0; transform: translateY(14px); }
     100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Reduce Motion is an OS accessibility setting people turn on when
+     animation makes them physically unwell: motion sickness, vertigo,
+     migraine. The staged hero runs for about 4.5 seconds, and the whole
+     sequence was playing for those readers too.
+     Turning the animations off is not enough on its own. Every element here
+     starts at opacity 0 and depends on its animation to become visible, so
+     `animation: none` alone would hide the hero permanently. Each one is
+     given the end state the animation would have landed on, which shows the
+     headline immediately instead of nearly four seconds in. The football
+     spins in and then fades away, so its end state is gone: it is hidden
+     outright rather than left sitting on top of the logo. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-fb {
+      animation: none;
+      opacity: 0;
+    }
+
+    .hero-logo {
+      animation: none;
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-tagline,
+    .hero-sub,
+    .hero-free-note,
+    .hero-ctas {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .band-split {

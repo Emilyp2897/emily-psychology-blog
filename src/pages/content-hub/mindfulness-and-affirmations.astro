@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
 import { isLocked, lockLabel } from '../../data/release';
+import { workbookHref, workbookLockLabel, workbooks } from '../../data/workbooks';
 
 // Rendered on demand rather than at build time, so the release locks below
 // lift on their release date instead of waiting for the next deploy.
@@ -35,33 +36,35 @@ const plannedTopics = [
 // Printable workbooks. Longer than a practice: something you sit down with
 // once and come back to, rather than read on the bus.
 //
-// To publish one, drop the PDF in /public/workbooks/ and set `file` to its
-// path. Until then the card renders as a coming-soon tile with no link, so
-// the section can go live before the first workbook is finished.
-const workbooks: { title: string; description?: string; pages?: string; file?: string }[] = [
-  {
-    title: 'Mental Health Workbook',
-    description: 'Breathing, grounding, thought logs, sleep and mood tracking, goals.',
-    pages: '43 pages, print at home',
-    file: '/workbooks/mental-health-workbook.html',
-  },
-  {
-    title: 'The Mindfulness Workbook for Athletes',
-  },
-];
+// The list itself lives in data/workbooks.ts, shared with the homepage, and
+// each one is gated on a release date the same way an article is. A workbook
+// that is not out yet renders as a coming-soon tile with no link, so the
+// section can go live before the first workbook is finished.
+const workbookCards = workbooks.map((workbook) => ({
+  ...workbook,
+  href: workbookHref(workbook),
+  lockLabel: workbookLockLabel(workbook),
+}));
 
-const liveWorkbooks = workbooks.filter((w) => w.file);
-const soonWorkbooks = workbooks.filter((w) => !w.file);
+const liveWorkbooks = workbookCards.filter((w) => w.href);
+const soonWorkbooks = workbookCards.filter((w) => !w.href);
 
 // Only a couple of the unreleased pieces are listed. Showing all of them
 // buried the two you can actually read today under a screen of things you
 // cannot, which made the page hard to scan.
 const COMING_SOON_SHOWN = 2;
 
+// A workbook with a release date shows it, the same way a scheduled post
+// does. One with no date is not written yet and gets the badge alone.
 const comingSoon = [
-  ...lockedPosts.map((post) => ({ kind: 'post' as const, title: post.data.title, post })),
-  ...soonWorkbooks.map((w) => ({ kind: 'workbook' as const, title: w.title, post: undefined })),
-  ...plannedTopics.map((title) => ({ kind: 'topic' as const, title, post: undefined })),
+  ...lockedPosts.map((post) => ({ kind: 'post' as const, title: post.data.title, post, releaseLabel: undefined })),
+  ...soonWorkbooks.map((w) => ({
+    kind: 'workbook' as const,
+    title: w.title,
+    post: undefined,
+    releaseLabel: w.pubDate ? w.lockLabel : undefined,
+  })),
+  ...plannedTopics.map((title) => ({ kind: 'topic' as const, title, post: undefined, releaseLabel: undefined })),
 ];
 
 const comingSoonShown = comingSoon.slice(0, COMING_SOON_SHOWN);
@@ -110,7 +113,7 @@ const comingSoonRest = comingSoon.length - comingSoonShown.length;
 
           {liveWorkbooks.map((workbook) => (
             <li class="mindfulness-card workbook-card-live">
-              <a href={workbook.file} target="_blank" rel="noopener">
+              <a href={workbook.href} target="_blank" rel="noopener">
                 <span class="champo-badge">Free download</span>
                 <h3 class="card-title">{workbook.title}</h3>
                 {workbook.description && <p class="card-sub">{workbook.description}</p>}
@@ -133,6 +136,9 @@ const comingSoonRest = comingSoon.length - comingSoonShown.length;
                   <span class="lock-badge">{lockLabel(entry.post)}</span>
                 )}
                 {entry.kind === 'workbook' && <span class="soon-badge">Workbook</span>}
+                {entry.kind === 'workbook' && entry.releaseLabel && (
+                  <span class="lock-badge">{entry.releaseLabel}</span>
+                )}
                 <h3 class="card-title">{entry.title}</h3>
                 {previewUnlocked && entry.post && (
                   <a class="preview-link" href={`/content-hub/${entry.post.slug}/`}>Preview draft (local only) &rarr;</a>

@@ -65,7 +65,6 @@ Most players who feel the pressure think they are the only one. This isn't true.
 
 You won't get all of these. If you're lucky you might not get any. But if two or three of them sound familiar, this is your nervous system telling you you're under “threat”.
 
-
 ## What I would tell 16-year-old me
 
 1. Ask yourself what you are genuinely afraid of. Not the match. The thing underneath it.
@@ -75,14 +74,12 @@ You won't get all of these. If you're lucky you might not get any. But if two or
 
 Championship pressure exists because you care. The players who handle it best are not the ones who stopped feeling. They learned to identify it and acknowledge it for what it was; their body telling them it was a threat. This skill isn't something you're born with, it's a learned practice. I didn't have it at 16, I didn't have it last year. I don't have it all the time now, but it's definitely becoming easier the more I practise. 
 
-
-
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
   <ul class="related-box-list">
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/">Applying Championship Pressure in Ladies Gaelic Football</a>. The same ideas set out day by day across championship week.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/championship-routines-toolkit/">Championship Routines, Confidence &amp; Sleep Toolkit</a>. Five tools, including the threat-to-challenge reframe described above.</li>
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/strong-minds-stronger-players/when-its-more-than-nerves/">When It's More Than Nerves</a>. Where pre-match nerves stop being nerves.</li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/applying-championship-pressure-in-lgfa/">Applying Championship Pressure in Ladies Gaelic Football</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/championship-routines-toolkit/">Championship Routines, Confidence &amp; Sleep Toolkit</a></li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/strong-minds-stronger-players/when-its-more-than-nerves/">When It's More Than Nerves</a></li>
   </ul>
 </section>
 

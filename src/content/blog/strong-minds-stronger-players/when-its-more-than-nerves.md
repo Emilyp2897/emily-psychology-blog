@@ -63,9 +63,9 @@ I spent years thinking my nerves were part of being competitive. They were not. 
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
   <ul class="related-box-list">
-    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a>. What ordinary big-game pressure looks like, for comparison.</li>
-    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a>. The 4-7-8 breath written out in full.</li>
-    <li><span class="related-box-kind">Mindfulness</span> <a href="/content-hub/mindfulness-and-affirmations/championship-week-reset/">The Championship Week Reset</a>. A five minute practice for worry that won't switch off.</li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a></li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a></li>
+    <li><span class="related-box-kind">Mindfulness</span> <a href="/content-hub/mindfulness-and-affirmations/championship-week-reset/">The Championship Week Reset</a></li>
   </ul>
 </section>
 
