@@ -35,7 +35,6 @@ const STATIC_PAGES = [
   '/about/',
   '/ai-policy/',
   '/books-and-podcasts/',
-  '/coaches/',
   '/contact-us/',
   '/content-hub/',
   '/content-hub/training-the-mind/',

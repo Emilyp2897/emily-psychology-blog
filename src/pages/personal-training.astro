@@ -492,7 +492,7 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
-                  Confidence <span class="nowrap">(1-10)</span>
+                  Confidence (1&#8209;10)
                   <select name="confidenceLevel">
                     <option value="">Select</option>
                     <option value="1">1 - very low</option>
@@ -1646,7 +1646,10 @@ import { SITE_TITLE } from '../consts';
     background: rgba(3, 10, 6, 0.34);
     color: var(--green-light);
     font-weight: 600;
-    font-size: 0.9rem;
+    /* Same reasoning as the compact fields below: the root is 20px, so
+       0.9rem rendered at 18px and short labels like "Full Name" wrapped
+       inside a two-column grid on a 320px phone. */
+    font-size: 0.8rem;
   }
 
   .consultation-form input,
@@ -1755,20 +1758,18 @@ import { SITE_TITLE } from '../consts';
      short questions filled most of the screen. Mobile WebKit also inflates
      small text in narrow columns, taking 0.85rem to 17px, which made the
      loose spacing worse. */
-  /* Keeps "(1-10)" together. It was breaking after the hyphen and
-     rendering as "(1-" on one line and "10)" on the next. */
-  .nowrap {
-    white-space: nowrap;
-  }
-
   .plan-basic-fields label {
     display: grid;
     gap: 0.3rem;
     color: var(--green-light);
     font-weight: 600;
-    font-size: 0.85rem;
-    line-height: 1.3;
-    text-wrap: pretty;
+    /* 0.78rem, not 0.85. The root font size is 20px, so 0.85rem renders at
+       17px and a two-word question wrapped onto a second line inside a
+       ~200px column, which is what made these boxes so tall on a phone.
+       text-wrap: pretty was removed with it: it balances the last lines of
+       a wrapped block, which is the opposite of what a label wants. */
+    font-size: 0.78rem;
+    line-height: 1.25;
   }
 
   .plan-basic-fields input,
@@ -1795,10 +1796,28 @@ import { SITE_TITLE } from '../consts';
     gap: 0.5rem;
   }
 
-  .plan-checkpoint-group .checkbox {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.9rem;
-    border-radius: 4px;
+  /* Was .plan-checkpoint-group, which matches nothing: the class is
+     .plan-checkbox-group. With the rule dead, every checkbox fell back to
+     the generic form label, which is display:grid, so the box landed on one
+     row and its text on the next inside a full bordered card. Seven days of
+     the week became seven tall boxes. */
+  .plan-checkbox-group .checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.78rem;
+    line-height: 1.25;
+    border-radius: 6px;
+  }
+
+  /* The input must not stretch to fill the flex row. */
+  .plan-checkbox-group .checkbox input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    margin: 0;
   }
 
   .progression-plan-fields > label {

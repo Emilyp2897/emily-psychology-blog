@@ -14,6 +14,7 @@ import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
 import { decideRouting } from '../../lib/plan-routing';
 import { buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
 import { renderPlanPdf } from '../../lib/plan-pdf';
+import { emailShell, emailButton } from '../../lib/email-format';
 
 function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
   const t = (trainings || '').trim();
@@ -967,15 +968,16 @@ async function sendClientPlanReadyEmail(input: {
     buildSignatureText(),
   ].join('\n');
 
-  const html = `
-    <div style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #1a2e1f; max-width: 600px; margin: 0 auto; padding: 20px;">
+  const html = emailShell({
+    title: 'Your plan is ready',
+    bodyHtml: `
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="https://mindthegael.co.uk/assets/MTG_colour.png" alt="Mind the Gael" style="max-width: 180px; height: auto;" />
       </div>
       <p>Hi ${firstName},</p>
       <p>Your <strong>${duration} ${planLabel}</strong> is ready.</p>
       <p style="text-align: center; margin: 26px 0;">
-        <a href="${dashboardUrl}" style="display: inline-block; background: #69005a; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Open your plan</a>
+        ${emailButton(dashboardUrl, 'Open your plan')}
       </p>
       <p>Log in with the email address you used at checkout. The plan is laid out week by week, and you can tick sessions off as you go or print the whole thing.</p>
       <div style="background: #f9effd; border-left: 5px solid #69005a; padding: 14px 18px; margin: 20px 0; border-radius: 0 6px 6px 0;">
@@ -988,8 +990,8 @@ async function sendClientPlanReadyEmail(input: {
         Mind the Gael<br/>
         <a href="https://mindthegael.co.uk" style="color: #69005a;">mindthegael.co.uk</a>
       </p>
-    </div>
-  `;
+    `,
+  });
 
   // The plan travels as a PDF as well as in the dashboard, so it can be
   // printed, kept, and read without a signal. Best effort: a failure here
@@ -1065,8 +1067,9 @@ async function sendClientHoldingEmail(input: {
     buildSignatureText(),
   ].join('\n');
 
-  const html = `
-    <div style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #1a2e1f; max-width: 600px; margin: 0 auto; padding: 20px;">
+  const html = emailShell({
+    title: 'Your plan is on the way',
+    bodyHtml: `
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="https://mindthegael.co.uk/assets/MTG_colour.png" alt="Mind the Gael" style="max-width: 180px; height: auto;" />
       </div>
@@ -1082,8 +1085,8 @@ async function sendClientHoldingEmail(input: {
         Mind the Gael<br/>
         <a href="https://mindthegael.co.uk" style="color: #69005a;">mindthegael.co.uk</a>
       </p>
-    </div>
-  `;
+    `,
+  });
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',

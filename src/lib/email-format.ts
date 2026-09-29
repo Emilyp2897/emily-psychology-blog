@@ -227,7 +227,14 @@ function planTextToHtmlBody(plainText: string): string {
   return out.join('\n');
 }
 
-function emailShell(opts: { title: string; bodyHtml: string; footerHtml?: string }): string {
+/**
+ * The branded wrapper every customer-facing email should use.
+ *
+ * Exported because the plan-ready and holding emails were each hand-rolling
+ * their own bare <div>, so the one email a paying customer actually receives
+ * looked nothing like the site.
+ */
+export function emailShell(opts: { title: string; bodyHtml: string; footerHtml?: string }): string {
   return [
     '<!doctype html>',
     '<html><head><meta charset="utf-8">',
@@ -240,8 +247,11 @@ function emailShell(opts: { title: string; bodyHtml: string; footerHtml?: string
     // Branded header with logo
     `<tr><td style="background: ${BRAND_GREEN_DARK}; padding: 24px 28px;">`,
     `<img src="${LOGO_URL}" alt="Mind the Gael" width="180" style="display: block; max-width: 180px; height: auto; margin-bottom: 14px; border: 0;" />`,
-    `<div style="color: #ffffff; font-size: 22px; font-weight: 700;">${escapeHtml(opts.title)}</div>`,
+    `<div style="color: ${BRAND_GREEN_LIME}; font-size: 22px; font-weight: 700; line-height: 1.25;">${escapeHtml(opts.title)}</div>`,
     '</td></tr>',
+    // Lime rule under the header, the same accent the site uses to separate
+    // its dark bands from the content below them.
+    `<tr><td style="height: 4px; background: ${BRAND_GREEN_LIME}; font-size: 0; line-height: 0;">&nbsp;</td></tr>`,
     // Body
     `<tr><td style="padding: 24px 28px; color: ${TEXT_DARK}; font-size: 15px; line-height: 1.6;">`,
     opts.bodyHtml,
@@ -258,6 +268,11 @@ function emailShell(opts: { title: string; bodyHtml: string; footerHtml?: string
     '</table>',
     '</body></html>',
   ].join('\n');
+}
+
+/** The site's lime pill button, for CTAs inside emails. */
+export function emailButton(href: string, label: string): string {
+  return `<p style="margin: 0 0 20px;"><a href="${escapeHtml(href)}" style="display: inline-block; padding: 12px 22px; background: ${BRAND_GREEN_LIME}; color: ${BRAND_GREEN_DARK}; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 15px;">${escapeHtml(label)}</a></p>`;
 }
 
 // Convert a generated plan (markdown-style text) into a styled HTML email
