@@ -169,7 +169,8 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
           node.nodeType === Node.ELEMENT_NODE &&
           (node.classList.contains('refs-details') ||
             node.classList.contains('content-feedback-link-box') ||
-            node.classList.contains('toolkit-tools-box'));
+            node.classList.contains('toolkit-tools-box') ||
+            node.classList.contains('related-box'));
 
         // References collapse into a dropdown. They are the least-read part
         // of the page but still need to be there, so they are present and
@@ -591,7 +592,7 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
         // Toolkit tools are read even though their cards are visually
         // collapsed into tiles: the text is the article, and someone
         // listening cannot tap a tile open.
-        const SKIP = ['.content-feedback-link-box', '.toolkit-tools-box', '.refs-details', '.listen-bar'];
+        const SKIP = ['.content-feedback-link-box', '.toolkit-tools-box', '.related-box', '.refs-details', '.listen-bar'];
         const collect = () => {
           const parts = [];
           source.querySelectorAll('h1, h2, h3, h4, p, li, blockquote').forEach((node) => {
@@ -1132,6 +1133,93 @@ const showToolkitToolsBox = sectionSlug === 'training-the-mind';
   .toolkit-tools-link:hover {
     border-color: var(--purple-light);
   }
+
+  /* ── Related box ───────────────────────────────────────────────────────
+     The short list of sibling pieces that sits at the foot of an article,
+     above the references. Cross-links used to be scattered through the body
+     copy; they now live here so the writing reads straight through and the
+     connections are in one predictable place.
+
+     Cream on both shells, like .content-feedback-link-box. The toolkit and
+     mindfulness posts render on a dark shell, so a transparent box would
+     leave the text unreadable on one of the two. Cream works on both and
+     keeps the three foot-of-page boxes looking like one family.
+
+     The class is also listed in isPageFurniture and in the read-aloud SKIP
+     list: without that, the toolkit and mindfulness card builders sweep it
+     into the last card on the page and it disappears. */
+  .prose :global(.related-box) {
+    margin-top: 1.4rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(105, 0, 90, 0.5);
+    border-left: 4px solid var(--green-lime);
+    border-radius: 10px;
+    background: rgba(244, 255, 232, 0.95);
+  }
+
+  .prose :global(.related-box-title) {
+    margin: 0 0 0.5rem;
+    color: var(--purple);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.82rem;
+  }
+
+  .prose :global(.related-box-list) {
+    margin: 0;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .prose :global(.related-box-list li::marker) {
+    color: var(--purple);
+  }
+
+  .prose :global(.related-box-list li) {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    color: var(--green-dark);
+    line-height: 1.5;
+  }
+
+  .prose :global(.related-box-list li:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* The kind of thing being linked to (Article, Toolkit, Affirmations), so
+     a reader can tell what they are about to open before they tap it. It
+     sits inline at its natural width: the bullet already gives each entry
+     its own starting point, so a fixed-width label column on top of that
+     was structure the list did not need. */
+  .prose :global(.related-box-kind) {
+    color: var(--purple);
+    font-weight: 700;
+  }
+
+  /* The label and the link that follows it are both bold purple, so without
+     a separator they read as one run of text ("Article Applying Championship
+     Pressure..."). The colon lives here rather than in the markup so the
+     nine articles do not each have to carry it. */
+  .prose :global(.related-box-kind)::after {
+    content: ':';
+  }
+
+  /* On the dark shell every prose link is painted purple-light, which is
+     near-invisible on this cream box. Matching that selector's reach wins
+     the dark purple back. */
+  body.interactive-post .prose :global(.related-box a),
+  body.interactive-post .prose :global(.related-box a:link),
+  body.interactive-post .prose :global(.related-box a:visited) {
+    color: var(--purple) !important;
+    text-decoration-color: rgba(105, 0, 90, 0.6);
+  }
+
+  body.interactive-post .prose :global(.related-box a:hover),
+  body.interactive-post .prose :global(.related-box a:focus-visible) {
+    color: #2e0028 !important;
+  }
+
 
   @media (max-width: 720px) {
     .article-main {

@@ -1101,3 +1101,164 @@ body.resources-page header {
   outline: 3px solid var(--purple);
   outline-offset: 2px;
 }
+
+/* ============================================
+   STATUS BAND
+   The end-of-funnel pages: "payment received" and "hold on, your plan is
+   generating". These used to be a translucent purple card floating on the
+   page shell, which looked like a different site from the one the buyer
+   had just walked through.
+
+   This is the same full-width dark band, lime eyebrow and lime heading as
+   .pt-band on the personal training and pricing pages, so the checkout
+   result looks like a continuation of the funnel rather than a system
+   message.
+
+   Shared here rather than scoped into each page: programme-success and
+   success are two halves of the same moment, and the last copy of this
+   design was duplicated between them and drifted.
+   ============================================ */
+.status-band {
+  margin: 0 calc(50% - 50vw) 3rem;
+  padding: 3rem max(1rem, calc(50vw - 600px));
+  background: linear-gradient(180deg, rgba(3, 10, 6, 0.95) 0%, rgba(3, 10, 6, 0.82) 100%);
+}
+
+.status-band-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.status-logo {
+  width: 72px;
+  height: auto;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.status-eyebrow {
+  color: var(--green-lime);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.status-band h1 {
+  color: var(--green-lime);
+  font-size: 2rem;
+  margin: 0 0 1rem;
+}
+
+.status-band .status-message {
+  color: var(--green-light);
+  max-width: 52ch;
+  margin: 0 auto 0.8rem;
+  line-height: 1.6;
+}
+
+.status-band .status-footnote {
+  color: var(--green-light);
+  max-width: 52ch;
+  margin: 1.5rem auto 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* Indeterminate progress. The plan generation takes up to a minute and the
+   page previously sat completely still for all of it, which reads as a
+   hung page. A determinate bar would have to invent a percentage, so this
+   one just shows the page is still working. */
+.status-progress {
+  width: min(320px, 100%);
+  height: 6px;
+  margin: 1.5rem auto 0;
+  border-radius: 999px;
+  background: rgba(192, 254, 113, 0.2);
+  overflow: hidden;
+}
+
+.status-progress-fill {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--green-lime);
+  animation: status-progress-slide 1.6s ease-in-out infinite;
+}
+
+@keyframes status-progress-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-progress-fill {
+    animation: none;
+    width: 100%;
+    opacity: 0.6;
+  }
+}
+
+.status-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/* `main a` sets dark purple on every link inside <main>, which is around
+   1.5:1 against this dark band. Both buttons override it explicitly. */
+.status-actions a {
+  border-radius: 8px;
+  padding: 0.65rem 1.1rem;
+  font-weight: 700;
+  border: 2px solid var(--green-lime);
+  text-decoration: none !important;
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.status-actions .status-action-primary {
+  background: var(--green-lime);
+  color: var(--green-dark) !important;
+}
+
+.status-actions .status-action-secondary {
+  background: transparent;
+  color: var(--green-light) !important;
+}
+
+.status-actions a:hover {
+  transform: translateY(-1px);
+}
+
+.status-actions .status-action-primary:hover {
+  border-color: var(--purple-light);
+  color: var(--green-dark) !important;
+}
+
+.status-actions .status-action-secondary:hover {
+  border-color: var(--purple-light);
+  color: var(--purple-light) !important;
+}
+
+/* Inline links in the body copy of a band, e.g. a mailto for support. */
+.status-band .status-message a,
+.status-band .status-footnote a {
+  color: var(--green-lime) !important;
+  text-decoration: underline !important;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .status-band {
+    padding: 2rem 1rem;
+  }
+
+  .status-band h1 {
+    font-size: 1.6rem;
+  }
+}

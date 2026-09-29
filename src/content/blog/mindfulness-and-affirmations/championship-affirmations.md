@@ -93,9 +93,18 @@ Same rule, you must believe them to be true.
 - I can do the next small thing. That is enough for now.
 
 
+<section class="related-box" aria-label="Related pieces">
+  <p class="related-box-title">Related articles</p>
+  <ul class="related-box-list">
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a>. The Confidence Ledger, which is where the evidence behind a believable affirmation comes from.</li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a>. Cue words by situation, for the in-the-moment lines.</li>
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/selection-dos-and-donts/">Selection: The Do's and Don'ts of Championship Week</a>. Where the values list earns its keep.</li>
+  </ul>
+</section>
+
 ## References
 
-- Cohen, G. L., & Sherman, D. K. (2014). The psychology of change: Self-affirmation and social psychological intervention. *Annual Review of Psychology*, 65, 333-371.
-- Creswell, J. D., Welch, W. T., Taylor, S. E., Sherman, D. K., Gruenewald, T. L., & Mann, T. (2005). Affirmation of personal values buffers neuroendocrine and psychological stress responses. *Psychological Science*, 16(11), 846-851.
-- Hatzigeorgiadis, A., Zourbanos, N., Galanis, E., & Theodorakis, Y. (2011). Self-talk and sports performance: A meta-analysis. *Perspectives on Psychological Science*, 6(4), 348-356.
-- Hardy, J. (2006). Speaking clearly: A critical review of the self-talk literature. *Psychology of Sport and Exercise*, 7(1), 81-97.
+- Cohen, G. L., & Sherman, D. K. (2014). [The psychology of change: Self-affirmation and social psychological intervention](https://doi.org/10.1146/annurev-psych-010213-115137). *Annual Review of Psychology*, 65, 333-371.
+- Creswell, J. D., Welch, W. T., Taylor, S. E., Sherman, D. K., Gruenewald, T. L., & Mann, T. (2005). [Affirmation of personal values buffers neuroendocrine and psychological stress responses](https://doi.org/10.1111/j.1467-9280.2005.01624.x). *Psychological Science*, 16(11), 846-851.
+- Hatzigeorgiadis, A., Zourbanos, N., Galanis, E., & Theodorakis, Y. (2011). [Self-talk and sports performance: A meta-analysis](https://doi.org/10.1177/1745691611413136). *Perspectives on Psychological Science*, 6(4), 348-356.
+- Hardy, J. (2006). [Speaking clearly: A critical review of the self-talk literature](https://doi.org/10.1016/j.psychsport.2005.04.002). *Psychology of Sport and Exercise*, 7(1), 81-97.

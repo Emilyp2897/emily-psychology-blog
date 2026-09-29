@@ -60,8 +60,17 @@ I spent years thinking my nerves were part of being competitive. They were not. 
 - **Pieta House** (IE): 1800 247 247, suicide and self-harm support.
 - If you are in immediate danger: **999 (UK)** or **112 (IE)**.
 
+<section class="related-box" aria-label="Related pieces">
+  <p class="related-box-title">Related articles</p>
+  <ul class="related-box-list">
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a>. What ordinary big-game pressure looks like, for comparison.</li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/pre-performance-routines-toolkit/">Pre-Performance Routines, Breathing &amp; Cue Words</a>. The 4-7-8 breath written out in full.</li>
+    <li><span class="related-box-kind">Mindfulness</span> <a href="/content-hub/mindfulness-and-affirmations/championship-week-reset/">The Championship Week Reset</a>. A five minute practice for worry that won't switch off.</li>
+  </ul>
+</section>
+
 ## References
 
-- Eysenck, M. W., Derakshan, N., Santos, R., & Calvo, M. G. (2007). Anxiety and cognitive performance: Attentional Control Theory. *Emotion*, 7(2), 336-353.
-- Lieberman, M. D., Eisenberger, N. I., Crockett, M. J., Tom, S. M., Pfeifer, J. H., & Way, B. M. (2007). Putting feelings into words: Affect labeling disrupts amygdala activity in response to affective stimuli. *Psychological Science*, 18(5), 421-428.
-- National Institute for Health and Care Excellence (NICE). Generalised Anxiety Disorder and Panic Disorder in Adults: Management (CG113).
+- Eysenck, M. W., Derakshan, N., Santos, R., & Calvo, M. G. (2007). [Anxiety and cognitive performance: Attentional control theory](https://doi.org/10.1037/1528-3542.7.2.336). *Emotion*, 7(2), 336-353.
+- Lieberman, M. D., Eisenberger, N. I., Crockett, M. J., Tom, S. M., Pfeifer, J. H., & Way, B. M. (2007). [Putting feelings into words: Affect labeling disrupts amygdala activity in response to affective stimuli](https://doi.org/10.1111/j.1467-9280.2007.01916.x). *Psychological Science*, 18(5), 421-428.
+- National Institute for Health and Care Excellence. (2011). [Generalised anxiety disorder and panic disorder in adults: management (CG113)](https://www.nice.org.uk/guidance/cg113).

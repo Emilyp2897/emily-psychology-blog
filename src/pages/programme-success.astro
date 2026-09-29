@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import saoirseImage from '../assets/saoirse.png';
+import mtgLogo from '../assets/MTG_colour.png';
 import { SITE_TITLE } from '../consts';
 ---
 
@@ -15,17 +15,22 @@ import { SITE_TITLE } from '../consts';
   <body>
     <Header />
     <main class="container">
-      <section class="status-box">
-        <Image src={saoirseImage} alt="Shamrock" class="status-img" loading="eager" />
-        <p class="eyebrow" id="status-eyebrow">Finalising your plan...</p>
-        <h1 id="status-heading">Hold on a moment</h1>
-        <p class="message" id="status-message">Stripe confirmed your payment. I'm now generating your plan. This usually takes under a minute.</p>
-        <p class="message" id="status-followup" hidden></p>
-        <div class="actions" id="status-actions" hidden>
-          <a href="/personal-training" class="action-primary">Back to Personal Training</a>
-          <a href="/contact-us" class="action-secondary">Need help?</a>
+      <section class="status-band">
+        <div class="status-band-inner">
+          <Image src={mtgLogo} alt="" class="status-logo" loading="eager" aria-hidden="true" />
+          <p class="status-eyebrow" id="status-eyebrow">Finalising your plan</p>
+          <h1 id="status-heading">Hold on a moment</h1>
+          <p class="status-message" id="status-message">Stripe confirmed your payment. I'm now generating your plan. This usually takes under a minute.</p>
+          <p class="status-message" id="status-followup" hidden></p>
+          <div class="status-progress" id="status-progress" role="status" aria-label="Generating your plan">
+            <span class="status-progress-fill"></span>
+          </div>
+          <div class="status-actions" id="status-actions" hidden>
+            <a href="/personal-training" class="status-action-primary">Back to Personal Training</a>
+            <a href="/contact-us" class="status-action-secondary">Need help?</a>
+          </div>
+          <p class="status-footnote">A receipt for your payment will arrive in your email from Stripe. If you don't see it, check your spam folder.</p>
         </div>
-        <p class="footnote">A receipt for your payment will arrive in your email from Stripe. If you don't see it, check your spam folder.</p>
       </section>
     </main>
     <Footer />
@@ -45,6 +50,7 @@ import { SITE_TITLE } from '../consts';
         const message = document.getElementById('status-message');
         const followup = document.getElementById('status-followup');
         const actions = document.getElementById('status-actions');
+        const progress = document.getElementById('status-progress');
 
         const showSuccess = (text) => {
           if (eyebrow) eyebrow.textContent = 'Plan ready';
@@ -56,6 +62,9 @@ import { SITE_TITLE } from '../consts';
 };
 
         const showError = (text, followupText) => {
+          // Nothing is in progress any more, so the bar would be claiming
+          // work that has already stopped.
+          if (progress) progress.hidden = true;
           if (eyebrow) eyebrow.textContent = 'Something went wrong';
           if (heading) heading.textContent = 'We could not finalise your plan';
           if (message) message.textContent = text;
@@ -107,100 +116,3 @@ import { SITE_TITLE } from '../consts';
   </body>
 </html>
 
-<style>
-  .status-box {
-    margin: 3rem auto 5rem;
-    max-width: 680px;
-    text-align: center;
-    background: rgba(240, 205, 255, 0.1);
-    border: 2px solid var(--green-lime);
-    border-radius: 14px;
-    padding: 2.25rem 1.5rem;
-  }
-
-  .status-img {
-    width: 84px;
-    height: 84px;
-    margin-bottom: 0.75rem;
-  }
-
-  .eyebrow {
-    color: var(--green-lime);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-
-  h1 {
-    margin-bottom: 1rem;
-  }
-
-  .message {
-    max-width: 52ch;
-    margin: 0 auto 0.8rem;
-  }
-
-  .footnote {
-    max-width: 52ch;
-    margin: 1.5rem auto 0;
-    font-size: 0.9rem;
-    opacity: 0.8;
-  }
-
-  .actions {
-    margin-top: 1.25rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-  }
-
-  .action-primary,
-  .action-secondary {
-    border-radius: 8px;
-    padding: 0.65rem 1.1rem;
-    font-weight: 700;
-    border: 2px solid var(--green-lime);
-    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  }
-
-  /* The global `main a` rule applies !important dark purple to every
-     anchor inside <main>, which is unreadable on this page's dark
-     status-box. Every anchor rule below uses !important to win that. */
-
-  .action-primary {
-    background: var(--green-lime);
-    color: var(--green-dark) !important;
-    text-decoration: none !important;
-  }
-
-  .action-secondary {
-    background: transparent;
-    color: #ffffff !important;
-    text-decoration: none !important;
-    font-weight: 700;
-  }
-
-  .action-primary:hover {
-    transform: translateY(-1px);
-    border-color: var(--purple);
-    color: var(--green-dark) !important;
-  }
-
-  .action-secondary:hover {
-    transform: translateY(-1px);
-    border-color: var(--purple-light);
-    color: var(--purple-light) !important;
-  }
-
-  /* Any inline links in the body text on the success page need to be
-     visibly white against the dark background. */
-  .status-box a,
-  .status-box p a,
-  .status-box .footnote a {
-    color: #ffffff !important;
-    text-decoration: underline !important;
-    font-weight: 700;
-  }
-</style>

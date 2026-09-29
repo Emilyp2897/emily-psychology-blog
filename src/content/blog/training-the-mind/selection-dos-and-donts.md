@@ -110,12 +110,21 @@ Write the answers down. If you get vague answers to all three, that is informati
 
 You are allowed to care about selection. Caring is why you are good. The problem is letting a team sheet decide what you are worth. The person making that call is picking a team for Saturday. They are not scoring you as a person.
 
+<section class="related-box" aria-label="Related pieces">
+  <p class="related-box-title">Related articles</p>
+  <ul class="related-box-list">
+    <li><span class="related-box-kind">Article</span> <a href="/content-hub/training-the-mind/understanding-pressure-and-fear-of-failure/">Understanding Championship Pressure and Fear of Failure</a>. Challenge and threat states, and the five kinds of fear of failure.</li>
+    <li><span class="related-box-kind">Toolkit</span> <a href="/content-hub/gael-performance-toolkit/self-talk-and-confidence-toolkit/">Self-Talk and Confidence Toolkit</a>. The Confidence Ledger and the Fact, Not Verdict reframe, for the week a team sheet goes up.</li>
+    <li><span class="related-box-kind">Affirmations</span> <a href="/content-hub/mindfulness-and-affirmations/championship-affirmations/">Championship Affirmations</a>. Values rather than claims about ability, which is what holds when selection goes against you.</li>
+  </ul>
+</section>
+
 ## References
 
-- Crocker, J., & Wolfe, C. T. (2001). Contingencies of self-worth. *Psychological Review*, 108(3), 593-623.
-- Brewer, B. W., Van Raalte, J. L., & Linder, D. E. (1993). Athletic identity: Hercules' muscles or Achilles heel? *International Journal of Sport Psychology*, 24(2), 237-254.
-- Mageau, G. A., & Vallerand, R. J. (2003). The coach-athlete relationship: A motivational model. *Journal of Sports Sciences*, 21(11), 883-904.
-- Lazarus, R. S., & Folkman, S. (1984). *Stress, Appraisal, and Coping*. Springer.
-- Jones, M., Meijen, C., McCarthy, P. J., & Sheffield, D. (2009). A theory of challenge and threat states in athletes. *International Review of Sport and Exercise Psychology*, 2(2), 161-180.
-- Nicholls, A. R., & Polman, R. C. J. (2007). Coping in sport: A systematic review. *Journal of Sports Sciences*, 25(1), 11-31.
-- Ames, C. (1992). Achievement goals, motivational climate, and motivational processes. In G. C. Roberts (Ed.), *Motivation in Sport and Exercise* (pp. 161-176). Human Kinetics.
+- Crocker, J., & Wolfe, C. T. (2001). [Contingencies of self-worth](https://doi.org/10.1037/0033-295X.108.3.593). *Psychological Review*, 108(3), 593-623.
+- Brewer, B. W., Van Raalte, J. L., & Linder, D. E. (1993). [Athletic identity: Hercules' muscles or Achilles heel?](https://psycnet.apa.org/record/1994-03969-001) *International Journal of Sport Psychology*, 24(2), 237-254.
+- Mageau, G. A., & Vallerand, R. J. (2003). [The coach-athlete relationship: A motivational model](https://doi.org/10.1080/0264041031000140374). *Journal of Sports Sciences*, 21(11), 883-904.
+- Lazarus, R. S., & Folkman, S. (1984). [*Stress, Appraisal, and Coping*](https://openlibrary.org/isbn/9780826141910). Springer Publishing Company.
+- Jones, M., Meijen, C., McCarthy, P. J., & Sheffield, D. (2009). [A theory of challenge and threat states in athletes](https://doi.org/10.1080/17509840902829331). *International Review of Sport and Exercise Psychology*, 2(2), 161-180.
+- Nicholls, A. R., & Polman, R. C. J. (2007). [Coping in sport: A systematic review](https://doi.org/10.1080/02640410600630654). *Journal of Sports Sciences*, 25(1), 11-31.
+- Ames, C. (1992). Achievement goals, motivational climate, and motivational processes. In G. C. Roberts (Ed.), [*Motivation in Sport and Exercise*](https://openlibrary.org/works/OL18334218W) (pp. 161-176). Human Kinetics.

@@ -569,13 +569,8 @@ import { SITE_TITLE } from '../consts';
               </label>
 
               <label class="consultation-full-width">
-                What do you most want this plan to help you with?
+                What do you want this plan to help you with?
                 <textarea name="goals" rows="4" required placeholder="Be specific. What does success look like for you by the end of this plan?"></textarea>
-              </label>
-
-              <label>
-                Are you also doing a Mind the Gael Physical Training Plan? (optional)
-                <textarea name="companionPlanSummary" rows="3" placeholder="If yes, paste the highlights or give a short summary (e.g. session split, focus areas, weeks completed). Your mental plan will be built to apply directly to those training and match moments."></textarea>
               </label>
 
               <label>
@@ -889,7 +884,6 @@ import { SITE_TITLE } from '../consts';
             currentRoutines: String(formData.get('currentRoutines') || '').trim() || undefined,
             peakMoment: String(formData.get('peakMoment') || '').trim() || undefined,
             struggleMoment: String(formData.get('struggleMoment') || '').trim() || undefined,
-            companionPlanSummary: String(formData.get('companionPlanSummary') || '').trim() || undefined,
             seasonPhase: String(formData.get('seasonPhase') || '').trim() || undefined,
             clubTrainingsPerWeek: String(formData.get('clubTrainingsPerWeek') || '').trim() || undefined,
             matchesPerWeek: String(formData.get('matchesPerWeek') || '').trim() || undefined,
