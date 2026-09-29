@@ -31,6 +31,28 @@ export const prerender = false;
     <script>
       import { supabase } from '../../lib/supabase.js';
 
+      // Every /api/admin/* endpoint now verifies the caller server-side, so
+      // the browser has to prove who it is. supabase-js keeps the session in
+      // localStorage rather than a cookie, so there is nothing the browser
+      // sends automatically: the access token goes in a header instead.
+      async function adminFetch(url: string, opts: any = {}) {
+        let token = null;
+        try {
+          const { data } = await supabase.auth.getSession();
+          token = data?.session?.access_token ?? null;
+        } catch {
+          token = null;
+        }
+        return fetch(url, {
+          ...opts,
+          headers: {
+            ...(opts.headers || {}),
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+      }
+
+
       const ADMIN_EMAIL = 'emilyphelan@mindthegael.co.uk';
 
       let user: any = null;
@@ -70,7 +92,7 @@ export const prerender = false;
         const container = document.getElementById('feedback-container');
         if (!container) return;
         try {
-          const res = await fetch('/api/admin/feedback');
+          const res = await adminFetch('/api/admin/feedback');
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
             container.innerHTML = `<p class="error">Failed to load: ${data?.error || res.status}</p>`;

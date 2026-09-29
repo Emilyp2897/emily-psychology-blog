@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 import { sql } from '../../../lib/db';
+import { requireAdmin } from '../../../lib/admin-auth';
 
 export const prerender = false;
 
@@ -116,7 +117,10 @@ async function checkPostgres(): Promise<Check> {
   }
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
+
   const env = import.meta.env;
 
   const presenceChecks: Check[] = [

@@ -42,6 +42,28 @@ export const prerender = false;
 
     <script>
       import { supabase } from '../../lib/supabase.js';
+
+      // Every /api/admin/* endpoint now verifies the caller server-side, so
+      // the browser has to prove who it is. supabase-js keeps the session in
+      // localStorage rather than a cookie, so there is nothing the browser
+      // sends automatically: the access token goes in a header instead.
+      async function adminFetch(url: string, opts: any = {}) {
+        let token = null;
+        try {
+          const { data } = await supabase.auth.getSession();
+          token = data?.session?.access_token ?? null;
+        } catch {
+          token = null;
+        }
+        return fetch(url, {
+          ...opts,
+          headers: {
+            ...(opts.headers || {}),
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+      }
+
       import { marked } from 'marked';
 
       const ADMIN_EMAIL = 'emilyphelan@mindthegael.co.uk';
@@ -95,7 +117,7 @@ export const prerender = false;
 
         try {
           const status = currentTab === 'pending' ? 'pending_review' : 'active';
-          const res = await fetch(`/api/admin/plans?status=${status}`);
+          const res = await adminFetch(`/api/admin/plans?status=${status}`);
 
           if (!res.ok) {
             const body = await res.text().catch(() => '');
@@ -186,7 +208,7 @@ export const prerender = false;
             btn.textContent = 'Approving...';
             (btn as HTMLButtonElement).disabled = true;
 
-            const res = await fetch('/api/admin/approve-plan', {
+            const res = await adminFetch('/api/admin/approve-plan', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ planId: id }),
@@ -219,7 +241,7 @@ export const prerender = false;
             (btn as HTMLButtonElement).disabled = true;
 
             try {
-              const res = await fetch('/api/admin/delete-plan', {
+              const res = await adminFetch('/api/admin/delete-plan', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ planId: id }),
@@ -254,7 +276,7 @@ export const prerender = false;
             (btn as HTMLButtonElement).disabled = true;
 
             try {
-              const res = await fetch('/api/admin/regenerate-plan', {
+              const res = await adminFetch('/api/admin/regenerate-plan', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ planId: id }),
@@ -286,7 +308,7 @@ export const prerender = false;
         if (!section || !container) return;
 
         try {
-          const res = await fetch('/api/admin/orphaned-intakes');
+          const res = await adminFetch('/api/admin/orphaned-intakes');
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
             section.hidden = false;
@@ -321,7 +343,7 @@ export const prerender = false;
               (btn as HTMLButtonElement).disabled = true;
 
               try {
-                const res = await fetch('/api/admin/recover-intake', {
+                const res = await adminFetch('/api/admin/recover-intake', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ intakeId: id }),

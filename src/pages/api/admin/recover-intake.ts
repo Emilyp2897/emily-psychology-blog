@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 import { sql } from '../../../lib/db';
 import { finalizeIntake } from '../programme-finalize';
+import { requireAdmin } from '../../../lib/admin-auth';
 
 export const prerender = false;
 
@@ -17,6 +18,9 @@ export const prerender = false;
 // alreadyFinalized=true and no work is duplicated.
 
 export const POST: APIRoute = async ({ request }) => {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const body = await request.json().catch(() => ({}));
     const intakeId = body?.intakeId;
