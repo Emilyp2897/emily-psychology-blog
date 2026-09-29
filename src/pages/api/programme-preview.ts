@@ -3,6 +3,13 @@ import { sql } from '../../lib/db';
 
 export const prerender = false;
 
+// Plan generation is a single non-streaming model call that can ask for
+// up to 12,000 output tokens, which runs for minutes. Vercel's default
+// function timeout is far shorter, so the function was being killed
+// mid-generation: the customer had paid, no plan was written, and the
+// intake was left orphaned. 300s is the Vercel maximum.
+export const maxDuration = 300;
+
 // GET /api/programme-preview?token={previewToken}
 // Returns the teaser content for the given intake session, plus the
 // client's first name and email so the preview page can render its

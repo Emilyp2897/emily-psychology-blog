@@ -76,6 +76,19 @@ function describeActiveTrainingStatus(status: string | undefined | null): string
 
 export const prerender = false;
 
+// Trimmed: PUBLIC_SITE is pasted by hand and a stray space once broke
+// live checkout by making success_url invalid.
+const SITE_ORIGIN =
+  (import.meta.env.PUBLIC_SITE ?? '').trim().replace(/\/+$/, '') ||
+  'https://mindthegael.co.uk';
+
+// Plan generation is a single non-streaming model call that can ask for
+// up to 12,000 output tokens, which runs for minutes. Vercel's default
+// function timeout is far shorter, so the function was being killed
+// mid-generation: the customer had paid, no plan was written, and the
+// intake was left orphaned. 300s is the Vercel maximum.
+export const maxDuration = 300;
+
 const EMILY_EMAIL = 'emilyphelan@mindthegael.co.uk';
 
 export const POST: APIRoute = async ({ request }) => {
@@ -198,6 +211,10 @@ export async function finalizeIntake(opts: {
   const routing = decideRouting({ redFlags: [], track });
   const sendStraightToClient = routing.destination === 'client';
 
+ // A one-click dashboard link for the buyer, filled in below once the
+ // account exists. Null means they sign in the ordinary way.
+ let dashboardSignInUrl: string | null = null;
+
  // 3b. Save the full plan to Supabase.
 try {
   const { createClient } = await import('@supabase/supabase-js');
@@ -206,8 +223,55 @@ try {
     import.meta.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
+  // Find the buyer's account, and create one if they do not have it yet.
+  //
+  // Nothing in the purchase flow asks anyone to sign up, so most buyers
+  // arrive without an account. This used to fall through to the warning at
+  // the bottom: the plan was generated, emailed, and then thrown away, with
+  // nothing saved and nothing for them to log into. They had paid for a
+  // dashboard that could never show them anything.
   const { data: userData } = await supabase.auth.admin.listUsers();
-  const matchedUser = userData?.users?.find((u: { email?: string }) => u.email === intake.email);
+  const buyerEmail = (intake.email || '').trim().toLowerCase();
+  let matchedUser = userData?.users?.find(
+    (u: { email?: string }) => (u.email || '').toLowerCase() === buyerEmail,
+  );
+
+  if (!matchedUser && buyerEmail) {
+    // Created confirmed: they have just paid, so the address is proven, and
+    // making them confirm again before they can see what they bought is a
+    // step that only loses people. They set no password here; the dashboard
+    // link they are emailed signs them in.
+    const { data: created, error: createError } = await supabase.auth.admin.createUser({
+      email: buyerEmail,
+      email_confirm: true,
+      user_metadata: {
+        full_name: intake.name || '',
+        created_via: 'programme-purchase',
+      },
+    });
+    if (createError) {
+      console.error('Supabase createUser error:', createError);
+    } else if (created?.user) {
+      matchedUser = created.user;
+      console.log(`Supabase: created account for ${buyerEmail} at purchase.`);
+    }
+  }
+
+  // A one-click sign-in link, so the buyer can open the dashboard from the
+  // plan email without ever setting a password. Best effort: if it fails,
+  // the plan is still saved and still emailed, and they can sign in the
+  // ordinary way. Never let this stop the plan being delivered.
+  try {
+    const { data: linkData } = await supabase.auth.admin.generateLink({
+      type: 'magiclink',
+      email: buyerEmail,
+      options: { redirectTo: `${SITE_ORIGIN}/dashboard` },
+    });
+    dashboardSignInUrl = linkData?.properties?.action_link || null;
+  } catch (linkErr) {
+    console.error('Supabase generateLink error:', linkErr);
+  }
+
   const weeks_total = (intake.planDuration || '').includes('12') ? 12 : 6;
 
   if (matchedUser) {
@@ -247,7 +311,7 @@ await sendEmilyNotification({
 // 5. Email the client: the plan itself, or a holding message if it is waiting
 //    on Emily.
 if (sendStraightToClient) {
-  await sendClientPlanReadyEmail({ intake, planType });
+  await sendClientPlanReadyEmail({ intake, planType, dashboardSignInUrl });
 } else {
   await sendClientHoldingEmail({ intake, planType });
 }
@@ -867,6 +931,8 @@ async function sendEmilyNotification(input: {
 async function sendClientPlanReadyEmail(input: {
   intake: ConsultationWithPlanRequest;
   planType: 'physical' | 'mental';
+  /** One-click sign-in link. Null when it could not be minted. */
+  dashboardSignInUrl?: string | null;
 }): Promise<void> {
   const resendApiKey = import.meta.env.RESEND_API_KEY;
   const fromEmail =
@@ -877,7 +943,10 @@ async function sendClientPlanReadyEmail(input: {
   const firstName = (intake.name || '').split(' ')[0] || 'there';
   const duration = intake.planDuration || '6-week';
   const planLabel = planType === 'mental' ? 'mental performance plan' : 'training plan';
-  const dashboardUrl = 'https://mindthegael.co.uk/dashboard';
+  // The sign-in link logs them straight in, which matters because most
+  // buyers have an account only because the purchase just made one and have
+  // never set a password. Falls back to the plain page if minting failed.
+  const dashboardUrl = input.dashboardSignInUrl || 'https://mindthegael.co.uk/dashboard';
 
   const text = [
     `Hi ${firstName},`,

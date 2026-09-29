@@ -222,7 +222,7 @@ import { SITE_TITLE } from '../consts';
                   </div>
                 </label>
                 <label>
-                  How many matches do you typically play per week?
+                  Matches per week
                   <select name="matchesPerWeek">
                     <option value="">Select</option>
                     <option value="0">None (off-season or pre-season)</option>
@@ -482,7 +482,7 @@ import { SITE_TITLE } from '../consts';
                   </div>
                 </label>
                 <label>
-                  How many matches do you typically play per week?
+                  Matches per week
                   <select name="matchesPerWeek">
                     <option value="">Select</option>
                     <option value="0">None right now</option>
@@ -492,7 +492,7 @@ import { SITE_TITLE } from '../consts';
                   </select>
                 </label>
                 <label>
-                  Current confidence level (1-10)
+                  Confidence <span class="nowrap">(1-10)</span>
                   <select name="confidenceLevel">
                     <option value="">Select</option>
                     <option value="1">1 - very low</option>
@@ -1638,6 +1638,8 @@ import { SITE_TITLE } from '../consts';
   .consultation-form label {
     display: grid;
     gap: 0.4rem;
+    line-height: 1.3;
+    text-wrap: pretty;
     border: 1px solid rgba(192, 254, 113, 0.26);
     border-radius: 10px;
     padding: 0.65rem 0.7rem;
@@ -1747,12 +1749,26 @@ import { SITE_TITLE } from '../consts';
     margin-bottom: 0.8rem;
   }
 
+  /* Line height pinned rather than inherited. The page default is about
+     1.7, which reads well in prose and badly on a form label: a question
+     that wraps to two lines became a 134px tall box on a phone, so two
+     short questions filled most of the screen. Mobile WebKit also inflates
+     small text in narrow columns, taking 0.85rem to 17px, which made the
+     loose spacing worse. */
+  /* Keeps "(1-10)" together. It was breaking after the hyphen and
+     rendering as "(1-" on one line and "10)" on the next. */
+  .nowrap {
+    white-space: nowrap;
+  }
+
   .plan-basic-fields label {
     display: grid;
     gap: 0.3rem;
     color: var(--green-light);
     font-weight: 600;
     font-size: 0.85rem;
+    line-height: 1.3;
+    text-wrap: pretty;
   }
 
   .plan-basic-fields input,
