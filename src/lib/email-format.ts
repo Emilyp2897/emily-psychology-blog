@@ -16,7 +16,9 @@ const BORDER_SOFT = '#e0e0e0';
 // fetches them from the internet, not from your laptop. So the logo URL
 // always points to production.
 const SITE_ORIGIN =
-  (import.meta.env.PUBLIC_SITE as string | undefined) || 'https://mindthegael.co.uk';
+  ((import.meta.env.PUBLIC_SITE as string | undefined) ?? '')
+    .trim()
+    .replace(/\/+$/, '') || 'https://mindthegael.co.uk';
 
 const PRODUCTION_ORIGIN = 'https://mindthegael.co.uk';
 const LOGO_URL = `${PRODUCTION_ORIGIN}/assets/MTG_colour.png`;

@@ -37,7 +37,15 @@ async function createCheckoutSession(
   email?: string,
   intakeToken?: string
 ) {
-  const site = import.meta.env.PUBLIC_SITE ?? "https://mindthegael.co.uk";
+  // Trimmed, because this comes from an environment variable that is
+  // pasted by hand. A leading space took live checkout down: the value
+  // was " https://mindthegael.co.uk", so success_url and cancel_url both
+  // began with a space and Stripe rejected the session with "Not a valid
+  // URL". A trailing slash would double up against the paths below, so
+  // that goes too. Falls back when the value is empty or only spaces.
+  const site =
+    (import.meta.env.PUBLIC_SITE ?? "").trim().replace(/\/+$/, "") ||
+    "https://mindthegael.co.uk";
   // Callers validate against VALID_PLANS before getting here, so an unknown
   // key is a programming error rather than bad user input. Throwing is the
   // right response: the old code fell back to a default plan, which meant a
