@@ -13,6 +13,7 @@ import {
 import { getTrackProtocol, getTrackCitations } from '../../data/program-tracks';
 import { decideRouting } from '../../lib/plan-routing';
 import { buildEmilyNotificationEmailHtml, stripDashes, buildSignatureText } from '../../lib/email-format';
+import { renderPlanPdf } from '../../lib/plan-pdf';
 
 function describeSportLoad(trainings: string | undefined, matches: string | undefined): string {
   const t = (trainings || '').trim();
@@ -311,7 +312,7 @@ await sendEmilyNotification({
 // 5. Email the client: the plan itself, or a holding message if it is waiting
 //    on Emily.
 if (sendStraightToClient) {
-  await sendClientPlanReadyEmail({ intake, planType, dashboardSignInUrl });
+  await sendClientPlanReadyEmail({ intake, planType, dashboardSignInUrl, fullPlan });
 } else {
   await sendClientHoldingEmail({ intake, planType });
 }
@@ -933,6 +934,8 @@ async function sendClientPlanReadyEmail(input: {
   planType: 'physical' | 'mental';
   /** One-click sign-in link. Null when it could not be minted. */
   dashboardSignInUrl?: string | null;
+  /** The plan itself, attached to the email as a PDF. */
+  fullPlan?: string;
 }): Promise<void> {
   const resendApiKey = import.meta.env.RESEND_API_KEY;
   const fromEmail =
@@ -988,6 +991,27 @@ async function sendClientPlanReadyEmail(input: {
     </div>
   `;
 
+  // The plan travels as a PDF as well as in the dashboard, so it can be
+  // printed, kept, and read without a signal. Best effort: a failure here
+  // must not stop the email, because the email is how they learn the plan
+  // exists at all.
+  const attachments: Array<{ filename: string; content: string }> = [];
+  if (input.fullPlan) {
+    try {
+      const pdf = await renderPlanPdf({
+        planText: input.fullPlan,
+        title: `${duration} ${planLabel}`,
+        clientName: intake.name || undefined,
+      });
+      attachments.push({
+        filename: `mind-the-gael-${planType}-plan.pdf`,
+        content: Buffer.from(pdf).toString('base64'),
+      });
+    } catch (pdfErr) {
+      console.error('Plan PDF render failed, sending without attachment:', pdfErr);
+    }
+  }
+
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -1001,6 +1025,7 @@ async function sendClientPlanReadyEmail(input: {
       text,
       html,
       reply_to: EMILY_EMAIL,
+      ...(attachments.length ? { attachments } : {}),
     }),
   });
 
