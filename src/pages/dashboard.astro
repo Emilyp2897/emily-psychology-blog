@@ -13,7 +13,12 @@ import { SITE_TITLE } from '../consts';
   <body>
     <Header />
     <main class="container">
-      <div class="dashboard-wrap">
+      {/* Hidden until the sign-in check passes. The session lives in
+          localStorage, so the server cannot know who you are before it
+          sends this page: without this, a logged-out visitor was shown
+          "My Dashboard", "Welcome back." and a Log Out button while the
+          browser worked out they were not signed in. */}
+      <div class="dashboard-wrap" id="dashboard-wrap" hidden>
         <div class="dashboard-header">
           <h1>My Dashboard</h1>
           <button id="logout-btn" class="logout-btn">Log Out</button>
@@ -57,7 +62,28 @@ import { SITE_TITLE } from '../consts';
       try {
         user = await getUserOrThrow();
       } catch (err: any) {
+        // supabase-js reports "not signed in" by throwing, not by returning
+        // null, so the two cases arrive here together and have to be told
+        // apart. Being signed out is ordinary: redirect, and leave the page
+        // hidden so a stranger never sees the dashboard shell.
+        const noSession =
+          err?.name === 'AuthSessionMissingError' ||
+          /auth session missing/i.test(err?.message || '');
+        if (noSession) {
+          window.location.href = '/login';
+          // Stop here without throwing. A module script cannot return at
+          // the top level, and the rest of the file must not run against a
+          // null user, but an uncaught throw shows up as a red error in the
+          // console for what is an ordinary redirect. Awaiting a promise
+          // that never settles halts this script while the browser
+          // navigates away.
+          await new Promise(() => {});
+        }
+        // A real failure, a timeout say, where the session may well be fine.
+        // showError writes inside the wrapper, so reveal it first or the
+        // page just looks blank.
         console.error('dashboard auth check failed:', err);
+        document.getElementById('dashboard-wrap')?.removeAttribute('hidden');
         showError(`We could not confirm your sign-in: ${err?.message || 'Unknown error'}.`);
         throw err;
       }
@@ -67,8 +93,17 @@ import { SITE_TITLE } from '../consts';
         // A module script cannot return at the top level, and without this
         // the rest of the file kept running against a null user while the
         // browser was still navigating.
-        throw new Error('Not signed in, redirecting to login.');
+        // Stop here without throwing. A module script cannot return at
+        // the top level, and the rest of the file must not run against a
+        // null user, but an uncaught throw shows up as a red error in the
+        // console for what is an ordinary redirect. Awaiting a promise
+        // that never settles halts this script while the browser
+        // navigates away.
+        await new Promise(() => {});
       }
+
+      // Signed in and confirmed, so the page can be shown.
+      document.getElementById('dashboard-wrap')?.removeAttribute('hidden');
 
       // Greet the user
       const greeting = document.getElementById('dashboard-greeting');
@@ -97,7 +132,13 @@ import { SITE_TITLE } from '../consts';
 
       if (!accessToken) {
         window.location.href = '/login';
-        throw new Error('No access token, redirecting to login.');
+        // Stop here without throwing. A module script cannot return at
+        // the top level, and the rest of the file must not run against a
+        // null user, but an uncaught throw shows up as a red error in the
+        // console for what is an ordinary redirect. Awaiting a promise
+        // that never settles halts this script while the browser
+        // navigates away.
+        await new Promise(() => {});
       }
 
       // loadFailed keeps a failed request from falling through to the

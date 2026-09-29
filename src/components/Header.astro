@@ -139,8 +139,19 @@ if (segments[0] === 'content-hub') {
       authLink.textContent = 'Dashboard';
       authLink.setAttribute('href', '/dashboard');
     }
-  } catch (err) {
-    console.error('header auth check failed:', err);
+  } catch (err: any) {
+    // Being signed out is the normal case for most visitors, not a fault.
+    // supabase-js reports it by throwing AuthSessionMissingError, which this
+    // used to log as an error on every page load for every logged-out
+    // reader. That is noise, and it buries the failures that do matter:
+    // a timeout or a network fault, which are worth seeing.
+    const name = err?.name || '';
+    const message = err?.message || '';
+    const noSession =
+      name === 'AuthSessionMissingError' || /auth session missing/i.test(message);
+    if (!noSession) {
+      console.error('header auth check failed:', err);
+    }
   }
 </script>
 
