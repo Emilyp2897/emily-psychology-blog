@@ -306,7 +306,7 @@ import { SITE_TITLE } from '../consts';
       /* The empty and error states used to be bare text on the dark page with
          a lime link. They are now the same lilac panel as the note above, so
          the column reads as one set of cards whatever state it is in. */
-      .plans-list .plans-empty {
+      .plans-list :global(.plans-empty) {
         margin: 0;
         padding: 1rem 1.2rem;
         border-left: 4px solid var(--purple);
@@ -316,13 +316,13 @@ import { SITE_TITLE } from '../consts';
         font-size: 0.95rem;
       }
 
-      .plans-list .plans-empty a {
+      .plans-list :global(.plans-empty a) {
         color: var(--purple) !important;
         text-decoration: underline;
         font-weight: 700;
       }
 
-      .plan-card {
+      .plans-list :global(.plan-card) {
         background: #ffffff;
         border: 2px solid rgba(105, 0, 90, 0.22);
         border-radius: 12px;
@@ -332,13 +332,13 @@ import { SITE_TITLE } from '../consts';
         gap: 0.5rem;
       }
 
-      .plan-card-header {
+      .plans-list :global(.plan-card-header) {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
 
-      .plan-type {
+      .plans-list :global(.plan-type) {
         font-weight: 700;
         color: var(--purple);
         font-size: 1rem;
@@ -346,7 +346,7 @@ import { SITE_TITLE } from '../consts';
 
       /* Purple tint rather than a lime one. Lime at 20% on white is barely a
          colour, so the status pill read as a grey smudge. */
-      .plan-status {
+      .plans-list :global(.plan-status) {
         font-size: 0.78rem;
         font-weight: 800;
         padding: 0.2rem 0.65rem;
@@ -358,14 +358,14 @@ import { SITE_TITLE } from '../consts';
         white-space: nowrap;
       }
 
-      .plan-date {
+      .plans-list :global(.plan-date) {
         color: #666;
         font-size: 0.85rem;
         margin: 0;
       }
 
       /* Filled purple: the one primary action on the card. */
-      .plan-view-btn {
+      .plans-list :global(.plan-view-btn) {
         display: inline-block;
         margin-top: 0.25rem;
         padding: 0.55rem 1rem;
@@ -380,17 +380,17 @@ import { SITE_TITLE } from '../consts';
         transition: background 0.15s ease, color 0.15s ease;
       }
 
-      .plan-view-btn:hover {
+      .plans-list :global(.plan-view-btn:hover) {
         background: #ffffff;
         color: var(--purple) !important;
       }
 
-      .plan-view-btn:focus-visible {
+      .plans-list :global(.plan-view-btn:focus-visible) {
         outline: 3px solid var(--purple-light);
         outline-offset: 2px;
       }
 
-      .team-badge {
+      .plans-list :global(.team-badge) {
         display: inline-block;
         margin-left: 0.4rem;
         padding: 0.1rem 0.5rem;
@@ -404,7 +404,7 @@ import { SITE_TITLE } from '../consts';
         vertical-align: middle;
       }
 
-      .plan-pending-note {
+      .plans-list :global(.plan-pending-note) {
         display: inline-block;
         margin-top: 0.25rem;
         padding: 0.5rem 0.75rem;
