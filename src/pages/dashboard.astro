@@ -19,12 +19,12 @@ import { SITE_TITLE } from '../consts';
           "My Dashboard", "Welcome back." and a Log Out button while the
           browser worked out they were not signed in. */}
       <div class="dashboard-wrap" id="dashboard-wrap" hidden>
-        <div class="dashboard-header">
+        <div class="page-hero">
+          <p class="page-eyebrow">Your account</p>
           <h1>My Dashboard</h1>
+          <p class="page-sub" id="dashboard-greeting">Welcome back.</p>
           <button id="logout-btn" class="logout-btn">Log Out</button>
         </div>
-
-        <p class="dashboard-intro" id="dashboard-greeting">Welcome back.</p>
 
         <section class="plans-section">
           <h2>Your Plans</h2>
@@ -35,6 +35,12 @@ import { SITE_TITLE } from '../consts';
             <p class="plans-empty">Loading your plans...</p>
           </div>
         </section>
+
+        <nav class="dashboard-links" aria-label="More from Mind the Gael">
+          <a href="/personal-training" class="dashboard-link">Start a new plan</a>
+          <a href="/content-hub" class="dashboard-link">Content Hub</a>
+          <a href="/contact-us" class="dashboard-link">Contact Emily</a>
+        </nav>
       </div>
     </main>
     <Footer />
@@ -217,41 +223,29 @@ import { SITE_TITLE } from '../consts';
 
     <style>
       .dashboard-wrap {
-        max-width: 800px;
-        margin: 3rem auto;
+        max-width: 860px;
+        margin: 0 auto 3rem;
       }
 
-      .dashboard-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
-      }
-
-      .dashboard-intro {
-        color: var(--green-light);
-        margin-bottom: 2rem;
-      }
-
-      /* Purple outline rather than lime. Log Out is a secondary action, so it
-         reads as an outline button and leaves the filled purple treatment to
-         "View Plan", which is what people are here to press. */
+      /* Outline on the dark header: Log Out is secondary, so it stays quiet
+         and leaves the filled button on each plan card as the main action. */
       .logout-btn {
-        padding: 0.5rem 1rem;
-        background: #ffffff;
-        border: 2px solid var(--purple);
-        color: var(--purple);
+        margin-top: 0.6rem;
+        padding: 0.45rem 1rem;
+        background: transparent;
+        border: 2px solid var(--green-lime);
+        color: var(--green-light);
         border-radius: 8px;
         font: inherit;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
         cursor: pointer;
-        transition: background 0.15s ease, color 0.15s ease;
+        transition: border-color 0.15s ease, color 0.15s ease;
       }
 
       .logout-btn:hover {
-        background: var(--purple);
-        color: #ffffff;
+        border-color: var(--purple-light);
+        color: var(--purple-light);
       }
 
       .logout-btn:focus-visible {
@@ -260,7 +254,9 @@ import { SITE_TITLE } from '../consts';
       }
 
       .plans-section h2 {
-        margin-bottom: 0.5rem;
+        color: var(--green-lime);
+        font-size: 1.5rem;
+        margin: 0 0 0.8rem;
       }
 
       /* Light lilac panel, matching the notices on pricing and personal
@@ -298,9 +294,15 @@ import { SITE_TITLE } from '../consts';
         margin-right: 0.3rem;
       }
 
+      /* Two cards a row once there is room, like the Content Hub grid. */
       .plans-list {
         display: grid;
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+        gap: 1.1rem;
+      }
+
+      .plans-list :global(.plans-empty) {
+        grid-column: 1 / -1;
       }
 
       /* The empty and error states used to be bare text on the dark page with
@@ -322,26 +324,31 @@ import { SITE_TITLE } from '../consts';
         font-weight: 700;
       }
 
+      /* The About page's card: white, lilac edge, heavy purple top. */
       .plans-list :global(.plan-card) {
         background: #ffffff;
-        border: 2px solid rgba(105, 0, 90, 0.22);
-        border-radius: 12px;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-        padding: 1.25rem 1.5rem;
+        border: 2px solid var(--purple-light);
+        border-top: 6px solid var(--purple);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        padding: 1.3rem 1.4rem;
         display: grid;
-        gap: 0.5rem;
+        gap: 0.6rem;
+        align-content: start;
       }
 
       .plans-list :global(.plan-card-header) {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
+        gap: 0.75rem;
       }
 
       .plans-list :global(.plan-type) {
-        font-weight: 700;
+        font-weight: 800;
         color: var(--purple);
-        font-size: 1rem;
+        font-size: 1.1rem;
+        line-height: 1.3;
       }
 
       /* Purple tint rather than a lime one. Lime at 20% on white is barely a
@@ -402,6 +409,36 @@ import { SITE_TITLE } from '../consts';
         letter-spacing: 0.06em;
         border-radius: 999px;
         vertical-align: middle;
+      }
+
+      /* Lime pill on the active status, so a live plan reads at a glance. */
+      .plans-list :global(.plan-status.active) {
+        background: var(--green-lime);
+        color: var(--green-dark);
+      }
+
+      .dashboard-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 2.5rem;
+      }
+
+      .dashboard-link {
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        border: 2px solid var(--green-lime);
+        color: var(--green-light) !important;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none !important;
+        transition: border-color 0.15s ease, color 0.15s ease;
+      }
+
+      .dashboard-link:hover {
+        border-color: var(--purple-light);
+        color: var(--purple-light) !important;
       }
 
       .plans-list :global(.plan-pending-note) {

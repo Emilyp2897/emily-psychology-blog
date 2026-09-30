@@ -14,32 +14,67 @@ import { SITE_TITLE } from '../consts';
   <body class="preview-page">
     <Header />
     <main class="container preview-main">
-      <section class="preview-intro">
-        <h1>Your Programme Preview</h1>
-        <p class="preview-lead">The shape of your programme. Every session, exercise, set and progression unlocks when you buy.</p>
-      </section>
+      <div class="page-hero">
+        <p class="page-eyebrow">Your preview</p>
+        <h1>Your Plan Preview</h1>
+        <p class="page-sub">An outline of the 6-week mental performance plan built from the intake form. The full plan, week by week, unlocks after payment.</p>
+      </div>
 
-      <section class="preview-status" id="preview-status">
+      <section class="preview-status panel" id="preview-status">
         <p>Loading your preview...</p>
       </section>
 
-      <section class="preview-content-wrap" id="preview-content-wrap" hidden>
+      {/* White card with the purple top edge, the same surface as the About
+          and Content Hub cards, instead of a lime outline on black. */}
+      <section class="preview-content-wrap panel" id="preview-content-wrap" hidden>
         <div class="watermark" id="preview-watermark" aria-hidden="true"></div>
         <article class="preview-content" id="preview-content"></article>
       </section>
 
       <section class="preview-cta" id="preview-cta" hidden>
-        <h2>Ready to unlock your full plan?</h2>
-        <p>Your full plan will be emailed to you within minutes of payment.</p>
+        <p class="page-eyebrow">£2 · single payment</p>
+        <h2>Unlock the full plan</h2>
+        <p>The full plan is emailed as a PDF within minutes of payment and saved to your dashboard.</p>
         <div class="cta-buttons">
           <a id="buy-6-week" class="cta-button cta-primary" href="#">Buy 6-Week Programme</a>
         </div>
-        <p class="cta-footnote">Or email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a> if you have any questions first.</p>
+        <p class="cta-footnote">Questions first? Email Emily at <a href="mailto:emilyphelan@mindthegael.co.uk">emilyphelan@mindthegael.co.uk</a>.</p>
       </section>
     </main>
     <Footer />
 
     <script is:inline>
+      function renderTeaser(root, text) {
+        root.textContent = '';
+        let list = null;
+        const clean = (t) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/^\*|\*$/g, '').trim();
+        for (const raw of text.split(/\r?\n/)) {
+          const line = raw.trim();
+          if (!line) { list = null; continue; }
+          const heading = line.match(/^(#{1,4})\s+(.*)$/);
+          const bullet = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
+          if (heading) {
+            list = null;
+            const h = document.createElement(heading[1].length <= 1 ? 'h2' : 'h3');
+            // The prompt asks for upper-case section headers; sentence case
+            // reads as part of the site rather than shouting.
+            const t = clean(heading[2]);
+            h.textContent = t === t.toUpperCase() ? t.charAt(0) + t.slice(1).toLowerCase() : t;
+            root.appendChild(h);
+          } else if (bullet) {
+            if (!list) { list = document.createElement('ul'); root.appendChild(list); }
+            const li = document.createElement('li');
+            li.textContent = clean(bullet[1]);
+            list.appendChild(li);
+          } else {
+            list = null;
+            const p = document.createElement('p');
+            p.textContent = clean(line);
+            root.appendChild(p);
+          }
+        }
+      }
+
       (async () => {
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
@@ -67,10 +102,10 @@ import { SITE_TITLE } from '../consts';
           // Hide loading state, show content and CTAs.
           if (statusEl) statusEl.hidden = true;
           if (contentEl) {
-            // Render as plain text in a <pre>-style block so the model's
-            // markdown-style headers display clearly. We deliberately do
-            // NOT render HTML from the teaser content.
-            contentEl.textContent = data.teaserContent || '';
+            // Build real headings, lists and paragraphs from the model's
+            // markdown. Every node is made with createElement and filled with
+            // textContent, so the teaser still never renders as HTML.
+            renderTeaser(contentEl, data.teaserContent || '');
           }
           if (watermarkEl) {
             // Watermark uses the client's email so any screenshot is
@@ -129,44 +164,31 @@ import { SITE_TITLE } from '../consts';
 
 <style>
   .preview-main {
-    padding-top: 1rem;
     padding-bottom: 3rem;
   }
 
-  .preview-intro {
-    margin-bottom: 1.5rem;
-  }
-
-  .preview-intro h1 {
-    color: var(--green-lime);
-    font-size: 2rem;
-    margin: 0 0 0.6rem;
-  }
-
-  .preview-lead {
+  .preview-status p {
     margin: 0;
-    max-width: 56ch;
-    line-height: 1.6;
   }
 
-  .preview-status {
-    padding: 1rem 0;
+  /* :global because these messages are written with innerHTML, so they
+     never carry the data-astro-cid attribute a scoped selector needs. */
+  .preview-status :global(a) {
+    color: var(--purple) !important;
+    font-weight: 700;
+    text-decoration: underline;
   }
 
   .preview-content-wrap {
     position: relative;
-    border: 2px solid var(--green-lime);
-    border-radius: 14px;
-    background: rgba(240, 205, 255, 0.06);
-    padding: 1.5rem 1.5rem;
     overflow: hidden;
   }
 
   .preview-content {
     position: relative;
     z-index: 1;
-    white-space: pre-wrap;
-    line-height: 1.6;
+    line-height: 1.65;
+    color: #222;
 
     /* Deterrent 1: disable text selection. */
     user-select: none;
@@ -176,6 +198,42 @@ import { SITE_TITLE } from '../consts';
 
     /* Deterrent 2: prevent drag-saving of the content as text. */
     -webkit-user-drag: none;
+  }
+
+  /* Written by renderTeaser, so :global for the same reason as above. */
+  .preview-content :global(h2) {
+    color: var(--purple);
+    font-size: 1.3rem;
+    margin: 1.6rem 0 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--green-lime);
+  }
+
+  .preview-content :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .preview-content :global(h3) {
+    color: var(--purple);
+    font-size: 1.05rem;
+    margin: 1.1rem 0 0.4rem;
+  }
+
+  .preview-content :global(p) {
+    margin: 0 0 0.8rem;
+  }
+
+  .preview-content :global(ul) {
+    margin: 0 0 1rem;
+    padding-left: 1.3rem;
+  }
+
+  .preview-content :global(li) {
+    margin: 0 0 0.35rem;
+  }
+
+  .preview-content :global(li::marker) {
+    color: var(--purple);
   }
 
   /* Deterrent 3: visible diagonal watermark with the client's email,
@@ -220,11 +278,16 @@ import { SITE_TITLE } from '../consts';
     }
   }
 
+  /* Dark purple band with a lime edge, echoing the home page's
+     Championship section, so the one call to action stands apart from the
+     white preview card above it. */
   .preview-cta {
-    margin-top: 2rem;
-    padding: 1.5rem;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
     border-radius: 14px;
-    background: linear-gradient(180deg, rgba(105, 0, 90, 0.85) 0%, rgba(105, 0, 90, 0.7) 100%);
+    border: 3px solid var(--green-lime);
+    background: linear-gradient(180deg, rgba(105, 0, 90, 0.92) 0%, rgba(40, 6, 36, 0.95) 100%);
     color: var(--green-light);
     text-align: center;
   }
@@ -232,10 +295,16 @@ import { SITE_TITLE } from '../consts';
   .preview-cta h2 {
     margin: 0 0 0.6rem;
     color: var(--green-lime);
+    font-size: 1.7rem;
   }
 
   .preview-cta p {
-    margin: 0 0 1.2rem;
+    margin: 0 auto 1.2rem;
+    max-width: 48ch;
+  }
+
+  .preview-cta .page-eyebrow {
+    margin-bottom: 0.9rem;
   }
 
   .cta-buttons {
@@ -246,30 +315,22 @@ import { SITE_TITLE } from '../consts';
     margin-bottom: 1rem;
   }
 
+  /* The global `main a` rule sets dark purple on every anchor inside
+     <main>, so each anchor colour here needs !important to win. */
   .cta-button {
     display: inline-block;
-    padding: 0.75rem 1.25rem;
+    padding: 0.85rem 1.5rem;
     border-radius: 8px;
     border: 2px solid var(--green-lime);
-    font-weight: 700;
-    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.05rem;
+    text-decoration: none !important;
     transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
   }
-
-  /* The global `main a` rule forces dark purple on every anchor inside
-     <main> with !important. Every anchor color on this dark-background
-     page needs !important to win that. */
 
   .cta-primary {
     background: var(--green-lime);
     color: var(--green-dark) !important;
-    text-decoration: none !important;
-  }
-
-  .cta-secondary {
-    background: transparent;
-    color: var(--green-lime) !important;
-    text-decoration: none !important;
   }
 
   .cta-button:hover {
@@ -281,29 +342,24 @@ import { SITE_TITLE } from '../consts';
 
   .cta-footnote {
     font-size: 0.9rem;
-    opacity: 0.85;
+    opacity: 0.9;
+    margin-bottom: 0 !important;
   }
 
   .cta-footnote a {
     color: #ffffff !important;
     text-decoration: underline !important;
     font-weight: 700;
+    overflow-wrap: anywhere;
   }
 
   .cta-footnote a:hover {
     color: var(--green-lime) !important;
   }
 
-  .error-message {
-    color: #ffb3b3;
-    padding: 1rem;
-    border-radius: 8px;
-    background: rgba(120, 0, 0, 0.3);
-    border: 1px solid #ffb3b3;
-  }
-
-  .error-message a {
-    color: var(--green-lime) !important;
-    text-decoration: underline;
+  /* Written with innerHTML into the white status card. */
+  .preview-status :global(.error-message) {
+    color: #8a0015;
+    margin: 0;
   }
 </style>

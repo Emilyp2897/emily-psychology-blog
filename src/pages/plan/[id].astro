@@ -306,11 +306,10 @@ const feedbackEnabled =
         const week1Html = await renderWeek(weeks[initialWeek - 1], initialWeek);
 
         container.innerHTML = `
-          <div class="plan-header">
-            <div class="plan-meta">
-              <span class="plan-type-badge">${planType === 'mental' ? 'Mental Performance Plan' : 'Physical Performance Plan'}</span>
-              <span class="plan-date">Started ${approvedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-            </div>
+          <div class="page-hero plan-header">
+            <p class="page-eyebrow">${planType === 'mental' ? 'Mental Performance Plan' : 'Physical Performance Plan'}</p>
+            <h1>Your ${weeksTotal ? weeksTotal + '-Week ' : ''}Plan</h1>
+            <p class="page-meta">Started ${approvedAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           </div>
 
           <div class="ai-disclaimer" role="note">
@@ -329,6 +328,12 @@ const feedbackEnabled =
             ${week1Html}
           </article>
         `;
+
+        // The toolbar sits in the static markup, above the container, which
+        // put the print button over the plan title. Move it to just under the
+        // title now the title exists.
+        const toolbar = document.querySelector('.plan-toolbar');
+        container.querySelector('.plan-header')?.after(toolbar as Node);
 
         bindWeekNavHandlers();
         bindCheckboxHandlers();
@@ -1408,12 +1413,12 @@ const feedbackEnabled =
 
     <style is:global>
   /* ── Toolbar ── */
-  /* Print button only, since the back link moved to the header arrow. Kept
-     right-aligned so the button stays where it has always been. */
+  /* Print button only, since the back link moved to the header arrow.
+     Centred under the plan title, which renderPlan moves it beneath. */
   .plan-toolbar {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 1rem;
@@ -1560,8 +1565,11 @@ const feedbackEnabled =
         margin: 2rem auto;
       }
 
-      .plan-header {
-        margin-bottom: 1.25rem;
+      /* The page's own top margin already clears the header, so the shared
+         hero's top margin is dropped here. */
+      .plan-wrap :global(.plan-header) {
+        margin-top: 0.5rem;
+        margin-bottom: 1.75rem;
       }
 
       /* Light lilac panel with purple text, the same notice treatment used on
@@ -1594,27 +1602,6 @@ const feedbackEnabled =
 
       .ai-disclaimer a:hover {
         color: #4a0040 !important;
-      }
-
-      .plan-meta {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .plan-type-badge {
-        background: var(--purple);
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.9rem;
-        padding: 0.4rem 1rem;
-        border-radius: 999px;
-      }
-
-      .plan-date {
-        color: rgba(244, 255, 232, 0.6);
-        font-size: 0.9rem;
       }
 
       /* Stats panel — circular ring on the left, three mini stats on the right.
@@ -2315,9 +2302,20 @@ const feedbackEnabled =
           height: 150px;
         }
 
+        /* minmax(0, 1fr): a plain 1fr column will not shrink below its
+           longest word, which pushed "Day streak" off the card at 390px. */
         .stat-mini-grid {
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 0.5rem;
+        }
+
+        .stat-mini {
+          padding: 0.7rem 0.55rem;
+        }
+
+        .stat-mini-label {
+          font-size: 0.64rem;
+          letter-spacing: 0.03em;
         }
 
         .stat-mini-value {

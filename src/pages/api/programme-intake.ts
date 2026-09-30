@@ -6,6 +6,7 @@ import { findSportProfile } from '../../data/sport-profiles';
 import { detectRedFlags } from '../../data/red-flags';
 import { determineTrack } from '../../data/program-tracks';
 import { stripDashes } from '../../lib/email-format';
+import { PERFORMANCE_PLANS_OPEN } from '../../consts';
 
 export const prerender = false;
 
@@ -156,6 +157,18 @@ function isRateLimited(clientKey: string): boolean {
 }
 
 export const POST: APIRoute = async (context) => {
+  // Paused with the Performance Plans page. Checked first so no model call
+  // is made and nothing is stored.
+  if (!PERFORMANCE_PLANS_OPEN) {
+    return json<ProgrammeIntakeError>(
+      {
+        success: false,
+        reason: 'error',
+        message: 'Performance plans are paused while they are rebuilt. Email emilyphelan@mindthegael.co.uk with any questions.',
+      },
+      503,
+    );
+  }
   try {
     // Checked before the body is parsed or the model is called.
     const clientKey = getClientKey(context.request);

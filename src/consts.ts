@@ -13,3 +13,9 @@ export const SITE_TITLE_FULL = 'Mind the Gael | Mental Performance for Female At
 //    can book a follow-up chat once they receive their plan.
 export const EMILY_CALENDAR_BOOKING_URL =
 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ36KoXqM3BjxB0kIH_OIVYVykacTIuW9-AJsezyfpalTSLO0YwC2h4FqPox3L4zBGQASYd-Ya4B?gv=true';
+// Performance Plans are paused while the page design and the end-to-end
+// purchase flow are rebuilt. While false, /personal-training shows a Coming
+// Soon page instead of the full page (kept in _performance-plans-full.astro)
+// and /api/programme-intake refuses new submissions, so the intake cannot be
+// reached around the page either. Set to true to reopen both.
+export const PERFORMANCE_PLANS_OPEN = false;

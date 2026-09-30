@@ -1262,3 +1262,94 @@ body.resources-page header {
     font-size: 1.6rem;
   }
 }
+
+/* ============================================
+   PAGE HERO + PANEL
+   The shared header and card every child page uses, taken from the home
+   page's Championship section (lime pill eyebrow, centred lime heading,
+   light subtitle) and the Player Stories card (white, purple top edge).
+   Before this, each page had its own left-aligned heading at its own size.
+   Selectors start at `main` so they outrank the older page-scoped h1 rules.
+   ============================================ */
+main .page-hero {
+  text-align: center;
+  max-width: 680px;
+  margin: 2.5rem auto 2.5rem;
+  padding: 0 0.5rem;
+}
+
+main .page-hero p.page-eyebrow,
+main .page-eyebrow,
+main .status-band .status-eyebrow {
+  display: inline-block;
+  margin: 0 0 0.9rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: var(--green-lime);
+  color: var(--green-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+main .page-hero h1 {
+  color: var(--green-lime);
+  font-size: 2.4rem;
+  line-height: 1.15;
+  margin: 0 0 0.9rem;
+  text-align: center;
+}
+
+main .page-hero p.page-sub {
+  color: var(--green-light);
+  max-width: 56ch;
+  margin: 0 auto 0.6rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+main .page-hero .page-meta {
+  color: var(--green-light);
+  opacity: 0.75;
+  font-size: 0.9rem;
+  margin: 0.4rem 0 0;
+}
+
+main .panel {
+  background: #fff;
+  color: #222;
+  border: 2px solid var(--purple-light);
+  border-top: 6px solid var(--purple);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  max-width: 760px;
+  margin: 0 auto 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+main .panel h2,
+main .panel h3 {
+  color: var(--purple);
+}
+
+main .panel a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  main .page-hero {
+    margin: 1.5rem auto 2rem;
+  }
+
+  main .page-hero h1 {
+    font-size: 1.85rem;
+  }
+
+  main .panel {
+    padding: 1.4rem 1.1rem;
+  }
+}

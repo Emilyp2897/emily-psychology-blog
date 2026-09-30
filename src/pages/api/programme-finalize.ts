@@ -1000,10 +1000,21 @@ async function sendClientPlanReadyEmail(input: {
   const attachments: Array<{ filename: string; content: string }> = [];
   if (input.fullPlan) {
     try {
+      // The logo is fetched from the site's own public assets. Serverless
+      // bundles do not include public/ as files, so it cannot be read from
+      // disk. If the fetch fails the cover falls back to a text wordmark.
+      let logoPng: Uint8Array | undefined;
+      try {
+        const logoRes = await fetch(`${SITE_ORIGIN}/assets/MTG_colour.png`, { signal: AbortSignal.timeout(4000) });
+        if (logoRes.ok) logoPng = new Uint8Array(await logoRes.arrayBuffer());
+      } catch (logoErr) {
+        console.warn('Plan PDF logo fetch failed, using text cover:', logoErr);
+      }
       const pdf = await renderPlanPdf({
         planText: input.fullPlan,
         title: `${duration} ${planLabel}`,
         clientName: intake.name || undefined,
+        logoPng,
       });
       attachments.push({
         filename: `mind-the-gael-${planType}-plan.pdf`,
