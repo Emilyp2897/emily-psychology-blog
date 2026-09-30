@@ -1265,11 +1265,11 @@ body.resources-page header {
 
 /* ============================================
    PAGE HERO + PANEL
-   The shared header and card every child page uses, taken from the home
-   page's Championship section (lime pill eyebrow, centred lime heading,
-   light subtitle) and the Player Stories card (white, purple top edge).
-   Before this, each page had its own left-aligned heading at its own size.
-   Selectors start at `main` so they outrank the older page-scoped h1 rules.
+   The header and card used by the dashboard, plan and preview pages (and
+   the Performance Plans holding page), taken from the home page's
+   Championship section (lime pill eyebrow, centred lime heading, light
+   subtitle) and the Player Stories card (white, purple top edge).
+   Selectors start at `main` so they outrank page-scoped h1 rules.
    ============================================ */
 main .page-hero {
   text-align: center;
@@ -1279,8 +1279,7 @@ main .page-hero {
 }
 
 main .page-hero p.page-eyebrow,
-main .page-eyebrow,
-main .status-band .status-eyebrow {
+main .page-eyebrow {
   display: inline-block;
   margin: 0 0 0.9rem;
   padding: 0.3rem 0.85rem;
