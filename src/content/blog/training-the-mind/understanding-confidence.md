@@ -2,6 +2,7 @@
 title: "Understanding Confidence: Where It Actually Comes From"
 description: "Confidence is a skill, not a personality trait."
 pubDate: "2026-10-01"
+hold: true
 track: "training-the-mind"
 ---
 Confidence is the thing most players get wrong, and not because they're not smart. Not because they're not smart, but because the way confidence is talked about in sport is mostly nonsense.
