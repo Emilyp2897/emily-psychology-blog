@@ -97,6 +97,6 @@ This is hard. It's worth doing.
 ## References
 
 - Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. *Psychological Inquiry*, 11(4), 227-268.
-- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press.
+- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0738209716)
 - Cleare, K. E., & Mellalieu, S. D. (2013). Perfectionism and the psychological impact of intercollegiate sport injury. *Journal of Clinical Sport Psychology*.
 - Tamminen, K. A., & Holt, N. L. (2010). A meta-study of qualitative research examining stressor appraisals and coping among adolescents in sport. *Journal of Sports Sciences*, 28(14), 1563-1580.

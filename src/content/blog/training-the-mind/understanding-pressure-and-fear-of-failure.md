@@ -85,6 +85,6 @@ Championship pressure exists because you care. The players who handle it best ar
 
 ## References
 
-- Blascovich, J., & Mendes, W. B. (2000). Challenge and threat appraisals: The role of affective cues. In J. P. Forgas (Ed.), [*Feeling and Thinking: The Role of Affect in Social Cognition*](https://openlibrary.org/works/OL6572702W). Cambridge University Press.
+- Blascovich, J., & Mendes, W. B. (2000). Challenge and threat appraisals: The role of affective cues. In J. P. Forgas (Ed.), [*Feeling and Thinking: The Role of Affect in Social Cognition*](https://openlibrary.org/works/OL6572702W). Cambridge University Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0521011892)
 - Conroy, D. E., Willow, J. P., & Metzler, J. N. (2002). [Multidimensional fear of failure measurement: The Performance Failure Appraisal Inventory](https://doi.org/10.1080/10413200252907752). *Journal of Applied Sport Psychology*, 14(2), 76-90.
 - Jones, M., Meijen, C., McCarthy, P. J., & Sheffield, D. (2009). [A theory of challenge and threat states in athletes](https://doi.org/10.1080/17509840902829331). *International Review of Sport and Exercise Psychology*, 2(2), 161-180.

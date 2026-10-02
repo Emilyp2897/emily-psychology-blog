@@ -99,5 +99,5 @@ You can be all-in on the sport AND a whole person. The two go together.
 ## References
 
 - Brewer, B. W., Van Raalte, J. L., & Linder, D. E. (1993). Athletic identity. *International Journal of Sport Psychology*, 24, 237-254.
-- Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2011). *Acceptance and Commitment Therapy* (2nd ed.). Guilford Press.
-- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*.
+- Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2011). *Acceptance and Commitment Therapy* (2nd ed.). Guilford Press. [Buy on Amazon](https://www.amazon.co.uk/dp/1462528945)
+- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*. [Buy on Amazon](https://www.amazon.co.uk/dp/1885693362)

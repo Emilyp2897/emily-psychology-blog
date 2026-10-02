@@ -70,4 +70,4 @@ There was a stretch where I dreaded going to bed more than I dreaded the match. 
 
 - Erlacher, D., Ehrlenspiel, F., Adegbesan, O. A., & El-Din, H. G. (2011). Sleep habits in German athletes before important competitions or games. *Journal of Sports Sciences*, 29(8), 859-866.
 - National Institute for Health and Care Excellence (NICE). Insomnia (CKS topic, updated 2022).
-- Walker, M. P. (2017). *Why We Sleep: Unlocking the Power of Sleep and Dreams*. Scribner.
+- Walker, M. P. (2017). *Why We Sleep: Unlocking the Power of Sleep and Dreams*. Scribner. [Buy on Amazon](https://www.amazon.co.uk/dp/1501144316)

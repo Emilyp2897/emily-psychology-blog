@@ -137,6 +137,6 @@ Limiting input keeps your cognitive load manageable.
 ## References
 
 - Fullagar, H. H. K., Skorski, S., Duffield, R., Hammes, D., Coutts, A. J., & Meyer, T. (2015). [Sleep and athletic performance: The effects of sleep loss on exercise performance, and physiological and cognitive responses to exercise](https://doi.org/10.1007/s40279-014-0260-0). *Sports Medicine*, 45(2), 161-186.
-- Blascovich, J., & Mendes, W. B. (2000). Challenge and threat appraisals: The role of affective cues. In J. P. Forgas (Ed.), [*Feeling and Thinking: The Role of Affect in Social Cognition*](https://openlibrary.org/works/OL6572702W). Cambridge University Press.
+- Blascovich, J., & Mendes, W. B. (2000). Challenge and threat appraisals: The role of affective cues. In J. P. Forgas (Ed.), [*Feeling and Thinking: The Role of Affect in Social Cognition*](https://openlibrary.org/works/OL6572702W). Cambridge University Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0521011892)
 - Jones, M., Meijen, C., McCarthy, P. J., & Sheffield, D. (2009). [A theory of challenge and threat states in athletes](https://doi.org/10.1080/17509840902829331). *International Review of Sport and Exercise Psychology*, 2(2), 161-180.
 - Driediger, M., Hall, C., & Callow, N. (2006). [Imagery use by injured athletes: A qualitative analysis](https://doi.org/10.1080/02640410500128221). *Journal of Sports Sciences*, 24(3), 261-272.

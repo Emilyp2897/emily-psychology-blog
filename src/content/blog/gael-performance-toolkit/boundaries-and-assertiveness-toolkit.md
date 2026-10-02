@@ -105,6 +105,6 @@ This is hard. It's also some of the most important work you'll do as an athlete 
 
 ## References
 
-- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press.
-- Smith, M. J. (1975). *When I Say No, I Feel Guilty*. Bantam Books.
+- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0738209716)
+- Smith, M. J. (1975). *When I Say No, I Feel Guilty*. Bantam Books. [Buy on Amazon](https://www.amazon.co.uk/dp/0553263900)
 - Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits. *Psychological Inquiry*, 11(4), 227-268.

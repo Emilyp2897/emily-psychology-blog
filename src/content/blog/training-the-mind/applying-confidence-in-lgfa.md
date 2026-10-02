@@ -73,6 +73,6 @@ Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-perf
 
 ## References
 
-- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman.
+- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman. [Buy on Amazon](https://www.amazon.co.uk/dp/0716728508)
 - Hays, K., Thomas, O., Maynard, I., & Bawden, M. (2009). The role of confidence in world-class sport performance. *Journal of Sports Sciences*, 27(11), 1185-1199.
-- Vealey, R. S. (2001). Understanding and enhancing self-confidence in athletes. In R. N. Singer, H. A. Hausenblas, & C. M. Janelle (Eds.), *Handbook of Sport Psychology* (2nd ed.).
+- Vealey, R. S. (2001). Understanding and enhancing self-confidence in athletes. In R. N. Singer, H. A. Hausenblas, & C. M. Janelle (Eds.), *Handbook of Sport Psychology* (2nd ed.). [Buy on Amazon](https://www.amazon.co.uk/dp/0471379956)

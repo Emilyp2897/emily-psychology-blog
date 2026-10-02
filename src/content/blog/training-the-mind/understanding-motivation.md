@@ -96,7 +96,7 @@ The strongest athletes I know aren't the ones who never lose motivation. They're
 
 ## References
 
-- Deci, E. L., & Ryan, R. M. (1985). *Intrinsic Motivation and Self-Determination in Human Behavior*. Plenum.
+- Deci, E. L., & Ryan, R. M. (1985). *Intrinsic Motivation and Self-Determination in Human Behavior*. Plenum. [Buy on Amazon](https://www.amazon.co.uk/dp/0306420228)
 - Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. *Psychological Inquiry*, 11(4), 227-268.
 - Gustafsson, H., Kenttä, G., & Hassmén, P. (2011). Athlete burnout: An integrated model and future research directions. *International Review of Sport and Exercise Psychology*, 4(1), 3-24.
-- Vallerand, R. J. (2007). Intrinsic and extrinsic motivation in sport and physical activity. In G. Tenenbaum & R. C. Eklund (Eds.), *Handbook of Sport Psychology* (3rd ed.).
+- Vallerand, R. J. (2007). Intrinsic and extrinsic motivation in sport and physical activity. In G. Tenenbaum & R. C. Eklund (Eds.), *Handbook of Sport Psychology* (3rd ed.). [Buy on Amazon](https://www.amazon.co.uk/dp/0471738115)

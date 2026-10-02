@@ -89,4 +89,4 @@ This is light-touch by design. Goal-setting that's too elaborate gets abandoned.
 
 - Locke, E. A., & Latham, G. P. (2002). Building a practically useful theory of goal setting and task motivation. *American Psychologist*, 57(9), 705-717.
 - Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits. *Psychological Inquiry*, 11(4), 227-268.
-- Burton, D., & Weiss, C. (2008). The fundamental goal concept. In T. S. Horn (Ed.), *Advances in Sport Psychology*.
+- Burton, D., & Weiss, C. (2008). The fundamental goal concept. In T. S. Horn (Ed.), *Advances in Sport Psychology*. [Buy on Amazon](https://www.amazon.co.uk/dp/0736057358)

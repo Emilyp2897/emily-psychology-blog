@@ -81,7 +81,7 @@ If you only do one of these, do the notebook. It's the foundation.
 
 ## References
 
-- Bandura, A. (1997). [*Self-Efficacy: The Exercise of Control*](https://openlibrary.org/isbn/9780716728504). W. H. Freeman.
+- Bandura, A. (1997). [*Self-Efficacy: The Exercise of Control*](https://openlibrary.org/isbn/9780716728504). W. H. Freeman. [Buy on Amazon](https://www.amazon.co.uk/dp/0716728508)
 - Cotterill, S. T. (2010). [Pre-performance routines in sport: Current understanding and future directions](https://doi.org/10.1080/1750984X.2010.488269). *International Review of Sport and Exercise Psychology*, 3(2), 132-153.
 - Locke, E. A., & Latham, G. P. (2002). [Building a practically useful theory of goal setting and task motivation: A 35-year odyssey](https://doi.org/10.1037/0003-066X.57.9.705). *American Psychologist*, 57(9), 705-717.
-- Beck, J. S. (2011). [*Cognitive Behavior Therapy: Basics and Beyond*](https://www.guilford.com/books/Cognitive-Behavior-Therapy/Judith-Beck/9781609185046) (2nd ed.). Guilford Press.
+- Beck, J. S. (2011). [*Cognitive Behavior Therapy: Basics and Beyond*](https://www.guilford.com/books/Cognitive-Behavior-Therapy/Judith-Beck/9781609185046) (2nd ed.). Guilford Press. [Buy on Amazon](https://www.amazon.co.uk/dp/1609185048)

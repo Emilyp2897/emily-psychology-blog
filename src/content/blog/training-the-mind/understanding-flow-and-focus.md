@@ -100,6 +100,6 @@ Players who try to force flow ("I need to be in flow today") almost never get th
 
 ## References
 
-- Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience*. Harper & Row.
+- Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience*. Harper & Row. [Buy on Amazon](https://www.amazon.co.uk/dp/0060162538)
 - Swann, C., Keegan, R. J., Piggott, D., & Crust, L. (2012). A systematic review of the experience, occurrence, and controllability of flow states in elite sport. *Psychology of Sport and Exercise*, 13(6), 807-819.
-- Jackson, S. A., & Csikszentmihalyi, M. (1999). *Flow in Sports: The Keys to Optimal Experiences and Performances*. Human Kinetics.
+- Jackson, S. A., & Csikszentmihalyi, M. (1999). *Flow in Sports: The Keys to Optimal Experiences and Performances*. Human Kinetics. [Buy on Amazon](https://www.amazon.co.uk/dp/0880118768)

@@ -68,5 +68,5 @@ I used to wear being stressed as a sign of being committed. It was not. It was a
 ## References
 
 - McEwen, B. S. (1998). Stress, adaptation, and disease: Allostasis and allostatic load. *Annals of the New York Academy of Sciences*, 840(1), 33-44.
-- Lazarus, R. S., & Folkman, S. (1984). *Stress, Appraisal, and Coping*. Springer Publishing.
+- Lazarus, R. S., & Folkman, S. (1984). *Stress, Appraisal, and Coping*. Springer Publishing. [Buy on Amazon](https://www.amazon.co.uk/dp/0826141919)
 - Chrousos, G. P. (2009). Stress and disorders of the stress system. *Nature Reviews Endocrinology*, 5(7), 374-381.

@@ -90,5 +90,5 @@ The toolkit is at [Focus and Refocus Toolkit](/content-hub/gael-performance-tool
 ## References
 
 - Swann, C., Keegan, R. J., Piggott, D., & Crust, L. (2012). A systematic review of the experience, occurrence, and controllability of flow states in elite sport. *Psychology of Sport and Exercise*, 13(6), 807-819.
-- Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience*. Harper & Row.
-- Sawyer, R. K. (2007). *Group Genius: The Creative Power of Collaboration*. Basic Books.
+- Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience*. Harper & Row. [Buy on Amazon](https://www.amazon.co.uk/dp/0060162538)
+- Sawyer, R. K. (2007). *Group Genius: The Creative Power of Collaboration*. Basic Books. [Buy on Amazon](https://www.amazon.co.uk/dp/0465071929)

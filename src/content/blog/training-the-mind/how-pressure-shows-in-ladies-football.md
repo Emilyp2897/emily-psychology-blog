@@ -108,6 +108,6 @@ That's genuinely hard. And it's worth saying out loud.
 ## References
 
 - Festinger, L. (1954). A theory of social comparison processes. *Human Relations*, 7(2), 117-140.
-- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*.
+- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*. [Buy on Amazon](https://www.amazon.co.uk/dp/1885693362)
 - Mosewich, A. D., Crocker, P. R. E., Kowalski, K. C., & DeLongis, A. (2013). Applying self-compassion in sport: An intervention with women athletes. *Journal of Sport & Exercise Psychology*, 35(5), 514-524.
 - Tamminen, K. A., & Holt, N. L. (2010). A meta-study of qualitative research examining stressor appraisals and coping among adolescents in sport. *Journal of Sports Sciences*, 28(14), 1563-1580.

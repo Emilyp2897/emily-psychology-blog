@@ -108,5 +108,5 @@ This is the boundary most athletes underestimate. It's also the most important.
 ## References
 
 - Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits. *Psychological Inquiry*, 11(4), 227-268.
-- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*.
-- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press.
+- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*. [Buy on Amazon](https://www.amazon.co.uk/dp/1885693362)
+- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0738209716)

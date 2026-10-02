@@ -72,7 +72,7 @@ Practical tools in the [Self-Talk and Confidence Toolkit](/content-hub/gael-perf
 
 ## References
 
-- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman.
+- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman. [Buy on Amazon](https://www.amazon.co.uk/dp/0716728508)
 - Festinger, L. (1954). A theory of social comparison processes. *Human Relations*, 7(2), 117-140.
-- Vealey, R. S. (2001). Understanding and enhancing self-confidence in athletes. In R. N. Singer, H. A. Hausenblas, & C. M. Janelle (Eds.), *Handbook of Sport Psychology* (2nd ed.).
+- Vealey, R. S. (2001). Understanding and enhancing self-confidence in athletes. In R. N. Singer, H. A. Hausenblas, & C. M. Janelle (Eds.), *Handbook of Sport Psychology* (2nd ed.). [Buy on Amazon](https://www.amazon.co.uk/dp/0471379956)
 - Hays, K., Maynard, I., Thomas, O., & Bawden, M. (2007). Sources and types of confidence identified by world class sport performers. *Journal of Applied Sport Psychology*, 19(4), 434-456.

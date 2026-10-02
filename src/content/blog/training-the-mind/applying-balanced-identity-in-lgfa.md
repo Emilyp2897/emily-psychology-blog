@@ -113,6 +113,6 @@ Tools at [Values and Balance Toolkit](/content-hub/gael-performance-toolkit/valu
 ## References
 
 - Brewer, B. W., Van Raalte, J. L., & Linder, D. E. (1993). Athletic identity. *International Journal of Sport Psychology*, 24, 237-254.
-- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*.
+- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*. [Buy on Amazon](https://www.amazon.co.uk/dp/1885693362)
 - Aquilina, D. (2013). A study of the relationship between elite athletes' educational development and sporting performance. *International Journal of the History of Sport*, 30(4), 374-392.
 - Park, S., Lavallee, D., & Tod, D. (2013). Athletes' career transition out of sport. *International Review of Sport and Exercise Psychology*, 6(1), 22-53.

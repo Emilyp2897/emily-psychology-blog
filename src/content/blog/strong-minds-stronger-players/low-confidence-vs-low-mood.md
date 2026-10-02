@@ -63,6 +63,6 @@ For a long time I treated my low mood as a confidence problem. I tried to train 
 
 ## References
 
-- American Psychiatric Association (2013). Diagnostic criteria for Major Depressive Disorder. *DSM-5*.
+- American Psychiatric Association (2013). Diagnostic criteria for Major Depressive Disorder. *DSM-5*. [Buy on Amazon](https://www.amazon.co.uk/dp/089042554X)
 - Schuch, F. B., Vancampfort, D., Richards, J., Rosenbaum, S., Ward, P. B., & Stubbs, B. (2016). Exercise as a treatment for depression: A meta-analysis. *Journal of Psychiatric Research*, 77, 42-51.
 - National Institute for Health and Care Excellence (NICE). Depression in Adults: Treatment and Management (NG222).

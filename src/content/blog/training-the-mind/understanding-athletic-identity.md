@@ -127,5 +127,5 @@ You can be fully committed to the sport AND a whole person. The two aren't in co
 
 - Brewer, B. W., Van Raalte, J. L., & Linder, D. E. (1993). Athletic identity: Hercules' muscles or Achilles heel? *International Journal of Sport Psychology*, 24, 237-254.
 - Lavallee, D., Gordon, S., & Grove, J. R. (1997). Retirement from sport and the loss of athletic identity. *Journal of Personal & Interpersonal Loss*, 2(2), 129-147.
-- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*.
+- Wylleman, P., & Lavallee, D. (2004). A developmental perspective on transitions faced by athletes. In M. Weiss (Ed.), *Developmental sport and exercise psychology: A lifespan perspective*. [Buy on Amazon](https://www.amazon.co.uk/dp/1885693362)
 - Park, S., Lavallee, D., & Tod, D. (2013). Athletes' career transition out of sport: A systematic review. *International Review of Sport and Exercise Psychology*, 6(1), 22-53.

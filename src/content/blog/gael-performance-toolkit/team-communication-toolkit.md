@@ -85,6 +85,6 @@ The hardest one is **Tool 2: The Assertive Request**, because it requires you to
 ## References
 
 - Edmondson, A. C. (1999). Psychological safety and learning behavior in work teams. *Administrative Science Quarterly*, 44(2), 350-383.
-- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman.
+- Bandura, A. (1997). *Self-Efficacy: The Exercise of Control*. W.H. Freeman. [Buy on Amazon](https://www.amazon.co.uk/dp/0716728508)
 - Baumeister, R. F., & Leary, M. R. (1995). The need to belong. *Psychological Bulletin*, 117(3), 497-529.
-- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press.
+- Bower, S. A., & Bower, G. H. (2004). *Asserting Yourself: A Practical Guide for Positive Change* (Updated ed.). Da Capo Press. [Buy on Amazon](https://www.amazon.co.uk/dp/0738209716)
