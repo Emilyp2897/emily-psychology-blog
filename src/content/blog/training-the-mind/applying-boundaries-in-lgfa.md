@@ -2,6 +2,7 @@
 title: "Applying Boundaries in Ladies Gaelic Football"
 description: "Where boundaries matter most in ladies football."
 pubDate: "2027-05-15"
+hold: true
 track: "training-the-mind"
 ---
 

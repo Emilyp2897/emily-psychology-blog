@@ -2,6 +2,7 @@
 title: "Understanding Motivation: Why Some Days You Want to Play and Some You Don't"
 description: "Why motivation swings, and how to build the kind that lasts."
 pubDate: "2027-01-01"
+hold: true
 track: "training-the-mind"
 ---
 Anyone can train in June. This one is about the kind of motivation that gets you to training in November when there's nothing on the line. Not the motivation that shows up in the week of a championship final.

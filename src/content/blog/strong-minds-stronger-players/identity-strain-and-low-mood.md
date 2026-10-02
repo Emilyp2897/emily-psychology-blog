@@ -2,6 +2,7 @@
 title: "Identity Strain and Low Mood"
 description: "When your whole sense of self is being an athlete, setbacks hit harder."
 pubDate: "2027-02-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

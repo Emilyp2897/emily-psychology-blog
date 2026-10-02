@@ -2,6 +2,7 @@
 title: "Applying Motivation and Discipline in Ladies Gaelic Football"
 description: "The difference between discipline and self-punishment."
 pubDate: "2027-01-15"
+hold: true
 track: "training-the-mind"
 ---
 

@@ -2,6 +2,7 @@
 title: "Psychological Safety, Conflict and Team Dynamics"
 description: "Healthy teams disagree. This post helps you spot when it has turned harmful."
 pubDate: "2026-10-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

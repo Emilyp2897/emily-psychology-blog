@@ -2,6 +2,7 @@
 title: "Understanding Off-Season Mental Health"
 description: "Why the off-season is harder than people expect."
 pubDate: "2027-07-01"
+hold: true
 track: "training-the-mind"
 ---
 The season ends and everyone assumes that is the easy bit. It often is not. The off-season. The weeks or months between championship ending and pre-season starting up. Athletes describe these as "a break" or "downtime". For a lot of players, they're actually one of the hardest parts of the year.

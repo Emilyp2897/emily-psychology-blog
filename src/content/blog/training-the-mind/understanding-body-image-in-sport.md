@@ -2,6 +2,7 @@
 title: "Understanding Body Image in Sport"
 description: "Body image, RED-S, and fuelling properly."
 pubDate: "2027-04-01"
+hold: true
 track: "training-the-mind"
 ---
 Nobody in the dressing room says it out loud, but it is there in every changing room in the country. Body image. The way we relate to our bodies as female athletes. The food language we use. And a real condition called RED-S that affects more players than people realise.

@@ -2,6 +2,7 @@
 title: "Imagery & Graded Exposure Toolkit"
 description: "Tools for the mental side of injury recovery and return to play."
 pubDate: "2027-02-08"
+hold: true
 track: "gael-performance-toolkit"
 ---
 

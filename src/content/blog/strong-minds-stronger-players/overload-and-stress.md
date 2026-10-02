@@ -2,6 +2,7 @@
 title: "Overload, Stress and Support Pathways"
 description: "Life stress and sport stress add up."
 pubDate: "2026-11-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

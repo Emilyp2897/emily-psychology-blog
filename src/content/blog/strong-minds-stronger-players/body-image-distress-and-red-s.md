@@ -2,6 +2,7 @@
 title: "Body Image, RED-S and Disordered Eating"
 description: "Body talk in women’s sport is common. This post helps you spot when it needs clinical support."
 pubDate: "2027-04-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

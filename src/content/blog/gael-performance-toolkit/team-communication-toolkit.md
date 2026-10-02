@@ -2,6 +2,7 @@
 title: "Team Communication Toolkit"
 description: "Scripts for the hard conversations in a squad."
 pubDate: "2026-12-08"
+hold: true
 track: "gael-performance-toolkit"
 ---
 

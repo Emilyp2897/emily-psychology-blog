@@ -2,6 +2,7 @@
 title: "Nutrition & Language Toolkit"
 description: "Fuelling guidance, and better language around food in a squad."
 pubDate: "2027-04-08"
+hold: true
 track: "gael-performance-toolkit"
 ---
 

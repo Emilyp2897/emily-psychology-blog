@@ -2,6 +2,7 @@
 title: "Applying Mistake Resilience in Ladies Gaelic Football"
 description: "How to reset after a mistake in a game."
 pubDate: "2026-11-15"
+hold: true
 track: "training-the-mind"
 ---
 

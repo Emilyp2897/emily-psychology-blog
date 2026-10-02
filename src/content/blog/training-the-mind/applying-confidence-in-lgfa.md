@@ -2,6 +2,7 @@
 title: "Applying Confidence in Ladies Gaelic Football"
 description: "Where confidence gets ambushed in ladies football."
 pubDate: "2026-10-15"
+hold: true
 track: "training-the-mind"
 ---
 

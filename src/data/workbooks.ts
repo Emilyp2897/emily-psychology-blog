@@ -34,7 +34,9 @@ export const workbooks: Workbook[] = [
     title: 'Mental Health Workbook',
     description: 'Breathing, grounding, thought logs, sleep and mood tracking, goals.',
     pages: '43 pages, print at home',
-    pubDate: new Date('2026-10-06T00:00:00Z'),
+    // Held for Emily's review (2 October 2026); it was due 6 October. With
+    // no pubDate it shows "Coming soon" and never releases on its own. Put a
+    // date back here to schedule it.
   },
   {
     slug: 'mindfulness-workbook-for-athletes',

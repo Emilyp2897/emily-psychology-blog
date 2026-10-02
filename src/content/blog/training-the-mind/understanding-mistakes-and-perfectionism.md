@@ -2,6 +2,7 @@
 title: "Understanding Mistakes and Perfectionism"
 description: "The difference between high standards and self-punishment."
 pubDate: "2026-11-01"
+hold: true
 track: "training-the-mind"
 ---
 

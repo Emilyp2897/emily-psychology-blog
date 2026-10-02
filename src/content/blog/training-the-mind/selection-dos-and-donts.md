@@ -2,6 +2,9 @@
 title: "Selection: The Do's and Don'ts of Championship Week"
 description: "What to do in the days around selection, whether you are named, dropped or on the bench."
 pubDate: "2026-09-25"
+photo: "/assets/articles/Image.png"
+photoAlt: "Emily Phelan on the ball during a match"
+photoPosition: "center 5%"
 tags: ["championship", "selection"]
 track: "training-the-mind"
 ---

@@ -2,6 +2,7 @@
 title: "Understanding Athletic Identity and Balance"
 description: "Why a strong athletic identity is both a strength and a risk."
 pubDate: "2027-06-01"
+hold: true
 track: "training-the-mind"
 ---
 Who are you when you are not playing? This one is about how much of you is "the athlete" and what happens when that's too much. Not because athletic identity is bad. It's brilliant. But because the athletes who go furthest in the long term tend to have something else too.

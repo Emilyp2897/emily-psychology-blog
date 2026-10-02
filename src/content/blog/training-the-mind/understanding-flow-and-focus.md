@@ -2,6 +2,7 @@
 title: "Understanding Flow and Focus: When Playing Feels Easy"
 description: "Why some matches feel effortless."
 pubDate: "2027-03-01"
+hold: true
 track: "training-the-mind"
 ---
 You have had one of those games where everything just worked. That is flow, and most of us cannot reliably reproduce. The state where time disappears and the right action just happens.

@@ -2,6 +2,7 @@
 title: "Applying Body Confidence and Fuelling in Ladies Gaelic Football"
 description: "Changing rooms, team meals, and the comments that stay with you."
 pubDate: "2027-04-15"
+hold: true
 track: "training-the-mind"
 ---
 

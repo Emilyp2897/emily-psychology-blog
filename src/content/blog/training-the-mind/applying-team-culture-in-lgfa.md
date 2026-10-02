@@ -2,6 +2,7 @@
 title: "Applying Team Culture in Ladies Gaelic Football"
 description: "Where culture is built or broken, and what you can do about it."
 pubDate: "2026-12-15"
+hold: true
 track: "training-the-mind"
 ---
 

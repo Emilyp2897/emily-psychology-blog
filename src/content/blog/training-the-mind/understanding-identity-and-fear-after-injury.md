@@ -2,6 +2,7 @@
 title: "Understanding Identity and Fear After Injury"
 description: "Why coming back from injury is mostly mental work."
 pubDate: "2027-02-01"
+hold: true
 track: "training-the-mind"
 ---
 The physio can tell you when the knee is ready. Nobody tells you when your head is. This one is about the part of injury that does not show up on a scan. The identity shift. The fear. The way you're meant to come back as if nothing happened, when something definitely happened.

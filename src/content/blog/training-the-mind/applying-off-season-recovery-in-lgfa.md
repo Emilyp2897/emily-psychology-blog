@@ -2,6 +2,7 @@
 title: "Applying Off-Season Recovery in Ladies Gaelic Football"
 description: "How to structure an off-season."
 pubDate: "2027-07-15"
+hold: true
 track: "training-the-mind"
 ---
 

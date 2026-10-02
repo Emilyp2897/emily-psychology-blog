@@ -2,6 +2,7 @@
 title: "Applying Comeback Confidence in Ladies Gaelic Football"
 description: "Watching your spot get taken, the first session back, the first contact."
 pubDate: "2027-02-15"
+hold: true
 track: "training-the-mind"
 ---
 

@@ -2,6 +2,7 @@
 title: "Understanding Team Culture and Belonging"
 description: "What team culture is, and why belonging affects performance."
 pubDate: "2026-12-01"
+hold: true
 track: "training-the-mind"
 ---
 Team culture. A phrase that is used constantly and usually means nothing at all. I want to give it real shape.

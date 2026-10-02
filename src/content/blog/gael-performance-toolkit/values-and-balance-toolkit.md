@@ -2,6 +2,7 @@
 title: "Values & Balance Planning Toolkit"
 description: "What matters to you beyond the sport."
 pubDate: "2027-06-08"
+hold: true
 track: "gael-performance-toolkit"
 ---
 

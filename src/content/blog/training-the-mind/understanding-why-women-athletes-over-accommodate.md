@@ -2,6 +2,7 @@
 title: "Understanding Why Women Athletes Over-Accommodate"
 description: "Saying yes when you mean no, and where that comes from."
 pubDate: "2027-05-01"
+hold: true
 track: "training-the-mind"
 ---
 You said yes again, didn't you. This one is about the patterns I see in female athletes around saying yes when you mean no, holding the team together silently, and the long-term cost of being the one who never causes a fuss.

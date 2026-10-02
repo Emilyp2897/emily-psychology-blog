@@ -2,6 +2,7 @@
 title: "Low Confidence vs Low Mood"
 description: "The difference between a confidence wobble and something more."
 pubDate: "2026-10-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

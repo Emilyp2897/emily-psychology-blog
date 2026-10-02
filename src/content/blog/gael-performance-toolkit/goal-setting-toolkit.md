@@ -2,6 +2,7 @@
 title: "Goal Setting & Training Mindset Toolkit"
 description: "Goal setting that survives a long season."
 pubDate: "2027-01-08"
+hold: true
 track: "gael-performance-toolkit"
 ---
 

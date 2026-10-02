@@ -2,6 +2,7 @@
 title: "Applying Balanced Identity in Ladies Gaelic Football"
 description: "Building an identity beyond the sport without dropping the commitment."
 pubDate: "2027-06-15"
+hold: true
 track: "training-the-mind"
 ---
 

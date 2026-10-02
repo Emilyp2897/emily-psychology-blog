@@ -2,6 +2,7 @@
 title: "Burnout Warning Signs"
 description: "Tiredness from training is one thing. Burnout is another."
 pubDate: "2026-12-15"
+hold: true
 track: "stronger-minds-stronger-players"
 ---
 

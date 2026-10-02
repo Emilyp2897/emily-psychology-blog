@@ -2,6 +2,7 @@
 title: "Applying Flow and Focus in Ladies Gaelic Football"
 description: "How to set up flow in a Gaelic match."
 pubDate: "2027-03-15"
+hold: true
 track: "training-the-mind"
 ---
 
