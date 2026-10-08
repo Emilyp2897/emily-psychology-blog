@@ -8,110 +8,137 @@ photoPosition: "center 5%"
 tags: ["championship", "selection"]
 track: "training-the-mind"
 ---
-## Why selection hurts more than it should
+***Whether you're starting or on the bench, there's still a job to do.***
 
-Selection is the one thing in sport that is entirely outside your control and feels entirely personal. You can train every session, do everything right, and still not be named. Someone else makes the call, often without explaining it, and you find out in a WhatsApp group or by listening for your name in the dressing room.
+<h2>Why selection hurts more than it should</h2>
+Selection is one of the few things in sport that is outside your control and can feel entirely personal. You can train every session, play well all season and still find yourself on the bench for the biggest game of the year.
 
-The reason it lands so hard is not that you are soft or too emotional. For most players, being picked has quietly become the measure of whether you are any good, and by extension whether you are worth much at all.
+When football is a big part of your life, being picked to start can become tied to how you see yourself as a player. Psychologists Crocker and Wolfe explored how people connect their self-worth to particular areas of their lives. If football is one of yours, a team sheet can feel less like a tactical decision and more like a judgement on your ability.
 
-Psychology has a name for this. Crocker and Wolfe called them **contingencies of self-worth**: the specific areas of life a person stakes their sense of value on. When one of yours is being selected, a WhatsApp message stops being a team sheet and becomes a verdict. The work on athletic identity points the same way. Brewer and colleagues found that players who define themselves almost entirely through sport take non-selection far harder than players with something else going on, because for them there is nothing else to fall back on that week.
+Of course, not every player sees it that way. But I did.
 
-So if being dropped has ever ruined a week for you, it is a predictable response to how much of yourself you have invested. It is not evidence you cannot handle it.
+Last year I played the whole way through the championship to the London County Final. I felt I was playing well. I was fit, my passing and kicking were on target, and I'd done a lot of work behind the scenes on my mental health. I really felt this was my year. My year to feel what other girls get to feel out on that pitch, where the win is yours as much as anyone else's when the whistle goes.
 
-Last year I played the whole way through the championship to the London County Final. I felt I was playing well. I was fit, my passing and kicking were on target, and I had done a lot of work behind the scenes on my mental health. I really felt this was my year. My year to feel the thing other girls get to feel out on that pitch, where the win is yours as much as anyone else's when the whistle goes.
+That isn't what happened.
 
-That isn't what happened. I was benched for the County Final, the All-Britain Final and the All-Ireland Quarter Final, and I was devastated. I couldn't hide my emotions or pretend I was ok. I wasn't ok. I was heartbroken, and whether I came on or not, my head was gone.
+I was benched for the County Final, the All-Britain Final and the All-Ireland Quarter Final, and I was devastated. I couldn't hide my emotions or pretend I was ok. I was heartbroken, and whether I came on or not, my head was gone.
 
-To this day neither of those wins feels like mine. By the time the quarter final came around I was shamefully happy we lost, because it meant I could stop pretending.
+To this day, neither of those wins feels like mine. By the time the quarter final came around, I was shamefully happy we lost, because it meant I could stop pretending.
 
-My teammates will tell you it's a team effort, and they're right. But the contribution is different for different players. If I had come on feeling like I had a purpose, I would have called those wins mine too. Instead I felt like I was being brought on for the sake of it, to say I had been given minutes. That might not have been true. It's how it felt at the time.
+My teammates will tell you it's a team effort, and they're right. But the contribution is different for different players. I wanted to play, to feel like I'd made a difference. Instead, when I did get minutes, I felt like I was being brought on for the sake of it. That might not have been true. It's how it felt at the time.
 
-## The days before the team goes up
+Looking back, I know I didn't handle it well. I was so caught up in not starting that I stopped recognising the part I'd already played in getting us there.
+And now, a year later, I'm writing this ahead of another championship final on Saturday, and I'm on the bench again.
 
-This is the worst part for a lot of players. You don't know, you cannot ask, and you spend the week reading meaning into everything. Who put on which bib in training. Whether the manager spoke to you or not.
+It doesn't hurt any less. I'm always on the cusp. Close enough to believe I'll get my chance, but not quite where I want to be when the biggest games come around.
+I'd love to say everything I've learned about sports psychology means I'm handling it brilliantly this time. I'm not. I'm still disappointed.
 
-**Do:**
+But I don't want a repeat of last year either. I'm still part of this team. There's a final to be played, and I have a responsibility to turn up for it.
 
-- Pick one or two things in your control and judge your week on those. Turning up, your work rate in the session, your first touch. Focus on the process, not the outcome.
-- Keep your routine exactly as it is. Same sleep, same food, same sessions.
-- Talk to someone outside the squad about something that is not football.
-- Accept you will think about it. Trying not to think about selection is a losing game.
+<h3>The days before the team goes up</h3>
+For some players, the uncertainty before the team is named is harder than the decision itself. It's easy to start reading into things at training. Who wore which bib. Whether the manager spoke to you. Who played in your position during a drill.
 
-**Don't:**
-
-- Read the bibs. A coach putting you in the second group on a Monday is not the team.
-- Add extra sessions to prove a point in the last week. The fitness is already in, and turning up tired doesn't help.
-- Compare yourself to the player you think you are competing with. It does not change the decision and it wrecks your training week.
-- Go looking for reassurance from teammates. They do not know either, and asking makes it bigger.
-
-## If you are named
-
-Being picked brings its own version of this. The relief lasts about an hour, then it turns into pressure to justify the decision.
+Other players won't think twice about any of it. If you do find yourself overanalysing selection, there are ways to stop it taking over your week.
 
 **Do:**
-
-- Separate being selected from having to prove the selection was right. Your job on Saturday is the same job it always was.
-- Keep the same week you would have had anyway.
-- Say something to whoever missed out, if they are a friend. Not a speech. Just acknowledge it.
+1. Focus on what you can control. Your effort, work rate and preparation are yours regardless of selection.
+2. Keep your routine. Same sleep, same food, same training.
+3. Train properly with the players around you. Everyone is preparing for the same match.
 
 **Don't:**
+1. Treat training bibs as confirmation of the team. They might give you an indication, but they aren't the final decision.
+2. Add extra sessions just to prove a point. Turning up tired won't help you on Saturday.
+3. Spend the week comparing yourself to the player you think you're competing with. Focus on your own performance instead.
 
-- Start playing the game out in your head all week. Imagery helps when you do it deliberately, for a set few minutes. Replaying it on a loop all week is not the same thing.
-- Treat the jersey as a thing you can now lose. That framing turns a challenge into a threat, and the research on challenge and threat states is clear the threat version performs worse.
+<h3>If you're starting</h3>
+Being named in the starting fifteen can bring its own pressures. For some players, the excitement of being selected comes with a feeling that they now have to justify the manager's decision. Others will take confidence from being picked and get on with preparing for the match.
 
-## If you are dropped
-
-The first 48 hours are the hardest. Players make decisions in those two days they wouldn't make a week later.
+If you do find yourself worrying about proving you deserve your place, it can take your attention away from the things that got you selected in the first place.
 
 **Do:**
-
-- Let yourself be angry or upset about it. Something you care about went against you.
-- Give it two days before you say anything to the manager. Lazarus and Folkman called this reappraisal: we reassess a stressor once the first emotional wave passes. What you want to say on Saturday night is rarely what you actually think by Monday.
-- Go training. This is the hard one and it matters most.
-- Ask for specifics when you do speak to the manager. Not **"why was I dropped"** but **"what do you want to see from me to be back in?"** One is a complaint, the other gives you something to work on.
-
-Worth saying here too: sometimes the decision is strategic, and there may be no way back in that week because the coach wants a certain type of player. I play my best with space to loop around people and shoot from distance. A lot of teams in London play very defensive football. It doesn't always suit me, and it has gone against me in selection more than once.
+1. Trust the work that got you selected. You don't need to change how you play because it's the final.
+2. Focus on your role and what the team needs from you.
+3. Prepare as you normally would. There's no need to reinvent your routine for one match.
 
 **Don't:**
+1. Put unnecessary pressure on yourself to justify your selection.
+2. Spend the week constantly replaying what might happen. Deliberate imagery can be useful, but worrying about every possible mistake isn't the same thing.
+3. Feel guilty about starting because a teammate is disappointed. You didn't pick the team, and your job is to play your best football.
 
-- Send the message on Saturday night.
-- Decide you are finished with the sport. Give it a week before you make a decision that size.
-- Pull back in training to protect yourself. It reads as sulking from the outside and it guarantees the same result next week.
-- Tell yourself it is politics before you have asked. Sometimes it genuinely is, and I have been on the end of that. But deciding it is politics without asking removes the one route back in.
-- Go drinking about it. I did this for years. It changes nothing about Saturday and it takes the next three days off you too.
+**If you're on the bench**
+Being named on the bench affects players differently. Some will be disappointed, others might have expected it, and some will be happy to be part of the squad.
 
-## If you are on the bench
+Whatever your reaction, it's worth preparing for the possibility that you'll be called on.
+I didn't do that well last year. I spent so much time thinking about why I wasn't starting that by the time I was needed, I'd already spent most of my energy being upset.
 
-The bench is its own job, and most players do not prepare for it at all.
+I could disagree with the decision, but spending the match arguing with it in my own head didn't help me play better.
+
+You might get twenty minutes. You might get five. You might not get on at all. You won't necessarily know beforehand, so being ready matters.
 
 **Do:**
-
-- Warm up properly and keep warm. You may get 20 minutes and they may be the 20 minutes that decide it.
-- Know what you are being brought on to do. If you do not know, ask before the game, not when you are pulling your top off on the sideline.
-- Watch the player in your position and the player marking her. You are getting a scouting report nobody else on the pitch has.
+1. Warm up properly and stay warm. You could be needed at any point.
+2. Know what you're being brought on to do. If you're unsure, ask before the match rather than when you're about to go on.
+3. Watch the player in your position and the player marking her. You may spot something useful from the sideline.
+4. Have something simple to focus on if you come on. Your first pass, your first tackle, your first run.
 
 **Don't:**
+1. Spend the match dwelling on whether the manager made the right decision. It can distract you from what's happening on the pitch.
+2. Take your frustration out on the player starting ahead of you. She didn't pick the team.
+3. Try to prove a point with every touch if you get on. Play your normal game.
+4. Switch off because you don't expect to get minutes.
 
-- Spend the first half deciding whether the manager was wrong. You will be no use when you get on.
-- Sit on the emotion of it until you are called in. Get it out of the way in the warm-up.
+It's also worth thinking about how you handle disappointment around your teammates.
 
-## Talking to the manager
+I know I struggled with that last year. I was entitled to be upset, but I also had a responsibility to the players who'd worked just as hard to get there.
+I didn't have to agree with the manager. I did have to be ready if I was needed.
 
-Most selection conversations go badly because the player wants to be told she was right and the manager wants the conversation to be over.
+<h3>It's still a team sport</h3>
+There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Pretending those experiences are the same doesn't help anyone.
 
-Mageau and Vallerand's model of the coach-athlete relationship found the thing that changes how a decision lands is not the decision itself. It is whether a rationale was given, and whether the player's perspective was acknowledged. You cannot control whether your manager does that well. You can control what you ask for.
+But a championship isn't won by fifteen players turning up on the day.
+The starting team needs a squad to train against, players competing for places and substitutes ready to come on and do a job. The effort put in by players who aren't starting is part of the team's preparation.
 
-Ask three things:
+Being on the bench doesn't mean the work you've done all season counts for nothing. You've trained alongside the starting players, pushed them and helped the team get to this point.
+That contribution matters, even if it doesn't feel the same as being out on the pitch.
+I still want to start finals. I still believe I have something to offer on the pitch. And I'll keep working towards that.
 
-1. What is the gap, specifically?
-2. What would closing it look like in training?
-3. When will it be looked at again?
+But I can't make my contribution conditional on getting the role I want.
+If I'm part of the squad, I have to do my part.
 
-Write the answers down. If you get vague answers to all three, that is information too, and it is worth knowing.
+<h3>Talking to the manager</h3>
 
-## The one thing worth keeping
+Selection conversations can be difficult, particularly when you're disappointed or don't understand the decision. Some managers are good at explaining their thinking. Others give very little feedback.
 
-You are allowed to care about selection. Caring is why you are good. The problem is letting a team sheet decide what you are worth. The person making that call is picking a team for Saturday. They are not scoring you as a person.
+Research on autonomy-supportive coaching by Mageau and Vallerand highlights the value of explaining decisions and acknowledging a player's perspective. That doesn't mean a manager has to agree with you or change the team.
+
+If you want useful feedback, try asking three questions:
+1. What is the gap, specifically? What's keeping me out of the starting team?
+2. What would closing it look like? What do you need to see from me in training?
+3. When will it be looked at again? How will I know if I'm making progress?
+
+If you're upset, it may be better to wait until after the match rather than having that conversation in the middle of championship week.
+
+Sometimes selection is tactical. I play my best with space to loop around players and shoot from distance. A lot of teams in London play very defensive football, and it doesn't always suit me.
+Understanding that doesn't remove the frustration, but it gives me something more useful to think about than whether I'm good enough.
+
+I'm writing this knowing I'm not starting on Saturday.
+
+I'm disappointed. I'm tired of feeling like I'm nearly there, and I don't think that frustration will disappear overnight.
+
+But I remember how I felt after last year's finals, and I don't want to feel that way again.
+I spent so much time being upset about my own position that I barely allowed myself to appreciate what the team had achieved.
+
+I can't change Saturday's team sheet. What I can do is turn up ready to play.
+If I get twenty minutes, I want to use them properly. If I get five, I want to make those five count. And if I don't get on, I still want the girls out there to win.
+
+They've worked hard for this, and so have I.
+
+I'm still disappointed about not starting. I probably will be on Saturday too.
+But I know how much time I wasted last year being upset about selection, and I don't want to do that again.
+
+I want to be ready if I'm called on. I want to play well if I get the chance. And regardless of whether I get on, I want us to win.
+
+I'll have plenty of time to think about my own football after the final. For now, I've a job to do.
 
 <section class="related-box" aria-label="Related pieces">
   <p class="related-box-title">Related articles</p>
