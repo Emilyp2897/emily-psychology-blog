@@ -11,6 +11,7 @@ track: "training-the-mind"
 ***Whether you're starting or on the bench, there's still a job to do.***
 
 <h2>Why selection hurts more than it should</h2>
+
 Selection is one of the few things in sport that is outside your control and can feel entirely personal. You can train every session, play well all season and still find yourself on the bench for the biggest game of the year.
 
 When football is a big part of your life, being picked to start can become tied to how you see yourself as a player. Psychologists Crocker and Wolfe explored how people connect their self-worth to particular areas of their lives. If football is one of yours, a team sheet can feel less like a tactical decision and more like a judgement on your ability.
@@ -28,17 +29,21 @@ To this day, neither of those wins feels like mine. By the time the quarter fina
 My teammates will tell you it's a team effort, and they're right. But the contribution is different for different players. I wanted to play, to feel like I'd made a difference. Instead, when I did get minutes, I felt like I was being brought on for the sake of it. That might not have been true. It's how it felt at the time.
 
 Looking back, I know I didn't handle it well. I was so caught up in not starting that I stopped recognising the part I'd already played in getting us there.
+
 And now, a year later, I'm writing this ahead of another championship final on Saturday, and I'm on the bench again.
 
 It doesn't hurt any less. I'm always on the cusp. Close enough to believe I'll get my chance, but not quite where I want to be when the biggest games come around.
+
 I'd love to say everything I've learned about sports psychology means I'm handling it brilliantly this time. I'm not. I'm still disappointed.
 
 But I don't want a repeat of last year either. I'm still part of this team. There's a final to be played, and I have a responsibility to turn up for it.
 
 <h3>The days before the team goes up</h3>
+Whether the team has already been named or you're still waiting to find out, there are things worth keeping in mind during championship week.
+
 For some players, the uncertainty before the team is named is harder than the decision itself. It's easy to start reading into things at training. Who wore which bib. Whether the manager spoke to you. Who played in your position during a drill.
 
-Other players won't think twice about any of it. If you do find yourself overanalysing selection, there are ways to stop it taking over your week.
+Other players might not think much about it at all. If you do find yourself overanalysing selection, there are ways to stop it taking over your week.
 
 **Do:**
 1. Focus on what you can control. Your effort, work rate and preparation are yours regardless of selection.
@@ -92,51 +97,25 @@ It's also worth thinking about how you handle disappointment around your teammat
 I know I struggled with that last year. I was entitled to be upset, but I also had a responsibility to the players who'd worked just as hard to get there.
 I didn't have to agree with the manager. I did have to be ready if I was needed.
 
-<h3>It's still a team sport</h3>
+## It's still a team sport
+
 There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Pretending those experiences are the same doesn't help anyone.
 
-But a championship isn't won by fifteen players turning up on the day.
-The starting team needs a squad to train against, players competing for places and substitutes ready to come on and do a job. The effort put in by players who aren't starting is part of the team's preparation.
+The starting fifteen don't prepare for a championship on their own. They need a squad training alongside them, competing for places and ready to contribute.
 
-Being on the bench doesn't mean the work you've done all season counts for nothing. You've trained alongside the starting players, pushed them and helped the team get to this point.
-That contribution matters, even if it doesn't feel the same as being out on the pitch.
-I still want to start finals. I still believe I have something to offer on the pitch. And I'll keep working towards that.
+I've trained alongside the starting players all season, and I've helped prepare this team for Saturday. I still want to start finals, and I still believe I have something to offer on the pitch.
 
 But I can't make my contribution conditional on getting the role I want.
-If I'm part of the squad, I have to do my part.
 
-<h3>Talking to the manager</h3>
+<h3>Looking ahead to Saturday</h3>
 
-Selection conversations can be difficult, particularly when you're disappointed or don't understand the decision. Some managers are good at explaining their thinking. Others give very little feedback.
+I'm tired of feeling like I'm nearly there, and I don't think that frustration will disappear overnight.
 
-Research on autonomy-supportive coaching by Mageau and Vallerand highlights the value of explaining decisions and acknowledging a player's perspective. That doesn't mean a manager has to agree with you or change the team.
+But I remember how I felt after last year's finals. I spent so much time being upset about my own position that I barely allowed myself to appreciate what the team had achieved.
 
-If you want useful feedback, try asking three questions:
-1. What is the gap, specifically? What's keeping me out of the starting team?
-2. What would closing it look like? What do you need to see from me in training?
-3. When will it be looked at again? How will I know if I'm making progress?
+I don't want to do that again.
 
-If you're upset, it may be better to wait until after the match rather than having that conversation in the middle of championship week.
-
-Sometimes selection is tactical. I play my best with space to loop around players and shoot from distance. A lot of teams in London play very defensive football, and it doesn't always suit me.
-Understanding that doesn't remove the frustration, but it gives me something more useful to think about than whether I'm good enough.
-
-I'm writing this knowing I'm not starting on Saturday.
-
-I'm disappointed. I'm tired of feeling like I'm nearly there, and I don't think that frustration will disappear overnight.
-
-But I remember how I felt after last year's finals, and I don't want to feel that way again.
-I spent so much time being upset about my own position that I barely allowed myself to appreciate what the team had achieved.
-
-I can't change Saturday's team sheet. What I can do is turn up ready to play.
 If I get twenty minutes, I want to use them properly. If I get five, I want to make those five count. And if I don't get on, I still want the girls out there to win.
-
-They've worked hard for this, and so have I.
-
-I'm still disappointed about not starting. I probably will be on Saturday too.
-But I know how much time I wasted last year being upset about selection, and I don't want to do that again.
-
-I want to be ready if I'm called on. I want to play well if I get the chance. And regardless of whether I get on, I want us to win.
 
 I'll have plenty of time to think about my own football after the final. For now, I've a job to do.
 
