@@ -39,11 +39,14 @@ I'd love to say everything I've learned about sports psychology means I'm handli
 But I don't want a repeat of last year either. I'm still part of this team. There's a final to be played, and I have a responsibility to turn up for it.
 
 <h3>The days before the team goes up</h3>
+
 Whether the team has already been named or you're still waiting to find out, there are things worth keeping in mind during championship week.
 
 For some players, the uncertainty before the team is named is harder than the decision itself. It's easy to start reading into things at training. Who wore which bib. Whether the manager spoke to you. Who played in your position during a drill.
 
-Other players might not think much about it at all. If you do find yourself overanalysing selection, there are ways to stop it taking over your week.
+Other players might not think much about it at all.
+
+If you do find yourself overanalysing selection, there are ways to stop it taking over your week.
 
 **Do:**
 1. Focus on what you can control. Your effort, work rate and preparation are yours regardless of selection.
