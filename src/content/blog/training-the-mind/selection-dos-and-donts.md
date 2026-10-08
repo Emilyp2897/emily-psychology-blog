@@ -100,7 +100,7 @@ It's also worth thinking about how you handle disappointment around your teammat
 I know I struggled with that last year. I was entitled to be upset, but I also had a responsibility to the players who'd worked just as hard to get there.
 I didn't have to agree with the manager. I did have to be ready if I was needed.
 
-## It's still a team sport
+<h3>It's still a team sport</h3>
 
 There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Pretending those experiences are the same doesn't help anyone.
 
