@@ -65,7 +65,7 @@ If you do find yourself worrying about proving you deserve your place, it can ta
 2. Spend the week constantly replaying what might happen. Deliberate imagery can be useful, but worrying about every possible mistake isn't the same thing.
 3. Feel guilty about starting because a teammate is disappointed. You didn't pick the team, and your job is to play your best football.
 
-**If you're on the bench**
+<h3>If you're on the bench</h3>
 Being named on the bench affects players differently. Some will be disappointed, others might have expected it, and some will be happy to be part of the squad.
 
 Whatever your reaction, it's worth preparing for the possibility that you'll be called on.
