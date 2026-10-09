@@ -10,7 +10,7 @@ track: "training-the-mind"
 ---
 ***Whether you're starting or on the bench, there's still a job to do.***
 
-<h2>Why selection hurts more than it should</h2>
+### Why selection hurts more than it should
 
 Selection is something you can't fully control, yet it can feel entirely personal. You can train every session, play well all season and still find yourself on the bench for the biggest game of the year.
 
@@ -36,7 +36,7 @@ I'd love to say everything I've learned about sports psychology means I've compl
 
 But I remember how I felt after last year's finals, and I don't want to repeat that experience. Whatever my role on Saturday, I want to be ready to contribute.
 
-## It's still a team sport
+### It's still a team sport
 
 There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Being part of the same squad doesn't mean everyone experiences the occasion in the same way.
 
@@ -48,7 +48,7 @@ But I can't make my contribution conditional on getting the role I want.
 
 So, whether you're waiting for the team to be named, starting or on the bench, here are a few things worth thinking about during championship week.
 
-<h3>The days before the team goes up</h3>
+### The days before the team goes up
 
 For some players, the uncertainty before the team is named is harder than the decision itself. It's easy to start reading into things at training. Who wore which bib. Whether the manager spoke to you. Who played in your position during a drill.
 
@@ -66,7 +66,7 @@ If you do find yourself overanalysing selection, there are ways to stop it takin
 2. Add extra sessions just to prove a point. Turning up tired won't help you on Saturday.
 3. Spend the week comparing yourself to the player you think you're competing with. Focus on your own performance instead.
 
-<h3>If you're starting</h3>
+### If you're starting
 Being named in the starting fifteen can bring its own pressures. For some players, the excitement of being selected comes with a feeling that they now have to justify the manager's decision. Others will take confidence from being picked and get on with preparing for the match.
 
 If you do find yourself worrying about proving you deserve your place, it can take your attention away from the things that got you selected in the first place.
@@ -81,7 +81,7 @@ If you do find yourself worrying about proving you deserve your place, it can ta
 2. Spend the week constantly replaying what might happen. Deliberate imagery can be useful, but worrying about every possible mistake isn't the same thing.
 3. Feel guilty about starting because a teammate is disappointed. You didn't pick the team, and your job is to play your best football.
 
-<h3>If you're on the bench</h3>
+### If you're on the bench
 Being named on the bench affects players differently. Some will be disappointed, others might have expected it, and some will be happy to be part of the squad.
 
 Whatever your reaction, it's worth preparing for the possibility that you'll be called on.
