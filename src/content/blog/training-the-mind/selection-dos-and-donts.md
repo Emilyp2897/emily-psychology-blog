@@ -12,7 +12,7 @@ track: "training-the-mind"
 
 <h2>Why selection hurts more than it should</h2>
 
-Selection is one of the few things in sport that is outside your control and can feel entirely personal. You can train every session, play well all season and still find yourself on the bench for the biggest game of the year.
+Selection is something you can't fully control, yet it can feel entirely personal. You can train every session, play well all season and still find yourself on the bench for the biggest game of the year.
 
 When football is a big part of your life, being picked to start can become tied to how you see yourself as a player. Psychologists Crocker and Wolfe explored how people connect their self-worth to particular areas of their lives. If football is one of yours, a team sheet can feel less like a tactical decision and more like a judgement on your ability.
 
@@ -24,23 +24,31 @@ That isn't what happened.
 
 I was benched for the County Final, the All-Britain Final and the All-Ireland Quarter Final, and I was devastated. I couldn't hide my emotions or pretend I was ok. I was heartbroken, and whether I came on or not, my head was gone.
 
-To this day, neither of those wins feels like mine. By the time the quarter final came around, I was shamefully happy we lost, because it meant I could stop pretending.
+To this day, neither of those wins feels like mine. By the time the quarter final came around, I was emotionally exhausted. I was struggling to celebrate the team's success while feeling so disappointed about my own involvement, and I didn't know how to separate the two.
 
 My teammates will tell you it's a team effort, and they're right. But the contribution is different for different players. I wanted to play, to feel like I'd made a difference. Instead, when I did get minutes, I felt like I was being brought on for the sake of it. That might not have been true. It's how it felt at the time.
 
 Looking back, I know I didn't handle it well. I was so caught up in not starting that I stopped recognising the part I'd already played in getting us there.
 
-And now, a year later, I'm writing this ahead of another championship final on Saturday, and I'm on the bench again.
+And now, a year later, I'm preparing for another championship final on Saturday.
 
-It doesn't hurt any less. I'm always on the cusp. Close enough to believe I'll get my chance, but not quite where I want to be when the biggest games come around.
+I'd love to say everything I've learned about sports psychology means I've completely figured out how to deal with selection. I haven't. I still want to start the biggest games, and I still find the uncertainty and disappointment difficult.
 
-I'd love to say everything I've learned about sports psychology means I'm handling it brilliantly this time. I'm not. I'm still disappointed.
+But I remember how I felt after last year's finals, and I don't want to repeat that experience. Whatever my role on Saturday, I want to be ready to contribute.
 
-But I don't want a repeat of last year either. I'm still part of this team. There's a final to be played, and I have a responsibility to turn up for it.
+## It's still a team sport
+
+There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Being part of the same squad doesn't mean everyone experiences the occasion in the same way.
+
+But the starting fifteen don't prepare for a championship on their own. They need a squad training alongside them, competing for places and ready to contribute.
+
+I've trained alongside the starting players all season. I still want to start finals, and I still believe I have something to offer on the pitch.
+
+But I can't make my contribution conditional on getting the role I want.
+
+So, whether you're waiting for the team to be named, starting or on the bench, here are a few things worth thinking about during championship week.
 
 <h3>The days before the team goes up</h3>
-
-Whether the team has already been named or you're still waiting to find out, there are things worth keeping in mind during championship week.
 
 For some players, the uncertainty before the team is named is harder than the decision itself. It's easy to start reading into things at training. Who wore which bib. Whether the manager spoke to you. Who played in your position during a drill.
 
@@ -77,9 +85,6 @@ If you do find yourself worrying about proving you deserve your place, it can ta
 Being named on the bench affects players differently. Some will be disappointed, others might have expected it, and some will be happy to be part of the squad.
 
 Whatever your reaction, it's worth preparing for the possibility that you'll be called on.
-I didn't do that well last year. I spent so much time thinking about why I wasn't starting that by the time I was needed, I'd already spent most of my energy being upset.
-
-I could disagree with the decision, but spending the match arguing with it in my own head didn't help me play better.
 
 You might get twenty minutes. You might get five. You might not get on at all. You won't necessarily know beforehand, so being ready matters.
 
@@ -90,35 +95,13 @@ You might get twenty minutes. You might get five. You might not get on at all. Y
 4. Have something simple to focus on if you come on. Your first pass, your first tackle, your first run.
 
 **Don't:**
+
 1. Spend the match dwelling on whether the manager made the right decision. It can distract you from what's happening on the pitch.
 2. Take your frustration out on the player starting ahead of you. She didn't pick the team.
 3. Try to prove a point with every touch if you get on. Play your normal game.
 4. Switch off because you don't expect to get minutes.
 
-It's also worth thinking about how you handle disappointment around your teammates.
-
-I know I struggled with that last year. I was entitled to be upset, but I also had a responsibility to the players who'd worked just as hard to get there.
-I didn't have to agree with the manager. I did have to be ready if I was needed.
-
-<h3>It's still a team sport</h3>
-
-There's a difference between playing sixty minutes of a final and watching sixty minutes of it. Pretending those experiences are the same doesn't help anyone.
-
-The starting fifteen don't prepare for a championship on their own. They need a squad training alongside them, competing for places and ready to contribute.
-
-I've trained alongside the starting players all season, and I've helped prepare this team for Saturday. I still want to start finals, and I still believe I have something to offer on the pitch.
-
-But I can't make my contribution conditional on getting the role I want.
-
-<h3>Looking ahead to Saturday</h3>
-
-I'm tired of feeling like I'm nearly there, and I don't think that frustration will disappear overnight.
-
-But I remember how I felt after last year's finals. I spent so much time being upset about my own position that I barely allowed myself to appreciate what the team had achieved.
-
-I don't want to do that again.
-
-If I get twenty minutes, I want to use them properly. If I get five, I want to make those five count. And if I don't get on, I still want the girls out there to win.
+You don't have to agree with the manager's decision to be ready if you're needed.
 
 I'll have plenty of time to think about my own football after the final. For now, I've a job to do.
 
